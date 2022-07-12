@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('name');
 
             $table->string('driver', 20)->default('mysql');
-            $table->string('url');
-            $table->string('host', 20)->default('127.0.0.1');
+            $table->string('url')->nullable();
+            $table->string('host', 20)->default('127.1.0.0');
             $table->string('port', 6)->default('3306');
 
             $table->string('database')->default('forge');
@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('charset')->default('utf8mb4');
             $table->string('collation')->default('utf8mb4_unicode_ci');
             $table->string('prefix')->nullable();
-            $table->boolean('prefix_indexes');
+            $table->boolean('prefix_indexes')->default(true);
             $table->boolean('strict')->default(true);
             $table->string('engine')->nullable();
 

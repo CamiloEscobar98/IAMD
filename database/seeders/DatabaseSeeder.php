@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+
+use Database\Seeders\Localization\CountrySeeder;
+use Database\Seeders\Localization\StateAndCitySeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,11 +16,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $this->call([
+            TenantSeeder::class,
+            DocumentTypeSeeder::class,
+            ExternalOrganizationSeeder::class,
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+            CountrySeeder::class,
+            StateAndCitySeeder::class,
+        ]);
     }
 }

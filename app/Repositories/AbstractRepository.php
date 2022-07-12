@@ -111,15 +111,6 @@ class AbstractRepository
         return $this->model->first();
     }
 
-    /**
-     * @param int $count
-     *
-     * @return Model
-     */
-    public function createFactory(int $count = 1, array $params = [])
-    {
-        return $this->model->factory()->count($count)->create($params);
-    }
 
     /**
      * @param array $attributes
@@ -235,5 +226,28 @@ class AbstractRepository
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         $this->model->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1 ;');
+    }
+
+    /** Factory Methods */
+
+    /**
+     * @param array $params
+     *
+     * @return Model
+     */
+    public function createOneFactory(array $params = [])
+    {
+        return $this->model->factory()->create($params);
+    }
+
+    /**
+     * @param int $count
+     * @param array $params
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function createFactory(int $count = 5, array $params = [])
+    {
+        return $this->model->factory()->count($count)->create($params);
     }
 }

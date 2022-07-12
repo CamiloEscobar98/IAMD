@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Repositories\Tenant;
-
-use App\Repositories\AbstractRepository;
+namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 
