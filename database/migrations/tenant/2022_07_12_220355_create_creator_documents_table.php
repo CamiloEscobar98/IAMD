@@ -17,13 +17,16 @@ return new class extends Migration
             $table->unsignedBigInteger('creator_id')->primary();
 
 
-            $table->unsignedTinyInteger('document_type_id');
-            $table->string('document',  25)->unique('unique_document_creator_documents');
-
-            // $table->string('expedition_department',  50)->default('Norte de Santander');
-            // $table->string('expedition_place',  50)->default('Cúcuta');
+            $table->unsignedSmallInteger('document_type_id');
+            $table->string('document',  25)->unique();
+            $table->unsignedBigInteger('expedition_place_id');
 
             $table->timestamps();
+
+            $table->foreign('creator_id')->references('id')->on('creators')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('document_type_id')->references('id')->on('iamd.document_types')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreign('expedition_place_id')->references('id')->on('iamd.cities')->cascadeOnUpdate()->restrictOnDelete();
+            
         });
     }
 

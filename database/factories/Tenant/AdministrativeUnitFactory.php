@@ -12,6 +12,7 @@ use App\Models\Tenant\AdministrativeUnit;
 class AdministrativeUnitFactory extends Factory
 {
     protected $model = AdministrativeUnit::class;
+    
     /**
      * Define the model's default state.
      *

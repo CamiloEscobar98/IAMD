@@ -23,6 +23,7 @@ class CreatorSeeder extends Seeder
      */
     public function run()
     {
+        $randomNumber = rand(50, 100);
         $this->creatorRepository->createFactory(20);
     }
 }

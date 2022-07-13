@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
 
             CountrySeeder::class,
             StateAndCitySeeder::class,
+
+            LinkageTypeSeeder::class
         ]);
     }
 }
