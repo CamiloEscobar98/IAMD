@@ -19,8 +19,8 @@ return new class extends Migration
             $table->unsignedSmallInteger('administrative_unit_id'); // Unidad Administrativa a la que pertenece
             $table->unsignedTinyInteger('research_unit_category_id'); // Grupo de Investigación, OPS
 
-            $table->unsignedBigInteger('director_id'); // Director de la Unidad de Investigación (Creador)
-            $table->unsignedBigInteger('inventory_manager_id'); // Responsable de Inventario de la Unidad de Investigación (Creador)
+            $table->uuid('director_id'); // Director de la Unidad de Investigación (Creador)
+            $table->uuid('inventory_manager_id'); // Responsable de Inventario de la Unidad de Investigación (Creador)
 
             $table->string('name');
             $table->tinyText('description')->nullable();

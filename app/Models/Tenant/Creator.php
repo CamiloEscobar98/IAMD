@@ -5,9 +5,11 @@ namespace App\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Traits\UuidPrimaryModel;
+
 class Creator extends Model
 {
-    use HasFactory;
+    use HasFactory, UuidPrimaryModel;
 
     /**
      * The connection name for the model.
@@ -22,4 +24,14 @@ class Creator extends Model
      * @var array
      */
     protected $fillable = ['name', 'phone', 'email'];
+
+    /**
+     * Get The Document
+     * 
+     * @return CreatorDocument
+     */
+    public function document()
+    {
+        return $this->hasOne(CreatorDocument::class);
+    }
 }

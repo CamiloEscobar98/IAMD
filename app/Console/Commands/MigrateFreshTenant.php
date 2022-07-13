@@ -81,9 +81,10 @@ class MigrateFreshTenant extends Command
                     $options['--seeder'] = 'TenantDatabaseSeeder';
                 }
             }
-            Artisan::call($command, $options);
+            while (Artisan::call($command, $options)) {
+                print(Artisan::output());
+            }
 
-            print(Artisan::output());
         } catch (\Exception $th) {
             $this->error($th->getMessage());
         }

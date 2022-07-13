@@ -16,7 +16,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('creator_internals', function (Blueprint $table) {
-            $table->unsignedBigInteger('creator_id')->primary();
+            $table->uuid('creator_id')->primary();
             
             $table->unsignedTinyInteger('linkage_type_id');
             $table->unsignedSmallInteger('assignment_contract_id');

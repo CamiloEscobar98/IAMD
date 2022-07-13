@@ -12,4 +12,28 @@ class CreatorRepository extends AbstractRepository
     {
         $this->model = $model;
     }
+
+    /**
+     * Create Document information.
+     * 
+     * @param array $params
+     * 
+     * @return \App\MOdels\Tenant\CreatorDocument
+     */
+    public function addDocument($params)
+    {
+        return $this->model->document->create($params);
+    }
+
+    /**
+     * Update Document Information
+     * 
+     * @param array $params
+     * 
+     * @return \App\MOdels\Tenant\CreatorDocument
+     */
+    public function updateDocument($params)
+    {
+        return $this->model->document->update($params);
+    }
 }

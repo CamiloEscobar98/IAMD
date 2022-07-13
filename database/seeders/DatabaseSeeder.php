@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             CountrySeeder::class,
             StateAndCitySeeder::class,
 
+            AssignmentContractSeeder::class,
             LinkageTypeSeeder::class
         ]);
     }

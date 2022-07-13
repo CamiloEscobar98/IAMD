@@ -5,9 +5,11 @@ namespace App\Models\Tenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use App\Traits\UuidPrimaryModel;
+
 class CreatorDocument extends Model
 {
-    use HasFactory;
+    use HasFactory, UuidPrimaryModel;
 
     /**
      * The connection name for the model.
@@ -17,13 +19,19 @@ class CreatorDocument extends Model
     protected $connection = 'tenant';
 
     /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'creator_id';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'creator_id', 'document_type_id', 'document',
-        'expedition_department', 'expedition_place',
+        'creator_id', 'document_type_id', 'document','expedition_place_id',
     ];
 
     /**
@@ -33,7 +41,7 @@ class CreatorDocument extends Model
      */
     public function creator()
     {
-        return $this->belongsTo(Creator::class);
+        return $this->belongsTo(Creator::class, 'creator_id');
     }
 
     /**
@@ -44,5 +52,15 @@ class CreatorDocument extends Model
     public function documentType()
     {
         return $this->belongsTo(\App\Models\DocumentType::class);
+    }
+
+    /**
+     * Get Expedition Place
+     * 
+     * @return \App\Models\Localization\City
+     */
+    public function expeditionPlace()
+    {
+        return $this->belongsTo(\App\Models\Localization\City::class, 'expedition_place_id');
     }
 }

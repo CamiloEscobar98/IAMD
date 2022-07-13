@@ -23,12 +23,24 @@ class LinkageTypeSeeder extends Seeder
      */
     public function run()
     {
-        try {
-            $this->linkageTypeRepository->create(['name' => 'Administrativo']);
-            $this->linkageTypeRepository->create(['name' => 'Docente']);
-            $this->linkageTypeRepository->create(['name' => 'Estudiante']);
-        } catch (\Exception $th) {
-            print($th->getMessage() . "\n");
+        print("¡¡ CREATING LINKAGE TYPE !! \n \n");
+
+        $names = ['Administrativo', 'Docente', 'Estudiante'];
+
+        $cont = 0;
+
+        foreach ($names as $value) {
+            $current = $cont + 1;
+
+            print("Creating Linkage Type: $current. \n");
+
+            $linkageType = $this->linkageTypeRepository->create(['name' => $value]);
+
+            print("Linkage Type Created. Name: " . $linkageType->name .  "\n \n");
+
+            $cont++;
         }
+
+        print("¡¡ ASSIGNMENT CONTRACTS CREATED !! \n \n");
     }
 }

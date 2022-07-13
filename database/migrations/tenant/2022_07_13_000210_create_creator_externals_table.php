@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('creator_externals', function (Blueprint $table) {
-            $table->unsignedBigInteger('creator_id')->primary();
+            $table->uuid('creator_id')->primary();
 
             $table->unsignedMediumInteger('external_organization_id')->nullable();
             $table->unsignedSmallInteger('assignment_contract_id')->nullable();

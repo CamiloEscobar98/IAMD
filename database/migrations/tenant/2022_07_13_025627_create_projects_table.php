@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
 
             $table->unsignedMediumInteger('research_unit_id');
-            $table->unsignedBigInteger('director_id')->nullable();
+            $table->uuid('director_id')->nullable();
 
             $table->string('name')->unique();
             $table->tinyText('description');

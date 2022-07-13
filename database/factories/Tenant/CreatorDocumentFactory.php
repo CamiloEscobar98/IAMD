@@ -17,7 +17,7 @@ class CreatorDocumentFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'document' => $this->faker->randomNumber(5) . $this->faker->randomNumber(5),
         ];
     }
 }

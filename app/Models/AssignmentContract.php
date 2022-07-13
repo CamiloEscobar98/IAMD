@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class AssignmentContract extends Model
 {
+    /**
+     * The connection name for the model.
+     *
+     * @var string
+     */
+    protected $connection = 'mysql';
+
     use HasFactory;
 
     /**

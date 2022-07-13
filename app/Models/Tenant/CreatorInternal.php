@@ -5,9 +5,11 @@ namespace App\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Traits\UuidPrimaryModel;
+
 class CreatorInternal extends Model
 {
-    use HasFactory;
+    use HasFactory, UuidPrimaryModel;
 
     /**
      * The connection name for the model.
@@ -24,13 +26,6 @@ class CreatorInternal extends Model
     protected $primaryKey = 'creator_id';
 
     /**
-     * Indicates if the IDs are auto-incrementing.
-     *
-     * @var bool
-     */
-    public $incrementing = false;
-
-    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
@@ -42,7 +37,7 @@ class CreatorInternal extends Model
      *
      * @var array
      */
-    protected $fillable = ['creator_id', 'linkage_type_id', 'assignment_contracts_id'];
+    protected $fillable = ['creator_id', 'linkage_type_id', 'assignment_contract_id'];
 
     /**
      * Get Creator.
