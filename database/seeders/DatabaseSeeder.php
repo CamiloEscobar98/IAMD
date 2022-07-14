@@ -25,7 +25,9 @@ class DatabaseSeeder extends Seeder
             StateAndCitySeeder::class,
 
             AssignmentContractSeeder::class,
-            LinkageTypeSeeder::class
+            LinkageTypeSeeder::class,
+
+            IntangibleAssetTypeLevels::class,
         ]);
     }
 }

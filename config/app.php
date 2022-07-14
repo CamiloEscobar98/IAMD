@@ -212,4 +212,150 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+
+
+    /** Default Intangible Asset Levels */
+    'intangibleAssetCategoryLevels' => [
+
+        /** Level 1 */
+        [
+            'name' => 'Propiedad Industrial',
+
+            /** Level 2 */
+            'level2' => [
+                [
+                    'name' => 'Diseño Industrial',
+
+                    /** Level 3 */
+                    'level3' => ['Diseños Industriales']
+                ],
+
+                [
+                    'name' => 'Esquemas de Trazado de Circuito Integrado',
+
+                    /** Level 3 */
+                    'level3' => ['Esquemas de trazado de circuito integrado']
+                ],
+                [
+                    'name' => 'Nuevas Creaciones e Innovaciones',
+
+                    /** Level 3 */
+                    'level3' => [
+                        'Patente oncedida',
+                        'Patente concedida y explotada',
+                        'Patente en trámite',
+                    ]
+                ],
+                [
+                    'name' => 'Prototipos Industriales',
+
+                    /** Level 3 */
+                    'level3' => ['Prototipos Industriales']
+                ],
+                [
+                    'name' => 'Secretos Industriales',
+
+                    /** Level 3 */
+                    'level3' => [
+                        'Innovaciones generadas en la gestión empresarial',
+                        'Secreto empresarial'
+                    ]
+                ],
+                [
+                    'name' => 'Signos Distintivos',
+
+                    /** Level 3 */
+                    'level3' => [
+                        'Signos Distintivos'
+                    ],
+                ],
+            ]
+        ],
+
+        /** Level 1 */
+        [
+            'name' => 'Derechos de Autor',
+
+            /** Level 2 */
+            'level2' => [
+                [
+                    'name' => 'Derechos de Autor',
+
+                    /** Level 3 */
+                    'level3' => [
+                        'Acuerdo de Ley',
+                        'Artículos de investigación',
+                        'Boletines divulgativos de resultado de investigación',
+                        'Capítulos en libro resultado de investigación',
+                        'Direcciones de tesis de doctorado',
+                        'Direcciones de trabajo de grado de maestría',
+                        'Direcciones de trabajo de pregrado',
+                        'Documentos de trabajo (working papers)',
+                        'Eventos artísticos, de arquitectura o de diseño con componentes de apropiación',
+                        'Eventos científicos con componente de apropiación',
+                        'Guía de manejo clínico forense',
+                        'Guía de práctica clínica',
+                        'Informes finales de investigación',
+                        'Libros de creación (Piloto)',
+                        'Libros de divulgación de investigación y/o compilación de divulgación',
+                        'Libros de formación',
+                        'Libros resultados de investigación',
+                        'Manuales y guías especializadas',
+                        'Manuales y modelos de atención diferencial a víctimas',
+                        'Norma técnica',
+                        'Normatividad del espectro radioeléctrico',
+                        'Notas científicas',
+                        'Productos resultados de la creación o investigación – creación.',
+                        'Protocolos de atención a usuarios/víctimas (pacientes)',
+                        'Protocolos de vigilancia epidemiológica',
+                        'Proyectos de Ley',
+                        'Publicaciones editoriales no especializadas',
+                        'Regulaciones, normas, reglamentos o legislaciones',
+                        'Softwares',
+                        'Talleres de creación',
+                    ]
+                ]
+            ]
+        ],
+
+        /** Level 1 */
+        [
+            'name' => 'Derechos Conexos',
+
+            /** Level 2 */
+            'level2' => [
+                [
+                    'name' => 'Derechos Conexos',
+
+                    /** Level 3 */
+                    'level3' => [
+                        'Producción de Contenido Digital'
+                    ]
+                ]
+            ]
+        ],
+
+        /** Level 1 */
+        [
+            'name' => 'Otras Formas de Propiedad',
+
+            /** Level 2 */
+            'level2' => [
+                [
+                    'name' => 'Otras Formas',
+
+                    /** Level 3 */
+                    'level3' => [
+                        'Colecciones científicas',
+                        'Nuevas razas animales',
+                        'Nuevas secuencias genéticas',
+                        'Nuevos registros científicos',
+                        'Poblaciones mejoradas de razas pecuarias',
+                        'Variedades vegetales',
+                    ]
+                ]
+            ]
+        ]
+    ]
+
 ];
