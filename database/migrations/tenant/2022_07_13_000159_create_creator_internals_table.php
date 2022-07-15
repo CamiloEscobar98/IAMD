@@ -18,12 +18,12 @@ return new class extends Migration
         Schema::create('creator_internals', function (Blueprint $table) {
             $table->uuid('creator_id')->primary();
             
-            $table->unsignedTinyInteger('linkage_type_id');
-            $table->unsignedSmallInteger('assignment_contract_id');
+            $table->unsignedTinyInteger('linkage_type_id')->nullable();
+            $table->unsignedSmallInteger('assignment_contract_id')->nullable();
 
             $table->foreign('creator_id')->references('id')->on('creators')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreign('linkage_type_id')->references('id')->on('iamd.linkage_types')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreign('assignment_contract_id')->references('id')->on('iamd.assignment_contracts')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('linkage_type_id')->references('id')->on('iamd.linkage_types')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreign('assignment_contract_id')->references('id')->on('iamd.assignment_contracts')->cascadeOnUpdate()->nullOnDelete();
         });
     }
 

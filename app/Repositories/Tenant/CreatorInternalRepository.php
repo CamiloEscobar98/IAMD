@@ -2,8 +2,9 @@
 
 namespace App\Repositories\Tenant;
 
-use App\Models\Tenant\CreatorInternal;
 use App\Repositories\AbstractRepository;
+
+use App\Models\Tenant\Creator\CreatorInternal;
 
 class CreatorInternalRepository extends  AbstractRepository
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Database\Factories\Tenant;
+namespace Database\Factories\Tenant\Creator;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-use App\Models\Tenant\Creator;
+use App\Models\Tenant\Creator\Creator;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tenant\Creator>

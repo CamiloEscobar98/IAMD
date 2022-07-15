@@ -78,7 +78,7 @@ class IntangibleAssetTypeLevels extends Seeder
                 }
             }
 
-            print("INTANGIBLE ASSET LEVEL FINISHED. \n");
+            print("INTANGIBLE ASSET LEVEL FINISHED. \n \n");
         }
     }
 }

@@ -5,12 +5,15 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 
 use Database\Seeders\Tenant\AdministrativeUnitSeeder;
+use Database\Seeders\Tenant\ResearchUnit\ResearchUnitSeeder;
+
+use Database\Seeders\Tenant\Creator\CreatorSeeder;
+
 use Database\Seeders\Tenant\FinancingTypeSeeder;
 use Database\Seeders\Tenant\ProjectContractTypeSeeder;
 use Database\Seeders\Tenant\ProjectSeeder;
 
-use Database\Seeders\Tenant\Creator\CreatorSeeder;
-use Database\Seeders\Tenant\ResearchUnit\ResearchUnitSeeder;
+use Database\Seeders\Tenant\IntangibleAssetSeeder;
 
 class TenantDatabaseSeeder extends Seeder
 {
@@ -29,7 +32,9 @@ class TenantDatabaseSeeder extends Seeder
 
             FinancingTypeSeeder::class,
             ProjectContractTypeSeeder::class,
-            ProjectSeeder::class
+            ProjectSeeder::class,
+
+            IntangibleAssetSeeder::class
         ]);
     }
 }

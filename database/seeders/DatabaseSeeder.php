@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             LinkageTypeSeeder::class,
 
             IntangibleAssetTypeLevels::class,
+            IntangibleAssetStateSeeder::class,
         ]);
     }
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\Tenant;
+namespace App\Models\Tenant\Creator;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use App\Traits\UuidPrimaryModel;
 
-class CreatorInternal extends Model
+class CreatorDocument extends Model
 {
     use HasFactory, UuidPrimaryModel;
 
@@ -37,7 +37,9 @@ class CreatorInternal extends Model
      *
      * @var array
      */
-    protected $fillable = ['creator_id', 'linkage_type_id', 'assignment_contract_id'];
+    protected $fillable = [
+        'creator_id', 'document_type_id', 'document','expedition_place_id',
+    ];
 
     /**
      * Get Creator.
@@ -46,26 +48,26 @@ class CreatorInternal extends Model
      */
     public function creator()
     {
-        return $this->belongsTo(\App\Models\Tenant\Creator::class);
+        return $this->belongsTo(Creator::class, 'creator_id');
     }
 
     /**
-     * Get Linkage Type.
+     * Get Document Type.
      * 
-     * @return \App\Models\LinkageType
+     * @return \App\Models\DocumentType
      */
-    public function linkageType()
+    public function documentType()
     {
-        return $this->belongsTo(\App\Models\LinkageType::class);
+        return $this->belongsTo(\App\Models\DocumentType::class);
     }
 
     /**
-     * Get Assignment Contract.
+     * Get Expedition Place
      * 
-     * @return \App\Models\AssignmentContract
+     * @return \App\Models\Localization\City
      */
-    public function assignmentContract()
+    public function expeditionPlace()
     {
-        return $this->belongsTo(\App\Models\AssignmentContract::class);
+        return $this->belongsTo(\App\Models\Localization\City::class, 'expedition_place_id');
     }
 }

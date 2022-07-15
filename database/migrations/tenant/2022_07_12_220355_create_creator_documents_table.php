@@ -21,8 +21,6 @@ return new class extends Migration
             $table->string('document',  25)->unique();
             $table->unsignedBigInteger('expedition_place_id');
 
-            $table->timestamps();
-
             $table->foreign('creator_id')->references('id')->on('creators')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('document_type_id')->references('id')->on('iamd.document_types')->cascadeOnUpdate()->restrictOnDelete();
             $table->foreign('expedition_place_id')->references('id')->on('iamd.cities')->cascadeOnUpdate()->restrictOnDelete();

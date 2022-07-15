@@ -4,7 +4,7 @@ namespace App\Repositories\Tenant;
 
 use App\Repositories\AbstractRepository;
 
-use App\Models\Tenant\Creator;
+use App\Models\Tenant\Creator\Creator;
 
 class CreatorRepository extends AbstractRepository
 {
