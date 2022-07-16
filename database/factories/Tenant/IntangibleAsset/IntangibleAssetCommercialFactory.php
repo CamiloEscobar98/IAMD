@@ -17,7 +17,7 @@ class IntangibleAssetCommercialFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'reason' => $this->faker->realText(200)
         ];
     }
 }

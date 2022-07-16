@@ -14,8 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('intangible_asset_commercials', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('intangible_asset_id')->primary();
+
+            $table->text('reason');
+
             $table->timestamps();
+
+            $table->foreign('intangible_asset_id')->references('id')->on('intangible_assets')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 

@@ -3,6 +3,7 @@
 namespace Database\Seeders\Tenant;
 
 use App\Repositories\IntangibleAssetStateRepository;
+use App\Repositories\Tenant\IntangibleAssetCommercialRepository;
 use App\Repositories\Tenant\IntangibleAssetPublishedRepository;
 use Illuminate\Database\Seeder;
 
@@ -20,17 +21,22 @@ class IntangibleAssetSeeder extends Seeder
     /** @var IntangibleAssetPublishedRepository */
     protected $intangibleAssetPublishedRepository;
 
+    /** @var IntangibleAssetCommercialRepository */
+    protected $intangibleAssetCommercialRepository;
+
     /** @var ProjectRepository */
     protected $projectRepository;
 
     public function __construct(
         IntangibleAssetRepository $intangibleAssetRepository,
         IntangibleAssetStateRepository $intangibleAssetStateRepository,
+        IntangibleAssetCommercialRepository $intangibleAssetCommercialRepository,
         IntangibleAssetPublishedRepository $intangibleAssetPublishedRepository,
         ProjectRepository $projectRepository
     ) {
         $this->intangibleAssetRepository = $intangibleAssetRepository;
         $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
+        $this->intangibleAssetCommercialRepository = $intangibleAssetCommercialRepository;
         $this->intangibleAssetPublishedRepository = $intangibleAssetPublishedRepository;
         $this->projectRepository = $projectRepository;
     }
@@ -69,8 +75,10 @@ class IntangibleAssetSeeder extends Seeder
                 print("Intangible Asset Created. Name: " . $intangibleAsset->name . "\n");
 
                 (bool) rand(0, 1) ? $this->updateHasState($intangibleAsset, $states) : null;
-                
+
                 (bool) rand(0, 1) ? $this->updateHasBeenPublished($intangibleAsset, $states) : null;
+
+                (bool) rand(0, 1) ? $this->updateIsCommercial($intangibleAsset, $states) : null;
 
                 print("\n \n");
 
@@ -109,5 +117,19 @@ class IntangibleAssetSeeder extends Seeder
         ]);
 
         print("This Intangible Asset has been published: At: " . $assetPublished->published_at_by_default . "\n");
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Model $intangibleAsset
+     * 
+     * @return void
+     */
+    public function updateIsCommercial($intangibleAsset)
+    {
+        $assetCommercial = $this->intangibleAssetCommercialRepository->createOneFactory([
+            'intangible_asset_id' => $intangibleAsset->id
+        ]);
+
+        print("This Intangible Asset is Commercial: Reason: " . $assetCommercial->reason . "\n");
     }
 }
