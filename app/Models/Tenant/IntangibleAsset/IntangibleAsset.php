@@ -3,9 +3,12 @@
 namespace App\Models\Tenant\IntangibleAsset;
 
 use App\Models\Tenant\BaseModel;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
+
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
+use App\Models\Tenant\Creator\Creator;
 
 class IntangibleAsset extends BaseModel
 {
@@ -64,5 +67,15 @@ class IntangibleAsset extends BaseModel
     public function intangibleAssetPublished()
     {
         return $this->hasOne(intangibleAssetPublished::class);
+    }
+
+    /**
+     * Get Creators
+     * 
+     * @return BelongsToMany
+     */
+    public function creators() : BelongsToMany
+    {
+        return $this->belongsToMany(Creator::class);
     }
 }

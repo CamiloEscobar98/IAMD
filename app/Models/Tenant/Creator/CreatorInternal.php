@@ -33,6 +33,13 @@ class CreatorInternal extends BaseModel
     protected $fillable = ['creator_id', 'linkage_type_id', 'assignment_contract_id'];
 
     /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = ['creator'];
+
+    /**
      * Get Creator.
      * 
      * @return \App\Models\Tenant\Creator

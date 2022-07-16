@@ -2,6 +2,8 @@
 
 namespace Database\Factories\Tenant\IntangibleAsset;
 
+use App\Models\Tenant\IntangibleAsset\IntangibleAssetCommercial;
+
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +11,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class IntangibleAssetCommercialFactory extends Factory
 {
+    protected $model = IntangibleAssetCommercial::class;
+
     /**
      * Define the model's default state.
      *

@@ -2,13 +2,16 @@
 
 namespace Database\Seeders\Tenant;
 
+use Illuminate\Database\Seeder;
+
 use App\Repositories\IntangibleAssetStateRepository;
 use App\Repositories\Tenant\IntangibleAssetCommercialRepository;
 use App\Repositories\Tenant\IntangibleAssetPublishedRepository;
-use Illuminate\Database\Seeder;
+use App\Repositories\Tenant\IntangibleAssetCreatorRepository;
 
 use App\Repositories\Tenant\IntangibleAssetRepository;
 use App\Repositories\Tenant\ProjectRepository;
+use App\Repositories\Tenant\CreatorRepository;
 
 class IntangibleAssetSeeder extends Seeder
 {
@@ -24,21 +27,31 @@ class IntangibleAssetSeeder extends Seeder
     /** @var IntangibleAssetCommercialRepository */
     protected $intangibleAssetCommercialRepository;
 
+    /** @var IntangibleAssetCreatorRepository */
+    protected $intangibleAssetCreatorRepository;
+
     /** @var ProjectRepository */
     protected $projectRepository;
+
+    /** @var CreatorRepository */
+    protected $creatorRepository;
 
     public function __construct(
         IntangibleAssetRepository $intangibleAssetRepository,
         IntangibleAssetStateRepository $intangibleAssetStateRepository,
         IntangibleAssetCommercialRepository $intangibleAssetCommercialRepository,
         IntangibleAssetPublishedRepository $intangibleAssetPublishedRepository,
-        ProjectRepository $projectRepository
+        IntangibleAssetCreatorRepository $intangibleAssetCreatorRepository,
+        ProjectRepository $projectRepository,
+        CreatorRepository $creatorRepository
     ) {
         $this->intangibleAssetRepository = $intangibleAssetRepository;
         $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
         $this->intangibleAssetCommercialRepository = $intangibleAssetCommercialRepository;
         $this->intangibleAssetPublishedRepository = $intangibleAssetPublishedRepository;
+        $this->intangibleAssetCreatorRepository = $intangibleAssetCreatorRepository;
         $this->projectRepository = $projectRepository;
+        $this->creatorRepository = $creatorRepository;
     }
 
     /**
@@ -54,10 +67,13 @@ class IntangibleAssetSeeder extends Seeder
         /** Searching Intangible Asset States */
         $states = $this->intangibleAssetStateRepository->all();
 
+        /** Searching Creators */
+        $creators = $this->creatorRepository->all();
+
         print("¡¡ CREATING INTANGIBLE ASSETS !! \n \n");
 
 
-        $projects->each(function ($project) use ($states) {
+        $projects->each(function ($project) use ($states, $creators) {
             $randomNumber = rand(4, 20);
 
             print("PROJECT: " . $project->name .  "\n");
@@ -80,6 +96,8 @@ class IntangibleAssetSeeder extends Seeder
 
                 (bool) rand(0, 1) ? $this->updateIsCommercial($intangibleAsset, $states) : null;
 
+                (bool) rand(0, 1) ? $this->updateHasCreators($intangibleAsset, $creators) : null;
+
                 print("\n \n");
 
                 $cont++;
@@ -96,7 +114,7 @@ class IntangibleAssetSeeder extends Seeder
      * 
      * @return void
      */
-    private function updateHasState($intangibleAsset, $states)
+    private function updateHasState($intangibleAsset, $states): void
     {
         $randomState = $states->random(1)->first();
 
@@ -110,7 +128,7 @@ class IntangibleAssetSeeder extends Seeder
      * 
      * @return void
      */
-    public function updateHasBeenPublished($intangibleAsset)
+    private function updateHasBeenPublished($intangibleAsset): void
     {
         $assetPublished = $this->intangibleAssetPublishedRepository->createOneFactory([
             'intangible_asset_id' => $intangibleAsset->id
@@ -124,12 +142,37 @@ class IntangibleAssetSeeder extends Seeder
      * 
      * @return void
      */
-    public function updateIsCommercial($intangibleAsset)
+    private function updateIsCommercial($intangibleAsset): void
     {
         $assetCommercial = $this->intangibleAssetCommercialRepository->createOneFactory([
             'intangible_asset_id' => $intangibleAsset->id
         ]);
 
         print("This Intangible Asset is Commercial: Reason: " . $assetCommercial->reason . "\n");
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Model $intangibleAsset
+     * @param \Illuminate\Database\Eloquent\Collection $creators
+     * 
+     * @return void
+     */
+    private function updateHasCreators($intangibleAsset, $creators): void
+    {
+        $randomNumber = rand(1, $creators->count() - 1);
+
+        $randomCreators = $creators->random($randomNumber);
+
+        $cont = 0;
+
+        foreach ($randomCreators as $creator) {
+            $this->intangibleAssetCreatorRepository->create([
+                'intangible_asset_id' => $intangibleAsset->id,
+                'creator_id' => $creator->id,
+            ]);
+            $cont++;
+        }
+
+        print("This Intangible Asset has Creators: Count: " . $cont . "\n");
     }
 }
