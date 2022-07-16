@@ -2,20 +2,14 @@
 
 namespace App\Models\Tenant\IntangibleAsset;
 
+use App\Models\Tenant\BaseModel;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class IntangibleAsset extends Model
+class IntangibleAsset extends BaseModel
 {
     use HasFactory;
-
-    /**
-     * The connection name for the model.
-     *
-     * @var string
-     */
-    protected $connection = 'tenant';
 
     /**
      * The attributes that are mass assignable.
@@ -45,7 +39,7 @@ class IntangibleAsset extends Model
     /**
      * Get Project.
      * 
-     * @return \App\Models\Tenant\Project
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function project()
     {
@@ -55,10 +49,20 @@ class IntangibleAsset extends Model
     /**
      * Get Intangible Asset State.
      * 
-     * @return \App\Models\IntangibleAssetState
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function intangibleAssetState()
     {
         return $this->belongsTo(\App\Models\IntangibleAssetState::class);
+    }
+
+    /**
+     * Get the Intangible Asset Published
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function intangibleAssetPublished()
+    {
+        return $this->hasOne(intangibleAssetPublished::class);
     }
 }

@@ -3,18 +3,10 @@
 namespace App\Models\Tenant;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class ResearchUnitCategory extends Model
+class ResearchUnitCategory extends BaseModel
 {
     use HasFactory;
-
-    /**
-     * The connection name for the model.
-     *
-     * @var string
-     */
-    protected $connection = 'tenant';
 
     /**
      * The attributes that are mass assignable.

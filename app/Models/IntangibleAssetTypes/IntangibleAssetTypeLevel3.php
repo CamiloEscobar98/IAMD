@@ -2,17 +2,10 @@
 
 namespace App\Models\IntangibleAssetTypes;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
 
-class IntangibleAssetTypeLevel3 extends Model
+class IntangibleAssetTypeLevel3 extends BaseModel
 {
-    /**
-     * The connection name for the model.
-     *
-     * @var string
-     */
-    protected $connection = 'mysql';
-
     /**
      * Indicates if the model should be timestamped.
      *

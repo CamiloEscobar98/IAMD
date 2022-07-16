@@ -2,21 +2,14 @@
 
 namespace App\Models\Tenant\Creator;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Tenant\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use App\Traits\UuidPrimaryModel;
 
-class CreatorDocument extends Model
+class CreatorDocument extends BaseModel
 {
     use HasFactory, UuidPrimaryModel;
-
-    /**
-     * The connection name for the model.
-     *
-     * @var string
-     */
-    protected $connection = 'tenant';
 
     /**
      * The primary key associated with the table.
@@ -38,7 +31,7 @@ class CreatorDocument extends Model
      * @var array
      */
     protected $fillable = [
-        'creator_id', 'document_type_id', 'document','expedition_place_id',
+        'creator_id', 'document_type_id', 'document', 'expedition_place_id',
     ];
 
     /**

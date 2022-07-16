@@ -2,21 +2,14 @@
 
 namespace App\Models\Tenant\Creator;
 
+use App\Models\Tenant\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 use App\Traits\UuidPrimaryModel;
 
-class Creator extends Model
+class Creator extends BaseModel
 {
     use HasFactory, UuidPrimaryModel;
-
-    /**
-     * The connection name for the model.
-     *
-     * @var string
-     */
-    protected $connection = 'tenant';
 
     /**
      * The attributes that are mass assignable.
