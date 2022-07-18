@@ -165,5 +165,7 @@ return [
         'title'                 => 'título',
         'username'              => 'usuario',
         'year'                  => 'año',
+
+        'repeat_password'       => 'repetir contraseña',
     ],
 ];

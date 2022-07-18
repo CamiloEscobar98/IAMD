@@ -19,4 +19,9 @@ Route::get('login', [LoginController::class, 'showLoginForm'])->name('admin.logi
 Route::post('login', [LoginController::class, 'login'])->name('admin.loggin');
 Route::post('logout', [LoginController::class, 'logout'])->name('admin.loggout');
 
+Route::get('profile', [HomeController::class, 'profile'])->name('admin.profile');
+
+Route::patch('update-profile', [HomeController::class, 'update'])->name('admin.update-profile');
+Route::patch('update-password', [HomeController::class, 'updatePassword'])->name('admin.update-password');
+
 Route::get('home', [HomeController::class, 'home'])->name('admin.home');

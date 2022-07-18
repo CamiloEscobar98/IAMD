@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/sweetalert2/sweetalert2.min.css') }}">
 
     @yield('css')
 
@@ -25,7 +27,19 @@
         @include('admin.partials.navbar')
 
         @include('admin.partials.sidebar')
+
     </div>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        @yield('content-header')
+
+        <section class="content">
+            @yield('content')
+        </section>
+    </div>
+    <!-- ./Content Wrapper. Contains page content -->
 
     <!-- jQuery -->
     <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
@@ -33,11 +47,15 @@
     <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
-
+    <!-- SweetAlert2 -->
+    <script src="{{ asset('adminlte/plugins/sweetalert2/sweetalert2.all.min.js') }}"></script>
 
     @yield('js')
 
     @yield('custom_js')
+
+
+    @include('messages.alert')
 </body>
 
 </html>
