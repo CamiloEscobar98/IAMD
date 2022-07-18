@@ -2,10 +2,13 @@
 
 namespace App\Http\Middleware;
 
-use App\Providers\RouteServiceProvider;
-use Closure;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
+use Closure;
+
+use App\Providers\RouteServiceProvider;
 
 class RedirectIfAuthenticated
 {
@@ -21,12 +24,31 @@ class RedirectIfAuthenticated
     {
         $guards = empty($guards) ? [null] : $guards;
 
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
-            }
-        }
+        if (in_array('admin', $guards)) return $this->redirectAdminHome();
 
-        return $next($request);
+        if (in_array('web', $guards)) return $this->redirectClientHome();
+
+    }
+
+    /**
+     * Redirect if is authenticated Admin.
+     * 
+     * 
+     * @return RedirectResponse
+     */
+    private function redirectAdminHome(): RedirectResponse
+    {
+        return Auth::guard('admin')->check() ?  redirect()->route('admin.home') : redirect('/admin/login');
+    }
+
+    /**
+     * Redirect if is authenticated Client.
+     * 
+     * 
+     * @return RedirectResponse
+     */
+    private function redirectClientHome(): RedirectResponse
+    {
+        return Auth::guard()->check() ?  redirect(RouteServiceProvider::HOME) : redirect('login');
     }
 }

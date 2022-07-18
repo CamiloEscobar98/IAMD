@@ -30,24 +30,37 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg">{{ __('messages.login-title') }}</p>
 
-                <form action="" method="post">
-                    <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="{{ __('inputs.email') }}">
+                <form action="{{ route('admin.loggin') }}" method="post">
+                    @csrf
+                    <div class="input-group">
+                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+                            placeholder="{{ __('inputs.email') }}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="{{ __('inputs.password') }}">
+
+                    @error('email')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+
+                    <div class="input-group mt-3">
+                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
+                            placeholder="{{ __('inputs.password') }}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+
+                    @error('password')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
+
+                    <div class="row mt-3">
                         <div class="col-7">
                             <div class="icheck-primary">
                                 <input type="checkbox" id="remember">

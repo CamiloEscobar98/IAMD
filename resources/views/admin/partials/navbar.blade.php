@@ -141,7 +141,7 @@
                   <i class="fas fa-sign-out-alt"></i>
               </a>
 
-              <form action="" method="post" id="logout-form">@csrf</form>
+              <form action="{{ route('admin.loggout') }}" method="post" id="logout-form">@csrf</form>
           </li>
       </ul>
       <!-- ./Right navbar links -->

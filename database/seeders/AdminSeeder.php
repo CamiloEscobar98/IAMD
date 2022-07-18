@@ -2,11 +2,20 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+
+use App\Repositories\AdminRepository;
 
 class AdminSeeder extends Seeder
 {
+    /** @var AdminRepository */
+    protected $adminRepository;
+
+    public function __construct(AdminRepository $adminRepository)
+    {
+        $this->adminRepository = $adminRepository;
+    }
+
     /**
      * Run the database seeds.
      *
@@ -14,6 +23,16 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-        //
+        print("¡¡ CREATING ADMINS !! \n \n");
+
+        $admin = $this->adminRepository->create([
+            'name' => 'Patricia Ramirez',
+            'email' => 'admin@admin.com',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'
+        ]);
+
+        print("Admin Created. Name: " . $admin->name .  "\n \n");
+
+        print("¡¡ ASSIGNMENT CONTRACTS CREATED !! \n \n");
     }
 }
