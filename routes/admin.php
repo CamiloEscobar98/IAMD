@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\Admin\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,4 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('login', [])->name('admin.login');
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('admin.login');
+
+Route::get('home', [HomeController::class, 'home'])->name('admin.home');

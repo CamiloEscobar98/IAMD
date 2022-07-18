@@ -1,18 +1,15 @@
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <nav class="main-header navbar navbar-expand navbar-dark navbar-dark">
 
       <!-- Left navbar links -->
-      {{-- <ul class="navbar-nav">
+      <ul class="navbar-nav">
           <li class="nav-item">
               <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
           </li>
-          <li class="nav-item d-none d-sm-inline-block">
+          {{-- <li class="nav-item d-none d-sm-inline-block">
               <a href="../../index3.html" class="nav-link">Home</a>
-          </li>
-          <li class="nav-item d-none d-sm-inline-block">
-              <a href="#" class="nav-link">Contact</a>
-          </li>
-      </ul> --}}
+          </li> --}}
+      </ul>
       <!-- ./Left navbar links -->
 
       <!-- Right navbar links -->
@@ -25,8 +22,8 @@
               <div class="navbar-search-block">
                   <form class="form-inline">
                       <div class="input-group input-group-sm">
-                          <input class="form-control form-control-navbar" type="search" placeholder="Search"
-                              aria-label="Search">
+                          <input class="form-control form-control-navbar" type="search"
+                              placeholder="{{ __('menu.admin.search') }}" aria-label="Search">
                           <div class="input-group-append">
                               <button class="btn btn-navbar" type="submit">
                                   <i class="fas fa-search"></i>
@@ -42,7 +39,7 @@
           <!-- Navbar Search -->
 
           <!-- Messages Dropdown Menu -->
-          <li class="nav-item dropdown">
+          {{-- <li class="nav-item dropdown">
               <a class="nav-link" data-toggle="dropdown" href="#">
                   <i class="far fa-comments"></i>
                   <span class="badge badge-danger navbar-badge">3</span>
@@ -51,7 +48,7 @@
                   <a href="#" class="dropdown-item">
                       <!-- Message Start -->
                       <div class="media">
-                          <img src="../../dist/img/user1-128x128.jpg" alt="User Avatar"
+                          <img src="{{ asset('adminlte/dist/img/user1-128x128.jpg') }}" alt="User Avatar"
                               class="img-size-50 mr-3 img-circle">
                           <div class="media-body">
                               <h3 class="dropdown-item-title">
@@ -68,7 +65,7 @@
                   <a href="#" class="dropdown-item">
                       <!-- Message Start -->
                       <div class="media">
-                          <img src="../../dist/img/user8-128x128.jpg" alt="User Avatar"
+                          <img src="{{ asset('adminlte/dist/img/user8-128x128.jpg') }}" alt="User Avatar"
                               class="img-size-50 img-circle mr-3">
                           <div class="media-body">
                               <h3 class="dropdown-item-title">
@@ -85,7 +82,7 @@
                   <a href="#" class="dropdown-item">
                       <!-- Message Start -->
                       <div class="media">
-                          <img src="../../dist/img/user3-128x128.jpg" alt="User Avatar"
+                          <img src="{{ asset('adminlte/dist/img/user3-128x128.jpg') }}" alt="User Avatar"
                               class="img-size-50 img-circle mr-3">
                           <div class="media-body">
                               <h3 class="dropdown-item-title">
@@ -101,7 +98,7 @@
                   <div class="dropdown-divider"></div>
                   <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
               </div>
-          </li>
+          </li> --}}
           <!-- ./Messages Dropdown Menu -->
 
           <!-- Notifications Dropdown Menu -->
@@ -132,16 +129,19 @@
               </div>
           </li>
           <!-- Notifications Dropdown Menu -->
-          
+
           <li class="nav-item">
               <a class="nav-link" data-widget="fullscreen" href="#" role="button">
                   <i class="fas fa-expand-arrows-alt"></i>
               </a>
           </li>
+
           <li class="nav-item">
-              <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                  <i class="fas fa-th-large"></i>
+              <a class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                  <i class="fas fa-sign-out-alt"></i>
               </a>
+
+              <form action="" method="post" id="logout-form">@csrf</form>
           </li>
       </ul>
       <!-- ./Right navbar links -->
