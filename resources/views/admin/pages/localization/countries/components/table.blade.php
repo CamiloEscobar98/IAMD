@@ -8,6 +8,7 @@
                 <th>{{ __('pages.localizations.countries.table.head.cities') }}</th>
                 <th>{{ __('pages.localizations.countries.table.head.created_at') }}</th>
                 <th>{{ __('pages.localizations.countries.table.head.updated_at') }}</th>
+                <th class="text-right">#</th>
             </tr>
         </thead>
         <tbody>
@@ -19,6 +20,23 @@
                     <td>{{ $item->cities_count }}</td>
                     <td>{{ $item->created_at }}</td>
                     <td>{{ $item->updated_at }}</td>
+                    <td>
+                        <div class="row justify-content-center">
+                            <a href="" class="btn btn-sm btn-secondary">
+                                <i class="fas fa-sm fa-eye"></i>
+                            </a>
+                            <form action="{{ route('admin.localizations.countries.destroy', $item->id) }}"
+                                id="form-delete-{{ $item->id }}" method="post">
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="destroy(event, {{ $item->id }})">
+                                    <i class="fas fa-sm fa-trash"></i>
+                                </button>
+                            </form>
+
+                        </div>
+                    </td>
                 </tr>
             @endforeach
         </tbody>

@@ -32,3 +32,8 @@
         {!! $links !!}
     </div>
 @endsection
+
+
+@section('custom_js')
+    @include('messages.delete_item', ['title' => __('pages.localizations.countries.messages.confirm')])
+@endsection

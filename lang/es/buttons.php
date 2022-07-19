@@ -9,5 +9,8 @@ return [
 
 
     'filter' => 'Filtrar', 
-    'register' => 'Registrar'
+    'register' => 'Registrar',
+
+    'sure' => 'Estoy seguro.',
+    'cancel' => 'Cancelar'
 ];

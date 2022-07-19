@@ -29,6 +29,13 @@ return [
                     'created_at' => 'Fecha de Creación',
                     'updated_at' => 'Fecha de Actualización'
                 ]
+            ],
+
+            'messages' => [
+                'confirm' => '¿Estás seguro de que quieres eliminar el país?',
+
+                'success' => 'Se ha eliminado el país: :country.',
+                'error' => 'No se ha eliminado el país.'
             ]
         ]
     ]

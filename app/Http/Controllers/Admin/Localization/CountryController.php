@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Localization;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use App\Services\Localization\CountryService;
 
@@ -118,6 +119,16 @@ class CountryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $item = $this->countryRepository->getById($id);
+
+            DB::transaction(function () use ($item) {
+                $this->countryRepository->delete($item);
+            });
+
+            return back()->with('alert', ['title' => '¡Éxito!', 'icon' => 'success', 'text' => __('pages.localizations.countries.messages.success', ['country' => $item->name])]);
+        } catch (\Exception $th) {
+            return back()->with('alert', ['title' => '¡Error!', 'icon' => 'error', 'text' => __('pages.localizations.countries.messages.error')]);
+        }
     }
 }
