@@ -12,5 +12,10 @@ class LoginController extends  Controller
 {
     use AuthenticatesUsers;
 
+    public function __construct()
+    {
+        $this->middleware('guest:admin')->except('logout');
+    }
+
     protected $redirectTo = RouteServiceProvider::ADMIN_HOME;
 }

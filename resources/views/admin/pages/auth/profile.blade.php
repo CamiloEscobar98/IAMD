@@ -24,7 +24,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-7">
+            <div class="col-md-8">
                 <!-- Profile Information -->
                 <div class="card card-secondary card-outline">
                     <div class="card-body box-profile">

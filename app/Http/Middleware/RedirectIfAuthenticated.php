@@ -24,31 +24,33 @@ class RedirectIfAuthenticated
     {
         $guards = empty($guards) ? [null] : $guards;
 
-        if (in_array('admin', $guards)) return $this->redirectAdminHome();
+        if (in_array('admin', $guards)) return $this->redirectAdminHome($next, $request);
 
-        if (in_array('web', $guards)) return $this->redirectClientHome();
-
+        if (in_array('web', $guards)) return $this->redirectClientHome($next, $request);
     }
 
     /**
      * Redirect if is authenticated Admin.
+     * @param Closure $next
+     * @param Request $request
      * 
-     * 
-     * @return RedirectResponse
+     * @return mixed
      */
-    private function redirectAdminHome(): RedirectResponse
+    private function redirectAdminHome($next, $request)
     {
-        return Auth::guard('admin')->check() ?  redirect()->route('admin.home') : redirect('/admin/login');
+        return Auth::guard('admin')->check() ?  redirect()->route('admin.home') : $next($request);
     }
 
     /**
      * Redirect if is authenticated Client.
      * 
+     * @param Closure $next
+     * @param Request $request
      * 
-     * @return RedirectResponse
+     * @return mixed
      */
-    private function redirectClientHome(): RedirectResponse
+    private function redirectClientHome($next, $request)
     {
-        return Auth::guard()->check() ?  redirect(RouteServiceProvider::HOME) : redirect('login');
+        return Auth::guard()->check() ?  redirect(RouteServiceProvider::HOME) : $next($request);
     }
 }

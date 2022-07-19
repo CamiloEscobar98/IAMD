@@ -18,7 +18,7 @@ class HomeController extends Controller
 
     public function __construct(AdminRepository $adminRepository)
     {
-        $this->middleware('auth:admin')->only('home');
+        $this->middleware('auth:admin');
 
         $this->adminRepository = $adminRepository;
     }
