@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin\Localization;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\Admin\Localizations\Countries\StoreRequest;
+use App\Http\Requests\Admin\Localizations\Countries\UpdateRequest;
+
 
 use App\Services\Localization\CountryService;
 
@@ -63,7 +66,7 @@ class CountryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.pages.localization.countries.create');
     }
 
     /**
@@ -72,9 +75,20 @@ class CountryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        try {
+            $data = $request->all();
+
+            $item = DB::transaction(function () use ($data) {
+                return $this->countryRepository->create($data);
+            });
+
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.localizations.countries.messages.save_success', ['country' => $item->name])]);
+        } catch (\Exception $th) {
+            return $th->getMessage();
+            // return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.localizations.countries.messages.save_error')]);
+        }
     }
 
     /**
@@ -126,9 +140,9 @@ class CountryController extends Controller
                 $this->countryRepository->delete($item);
             });
 
-            return back()->with('alert', ['title' => '¡Éxito!', 'icon' => 'success', 'text' => __('pages.localizations.countries.messages.success', ['country' => $item->name])]);
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.localizations.countries.messages.delete_success', ['country' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => '¡Error!', 'icon' => 'error', 'text' => __('pages.localizations.countries.messages.error')]);
+            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.localizations.countries.messages.delete_error')]);
         }
     }
 }

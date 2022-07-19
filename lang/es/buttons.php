@@ -3,7 +3,7 @@
 return [
     'loggin' => 'Iniciar Sesión',
 
-
+    'save' => 'Guardar',
     'update' => 'Actualizar',
     'update_password' => 'Actualizar Contraseña',
 

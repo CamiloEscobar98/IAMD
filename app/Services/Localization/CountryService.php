@@ -61,6 +61,8 @@ class CountryService
                 } else {
                     $query->orderBy('name', 'DESC');
                 }
+            } else {
+                $query->orderBy('name', 'ASC');
             }
             $items = $query->get();
 

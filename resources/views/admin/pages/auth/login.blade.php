@@ -34,7 +34,7 @@
                     @csrf
                     <div class="input-group">
                         <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                            placeholder="{{ __('inputs.email') }}">
+                            placeholder="{{ __('inputs.email') }}" value="{{ old('email') }}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -47,7 +47,8 @@
                     @enderror
 
                     <div class="input-group mt-3">
-                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
+                        <input type="password" name="password"
+                            class="form-control @error('password') is-invalid @enderror"
                             placeholder="{{ __('inputs.password') }}">
                         <div class="input-group-append">
                             <div class="input-group-text">

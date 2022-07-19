@@ -44,7 +44,8 @@
                 </div>
                 <div class="btn-group">
                     <button class="btn btn-secondary btn-sm">{{ __('buttons.filter') }}</button>
-                    <a href="{{ 'a' }}" class="btn btn-dark btn-sm ml-2">{{ __('buttons.register') }}</a>
+                    <a href="{{ route('admin.localizations.countries.create') }}"
+                        class="btn btn-dark btn-sm ml-2">{{ __('buttons.register') }}</a>
                 </div>
                 <hr>
                 <h6 class="font-weight-bold">{{ __('pages.localizations.countries.filters.total') }}<a
