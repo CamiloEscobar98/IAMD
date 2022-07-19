@@ -228,6 +228,16 @@ class AbstractRepository
         DB::statement('SET FOREIGN_KEY_CHECKS=1 ;');
     }
 
+    /**
+     * Get PerPage from Model
+     * 
+     * @return int
+     */
+    public function getPerPage()
+    {
+        return $this->model->getPerPage();
+    }
+
     /** Factory Methods */
 
     /**

@@ -5,5 +5,9 @@ return [
 
 
     'update' => 'Actualizar',
-    'update_password' => 'Actualizar Contraseña'
+    'update_password' => 'Actualizar Contraseña',
+
+
+    'filter' => 'Filtrar', 
+    'register' => 'Registrar'
 ];

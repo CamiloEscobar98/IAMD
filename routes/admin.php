@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\Localization\CountryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,3 +26,7 @@ Route::patch('update-profile', [HomeController::class, 'update'])->name('admin.u
 Route::patch('update-password', [HomeController::class, 'updatePassword'])->name('admin.update-password');
 
 Route::get('home', [HomeController::class, 'home'])->name('admin.home');
+
+Route::prefix('localizations')->group(function () {
+    Route::resource('countries', CountryController::class, ['as' => 'admin.localizations']);
+});

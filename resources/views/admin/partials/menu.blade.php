@@ -1,8 +1,7 @@
 <li class="nav-header">{{ __('menu.admin.title') }}</li>
-
 <!-- Localizations Options -->
-<li class="nav-item">
-    <a href="#" class="nav-link">
+<li class="nav-item {{ dropdownIsActived('localizations') }}">
+    <a href="#" class="nav-link {{ routeIsActived('localizations') }}">
         <i class="nav-icon fas fa-tachometer-alt"></i>
         <p>
             {{ __('menu.admin.Localizations') }}
@@ -11,7 +10,8 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.localizations.countries.index') }}"
+                class="nav-link {{ routeIsActived('countries') }}">
                 <i class="far fa-flag nav-icon"></i>
                 <p>{{ __('menu.admin.Countries') }}</p>
             </a>
