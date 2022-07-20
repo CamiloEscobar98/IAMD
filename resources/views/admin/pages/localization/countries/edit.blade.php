@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 
-@section('title', __('admin_pages.localizations.countries.titles.create'))
+@section('title', __('admin_pages.localizations.countries.titles.edit'))
 
 @section('content-header')
     <section class="content-header">
@@ -11,14 +11,20 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">{{ __('pages.home.title') }}</a>
+                        <li class="breadcrumb-item"><a
+                                href="{{ route('admin.home') }}">{{ __('admin_pages.home.title') }}</a>
                         </li>
                         <li class="breadcrumb-item">{{ __('admin_pages.localizations.title') }}</li>
                         <li class="breadcrumb-item">
                             <a href="{{ route('admin.localizations.countries.index') }}">
                                 {{ __('admin_pages.localizations.countries.title') }} </a>
                         </li>
-                        <li class="breadcrumb-item">{{ __('admin_pages.default.create') }}</li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('admin.localizations.countries.show', $item->id) }}">
+                                {{ $item->name }}
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active">Editar</li>
                     </ol>
                 </div>
             </div>
@@ -33,10 +39,10 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="text-center font-weight-bold">
-                            <u>{{ __('admin_pages.localizations.countries.title-form') }}</u>
+                            <u>{{ __('admin_pages.localizations.countries.title-update') }}</u>
                         </h3>
                         @include('admin.pages.localization.countries.components.form', [
-                            'editMode' => false,
+                            'editMode' => true,
                         ])
                     </div>
                 </div>
@@ -50,7 +56,8 @@
                             </h3>
                             <img src="{{ asset('assets/images/countries/country-1.png') }}" class="img-fluid mt-3"
                                 alt="">
-                            <p>{{ __('admin_pages.localizations.countries.info-create') }}</p>
+                            <p class="mb-0">{{ __('admin_pages.localizations.countries.info-show', ['country' => $item->name, 'states_count' => $item->states_count, 'cities_count' => $item->cities_count]) }}
+                            </p>
                         </div>
                     </div>
                 </div>

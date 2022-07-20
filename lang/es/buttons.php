@@ -5,6 +5,7 @@ return [
 
     'save' => 'Guardar',
     'update' => 'Actualizar',
+    'update_to' => 'Ir a Actualizar',
     'update_password' => 'Actualizar Contraseña',
 
 

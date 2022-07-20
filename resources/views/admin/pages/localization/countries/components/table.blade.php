@@ -3,11 +3,11 @@
         <thead>
             <tr>
                 <th class="text-center">No.</th>
-                <th>{{ __('pages.localizations.countries.table.head.name') }}</th>
-                <th>{{ __('pages.localizations.countries.table.head.states') }}</th>
-                <th>{{ __('pages.localizations.countries.table.head.cities') }}</th>
-                <th>{{ __('pages.localizations.countries.table.head.created_at') }}</th>
-                <th>{{ __('pages.localizations.countries.table.head.updated_at') }}</th>
+                <th>{{ __('admin_pages.localizations.countries.table.head.name') }}</th>
+                <th>{{ __('admin_pages.localizations.countries.table.head.states') }}</th>
+                <th>{{ __('admin_pages.localizations.countries.table.head.cities') }}</th>
+                <th>{{ __('admin_pages.localizations.countries.table.head.created_at') }}</th>
+                <th>{{ __('admin_pages.localizations.countries.table.head.updated_at') }}</th>
                 <th class="text-right">#</th>
             </tr>
         </thead>
@@ -22,7 +22,7 @@
                     <td>{{ $item->updated_at }}</td>
                     <td>
                         <div class="row justify-content-center">
-                            <a href="" class="btn btn-sm btn-secondary">
+                            <a href="{{ route('admin.localizations.countries.show', $item->id) }}" class="btn btn-sm btn-secondary">
                                 <i class="fas fa-sm fa-eye"></i>
                             </a>
                             <form action="{{ route('admin.localizations.countries.destroy', $item->id) }}"

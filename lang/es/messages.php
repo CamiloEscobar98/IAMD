@@ -6,5 +6,7 @@ return [
 
     'success' => '¡Éxito!',
 
-    'error' => '¡Error!'
+    'error' => '¡Error!',
+
+    'synntax_error' => 'No se ha podido realizar esta acción.',
 ];

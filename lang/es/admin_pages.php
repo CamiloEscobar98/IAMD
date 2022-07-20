@@ -22,6 +22,12 @@ return [
             'title' => 'Países',
             'subtitle' => 'Países',
 
+            'titles' => [
+                'create' => 'Registrar País',
+                'show' => 'Visualizar País',
+                'edit' => 'Editar País',
+            ],
+
             'filters' => [
                 'name' => 'Buscar País',
                 'total' => 'Total de Países: ',
@@ -50,11 +56,18 @@ return [
                 'delete_error' => 'No se ha eliminado el país.'
             ],
 
+            'title-show' => 'Perfil de Visualización del País',
             'title-form' => 'Formulario de Registro de País',
+            'title-update' => 'Actualización del País',
 
-            'info' => "En esta sección de la aplicación podrás realizar el registro del recurso PAÍS. 
+            'info-create' => "En esta sección de la aplicación podrás realizar el registro del recurso PAÍS. 
             Dicho recurso actualmente está destinado para enriquecer la información de los países dentro de la aplicación.
-           \n Hay que tener en cuenta que el único país que estará nutrida de información (Departamentos y Ciudades) será el país de Colombia."
+           \n Hay que tener en cuenta que el único país que estará nutrida de información (Departamentos y Ciudades) será el país de Colombia.",
+
+            'info-show' => "En esta sección de la aplicación podrás visualizar el país de :country. \n
+            Este país actualmente tiene una cantidad de :states_count Departamentos y :cities_count ciudades.
+            "
+
         ]
     ]
 

@@ -72,7 +72,7 @@ class CountryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StoreRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreRequest $request)
@@ -84,10 +84,9 @@ class CountryController extends Controller
                 return $this->countryRepository->create($data);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.localizations.countries.messages.save_success', ['country' => $item->name])]);
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('admin_pages.localizations.countries.messages.save_success', ['country' => $item->name])]);
         } catch (\Exception $th) {
-            return $th->getMessage();
-            // return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.localizations.countries.messages.save_error')]);
+            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('admin_pages.localizations.countries.messages.save_error')]);
         }
     }
 
@@ -99,7 +98,13 @@ class CountryController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $item = $this->countryRepository->getById($id);
+
+            return view('admin.pages.localization.countries.show', compact('item'));
+        } catch (\Exception $th) {
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        }
     }
 
     /**
@@ -110,19 +115,36 @@ class CountryController extends Controller
      */
     public function edit($id)
     {
-        //
+        try {
+            $item = $this->countryRepository->getById($id);
+
+            return view('admin.pages.localization.countries.edit', compact('item'));
+        } catch (\Exception $th) {
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  UpdateRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-        //
+        try {
+            $data = $request->all();
+
+            $item = $this->countryRepository->getById($id);
+
+            DB::transaction(function () use ($item, $data) {
+                $this->countryRepository->update($item, $data);
+            });
+
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('admin_pages.localizations.countries.messages.update_success', ['country' => $item->name])]);
+        } catch (\Exception $th) {
+            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('admin_pages.localizations.countries.messages.update_error')]);
+        }
     }
 
     /**
@@ -140,9 +162,9 @@ class CountryController extends Controller
                 $this->countryRepository->delete($item);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.localizations.countries.messages.delete_success', ['country' => $item->name])]);
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('admin_pages.localizations.countries.messages.delete_success', ['country' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.localizations.countries.messages.delete_error')]);
+            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('admin_pages.localizations.countries.messages.delete_error')]);
         }
     }
 }

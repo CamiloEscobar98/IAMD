@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 
-@section('title', __('admin_pages.localizations.countries.titles.create'))
+@section('title', __('admin_pages.localizations.countries.titles.show'))
 
 @section('content-header')
     <section class="content-header">
@@ -11,14 +11,14 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">{{ __('pages.home.title') }}</a>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">{{ __('admin_pages.home.title') }}</a>
                         </li>
                         <li class="breadcrumb-item">{{ __('admin_pages.localizations.title') }}</li>
                         <li class="breadcrumb-item">
                             <a href="{{ route('admin.localizations.countries.index') }}">
                                 {{ __('admin_pages.localizations.countries.title') }} </a>
                         </li>
-                        <li class="breadcrumb-item">{{ __('admin_pages.default.create') }}</li>
+                        <li class="breadcrumb-item active">{{ $item->name }}</li>
                     </ol>
                 </div>
             </div>
@@ -33,11 +33,33 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="text-center font-weight-bold">
-                            <u>{{ __('admin_pages.localizations.countries.title-form') }}</u>
+                            <u>{{ __('admin_pages.localizations.countries.title-show') }}</u>
                         </h3>
-                        @include('admin.pages.localization.countries.components.form', [
-                            'editMode' => false,
-                        ])
+
+                        <img src="{{ asset('assets/images/countries/country_flags.png') }}" class="img-fluid"
+                            alt="">
+
+                        <!-- Name -->
+                        <div class="input-group mt-3">
+                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                                placeholder="{{ __('inputs.name') }}" value="{{ $item->name }}" disabled>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-flag"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        @error('name')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                        <!-- ./Name -->
+
+                        <div class="form-group mt-3">
+                            <a href="{{ route('admin.localizations.countries.edit', $item->id) }}"
+                                class="btn btn-warning btn-sm">{{ __('buttons.update_to') }}</a>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -50,7 +72,8 @@
                             </h3>
                             <img src="{{ asset('assets/images/countries/country-1.png') }}" class="img-fluid mt-3"
                                 alt="">
-                            <p>{{ __('admin_pages.localizations.countries.info-create') }}</p>
+                            <p>{{ __('admin_pages.localizations.countries.info-show', ['country' => $item->name, 'states_count' => $item->states_count, 'cities_count' => $item->cities_count]) }}
+                            </p>
                         </div>
                     </div>
                 </div>
