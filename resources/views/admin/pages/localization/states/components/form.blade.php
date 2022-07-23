@@ -1,5 +1,5 @@
 @if ($editMode)
-    <form action="{{ route('admin.localizations.countries.update', $item->id) }}" method="post">
+    <form action="{{ route('admin.localizations.states.update', $item->id) }}" method="post">
         @csrf
         @method('PUT')
 
@@ -29,7 +29,7 @@
 
     </form>
 @else
-    <form action="{{ route('admin.localizations.countries.store') }}" method="post">
+    <form action="{{ route('admin.localizations.states.store') }}" method="post">
         @csrf
 
         <div class="row justify-content-center">

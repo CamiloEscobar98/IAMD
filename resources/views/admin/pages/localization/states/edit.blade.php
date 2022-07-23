@@ -1,13 +1,13 @@
 @extends('admin.layout.app')
 
-@section('title', __('admin_pages.localizations.countries.titles.edit'))
+@section('title', __('admin_pages.localizations.states.titles.edit'))
 
 @section('content-header')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>{{ __('admin_pages.localizations.countries.subtitle') }}</h1>
+                    <h1>{{ __('admin_pages.localizations.states.subtitle') }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -16,11 +16,11 @@
                         </li>
                         <li class="breadcrumb-item">{{ __('admin_pages.localizations.title') }}</li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.localizations.countries.index') }}">
-                                {{ __('admin_pages.localizations.countries.title') }} </a>
+                            <a href="{{ route('admin.localizations.states.index') }}">
+                                {{ __('admin_pages.localizations.states.title') }} </a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.localizations.countries.show', $item->id) }}">
+                            <a href="{{ route('admin.localizations.states.show', $item->id) }}">
                                 {{ $item->name }}
                             </a>
                         </li>
@@ -39,9 +39,9 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="text-center font-weight-bold">
-                            <u>{{ __('admin_pages.localizations.countries.title-update') }}</u>
+                            <u>{{ __('admin_pages.localizations.states.title-update') }}</u>
                         </h3>
-                        @include('admin.pages.localization.countries.components.form', [
+                        @include('admin.pages.localization.states.components.form', [
                             'editMode' => true,
                         ])
                     </div>

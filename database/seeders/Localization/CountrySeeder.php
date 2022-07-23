@@ -23,8 +23,10 @@ class CountrySeeder extends Seeder
      */
     public function run()
     {
-        $this->countryRepository->create(['name' => 'Colombia']);
-
         $this->countryRepository->createFactory(10);
+
+        if (!$hasColombia = $this->countryRepository->getByAttribute('name', 'Colombia')) {
+            $this->countryRepository->create(['name' => 'Colombia']);
+        }
     }
 }

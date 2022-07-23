@@ -1,23 +1,22 @@
 @extends('admin.layout.app')
 
-@section('title', __('admin_pages.localizations.countries.titles.show'))
+@section('title', __('admin_pages.localizations.states.titles.show'))
 
 @section('content-header')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>{{ __('admin_pages.localizations.countries.subtitle') }}</h1>
+                    <h1>{{ __('admin_pages.localizations.states.subtitle') }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a
-                                href="{{ route('admin.home') }}">{{ __('admin_pages.home.title') }}</a>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">{{ __('admin_pages.home.title') }}</a>
                         </li>
                         <li class="breadcrumb-item">{{ __('admin_pages.localizations.title') }}</li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.localizations.countries.index') }}">
-                                {{ __('admin_pages.localizations.countries.title') }} </a>
+                            <a href="{{ route('admin.localizations.states.index') }}">
+                                {{ __('admin_pages.localizations.states.title') }} </a>
                         </li>
                         <li class="breadcrumb-item active">{{ $item->name }}</li>
                     </ol>
@@ -34,7 +33,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="text-center font-weight-bold">
-                            <u>{{ __('admin_pages.localizations.countries.title-show') }}</u>
+                            <u>{{ __('admin_pages.localizations.states.title-show') }}</u>
                         </h3>
 
                         <img src="{{ asset('assets/images/countries/country_flags.png') }}" class="img-fluid"
@@ -57,7 +56,7 @@
                         <!-- ./Name -->
 
                         <div class="form-group mt-3">
-                            <a href="{{ route('admin.localizations.countries.edit', $item->id) }}"
+                            <a href="{{ route('admin.localizations.states.edit', $item->id) }}"
                                 class="btn btn-warning btn-sm">{{ __('buttons.update_to') }}</a>
                         </div>
 
@@ -74,7 +73,7 @@
                             <img src="{{ asset('assets/images/countries/country-1.png') }}" class="img-fluid mt-4"
                                 width="540em">
                             <div class="mb-0">
-                                <p>{{ __('admin_pages.localizations.countries.info-show', ['country' => $item->name, 'states_count' => $item->states_count, 'cities_count' => $item->cities_count]) }}
+                                <p>{{ __('admin_pages.localizations.states.info-show', ['state' => $item->name, 'cities_count' => $item->cities_count]) }}
                                 </p>
                             </div>
                         </div>
@@ -83,8 +82,8 @@
             </div>
         </div>
         <div class="row mt-2 mb-4">
-            <h4 class="font-weight-bold mb-4">{{ __('admin_pages.localizations.countries.states.title') }}</h4>
-            @include('admin.pages.localization.countries.components.table_states')
+            <h4 class="font-weight-bold mb-4">{{ __('admin_pages.localizations.states.cities.title') }}</h4>
+            @include('admin.pages.localization.states.components.table_cities')
         </div>
         {!! $links !!}
     </div>
@@ -93,6 +92,5 @@
 
 
 @section('custom_js')
-    @include('messages.delete_item', ['title' => __('admin_pages.localizations.states.messages.confirm')])
+    @include('messages.delete_item', ['title' => __('admin_pages.localizations.cities.messages.confirm')])
 @endsection
-

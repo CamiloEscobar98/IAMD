@@ -1,9 +1,13 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\HomeController;
+
 use App\Http\Controllers\Admin\Localization\CountryController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\Localization\StateController;
+use App\Http\Controllers\Admin\Localization\CityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +33,6 @@ Route::get('home', [HomeController::class, 'home'])->name('admin.home');
 
 Route::prefix('localizations')->group(function () {
     Route::resource('countries', CountryController::class, ['as' => 'admin.localizations']);
+    Route::resource('states', StateController::class, ['as' => 'admin.localizations']);
+    Route::resource('cities', CityController::class, ['as' => 'admin.localizations']);
 });

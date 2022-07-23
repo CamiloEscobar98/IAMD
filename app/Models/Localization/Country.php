@@ -18,8 +18,15 @@ class Country extends BaseModel
      */
     protected $perPage = 10;
 
+     /**
+     * Get items from array.
+     * 
+     * @var array
+     */
+    protected $with = ['states', 'cities'];
+
     /**
-     * Get counts from arrray
+     * Get counts from array
      * 
      * @var array
      */

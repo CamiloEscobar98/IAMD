@@ -13,6 +13,8 @@ use App\Http\Requests\Admin\Localizations\Countries\UpdateRequest;
 use App\Services\Localization\CountryService;
 
 use App\Repositories\CountryRepository;
+use App\Repositories\StateRepository;
+use App\Services\Localization\StateService;
 
 class CountryController extends Controller
 {
@@ -22,16 +24,26 @@ class CountryController extends Controller
     /** @var CountryRepository */
     protected $countryRepository;
 
+    /** @var StateService */
+    protected $stateService;
+
+    /** @var StateRepository */
+    protected $stateRepository;
+
     public function __construct(
         CountryService $countryService,
+        StateService $stateService,
 
-        CountryRepository $countryRepository
+        CountryRepository $countryRepository,
+        StateRepository $stateRepository
     ) {
         $this->middleware('auth:admin');
 
         $this->countryService = $countryService;
+        $this->stateService = $stateService;
 
         $this->countryRepository = $countryRepository;
+        $this->stateRepository = $stateRepository;
     }
 
     /**
@@ -93,16 +105,25 @@ class CountryController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param Request $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         try {
             $item = $this->countryRepository->getById($id);
 
-            return view('admin.pages.localization.countries.show', compact('item'));
+            $params = $this->stateService->transformParams($request->all());
+
+            $query = $this->stateRepository->search($params, ['cities'], ['cities'], $id);
+            $total = $query->count();
+            $states = $this->stateService->customPagination($query, $params, 3, $request->get('page'), $total);
+            $links = $states->links('pagination.customized');
+
+            return view('admin.pages.localization.countries.show', compact('item', 'total', 'states', 'links'));
         } catch (\Exception $th) {
+            return $th->getMessage();
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
@@ -113,7 +134,7 @@ class CountryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         try {
             $item = $this->countryRepository->getById($id);

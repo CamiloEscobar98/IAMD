@@ -8,5 +8,5 @@ return [
 
     'error' => '¡Error!',
 
-    'synntax_error' => 'No se ha podido realizar esta acción.',
+    'syntax_error' => 'No se ha podido realizar esta acción.',
 ];

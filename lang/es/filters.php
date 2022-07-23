@@ -9,4 +9,5 @@ return [
     'title' => 'Título:',
 
     'name' => 'Nombre:',
+    'country' => 'País:',
 ];

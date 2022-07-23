@@ -17,7 +17,8 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.localizations.states.index') }}"
+                class="nav-link {{ routeIsActived('states') }}">
                 <i class="fas fa-building nav-icon"></i>
                 <p>{{ __('menu.admin.States') }}</p>
             </a>
