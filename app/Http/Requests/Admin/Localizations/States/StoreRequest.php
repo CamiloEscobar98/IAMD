@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Localizations\States;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRequest extends FormRequest
 {
@@ -24,8 +25,10 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'country_id' => ['required', 'exists:mysql.states'],
-            'name' => ['required', 'unique:mysql.states']
+            'country_id' => ['required', 'exists:mysql.countries,id'],
+            'name' => ['required', Rule::unique('mysql.states', 'name')->where(function ($query) {
+                return $query->where('country_id', $this->get('country_id'));
+            })]
         ];
     }
 }
