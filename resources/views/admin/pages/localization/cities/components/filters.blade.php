@@ -8,8 +8,8 @@
                                 <label class="input-group-text">{{ __('filters.order_by') }}</label>
                             </div>
                             <select class="custom-select" name="order_by">
-                                <option value="1" {{ isSelectedOption($params, 'order_by', '1') }}>A-Z</option>
-                                <option value="2" {{ isSelectedOption($params, 'order_by', '2') }}>Z-A</option>
+                                <option value="1" {{ optionIsSelected($params, 'order_by', 1) }}>A-Z</option>
+                                <option value="2" {{ optionIsSelected($params, 'order_by', 2) }}>Z-A</option>
                             </select>
                         </div>
                     </div>
@@ -35,15 +35,15 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <label
-                                    class="input-group-text">{{ __('admin_pages.localizations.states.filters.country') }}</label>
+                                    class="input-group-text">{{ __('admin_pages.localizations.cities.filters.state') }}</label>
                             </div>
-                            <select class="form-control select2bs4" name="country">
-                                <option value="">
-                                    {{ __('admin_pages.localizations.states.filters.country_option') }}</option>
-                                @foreach ($countries as $country)
-                                    <option value="{{ $country->id }}"
-                                        {{ optionIsSelected($params, 'country', $country->id) }}>
-                                        {{ $country->name }}
+                            <select class="form-control select2bs4" name="state">
+                                <option value="">{{ __('admin_pages.localizations.cities.filters.state_option') }}
+                                </option>
+                                @foreach ($states as $state)
+                                    <option value="{{ $state->id }}"
+                                        {{ optionIsSelected($params, 'state', $state->id) }}>
+                                        {{ $state->country->name . '-' . $state->name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -55,18 +55,18 @@
                                 <label class="input-group-text">{{ __('filters.name') }}</label>
                             </div>
                             <input type="text" name="name" class="form-control"
-                                placeholder="{{ __('admin_pages.localizations.states.filters.name') }}"
+                                placeholder="{{ __('admin_pages.localizations.cities.filters.name') }}"
                                 value="{{ getParamValue($params, 'name') }}">
                         </div>
                     </div>
                 </div>
                 <div class="btn-group">
                     <button class="btn btn-secondary btn-sm">{{ __('buttons.filter') }}</button>
-                    <a href="{{ route('admin.localizations.states.create') }}"
+                    <a href="{{ route('admin.localizations.cities.create') }}"
                         class="btn btn-dark btn-sm ml-2">{{ __('buttons.register') }}</a>
                 </div>
                 <hr>
-                <h6 class="font-weight-bold">{{ __('admin_pages.localizations.states.filters.total') }}<a
+                <h6 class="font-weight-bold">{{ __('admin_pages.localizations.cities.filters.total') }}<a
                         class="text-secondary">{{ $total }}</a></h6>
             </form>
         </div>

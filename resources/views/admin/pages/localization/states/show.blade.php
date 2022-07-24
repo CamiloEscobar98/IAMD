@@ -89,8 +89,8 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-2 mb-4">
-            <h4 class="font-weight-bold mb-4">{{ __('admin_pages.localizations.states.cities.title') }}</h4>
+        <div class="row mt-2 mb-4 mx-2">
+            <h4 class="mb-4">{{ __('admin_pages.localizations.states.cities.title') }}</h4>
             @include('admin.pages.localization.states.components.table_cities')
         </div>
         {!! $links !!}

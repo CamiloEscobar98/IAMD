@@ -10,21 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class State extends BaseModel
 {
     use HasFactory;
-
-    /**
-     * Get items from array.
-     * 
-     * @var array
-     */
-    protected $with = ['cities'];
-
-    /**
-     * Get counts from array
-     * 
-     * @var array
-     */
-    protected $withCount = ['cities'];
-
+    
     /**
      * The number of models to return for pagination.
      *

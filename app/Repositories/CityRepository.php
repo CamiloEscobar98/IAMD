@@ -19,7 +19,7 @@ class CityRepository extends AbstractRepository
      * 
      * @return mixed
      */
-    public function search(array $params = [], array $with = [], array $withCount = [], $state_id = null)
+    public function search(array $params = [], array $with = [], $state_id = null)
     {
         $query = $this->model
             ->select();
@@ -28,6 +28,9 @@ class CityRepository extends AbstractRepository
             $query->where('state_id', $state_id);
         }
 
+        if (isset($params['id']) && $params['id']) {
+            $query->where('id', $params['id']);
+        }
 
         if (isset($params['name']) && $params['name']) {
             $query->where('name', 'like', '%' . $params['name'] . '%');
@@ -41,16 +44,12 @@ class CityRepository extends AbstractRepository
             $query->where('updated_at', '<=', $params['date_to']);
         }
 
-        if (isset($params['state']) && $params['state']) {
-            $query->where('state_id', $params['state']);
+        if (isset($params['state_id']) && $params['state_id']) {
+            $query->where('state_id', $params['state_id']);
         }
 
         if (isset($with) && $with) {
             $query->with($with);
-        }
-
-        if (isset($withCount) && $withCount) {
-            $query->withCount($withCount);
         }
 
         return $query;

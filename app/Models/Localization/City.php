@@ -3,16 +3,26 @@
 namespace App\Models\Localization;
 
 use App\Models\BaseModel;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Znck\Eloquent\Traits\BelongsToThrough;
 
 class City extends BaseModel
 {
-    use HasFactory;
+    use HasFactory, BelongsToThrough;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['state_id', 'name'];
 
     /**
      * Get State
      * 
-     * @return \App\Models\Localization\State
+     * @return BelongsTo
      */
     public function state()
     {
@@ -22,10 +32,10 @@ class City extends BaseModel
     /**
      * Get Country
      * 
-     * @return \App\Models\Localization\Country
+     * @return HasOneThrough
      */
     public function country()
     {
-        return $this->hasOneThrough(Country::class, State::class, 'state_id', 'country_id', 'id', 'id');
+        return $this->belongsToThrough(Country::class, State::class);
     }
 }

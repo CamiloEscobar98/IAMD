@@ -1,5 +1,5 @@
 @if ($editMode)
-    <form action="{{ route('admin.localizations.states.update', $item->id) }}" method="post">
+    <form action="{{ route('admin.localizations.cities.update', $item->id) }}" method="post">
         @csrf
         @method('PUT')
 
@@ -7,13 +7,13 @@
             <img src="{{ asset('assets/images/countries/country_flags.png') }}" class="img-fluid" alt="">
         </div>
 
-        <!-- Country -->
+        <!-- State -->
         <div class="input-group mt-3">
-            <select class="form-control select2bs4" name="country_id">
-                <option value="">{{ __('admin_pages.localizations.states.filters.country_option') }}</option>
-                @foreach ($countries as $country)
-                    <option value="{{ $country->id }}" {{ twoOptionsIsEqual($item->country_id, $country->id) }}>
-                        {{ $country->name }}
+            <select class="form-control select2bs4" name="state_id">
+                <option value="">{{ __('admin_pages.localizations.cities.filters.state_option') }}</option>
+                @foreach ($states as $state)
+                    <option value="{{ $state->id }}" {{ twoOptionsIsEqual($item->state->id, $state->id) }}>
+                        {{ $state->country->name . '-' . $state->name }}
                     </option>
                 @endforeach
             </select>
@@ -24,10 +24,10 @@
             </div>
         </div>
 
-        @error('country_id')
+        @error('state_id')
             <small class="text-danger">{{ $message }}</small>
         @enderror
-        <!-- ./Country -->
+        <!-- ./State -->
 
         <!-- Name -->
         <div class="input-group mt-3">
@@ -51,20 +51,20 @@
 
     </form>
 @else
-    <form action="{{ route('admin.localizations.states.store') }}" method="post">
+    <form action="{{ route('admin.localizations.cities.store') }}" method="post">
         @csrf
 
         <div class="row justify-content-center">
             <img src="{{ asset('assets/images/countries/country_flags.png') }}" class="img-fluid" alt="">
         </div>
 
-        <!-- Country -->
+        <!-- State -->
         <div class="input-group mt-3">
-            <select class="form-control select2bs4" name="country_id">
-                <option value="">{{ __('admin_pages.localizations.states.filters.country_option') }}</option>
-                @foreach ($countries as $country)
-                    <option value="{{ $country->id }}" {{ isSelectedOption(old(), 'country', $country->id) }}>
-                        {{ $country->name }}
+            <select class="form-control select2bs4" name="state_id">
+                <option value="">{{ __('admin_pages.localizations.cities.filters.state_option') }}</option>
+                @foreach ($states as $state)
+                    <option value="{{ $state->id }}" {{ isSelectedOption(old(), 'state', $state->id) }}>
+                        {{ $state->country->name . '-' . $state->name }}
                     </option>
                 @endforeach
             </select>
@@ -75,10 +75,10 @@
             </div>
         </div>
 
-        @error('country_id')
+        @error('state_id')
             <small class="text-danger">{{ $message }}</small>
         @enderror
-        <!-- ./Country -->
+        <!-- ./State -->
 
         <!-- Name -->
         <div class="input-group mt-3">

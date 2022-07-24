@@ -17,14 +17,13 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('admin.localizations.states.index') }}"
-                class="nav-link {{ routeIsActived('states') }}">
+            <a href="{{ route('admin.localizations.states.index') }}" class="nav-link {{ routeIsActived('states') }}">
                 <i class="fas fa-building nav-icon"></i>
                 <p>{{ __('menu.admin.States') }}</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.localizations.cities.index') }}" class="nav-link {{ routeIsActived('cities') }}">
                 <i class="fas fa-city nav-icon"></i>
                 <p>{{ __('menu.admin.Cities') }}</p>
             </a>

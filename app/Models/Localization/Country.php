@@ -6,6 +6,7 @@ use App\Models\BaseModel;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Country extends BaseModel
 {
@@ -17,20 +18,6 @@ class Country extends BaseModel
      * @var int
      */
     protected $perPage = 10;
-
-     /**
-     * Get items from array.
-     * 
-     * @var array
-     */
-    protected $with = ['states', 'cities'];
-
-    /**
-     * Get counts from array
-     * 
-     * @var array
-     */
-    protected $withCount = ['states', 'cities'];
 
     /**
      * The attributes that are mass assignable.
@@ -49,6 +36,11 @@ class Country extends BaseModel
         return $this->hasMany(State::class);
     }
 
+    /**
+     * Get Cities
+     * 
+     * @return HasManyThrough
+     */
     public function cities()
     {
         return $this->hasManyThrough(City::class, State::class);

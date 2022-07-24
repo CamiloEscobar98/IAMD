@@ -89,7 +89,9 @@ return [
             'filters' => [
                 'name' => 'Buscar Departamento',
                 'total' => 'Total de Departamentos: ',
-                'country' => 'Buscar por País',
+
+                'country' => 'País',
+                'country_option' => 'Buscar por País',
             ],
 
             'table' => [
@@ -145,12 +147,16 @@ return [
             'filters' => [
                 'name' => 'Buscar Ciudad',
                 'total' => 'Total de Ciudades: ',
-                'country' => 'Buscar por País',
+                   
+                'state' => 'Departamento',
+                'state_option' => 'Buscar por Departamento',
             ],
 
             'table' => [
                 'head' => [
                     'name' => 'Nombre',
+                    'country' => 'País',
+                    'state' => 'Departamento',
                     'created_at' => 'Fecha de Creación',
                     'updated_at' => 'Fecha de Actualización'
                 ],

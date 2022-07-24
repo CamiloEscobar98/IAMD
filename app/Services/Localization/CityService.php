@@ -52,7 +52,7 @@ class CityService
     {
         try {
 
-            $perPage = isset($perPage) && $perPage ? $perPage : $this->stateRepository->getPerPage();
+            $perPage = isset($perPage) && $perPage ? $perPage : $this->cityRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
