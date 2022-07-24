@@ -19,3 +19,18 @@ if (!function_exists('set_sub_month_date_filter')) {
         return $array;
     }
 }
+
+if (!function_exists('optionIsSelected')) {
+    /**
+     * @param array $options
+     * @param mixed $option
+     * @param mixed $value
+     * 
+     * @return string
+     * 
+     */
+    function optionIsSelected($options, $option, $value)
+    {
+        return isset($options[$option]) && $options[$option] == $value ? 'selected' : '';
+    }
+}

@@ -39,20 +39,28 @@
                         <img src="{{ asset('assets/images/countries/country_flags.png') }}" class="img-fluid"
                             alt="">
 
-                        <!-- Name -->
+                        <!-- Country -->
                         <div class="input-group mt-3">
-                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                                placeholder="{{ __('inputs.name') }}" value="{{ $item->name }}" disabled>
+                            <input type="text" class="form-control" placeholder="{{ __('inputs.name') }}"
+                                value="{{ $item->country->name }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-flag"></span>
                                 </div>
                             </div>
                         </div>
+                        <!-- ./Country -->
 
-                        @error('name')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
+                        <!-- Name -->
+                        <div class="input-group mt-3">
+                            <input type="text" class="form-control" placeholder="{{ __('inputs.name') }}"
+                                value="{{ $item->name }}" disabled>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-flag"></span>
+                                </div>
+                            </div>
+                        </div>
                         <!-- ./Name -->
 
                         <div class="form-group mt-3">

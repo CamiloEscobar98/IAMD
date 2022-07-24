@@ -33,6 +33,13 @@ class State extends BaseModel
     protected $perPage = 10;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['country_id', 'name'];
+
+    /**
      * Get Country
      * 
      * @return BelongsTo

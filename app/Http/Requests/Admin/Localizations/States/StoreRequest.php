@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\Localizations\Countries;
+namespace App\Http\Requests\Admin\Localizations\States;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'unique:mysql.countries,' . $this->id]
+            'country_id' => ['required', 'exists:mysql.states'],
+            'name' => ['required', 'unique:mysql.states']
         ];
     }
 }

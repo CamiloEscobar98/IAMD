@@ -15,6 +15,16 @@ if (!function_exists('isSelectedOption')) {
     }
 }
 
+if (!function_exists('twoOptionsIsEqual')) {
+    /**
+     * 
+     */
+    function twoOptionsIsEqual($option, $value)
+    {
+        return (isset($option) && isset($value)) && $option == $value ? 'selected' : '';
+    }
+}
+
 if (!function_exists('getParamValue')) {
 
     /**

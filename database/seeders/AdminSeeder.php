@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 use App\Repositories\AdminRepository;
 
@@ -28,7 +29,7 @@ class AdminSeeder extends Seeder
         $admin = $this->adminRepository->create([
             'name' => 'Patricia Ramirez',
             'email' => 'admin@admin.com',
-            'password' => bcrypt('password')
+            'password' => Hash::make('password')
         ]);
 
         print("Admin Created. Name: " . $admin->name .  "\n \n");

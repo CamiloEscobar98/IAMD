@@ -9,5 +9,7 @@ return [
     'title' => 'Título:',
 
     'name' => 'Nombre:',
+    
     'country' => 'País:',
+    'country_option' => 'Seleccione un país.'
 ];

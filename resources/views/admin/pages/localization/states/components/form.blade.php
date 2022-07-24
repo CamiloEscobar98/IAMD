@@ -7,6 +7,28 @@
             <img src="{{ asset('assets/images/countries/country_flags.png') }}" class="img-fluid" alt="">
         </div>
 
+        <!-- Country -->
+        <div class="input-group mt-3">
+            <select class="form-control select2bs4" name="country_id">
+                <option value="">{{ __('filters.country_option') }}</option>
+                @foreach ($countries as $country)
+                    <option value="{{ $country->id }}" {{ twoOptionsIsEqual($item->country_id, $country->id) }}>
+                        {{ $country->name }}
+                    </option>
+                @endforeach
+            </select>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-flag"></span>
+                </div>
+            </div>
+        </div>
+
+        @error('country_id')
+            <small class="text-danger">{{ $message }}</small>
+        @enderror
+        <!-- ./Country -->
+
         <!-- Name -->
         <div class="input-group mt-3">
             <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
@@ -35,6 +57,28 @@
         <div class="row justify-content-center">
             <img src="{{ asset('assets/images/countries/country_flags.png') }}" class="img-fluid" alt="">
         </div>
+
+        <!-- Country -->
+        <div class="input-group mt-3">
+            <select class="form-control select2bs4" name="country_id">
+                <option value="">{{ __('filters.country_option') }}</option>
+                @foreach ($countries as $country)
+                    <option value="{{ $country->id }}" {{ isSelectedOption(old(), 'country', $country->id) }}>
+                        {{ $country->name }}
+                    </option>
+                @endforeach
+            </select>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-flag"></span>
+                </div>
+            </div>
+        </div>
+
+        @error('country_id')
+            <small class="text-danger">{{ $message }}</small>
+        @enderror
+        <!-- ./Country -->
 
         <!-- Name -->
         <div class="input-group mt-3">

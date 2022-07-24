@@ -37,8 +37,12 @@
                                 <label class="input-group-text">{{ __('filters.country') }}</label>
                             </div>
                             <select class="form-control select2bs4" name="country">
+                                <option value="">{{ __('filters.country_option') }}</option>
                                 @foreach ($countries as $country)
-                                    <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                    <option value="{{ $country->id }}"
+                                        {{ optionIsSelected($params, 'country', $country->id) }}>
+                                        {{ $country->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>

@@ -7,4 +7,6 @@ return [
     'remember_me' => 'Recuérdame',
 
     'name' => 'Nombre completo',
+
+    'country_id' => 'País',
 ];

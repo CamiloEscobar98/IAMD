@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\Localizations\Countries;
+namespace App\Http\Requests\Admin\Localizations\States;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,7 +24,8 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'unique:mysql.countries,' . $this->id]
+            'country_id' => ['required', 'exists:mysql.countries,id'],
+            'name' => ['required', 'unique:mysql.states,id' . $this->id]
         ];
     }
 }

@@ -30,7 +30,7 @@
         },
         "files": [
             "app/Supports/Helpers/MenuHelper.php",
-            "app/Supports/Helpers/DateHelper.php",
+            "app/Supports/Helpers/FilterHelper.php",
             "app/Supports/Helpers/FormHelper.php"
         ]
     },
