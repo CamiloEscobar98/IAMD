@@ -37,18 +37,18 @@
                                 <label class="input-group-text">{{ __('filters.name') }}</label>
                             </div>
                             <input type="text" name="name" class="form-control"
-                                placeholder="{{ __('admin_pages.document_types.filters.name') }}"
+                                placeholder="{{ __('admin_pages.creators.document_types.filters.name') }}"
                                 value="{{ getParamValue($params, 'name') }}">
                         </div>
                     </div>
                 </div>
                 <div class="btn-group">
                     <button class="btn btn-secondary btn-sm">{{ __('buttons.filter') }}</button>
-                    <a href="{{ route('admin.document_types.create') }}"
+                    <a href="{{ route('admin.creators.document_types.create') }}"
                         class="btn btn-dark btn-sm ml-2">{{ __('buttons.register') }}</a>
                 </div>
                 <hr>
-                <h6 class="font-weight-bold">{{ __('admin_pages.document_types.filters.total') }}<a
+                <h6 class="font-weight-bold">{{ __('admin_pages.creators.document_types.filters.total') }}<a
                         class="text-secondary">{{ $total }}</a></h6>
             </form>
         </div>

@@ -3,9 +3,9 @@
         <thead>
             <tr>
                 <th class="text-center">No.</th>
-                <th>{{ __('admin_pages.document_types.table.head.name') }}</th>
-                <th>{{ __('admin_pages.document_types.table.head.created_at') }}</th>
-                <th>{{ __('admin_pages.document_types.table.head.updated_at') }}</th>
+                <th>{{ __('admin_pages.creators.document_types.table.head.name') }}</th>
+                <th>{{ __('admin_pages.creators.document_types.table.head.created_at') }}</th>
+                <th>{{ __('admin_pages.creators.document_types.table.head.updated_at') }}</th>
                 <th class="text-right">#</th>
             </tr>
         </thead>
@@ -18,11 +18,11 @@
                     <td>{{ $item->updated_at }}</td>
                     <td>
                         <div class="row justify-content-center">
-                            <a href="{{ route('admin.document_types.show', $item->id) }}"
+                            <a href="{{ route('admin.creators.document_types.show', $item->id) }}"
                                 class="btn btn-sm btn-secondary">
                                 <i class="fas fa-sm fa-eye"></i>
                             </a>
-                            <form action="{{ route('admin.document_types.destroy', $item->id) }}"
+                            <form action="{{ route('admin.creators.document_types.destroy', $item->id) }}"
                                 id="form-delete-{{ $item->id }}" method="post">
                                 @csrf
                                 @method('DELETE')

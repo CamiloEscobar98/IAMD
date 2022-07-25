@@ -1,5 +1,5 @@
 @if ($editMode)
-    <form action="{{ route('admin.document_types.update', $item->id) }}" method="post">
+    <form action="{{ route('admin.creators.document_types.update', $item->id) }}" method="post">
         @csrf
         @method('PUT')
 
@@ -45,7 +45,7 @@
 
     </form>
 @else
-    <form action="{{ route('admin.document_types.store') }}" method="post">
+    <form action="{{ route('admin.creators.document_types.store') }}" method="post">
         @csrf
 
         <div class="row justify-content-center">

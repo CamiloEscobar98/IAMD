@@ -33,8 +33,8 @@
 <!-- ./Localizations Options -->
 
 <!-- Creator Options -->
-<li class="nav-item">
-    <a href="#" class="nav-link">
+<li class="nav-item {{ dropdownIsActived('creators') }}">
+    <a href="#" class="nav-link {{ routeIsActived('creators') }}">
         <i class="nav-icon fas fa-user-friends"></i>
         <p>
             {{ __('menu.admin.Creators') }}
@@ -43,7 +43,7 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('admin.document_types.index') }}" class="nav-link {{ routeIsActived('document_types') }}">
+            <a href="{{ route('admin.creators.document_types.index') }}" class="nav-link {{ routeIsActived('document_types') }}">
                 <i class="far fa-id-card nav-icon"></i>
                 <p>{{ __('menu.admin.DocumentTypes') }}</p>
             </a>

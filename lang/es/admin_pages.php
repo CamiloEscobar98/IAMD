@@ -187,51 +187,54 @@ return [
         ]
     ],
 
-    'document_types' => [
-        'title' => 'Tipos de Documento',
-        'subtitle' => 'Tipos de Documento',
+    'creators' => [
+        'title' => 'Información Adicional para Creadores',
+        'document_types' => [
+            'title' => 'Tipos de Documento',
+            'subtitle' => 'Tipos de Documento',
 
-        'titles' => [
-            'create' => 'Registrar Tipo de Documento',
-            'show' => 'Visualizar Tipo de Documento',
-            'edit' => 'Editar Tipo de Documento',
-        ],
-
-        'filters' => [
-            'name' => 'Buscar Tipo de Documento',
-            'total' => 'Total de Tipos de Documento: ',
-        ],
-
-        'table' => [
-            'head' => [
-                'name' => 'Nombre',
-                'created_at' => 'Fecha de Creación',
-                'updated_at' => 'Fecha de Actualización'
+            'titles' => [
+                'create' => 'Registrar Tipo de Documento',
+                'show' => 'Visualizar Tipo de Documento',
+                'edit' => 'Editar Tipo de Documento',
             ],
 
-        ],
+            'filters' => [
+                'name' => 'Buscar Tipo de Documento',
+                'total' => 'Total de Tipos de Documento: ',
+            ],
 
-        'messages' => [
-            'confirm' => '¿Estás seguro de que quieres eliminar el Tipo de Documento?',
+            'table' => [
+                'head' => [
+                    'name' => 'Nombre',
+                    'created_at' => 'Fecha de Creación',
+                    'updated_at' => 'Fecha de Actualización'
+                ],
 
-            'save_success' => 'Se ha registrado correctamente el Tipo de Documento: :document_type.',
-            'save_error' => 'No se ha registrado el Tipo de Documento.',
+            ],
 
-            'update_success' => 'Se ha actualizado correctamente el Tipo de Documento: :document_type.',
-            'update_error' => 'No se ha actualizado el Tipo de Documento.',
+            'messages' => [
+                'confirm' => '¿Estás seguro de que quieres eliminar el Tipo de Documento?',
 
-            'delete_success' => 'Se ha eliminado el Tipo de Documento: :document_type.',
-            'delete_error' => 'No se ha eliminado el Tipo de Documento.'
-        ],
+                'save_success' => 'Se ha registrado correctamente el Tipo de Documento: :document_type.',
+                'save_error' => 'No se ha registrado el Tipo de Documento.',
 
-        'title-show' => 'Perfil de Visualización del Tipo de Documento',
-        'title-form' => 'Formulario de Registro de Tipo de Documento',
-        'title-update' => 'Actualización del Tipo de Documento',
+                'update_success' => 'Se ha actualizado correctamente el Tipo de Documento: :document_type.',
+                'update_error' => 'No se ha actualizado el Tipo de Documento.',
 
-        'info-create' => "En esta sección de la aplicación podrás realizar el registro del recurso TIPO DE DOCUMENTO. 
+                'delete_success' => 'Se ha eliminado el Tipo de Documento: :document_type.',
+                'delete_error' => 'No se ha eliminado el Tipo de Documento.'
+            ],
+
+            'title-show' => 'Perfil de Visualización del Tipo de Documento',
+            'title-form' => 'Formulario de Registro de Tipo de Documento',
+            'title-update' => 'Actualización del Tipo de Documento',
+
+            'info-create' => "En esta sección de la aplicación podrás realizar el registro del recurso TIPO DE DOCUMENTO. 
             Dicho recurso actualmente está destinado para enriquecer la información de los tipos de documentos dentro de la aplicación. ",
 
-        'info-show' => "En esta sección de la aplicación podrás visualizar la ciudad de :document_type.",
+            'info-show' => "En esta sección de la aplicación podrás visualizar el tipo de documento de :document_type.",
+        ]
     ]
 
 ];

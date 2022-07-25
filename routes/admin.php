@@ -39,4 +39,6 @@ Route::prefix('localizations')->group(function () {
     Route::resource('cities', CityController::class, ['as' => 'admin.localizations']);
 });
 
-Route::resource('document_types', DocumentTypeController::class, ['as' => 'admin']);
+Route::prefix('creators')->group(function () {
+    Route::resource('document_types', DocumentTypeController::class, ['as' => 'admin.creators']);
+});

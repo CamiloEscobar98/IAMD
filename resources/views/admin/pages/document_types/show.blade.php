@@ -1,13 +1,13 @@
 @extends('admin.layout.app')
 
-@section('title', __('admin_pages.document_types.titles.show'))
+@section('title', __('admin_pages.creators.document_types.titles.show'))
 
 @section('content-header')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>{{ __('admin_pages.document_types.subtitle') }}</h1>
+                    <h1>{{ __('admin_pages.creators.document_types.subtitle') }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -15,8 +15,8 @@
                         </li>
                         <li class="breadcrumb-item">{{ __('admin_pages.localizations.title') }}</li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.document_types.index') }}">
-                                {{ __('admin_pages.document_types.title') }} </a>
+                            <a href="{{ route('admin.creators.document_types.index') }}">
+                                {{ __('admin_pages.creators.document_types.title') }} </a>
                         </li>
                         <li class="breadcrumb-item active">{{ $item->slug }}</li>
                     </ol>
@@ -33,7 +33,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="text-center font-weight-bold">
-                            <u>{{ __('admin_pages.document_types.title-show') }}</u>
+                            <u>{{ __('admin_pages.creators.document_types.title-show') }}</u>
                         </h3>
 
                         <img src="{{ asset('assets/images/document_type.png') }}" class="img-fluid" alt="">
@@ -63,7 +63,7 @@
                         <!-- ./Slug -->
 
                         <div class="form-group mt-3">
-                            <a href="{{ route('admin.document_types.edit', $item->id) }}"
+                            <a href="{{ route('admin.creators.document_types.edit', $item->id) }}"
                                 class="btn btn-warning btn-sm">{{ __('buttons.update_to') }}</a>
                         </div>
 
@@ -80,7 +80,7 @@
                             <img src="{{ asset('assets/images/countries/country-1.png') }}" class="img-fluid mt-4"
                                 width="540em">
                             <div class="mb-0">
-                                <p>{{ __('admin_pages.document_types.info-show', ['document_type' => $item->name]) }}
+                                <p>{{ __('admin_pages.creators.document_types.info-show', ['document_type' => $item->name]) }}
                                 </p>
                             </div>
                         </div>
