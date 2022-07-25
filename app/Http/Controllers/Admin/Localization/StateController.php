@@ -179,7 +179,6 @@ class StateController extends Controller
 
             return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('admin_pages.localizations.states.messages.update_success', ['state' => $item->name])]);
         } catch (\Exception $th) {
-            return $th->getMessage();
             return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('admin_pages.localizations.states.messages.update_error')]);
         }
     }

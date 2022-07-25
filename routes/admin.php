@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\Localization\CountryController;
 use App\Http\Controllers\Admin\Localization\StateController;
 use App\Http\Controllers\Admin\Localization\CityController;
 
+use App\Http\Controllers\Admin\DocumentTypeController;
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
@@ -36,3 +38,5 @@ Route::prefix('localizations')->group(function () {
     Route::resource('states', StateController::class, ['as' => 'admin.localizations']);
     Route::resource('cities', CityController::class, ['as' => 'admin.localizations']);
 });
+
+Route::resource('document_types', DocumentTypeController::class, ['as' => 'admin']);

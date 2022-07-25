@@ -69,7 +69,6 @@ class CityController extends Controller
                 ->nest('filters', 'admin.pages.localization.cities.components.filters', compact('params', 'total', 'states'))
                 ->nest('table', 'admin.pages.localization.cities.components.table', compact('items'));
         } catch (\Exception $th) {
-            return $th->getMessage();
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
@@ -168,7 +167,6 @@ class CityController extends Controller
 
             return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('admin_pages.localizations.cities.messages.update_success', ['city' => $item->name])]);
         } catch (\Exception $th) {
-            return $th->getMessage();
             return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('admin_pages.localizations.cities.messages.update_error')]);
         }
     }

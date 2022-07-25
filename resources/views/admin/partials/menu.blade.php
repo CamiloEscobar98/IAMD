@@ -43,7 +43,7 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.document_types.index') }}" class="nav-link {{ routeIsActived('document_types') }}">
                 <i class="far fa-id-card nav-icon"></i>
                 <p>{{ __('menu.admin.DocumentTypes') }}</p>
             </a>
