@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Creator;
 
 use App\Http\Controllers\Controller;
 
@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\Admin\DocumentTypes\StoreRequest;
-use App\Http\Requests\Admin\DocumentTypes\UpdateRequest;
+use App\Http\Requests\Admin\Creator\DocumentTypes\StoreRequest;
+use App\Http\Requests\Admin\Creator\DocumentTypes\UpdateRequest;
 
 use App\Repositories\DocumentTypeRepository;
 

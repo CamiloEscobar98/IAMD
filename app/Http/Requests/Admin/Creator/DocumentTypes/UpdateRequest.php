@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\ExternalOrganizations;
+namespace App\Http\Requests\Admin\Creator\DocumentTypes;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,11 +24,8 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'nit' => ['required', 'unique:mysql.external_organizations,nit,' . $this->external_organization],
-            'name' => ['required', 'unique:mysql.external_organizations,name,' . $this->external_organization],
-            'email' => ['required', 'email'],
-            'telephone' => ['required'],
-            'address' => ['required'],
+            'name' => ['required', 'unique:mysql.document_types,name,' . $this->document_type],
+            'slug' => ['required', 'unique:mysql.document_types,slug,' . $this->document_type],
         ];
     }
 }

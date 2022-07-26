@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Creator;
 
 use App\Http\Controllers\Controller;
 
@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\Admin\ExternalOrganizations\StoreRequest;
-use App\Http\Requests\Admin\ExternalOrganizations\UpdateRequest;
+use App\Http\Requests\Admin\Creator\ExternalOrganizations\StoreRequest;
+use App\Http\Requests\Admin\Creator\ExternalOrganizations\UpdateRequest;
 
 use App\Services\ExternalOrganizationService;
 
