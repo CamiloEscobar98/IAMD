@@ -43,13 +43,15 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('admin.creators.document_types.index') }}" class="nav-link {{ routeIsActived('document_types') }}">
+            <a href="{{ route('admin.creators.document_types.index') }}"
+                class="nav-link {{ routeIsActived('document_types') }}">
                 <i class="far fa-id-card nav-icon"></i>
                 <p>{{ __('menu.admin.DocumentTypes') }}</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.creators.external_organizations.index') }}"
+                class="nav-link {{ routeIsActived('external_organizations') }}">
                 <i class="fas fa-industry nav-icon"></i>
                 <p>{{ __('menu.admin.ExternalOrganizations') }}</p>
             </a>

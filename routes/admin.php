@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\Localization\StateController;
 use App\Http\Controllers\Admin\Localization\CityController;
 
 use App\Http\Controllers\Admin\DocumentTypeController;
+use App\Http\Controllers\Admin\ExternalOrganizationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,4 +42,5 @@ Route::prefix('localizations')->group(function () {
 
 Route::prefix('creators')->group(function () {
     Route::resource('document_types', DocumentTypeController::class, ['as' => 'admin.creators']);
+    Route::resource('external_organizations', ExternalOrganizationController::class, ['as' => 'admin.creators']);
 });

@@ -1,0 +1,65 @@
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <form method="get">
+                <div class="row justify-content-between">
+                    <div class="col-lg-2">
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <label class="input-group-text">{{ __('filters.order_by') }}</label>
+                            </div>
+                            <select class="custom-select" name="order_by">
+                                <option value="1" {{ isSelectedOption($params, 'order_by', '1') }}>A-Z</option>
+                                <option value="2" {{ isSelectedOption($params, 'order_by', '2') }}>Z-A</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <label class="input-group-text">{{ __('filters.date_from') }}</label>
+                            </div>
+                            <input name="date_from" type="date" class="form-control"
+                                value="{{ getParamValue($params, 'date_from') }}">
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <label class="input-group-text">{{ __('filters.date_to') }}</label>
+                            </div>
+                            <input name="date_to" type="date" class="form-control"
+                                value="{{ getParamValue($params, 'date_to') }}">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <label class="input-group-text">{{ __('filters.name') }}</label>
+                            </div>
+                            <input type="text" name="name" class="form-control"
+                                placeholder="{{ __('admin_pages.creators.external_organizations.filters.name') }}"
+                                value="{{ getParamValue($params, 'name') }}">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <label class="input-group-text">{{ __('filters.nit') }}</label>
+                            </div>
+                            <input type="text" name="nit" class="form-control"
+                                placeholder="{{ __('admin_pages.creators.external_organizations.filters.nit') }}"
+                                value="{{ getParamValue($params, 'nit') }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-secondary btn-sm">{{ __('buttons.filter') }}</button>
+                    <a href="{{ route('admin.creators.external_organizations.create') }}"
+                        class="btn btn-dark btn-sm ml-2">{{ __('buttons.register') }}</a>
+                </div>
+                <hr>
+                <h6 class="font-weight-bold">{{ __('admin_pages.creators.external_organizations.filters.total') }}<a
+                        class="text-secondary">{{ $total }}</a></h6>
+            </form>
+        </div>
+    </div>

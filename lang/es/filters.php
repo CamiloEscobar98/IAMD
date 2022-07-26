@@ -8,5 +8,6 @@ return [
 
     'title' => 'Título:',
 
+    'nit' => 'Identificación:',
     'name' => 'Nombre:',
 ];

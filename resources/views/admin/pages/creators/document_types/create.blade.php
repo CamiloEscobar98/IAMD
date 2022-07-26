@@ -35,7 +35,7 @@
                         <h3 class="text-center font-weight-bold">
                             <u>{{ __('admin_pages.creators.document_types.title-form') }}</u>
                         </h3>
-                        @include('admin.pages.document_types.components.form', [
+                        @include('admin.pages.creators.document_types.components.form', [
                             'editMode' => false,
                         ])
                     </div>

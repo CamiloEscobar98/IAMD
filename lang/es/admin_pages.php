@@ -234,6 +234,57 @@ return [
             Dicho recurso actualmente está destinado para enriquecer la información de los tipos de documentos dentro de la aplicación. ",
 
             'info-show' => "En esta sección de la aplicación podrás visualizar el tipo de documento de :document_type.",
+        ],
+        'external_organizations' => [
+            'title' => 'Organizaciones Externas',
+            'subtitle' => 'Organizaciones Externas',
+
+            'titles' => [
+                'create' => 'Registrar Organización Externa',
+                'show' => 'Visualizar Organización Externa',
+                'edit' => 'Editar Organización Externa',
+            ],
+
+            'filters' => [
+                'name' => 'Buscar Organización Externa',
+                'nit' => 'Buscar por NIT',
+                'total' => 'Total de Organizaciones Externas: ',
+            ],
+
+            'table' => [
+                'head' => [
+                    'nit' => 'Identificación',
+                    'name' => 'Empresa',
+                    'email' => 'Correo Corporativo',
+                    'telephone' => 'Teléfono',
+                    'address' => 'Residencia',
+                    'created_at' => 'Fecha de Creación',
+                    'updated_at' => 'Fecha de Actualización'
+                ],
+
+            ],
+
+            'messages' => [
+                'confirm' => '¿Estás seguro de que quieres eliminar la Organización Externa?',
+
+                'save_success' => 'Se ha registrado correctamente la Organización Externa: :external_organization.',
+                'save_error' => 'No se ha registrado la Organización Externa.',
+
+                'update_success' => 'Se ha actualizado correctamente la Organización Externa: :external_organization.',
+                'update_error' => 'No se ha actualizado la Organización Externa.',
+
+                'delete_success' => 'Se ha eliminado la Organización Externa: :external_organization.',
+                'delete_error' => 'No se ha eliminado la Organización Externa.'
+            ],
+
+            'title-show' => 'Perfil de Visualización de la Organización Externa',
+            'title-form' => 'Formulario de Registro de Organización Externa',
+            'title-update' => 'Actualización de la Organización Externa',
+
+            'info-create' => "En esta sección de la aplicación podrás realizar el registro del recurso ORGANIZACIÓN EXTERNA. 
+            Dicho recurso actualmente está destinado para enriquecer la información de las organizaciones externas dentro de la aplicación. ",
+
+            'info-show' => "En esta sección de la aplicación podrás visualizar la organización externa de :external_organization.",
         ]
     ]
 

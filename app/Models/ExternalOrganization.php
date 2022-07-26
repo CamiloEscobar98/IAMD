@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class ExternalOrganization extends BaseModel
 {
     use HasFactory;
+    
+    /**
+     * The number of models to return for pagination.
+     *
+     * @var int
+     */
+    protected $perPage = 5;
 
     /**
      * The attributes that are mass assignable.

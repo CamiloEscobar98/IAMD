@@ -51,11 +51,11 @@ class DocumentTypeController extends Controller
 
             $links = $items->links('pagination.customized');
 
-            return view('admin.pages.document_types.index', compact('links'))
-                ->nest('filters', 'admin.pages.document_types.components.filters', compact('params', 'total'))
-                ->nest('table', 'admin.pages.document_types.components.table', compact('items'));
+            return view('admin.pages.creators.document_types.index', compact('links'))
+                ->nest('filters', 'admin.pages.creators.document_types.components.filters', compact('params', 'total'))
+                ->nest('table', 'admin.pages.creators.document_types.components.table', compact('items'));
         } catch (\Throwable $th) {
-            //throw $th;
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -67,7 +67,7 @@ class DocumentTypeController extends Controller
     public function create()
     {
         try {
-            return view('admin.pages.document_types.create');
+            return view('admin.pages.creators.document_types.create');
         } catch (\Exception $th) {
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
@@ -105,7 +105,7 @@ class DocumentTypeController extends Controller
         try {
             $item = $this->documentTypeRepository->getById($id);
 
-            return view('admin.pages.document_types.show', compact('item'));
+            return view('admin.pages.creators.document_types.show', compact('item'));
         } catch (\Exception $th) {
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
@@ -122,7 +122,7 @@ class DocumentTypeController extends Controller
         try {
             $item = $this->documentTypeRepository->getById($id);
 
-            return view('admin.pages.document_types.edit', compact('item'));
+            return view('admin.pages.creators.document_types.edit', compact('item'));
         } catch (\Exception $th) {
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
