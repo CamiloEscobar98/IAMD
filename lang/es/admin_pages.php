@@ -285,7 +285,63 @@ return [
             Dicho recurso actualmente está destinado para enriquecer la información de las organizaciones externas dentro de la aplicación. ",
 
             'info-show' => "En esta sección de la aplicación podrás visualizar la organización externa de :external_organization.",
-        ]
+        ],
+        'assignment_contracts' => [
+            'title' => 'Tipos de Contrato',
+            'subtitle' => 'Tipos de Contrato',
+
+            'titles' => [
+                'create' => 'Registrar Tipo de Contrato',
+                'show' => 'Visualizar Tipo de Contrato',
+                'edit' => 'Editar Tipo de Contrato',
+            ],
+
+            'filters' => [
+                'name' => 'Buscar Tipo de Contrato',
+                'total' => 'Total de Tipos de Contrato: ',
+                'is_internal' => 'Interno o Externo',
+            ],
+
+            'table' => [
+                'head' => [
+                    'name' => 'Nombre',
+                    'is_internal' => 'Interno o Externo',
+                    'created_at' => 'Fecha de Creación',
+                    'updated_at' => 'Fecha de Actualización'
+                ],
+            ],
+
+            'form' => [
+                'is_internal' => 'Seleccione si es interno o externo.',
+            ],
+
+            'options' => [
+                'internal' => 'Interno',
+                'external' => 'Externo',
+            ],
+
+            'messages' => [
+                'confirm' => '¿Estás seguro de que quieres eliminar el Tipo de Contrato?',
+
+                'save_success' => 'Se ha registrado correctamente el Tipo de Contrato: :assignment_contract.',
+                'save_error' => 'No se ha registrado el Tipo de Contrato.',
+
+                'update_success' => 'Se ha actualizado correctamente el Tipo de Contrato: :assignment_contract.',
+                'update_error' => 'No se ha actualizado el Tipo de Contrato.',
+
+                'delete_success' => 'Se ha eliminado el Tipo de Contrato: :assignment_contract.',
+                'delete_error' => 'No se ha eliminado el Tipo de Contrato.'
+            ],
+
+            'title-show' => 'Perfil de Visualización del Tipo de Contrato',
+            'title-form' => 'Formulario de Registro de Tipo de Contrato',
+            'title-update' => 'Actualización del Tipo de Contrato',
+
+            'info-create' => "En esta sección de la aplicación podrás realizar el registro del recurso TIPO DE CONTRATO DEL CREADOR. 
+            Dicho recurso actualmente está destinado para enriquecer la información de los tipos de contrato dentro de la aplicación. ",
+
+            'info-show' => "En esta sección de la aplicación podrás visualizar el tipo de contrato de :assignment_contract.",
+        ],
     ]
 
 ];

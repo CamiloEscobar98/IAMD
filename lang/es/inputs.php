@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'all' => 'Todos',
+
     'email' => 'Correo Electrónico',
     'password' => 'Contraseña',
     'repeat_password' => 'Repetir Contraseña',
@@ -13,4 +15,5 @@ return [
     'telephone' => 'Teléfono',
 
     'country_id' => 'País',
+
 ];

@@ -167,5 +167,10 @@ return [
         'year'                  => 'año',
 
         'repeat_password'       => 'repetir contraseña',
+
+        /** Custom Attributes */
+
+        /** Assignment Contracts */
+        'is_internal' => 'es interno o externo'
     ],
 ];

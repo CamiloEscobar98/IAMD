@@ -57,7 +57,8 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.creators.assignment_contracts.index') }}"
+                class="nav-link {{ routeIsActived('assignment_contracts') }}">
                 <i class="fas fa-book nav-icon"></i>
                 <p>{{ __('menu.admin.AssignmentContracts') }}</p>
             </a>
