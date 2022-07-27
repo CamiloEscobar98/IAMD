@@ -4,9 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use Illuminate\Support\Str;
+
 class Tenant extends BaseModel
 {
     use HasFactory;
+
+    /**
+     * The connection name for the model.
+     *
+     * @var string
+     */
+    protected $connection = 'mysql';
 
     /**
      * The attributes that are mass assignable.
@@ -42,4 +51,15 @@ class Tenant extends BaseModel
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Get the UpperName
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getNameUpperAttribute()
+    {
+        return Str::upper($this->getAttribute('name'));
+    }
 }
