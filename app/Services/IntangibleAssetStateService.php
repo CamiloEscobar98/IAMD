@@ -5,16 +5,16 @@ namespace App\Services;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-use App\Repositories\DocumentTypeRepository;
+use App\Repositories\IntangibleAssetStateRepository;
 
-class DocumentTypeService
+class IntangibleAssetStateService
 {
-    /** @var DocumentTypeRepository */
-    protected $documentTypeRepository;
+    /** @var IntangibleAssetStateRepository */
+    protected $intangibleAssetStateRepository;
 
-    public function __construct(DocumentTypeRepository $documentTypeRepository)
+    public function __construct(IntangibleAssetStateRepository $intangibleAssetStateRepository)
     {
-        $this->documentTypeRepository = $documentTypeRepository;
+        $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
     }
 
     /**
@@ -46,7 +46,7 @@ class DocumentTypeService
     {
         try {
 
-            $perPage = $this->documentTypeRepository->getPerPage();
+            $perPage = $this->intangibleAssetStateRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 

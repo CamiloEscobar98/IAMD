@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Repositories\Tenant\AssignmentContractRepository;
+use App\Repositories\AssignmentContractRepository;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

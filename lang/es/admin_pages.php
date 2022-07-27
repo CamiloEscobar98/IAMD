@@ -342,6 +342,58 @@ return [
 
             'info-show' => "En esta sección de la aplicación podrás visualizar el tipo de contrato de :assignment_contract.",
         ],
+    ],
+
+    'intangible_assets' => [
+        'title' => 'Información de AI',
+
+        'states' => [
+            'title' => 'Estados',
+            'subtitle' => 'Estados AI',
+
+            'titles' => [
+                'create' => 'Registrar Estado de AI',
+                'show' => 'Visualizar Estado de AI',
+                'edit' => 'Editar Estado de AI',
+            ],
+
+            'filters' => [
+                'name' => 'Buscar Estado de AI',
+                'total' => 'Total de Estados AI: ',
+            ],
+
+            'table' => [
+                'head' => [
+                    'name' => 'Nombre',
+                    'description' => 'Descripción',
+                    'created_at' => 'Fecha de Creación',
+                    'updated_at' => 'Fecha de Actualización'
+                ],
+
+            ],
+
+            'messages' => [
+                'confirm' => '¿Estás seguro de que quieres eliminar el Estado de AI?',
+
+                'save_success' => 'Se ha registrado correctamente el Estado de AI: :state.',
+                'save_error' => 'No se ha registrado el Estado de AI.',
+
+                'update_success' => 'Se ha actualizado correctamente el Estado de AI: :state.',
+                'update_error' => 'No se ha actualizado el Estado de AI.',
+
+                'delete_success' => 'Se ha eliminado el Estado de AI: :state.',
+                'delete_error' => 'No se ha eliminado el Estado de AI.'
+            ],
+
+            'title-show' => 'Perfil de Visualización del Estado de AI',
+            'title-form' => 'Formulario de Registro de Estado de AI',
+            'title-update' => 'Actualización del Estado de AI',
+
+            'info-create' => "En esta sección de la aplicación podrás realizar el registro del recurso ESTADOS ACTIVOS INTANGIBLES. 
+            Dicho recurso actualmente está destinado para enriquecer la información de los estados de los activos intangibles dentro de la aplicación. ",
+
+            'info-show' => "En esta sección de la aplicación podrás visualizar el estado del AI de :state.",
+        ],
     ]
 
 ];

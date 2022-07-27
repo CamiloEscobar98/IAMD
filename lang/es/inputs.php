@@ -10,6 +10,7 @@ return [
 
     'nit' => 'Identificación',
     'name' => 'Nombre completo',
+    'description' => 'Descripción',
     'slug' => 'Abreviación',
     'address' => 'Dirección',
     'telephone' => 'Teléfono',

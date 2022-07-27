@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\Creator\DocumentTypes;
+namespace App\Http\Requests\Admin\IntangibleAssets\States;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'unique:mysql.document_types'],
-            'slug' => ['required', 'unique:mysql.document_types']
+            'name' => ['required', 'unique:mysql.intangible_asset_states,name,' . $this->state],
+            'description' => ['required'],
         ];
     }
 }

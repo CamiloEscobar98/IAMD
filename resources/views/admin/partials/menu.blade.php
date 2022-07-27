@@ -68,8 +68,8 @@
 <!-- ./Creator Options -->
 
 <!-- IntangibleAssets Options -->
-<li class="nav-item">
-    <a href="#" class="nav-link">
+<li class="nav-item {{ dropdownIsActived('intangible_assets') }}">
+    <a href="#" class="nav-link {{ routeIsActived('intangible_assets') }}">
         <i class="nav-icon fas fa-file"></i>
         <p>
             {{ __('menu.admin.IntangibleAssets') }}
@@ -78,7 +78,8 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ route('admin.intangible_assets.states.index') }}"
+                class="nav-link {{ routeIsActived('states') }}">
                 <i class="fas fa-battery-half nav-icon"></i>
                 <p>{{ __('menu.admin.IntangibleAssetStates') }}</p>
             </a>
