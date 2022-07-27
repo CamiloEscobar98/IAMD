@@ -35,7 +35,7 @@ class CheckClientExist
         if (!is_null($client)) {
             return $next($request);
         } else {
-            abort(404);
+            abort(500);
         }
     }
 
