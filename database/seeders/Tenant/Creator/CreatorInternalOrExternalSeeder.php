@@ -10,7 +10,7 @@ use App\Repositories\Tenant\CreatorInternalRepository;
 use App\Repositories\Tenant\CreatorRepository;
 
 use App\Repositories\LinkageTypeRepository;
-use App\Repositories\Tenant\AssignmentContractRepository;
+use App\Repositories\AssignmentContractRepository;
 
 class CreatorInternalOrExternalSeeder extends Seeder
 {

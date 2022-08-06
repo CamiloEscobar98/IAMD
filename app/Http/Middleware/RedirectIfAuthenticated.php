@@ -51,6 +51,6 @@ class RedirectIfAuthenticated
      */
     private function redirectClientHome($next, $request)
     {
-        return Auth::guard()->check() ?  redirect(RouteServiceProvider::HOME) : $next($request);
+        return Auth::guard()->check() ?  redirect()->route('client.home', ['client' => $request->client]) : $next($request);
     }
 }

@@ -55,11 +55,20 @@ class Tenant extends BaseModel
     /**
      * Get the UpperName
      *
-     * @param  string  $value
      * @return string
      */
     public function getNameUpperAttribute()
     {
         return Str::upper($this->getAttribute('name'));
+    }
+
+    /**
+     * Get the LowerName
+     *
+     * @return string
+     */
+    public function getNameLowerAttribute()
+    {
+        return Str::lower($this->getAttribute('name'));
     }
 }

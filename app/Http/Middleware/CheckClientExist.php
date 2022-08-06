@@ -3,12 +3,11 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 use Closure;
 
 use App\Repositories\TenantRepository;
-
-use App\Models\Tenant;
 
 class CheckClientExist
 {
@@ -33,6 +32,7 @@ class CheckClientExist
         $client = $this->initClient($request->client);
 
         if (!is_null($client)) {
+            Config::set('database.connections.tenant', $this->tenantRepository->getArrayConfigurationDatabase($client));
             return $next($request);
         } else {
             abort(500);
@@ -42,7 +42,7 @@ class CheckClientExist
     /**
      * @param int $name
      * 
-     * @return void
+     * @return \App\Models\Tenant
      */
     protected function initClient($name)
     {

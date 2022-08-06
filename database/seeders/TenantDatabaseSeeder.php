@@ -15,6 +15,8 @@ use Database\Seeders\Tenant\ProjectSeeder;
 
 use Database\Seeders\Tenant\IntangibleAssetSeeder;
 
+use Database\Seeders\Tenant\UserSeeder;
+
 class TenantDatabaseSeeder extends Seeder
 {
     /**
@@ -25,6 +27,8 @@ class TenantDatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
+            UserSeeder::class,
+
             AdministrativeUnitSeeder::class,
             CreatorSeeder::class,
 

@@ -19,7 +19,7 @@ return [
         'States' => 'Departamentos',
         'Cities' => 'Ciudades',
 
-        
+
         /** Level 1 */
         'Creators' => 'Creadores',
 
@@ -41,4 +41,26 @@ return [
 
         'subtitle_2' => 'CONFIGURACIÓN',
     ],
+
+
+    'client' => [
+        /** Level 1 */
+        'AdministrativeUnits' => 'Subdirecciones Técnicas',
+
+        /** Level 1 */
+        'ResearchUnits' => "Unidades Investigativas",
+
+        /** Level 1 */
+        'Projects' => 'Proyectos',
+
+        /** Level 1 */
+        'IntangibleAssets' => 'Activos Intangibles',
+        
+        /** Level 1 */
+        'Creators' => 'Creadores',
+
+        /** Level 2 */
+        'CreatorsInternal' => 'Internos',
+        'CreatorsExternal' => 'Externos'
+    ]
 ];

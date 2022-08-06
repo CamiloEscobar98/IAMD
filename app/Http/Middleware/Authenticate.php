@@ -86,7 +86,7 @@ class Authenticate
     protected function clientRedirectTo($request)
     {
         if (!$request->expectsJson()) {
-            return route('login');
+            return route('client.login', ['client' => $request->client]);
         }
     }
 

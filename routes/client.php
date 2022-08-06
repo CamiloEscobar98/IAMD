@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Client\Auth\LoginController;
+use App\Http\Controllers\Client\HomeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,8 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('check-client')->group(function () {
-    Route::get('login', function () {
-        return view('client.pages.auth.login');
-    });
-});
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('client.login');
+Route::post('login', [LoginController::class, 'login'])->name('client.loggin');
+Route::post('logout', [LoginController::class, 'logout'])->name('client.loggout');
+
+Route::get('profile', [HomeController::class, 'profile'])->name('client.profile');
+
+Route::get('home', [HomeController::class, 'home'])->name('client.home');

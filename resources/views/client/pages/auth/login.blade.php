@@ -30,7 +30,7 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg">{{ __('messages.login-title') }}</p>
 
-                <form action="{{ route('admin.loggin') }}" method="post">
+                <form action="{{ route('client.loggin', $client->name) }}" method="post">
                     @csrf
                     <div class="input-group">
                         <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"

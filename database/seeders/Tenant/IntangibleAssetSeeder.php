@@ -76,7 +76,7 @@ class IntangibleAssetSeeder extends Seeder
         $projects->each(function ($project) use ($states, $creators) {
             $randomNumber = rand(4, 20);
 
-            print("PROJECT: " . $project->name .  "\n");
+            print("PROJECT: " . $project->name .  "\n \n");
 
             $cont = 0;
             do {
