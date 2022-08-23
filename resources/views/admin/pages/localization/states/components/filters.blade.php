@@ -35,11 +35,11 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <label
-                                    class="input-group-text">{{ __('admin_pages.localizations.states.filters.country') }}</label>
+                                    class="input-group-text">{{ __('pages.admin.localizations.states.filters.country') }}</label>
                             </div>
                             <select class="form-control select2bs4" name="country">
                                 <option value="">
-                                    {{ __('admin_pages.localizations.states.filters.country_option') }}</option>
+                                    {{ __('pages.admin.localizations.states.filters.country_option') }}</option>
                                 @foreach ($countries as $country)
                                     <option value="{{ $country->id }}"
                                         {{ optionIsSelected($params, 'country', $country->id) }}>
@@ -55,7 +55,7 @@
                                 <label class="input-group-text">{{ __('filters.name') }}</label>
                             </div>
                             <input type="text" name="name" class="form-control"
-                                placeholder="{{ __('admin_pages.localizations.states.filters.name') }}"
+                                placeholder="{{ __('pages.admin.localizations.states.filters.name') }}"
                                 value="{{ getParamValue($params, 'name') }}">
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                         class="btn btn-dark btn-sm ml-2">{{ __('buttons.register') }}</a>
                 </div>
                 <hr>
-                <h6 class="font-weight-bold">{{ __('admin_pages.localizations.states.filters.total') }}<a
+                <h6 class="font-weight-bold">{{ __('pages.admin.localizations.states.filters.total') }}<a
                         class="text-secondary">{{ $total }}</a></h6>
             </form>
         </div>

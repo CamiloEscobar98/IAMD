@@ -3,10 +3,10 @@
         <thead>
             <tr>
                 <th class="text-center">No.</th>
-                <th>{{ __('admin_pages.localizations.countries.table.head.name') }}</th>
-                <th>{{ __('admin_pages.localizations.countries.table.head.cities') }}</th>
-                <th>{{ __('admin_pages.localizations.countries.table.head.created_at') }}</th>
-                <th>{{ __('admin_pages.localizations.countries.table.head.updated_at') }}</th>
+                <th>{{ __('pages.admin.localizations.countries.table.head.name') }}</th>
+                <th>{{ __('pages.admin.localizations.countries.table.head.cities') }}</th>
+                <th>{{ __('pages.admin.localizations.countries.table.head.created_at') }}</th>
+                <th>{{ __('pages.admin.localizations.countries.table.head.updated_at') }}</th>
                 <th class="text-right">#</th>
             </tr>
         </thead>
@@ -46,7 +46,7 @@
                 </tr>
                 @empty
                 <tr class="text-center">
-                    <td colspan="12">{{ __('admin_pages.default.empty_table') }}</td>
+                    <td colspan="12">{{ __('pages.admin.default.empty_table') }}</td>
                 </tr>
             @endforelse
         </tbody>

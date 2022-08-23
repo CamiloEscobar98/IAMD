@@ -10,7 +10,7 @@
         <!-- Country -->
         <div class="input-group mt-3">
             <select class="form-control select2bs4" name="country_id">
-                <option value="">{{ __('admin_pages.localizations.states.filters.country_option') }}</option>
+                <option value="">{{ __('pages.admin.localizations.states.filters.country_option') }}</option>
                 @foreach ($countries as $country)
                     <option value="{{ $country->id }}" {{ twoOptionsIsEqual($item->country_id, $country->id) }}>
                         {{ $country->name }}
@@ -61,7 +61,7 @@
         <!-- Country -->
         <div class="input-group mt-3">
             <select class="form-control select2bs4" name="country_id">
-                <option value="">{{ __('admin_pages.localizations.states.filters.country_option') }}</option>
+                <option value="">{{ __('pages.admin.localizations.states.filters.country_option') }}</option>
                 @foreach ($countries as $country)
                     <option value="{{ $country->id }}" {{ isSelectedOption(old(), 'country', $country->id) }}>
                         {{ $country->name }}

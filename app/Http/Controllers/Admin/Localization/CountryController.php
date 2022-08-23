@@ -96,9 +96,9 @@ class CountryController extends Controller
                 return $this->countryRepository->create($data);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('admin_pages.localizations.countries.messages.save_success', ['country' => $item->name])]);
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.countries.messages.save_success', ['country' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('admin_pages.localizations.countries.messages.save_error')]);
+            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.countries.messages.save_error')]);
         }
     }
 
@@ -163,9 +163,9 @@ class CountryController extends Controller
                 $this->countryRepository->update($item, $data);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('admin_pages.localizations.countries.messages.update_success', ['country' => $item->name])]);
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.countries.messages.update_success', ['country' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('admin_pages.localizations.countries.messages.update_error')]);
+            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.countries.messages.update_error')]);
         }
     }
 
@@ -184,9 +184,9 @@ class CountryController extends Controller
                 $this->countryRepository->delete($item);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('admin_pages.localizations.countries.messages.delete_success', ['country' => $item->name])]);
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.countries.messages.delete_success', ['country' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('admin_pages.localizations.countries.messages.delete_error')]);
+            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.countries.messages.delete_error')]);
         }
     }
 }

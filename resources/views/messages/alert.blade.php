@@ -3,7 +3,7 @@
         Swal.fire({
             title: "{{ $alert['title'] }}",
             icon: "{{ $alert['icon'] }}",
-            text: "{{ $alert['text'] }}"
+            html: "{!! $alert['text'] !!}",
         });
     </script>
 @endif

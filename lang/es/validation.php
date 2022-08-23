@@ -169,8 +169,12 @@ return [
         'repeat_password'       => 'repetir contraseña',
 
         /** Custom Attributes */
+        'country_id' => 'país',
+        'state_id' => 'departamento',
+
 
         /** Assignment Contracts */
-        'is_internal' => 'es interno o externo'
+        'is_internal' => 'es interno o externo',
+        
     ],
 ];

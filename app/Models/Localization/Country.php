@@ -20,6 +20,11 @@ class Country extends BaseModel
     protected $perPage = 10;
 
     /**
+     * WithCount property for the model.
+     */
+    protected $withCount = ['states', 'cities'];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

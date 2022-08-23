@@ -1,22 +1,22 @@
 @extends('admin.layout.app')
 
-@section('title', __('admin_pages.localizations.cities.titles.show'))
+@section('title', __('pages.admin.localizations.cities.titles.show'))
 
 @section('content-header')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>{{ __('admin_pages.localizations.cities.subtitle') }}</h1>
+                    <h1>{{ __('pages.admin.localizations.cities.subtitle') }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">{{ __('admin_pages.home.title') }}</a>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">{{ __('pages.admin.home.title') }}</a>
                         </li>
-                        <li class="breadcrumb-item">{{ __('admin_pages.localizations.title') }}</li>
+                        <li class="breadcrumb-item">{{ __('pages.admin.localizations.title') }}</li>
                         <li class="breadcrumb-item">
                             <a href="{{ route('admin.localizations.cities.index') }}">
-                                {{ __('admin_pages.localizations.cities.title') }} </a>
+                                {{ __('pages.admin.localizations.cities.title') }} </a>
                         </li>
                         <li class="breadcrumb-item active">{{ $item->name }}</li>
                     </ol>
@@ -33,7 +33,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="text-center font-weight-bold">
-                            <u>{{ __('admin_pages.localizations.cities.title-show') }}</u>
+                            <u>{{ __('pages.admin.localizations.cities.form-titles.show') }}</u>
                         </h3>
 
                         <img src="{{ asset('assets/images/countries/country_flags.png') }}" class="img-fluid"
@@ -75,10 +75,12 @@
                         </div>
                         <!-- ./Name -->
 
+                        <!-- Button -->
                         <div class="form-group mt-3">
                             <a href="{{ route('admin.localizations.cities.edit', $item->id) }}"
                                 class="btn btn-warning btn-sm">{{ __('buttons.update_to') }}</a>
                         </div>
+                        <!-- ./Button -->
 
                     </div>
                 </div>
@@ -88,12 +90,12 @@
                     <div class="card-body">
                         <div class="row justify-content center">
                             <h3 class="text-center font-italic font-weight-bold">
-                                <u>{{ __('admin_pages.default.title-information') }}</u>
+                                <u>{{ __('pages.default.title-information') }}</u>
                             </h3>
                             <img src="{{ asset('assets/images/countries/country-1.png') }}" class="img-fluid mt-4"
                                 width="540em">
                             <div class="mb-0">
-                                <p>{{ __('admin_pages.localizations.cities.info-show', ['city' => $item->name]) }}
+                                <p>{!! __('pages.admin.localizations.cities.info.show', ['city' => $item->name]) !!}
                                 </p>
                             </div>
                         </div>
@@ -107,5 +109,5 @@
 
 
 @section('custom_js')
-    @include('messages.delete_item', ['title' => __('admin_pages.localizations.cities.messages.confirm')])
+    @include('messages.delete_item', ['title' => __('pages.admin.localizations.cities.messages.confirm')])
 @endsection

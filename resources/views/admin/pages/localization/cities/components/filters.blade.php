@@ -35,10 +35,10 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <label
-                                    class="input-group-text">{{ __('admin_pages.localizations.cities.filters.state') }}</label>
+                                    class="input-group-text">{{ __('pages.admin.localizations.cities.filters.state') }}</label>
                             </div>
                             <select class="form-control select2bs4" name="state">
-                                <option value="">{{ __('admin_pages.localizations.cities.filters.state_option') }}
+                                <option value="">{{ __('pages.admin.localizations.cities.filters.state_option') }}
                                 </option>
                                 @foreach ($states as $state)
                                     <option value="{{ $state->id }}"
@@ -55,7 +55,7 @@
                                 <label class="input-group-text">{{ __('filters.name') }}</label>
                             </div>
                             <input type="text" name="name" class="form-control"
-                                placeholder="{{ __('admin_pages.localizations.cities.filters.name') }}"
+                                placeholder="{{ __('pages.admin.localizations.cities.filters.name') }}"
                                 value="{{ getParamValue($params, 'name') }}">
                         </div>
                     </div>
@@ -66,7 +66,7 @@
                         class="btn btn-dark btn-sm ml-2">{{ __('buttons.register') }}</a>
                 </div>
                 <hr>
-                <h6 class="font-weight-bold">{{ __('admin_pages.localizations.cities.filters.total') }}<a
+                <h6 class="font-weight-bold">{{ __('pages.admin.localizations.cities.filters.total') }}<a
                         class="text-secondary">{{ $total }}</a></h6>
             </form>
         </div>

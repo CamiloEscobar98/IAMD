@@ -24,7 +24,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'unique:mysql.countries,' . $this->country]
+            'name' => ['required', 'unique:mysql.countries,name,' . $this->country]
         ];
     }
 }

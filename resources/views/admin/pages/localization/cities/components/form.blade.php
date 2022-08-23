@@ -10,7 +10,7 @@
         <!-- State -->
         <div class="input-group mt-3">
             <select class="form-control select2bs4" name="state_id">
-                <option value="">{{ __('admin_pages.localizations.cities.filters.state_option') }}</option>
+                <option value="">{{ __('pages.admin.localizations.cities.filters.state_option') }}</option>
                 @foreach ($states as $state)
                     <option value="{{ $state->id }}" {{ twoOptionsIsEqual($item->state->id, $state->id) }}>
                         {{ $state->country->name . '-' . $state->name }}
@@ -61,7 +61,7 @@
         <!-- State -->
         <div class="input-group mt-3">
             <select class="form-control select2bs4" name="state_id">
-                <option value="">{{ __('admin_pages.localizations.cities.filters.state_option') }}</option>
+                <option value="">{{ __('pages.admin.localizations.cities.filters.state_option') }}</option>
                 @foreach ($states as $state)
                     <option value="{{ $state->id }}" {{ isSelectedOption(old(), 'state', $state->id) }}>
                         {{ $state->country->name . '-' . $state->name }}
