@@ -86,7 +86,7 @@ return [
                     'update_success' => "Se ha actualizado correctamente el país: <b>:country</b>.",
                     'update_error' => 'No se ha actualizado el país.',
 
-                    'delete_success' => 'Se ha eliminado el país: :country.',
+                    'delete_success' => 'Se ha eliminado el país: <b>:country</b>.',
                     'delete_error' => 'No se ha eliminado el país.'
                 ],
 
@@ -208,13 +208,13 @@ return [
                 'messages' => [
                     'confirm' => '¿Estás seguro de que quieres eliminar la ciudad?',
 
-                    'save_success' => 'Se ha registrado correctamente la ciudad: :city.',
+                    'save_success' => "Se ha registrado correctamente la ciudad: <b>:city</b>.",
                     'save_error' => 'No se ha registrado la ciudad.',
 
-                    'update_success' => 'Se ha actualizado correctamente la ciudad: :city.',
+                    'update_success' => "Se ha actualizado correctamente la ciudad: <b>:city</b>.",
                     'update_error' => 'No se ha actualizado la ciudad.',
 
-                    'delete_success' => 'Se ha eliminado la ciudad: :city.',
+                    'delete_success' => "Se ha eliminado la ciudad: <b>:city</b>.",
                     'delete_error' => 'No se ha eliminado la ciudad.'
                 ],
 
