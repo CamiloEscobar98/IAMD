@@ -10,4 +10,6 @@ return [
 
     'nit' => 'Identificación:',
     'name' => 'Nombre:',
+
+    'empty' => 'No hay registros',
 ];

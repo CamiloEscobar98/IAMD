@@ -2,7 +2,8 @@
 
 <!-- Administrative Units -->
 <li class="nav-item">
-    <a href="" class="nav-link">
+    <a href="{{ getClientRoute('client.administrative_units.index', [$client->name]) }}"
+        class="nav-link {{ routeIsActived('administrative_units') }}">
         <i class="fas fa-university nav-icon"></i>
         <p>{{ __('menu.client.AdministrativeUnits') }}</p>
     </a>
@@ -15,6 +16,7 @@
         <p>{{ __('menu.client.ResearchUnits') }}</p>
     </a>
 </li>
+
 
 <!-- Projects -->
 <li class="nav-item">

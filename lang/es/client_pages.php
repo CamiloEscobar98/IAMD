@@ -4,6 +4,10 @@ return [
     'default' => [
         'create' => 'Registrar',
 
+        'show' => 'Visualizar',
+
+        'edit' => 'Editar',
+
         'title-information' => 'Información',
 
         'empty_table' => 'Actualmente no existen registros.'
@@ -20,7 +24,7 @@ return [
 
     'administrative_units' => [
         'title' => 'Subdirecciones Técnicas',
-        'subtitle' => 'Subdireccione Técnicas',
+        'subtitle' => 'Subdirecciones Técnicas',
 
         'titles' => [
             'create' => 'Registrar Subdirección Técnica',
@@ -36,11 +40,15 @@ return [
         'table' => [
             'head' => [
                 'name' => 'Nombre',
-                'states' => 'Departamentos',
+                'description' => 'Descripción',
+                'research_units' => 'Unidades de Investigación',
                 'cities' => 'Ciudades',
                 'created_at' => 'Fecha de Creación',
                 'updated_at' => 'Fecha de Actualización'
             ],
+            'body' => [
+                'research_units_count' => ':research_units_count Unidades de Investigación registradas.'
+            ]
 
         ],
 
@@ -59,7 +67,7 @@ return [
 
         'title-show' => 'Perfil de Visualización de la Subdirección Técnica',
         'title-form' => 'Formulario de Registro de una Subdirección Técnica',
-        'title-update' => 'Actualización de la Subdirección Técnica',
+        'title-edit' => 'Actualización de la Subdirección Técnica',
 
         'info-create' => "En esta sección de la aplicación podrás realizar el registro del recurso SUBDIRECCIÓN TÉCNICA. 
         Dicho recurso actualmente está destinado para enriquecer la información de las subdirecciones técnicas dentro de la aplicación.",

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Client\AdministrativeUnitController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Client\Auth\LoginController;
@@ -23,3 +24,5 @@ Route::post('logout', [LoginController::class, 'logout'])->name('client.loggout'
 Route::get('profile', [HomeController::class, 'profile'])->name('client.profile');
 
 Route::get('home', [HomeController::class, 'home'])->name('client.home');
+
+Route::resource('administrative_units', AdministrativeUnitController::class, ['as' => 'client']);
