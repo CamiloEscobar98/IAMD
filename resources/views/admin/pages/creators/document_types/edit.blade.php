@@ -1,23 +1,23 @@
 @extends('admin.layout.app')
 
-@section('title', __('admin_pages.creators.document_types.titles.edit'))
+@section('title', __('pages.admin.creators.document_types.route-titles.edit'))
 
 @section('content-header')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>{{ __('admin_pages.creators.document_types.subtitle') }}</h1>
+                    <h1>{{ __('pages.admin.creators.document_types.subtitle') }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a
-                                href="{{ route('admin.home') }}">{{ __('admin_pages.home.title') }}</a>
+                                href="{{ route('admin.home') }}">{{ __('pages.admin.home.title') }}</a>
                         </li>
-                        <li class="breadcrumb-item">{{ __('admin_pages.localizations.title') }}</li>
+                        <li class="breadcrumb-item">{{ __('pages.admin.localizations.title') }}</li>
                         <li class="breadcrumb-item">
                             <a href="{{ route('admin.creators.document_types.index') }}">
-                                {{ __('admin_pages.creators.document_types.title') }} </a>
+                                {{ __('pages.admin.creators.document_types.title') }} </a>
                         </li>
                         <li class="breadcrumb-item">
                             <a href="{{ route('admin.creators.document_types.show', $item->id) }}">
@@ -39,7 +39,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="text-center font-weight-bold">
-                            <u>{{ __('admin_pages.creators.document_types.title-update') }}</u>
+                            <u>{{ __('pages.admin.creators.document_types.form-titles.update') }}</u>
                         </h3>
                         @include('admin.pages.creators.document_types.components.form', [
                             'editMode' => true,

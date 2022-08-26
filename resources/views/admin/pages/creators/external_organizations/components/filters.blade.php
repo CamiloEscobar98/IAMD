@@ -37,7 +37,7 @@
                                 <label class="input-group-text">{{ __('filters.name') }}</label>
                             </div>
                             <input type="text" name="name" class="form-control"
-                                placeholder="{{ __('admin_pages.creators.external_organizations.filters.name') }}"
+                                placeholder="{{ __('pages.admin.creators.external_organizations.filters.name') }}"
                                 value="{{ getParamValue($params, 'name') }}">
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                                 <label class="input-group-text">{{ __('filters.nit') }}</label>
                             </div>
                             <input type="text" name="nit" class="form-control"
-                                placeholder="{{ __('admin_pages.creators.external_organizations.filters.nit') }}"
+                                placeholder="{{ __('pages.admin.creators.external_organizations.filters.nit') }}"
                                 value="{{ getParamValue($params, 'nit') }}">
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                         class="btn btn-dark btn-sm ml-2">{{ __('buttons.register') }}</a>
                 </div>
                 <hr>
-                <h6 class="font-weight-bold">{{ __('admin_pages.creators.external_organizations.filters.total') }}<a
+                <h6 class="font-weight-bold">{{ __('pages.admin.creators.external_organizations.filters.total') }}<a
                         class="text-secondary">{{ $total }}</a></h6>
             </form>
         </div>

@@ -230,14 +230,22 @@ return [
         /** Creators */
         'creators' => [
             'title' => 'Información Adicional para Creadores',
+
+            /** Document Types */
             'document_types' => [
                 'title' => 'Tipos de Documento',
                 'subtitle' => 'Tipos de Documento',
 
-                'titles' => [
+                'route-titles' => [
                     'create' => 'Registrar Tipo de Documento',
                     'show' => 'Visualizar Tipo de Documento',
                     'edit' => 'Editar Tipo de Documento',
+                ],
+
+                'form-titles' => [
+                    'show' => 'Perfil de Visualización del Tipo de Documento',
+                    'create' => 'Formulario de Registro de Tipo de Documento',
+                    'update' => 'Actualización del Tipo de Documento',
                 ],
 
                 'filters' => [
@@ -267,23 +275,30 @@ return [
                     'delete_error' => 'No se ha eliminado el Tipo de Documento.'
                 ],
 
-                'title-show' => 'Perfil de Visualización del Tipo de Documento',
-                'title-form' => 'Formulario de Registro de Tipo de Documento',
-                'title-update' => 'Actualización del Tipo de Documento',
-
-                'info-create' => "En esta sección de la aplicación podrás realizar el registro del recurso TIPO DE DOCUMENTO. 
+                'info' => [
+                    'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>TIPO DE DOCUMENTO</b>. 
                     Dicho recurso actualmente está destinado para enriquecer la información de los tipos de documentos dentro de la aplicación. ",
 
-                'info-show' => "En esta sección de la aplicación podrás visualizar el tipo de documento de :document_type.",
+                    'show' => "En esta sección de la aplicación podrás visualizar el tipo de documento de <b>:document_type</b>.",
+                ]
+
             ],
+
+            /** External Organizations */
             'external_organizations' => [
                 'title' => 'Organizaciones Externas',
                 'subtitle' => 'Organizaciones Externas',
 
-                'titles' => [
+                'route-titles' => [
                     'create' => 'Registrar Organización Externa',
                     'show' => 'Visualizar Organización Externa',
                     'edit' => 'Editar Organización Externa',
+                ],
+
+                'form-titles' => [
+                    'show' => 'Perfil de Visualización de la Organización Externa',
+                    'create' => 'Formulario de Registro de Organización Externa',
+                    'update' => 'Actualización de la Organización Externa',
                 ],
 
                 'filters' => [
@@ -308,30 +323,30 @@ return [
                 'messages' => [
                     'confirm' => '¿Estás seguro de que quieres eliminar la Organización Externa?',
 
-                    'save_success' => 'Se ha registrado correctamente la Organización Externa: :external_organization.',
+                    'save_success' => 'Se ha registrado correctamente la Organización Externa: <b>:external_organization</b>.',
                     'save_error' => 'No se ha registrado la Organización Externa.',
 
-                    'update_success' => 'Se ha actualizado correctamente la Organización Externa: :external_organization.',
+                    'update_success' => 'Se ha actualizado correctamente la Organización Externa: <b>:external_organization</b>.',
                     'update_error' => 'No se ha actualizado la Organización Externa.',
 
-                    'delete_success' => 'Se ha eliminado la Organización Externa: :external_organization.',
+                    'delete_success' => 'Se ha eliminado la Organización Externa: <b>:external_organization</b>.',
                     'delete_error' => 'No se ha eliminado la Organización Externa.'
                 ],
 
-                'title-show' => 'Perfil de Visualización de la Organización Externa',
-                'title-form' => 'Formulario de Registro de Organización Externa',
-                'title-update' => 'Actualización de la Organización Externa',
+                'info' => [
+                    'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>ORGANIZACIÓN EXTERNA</b>. 
+                Dicho recurso actualmente está destinado para enriquecer la información de las organizaciones externas dentro de la aplicación. ",
 
-                'info-create' => "En esta sección de la aplicación podrás realizar el registro del recurso ORGANIZACIÓN EXTERNA. 
-                    Dicho recurso actualmente está destinado para enriquecer la información de las organizaciones externas dentro de la aplicación. ",
-
-                'info-show' => "En esta sección de la aplicación podrás visualizar la organización externa de :external_organization.",
+                    'show' => "En esta sección de la aplicación podrás visualizar la organización externa de <b>:external_organization</b>.",
+                ]
             ],
+
+            /** Assignment Contracts */
             'assignment_contracts' => [
                 'title' => 'Tipos de Contrato',
                 'subtitle' => 'Tipos de Contrato',
 
-                'titles' => [
+                'route-titles' => [
                     'create' => 'Registrar Tipo de Contrato',
                     'show' => 'Visualizar Tipo de Contrato',
                     'edit' => 'Editar Tipo de Contrato',
@@ -374,14 +389,18 @@ return [
                     'delete_error' => 'No se ha eliminado el Tipo de Contrato.'
                 ],
 
-                'title-show' => 'Perfil de Visualización del Tipo de Contrato',
-                'title-form' => 'Formulario de Registro de Tipo de Contrato',
-                'title-update' => 'Actualización del Tipo de Contrato',
+                'form-titles' => [
+                    'show' => 'Perfil de Visualización del Tipo de Contrato',
+                    'form' => 'Formulario de Registro de Tipo de Contrato',
+                    'update' => 'Actualización del Tipo de Contrato',
+                ],
 
-                'info-create' => "En esta sección de la aplicación podrás realizar el registro del recurso TIPO DE CONTRATO DEL CREADOR. 
-                    Dicho recurso actualmente está destinado para enriquecer la información de los tipos de contrato dentro de la aplicación. ",
+                'info' => [
+                    'create' => "En esta sección de la aplicación podrás realizar el registro del recurso TIPO DE CONTRATO DEL CREADOR. 
+                     Dicho recurso actualmente está destinado para enriquecer la información de los tipos de contrato dentro de la aplicación. ",
 
-                'info-show' => "En esta sección de la aplicación podrás visualizar el tipo de contrato de :assignment_contract.",
+                    'show' => "En esta sección de la aplicación podrás visualizar el tipo de contrato de :assignment_contract.",
+                ]
             ],
         ],
 
@@ -389,14 +408,21 @@ return [
         'intangible_assets' => [
             'title' => 'Información de AI',
 
+            /** Intangible Assets States */
             'states' => [
                 'title' => 'Estados',
                 'subtitle' => 'Estados AI',
 
-                'titles' => [
+                'route-titles' => [
                     'create' => 'Registrar Estado de AI',
                     'show' => 'Visualizar Estado de AI',
                     'edit' => 'Editar Estado de AI',
+                ],
+
+                'form-titles' => [
+                    'show' => 'Perfil de Visualización del Estado de AI',
+                    'form' => 'Formulario de Registro de Estado de AI',
+                    'update' => 'Actualización del Estado de AI',
                 ],
 
                 'filters' => [
@@ -427,14 +453,12 @@ return [
                     'delete_error' => 'No se ha eliminado el Estado de AI.'
                 ],
 
-                'title-show' => 'Perfil de Visualización del Estado de AI',
-                'title-form' => 'Formulario de Registro de Estado de AI',
-                'title-update' => 'Actualización del Estado de AI',
-
-                'info-create' => "En esta sección de la aplicación podrás realizar el registro del recurso ESTADOS ACTIVOS INTANGIBLES. 
+                'info' => [
+                    'create' => "En esta sección de la aplicación podrás realizar el registro del recurso ESTADOS ACTIVOS INTANGIBLES. 
                     Dicho recurso actualmente está destinado para enriquecer la información de los estados de los activos intangibles dentro de la aplicación. ",
 
-                'info-show' => "En esta sección de la aplicación podrás visualizar el estado del AI de :state.",
+                    'show' => "En esta sección de la aplicación podrás visualizar el estado del AI de :state.",
+                ]
             ],
         ]
     ],
