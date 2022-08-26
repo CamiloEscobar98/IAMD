@@ -37,7 +37,7 @@
                                 <label class="input-group-text">{{ __('filters.name') }}</label>
                             </div>
                             <input type="text" name="name" class="form-control"
-                                placeholder="{{ __('admin_pages.creators.assignment_contracts.filters.name') }}"
+                                placeholder="{{ __('pages.admin.creators.assignment_contracts.filters.name') }}"
                                 value="{{ getParamValue($params, 'name') }}">
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <label
-                                    class="input-group-text">{{ __('admin_pages.creators.assignment_contracts.filters.is_internal') }}</label>
+                                    class="input-group-text">{{ __('pages.admin.creators.assignment_contracts.filters.is_internal') }}</label>
                             </div>
                             <select name="type" class="form-control">
                                 <option value="">{{ __('inputs.all') }}</option>
@@ -64,7 +64,7 @@
                         class="btn btn-dark btn-sm ml-2">{{ __('buttons.register') }}</a>
                 </div>
                 <hr>
-                <h6 class="font-weight-bold">{{ __('admin_pages.creators.assignment_contracts.filters.total') }}<a
+                <h6 class="font-weight-bold">{{ __('pages.admin.creators.assignment_contracts.filters.total') }}<a
                         class="text-secondary">{{ $total }}</a></h6>
             </form>
         </div>

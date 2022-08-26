@@ -10,7 +10,7 @@
         <!-- Is Internal or External -->
         <div class="input-group mt-3">
             <select class="form-control" name="is_internal">
-                <option value="">{{ __('admin_pages.creators.assignment_contracts.form.is_internal') }}</option>
+                <option value="">{{ __('pages.adminm.creators.assignment_contracts.form.is_internal') }}</option>
                 @foreach ($types as $type)
                     <option value="{{ $type['id'] }}" {{ twoOptionsIsEqual($type['id'], $item->is_internal) }}>
                         {{ $type['name'] }}</option>
@@ -60,7 +60,7 @@
         <!-- Is Internal or External -->
         <div class="input-group mt-3">
             <select class="form-control" name="is_internal">
-                <option value="">{{ __('admin_pages.creators.assignment_contracts.form.is_internal') }}</option>
+                <option value="">{{ __('pages.admin.creators.assignment_contracts.form.is_internal') }}</option>
                 @foreach ($types as $type)
                     <option value="{{ $type['id'] }}" {{ twoOptionsIsEqual($type['id'], old('is_internal')) }}>
                         {{ $type['name'] }}</option>

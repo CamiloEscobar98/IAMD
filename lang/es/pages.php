@@ -352,6 +352,12 @@ return [
                     'edit' => 'Editar Tipo de Contrato',
                 ],
 
+                'form-titles' => [
+                    'show' => 'Perfil de Visualización del Tipo de Contrato',
+                    'create' => 'Formulario de Registro de Tipo de Contrato',
+                    'update' => 'Actualización del Tipo de Contrato',
+                ],
+
                 'filters' => [
                     'name' => 'Buscar Tipo de Contrato',
                     'total' => 'Total de Tipos de Contrato: ',
@@ -379,27 +385,21 @@ return [
                 'messages' => [
                     'confirm' => '¿Estás seguro de que quieres eliminar el Tipo de Contrato?',
 
-                    'save_success' => 'Se ha registrado correctamente el Tipo de Contrato: :assignment_contract.',
+                    'save_success' => 'Se ha registrado correctamente el Tipo de Contrato: <b>:assignment_contract</b>.',
                     'save_error' => 'No se ha registrado el Tipo de Contrato.',
 
-                    'update_success' => 'Se ha actualizado correctamente el Tipo de Contrato: :assignment_contract.',
+                    'update_success' => 'Se ha actualizado correctamente el Tipo de Contrato: <b>:assignment_contract</b>.',
                     'update_error' => 'No se ha actualizado el Tipo de Contrato.',
 
-                    'delete_success' => 'Se ha eliminado el Tipo de Contrato: :assignment_contract.',
+                    'delete_success' => 'Se ha eliminado el Tipo de Contrato: <b>:assignment_contract</b>.',
                     'delete_error' => 'No se ha eliminado el Tipo de Contrato.'
                 ],
 
-                'form-titles' => [
-                    'show' => 'Perfil de Visualización del Tipo de Contrato',
-                    'form' => 'Formulario de Registro de Tipo de Contrato',
-                    'update' => 'Actualización del Tipo de Contrato',
-                ],
-
                 'info' => [
-                    'create' => "En esta sección de la aplicación podrás realizar el registro del recurso TIPO DE CONTRATO DEL CREADOR. 
+                    'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>TIPO DE CONTRATO DEL CREADOR</b>. 
                      Dicho recurso actualmente está destinado para enriquecer la información de los tipos de contrato dentro de la aplicación. ",
 
-                    'show' => "En esta sección de la aplicación podrás visualizar el tipo de contrato de :assignment_contract.",
+                    'show' => "En esta sección de la aplicación podrás visualizar el tipo de contrato de <b>:assignment_contract</b>.",
                 ]
             ],
         ],

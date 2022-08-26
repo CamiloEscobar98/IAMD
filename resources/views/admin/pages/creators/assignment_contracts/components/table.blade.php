@@ -3,10 +3,10 @@
         <thead>
             <tr>
                 <th class="text-center">No.</th>
-                <th>{{ __('admin_pages.creators.assignment_contracts.table.head.name') }}</th>
-                <th>{{ __('admin_pages.creators.assignment_contracts.table.head.is_internal') }}</th>
-                <th>{{ __('admin_pages.creators.assignment_contracts.table.head.created_at') }}</th>
-                <th>{{ __('admin_pages.creators.assignment_contracts.table.head.updated_at') }}</th>
+                <th>{{ __('pages.admin.creators.assignment_contracts.table.head.name') }}</th>
+                <th>{{ __('pages.admin.creators.assignment_contracts.table.head.is_internal') }}</th>
+                <th>{{ __('pages.admin.creators.assignment_contracts.table.head.created_at') }}</th>
+                <th>{{ __('pages.admin.creators.assignment_contracts.table.head.updated_at') }}</th>
                 <th class="text-right">#</th>
             </tr>
         </thead>
@@ -39,7 +39,7 @@
                     </td>
                 </tr>
             @empty
-                <td colspan="12">{{ __('admin_pages.default.empty_table') }}</td>
+                <td colspan="12">{{ __('pages.default.empty_table') }}</td>
             @endforelse
         </tbody>
     </table>
