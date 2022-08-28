@@ -20,8 +20,8 @@ class ResearchUnit extends BaseModel
         'director_id',
         'inventory_manager_id',
         'name',
-        'description',
         'code',
+        'description',
     ];
 
     /**

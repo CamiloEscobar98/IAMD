@@ -124,7 +124,6 @@ class AdministrativeUnitController extends Controller
 
             return view('client.pages.administrative_units.edit', compact('item'));
         } catch (\Exception $th) {
-            return $administrative_unit;
             return redirect()->route('client.home', $request->client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
@@ -160,17 +159,20 @@ class AdministrativeUnitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, $administrative_unit)
     {
         try {
-            $item = $this->administrativeUnitRepository->getById($id);
+            $item = $this->administrativeUnitRepository->getById($administrative_unit);
+            
+            DB::beginTransaction();
 
-            DB::transaction(function () use ($item) {
-                $this->administrativeUnitRepository->delete($item);
-            });
+            $this->administrativeUnitRepository->delete($item);
+            
+            DB::commit();
 
             return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('client_pages.administrative_units.messages.delete_success', ['country' => $item->name])]);
         } catch (\Exception $th) {
+            DB::rollBack();
             return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('client_pages.administrative_units.messages.delete_error')]);
         }
     }

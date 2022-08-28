@@ -14,6 +14,13 @@ class AdministrativeUnitRepository extends AbstractRepository
         $this->model = $model;
     }
 
+    /**
+     * @param array $params
+     * @param array $with
+     * @param array $withCount
+     * 
+     * @return $query
+     */
     public function search(array $params = [], array $with = [], array $withCount = [])
     {
         $query = $this->model
