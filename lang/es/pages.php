@@ -443,21 +443,21 @@ return [
                 'messages' => [
                     'confirm' => '¿Estás seguro de que quieres eliminar el Estado de AI?',
 
-                    'save_success' => 'Se ha registrado correctamente el Estado de AI: :state.',
+                    'save_success' => 'Se ha registrado correctamente el Estado de AI: <b>:state</b>.',
                     'save_error' => 'No se ha registrado el Estado de AI.',
 
-                    'update_success' => 'Se ha actualizado correctamente el Estado de AI: :state.',
+                    'update_success' => 'Se ha actualizado correctamente el Estado de AI: <b>:state</b>.',
                     'update_error' => 'No se ha actualizado el Estado de AI.',
 
-                    'delete_success' => 'Se ha eliminado el Estado de AI: :state.',
+                    'delete_success' => 'Se ha eliminado el Estado de AI: <b>:state</b>.',
                     'delete_error' => 'No se ha eliminado el Estado de AI.'
                 ],
 
                 'info' => [
-                    'create' => "En esta sección de la aplicación podrás realizar el registro del recurso ESTADOS ACTIVOS INTANGIBLES. 
+                    'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>ESTADOS DE LOS ACTIVOS INTANGIBLES</b>. 
                     Dicho recurso actualmente está destinado para enriquecer la información de los estados de los activos intangibles dentro de la aplicación. ",
 
-                    'show' => "En esta sección de la aplicación podrás visualizar el estado del AI de :state.",
+                    'show' => "En esta sección de la aplicación podrás visualizar el Estado del Activo Intangible de <b>:state</b>",
                 ]
             ],
         ]

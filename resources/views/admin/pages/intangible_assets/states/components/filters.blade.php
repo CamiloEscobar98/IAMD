@@ -37,7 +37,7 @@
                                 <label class="input-group-text">{{ __('filters.name') }}</label>
                             </div>
                             <input type="text" name="name" class="form-control"
-                                placeholder="{{ __('admin_pages.intangible_assets.states.filters.name') }}"
+                                placeholder="{{ __('pages.admin.intangible_assets.states.filters.name') }}"
                                 value="{{ getParamValue($params, 'name') }}">
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                         class="btn btn-dark btn-sm ml-2">{{ __('buttons.register') }}</a>
                 </div>
                 <hr>
-                <h6 class="font-weight-bold">{{ __('admin_pages.intangible_assets.states.filters.total') }}<a
+                <h6 class="font-weight-bold">{{ __('pages.admin.intangible_assets.states.filters.total') }}<a
                         class="text-secondary">{{ $total }}</a></h6>
             </form>
         </div>
