@@ -46,7 +46,7 @@ class ResearchUnitService
     {
         try {
 
-            $perPage = $this->administrativeUnitRepository->getPerPage();
+            $perPage = $this->researchUnitRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 

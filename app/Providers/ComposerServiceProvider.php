@@ -6,8 +6,11 @@ use Illuminate\Support\ServiceProvider;
 
 use Illuminate\Support\Facades\View;
 
+use App\Traits\Client\ViewComposers\ClientRoutes;
+
 class ComposerServiceProvider extends ServiceProvider
 {
+    use ClientRoutes;
     /**
      * Register services.
      *
@@ -27,39 +30,10 @@ class ComposerServiceProvider extends ServiceProvider
     {
         $views = [];
 
-        $views = array_merge($views, $this->getMainRoutes(), $this->getAdministrativeUnitRoutes());
+        $views = array_merge($views, $this->getMainRoutes(), $this->getAdministrativeUnitRoutes(), $this->getResearchUnitRoutes());
 
         View::composer($views, 'App\Http\ViewComposers\ClientComposer');
-    }
 
-    /**
-     * get AdministrativeUnitsRoutes
-     * 
-     * @return array
-     */
-    private function getMainRoutes(): array
-    {
-        return [
-            'client.layout.app',
-            'client.pages.auth.login',
-        ];
-    }
-
-    /**
-     * get AdministrativeUnitsRoutes
-     * 
-     * @return array
-     */
-    private function getAdministrativeUnitRoutes(): array
-    {
-        return [
-            'client.pages.administrative_units.index',
-            'client.pages.administrative_units.create',
-            'client.pages.administrative_units.show',
-            'client.pages.administrative_units.edit',
-
-            'client.pages.administrative_units.components.filters',
-            'client.pages.administrative_units.components.table',
-        ];
+        View::composer(['client.pages.research_units.components.filters', 'client.pages.research_units.components.form'], 'App\Http\ViewComposers\Client\ResearchUnitViewComposer');
     }
 }

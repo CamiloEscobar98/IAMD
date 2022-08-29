@@ -1,10 +1,13 @@
 <?php
 
-use App\Http\Controllers\Client\AdministrativeUnitController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Client\Auth\LoginController;
+
 use App\Http\Controllers\Client\HomeController;
+
+use App\Http\Controllers\Client\AdministrativeUnitController;
+use App\Http\Controllers\Client\ResearchUnitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +29,5 @@ Route::get('profile', [HomeController::class, 'profile'])->name('client.profile'
 Route::get('home', [HomeController::class, 'home'])->name('client.home');
 
 Route::resource('administrative_units', AdministrativeUnitController::class, ['as' => 'client']);
+
+Route::resource('research_units', ResearchUnitController::class, ['as' => 'client']);

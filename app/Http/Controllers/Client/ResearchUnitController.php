@@ -38,19 +38,19 @@ class ResearchUnitController extends Controller
     public function index(Request $request)
     {
         try {
-            $params = $this->administrativeUnitService->transformParams($request->all());
+            $params = $this->researchUnitService->transformParams($request->all());
 
-            $query = $this->researchUnitRepository->search($params, [], ['researchUnits']);
+            $query = $this->researchUnitRepository->search($params, [], ['projects']);
 
             $total = $query->count();
 
-            $items = $this->administrativeUnitService->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->researchUnitService->customPagination($query, $params, $request->get('page'), $total);
 
             $links = $items->links('pagination.customized');
 
-            return view('client.pages.research _units.index')
-                ->nest('filters', 'client.pages.research _units.components.filters', compact('params', 'total'))
-                ->nest('table', 'client.pages.research _units.components.table', compact('items', 'links'));
+            return view('client.pages.research_units.index')
+                ->nest('filters', 'client.pages.research_units.components.filters', compact('params', 'total'))
+                ->nest('table', 'client.pages.research_units.components.table', compact('items', 'links'));
         } catch (\Exception $th) {
             return $th->getMessage();
         }
@@ -144,10 +144,10 @@ class ResearchUnitController extends Controller
 
             DB::commit();
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.administrative_units.messages.update_success', ['administrative_unit' => $item->name])]);
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.research_units.messages.update_success', ['research_unit' => $item->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.administrative_units.messages.update_error')]);
+            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.research_units.messages.update_error')]);
         }
     }
 
@@ -169,10 +169,10 @@ class ResearchUnitController extends Controller
 
             DB::commit();
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.administrative_units.messages.delete_success', ['country' => $item->name])]);
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.research_units.messages.delete_success', ['research_unit' => $item->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.administrative_units.messages.delete_error')]);
+            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.research_units.messages.delete_error')]);
         }
     }
 }

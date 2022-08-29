@@ -493,7 +493,7 @@ return [
 
             'filters' => [
                 'name' => 'Buscar Subdirección Técnica',
-                'total' => 'Total de Países: ',
+                'total' => 'Total de Subdirecciones Técnicas: ',
             ],
 
             'table' => [
@@ -532,6 +532,74 @@ return [
                 Dicho recurso actualmente está destinado para enriquecer la información de las subdirecciones técnicas dentro de la aplicación.",
 
             'info-show' => "En esta sección de la aplicación podrás visualizar el país de :administrative_unit. ",
+
+            'states' => [
+                'title' => 'Lista de Departamentos',
+            ]
+        ],
+
+        /** Research Units */
+        'research_units' => [
+            'title' => 'Unidades Investigativas',
+            'subtitle' => 'Unidades Investigativas',
+
+            'route-titles' => [
+                'create' => 'Registrar Unidad Investigativa',
+                'show' => 'Visualizar Unidad Investigativa',
+                'edit' => 'Editar Unidad Investigativa',
+            ],
+
+            'form-titles' => [
+                'show' => 'Perfil de Visualización de la Unidad Investigativa',
+                'create' => 'Formulario de Registro de una Unidad Investigativa',
+                'edit' => 'Actualización de la Unidad Investigativa',
+            ],
+
+            'filters' => [
+                'name' => 'Buscar Nombre Unidad Investigativa',
+                'code' => 'Buscar Código Unidad Investigativa',
+
+                'administrative_units' => 'Buscar por Subdirección Técnica',
+                'research_unit_categories' => 'Buscar por Categoría de Unidad Investigativa',
+
+                'total' => 'Total de Unidades Investigativas: ',
+            ],
+
+            'table' => [
+                'head' => [
+                    'name' => 'Nombre',
+                    'code' => 'Código',
+                    'description' => 'Descripción',
+                    'projects' => 'Proyectos',
+                    'cities' => 'Ciudades',
+                    'created_at' => 'Fecha de Creación',
+                    'updated_at' => 'Fecha de Actualización'
+                ],
+                'body' => [
+                    'projects_count' => ':projects proyectos registrados.'
+                ]
+
+            ],
+
+            'messages' => [
+                'confirm' => '¿Estás seguro de que quieres eliminar la unidad investigativa?',
+
+                'save_success' => 'Se ha registrado correctamente la unidad investigativa: <b>:research_unit</b>.',
+                'save_error' => 'No se ha registrado la unidad investigativa.',
+
+                'update_success' => 'Se ha actualizado correctamente la unidad investigativa: <b>:research_unit</b>.',
+                'update_error' => 'No se ha actualizado la unidad investigativa.',
+
+                'delete_success' => "Se ha eliminado la unidad investigativa: <p><b>:research_unit</b></p>.",
+                'delete_error' => 'No se ha eliminado la unidad investigativa.'
+            ],
+
+            'info' => [
+                'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>UNIDAD INVESTIGATIVA</b>. 
+                Dicho recurso actualmente está destinado para enriquecer la información de las unidades investigativas dentro de la aplicación.",
+
+                'show' => "En esta sección de la aplicación podrás visualizar el país de <b>:research_unit</b>. ",
+            ],
 
             'states' => [
                 'title' => 'Lista de Departamentos',

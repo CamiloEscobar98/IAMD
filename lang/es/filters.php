@@ -10,6 +10,11 @@ return [
 
     'nit' => 'Identificación:',
     'name' => 'Nombre:',
+    'code' => 'Código:',
 
     'empty' => 'No hay registros',
+
+    'administrative_units' => 'Subdirecciones Técnicas',
+
+    'research_unit_categories' => 'Categorías de Unidades Investigativas'
 ];
