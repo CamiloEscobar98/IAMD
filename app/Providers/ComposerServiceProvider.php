@@ -34,6 +34,9 @@ class ComposerServiceProvider extends ServiceProvider
 
         View::composer($views, 'App\Http\ViewComposers\ClientComposer');
 
-        View::composer(['client.pages.research_units.components.filters', 'client.pages.research_units.components.form'], 'App\Http\ViewComposers\Client\ResearchUnitViewComposer');
+        /** Research Units */
+        View::composer([
+            'client.pages.research_units.components.filters', 'client.pages.research_units.components.form',
+        ], 'App\Http\ViewComposers\Client\ResearchUnitViewComposer');
     }
 }

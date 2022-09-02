@@ -40,7 +40,7 @@ class ResearchUnit extends BaseModel
      * 
      * @return \App\Models\Tenant\AdministrativeUnit
      */
-    public function administrativeUnit()
+    public function administrative_unit()
     {
         return $this->belongsTo(\App\Models\Tenant\AdministrativeUnit::class);
     }
@@ -50,7 +50,7 @@ class ResearchUnit extends BaseModel
      * 
      * @return \App\Models\Tenant\ResearchUnitCategory
      */
-    public function researchUnitCategory()
+    public function research_unit_category()
     {
         return $this->belongsTo(\App\Models\Tenant\ResearchUnitCategory::class);
     }
@@ -62,7 +62,7 @@ class ResearchUnit extends BaseModel
      */
     public function director()
     {
-        return $this->belongsTo(\App\Models\Tenant\Creator::class, 'director_id');
+        return $this->belongsTo(\App\Models\Tenant\Creator\Creator::class, 'director_id');
     }
 
     /**
@@ -70,9 +70,9 @@ class ResearchUnit extends BaseModel
      * 
      * @return \App\Models\Tenant\Creator
      */
-    public function inventoryManager()
+    public function inventory_manager()
     {
-        return $this->belongsTo(\App\Models\Tenant\Creator::class, 'inventory_manager_id');
+        return $this->belongsTo(\App\Models\Tenant\Creator\Creator::class, 'inventory_manager_id');
     }
     
     public function projects()

@@ -20,5 +20,7 @@ return [
     'country_id' => 'País',
     'administrative_unit_id' => 'Subdirección Técnica',
     'research_unit_category_id' => 'Categoría Unidad Investigativa',
+    'director_id' => 'Director',
+    'inventory_manager_id' => 'Administrador de Inventario'
 
 ];

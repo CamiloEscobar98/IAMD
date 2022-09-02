@@ -25,6 +25,10 @@ class ResearchUnitRepository extends  AbstractRepository
         $query = $this->model
             ->select();
 
+        if (isset($params['id']) && $params['id']) {
+            $query->where('id', $params['id']);
+        }
+
         if (isset($params['name']) && $params['name']) {
             $query->where('name', 'like', '%' . $params['name'] . '%');
         }

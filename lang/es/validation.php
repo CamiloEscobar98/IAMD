@@ -171,6 +171,10 @@ return [
         /** Custom Attributes */
         'country_id' => 'país',
         'state_id' => 'departamento',
+        'administrative_unit_id' => 'Subdirección Técnica',
+        'research_unit_category_id' => 'Unidad de Investigación',
+        'director_id' => 'Director',
+        'inventory_manager_id' => 'Administrador de Inventario',
 
 
         /** Assignment Contracts */

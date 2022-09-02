@@ -51,13 +51,6 @@ class AbstractRepository
         return $this->model->all();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
-     */
-    function allActive()
-    {
-        return $this->model->all()->where('is_active', true);
-    }
 
     /**
      * @return Model $model
@@ -84,11 +77,34 @@ class AbstractRepository
         return $this->model->findOrFail($id);
     }
 
+    /**
+     * @param mixed $id
+     * @param array $relations
+     */
+    public function getByIdWithRelations($id, $relations = [])
+    {
+        $query = $this->model->with($relations)->where('id', $id);
+
+        return $query->get()->first();
+    }
+
+
+    /**
+     * @param string $attribute
+     * @param string $value
+     * 
+     * @return Model
+     */
     public function getByAttribute(string $attribute, string $value)
     {
         return $this->model->all()->where($attribute, $value)->first();
     }
 
+    /**
+     * @param array $search
+     * 
+     * @return Model
+     */
     public function getByAttributes(array $search)
     {
         $query = $this->model->select();

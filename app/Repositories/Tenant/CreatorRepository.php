@@ -13,6 +13,22 @@ class CreatorRepository extends AbstractRepository
         $this->model = $model;
     }
 
+    public function allCreators()
+    {
+        $table = $this->model->getTable();
+
+        $joinCreatorInternal = "creator_internals";
+        $joinCreatorExternal = "creator_externals";
+
+        $query = $this->model
+            ->select()
+            ->distinct()
+            ->leftJoin( $joinCreatorInternal, "$table.id", "$joinCreatorInternal.creator_id")
+            ->leftJoin( $joinCreatorExternal, "$table.id", "$joinCreatorExternal.creator_id");
+
+            return $query->get();
+    }
+
     /**
      * Create Document information.
      * 

@@ -62,7 +62,9 @@
                             <option value="">{{ __('pages.client.research_units.filters.administrative_units') }}
                             </option>
                             @foreach ($administrativeUnits as $administrativeUnit)
-                                <option value="{{ $administrativeUnit->id }}">{{ $administrativeUnit->name }}</option>
+                                <option value="{{ $administrativeUnit->id }}"
+                                    {{ optionIsSelected($params, 'administrative_unit_id', $administrativeUnit->id) }}>
+                                    {{ $administrativeUnit->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -77,7 +79,9 @@
                                 {{ __('pages.client.research_units.filters.research_unit_categories') }}
                             </option>
                             @foreach ($researchUnitCategories as $researchUnitCategory)
-                                <option value="{{ $researchUnitCategory->id }}">{{ $researchUnitCategory->name }}
+                                <option value="{{ $researchUnitCategory->id }}"
+                                    {{ optionIsSelected($params, 'research_unit_category_id', $researchUnitCategory->id) }}>
+                                    {{ $researchUnitCategory->name }}
                                 </option>
                             @endforeach
                         </select>

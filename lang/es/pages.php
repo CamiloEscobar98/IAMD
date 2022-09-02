@@ -598,7 +598,7 @@ return [
                 'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>UNIDAD INVESTIGATIVA</b>. 
                 Dicho recurso actualmente está destinado para enriquecer la información de las unidades investigativas dentro de la aplicación.",
 
-                'show' => "En esta sección de la aplicación podrás visualizar el país de <b>:research_unit</b>. ",
+                'show' => "En esta sección de la aplicación podrás visualizar la unidad investigativa de <b>:research_unit</b>. ",
             ],
 
             'states' => [

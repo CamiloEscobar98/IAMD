@@ -25,6 +25,8 @@ class ResearchUnitController extends Controller
         ResearchUnitService $researchUnitService,
         ResearchUnitRepository $researchUnitRepository
     ) {
+        $this->middleware('auth');
+
         $this->researchUnitService = $researchUnitService;
         $this->researchUnitRepository = $researchUnitRepository;
     }
@@ -63,7 +65,11 @@ class ResearchUnitController extends Controller
      */
     public function create()
     {
-        return view('client.pages.research_units.create');
+        try {
+            return view('client.pages.research_units.create');
+        } catch (\Exception $th) {
+            //throw $th;
+        }
     }
 
     /**
@@ -82,10 +88,10 @@ class ResearchUnitController extends Controller
             $item = $this->researchUnitRepository->create($data);
 
             DB::commit();
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.clients.research_units.messages.save_success', ['research_unit' => $item->name])]);
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.research_units.messages.save_success', ['research_unit' => $item->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.clients.research_units.messages.save_error')]);
+            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.research_units.messages.save_error')]);
         }
     }
 
@@ -93,15 +99,16 @@ class ResearchUnitController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function show($id, $research_unit, Request $request)
+    public function show($id, $research_unit, Request $request) #: \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
-            $item = $this->researchUnitRepository->getById($research_unit);
+            $item = $this->researchUnitRepository->getByIdWithRelations($research_unit, ['administrative_unit', 'research_unit_category', 'director', 'inventory_manager']);
 
             return view('client.pages.research_units.show', compact('item'));
         } catch (\Exception $th) {
+            return $th->getMessage();
             return redirect()->route('client.home', $request->client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
