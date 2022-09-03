@@ -1,3 +1,3 @@
 @extends('client.layout.app')
 
-@section('title', __('client_pages.home.title'))
+@section('title', __('pages.client.home.title'))

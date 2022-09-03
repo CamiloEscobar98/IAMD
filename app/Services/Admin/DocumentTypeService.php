@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Admin;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-use App\Repositories\IntangibleAssetStateRepository;
+use App\Repositories\DocumentTypeRepository;
 
-class IntangibleAssetStateService
+class DocumentTypeService
 {
-    /** @var IntangibleAssetStateRepository */
-    protected $intangibleAssetStateRepository;
+    /** @var DocumentTypeRepository */
+    protected $documentTypeRepository;
 
-    public function __construct(IntangibleAssetStateRepository $intangibleAssetStateRepository)
+    public function __construct(DocumentTypeRepository $documentTypeRepository)
     {
-        $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
+        $this->documentTypeRepository = $documentTypeRepository;
     }
 
     /**
@@ -46,7 +46,7 @@ class IntangibleAssetStateService
     {
         try {
 
-            $perPage = $this->intangibleAssetStateRepository->getPerPage();
+            $perPage = $this->documentTypeRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 

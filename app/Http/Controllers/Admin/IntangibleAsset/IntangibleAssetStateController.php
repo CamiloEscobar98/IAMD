@@ -12,7 +12,7 @@ use App\Http\Requests\Admin\IntangibleAssets\States\StoreRequest;
 
 use App\Http\Requests\Admin\IntangibleAssets\States\UpdateRequest;
 
-use App\Services\IntangibleAssetStateService;
+use App\Services\Admin\IntangibleAssetStateService;
 
 use App\Repositories\IntangibleAssetStateRepository;
 
@@ -56,7 +56,6 @@ class IntangibleAssetStateController extends Controller
                 ->nest('filters', 'admin.pages.intangible_assets.states.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.intangible_assets.states.components.table', compact('items'));
         } catch (\Throwable $th) {
-            dd($th->getMessage());
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }

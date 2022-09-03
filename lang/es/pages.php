@@ -601,8 +601,75 @@ return [
                 'show' => "En esta sección de la aplicación podrás visualizar la unidad investigativa de <b>:research_unit</b>. ",
             ],
 
-            'states' => [
-                'title' => 'Lista de Departamentos',
+            'projects' => [
+                'title' => 'Lista de Proyectos',
+            ]
+        ],
+
+        /** Projects */
+        'projects' => [
+            'title' => 'Proyectos',
+            'subtitle' => 'Proyectos',
+
+            'route-titles' => [
+                'create' => 'Registrar Proyecto',
+                'show' => 'Visualizar Proyecto',
+                'edit' => 'Editar Proyecto',
+            ],
+
+            'form-titles' => [
+                'show' => 'Perfil de Visualización del Proyecto',
+                'create' => 'Formulario de Registro de un Proyecto',
+                'edit' => 'Actualización del Proyecto',
+            ],
+
+            'filters' => [
+                'name' => 'Buscar Nombre Proyecto',
+
+                'administrative_units' => 'Buscar por Subdirección Técnica',
+                'research_units' => 'Buscar por Unidad Investigativa',
+
+                'total' => 'Total de Proyectos: ',
+            ],
+
+            'table' => [
+                'head' => [
+                    'name' => 'Nombre',
+                    'description' => 'Descripción',
+
+                    'intangible_assets' => 'Activos',
+
+                    'created_at' => 'Fecha de Creación',
+                    'updated_at' => 'Fecha de Actualización'
+                ],
+                'body' => [
+                    'intangible_assets_count' => ':intangible_assets Activos registrados.'
+                ]
+
+            ],
+
+            'messages' => [
+                'confirm' => '¿Estás seguro de que quieres eliminar el proyecto?',
+
+                'save_success' => 'Se ha registrado correctamente el proyecto: <b>:project</b>.',
+                'save_error' => 'No se ha registrado el proyecto.',
+
+                'update_success' => 'Se ha actualizado correctamente el proyecto: <b>:project</b>.',
+                'update_error' => 'No se ha actualizado el proyecto.',
+
+                'delete_success' => "Se ha eliminado el proyecto: <p><b>:project</b></p>.",
+                'delete_error' => 'No se ha eliminado el proyecto.'
+            ],
+
+            'info' => [
+                'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>PROYECTO</b>. 
+                Dicho recurso actualmente está destinado para enriquecer la información de los proyectos dentro de la aplicación.",
+
+                'show' => "En esta sección de la aplicación podrás visualizar el proyecto de <b>:project</b>. ",
+            ],
+
+            'projects' => [
+                'title' => 'Lista de Proyectos',
             ]
         ],
     ]

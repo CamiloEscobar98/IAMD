@@ -38,7 +38,7 @@ class AdministrativeUnit extends BaseModel
      * 
      * @return HasMany
      */
-    public function researchUnits()
+    public function research_units()
     {
         return $this->hasMany(ResearchUnit::class);
     }

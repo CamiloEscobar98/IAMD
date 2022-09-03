@@ -8,6 +8,7 @@ use App\Http\Controllers\Client\HomeController;
 
 use App\Http\Controllers\Client\AdministrativeUnitController;
 use App\Http\Controllers\Client\ResearchUnitController;
+use App\Http\Controllers\Client\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,3 +32,5 @@ Route::get('home', [HomeController::class, 'home'])->name('client.home');
 Route::resource('administrative_units', AdministrativeUnitController::class, ['as' => 'client']);
 
 Route::resource('research_units', ResearchUnitController::class, ['as' => 'client']);
+
+Route::resource('projects', ProjectController::class, ['as' => 'client']);

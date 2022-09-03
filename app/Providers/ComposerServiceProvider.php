@@ -30,7 +30,13 @@ class ComposerServiceProvider extends ServiceProvider
     {
         $views = [];
 
-        $views = array_merge($views, $this->getMainRoutes(), $this->getAdministrativeUnitRoutes(), $this->getResearchUnitRoutes());
+        $views = array_merge(
+            $views,
+            $this->getMainRoutes(),
+            $this->getAdministrativeUnitRoutes(),
+            $this->getResearchUnitRoutes(),
+            $this->getProjectRoutes()
+        );
 
         View::composer($views, 'App\Http\ViewComposers\ClientComposer');
 
@@ -38,5 +44,10 @@ class ComposerServiceProvider extends ServiceProvider
         View::composer([
             'client.pages.research_units.components.filters', 'client.pages.research_units.components.form',
         ], 'App\Http\ViewComposers\Client\ResearchUnitViewComposer');
+
+        /** Projects */
+        View::composer([
+            'client.pages.projects.components.filters', 'client.pages.projects.components.form',
+        ], 'App\Http\ViewComposers\Client\ProjectViewComposer');
     }
 }

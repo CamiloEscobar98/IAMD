@@ -18,7 +18,7 @@ trait ClientRoutes
     }
 
     /**
-     * get AdministrativeUnitsRoutes
+     * get Administrative Unit Routes
      * 
      * @return array
      */
@@ -36,7 +36,7 @@ trait ClientRoutes
     }
 
     /**
-     * get AdministrativeUnitsRoutes
+     * get Research Unit Routes
      * 
      * @return array
      */
@@ -50,6 +50,24 @@ trait ClientRoutes
 
             'client.pages.research_units.components.filters',
             'client.pages.research_units.components.table',
+        ];
+    }
+
+     /**
+     * get Project Routes
+     * 
+     * @return array
+     */
+    protected function getProjectRoutes(): array
+    {
+        return [
+            'client.pages.projects.index',
+            'client.pages.projects.create',
+            'client.pages.projects.show',
+            'client.pages.projects.edit',
+
+            'client.pages.projects.components.filters',
+            'client.pages.projects.components.table',
         ];
     }
 }

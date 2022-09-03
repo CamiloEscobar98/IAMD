@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Admin;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-use App\Repositories\AssignmentContractRepository;
+use App\Repositories\CityRepository;
 
-class AssignmentContractService
+class CityService
 {
-    /** @var AssignmentContractRepository */
-    protected $assignmentContractRepository;
+    /** @var CityRepository */
+    protected $cityRepository;
 
-    public function __construct(AssignmentContractRepository $assignmentContractRepository)
+    public function __construct(CityRepository $cityRepository)
     {
-        $this->assignmentContractRepository = $assignmentContractRepository;
+        $this->cityRepository = $cityRepository;
     }
 
     /**
@@ -25,7 +25,12 @@ class AssignmentContractService
     public function transformParams($params)
     {
         if (empty($params)) {
-            $params = set_sub_month_date_filter($params, 'date_from', 1);
+            // $params = set_sub_month_date_filter($params, 'date_from', 1);
+        }
+        if (isset($params['state']) && $params['state']) {
+            $params['state_id'] = $params['state'];
+
+            $params['state'] = null;
         }
 
         # Clean empty keys
@@ -37,16 +42,17 @@ class AssignmentContractService
     /**
      * @param $query
      * @param array $params
+     * @param int $perPage
      * @param int $pageNumber
      * @param int $total
      * 
      * @return LengthAwarePaginator $items
      */
-    public function customPagination($query, $params, $pageNumber, $total)
+    public function customPagination($query, $params, $perPage = null, $pageNumber, $total)
     {
         try {
 
-            $perPage = $this->assignmentContractRepository->getPerPage();
+            $perPage = isset($perPage) && $perPage ? $perPage : $this->cityRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
@@ -64,6 +70,7 @@ class AssignmentContractService
             } else {
                 $query->orderBy('name', 'ASC');
             }
+            $query->orderBy('state_id', 'ASC');
             $items = $query->get();
 
             $items = new LengthAwarePaginator($items, $total, $perPage, $page, [

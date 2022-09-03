@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Services\Localization;
+namespace App\Services\Admin;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-use App\Repositories\CityRepository;
+use App\Repositories\StateRepository;
 
-class CityService
+class StateService
 {
-    /** @var CityRepository */
-    protected $cityRepository;
+    /** @var StateRepository */
+    protected $stateRepository;
 
-    public function __construct(CityRepository $cityRepository)
+    public function __construct(StateRepository $stateRepository)
     {
-        $this->cityRepository = $cityRepository;
+        $this->stateRepository = $stateRepository;
     }
 
     /**
@@ -27,10 +27,10 @@ class CityService
         if (empty($params)) {
             // $params = set_sub_month_date_filter($params, 'date_from', 1);
         }
-        if (isset($params['state']) && $params['state']) {
-            $params['state_id'] = $params['state'];
+        if (isset($params['country']) && $params['country']) {
+            $params['country_id'] = $params['country'];
 
-            $params['state'] = null;
+            $params['country'] = null;
         }
 
         # Clean empty keys
@@ -52,7 +52,7 @@ class CityService
     {
         try {
 
-            $perPage = isset($perPage) && $perPage ? $perPage : $this->cityRepository->getPerPage();
+            $perPage = isset($perPage) && $perPage ? $perPage : $this->stateRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
@@ -70,7 +70,7 @@ class CityService
             } else {
                 $query->orderBy('name', 'ASC');
             }
-            $query->orderBy('state_id', 'ASC');
+            $query->orderBy('country_id', 'ASC');
             $items = $query->get();
 
             $items = new LengthAwarePaginator($items, $total, $perPage, $page, [

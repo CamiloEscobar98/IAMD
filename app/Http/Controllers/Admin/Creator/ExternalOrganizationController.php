@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Admin\Creator\ExternalOrganizations\StoreRequest;
 use App\Http\Requests\Admin\Creator\ExternalOrganizations\UpdateRequest;
 
-use App\Services\ExternalOrganizationService;
+use App\Services\Admin\ExternalOrganizationService;
 
 use App\Repositories\ExternalOrganizationRepository;
 

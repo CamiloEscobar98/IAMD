@@ -74,7 +74,12 @@ class ResearchUnit extends BaseModel
     {
         return $this->belongsTo(\App\Models\Tenant\Creator\Creator::class, 'inventory_manager_id');
     }
-    
+
+    /**
+     * Get projects.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function projects()
     {
         return $this->hasMany(\App\Models\Tenant\Project::class);

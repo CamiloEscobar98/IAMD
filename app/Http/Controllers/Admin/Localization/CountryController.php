@@ -10,11 +10,11 @@ use App\Http\Requests\Admin\Localizations\Countries\StoreRequest;
 use App\Http\Requests\Admin\Localizations\Countries\UpdateRequest;
 
 
-use App\Services\Localization\CountryService;
+use App\Services\Admin\CountryService;
 
 use App\Repositories\CountryRepository;
 use App\Repositories\StateRepository;
-use App\Services\Localization\StateService;
+use App\Services\Admin\StateService;
 
 class CountryController extends Controller
 {

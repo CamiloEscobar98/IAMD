@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+
+use Illuminate\Http\Request;
+
 use App\Http\Requests\Client\ResearchUnits\StoreRequest;
 use App\Http\Requests\Client\ResearchUnits\UpdateRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 use App\Services\Client\ResearchUnitService;
 
@@ -35,9 +37,9 @@ class ResearchUnitController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function index(Request $request)
+    public function index(Request $request): \Illuminate\View\View|\Illuminate\Http\RedirectResponse
     {
         try {
             $params = $this->researchUnitService->transformParams($request->all());
@@ -54,7 +56,7 @@ class ResearchUnitController extends Controller
                 ->nest('filters', 'client.pages.research_units.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.research_units.components.table', compact('items', 'links'));
         } catch (\Exception $th) {
-            return $th->getMessage();
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 
@@ -63,12 +65,12 @@ class ResearchUnitController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
             return view('client.pages.research_units.create');
         } catch (\Exception $th) {
-            //throw $th;
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 
@@ -78,7 +80,7 @@ class ResearchUnitController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
             $data = $request->all();
@@ -91,7 +93,7 @@ class ResearchUnitController extends Controller
             return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.research_units.messages.save_success', ['research_unit' => $item->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.research_units.messages.save_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 
@@ -101,15 +103,14 @@ class ResearchUnitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function show($id, $research_unit, Request $request) #: \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function show($id, $research_unit, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
             $item = $this->researchUnitRepository->getByIdWithRelations($research_unit, ['administrative_unit', 'research_unit_category', 'director', 'inventory_manager']);
 
             return view('client.pages.research_units.show', compact('item'));
         } catch (\Exception $th) {
-            return $th->getMessage();
-            return redirect()->route('client.home', $request->client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 
@@ -119,7 +120,7 @@ class ResearchUnitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id, $research_unit, Request $request)
+    public function edit($id, $research_unit, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
             $item = $this->researchUnitRepository->getById($research_unit);
@@ -127,7 +128,7 @@ class ResearchUnitController extends Controller
 
             return view('client.pages.research_units.edit', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('client.home', $request->client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -138,7 +139,7 @@ class ResearchUnitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, $id, $research_unit)
+    public function update(UpdateRequest $request, $id, $research_unit): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
             $data = $request->all();

@@ -21,7 +21,7 @@
 
 <!-- Projects -->
 <li class="nav-item">
-    <a href="" class="nav-link">
+    <a href="{{ route('client.projects.index', [$client->name]) }}" class="nav-link {{ routeIsActived('projects') }}">
         <i class="fas fa-chalkboard-teacher nav-icon"></i>
         <p>{{ __('menu.client.Projects') }}</p>
     </a>

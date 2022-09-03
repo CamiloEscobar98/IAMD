@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Admin\Localizations\Cities\StoreRequest;
 use App\Http\Requests\Admin\Localizations\Cities\UpdateRequest;
 
-use App\Services\Localization\CityService;
+use App\Services\Admin\CityService;
 
 use App\Repositories\CityRepository;
 use App\Repositories\StateRepository;

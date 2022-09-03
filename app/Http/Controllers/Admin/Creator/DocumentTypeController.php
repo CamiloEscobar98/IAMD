@@ -13,7 +13,7 @@ use App\Http\Requests\Admin\Creator\DocumentTypes\UpdateRequest;
 
 use App\Repositories\DocumentTypeRepository;
 
-use App\Services\DocumentTypeService;
+use App\Services\Admin\DocumentTypeService;
 
 class DocumentTypeController extends Controller
 {

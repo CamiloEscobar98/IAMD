@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Admin;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-use App\Repositories\ExternalOrganizationRepository;
+use App\Repositories\IntangibleAssetStateRepository;
 
-class ExternalOrganizationService
+class IntangibleAssetStateService
 {
-    /** @var ExternalOrganizationRepository */
-    protected $countryRepository;
+    /** @var IntangibleAssetStateRepository */
+    protected $intangibleAssetStateRepository;
 
-    public function __construct(ExternalOrganizationRepository $externalOrganizationRepository)
+    public function __construct(IntangibleAssetStateRepository $intangibleAssetStateRepository)
     {
-        $this->externalOrganizationRepository = $externalOrganizationRepository;
+        $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
     }
 
     /**
@@ -46,7 +46,7 @@ class ExternalOrganizationService
     {
         try {
 
-            $perPage = $this->externalOrganizationRepository->getPerPage();
+            $perPage = $this->intangibleAssetStateRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 

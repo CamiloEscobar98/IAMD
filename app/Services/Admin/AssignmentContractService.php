@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Services\Localization;
+namespace App\Services\Admin;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-use App\Repositories\CountryRepository;
+use App\Repositories\AssignmentContractRepository;
 
-class CountryService
+class AssignmentContractService
 {
-    /** @var CountryRepository */
-    protected $countryRepository;
+    /** @var AssignmentContractRepository */
+    protected $assignmentContractRepository;
 
-    public function __construct(CountryRepository $countryRepository)
+    public function __construct(AssignmentContractRepository $assignmentContractRepository)
     {
-        $this->countryRepository = $countryRepository;
+        $this->assignmentContractRepository = $assignmentContractRepository;
     }
 
     /**
@@ -46,7 +46,7 @@ class CountryService
     {
         try {
 
-            $perPage = $this->countryRepository->getPerPage();
+            $perPage = $this->assignmentContractRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 

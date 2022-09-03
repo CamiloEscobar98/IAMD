@@ -16,7 +16,7 @@
             @forelse ($items as $item)
                @include('client.pages.research_units.components.row')
             @empty
-                <td colspan="12">{{ __('admin_pages.default.empty_table') }}</td>
+                <td colspan="12">{{ __('pages.default.empty_table') }}</td>
             @endforelse
         </tbody>
     </table>

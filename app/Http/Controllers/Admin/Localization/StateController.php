@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
+
 use App\Http\Requests\Admin\Localizations\States\StoreRequest;
 use App\Http\Requests\Admin\Localizations\States\UpdateRequest;
-use App\Services\Localization\StateService;
-use App\Services\Localization\CityService;
+
+use App\Services\Admin\StateService;
+use App\Services\Admin\CityService;
 
 use App\Repositories\CountryRepository;
 use App\Repositories\StateRepository;

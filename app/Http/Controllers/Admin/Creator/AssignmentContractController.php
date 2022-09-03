@@ -13,7 +13,7 @@ use App\Http\Requests\Admin\Creator\AssignmentContracts\UpdateRequest;
 
 use App\Repositories\AssignmentContractRepository;
 
-use App\Services\AssignmentContractService;
+use App\Services\Admin\AssignmentContractService;
 
 class AssignmentContractController extends Controller
 {

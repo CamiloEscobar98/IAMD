@@ -16,5 +16,6 @@ return [
 
     'administrative_units' => 'Subdirecciones Técnicas',
 
+    'research_units' => 'Unidades Investigativas',
     'research_unit_categories' => 'Categorías de Unidades Investigativas'
 ];

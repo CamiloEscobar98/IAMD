@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Services\Localization;
+namespace App\Services\Admin;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-use App\Repositories\StateRepository;
+use App\Repositories\CountryRepository;
 
-class StateService
+class CountryService
 {
-    /** @var StateRepository */
-    protected $stateRepository;
+    /** @var CountryRepository */
+    protected $countryRepository;
 
-    public function __construct(StateRepository $stateRepository)
+    public function __construct(CountryRepository $countryRepository)
     {
-        $this->stateRepository = $stateRepository;
+        $this->countryRepository = $countryRepository;
     }
 
     /**
@@ -25,12 +25,7 @@ class StateService
     public function transformParams($params)
     {
         if (empty($params)) {
-            // $params = set_sub_month_date_filter($params, 'date_from', 1);
-        }
-        if (isset($params['country']) && $params['country']) {
-            $params['country_id'] = $params['country'];
-
-            $params['country'] = null;
+            $params = set_sub_month_date_filter($params, 'date_from', 1);
         }
 
         # Clean empty keys
@@ -42,17 +37,16 @@ class StateService
     /**
      * @param $query
      * @param array $params
-     * @param int $perPage
      * @param int $pageNumber
      * @param int $total
      * 
      * @return LengthAwarePaginator $items
      */
-    public function customPagination($query, $params, $perPage = null, $pageNumber, $total)
+    public function customPagination($query, $params, $pageNumber, $total)
     {
         try {
 
-            $perPage = isset($perPage) && $perPage ? $perPage : $this->stateRepository->getPerPage();
+            $perPage = $this->countryRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
@@ -70,7 +64,6 @@ class StateService
             } else {
                 $query->orderBy('name', 'ASC');
             }
-            $query->orderBy('country_id', 'ASC');
             $items = $query->get();
 
             $items = new LengthAwarePaginator($items, $total, $perPage, $page, [

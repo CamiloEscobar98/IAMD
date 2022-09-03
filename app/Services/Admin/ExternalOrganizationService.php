@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Admin;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-use App\Repositories\DocumentTypeRepository;
+use App\Repositories\ExternalOrganizationRepository;
 
-class DocumentTypeService
+class ExternalOrganizationService
 {
-    /** @var DocumentTypeRepository */
-    protected $documentTypeRepository;
+    /** @var ExternalOrganizationRepository */
+    protected $countryRepository;
 
-    public function __construct(DocumentTypeRepository $documentTypeRepository)
+    public function __construct(ExternalOrganizationRepository $externalOrganizationRepository)
     {
-        $this->documentTypeRepository = $documentTypeRepository;
+        $this->externalOrganizationRepository = $externalOrganizationRepository;
     }
 
     /**
@@ -46,7 +46,7 @@ class DocumentTypeService
     {
         try {
 
-            $perPage = $this->documentTypeRepository->getPerPage();
+            $perPage = $this->externalOrganizationRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
