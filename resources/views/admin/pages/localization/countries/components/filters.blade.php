@@ -8,8 +8,8 @@
                                 <label class="input-group-text">{{ __('filters.order_by') }}</label>
                             </div>
                             <select class="custom-select" name="order_by">
-                                <option value="1" {{ isSelectedOption($params, 'order_by', '1') }}>A-Z</option>
-                                <option value="2" {{ isSelectedOption($params, 'order_by', '2') }}>Z-A</option>
+                                <option value="1" {{ optionIsSelected($params, 'order_by', 1) }}>A-Z</option>
+                                <option value="2" {{ optionIsSelected($params, 'order_by', 2) }}>Z-A</option>
                             </select>
                         </div>
                     </div>
