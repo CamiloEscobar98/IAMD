@@ -2,8 +2,6 @@
 
 namespace App\Repositories\Admin;
 
-use Illuminate\Database\Eloquent\Model;
-
 use App\Repositories\AbstractRepository;
 
 use App\Models\Admin\CreatorStudyLevel;

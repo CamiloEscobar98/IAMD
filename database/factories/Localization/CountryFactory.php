@@ -2,7 +2,7 @@
 
 namespace Database\Factories\Localization;
 
-use App\Models\Admin\Country;
+use App\Models\Admin\Localization\Country;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
