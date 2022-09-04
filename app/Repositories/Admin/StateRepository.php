@@ -4,7 +4,7 @@ namespace App\Repositories\Admin;
 
 use App\Repositories\AbstractRepository;
 
-use App\Models\Admin\Localization\State;
+use App\Models\Admin\State;
 
 class StateRepository extends AbstractRepository
 {

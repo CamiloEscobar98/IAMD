@@ -4,7 +4,7 @@ namespace App\Repositories\Admin;
 
 use App\Repositories\AbstractRepository;
 
-use App\Models\Admin\Localization\City;
+use App\Models\Admin\City;
 
 class CityRepository extends AbstractRepository
 {

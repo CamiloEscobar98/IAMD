@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models\Admin\IntangibleAssetTypes;
+namespace App\Models\Admin\IntangibleAssetTypeLevel;
 
-use App\Models\BaseModel;
+use App\Models\Admin\BaseModel;
 
 class IntangibleAssetTypeLevel2 extends BaseModel
 {

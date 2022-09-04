@@ -4,7 +4,7 @@ namespace App\Repositories\Admin;
 
 use App\Repositories\AbstractRepository;
 
-use App\Models\Admin\IntangibleAssetTypes\IntangibleAssetTypeLevel1;
+use App\Models\Admin\IntangibleAssetTypeLevel\IntangibleAssetTypeLevel1;
 
 class IntangibleAssetTypeLevel1Repository extends AbstractRepository 
 {
