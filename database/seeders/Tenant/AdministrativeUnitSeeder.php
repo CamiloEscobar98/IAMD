@@ -4,7 +4,7 @@ namespace Database\Seeders\Tenant;
 
 use Illuminate\Database\Seeder;
 
-use App\Repositories\Tenant\AdministrativeUnitRepository;
+use App\Repositories\Client\AdministrativeUnitRepository;
 
 class AdministrativeUnitSeeder extends Seeder
 {

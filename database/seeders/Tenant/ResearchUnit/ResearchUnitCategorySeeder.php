@@ -4,7 +4,7 @@ namespace Database\Seeders\Tenant\ResearchUnit;
 
 use Illuminate\Database\Seeder;
 
-use App\Repositories\Tenant\ResearchUnitCategoryRepository;
+use App\Repositories\Client\ResearchUnitCategoryRepository;
 
 class ResearchUnitCategorySeeder extends Seeder
 {

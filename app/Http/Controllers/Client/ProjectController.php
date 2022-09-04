@@ -13,7 +13,7 @@ use App\Http\Requests\Client\Projects\UpdateRequest;
 
 use App\Services\Client\ProjectService;
 
-use App\Repositories\Tenant\ProjectRepository;
+use App\Repositories\Client\ProjectRepository;
 
 class ProjectController extends Controller
 {

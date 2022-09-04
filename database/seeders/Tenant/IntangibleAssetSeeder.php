@@ -4,14 +4,14 @@ namespace Database\Seeders\Tenant;
 
 use Illuminate\Database\Seeder;
 
-use App\Repositories\IntangibleAssetStateRepository;
-use App\Repositories\Tenant\IntangibleAssetCommercialRepository;
-use App\Repositories\Tenant\IntangibleAssetPublishedRepository;
-use App\Repositories\Tenant\IntangibleAssetCreatorRepository;
+use App\Repositories\Admin\IntangibleAssetStateRepository;
+use App\Repositories\Client\IntangibleAssetCommercialRepository;
+use App\Repositories\Client\IntangibleAssetPublishedRepository;
+use App\Repositories\Client\IntangibleAssetCreatorRepository;
 
-use App\Repositories\Tenant\IntangibleAssetRepository;
-use App\Repositories\Tenant\ProjectRepository;
-use App\Repositories\Tenant\CreatorRepository;
+use App\Repositories\Client\IntangibleAssetRepository;
+use App\Repositories\Client\ProjectRepository;
+use App\Repositories\Client\CreatorRepository;
 
 class IntangibleAssetSeeder extends Seeder
 {

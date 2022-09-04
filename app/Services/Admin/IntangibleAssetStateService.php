@@ -5,7 +5,7 @@ namespace App\Services\Admin;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-use App\Repositories\IntangibleAssetStateRepository;
+use App\Repositories\Admin\IntangibleAssetStateRepository;
 
 class IntangibleAssetStateService
 {

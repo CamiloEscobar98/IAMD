@@ -5,7 +5,7 @@ namespace App\Services\Admin;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-use App\Repositories\ExternalOrganizationRepository;
+use App\Repositories\Admin\ExternalOrganizationRepository;
 
 class ExternalOrganizationService
 {

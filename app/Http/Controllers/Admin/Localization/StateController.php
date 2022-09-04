@@ -13,9 +13,9 @@ use App\Http\Requests\Admin\Localizations\States\UpdateRequest;
 use App\Services\Admin\StateService;
 use App\Services\Admin\CityService;
 
-use App\Repositories\CountryRepository;
-use App\Repositories\StateRepository;
-use App\Repositories\CityRepository;
+use App\Repositories\Admin\CountryRepository;
+use App\Repositories\Admin\StateRepository;
+use App\Repositories\Admin\CityRepository;
 
 class StateController extends Controller
 {

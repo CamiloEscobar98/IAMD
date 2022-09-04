@@ -4,9 +4,9 @@ namespace Database\Seeders\Tenant;
 
 use Illuminate\Database\Seeder;
 
-use App\Repositories\Tenant\CreatorRepository;
-use App\Repositories\Tenant\ProjectRepository;
-use App\Repositories\Tenant\ResearchUnitRepository;
+use App\Repositories\Client\CreatorRepository;
+use App\Repositories\Client\ProjectRepository;
+use App\Repositories\Client\ResearchUnitRepository;
 
 class ProjectSeeder extends Seeder
 {

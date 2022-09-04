@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use App\Repositories\TenantRepository;
+use App\Repositories\Admin\TenantRepository;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 use PDO;

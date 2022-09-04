@@ -5,7 +5,7 @@ namespace Database\Factories\Tenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-use App\Models\Tenant\ResearchUnit;
+use App\Models\Client\ResearchUnit;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tenant\ResearchUnit>

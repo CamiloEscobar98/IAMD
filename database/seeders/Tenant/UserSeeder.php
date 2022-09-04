@@ -4,7 +4,7 @@ namespace Database\Seeders\Tenant;
 
 use Illuminate\Database\Seeder;
 
-use App\Repositories\Tenant\UserRepository;
+use App\Repositories\Client\UserRepository;
 
 class UserSeeder extends Seeder
 {

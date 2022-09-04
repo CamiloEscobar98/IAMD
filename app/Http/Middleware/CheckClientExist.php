@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Config;
 
 use Closure;
 
-use App\Repositories\TenantRepository;
+use App\Repositories\Admin\TenantRepository;
 
 class CheckClientExist
 {

@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-use App\Repositories\LinkageTypeRepository;
+use App\Repositories\Admin\LinkageTypeRepository;
 
 class LinkageTypeSeeder extends Seeder
 {

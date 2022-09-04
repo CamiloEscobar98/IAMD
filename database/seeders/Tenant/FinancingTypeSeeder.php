@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\Tenant;
 
-use App\Repositories\Tenant\FinancingTypeRepository;
+use App\Repositories\Client\FinancingTypeRepository;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

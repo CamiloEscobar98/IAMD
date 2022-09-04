@@ -12,7 +12,7 @@ use App\Http\Requests\Client\ResearchUnits\UpdateRequest;
 
 use App\Services\Client\ResearchUnitService;
 
-use App\Repositories\Tenant\ResearchUnitRepository;
+use App\Repositories\Client\ResearchUnitRepository;
 
 
 class ResearchUnitController extends Controller

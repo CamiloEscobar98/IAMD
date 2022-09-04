@@ -5,9 +5,9 @@ namespace App\Http\ViewComposers\Client;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 
-use App\Repositories\Tenant\AdministrativeUnitRepository;
-use App\Repositories\Tenant\ResearchUnitRepository;
-use App\Repositories\Tenant\CreatorRepository;
+use App\Repositories\Client\AdministrativeUnitRepository;
+use App\Repositories\Client\ResearchUnitRepository;
+use App\Repositories\Client\CreatorRepository;
 
 class ProjectViewComposer
 {

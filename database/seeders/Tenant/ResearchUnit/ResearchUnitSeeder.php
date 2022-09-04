@@ -4,10 +4,10 @@ namespace Database\Seeders\Tenant\ResearchUnit;
 
 use Illuminate\Database\Seeder;
 
-use App\Repositories\Tenant\AdministrativeUnitRepository;
-use App\Repositories\Tenant\CreatorRepository;
-use App\Repositories\Tenant\ResearchUnitCategoryRepository;
-use App\Repositories\Tenant\ResearchUnitRepository;
+use App\Repositories\Client\AdministrativeUnitRepository;
+use App\Repositories\Client\CreatorRepository;
+use App\Repositories\Client\ResearchUnitCategoryRepository;
+use App\Repositories\Client\ResearchUnitRepository;
 
 class ResearchUnitSeeder extends Seeder
 {

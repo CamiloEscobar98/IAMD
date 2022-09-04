@@ -2,15 +2,15 @@
 
 namespace Database\Seeders\Tenant\Creator;
 
-use App\Repositories\ExternalOrganizationRepository;
+use App\Repositories\Admin\ExternalOrganizationRepository;
 use Illuminate\Database\Seeder;
 
-use App\Repositories\Tenant\CreatorExternalRepository;
-use App\Repositories\Tenant\CreatorInternalRepository;
-use App\Repositories\Tenant\CreatorRepository;
+use App\Repositories\Client\CreatorExternalRepository;
+use App\Repositories\Client\CreatorInternalRepository;
+use App\Repositories\Client\CreatorRepository;
 
-use App\Repositories\LinkageTypeRepository;
-use App\Repositories\AssignmentContractRepository;
+use App\Repositories\Admin\LinkageTypeRepository;
+use App\Repositories\Admin\AssignmentContractRepository;
 
 class CreatorInternalOrExternalSeeder extends Seeder
 {

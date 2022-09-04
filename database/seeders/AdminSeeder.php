@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-use App\Repositories\AdminRepository;
+use App\Repositories\Admin\AdminRepository;
 
 class AdminSeeder extends Seeder
 {

@@ -6,14 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
+
 use App\Http\Requests\Admin\Localizations\Countries\StoreRequest;
 use App\Http\Requests\Admin\Localizations\Countries\UpdateRequest;
 
-
 use App\Services\Admin\CountryService;
 
-use App\Repositories\CountryRepository;
-use App\Repositories\StateRepository;
+use App\Repositories\Admin\CountryRepository;
+use App\Repositories\Admin\StateRepository;
 use App\Services\Admin\StateService;
 
 class CountryController extends Controller

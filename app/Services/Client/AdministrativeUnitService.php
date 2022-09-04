@@ -5,7 +5,7 @@ namespace App\Services\Client;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-use App\Repositories\Tenant\AdministrativeUnitRepository;
+use App\Repositories\Client\AdministrativeUnitRepository;
 
 class AdministrativeUnitService
 {

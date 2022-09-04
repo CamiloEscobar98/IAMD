@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Repositories\ExternalOrganizationRepository;
+use App\Repositories\Admin\ExternalOrganizationRepository;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

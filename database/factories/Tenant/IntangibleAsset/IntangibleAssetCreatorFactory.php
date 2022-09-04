@@ -4,7 +4,7 @@ namespace Database\Factories\Tenant\IntangibleAsset;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-use App\Models\Tenant\IntangibleAsset\IntangibleAssetCreator;
+use App\Models\Client\IntangibleAsset\IntangibleAssetCreator;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tenant\IntangibleAsset\IntangibleAssetCreator>

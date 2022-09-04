@@ -4,10 +4,10 @@ namespace Database\Seeders\Tenant\Creator;
 
 use Illuminate\Database\Seeder;
 
-use App\Repositories\CityRepository;
-use App\Repositories\DocumentTypeRepository;
-use App\Repositories\Tenant\CreatorDocumentRepository;
-use App\Repositories\Tenant\CreatorRepository;
+use App\Repositories\Admin\CityRepository;
+use App\Repositories\Admin\DocumentTypeRepository;
+use App\Repositories\Client\CreatorDocumentRepository;
+use App\Repositories\Client\CreatorRepository;
 
 class CreatorDocumentSeeder extends Seeder
 {

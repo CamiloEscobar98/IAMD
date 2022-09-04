@@ -2,13 +2,13 @@
 
 namespace Database\Seeders\Localization;
 
-use App\Repositories\CityRepository;
+use App\Repositories\Admin\CityRepository;
 use Illuminate\Database\Seeder;
 
 use App\Services\Localization\ApiMarcoVegaColombiaStates;
 
-use App\Repositories\CountryRepository;
-use App\Repositories\StateRepository;
+use App\Repositories\Admin\CountryRepository;
+use App\Repositories\Admin\StateRepository;
 
 class StateAndCitySeeder extends Seeder
 {

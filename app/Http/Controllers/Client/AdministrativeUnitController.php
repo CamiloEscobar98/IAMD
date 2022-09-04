@@ -11,7 +11,7 @@ use App\Http\Requests\Client\AdministrativeUnits\UpdateRequest;
 
 use App\Services\Client\AdministrativeUnitService;
 
-use App\Repositories\Tenant\AdministrativeUnitRepository;
+use App\Repositories\Client\AdministrativeUnitRepository;
 
 class AdministrativeUnitController extends Controller
 {

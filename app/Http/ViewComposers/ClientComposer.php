@@ -4,7 +4,7 @@ namespace App\Http\ViewComposers;
 
 use Illuminate\View\View;
 
-use App\Repositories\TenantRepository;
+use App\Repositories\Admin\TenantRepository;
 use Illuminate\Http\Request;
 
 class ClientComposer

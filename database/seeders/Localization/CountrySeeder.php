@@ -4,7 +4,7 @@ namespace Database\Seeders\Localization;
 
 use Illuminate\Database\Seeder;
 
-use App\Repositories\CountryRepository;
+use App\Repositories\Admin\CountryRepository;
 
 class CountrySeeder extends Seeder
 {

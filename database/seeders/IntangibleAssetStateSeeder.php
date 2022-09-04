@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-use App\Repositories\IntangibleAssetStateRepository;
+use App\Repositories\Admin\IntangibleAssetStateRepository;
 
 class IntangibleAssetStateSeeder extends Seeder
 {

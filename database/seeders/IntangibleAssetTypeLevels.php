@@ -3,11 +3,11 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-
-use App\Repositories\IntangibleAssetTypeLevel1Repository;
-use App\Repositories\IntangibleAssetTypeLevel2Repository;
-use App\Repositories\IntangibleAssetTypeLevel3Repository;
 use Illuminate\Support\Facades\Config;
+
+use App\Repositories\Admin\IntangibleAssetTypeLevel1Repository;
+use App\Repositories\Admin\IntangibleAssetTypeLevel2Repository;
+use App\Repositories\Admin\IntangibleAssetTypeLevel3Repository;
 
 class IntangibleAssetTypeLevels extends Seeder
 {

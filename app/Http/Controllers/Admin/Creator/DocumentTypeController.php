@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Admin\Creator\DocumentTypes\StoreRequest;
 use App\Http\Requests\Admin\Creator\DocumentTypes\UpdateRequest;
 
-use App\Repositories\DocumentTypeRepository;
+use App\Repositories\Admin\DocumentTypeRepository;
 
 use App\Services\Admin\DocumentTypeService;
 

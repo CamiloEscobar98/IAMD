@@ -5,7 +5,7 @@ namespace Database\Factories\Tenant\IntangibleAsset;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-use App\Models\Tenant\IntangibleAsset\IntangibleAsset;
+use App\Models\Client\IntangibleAsset\IntangibleAsset;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tenant\IntangibleAsset\IntangibleAsset>

@@ -14,7 +14,7 @@ use App\Http\Requests\Admin\IntangibleAssets\States\UpdateRequest;
 
 use App\Services\Admin\IntangibleAssetStateService;
 
-use App\Repositories\IntangibleAssetStateRepository;
+use App\Repositories\Admin\IntangibleAssetStateRepository;
 
 class IntangibleAssetStateController extends Controller
 {

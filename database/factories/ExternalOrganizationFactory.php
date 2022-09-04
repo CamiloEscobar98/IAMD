@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\ExternalOrganization;
+use App\Models\Admin\ExternalOrganization;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

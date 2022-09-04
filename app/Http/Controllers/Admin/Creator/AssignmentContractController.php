@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Admin\Creator\AssignmentContracts\StoreRequest;
 use App\Http\Requests\Admin\Creator\AssignmentContracts\UpdateRequest;
 
-use App\Repositories\AssignmentContractRepository;
+use App\Repositories\Admin\AssignmentContractRepository;
 
 use App\Services\Admin\AssignmentContractService;
 

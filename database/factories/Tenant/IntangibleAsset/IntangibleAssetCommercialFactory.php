@@ -2,7 +2,7 @@
 
 namespace Database\Factories\Tenant\IntangibleAsset;
 
-use App\Models\Tenant\IntangibleAsset\IntangibleAssetCommercial;
+use App\Models\Client\IntangibleAsset\IntangibleAssetCommercial;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

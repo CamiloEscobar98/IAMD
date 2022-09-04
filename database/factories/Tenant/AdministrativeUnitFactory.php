@@ -4,7 +4,7 @@ namespace Database\Factories\Tenant;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-use App\Models\Tenant\AdministrativeUnit;
+use App\Models\Client\AdministrativeUnit;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tenant\AdministrativeUnit>

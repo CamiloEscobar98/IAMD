@@ -4,7 +4,7 @@ namespace Database\Factories\Tenant\Creator;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-use App\Models\Tenant\Creator\CreatorDocument;
+use App\Models\Client\Creator\CreatorDocument;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tenant\CreatorDocument>
