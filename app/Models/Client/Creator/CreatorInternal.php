@@ -42,11 +42,11 @@ class CreatorInternal extends BaseModel
     /**
      * Get Creator.
      * 
-     * @return \App\Models\Tenant\Creator
+     * @return \App\Models\Client\Creator
      */
     public function creator()
     {
-        return $this->belongsTo(\App\Models\Tenant\Creator::class);
+        return $this->belongsTo(\App\Models\Client\Creator::class);
     }
 
     /**

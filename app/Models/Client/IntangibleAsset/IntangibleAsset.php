@@ -46,7 +46,7 @@ class IntangibleAsset extends BaseModel
      */
     public function project()
     {
-        return $this->belongsTo(\App\Models\Tenant\Project::class);
+        return $this->belongsTo(\App\Models\Client\Project::class);
     }
 
     /**

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Client\AdministrativeUnit;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tenant\AdministrativeUnit>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client\AdministrativeUnit>
  */
 class AdministrativeUnitFactory extends Factory
 {

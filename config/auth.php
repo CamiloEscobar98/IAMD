@@ -66,12 +66,12 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Tenant\User::class,
+            'model' => App\Models\Client\User::class,
         ],
 
         'admins' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Admin::class
+            'model' => App\Models\Admin\Admin::class
         ]
 
         // 'users' => [

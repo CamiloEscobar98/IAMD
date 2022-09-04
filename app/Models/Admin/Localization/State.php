@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Models\Client\Localization;
+namespace App\Models\Admin\Localization;
 
-use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+use App\Models\Admin\BaseModel;
+
 class State extends BaseModel
 {
     use HasFactory;
-    
+
     /**
      * The number of models to return for pagination.
      *

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Client\IntangibleAsset\IntangibleAssetCreator;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tenant\IntangibleAsset\IntangibleAssetCreator>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client\IntangibleAsset\IntangibleAssetCreator>
  */
 class IntangibleAssetCreatorFactory extends Factory
 {

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Client\Creator\Creator;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tenant\Creator>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client\Creator>
  */
 class CreatorFactory extends Factory
 {

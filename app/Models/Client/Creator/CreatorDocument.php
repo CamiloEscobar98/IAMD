@@ -37,7 +37,7 @@ class CreatorDocument extends BaseModel
     /**
      * Get Creator.
      * 
-     * @return \App\Models\Tenant\Creator
+     * @return \App\Models\Client\Creator
      */
     public function creator()
     {

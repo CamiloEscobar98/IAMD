@@ -42,7 +42,7 @@ class CheckClientExist
     /**
      * @param int $name
      * 
-     * @return \App\Models\Tenant
+     * @return \App\Models\Admin\Tenant
      */
     protected function initClient($name)
     {

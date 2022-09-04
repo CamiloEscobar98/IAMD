@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use App\Models\Client\ResearchUnit;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tenant\ResearchUnit>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client\ResearchUnit>
  */
 class ResearchUnitFactory extends Factory
 {

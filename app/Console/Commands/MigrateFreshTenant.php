@@ -4,12 +4,10 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use App\Repositories\Admin\TenantRepository;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
-use PDO;
 
-use function PHPUnit\Framework\isEmpty;
+use App\Repositories\Admin\TenantRepository;
 
 class MigrateFreshTenant extends Command
 {
@@ -51,7 +49,7 @@ class MigrateFreshTenant extends Command
         try {
             $this->warn('Searching Tenant...');
 
-            /** @var \App\Models\Tenant */
+            /** @var \App\Models\Admin\Tenant */
             $tenant = $this->tenantRepository->getByAttribute('name', $tenant);
             $this->info('Tenant searched.');
 
@@ -84,7 +82,6 @@ class MigrateFreshTenant extends Command
             while (Artisan::call($command, $options)) {
                 print(Artisan::output());
             }
-
         } catch (\Exception $th) {
             $this->error($th->getMessage());
         }

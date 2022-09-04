@@ -87,11 +87,11 @@ class CreatorInternalOrExternalSeeder extends Seeder
     /**
      * Create an Internal Creator
      * 
-     * @param \App\Models\Tenant\Creator $creator
+     * @param \App\Models\Client\Creator $creator
      * @param \App\Models\LinkageType $linkageType
      * @param \App\Models\AssignmentContract $assignmentContract
      * 
-     * @return \App\Models\Tenant\CreatorInternal
+     * @return \App\Models\Client\CreatorInternal
      */
     private function createInternalCreator($creator, $linkageType, $assignmentContract)
     {
@@ -109,11 +109,11 @@ class CreatorInternalOrExternalSeeder extends Seeder
     /**
      * Create an External Creator
      * 
-     * @param \App\Models\Tenant\Creator $creator
+     * @param \App\Models\Client\Creator $creator
      * @param \App\Models\ExternalOrganization $externalOrganization
      * @param \App\Models\AssignmentContract $assignmentContract
      * 
-     * @return \App\Models\Tenant\CreatorExternal
+     * @return \App\Models\Client\CreatorExternal
      */
     private function createExternalCreator($creator, $externalOrganization, $assignmentContract)
     {

@@ -38,41 +38,41 @@ class ResearchUnit extends BaseModel
     /**
      * Get Administrative Unit.
      * 
-     * @return \App\Models\Tenant\AdministrativeUnit
+     * @return \App\Models\Client\AdministrativeUnit
      */
     public function administrative_unit()
     {
-        return $this->belongsTo(\App\Models\Tenant\AdministrativeUnit::class);
+        return $this->belongsTo(\App\Models\Client\AdministrativeUnit::class);
     }
 
     /**
      * Get Research Unit Category
      * 
-     * @return \App\Models\Tenant\ResearchUnitCategory
+     * @return \App\Models\Client\ResearchUnitCategory
      */
     public function research_unit_category()
     {
-        return $this->belongsTo(\App\Models\Tenant\ResearchUnitCategory::class);
+        return $this->belongsTo(\App\Models\Client\ResearchUnitCategory::class);
     }
 
     /**
      * Get the director.
      * 
-     * @return \App\Models\Tenant\Creator
+     * @return \App\Models\Client\Creator
      */
     public function director()
     {
-        return $this->belongsTo(\App\Models\Tenant\Creator\Creator::class, 'director_id');
+        return $this->belongsTo(\App\Models\Client\Creator\Creator::class, 'director_id');
     }
 
     /**
      * Get the Inventory Manager.
      * 
-     * @return \App\Models\Tenant\Creator
+     * @return \App\Models\Client\Creator
      */
     public function inventory_manager()
     {
-        return $this->belongsTo(\App\Models\Tenant\Creator\Creator::class, 'inventory_manager_id');
+        return $this->belongsTo(\App\Models\Client\Creator\Creator::class, 'inventory_manager_id');
     }
 
     /**
@@ -82,6 +82,6 @@ class ResearchUnit extends BaseModel
      */
     public function projects()
     {
-        return $this->hasMany(\App\Models\Tenant\Project::class);
+        return $this->hasMany(\App\Models\Client\Project::class);
     }
 }

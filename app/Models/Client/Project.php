@@ -23,21 +23,21 @@ class Project extends BaseModel
     /**
      * Get the research unit.
      * 
-     * @return \App\Models\Tenant\ResearchUnit
+     * @return \App\Models\Client\ResearchUnit
      */
     public function research_unit()
     {
-        return $this->belongsTo(\App\Models\Tenant\ResearchUnit::class, 'research_unit_id');
+        return $this->belongsTo(\App\Models\Client\ResearchUnit::class, 'research_unit_id');
     }
 
     /**
      * Get the director.
      * 
-     * @return \App\Models\Tenant\Creator
+     * @return \App\Models\Client\Creator
      */
     public function director()
     {
-        return $this->belongsTo(\App\Models\Tenant\Creator\Creator::class, 'director_id');
+        return $this->belongsTo(\App\Models\Client\Creator\Creator::class, 'director_id');
     }
 
     /**
@@ -47,6 +47,6 @@ class Project extends BaseModel
      */
     public function intangible_assets()
     {
-        return $this->hasMany(\App\Models\Tenant\IntangibleAsset\IntangibleAsset::class);
+        return $this->hasMany(\App\Models\Client\IntangibleAsset\IntangibleAsset::class);
     }
 }

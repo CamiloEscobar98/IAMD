@@ -29,6 +29,6 @@ class ExternalOrganization extends BaseModel
      */
     public function creators()
     {
-        return $this->hasMany(\App\Models\Tenant\Creator::class);
+        return $this->hasMany(\App\Models\Client\Creator\Creator::class);
     }
 }

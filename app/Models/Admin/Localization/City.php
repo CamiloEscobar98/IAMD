@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models\Client\Localization;
-
-use App\Models\BaseModel;
+namespace App\Models\Admin\Localization;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Znck\Eloquent\Traits\BelongsToThrough;
+
+use App\Models\Admin\BaseModel;
 
 class City extends BaseModel
 {

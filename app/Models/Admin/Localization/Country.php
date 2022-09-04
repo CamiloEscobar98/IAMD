@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models\Client\Localization;
-
-use App\Models\BaseModel;
+namespace App\Models\Admin\Localization;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+
+use App\Models\Admin\BaseModel;
 
 class Country extends BaseModel
 {

@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use App\Models\Client\IntangibleAsset\IntangibleAsset;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tenant\IntangibleAsset\IntangibleAsset>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client\IntangibleAsset\IntangibleAsset>
  */
 class IntangibleAssetFactory extends Factory
 {
