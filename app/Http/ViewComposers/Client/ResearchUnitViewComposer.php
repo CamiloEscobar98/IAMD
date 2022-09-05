@@ -2,12 +2,11 @@
 
 namespace App\Http\ViewComposers\Client;
 
-use App\Repositories\Client\AdministrativeUnitRepository;
-use App\Repositories\Client\CreatorRepository;
 use Illuminate\View\View;
-use Illuminate\Http\Request;
 
+use App\Repositories\Client\AdministrativeUnitRepository;
 use App\Repositories\Client\ResearchUnitCategoryRepository;
+use App\Repositories\Client\CreatorRepository;
 
 class ResearchUnitViewComposer
 {

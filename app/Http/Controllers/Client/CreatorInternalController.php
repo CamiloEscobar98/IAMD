@@ -37,9 +37,9 @@ class CreatorInternalController extends Controller
      * 
      * @var Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function index(Request $request) #: \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+    public function index(Request $request): \Illuminate\View\View|\Illuminate\Http\RedirectResponse
     {
         try {
             $params = $this->creatorInternalService->transformParams($request->all());
@@ -60,7 +60,6 @@ class CreatorInternalController extends Controller
                 ->nest('filters', 'client.pages.creators.internal.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.creators.internal.components.table', compact('items', 'links'));
         } catch (\Exception $th) {
-            return $th->getMessage();
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
@@ -68,11 +67,15 @@ class CreatorInternalController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function create()
+    public function create(): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
-        //
+        try {
+            return view('client.pages.creators.internal.create');
+        } catch (\Exception $th) {
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        }
     }
 
     /**
@@ -124,13 +127,13 @@ class CreatorInternalController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @param int $creator_internal
+     * @param int $internal
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, $creator_internal)
+    public function destroy($id, $internal)
     {
         try {
-            $item = $this->creatorInternalRepository->getByIdWithRelations($creator_internal, ['creator'], 'creator_id');
+            $item = $this->creatorInternalRepository->getByIdWithRelations($internal, ['creator'], 'creator_id');
 
             DB::beginTransaction();
 

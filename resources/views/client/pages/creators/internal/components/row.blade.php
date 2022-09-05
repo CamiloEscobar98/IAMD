@@ -21,7 +21,7 @@
                 @csrf
                 @method('DELETE')
 
-                <button type="submit" class="btn btn-sm btn-danger" onclick="destroy(event, {{ $item->creator_id }})">
+                <button type="submit" class="btn btn-sm btn-danger" onclick='destroy(event, "{{ $item->creator_id }}")'>
                     <i class="fas fa-sm fa-trash"></i>
                 </button>
             </form>

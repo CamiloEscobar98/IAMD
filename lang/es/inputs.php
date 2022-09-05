@@ -22,6 +22,15 @@ return [
     'research_unit_id' => 'Unidad Investigativa',
     'research_unit_category_id' => 'Categoría Unidad Investigativa',
     'director_id' => 'Director',
-    'inventory_manager_id' => 'Administrador de Inventario'
+    'inventory_manager_id' => 'Administrador de Inventario',
+
+    'document' => 'Documento de Identidad',
+    'document_type_id' => 'Tipo de Documento',
+    'linkage_type_id' => 'Tipo de Vinculación',
+    'assignment_contract_id' => 'Tipo de Contratación',
+
+    'email' => 'Correo Electrónico',
+    'phone' => 'Teléfono Celular',
+    
 
 ];

@@ -50,5 +50,13 @@ class ComposerServiceProvider extends ServiceProvider
         View::composer([
             'client.pages.projects.components.filters', 'client.pages.projects.components.form',
         ], 'App\Http\ViewComposers\Client\ProjectViewComposer');
+
+        /** Creators */
+
+        /** Internal */
+        /** Projects */
+        View::composer([
+            'client.pages.creators.internal.components.filters', 'client.pages.creators.internal.components.form',
+        ], 'App\Http\ViewComposers\Client\CreatorInternalViewComposer');
     }
 }

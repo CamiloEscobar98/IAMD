@@ -38,6 +38,14 @@ class CreatorInternalRepository extends  AbstractRepository
             $query->where("$joinCreators.name", 'like', '%' . $params['name'] . '%');
         }
 
+        if (isset($params['linkage_type_id']) && $params['linkage_type_id']) {
+            $query->where('linkage_type_id', $params['linkage_type_id']);
+        }
+
+        if (isset($params['assignment_contract_id']) && $params['assignment_contract_id']) {
+            $query->where('assignment_contract_id', $params['assignment_contract_id']);
+        }
+
         if (isset($params['date_from']) && $params['date_from']) {
             $query->where("$table.updated_at", '>=', $params['date_from']);
         }
