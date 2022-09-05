@@ -35,7 +35,8 @@ class ComposerServiceProvider extends ServiceProvider
             $this->getMainRoutes(),
             $this->getAdministrativeUnitRoutes(),
             $this->getResearchUnitRoutes(),
-            $this->getProjectRoutes()
+            $this->getProjectRoutes(),
+            $this->getCreatorRoutes()
         );
 
         View::composer($views, 'App\Http\ViewComposers\ClientComposer');

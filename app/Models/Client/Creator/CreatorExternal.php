@@ -19,13 +19,6 @@ class CreatorExternal extends BaseModel
     protected $primaryKey = 'creator_id';
 
     /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -45,10 +38,10 @@ class CreatorExternal extends BaseModel
     /**
      * Get Assignment Contract
      * 
-     * @return \App\Models\AssignmentContract
+     * @return \App\Models\Admin\AssignmentContract
      */
-    public function assignmentContract()
+    public function assignment_contract()
     {
-        return $this->belongsTo(\App\Models\AssignmentContract::class);
+        return $this->belongsTo(\App\Models\Admin\AssignmentContract::class);
     }
 }

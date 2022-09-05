@@ -137,7 +137,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="font-italic font-weight-bold">
-                            <u>{{ __('admin_pages.default.title-information') }}</u>
+                            <u>{{ __('pages.default.title-information') }}</u>
                         </h3>
                         <div class="row justify-content-center">
                             <img src="{{ asset('assets/images/research_units.png') }}" class="img-fluid mt-3"

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->unsignedTinyInteger('linkage_type_id')->nullable();
             $table->unsignedSmallInteger('assignment_contract_id')->nullable();
 
+            $table->timestamps();
+
             $table->foreign('creator_id')->references('id')->on('creators')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('linkage_type_id')->references('id')->on('iamd.linkage_types')->cascadeOnUpdate()->nullOnDelete();
             $table->foreign('assignment_contract_id')->references('id')->on('iamd.assignment_contracts')->cascadeOnUpdate()->nullOnDelete();

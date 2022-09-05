@@ -18,7 +18,7 @@
                             <a href="{{ route('admin.creators.external_organizations.index') }}">
                                 {{ __('pages.admin.creators.external_organizations.title') }} </a>
                         </li>
-                        <li class="breadcrumb-item">{{ __('pages.admin.default.create') }}</li>
+                        <li class="breadcrumb-item">{{ __('pages.default.create') }}</li>
                     </ol>
                 </div>
             </div>

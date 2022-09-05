@@ -55,7 +55,7 @@ class ExternalOrganizationController extends Controller
                 ->nest('filters', 'admin.pages.creators.external_organizations.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.creators.external_organizations.components.table', compact('items'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 
@@ -69,7 +69,7 @@ class ExternalOrganizationController extends Controller
         try {
             return view('admin.pages.creators.external_organizations.create');
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 
@@ -107,7 +107,7 @@ class ExternalOrganizationController extends Controller
 
             return view('admin.pages.creators.external_organizations.show', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 
@@ -125,7 +125,7 @@ class ExternalOrganizationController extends Controller
             return view('admin.pages.creators.external_organizations.edit', compact('item'));
         } catch (\Exception $th) {
             return $th->getMessage();
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 

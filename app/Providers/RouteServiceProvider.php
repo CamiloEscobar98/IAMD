@@ -43,6 +43,7 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware(['web', 'check-client'])
                 ->prefix('{client}')
+                ->name('client.')
                 ->group(base_path('routes/client.php'));
         });
     }

@@ -485,10 +485,16 @@ return [
             'title' => 'Subdirecciones Técnicas',
             'subtitle' => 'Subdirecciones Técnicas',
 
-            'titles' => [
+            'route-titles' => [
                 'create' => 'Registrar Subdirección Técnica',
                 'show' => 'Visualizar Subdirección Técnica',
                 'edit' => 'Editar Subdirección Técnica',
+            ],
+
+            'form-titles' => [
+                'show' => 'Perfil de Visualización de la Subdirección Técnica',
+                'create' => 'Formulario de Registro de una Subdirección Técnica',
+                'edit' => 'Actualización de la Subdirección Técnica',
             ],
 
             'filters' => [
@@ -514,24 +520,22 @@ return [
             'messages' => [
                 'confirm' => '¿Estás seguro de que quieres eliminar la subdirección técnica?',
 
-                'save_success' => 'Se ha registrado correctamente la subdirección técnica: :administrative_unit.',
+                'save_success' => 'Se ha registrado correctamente la subdirección técnica: <b>:administrative_unit</b>',
                 'save_error' => 'No se ha registrado la subdirección técnica.',
 
-                'update_success' => 'Se ha actualizado correctamente la subdirección técnica: :administrative_unit.',
+                'update_success' => 'Se ha actualizado correctamente la subdirección técnica: <b>:administrative_unit</b>',
                 'update_error' => 'No se ha actualizado la subdirección técnica.',
 
-                'delete_success' => 'Se ha eliminado la subdirección técnica: :administrative_unit.',
+                'delete_success' => 'Se ha eliminado la subdirección técnica: <b>:administrative_unit</b>',
                 'delete_error' => 'No se ha eliminado la subdirección técnica.'
             ],
 
-            'title-show' => 'Perfil de Visualización de la Subdirección Técnica',
-            'title-form' => 'Formulario de Registro de una Subdirección Técnica',
-            'title-edit' => 'Actualización de la Subdirección Técnica',
-
-            'info-create' => "En esta sección de la aplicación podrás realizar el registro del recurso SUBDIRECCIÓN TÉCNICA. 
+            'info' => [
+                'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>SUBDIRECCIÓN TÉCNICA</b>. 
                 Dicho recurso actualmente está destinado para enriquecer la información de las subdirecciones técnicas dentro de la aplicación.",
 
-            'info-show' => "En esta sección de la aplicación podrás visualizar el país de :administrative_unit. ",
+                'show' => "En esta sección de la aplicación podrás visualizar la subdirección técnica <b>:administrative_unit</b> ",
+            ],
 
             'states' => [
                 'title' => 'Lista de Departamentos',
@@ -672,5 +676,71 @@ return [
                 'title' => 'Lista de Proyectos',
             ]
         ],
+
+        /** Creators */
+        'creators' => [
+
+            /** Internal */
+            'internal' => [
+
+                'title' => 'Creadores Internos',
+                'subtitle' => 'Creadores Internos',
+
+                'route-titles' => [
+                    'create' => 'Registrar Creador Interno',
+                    'show' => 'Visualizar Creador Interno',
+                    'edit' => 'Editar Creador Interno',
+                ],
+
+                'form-titles' => [
+                    'show' => 'Perfil de Visualización del Creador Interno',
+                    'create' => 'Formulario de Registro de una Creador Interno',
+                    'edit' => 'Actualización del Creador Interno',
+                ],
+
+                'filters' => [
+                    'name' => 'Buscar Creador Interno',
+                    'total' => 'Total de Creadores Internos: ',
+                ],
+
+                'table' => [
+                    'head' => [
+                        'name' => 'Nombre',
+                        'document' => 'Documento de Identidad',
+                        'linkage_type' => 'Tipo de Vinculación',
+                        'assignment_contract' => 'Contratación',
+                        'created_at' => 'Fecha de Creación',
+                        'updated_at' => 'Fecha de Actualización'
+                    ],
+                    'body' => [
+                        'document' => ":document <br> <b>:type</b> <br> <b>:expedition</b>"
+                    ]
+
+                ],
+
+                'messages' => [
+                    'confirm' => '¿Estás seguro de que quieres eliminar el creador interno?',
+
+                    'save_success' => 'Se ha registrado correctamente el creador interno: :creator_internal.',
+                    'save_error' => 'No se ha registrado el creador interno.',
+
+                    'update_success' => 'Se ha actualizado correctamente el creador interno: :creator_internal.',
+                    'update_error' => 'No se ha actualizado el creador interno.',
+
+                    'delete_success' => 'Se ha eliminado el creador interno: :creator_internal.',
+                    'delete_error' => 'No se ha eliminado el creador interno.'
+                ],
+
+                'info-create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>CREADOR INTERNO</b>. 
+                Dicho recurso actualmente está destinado para enriquecer la información de los creadores internos dentro de la aplicación.",
+
+                'info-show' => "En esta sección de la aplicación podrás visualizar el país de :creator_internal. ",
+
+                'states' => [
+                    'title' => 'Lista de Departamentos',
+                ]
+
+            ]
+        ]
     ]
 ];

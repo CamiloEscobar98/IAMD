@@ -1,6 +1,6 @@
 @extends('client.layout.app')
 
-@section('title', __('pages.client.administrative_units.route-titles.edit'))
+@section('title', __('pages.client.administrative_units.route-titles.show'))
 
 @section('content-header')
     <section class="content-header">
@@ -19,7 +19,7 @@
                                 {{ __('pages.client.administrative_units.title') }} </a>
                         </li>
                         <li class="breadcrumb-item">{{ $item->name }}</li>
-                        <li class="breadcrumb-item active">{{ __('pages.default.edit') }}</li>
+                        <li class="breadcrumb-item">{{ __('pages.default.show') }}</li>
                     </ol>
                 </div>
             </div>
@@ -34,11 +34,39 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.client.administrative_units.form-titles.edit') }}</u>
+                            <u>{{ __('pages.client.administrative_units.form-titles.show') }}</u>
                         </h3>
-                        @include('client.pages.administrative_units.components.form', [
-                            'editMode' => true,
-                        ])
+                        <!-- Name -->
+                        <div class="input-group mt-3">
+                            <input type="text" class="form-control" placeholder="{{ __('inputs.name') }}"
+                                value="{{ $item->name }}" disabled>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-flag"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./Name -->
+
+                        <!-- Info -->
+                        <div class="input-group mt-3">
+                            <textarea class="form-control" cols="30" rows="10" disabled>{{ $item->info }}</textarea>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-flag"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./Info -->
+
+                        <!-- Edit Button -->
+                        <div class="form-group mt-3">
+                            <a href="{{ getClientRoute('client.administrative_units.edit', [$item->id]) }}"
+                                class="btn btn-warning btn-sm">{{ __('buttons.update_to') }}</a>
+                        </div>
+                        <!-- Edit Button -->
+
+
                     </div>
                 </div>
             </div>

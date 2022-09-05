@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Factories\Tenant\Creator;
+namespace Database\Factories\Client\Creator;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 use App\Models\Client\Creator\CreatorDocument;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client\CreatorDocument>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client\Creator\CreatorDocument>
  */
 class CreatorDocumentFactory extends Factory
 {

@@ -57,7 +57,7 @@ class AssignmentContractController extends Controller
                 ->nest('filters', 'admin.pages.creators.assignment_contracts.components.filters', compact('params', 'total', 'types'))
                 ->nest('table', 'admin.pages.creators.assignment_contracts.components.table', compact('items'));
         } catch (\Throwable $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 
@@ -75,7 +75,7 @@ class AssignmentContractController extends Controller
             return view('admin.pages.creators.assignment_contracts.create')
                 ->nest('form', 'admin.pages.creators.assignment_contracts.components.form', compact('editMode', 'types'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 
@@ -113,7 +113,7 @@ class AssignmentContractController extends Controller
 
             return view('admin.pages.creators.assignment_contracts.show', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 
@@ -134,7 +134,7 @@ class AssignmentContractController extends Controller
             return view('admin.pages.creators.assignment_contracts.edit', compact('item'))
                 ->nest('form', 'admin.pages.creators.assignment_contracts.components.form', compact('editMode', 'types', 'item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 

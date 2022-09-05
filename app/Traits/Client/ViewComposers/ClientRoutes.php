@@ -53,7 +53,7 @@ trait ClientRoutes
         ];
     }
 
-     /**
+    /**
      * get Project Routes
      * 
      * @return array
@@ -68,6 +68,32 @@ trait ClientRoutes
 
             'client.pages.projects.components.filters',
             'client.pages.projects.components.table',
+        ];
+    }
+
+    /**
+     * get Project Routes
+     * 
+     * @return array
+     */
+    protected function getCreatorRoutes(): array
+    {
+        return [
+            'client.pages.creators.internal.index',
+            'client.pages.creators.internal.create',
+            'client.pages.creators.internal.show',
+            'client.pages.creators.internal.edit',
+
+            'client.pages.creators.internal.components.filters',
+            'client.pages.creators.internal.components.table',
+
+            'client.pages.creators.external.index',
+            'client.pages.creators.external.create',
+            'client.pages.creators.external.show',
+            'client.pages.creators.external.edit',
+
+            'client.pages.creators.external.components.filters',
+            'client.pages.creators.external.components.table',
         ];
     }
 }

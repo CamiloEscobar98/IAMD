@@ -56,7 +56,7 @@ class IntangibleAssetStateController extends Controller
                 ->nest('filters', 'admin.pages.intangible_assets.states.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.intangible_assets.states.components.table', compact('items'));
         } catch (\Throwable $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 
@@ -70,7 +70,7 @@ class IntangibleAssetStateController extends Controller
         try {
             return view('admin.pages.intangible_assets.states.create');
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 
@@ -108,7 +108,7 @@ class IntangibleAssetStateController extends Controller
 
             return view('admin.pages.intangible_assets.states.show', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 
@@ -125,7 +125,7 @@ class IntangibleAssetStateController extends Controller
 
             return view('admin.pages.intangible_assets.states.edit', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 

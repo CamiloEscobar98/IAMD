@@ -19,13 +19,6 @@ class CreatorInternal extends BaseModel
     protected $primaryKey = 'creator_id';
 
     /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -42,30 +35,30 @@ class CreatorInternal extends BaseModel
     /**
      * Get Creator.
      * 
-     * @return \App\Models\Client\Creator
+     * @return \App\Models\Client\Creator\Creator
      */
     public function creator()
     {
-        return $this->belongsTo(\App\Models\Client\Creator::class);
+        return $this->belongsTo(\App\Models\Client\Creator\Creator::class);
     }
 
     /**
      * Get Linkage Type.
      * 
-     * @return \App\Models\LinkageType
+     * @return \App\Models\Admin\LinkageType
      */
-    public function linkageType()
+    public function linkage_type()
     {
-        return $this->belongsTo(\App\Models\LinkageType::class);
+        return $this->belongsTo(\App\Models\Admin\LinkageType::class);
     }
 
     /**
      * Get Assignment Contract.
      * 
-     * @return \App\Models\AssignmentContract
+     * @return \App\Models\Admin\AssignmentContract
      */
-    public function assignmentContract()
+    public function assignment_contract()
     {
-        return $this->belongsTo(\App\Models\AssignmentContract::class);
+        return $this->belongsTo(\App\Models\Admin\AssignmentContract::class);
     }
 }

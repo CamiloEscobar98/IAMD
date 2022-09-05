@@ -58,21 +58,21 @@ class ResearchUnit extends BaseModel
     /**
      * Get the director.
      * 
-     * @return \App\Models\Client\Creator
+     * @return \App\Models\Client\Creator\Creator
      */
     public function director()
     {
-        return $this->belongsTo(\App\Models\Client\Creator\Creator::class, 'director_id');
+        return $this->belongsTo(\App\Models\Client\Creator\Creator\Creator::class, 'director_id');
     }
 
     /**
      * Get the Inventory Manager.
      * 
-     * @return \App\Models\Client\Creator
+     * @return \App\Models\Client\Creator\Creator
      */
     public function inventory_manager()
     {
-        return $this->belongsTo(\App\Models\Client\Creator\Creator::class, 'inventory_manager_id');
+        return $this->belongsTo(\App\Models\Client\Creator\Creator\Creator::class, 'inventory_manager_id');
     }
 
     /**

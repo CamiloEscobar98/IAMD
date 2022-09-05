@@ -37,7 +37,7 @@ class CreatorDocument extends BaseModel
     /**
      * Get Creator.
      * 
-     * @return \App\Models\Client\Creator
+     * @return \App\Models\Client\Creator\Creator
      */
     public function creator()
     {
@@ -47,20 +47,20 @@ class CreatorDocument extends BaseModel
     /**
      * Get Document Type.
      * 
-     * @return \App\Models\DocumentType
+     * @return \App\Models\Admin\DocumentType
      */
-    public function documentType()
+    public function document_type()
     {
-        return $this->belongsTo(\App\Models\DocumentType::class);
+        return $this->belongsTo(\App\Models\Admin\DocumentType::class);
     }
 
     /**
      * Get Expedition Place
      * 
-     * @return \App\Models\Localization\City
+     * @return \App\Models\Admin\Localization\City
      */
-    public function expeditionPlace()
+    public function expedition_place()
     {
-        return $this->belongsTo(\App\Models\Localization\City::class, 'expedition_place_id');
+        return $this->belongsTo(\App\Models\Admin\Localization\City::class, 'expedition_place_id');
     }
 }

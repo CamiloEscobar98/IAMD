@@ -9,6 +9,8 @@ use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\AdministrativeUnitController;
 use App\Http\Controllers\Client\ResearchUnitController;
 use App\Http\Controllers\Client\ProjectController;
+use App\Http\Controllers\Client\CreatorInternalController;
+use App\Http\Controllers\Client\CreatorExternalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,16 +23,23 @@ use App\Http\Controllers\Client\ProjectController;
 |
 */
 
-Route::get('login', [LoginController::class, 'showLoginForm'])->name('client.login');
-Route::post('login', [LoginController::class, 'login'])->name('client.loggin');
-Route::post('logout', [LoginController::class, 'logout'])->name('client.loggout');
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [LoginController::class, 'login'])->name('loggin');
+Route::post('logout', [LoginController::class, 'logout'])->name('loggout');
 
-Route::get('profile', [HomeController::class, 'profile'])->name('client.profile');
+Route::get('profile', [HomeController::class, 'profile'])->name('profile');
 
-Route::get('home', [HomeController::class, 'home'])->name('client.home');
+Route::get('home', [HomeController::class, 'home'])->name('home');
 
-Route::resource('administrative_units', AdministrativeUnitController::class, ['as' => 'client']);
+Route::resource('administrative_units', AdministrativeUnitController::class);
 
-Route::resource('research_units', ResearchUnitController::class, ['as' => 'client']);
+Route::resource('research_units', ResearchUnitController::class);
 
-Route::resource('projects', ProjectController::class, ['as' => 'client']);
+Route::resource('projects', ProjectController::class);
+
+Route::name('creators.')
+    ->prefix('creators')
+    ->group(function () {
+        Route::resource('internal', CreatorInternalController::class);
+        Route::resource('external', CreatorExternalController::class);
+    });

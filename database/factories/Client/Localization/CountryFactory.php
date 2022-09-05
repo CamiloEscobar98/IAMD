@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories\Localization;
+namespace Database\Factories\Client\Localization;
 
 use App\Models\Admin\Localization\Country;
 use Illuminate\Database\Eloquent\Factories\Factory;

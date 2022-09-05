@@ -67,7 +67,7 @@ class CountryController extends Controller
                 ->nest('filters', 'admin.pages.localization.countries.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.localization.countries.components.table', compact('items'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 
@@ -124,7 +124,7 @@ class CountryController extends Controller
             return view('admin.pages.localization.countries.show', compact('item', 'total', 'states', 'links'));
         } catch (\Exception $th) {
             return $th->getMessage();
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 
@@ -141,7 +141,7 @@ class CountryController extends Controller
 
             return view('admin.pages.localization.countries.edit', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 

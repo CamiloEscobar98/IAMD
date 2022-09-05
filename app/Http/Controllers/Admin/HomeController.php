@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Admin\Auth\UpdateRequest;
 use App\Http\Requests\Admin\Auth\UpdatePasswordRequest;
 
-use App\Repositories\AdminRepository;
+use App\Repositories\Admin\AdminRepository;
 
 class HomeController extends Controller
 {

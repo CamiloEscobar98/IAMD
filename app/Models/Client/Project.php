@@ -33,11 +33,11 @@ class Project extends BaseModel
     /**
      * Get the director.
      * 
-     * @return \App\Models\Client\Creator
+     * @return \App\Models\Client\Creator\Creator
      */
     public function director()
     {
-        return $this->belongsTo(\App\Models\Client\Creator\Creator::class, 'director_id');
+        return $this->belongsTo(\App\Models\Client\Creator\Creator\Creator::class, 'director_id');
     }
 
     /**

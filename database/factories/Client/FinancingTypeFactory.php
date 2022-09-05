@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Factories\Tenant;
+namespace Database\Factories\Client;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client\ProjectContractType>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client\FinancingType>
  */
-class ProjectContractTypeFactory extends Factory
+class FinancingTypeFactory extends Factory
 {
     /**
      * Define the model's default state.

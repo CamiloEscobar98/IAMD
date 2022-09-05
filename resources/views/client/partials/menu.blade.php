@@ -46,13 +46,16 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="" class="nav-link">
-                <i class="fas fa-user-friends nav-icon"></i>
+            <a href="{{ route('client.creators.internal.index', [$client->name]) }}"
+                class="nav-link {{ routeIsActived('internal') }}">
+                <i class="fas fa-user-friends
+                nav-icon"></i>
                 <p>{{ __('menu.client.CreatorsInternal') }}</p>
             </a>
         </li>
         <li class="nav-item">
-            <a href="" class="nav-link">
+            <a href="{{ route('client.creators.external.index', [$client->name]) }}"
+                class="nav-link {{ routeIsActived('external') }}">
                 <i class="fas fa-user-tie nav-icon"></i>
                 <p>{{ __('menu.client.CreatorsExternal') }}</p>
             </a>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories\Tenant\IntangibleAsset;
+namespace Database\Factories\Client\IntangibleAsset;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;

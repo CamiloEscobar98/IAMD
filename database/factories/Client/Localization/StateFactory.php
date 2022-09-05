@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Factories\Localization;
+namespace Database\Factories\Client\Localization;;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\City>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\State>
  */
-class CityFactory extends Factory
+class StateFactory extends Factory
 {
     /**
      * Define the model's default state.

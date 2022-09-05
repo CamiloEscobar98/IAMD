@@ -80,10 +80,12 @@ class AbstractRepository
     /**
      * @param mixed $id
      * @param array $relations
+     * 
+     * @return Model
      */
-    public function getByIdWithRelations($id, $relations = [])
+    public function getByIdWithRelations($id, $relations = [], $columnId = 'id')
     {
-        $query = $this->model->with($relations)->where('id', $id);
+        $query = $this->model->with($relations)->where($columnId, $id);
 
         return $query->get()->first();
     }
