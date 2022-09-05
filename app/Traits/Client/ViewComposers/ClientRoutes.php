@@ -2,8 +2,56 @@
 
 namespace App\Traits\Client\ViewComposers;
 
+use Illuminate\Support\Facades\View;
+
+use App\Http\ViewComposers\ClientComposer;
+
+use App\Http\ViewComposers\Client\ResearchUnits\ResearchUnitFilterComposer;
+use App\Http\ViewComposers\Client\ResearchUnits\CreateResearchUnitComposer;
+
+use App\Http\ViewComposers\Client\Projects\ProjectFilterComposer;
+use App\Http\ViewComposers\Client\Projects\CreateProjectComposer;
+
+use App\Http\ViewComposers\Client\Creators\Internal\CreatorInternalFilterComposer;
+use App\Http\ViewComposers\Client\Creators\Internal\CreateCreatorInternalComposer;
+
 trait ClientRoutes
 {
+    /**
+     * Get ViewComposers for Clients
+     * 
+     * @return void
+     */
+    protected function getClientViewComposers()
+    {
+        $views = [];
+
+        $views = array_merge(
+            $views,
+            $this->getMainRoutes(),
+            $this->getAdministrativeUnitRoutes(),
+            $this->getResearchUnitRoutes(),
+            $this->getProjectRoutes(),
+            $this->getCreatorRoutes()
+        );
+
+        View::composer($views, ClientComposer::class);
+
+        /** Research Units */
+        View::composer('client.pages.research_units.components.filters', ResearchUnitFilterComposer::class);
+        View::composer('client.pages.research_units.components.form', CreateResearchUnitComposer::class);
+
+        /** Projects */
+        View::composer('client.pages.projects.components.filters', ProjectFilterComposer::class);
+        View::composer('client.pages.projects.components.form', CreateProjectComposer::class);
+
+        /** Creators */
+
+        /** Internal */
+        View::composer('client.pages.creators.internal.components.filters', CreatorInternalFilterComposer::class);
+        View::composer('client.pages.creators.internal.components.form', CreateCreatorInternalComposer::class);
+    }
+
     /**
      * get AdministrativeUnitsRoutes
      * 

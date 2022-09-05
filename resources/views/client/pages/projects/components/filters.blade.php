@@ -52,17 +52,16 @@
                             <option value="">
                                 {{ __('pages.client.projects.filters.research_units') }}
                             </option>
-                            @foreach ($administrativeUnits as $researchUnitCategory)
-                                @foreach ($administrativeUnits as $administrativeUnit)
-                                    <optgroup label="{{ $administrativeUnit->name }}">
-                                        @foreach ($administrativeUnit->research_units as $researchUnit)
-                                            <option value="{{ $researchUnit->id }}"
-                                                {{ optionIsSelected($params, 'research_unit_id', $researchUnit->id) }}>
-                                                {{ $researchUnit->name }}</option>
-                                        @endforeach
-                                    </optgroup>
-                                @endforeach
+                            @foreach ($administrativeUnits as $administrativeUnit)
+                                <optgroup label="{{ $administrativeUnit->name }}">
+                                    @foreach ($administrativeUnit->research_units as $researchUnit)
+                                        <option value="{{ $researchUnit->id }}"
+                                            {{ optionIsSelected($params, 'research_unit_id', $researchUnit->id) }}>
+                                            {{ $researchUnit->name }}</option>
+                                    @endforeach
+                                </optgroup>
                             @endforeach
+
                         </select>
                     </div>
                 </div>

@@ -11,45 +11,27 @@ use App\Http\Requests\Admin\Localizations\States\StoreRequest;
 use App\Http\Requests\Admin\Localizations\States\UpdateRequest;
 
 use App\Services\Admin\StateService;
-use App\Services\Admin\CityService;
 
-use App\Repositories\Admin\CountryRepository;
 use App\Repositories\Admin\StateRepository;
-use App\Repositories\Admin\CityRepository;
 
 class StateController extends Controller
 {
     /** @var StateService */
     protected $stateService;
 
-    /** @var CityService */
-    protected $cityService;
-
     /** @var StateRepository */
     protected $stateRepository;
 
-    /** @var CountryRepository */
-    protected $countryRepository;
-
-    /** @var CityRepository */
-    protected $cityRepository;
-
     public function __construct(
         StateService $stateService,
-        CityService $cityService,
 
-        CountryRepository $countryRepository,
         StateRepository $stateRepository,
-        CityRepository $cityRepository
     ) {
         $this->middleware('auth:admin');
 
         $this->stateService = $stateService;
-        $this->cityService = $cityService;
 
         $this->stateRepository = $stateRepository;
-        $this->countryRepository = $countryRepository;
-        $this->cityRepository = $cityRepository;
     }
 
     /**
@@ -72,12 +54,10 @@ class StateController extends Controller
 
             $links = $items->links('pagination.customized');
 
-            $countries = $this->countryRepository->all();
-
             $params = $oldParams;
 
             return view('admin.pages.localization.states.index', compact('links'))
-                ->nest('filters', 'admin.pages.localization.states.components.filters', compact('params', 'total', 'countries'))
+                ->nest('filters', 'admin.pages.localization.states.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.localization.states.components.table', compact('items'));
         } catch (\Exception $th) {
             return $th->getMessage();
@@ -91,9 +71,7 @@ class StateController extends Controller
      */
     public function create()
     {
-        $countries = $this->countryRepository->all();
-
-        return view('admin.pages.localization.states.create', compact('countries'));
+        return view('admin.pages.localization.states.create');
     }
 
     /**
@@ -130,14 +108,7 @@ class StateController extends Controller
         try {
             $item = $this->stateRepository->getById($id);
 
-            $params = $this->cityService->transformParams($request->all());
-
-            $query = $this->cityRepository->search($params, [], [], $id);
-            $total = $query->count();
-            $states = $this->cityService->customPagination($query, $params, 10, $request->get('page'), $total);
-            $links = $states->links('pagination.customized');
-
-            return view('admin.pages.localization.states.show', compact('item', 'total', 'states', 'links'));
+            return view('admin.pages.localization.states.show', compact('item'));
         } catch (\Exception $th) {
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
@@ -152,11 +123,9 @@ class StateController extends Controller
     public function edit($id)
     {
         try {
-            $countries = $this->countryRepository->all();
-
             $item = $this->stateRepository->getById($id);
 
-            return view('admin.pages.localization.states.edit', compact('item', 'countries'));
+            return view('admin.pages.localization.states.edit', compact('item'));
         } catch (\Exception $th) {
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }

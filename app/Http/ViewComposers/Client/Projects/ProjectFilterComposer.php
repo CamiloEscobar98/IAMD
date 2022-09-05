@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\ViewComposers\Client;
+namespace App\Http\ViewComposers\Client\Projects;
 
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -9,7 +9,7 @@ use App\Repositories\Client\AdministrativeUnitRepository;
 use App\Repositories\Client\ResearchUnitRepository;
 use App\Repositories\Client\CreatorRepository;
 
-class ProjectViewComposer
+class ProjectFilterComposer
 {
     /** @var ResearchUnitRepository */
     protected $researchUnitRepository;

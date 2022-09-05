@@ -10,7 +10,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse ($states as $item)
+            @forelse ($cities as $item)
                 <tr>
                     <td class="text-center">{{ $loop->iteration }}.</td>
                     <td>{{ $item->name }}</td>

@@ -37,14 +37,18 @@
                                 <label
                                     class="input-group-text">{{ __('pages.admin.localizations.cities.filters.state') }}</label>
                             </div>
-                            <select class="form-control select2bs4" name="state">
-                                <option value="">{{ __('pages.admin.localizations.cities.filters.state_option') }}
+                            <select name="state" class="form-control select2bs4">
+                                <option value="">
+                                    {{ __('pages.admin.localizations.cities.filters.state_option') }}
                                 </option>
-                                @foreach ($states as $state)
-                                    <option value="{{ $state->id }}"
-                                        {{ optionIsSelected($params, 'state', $state->id) }}>
-                                        {{ $state->country->name . '-' . $state->name }}
-                                    </option>
+                                @foreach ($countries as $country)
+                                    <optgroup label=" Pais: {{ $country->name }}">
+                                        @foreach ($country->states as $state)
+                                            <option value="{{ $state->id }}"
+                                                {{ optionIsSelected($params, 'state', $state->id) }}>
+                                                {{ $state->name }}</option>
+                                        @endforeach
+                                    </optgroup>
                                 @endforeach
                             </select>
                         </div>

@@ -9,12 +9,17 @@
 
         <!-- State -->
         <div class="input-group mt-3">
-            <select class="form-control select2bs4" name="state_id">
-                <option value="">{{ __('pages.admin.localizations.cities.filters.state_option') }}</option>
-                @foreach ($states as $state)
-                    <option value="{{ $state->id }}" {{ twoOptionsIsEqual($item->state->id, $state->id) }}>
-                        {{ $state->country->name . '-' . $state->name }}
-                    </option>
+            <select name="state_id" class="form-control select2bs4">
+                <option value="">
+                    {{ __('pages.admin.localizations.cities.filters.state_option') }}
+                </option>
+                @foreach ($countries as $country)
+                    <optgroup label=" Pais: {{ $country->name }}">
+                        @foreach ($country->states as $state)
+                            <option value="{{ $state->id }}" {{ twoOptionsIsEqual($item->state->id, $state->id) }}>
+                                {{ $state->name }}</option>
+                        @endforeach
+                    </optgroup>
                 @endforeach
             </select>
             <div class="input-group-append">
@@ -60,12 +65,17 @@
 
         <!-- State -->
         <div class="input-group mt-3">
-            <select class="form-control select2bs4" name="state_id">
-                <option value="">{{ __('pages.admin.localizations.cities.filters.state_option') }}</option>
-                @foreach ($states as $state)
-                    <option value="{{ $state->id }}" {{ isSelectedOption(old(), 'state', $state->id) }}>
-                        {{ $state->country->name . '-' . $state->name }}
-                    </option>
+            <select name="state_id" class="form-control select2bs4">
+                <option value="">
+                    {{ __('pages.admin.localizations.cities.filters.state_option') }}
+                </option>
+                @foreach ($countries as $country)
+                    <optgroup label=" Pais: {{ $country->name }}">
+                        @foreach ($country->states as $state)
+                            <option value="{{ $state->id }}" {{ isSelectedOption(old(), 'state_id', $state->id) }}>
+                                {{ $state->name }}</option>
+                        @endforeach
+                    </optgroup>
                 @endforeach
             </select>
             <div class="input-group-append">

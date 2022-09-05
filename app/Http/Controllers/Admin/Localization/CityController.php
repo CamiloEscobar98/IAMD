@@ -13,7 +13,6 @@ use App\Http\Requests\Admin\Localizations\Cities\UpdateRequest;
 use App\Services\Admin\CityService;
 
 use App\Repositories\Admin\CityRepository;
-use App\Repositories\Admin\StateRepository;
 
 class CityController extends Controller
 {
@@ -23,21 +22,16 @@ class CityController extends Controller
     /** @var CityRepository  */
     protected $cityRepository;
 
-    /** @var StateRepository  */
-    protected $stateRepository;
-
     public function __construct(
         CityService $cityService,
 
         CityRepository $cityRepository,
-        StateRepository $stateRepository
     ) {
         $this->middleware('auth:admin');
 
         $this->cityService = $cityService;
 
         $this->cityRepository = $cityRepository;
-        $this->stateRepository = $stateRepository;
     }
 
     /**
@@ -61,12 +55,10 @@ class CityController extends Controller
 
             $links = $items->links('pagination.customized');
 
-            $states = $this->stateRepository->search([], ['country'])->get();
-
             $params = $oldParams;
 
             return view('admin.pages.localization.cities.index', compact('links'))
-                ->nest('filters', 'admin.pages.localization.cities.components.filters', compact('params', 'total', 'states'))
+                ->nest('filters', 'admin.pages.localization.cities.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.localization.cities.components.table', compact('items'));
         } catch (\Exception $th) {
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
@@ -80,13 +72,7 @@ class CityController extends Controller
      */
     public function create(Request $request)
     {
-        try {
-            $states = $this->stateRepository->search([], ['country'])->get();
-
-            return view('admin.pages.localization.cities.create', compact('states'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
-        }
+        return view('admin.pages.localization.cities.create');
     }
 
     /**
@@ -138,13 +124,14 @@ class CityController extends Controller
     public function edit($id)
     {
         try {
-            $states = $this->stateRepository->search([], ['country'])->get();
-
             $item = $this->cityRepository->search(['id' => $id], ['country', 'state'])->get()->first();
 
-            return view('admin.pages.localization.cities.edit', compact('item', 'states'));
+            return view('admin.pages.localization.cities.edit', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.home')->with(
+                'alert',
+                ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]
+            );
         }
     }
 

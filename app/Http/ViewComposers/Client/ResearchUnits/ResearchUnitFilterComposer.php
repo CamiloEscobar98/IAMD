@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\ViewComposers\Client;
+namespace App\Http\ViewComposers\Client\ResearchUnits;
 
 use Illuminate\View\View;
 
@@ -8,7 +8,7 @@ use App\Repositories\Client\AdministrativeUnitRepository;
 use App\Repositories\Client\ResearchUnitCategoryRepository;
 use App\Repositories\Client\CreatorRepository;
 
-class ResearchUnitViewComposer
+class ResearchUnitFilterComposer
 {
     /** @var ResearchUnitCategoryRepository */
     protected $researchUnitCategoryRepository;
