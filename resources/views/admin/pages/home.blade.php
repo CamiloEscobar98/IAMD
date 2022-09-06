@@ -1,3 +1,3 @@
 @extends('admin.layout.app')
 
-@section('title', __('admin_pages.home.title'))
+@section('title', __('pages.admin.home.title'))

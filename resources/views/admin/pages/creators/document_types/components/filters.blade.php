@@ -48,7 +48,7 @@
                         class="btn btn-dark btn-sm ml-2">{{ __('buttons.register') }}</a>
                 </div>
                 <hr>
-                <h6 class="font-weight-bold">{{ __('admin_pages.creators.document_types.filters.total') }}<a
+                <h6 class="font-weight-bold">{{ __('pages.admin.creators.document_types.filters.total') }}<a
                         class="text-secondary">{{ $total }}</a></h6>
             </form>
         </div>

@@ -25,7 +25,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'state_id' => ['required', 'exists:mysql.countries,id'],
+            'state_id' => ['required', 'exists:mysql.states,id'],
             'name' => ['required', Rule::unique('mysql.cities', 'name')->where(function ($query) {
                 return $query->where('state_id', $this->get('state_id'));
             })]

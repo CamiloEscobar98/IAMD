@@ -89,9 +89,9 @@ class IntangibleAssetStateController extends Controller
                 return $this->intangibleAssetStateRepository->create($data);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('admin_pages.intangible_assets.states.messages.save_success', ['state' => $item->name])]);
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.intangible_assets.states.messages.save_success', ['state' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('admin_pages.intangible_assets.states.messages.save_error')]);
+            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.intangible_assets.states.messages.save_error')]);
         }
     }
 
@@ -147,9 +147,9 @@ class IntangibleAssetStateController extends Controller
                 $this->intangibleAssetStateRepository->update($item, $data);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('admin_pages.intangible_assets.states.messages.update_success', ['state' => $item->name])]);
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.intangible_assets.states.messages.update_success', ['state' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('admin_pages.intangible_assets.states.messages.update_error')]);
+            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.intangible_assets.states.messages.update_error')]);
         }
     }
 
@@ -168,9 +168,9 @@ class IntangibleAssetStateController extends Controller
                 $this->intangibleAssetStateRepository->delete($item);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('admin_pages.intangible_assets.states.messages.delete_success', ['state' => $item->name])]);
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.intangible_assets.states.messages.delete_success', ['state' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('admin_pages.intangible_assets.states.messages.delete_error')]);
+            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.intangible_assets.states.messages.delete_error')]);
         }
     }
 }

@@ -8,11 +8,14 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
-
+use App\Http\Requests\Client\Creators\Internal\StoreRequest;
+use App\Http\Requests\Client\Creators\Internal\UpdateRequest;
 
 use App\Services\Client\CreatorInternalService;
 
+use App\Repositories\Client\CreatorRepository;
 use App\Repositories\Client\CreatorInternalRepository;
+use App\Repositories\Client\CreatorDocumentRepository;
 
 class CreatorInternalController extends Controller
 {
@@ -22,14 +25,26 @@ class CreatorInternalController extends Controller
     /** @var CreatorInternalRepository */
     protected $creatorInternalRepository;
 
+    /** @var CreatorRepository */
+    protected $creatorRepository;
+
+    /** @var CreatorDocumentRepository */
+    protected $creatorDocumentRepository;
+
     public function __construct(
         CreatorInternalService $creatorInternalService,
         CreatorInternalRepository $creatorInternalRepository,
+        CreatorRepository $creatorRepository,
+        CreatorDocumentRepository $creatorDocumentRepository,
     ) {
         $this->middleware('auth');
 
-        $this->creatorInternalRepository = $creatorInternalRepository;
         $this->creatorInternalService = $creatorInternalService;
+        
+        $this->creatorInternalRepository = $creatorInternalRepository;
+        $this->creatorRepository = $creatorRepository;
+        $this->creatorDocumentRepository = $creatorDocumentRepository;
+
     }
 
     /**
@@ -84,9 +99,31 @@ class CreatorInternalController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $creatorData = $request->only(['name', 'email']);
+
+            $creator = $this->creatorRepository->create($creatorData);
+
+            $creatorDocumentData = $request->only(['document', 'document_type_id', 'expedition_place_id']);
+            $creatorDocumentData['creator_id'] = $creator->id;
+
+            $creatorDocument = $this->creatorDocumentRepository->create($creatorDocumentData);
+
+            $creatorInternalData = $request->only(['linkage_type_id', 'assignment_contract_id']);
+            $creatorInternalData['creator_id'] = $creator->id;
+
+            $creatorInternal = $this->creatorInternalRepository->create($creatorInternalData);
+            
+            DB::commit();
+            
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.internal.messages.save_success', ['project' => $creator->name])]);
+        } catch (\Exception $th) {
+            DB::rollBack();
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        }
     }
 
     /**

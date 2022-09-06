@@ -35,5 +35,5 @@
 
 
 @section('custom_js')
-    @include('messages.delete_item', ['title' => __('admin_pages.intangible_assets.states.messages.confirm')])
+    @include('messages.delete_item', ['title' => __('pages.admin.intangible_assets.states.messages.confirm')])
 @endsection

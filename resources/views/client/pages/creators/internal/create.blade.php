@@ -2,6 +2,12 @@
 
 @section('title', __('pages.client.creators.internal.route-titles.create'))
 
+@section('css')
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+@endsection
+
 @section('content-header')
     <section class="content-header">
         <div class="container-fluid">
@@ -47,8 +53,8 @@
                             <u>{{ __('pages.default.title-information') }}</u>
                         </h3>
                         <div class="row justify-content-center">
-                            <img src="{{ asset('assets/images/projects.png') }}" class="img-fluid mt-3"
-                                width="400em" alt="">
+                            <img src="{{ asset('assets/images/projects.png') }}" class="img-fluid mt-3" width="400em"
+                                alt="">
                             <p>{!! __('pages.client.creators.internal.info.create') !!}</p>
                         </div>
                     </div>
@@ -56,4 +62,23 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <!-- Select2 -->
+    <script src="{{ asset('adminlte/plugins/select2/js/select2.full.min.js') }}"></script>
+@endsection
+
+@section('custom_js')
+    @include('messages.delete_item', ['title' => __('pages.client.creators.internal.messages.confirm')])
+
+    <script>
+        //Initialize Select2 Elements
+        $('.select2').select2()
+
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+    </script>
 @endsection

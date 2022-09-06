@@ -51,7 +51,7 @@ class AssignmentContractController extends Controller
 
             $links = $items->links('pagination.customized');
 
-            $types = [['id' => 2, 'name' => __('admin_pages.creators.assignment_contracts.options.external')], ['id' => 1, 'name' => __('admin_pages.creators.assignment_contracts.options.internal')]];
+            $types = [['id' => 2, 'name' => __('pages.admin.creators.assignment_contracts.options.external')], ['id' => 1, 'name' => __('pages.admin.creators.assignment_contracts.options.internal')]];
 
             return view('admin.pages.creators.assignment_contracts.index', compact('links'))
                 ->nest('filters', 'admin.pages.creators.assignment_contracts.components.filters', compact('params', 'total', 'types'))
@@ -69,7 +69,7 @@ class AssignmentContractController extends Controller
     public function create()
     {
         try {
-            $types = [['id' => 0, 'name' => __('admin_pages.creators.assignment_contracts.options.external')], ['id' => 1, 'name' => __('admin_pages.creators.assignment_contracts.options.internal')]];
+            $types = [['id' => 0, 'name' => __('pages.admin.creators.assignment_contracts.options.external')], ['id' => 1, 'name' => __('pages.admin.creators.assignment_contracts.options.internal')]];
             $editMode = false;
 
             return view('admin.pages.creators.assignment_contracts.create')
@@ -94,9 +94,9 @@ class AssignmentContractController extends Controller
                 return $this->assignmentContractRepository->create($data);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('admin_pages.creators.assignment_contracts.messages.save_success', ['assignment_contract' => $item->name])]);
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.assignment_contracts.messages.save_success', ['assignment_contract' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('admin_pages.creators.assignment_contracts.messages.save_error')]);
+            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.assignment_contracts.messages.save_error')]);
         }
     }
 
@@ -128,7 +128,7 @@ class AssignmentContractController extends Controller
         try {
             $item = $this->assignmentContractRepository->getById($id);
 
-            $types = [['id' => 0, 'name' => __('admin_pages.creators.assignment_contracts.options.external')], ['id' => 1, 'name' => __('admin_pages.creators.assignment_contracts.options.internal')]];
+            $types = [['id' => 0, 'name' => __('pages.admin.creators.assignment_contracts.options.external')], ['id' => 1, 'name' => __('pages.admin.creators.assignment_contracts.options.internal')]];
             $editMode = true;
 
             return view('admin.pages.creators.assignment_contracts.edit', compact('item'))
@@ -156,9 +156,9 @@ class AssignmentContractController extends Controller
                 $this->assignmentContractRepository->update($item, $data);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('admin_pages.creators.assignment_contracts.messages.update_success', ['assignment_contract' => $item->name])]);
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.assignment_contracts.messages.update_success', ['assignment_contract' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('admin_pages.creators.assignment_contracts.messages.update_error')]);
+            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.assignment_contracts.messages.update_error')]);
         }
     }
 
@@ -177,9 +177,9 @@ class AssignmentContractController extends Controller
                 $this->assignmentContractRepository->delete($item);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('admin_pages.creators.assignment_contracts.messages.delete_success', ['assignment_contract' => $item->name])]);
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.assignment_contracts.messages.delete_success', ['assignment_contract' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('admin_pages.creators.assignment_contracts.messages.delete_error')]);
+            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.assignment_contracts.messages.delete_error')]);
         }
     }
 }

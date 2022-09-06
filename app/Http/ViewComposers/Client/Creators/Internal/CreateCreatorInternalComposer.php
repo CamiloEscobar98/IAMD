@@ -7,6 +7,7 @@ use Illuminate\View\View;
 use App\Repositories\Admin\LinkageTypeRepository;
 use App\Repositories\Admin\AssignmentContractRepository;
 use App\Repositories\Admin\DocumentTypeRepository;
+use App\Repositories\Admin\StateRepository;
 
 class CreateCreatorInternalComposer
 {
@@ -19,14 +20,19 @@ class CreateCreatorInternalComposer
     /** @var DocumentTypeRepository */
     protected $documentTypeRepository;
 
+    /** @var StateRepository */
+    protected $stateRepository;
+
     public function __construct(
         LinkageTypeRepository $linkageTypeRepository,
         AssignmentContractRepository $assignmentContractRepository,
-        DocumentTypeRepository $documentTypeRepository
+        DocumentTypeRepository $documentTypeRepository,
+        StateRepository $stateRepository,
     ) {
         $this->linkageTypeRepository = $linkageTypeRepository;
         $this->assignmentContractRepository = $assignmentContractRepository;
         $this->documentTypeRepository = $documentTypeRepository;
+        $this->stateRepository = $stateRepository;
     }
 
     public function compose(View $view)
@@ -35,6 +41,10 @@ class CreateCreatorInternalComposer
         $assignmentContracts = $this->assignmentContractRepository->all();
         $documentTypes = $this->documentTypeRepository->all();
 
-        $view->with(compact('linkageTypes', 'assignmentContracts', 'documentTypes'));
+        $states = $this->stateRepository->search([], ['country', 'cities'])->get();
+
+        // dd($states->toArray());
+
+        $view->with(compact('linkageTypes', 'assignmentContracts', 'documentTypes', 'states'));
     }
 }

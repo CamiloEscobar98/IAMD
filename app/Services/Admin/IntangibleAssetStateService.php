@@ -25,7 +25,7 @@ class IntangibleAssetStateService
     public function transformParams($params)
     {
         if (empty($params)) {
-            $params = set_sub_month_date_filter($params, 'date_from', 1);
+            // $params = set_sub_month_date_filter($params, 'date_from', 1);
         }
 
         # Clean empty keys

@@ -171,11 +171,17 @@ return [
         /** Custom Attributes */
         'country_id' => 'país',
         'state_id' => 'departamento',
+
         'administrative_unit_id' => 'Subdirección Técnica',
         'research_unit_category_id' => 'Unidad de Investigación',
         'director_id' => 'Director',
         'inventory_manager_id' => 'Administrador de Inventario',
 
+        'document' => 'documento',
+        'document_type_id' => 'tipo de documento',
+
+        'linkage_type_id' => 'tipo de vinculación',
+        'assignment_contract_id' => 'tipo de contratación',
 
         /** Assignment Contracts */
         'is_internal' => 'es interno o externo',

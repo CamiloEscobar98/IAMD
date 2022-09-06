@@ -1,5 +1,5 @@
 @if ($editMode)
-    <form action="{{ getClientRoute('client.administrative_units.update', [$item->id]) }}" method="post">
+    <form action="{{ getClientRoute('client.creators.internal.update', [$item->id]) }}" method="post">
         @csrf
         @method('PUT')
 
@@ -41,7 +41,7 @@
 
     </form>
 @else
-    <form action="{{ route('client.administrative_units.store', $client->name) }}" method="post">
+    <form action="{{ route('client.creators.internal.store', $client->name) }}" method="post">
         @csrf
 
         <!-- Name -->
@@ -115,6 +115,34 @@
             <small class="text-danger">{{ $message }}</small>
         @enderror
         <!-- ./Document Type -->
+
+        <!--Expedition Place -->
+        <div class="input-group mt-3">
+            <select name="expedition_place_id" class="form-control select2bs4">
+                <option value="">
+                    {{ __('inputs.expedition_place_id') }}
+                </option>
+                @foreach ($states as $state)
+                    <optgroup label="{{ $state->country->name }}: {{ $state->name }}">
+                        @foreach ($state->cities as $city)
+                            <option value="{{ $city->id }}"
+                                {{ twoOptionsIsEqual(old('expedition_place_id'), $city->id) }}>
+                                {{ $city->name }}</option>
+                        @endforeach
+                    </optgroup>
+                @endforeach
+            </select>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-address-card"></span>
+                </div>
+            </div>
+        </div>
+
+        @error('expedition_place_id')
+            <small class="text-danger">{{ $message }}</small>
+        @enderror
+        <!-- ./Expedition Place -->
 
         <!-- Email -->
         <div class="input-group mt-3">

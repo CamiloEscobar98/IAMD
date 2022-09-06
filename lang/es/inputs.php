@@ -26,11 +26,13 @@ return [
 
     'document' => 'Documento de Identidad',
     'document_type_id' => 'Tipo de Documento',
+    'expedition_place_id' => 'Lugar de Expedición',
+
     'linkage_type_id' => 'Tipo de Vinculación',
     'assignment_contract_id' => 'Tipo de Contratación',
 
     'email' => 'Correo Electrónico',
     'phone' => 'Teléfono Celular',
-    
+
 
 ];
