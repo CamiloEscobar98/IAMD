@@ -700,6 +700,7 @@ return [
 
                 'filters' => [
                     'name' => 'Buscar Creador Interno',
+                    'document' => 'Buscar por Documento',
 
                     'linkage_types' => 'Tipo de Vinculación',
                     'assignment_contracts' => 'Tipo de Contratación',
@@ -711,6 +712,7 @@ return [
                     'head' => [
                         'name' => 'Nombre',
                         'document' => 'Documento de Identidad',
+                        'phone' => 'Celular',
                         'linkage_type' => 'Vinculación',
                         'assignment_contract' => 'Contratación',
                         'created_at' => 'Fecha de Creación',
@@ -725,13 +727,13 @@ return [
                 'messages' => [
                     'confirm' => '¿Estás seguro de que quieres eliminar el creador interno?',
 
-                    'save_success' => 'Se ha registrado correctamente el creador interno: :creator_internal.',
+                    'save_success' => 'Se ha registrado correctamente el creador interno: <b>:creator_internal</b>.',
                     'save_error' => 'No se ha registrado el creador interno.',
 
-                    'update_success' => 'Se ha actualizado correctamente el creador interno: :creator_internal.',
+                    'update_success' => 'Se ha actualizado correctamente el creador interno: <b>:creator_internal</b>.',
                     'update_error' => 'No se ha actualizado el creador interno.',
 
-                    'delete_success' => 'Se ha eliminado el creador interno: :creator_internal.',
+                    'delete_success' => 'Se ha eliminado el creador interno: <b>:creator_internal</b>.',
                     'delete_error' => 'No se ha eliminado el creador interno.'
                 ],
 
@@ -739,13 +741,8 @@ return [
                     'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>CREADOR INTERNO</b>. 
                     Dicho recurso actualmente está destinado para enriquecer la información de los creadores internos dentro de la aplicación.",
 
-                    'show' => "En esta sección de la aplicación podrás visualizar el país de :creator_internal. ",
+                    'show' => "En esta sección de la aplicación podrás visualizar el país de <b>:creator_internal</b>. ",
                 ],
-
-                'states' => [
-                    'title' => 'Lista de Departamentos',
-                ]
-
             ]
         ]
     ]

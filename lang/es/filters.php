@@ -10,6 +10,7 @@ return [
 
     'nit' => 'Identificación:',
     'name' => 'Nombre:',
+    'document' => 'Documento:',
     'code' => 'Código:',
 
     'empty' => 'No hay registros',

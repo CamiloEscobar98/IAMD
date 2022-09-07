@@ -40,11 +40,10 @@ class CreatorInternalController extends Controller
         $this->middleware('auth');
 
         $this->creatorInternalService = $creatorInternalService;
-        
+
         $this->creatorInternalRepository = $creatorInternalRepository;
         $this->creatorRepository = $creatorRepository;
         $this->creatorDocumentRepository = $creatorDocumentRepository;
-
     }
 
     /**
@@ -103,7 +102,7 @@ class CreatorInternalController extends Controller
     {
         try {
             DB::beginTransaction();
-            $creatorData = $request->only(['name', 'email']);
+            $creatorData = $request->only(['name', 'email', 'phone']);
 
             $creator = $this->creatorRepository->create($creatorData);
 
@@ -116,10 +115,9 @@ class CreatorInternalController extends Controller
             $creatorInternalData['creator_id'] = $creator->id;
 
             $creatorInternal = $this->creatorInternalRepository->create($creatorInternalData);
-            
             DB::commit();
-            
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.internal.messages.save_success', ['project' => $creator->name])]);
+
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.internal.messages.save_success', ['creator_internal' => $creator->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
@@ -130,22 +128,45 @@ class CreatorInternalController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $internal
+     * 
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function show($id)
+    public function show($id, $internal, Request $request) #: \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
-        //
+        try {
+            $item = $this->creatorInternalRepository->getByIdWithRelations($internal, [
+                'creator', 'creator.document', 'creator.document.document_type', 'creator.document.expedition_place',
+                'linkage_type', 'assignment_contract'
+            ], 'creator_id');
+
+            return view('client.pages.creators.internal.show', compact('item'));
+        } catch (\Exception $th) {
+            return $th->getMessage();
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $internal
+     * 
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit($id, $internal, Request $request) #: \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
-        //
+        try {
+            $item = $this->creatorInternalRepository->getByIdWithRelations($internal, [
+                'creator', 'creator.document', 'creator.document.document_type', 'creator.document.expedition_place',
+                'linkage_type', 'assignment_contract'
+            ], 'creator_id');
+
+            return view('client.pages.creators.internal.edit', compact('item'));
+        } catch (\Exception $th) {
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        }
     }
 
     /**
@@ -153,11 +174,43 @@ class CreatorInternalController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $internal
+     * 
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id, $internal): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
-        //
+        try {
+            DB::beginTransaction();
+            $creatorData = $request->only(['name', 'email', 'phone']);
+
+            $creatorInternal = $this->creatorInternalRepository->getByIdWithRelations($internal, [
+                'creator', 'creator.document', 'creator.document.document_type', 'creator.document.expedition_place',
+                'linkage_type', 'assignment_contract'
+            ], 'creator_id');
+
+            $creator = $creatorInternal->creator;
+
+            $this->creatorRepository->update($creator, $creatorData);
+
+            $creatorDocumentData = $request->only(['document', 'document_type_id', 'expedition_place_id']);
+            $creatorDocumentData['creator_id'] = $creator->id;
+
+            $creatorDocument = $creatorInternal->creator->document;
+
+            $this->creatorDocumentRepository->update($creatorDocument, $creatorDocumentData);
+
+            $creatorInternalData = $request->only(['linkage_type_id', 'assignment_contract_id']);
+            $creatorInternalData['creator_id'] = $creator->id;
+
+            $creatorInternal = $this->creatorInternalRepository->update($creatorInternal, $creatorInternalData);
+            DB::commit();
+
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.internal.messages.update_success', ['creator_internal' => $creator->name])]);
+        } catch (\Exception $th) {
+            DB::rollBack();
+            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        }
     }
 
     /**

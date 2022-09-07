@@ -38,12 +38,12 @@ class CreateCreatorInternalComposer
     public function compose(View $view)
     {
         $linkageTypes = $this->linkageTypeRepository->all();
-        $assignmentContracts = $this->assignmentContractRepository->all();
+
+        $assignmentContracts = $this->assignmentContractRepository->all()->where('is_internal', true);
+
         $documentTypes = $this->documentTypeRepository->all();
 
         $states = $this->stateRepository->search([], ['country', 'cities'])->get();
-
-        // dd($states->toArray());
 
         $view->with(compact('linkageTypes', 'assignmentContracts', 'documentTypes', 'states'));
     }

@@ -24,11 +24,17 @@ class CreatorInternalRepository extends  AbstractRepository
     {
         $table = $this->model->getTable();
         $joinCreators = 'creators';
+        $joinCreatorDocuments = 'creator_documents';
 
         $query = $this->model
             ->select()
             ->distinct()
-            ->join("$joinCreators", "$table.creator_id", "$joinCreators.id");
+            ->join("$joinCreators", "$table.creator_id", "$joinCreators.id")
+            ->join("$joinCreatorDocuments", "$joinCreators.id", "$joinCreatorDocuments.creator_id");
+
+        if (isset($params['document']) && $params['document']) {
+            $query->where('document', $params['document']);
+        }
 
         if (isset($params['id']) && $params['id']) {
             $query->where('creator_id', $params['id']);

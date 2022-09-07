@@ -1,6 +1,7 @@
 <tr>
     <td class="text-center">{{ $loop->iteration }}.</td>
     <td>{{ $item->name }}</td>
+    <td>{{ $item->phone }}</td>
     <td>{!! __('pages.client.creators.internal.table.body.document', [
         'document' => $item->creator->document->document,
         'type' => $item->creator->document->document_type->name,

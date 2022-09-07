@@ -1,5 +1,5 @@
 @if ($editMode)
-    <form action="{{ getClientRoute('client.projects.update', [$item->id]) }}" method="post">
+    <form action="{{ getClientRoute('client.projects.update', [$client->name, $item->id]) }}" method="post">
         @csrf
         @method('PUT')
 

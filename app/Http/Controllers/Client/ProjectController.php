@@ -101,6 +101,8 @@ class ProjectController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
+     * @param int $project
+     * 
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function show($id, $project, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
@@ -118,7 +120,9 @@ class ProjectController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $project
+     * 
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function edit($id, $project, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
@@ -137,6 +141,8 @@ class ProjectController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     * @param int $project
+     * 
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateRequest $request, $id, $project): \Illuminate\Http\RedirectResponse|\Illuminate\View\View

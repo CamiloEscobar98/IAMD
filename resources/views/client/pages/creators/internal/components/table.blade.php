@@ -4,6 +4,7 @@
             <tr>
                 <th class="text-center">No.</th>
                 <th>{{ __('pages.client.creators.internal.table.head.name') }}</th>
+                <th>{{ __('pages.client.creators.internal.table.head.phone') }}</th>
                 <th>{{ __('pages.client.creators.internal.table.head.document') }}</th>
                 <th>{{ __('pages.client.creators.internal.table.head.linkage_type') }}</th>
                 <th>{{ __('pages.client.creators.internal.table.head.assignment_contract') }}</th>

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Client\Creators\Internal;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -26,13 +27,13 @@ class UpdateRequest extends FormRequest
         return [
             /** Creator */
             'name' => ['required', 'string', 'min:5'],
-            'email' => ['required', 'email', 'unique:tenant.creators'],
+            'email' => ['required', 'email', Rule::unique('tenant.creators', 'email')->ignore($this->internal)],
             'phone' => ['nullable'],
 
             /** Creator Document */
             'document_type_id' => ['required', 'exists:mysql.document_types,id'],
             'expedition_place_id' => ['required', 'exists:mysql.cities,id'],
-            'document' => ['required', 'unique:tenant.creator_documents,document'],
+            'document' => ['required', Rule::unique('tenant.creator_documents', 'document')->ignore($this->internal, 'creator_id')],
 
             /** Creator Internal */
             'linkage_type_id' => ['required', 'exists:mysql.linkage_types,id'],

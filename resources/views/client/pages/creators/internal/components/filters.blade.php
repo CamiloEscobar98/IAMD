@@ -83,6 +83,19 @@
                 </div>
                 <!-- ./Assignment Contracts -->
 
+                <!-- Document -->
+                <div class="col-lg-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label class="input-group-text">{{ __('filters.document') }}</label>
+                        </div>
+                        <input type="text" name="document" class="form-control"
+                            placeholder="{{ __('pages.client.creators.internal.filters.document') }}"
+                            value="{{ getParamValue($params, 'document') }}">
+                    </div>
+                </div>
+                <!-- ./Document -->
+
             </div>
             <div class="btn-group">
                 <button class="btn btn-secondary btn-sm">{{ __('buttons.filter') }}</button>
