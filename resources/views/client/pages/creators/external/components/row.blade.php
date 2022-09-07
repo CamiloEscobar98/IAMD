@@ -1,26 +1,28 @@
 <tr>
     <td class="text-center">{{ $loop->iteration }}.</td>
     <td>{{ $item->name }}</td>
-    <td>{{ $item->information }}</td>
-    <td>
-        {{ __('pages.client.administrative_units.table.body.research_units_count', ['research_units_count' => $item->research_units_count]) }}
-    </td>
+    <td>{{ $item->phone }}</td>
+    <td>{!! __('pages.client.creators.external.table.body.document', [
+        'document' => $item->creator->document->document,
+        'type' => $item->creator->document->document_type->name,
+        'expedition' => $item->creator->document->expedition_place->name,
+    ]) !!}</td>
+    <td> {{ $item->external_organization->name }} </td>
+    <td> {{ $item->assignment_contract->name }} </td>
     <td>{{ $item->created_at }}</td>
     <td>{{ $item->updated_at }}</td>
     <td>
         <div class="row justify-content-center">
-            <a href="{{ route('client.administrative_units.show', [$client->name, $item->id]) }}"
+            <a href="{{ route('client.creators.external.show', [$client->name, $item->id]) }}"
                 class="btn btn-sm btn-secondary">
                 <i class="fas fa-sm fa-eye"></i>
             </a>
-            <form
-                action="{{ route('client.administrative_units.destroy', [$client->name, $item->id]) }}"
-                id="form-delete-{{ $item->id }}" method="post">
+            <form action="{{ route('client.creators.external.destroy', [$client->name, $item->creator_id]) }}"
+                id="form-delete-{{ $item->creator_id }}" method="post">
                 @csrf
                 @method('DELETE')
 
-                <button type="submit" class="btn btn-sm btn-danger"
-                    onclick="destroy(event, {{ $item->id }})">
+                <button type="submit" class="btn btn-sm btn-danger" onclick='destroy(event, "{{ $item->creator_id }}")'>
                     <i class="fas fa-sm fa-trash"></i>
                 </button>
             </form>

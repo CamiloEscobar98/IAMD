@@ -26,13 +26,23 @@ class CreatorExternal extends BaseModel
     protected $fillable = ['creator_id', 'external_organization_id', 'assignment_contract_id'];
 
     /**
+     * Get Creator.
+     * 
+     * @return \App\Models\Client\Creator\Creator
+     */
+    public function creator()
+    {
+        return $this->belongsTo(\App\Models\Client\Creator\Creator::class);
+    }
+
+    /**
      * Get External Organization.
      * 
      * @return \App\Models\ExternalOrganization
      */
-    public function externalOrganization()
+    public function external_organization()
     {
-        return $this->belongsTo(\App\MOdels\ExternalOrganization::class);
+        return $this->belongsTo(\App\Models\Admin\ExternalOrganization::class);
     }
 
     /**

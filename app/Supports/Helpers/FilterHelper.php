@@ -34,3 +34,18 @@ if (!function_exists('optionIsSelected')) {
         return isset($options[$option]) && $options[$option] == $value ? 'selected' : '';
     }
 }
+
+if (!function_exists('optionInArray')) {
+    /**
+     * @param array $options
+     * @param mixed $option
+     * @param mixed $value
+     * 
+     * @return string
+     * 
+     */
+    function optionInArray($options, $option, $value)
+    {
+        return isset($options[$option]) && in_array($value, $options[$option]) ? 'selected' : '';
+    }
+}

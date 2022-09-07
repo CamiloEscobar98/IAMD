@@ -20,6 +20,8 @@ return [
     'research_units' => 'Unidades Investigativas',
     'research_unit_categories' => 'Categorías de Unidades Investigativas',
 
+    'external_organizations' => 'Organizaciones Externas',
+
     'linkage_types' => 'Tipos de Vinculación',
 
     'assignment_contracts' => 'Tipos de Contratación'

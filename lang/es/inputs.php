@@ -28,6 +28,8 @@ return [
     'document_type_id' => 'Tipo de Documento',
     'expedition_place_id' => 'Lugar de Expedición',
 
+    'external_organization_id' => 'Organización Externa',
+
     'linkage_type_id' => 'Tipo de Vinculación',
     'assignment_contract_id' => 'Tipo de Contratación',
 

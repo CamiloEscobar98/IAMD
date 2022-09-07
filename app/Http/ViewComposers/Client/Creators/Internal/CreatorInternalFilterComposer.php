@@ -32,7 +32,9 @@ class CreatorInternalFilterComposer
     public function compose(View $view)
     {
         $linkageTypes = $this->linkageTypeRepository->all();
-        $assignmentContracts = $this->assignmentContractRepository->all();
+
+        $assignmentContracts = $this->assignmentContractRepository->all()->where('is_internal', true);
+
         $documentTypes = $this->documentTypeRepository->all();
 
         $view->with(compact('linkageTypes', 'assignmentContracts', 'documentTypes'));

@@ -96,9 +96,10 @@ class CreatorInternalController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * 
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
             DB::beginTransaction();
@@ -132,7 +133,7 @@ class CreatorInternalController extends Controller
      * 
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function show($id, $internal, Request $request) #: \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function show($id, $internal, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
             $item = $this->creatorInternalRepository->getByIdWithRelations($internal, [
@@ -155,7 +156,7 @@ class CreatorInternalController extends Controller
      * 
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function edit($id, $internal, Request $request) #: \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function edit($id, $internal, Request $request) : \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
             $item = $this->creatorInternalRepository->getByIdWithRelations($internal, [

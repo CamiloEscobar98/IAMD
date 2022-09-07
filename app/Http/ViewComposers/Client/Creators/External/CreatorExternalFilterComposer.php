@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\ViewComposers\Client;
+namespace App\Http\ViewComposers\Client\Creators\External;
 
 use Illuminate\View\View;
 
-use App\Repositories\Admin\LinkageTypeRepository;
+use App\Repositories\Admin\ExternalOrganizationRepository;
 use App\Repositories\Admin\AssignmentContractRepository;
 use App\Repositories\Admin\DocumentTypeRepository;
 
-class CreatorInternalViewComposer
+class CreatorExternalFilterComposer
 {
-    /** @var LinkageTypeRepository */
-    protected $linkageTypeRepository;
+    /** @var ExternalOrganizationRepository */
+    protected $externalOrganizationRepository;
 
     /** @var AssignmentContractRepository */
     protected $assignmentContractRepository;
@@ -20,21 +20,23 @@ class CreatorInternalViewComposer
     protected $documentTypeRepository;
 
     public function __construct(
-        LinkageTypeRepository $linkageTypeRepository,
+        ExternalOrganizationRepository $externalOrganizationRepository,
         AssignmentContractRepository $assignmentContractRepository,
         DocumentTypeRepository $documentTypeRepository
     ) {
-        $this->linkageTypeRepository = $linkageTypeRepository;
+        $this->externalOrganizationRepository = $externalOrganizationRepository;
         $this->assignmentContractRepository = $assignmentContractRepository;
         $this->documentTypeRepository = $documentTypeRepository;
     }
 
     public function compose(View $view)
     {
-        $linkageTypes = $this->linkageTypeRepository->all();
-        $assignmentContracts = $this->assignmentContractRepository->all();
+        $externalOrganizations = $this->externalOrganizationRepository->all();
+     
+        $assignmentContracts = $this->assignmentContractRepository->all()->where('is_internal', false);
+     
         $documentTypes = $this->documentTypeRepository->all();
 
-        $view->with(compact('linkageTypes', 'assignmentContracts', 'documentTypes'));
+        $view->with(compact('externalOrganizations', 'assignmentContracts', 'documentTypes'));
     }
 }

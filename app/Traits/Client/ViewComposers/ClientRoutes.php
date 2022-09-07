@@ -15,6 +15,9 @@ use App\Http\ViewComposers\Client\Projects\CreateProjectComposer;
 use App\Http\ViewComposers\Client\Creators\Internal\CreatorInternalFilterComposer;
 use App\Http\ViewComposers\Client\Creators\Internal\CreateCreatorInternalComposer;
 
+use App\Http\ViewComposers\Client\Creators\External\CreatorExternalFilterComposer;
+use App\Http\ViewComposers\Client\Creators\External\CreateCreatorExternalComposer;
+
 trait ClientRoutes
 {
     /**
@@ -50,6 +53,10 @@ trait ClientRoutes
         /** Internal */
         View::composer('client.pages.creators.internal.components.filters', CreatorInternalFilterComposer::class);
         View::composer('client.pages.creators.internal.components.form', CreateCreatorInternalComposer::class);
+
+        /** External */
+        View::composer('client.pages.creators.external.components.filters', CreatorExternalFilterComposer::class);
+        View::composer('client.pages.creators.external.components.form', CreateCreatorExternalComposer::class);
     }
 
     /**

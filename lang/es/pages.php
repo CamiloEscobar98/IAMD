@@ -741,7 +741,72 @@ return [
                     'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>CREADOR INTERNO</b>. 
                     Dicho recurso actualmente está destinado para enriquecer la información de los creadores internos dentro de la aplicación.",
 
-                    'show' => "En esta sección de la aplicación podrás visualizar el país de <b>:creator_internal</b>. ",
+                    'show' => "En esta sección de la aplicación podrás visualizar el creador externo <b>:creator_internal</b>. ",
+                ],
+            ],
+
+            /** External */
+            'external' => [
+
+                'title' => 'Creadores Externos',
+                'subtitle' => 'Creadores Externos',
+
+                'route-titles' => [
+                    'create' => 'Registrar Creador Externo',
+                    'show' => 'Visualizar Creador Externo',
+                    'edit' => 'Editar Creador Externo',
+                ],
+
+                'form-titles' => [
+                    'show' => 'Perfil de Visualización del Creador Externo',
+                    'create' => 'Formulario de Registro de una Creador Externo',
+                    'edit' => 'Actualización del Creador Externo',
+                ],
+
+                'filters' => [
+                    'name' => 'Buscar Creador Externo',
+                    'document' => 'Buscar por Documento',
+
+                    'external_organizations' => 'Organizaciones Externas',
+                    'assignment_contracts' => 'Tipo de Contratación',
+
+                    'total' => 'Total de Creadores Externos: ',
+                ],
+
+                'table' => [
+                    'head' => [
+                        'name' => 'Nombre',
+                        'document' => 'Documento de Identidad',
+                        'phone' => 'Celular',
+                        'external_organization' => 'Organization Externa',
+                        'assignment_contract' => 'Contratación',
+                        'created_at' => 'Fecha de Creación',
+                        'updated_at' => 'Fecha de Actualización'
+                    ],
+                    'body' => [
+                        'document' => ":document <br> <b>:type</b> <br> <b>:expedition</b>"
+                    ]
+
+                ],
+
+                'messages' => [
+                    'confirm' => '¿Estás seguro de que quieres eliminar el creador externo?',
+
+                    'save_success' => 'Se ha registrado correctamente el creador externo: <b>:creator_external</b>.',
+                    'save_error' => 'No se ha registrado el creador externo.',
+
+                    'update_success' => 'Se ha actualizado correctamente el creador externo: <b>:creator_external</b>.',
+                    'update_error' => 'No se ha actualizado el creador externo.',
+
+                    'delete_success' => 'Se ha eliminado el creador externo: <b>:creator_external</b>.',
+                    'delete_error' => 'No se ha eliminado el creador externo.'
+                ],
+
+                'info' => [
+                    'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>CREADOR EXTERNO</b>. 
+                    Dicho recurso actualmente está destinado para enriquecer la información de los creadores externos dentro de la aplicación.",
+
+                    'show' => "En esta sección de la aplicación podrás visualizar el creador externo <b>:creator_external</b>. ",
                 ],
             ]
         ]
