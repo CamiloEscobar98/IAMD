@@ -54,9 +54,9 @@ class IntangibleAsset extends BaseModel
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function intangibleAssetState()
+    public function intangible_asset_state()
     {
-        return $this->belongsTo(\App\Models\IntangibleAssetState::class);
+        return $this->belongsTo(\App\Models\Admin\IntangibleAssetState::class);
     }
 
     /**

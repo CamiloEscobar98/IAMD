@@ -29,7 +29,8 @@
 
 <!-- Intangible Assets -->
 <li class="nav-item">
-    <a href="" class="nav-link">
+    <a href="{{ route('client.intangible_assets.index', [$client->name]) }}"
+        class="nav-link {{ routeIsActived('intangible_assets') }}">
         <i class="fas fa-archive nav-icon"></i>
         <p>{{ __('menu.client.IntangibleAssets') }}</p>
     </a>
@@ -63,3 +64,12 @@
     </ul>
 </li>
 <!-- ./Creators Options -->
+
+<!-- Intangible Assets -->
+<li class="nav-item">
+    <a href="{{ route('client.intangible_assets.index', [$client->name]) }}"
+        class="nav-link {{ routeIsActived('intangible_assets') }}">
+        <i class="fas fa-user-friends nav-icon"></i>
+        <p>{{ __('menu.client.users') }}</p>
+    </a>
+</li>

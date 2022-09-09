@@ -11,6 +11,7 @@ use App\Http\Controllers\Client\ResearchUnitController;
 use App\Http\Controllers\Client\ProjectController;
 use App\Http\Controllers\Client\CreatorInternalController;
 use App\Http\Controllers\Client\CreatorExternalController;
+use App\Http\Controllers\Client\IntangibleAssetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,3 +44,5 @@ Route::name('creators.')
         Route::resource('internal', CreatorInternalController::class);
         Route::resource('external', CreatorExternalController::class);
     });
+
+Route::resource('intangible_assets', IntangibleAssetController::class);

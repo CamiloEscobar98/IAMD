@@ -61,6 +61,9 @@ return [
 
         /** Level 2 */
         'CreatorsInternal' => 'Internos',
-        'CreatorsExternal' => 'Externos'
+        'CreatorsExternal' => 'Externos',
+
+        /** Level 1 */
+        'users' => 'Usuarios'
     ]
 ];

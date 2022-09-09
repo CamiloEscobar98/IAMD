@@ -108,7 +108,7 @@ class ProjectController extends Controller
     public function show($id, $project, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
-            $item = $this->projectRepository->getByIdWithRelations($project, ['research_unit', 'director']);
+            $item = $this->projectRepository->getByIdWithRelations($project, ['research_unit', 'director', 'intangible_assets']);
 
             return view('client.pages.projects.show', compact('item'));
         } catch (\Exception $th) {

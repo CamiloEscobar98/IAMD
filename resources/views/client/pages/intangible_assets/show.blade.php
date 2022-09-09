@@ -1,13 +1,13 @@
 @extends('client.layout.app')
 
-@section('title', __('pages.client.projects.route-titles.show'))
+@section('title', __('pages.client.intangible_assets.route-titles.show'))
 
 @section('content-header')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>{{ __('pages.client.projects.subtitle') }}</h1>
+                    <h1>{{ __('pages.client.intangible_assets.subtitle') }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -15,8 +15,8 @@
                                 href="{{ route('client.home', $client->name) }}">{{ __('pages.home.title') }}</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('client.projects.index', $client->name) }}">
-                                {{ __('pages.client.projects.title') }} </a>
+                            <a href="{{ route('client.intangible_assets.index', $client->name) }}">
+                                {{ __('pages.client.intangible_assets.title') }} </a>
                         </li>
                         <li class="breadcrumb-item">{{ $item->name }}</li>
                     </ol>
@@ -28,13 +28,25 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row justify-content-start">
-            <div class="col-md-8">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="font-italic font-weight-bold">
+                            <u>{{ __('pages.default.title-information') }}</u>
+                        </h3>
+                        <p>{!! __('pages.client.intangible_assets.info.show', ['intangible_asset' => $item->name]) !!}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
 
                         <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.client.projects.form-titles.show') }}</u>
+                            <u>{{ __('pages.client.intangible_assets.form-titles.show') }}</u>
                         </h3>
 
                         <!-- Name -->
@@ -49,29 +61,17 @@
                         </div>
                         <!-- ./Name -->
 
-                        <!-- Research Unit -->
+                        <!-- Project -->
                         <div class="input-group mt-3">
-                            <input type="text" class="form-control" placeholder="{{ __('inputs.research_unit') }}"
-                                value="{{ $item->research_unit->name }}" disabled>
+                            <input type="text" class="form-control" placeholder="{{ __('inputs.project') }}"
+                                value="{{ $item->project->name }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-microscope nav-icon"></span>
                                 </div>
                             </div>
                         </div>
-                        <!-- ./Research Unit -->
-
-                        <!-- Directror -->
-                        <div class="input-group mt-3">
-                            <input type="text" class="form-control" placeholder="{{ __('inputs.director_id') }}"
-                                value="{{ $item->director->name }}" disabled>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-user-tie nav-icon"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ./Directror -->
+                        <!-- ./Project -->
 
                         <!-- Description -->
                         <div class="input-group mt-3">
@@ -84,35 +84,17 @@
                         </div>
                         <!-- ./Description -->
 
+                        <br>
+
                         <!-- Edit Button -->
                         <div class="form-group mt-3">
-                            <a href="{{ getClientRoute('client.projects.edit', [$item->id]) }}"
+                            <a href="{{ getClientRoute('client.intangible_assets.edit', [$item->id]) }}"
                                 class="btn btn-warning btn-sm">{{ __('buttons.update_to') }}</a>
                         </div>
                         <!-- Edit Button -->
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="font-italic font-weight-bold">
-                            <u>{{ __('pages.default.title-information') }}</u>
-                        </h3>
-                        <div class="row justify-content-center">
-                            <img src="{{ asset('assets/images/projects.png') }}" class="img-fluid mt-3" width="400em"
-                                alt="">
-                            <p>{!! __('pages.client.projects.info.show', ['project' => $item->name]) !!}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
-
-        @include('client.pages.intangible_assets.components.table_intangible_assets')
     </div>
-@endsection
-
-@section('custom_js')
-    @include('messages.delete_item', ['title' => __('pages.client.intangible_assets.messages.confirm')])
 @endsection

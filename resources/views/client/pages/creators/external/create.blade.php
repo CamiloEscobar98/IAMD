@@ -33,8 +33,22 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row justify-content-start">
-            <div class="col-md-7">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="font-italic font-weight-bold">
+                            <u>{{ __('pages.default.title-information') }}</u>
+                        </h3>
+                        <div class="row justify-content-center">
+                            <p>{!! __('pages.client.creators.external.info.create') !!}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
                         <h3 class="text-center font-weight-bold">
@@ -43,20 +57,6 @@
                         @include('client.pages.creators.external.components.form', [
                             'editMode' => false,
                         ])
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="font-italic font-weight-bold">
-                            <u>{{ __('pages.default.title-information') }}</u>
-                        </h3>
-                        <div class="row justify-content-center">
-                            <img src="{{ asset('assets/images/projects.png') }}" class="img-fluid mt-3" width="400em"
-                                alt="">
-                            <p>{!! __('pages.client.creators.external.info.create') !!}</p>
-                        </div>
                     </div>
                 </div>
             </div>

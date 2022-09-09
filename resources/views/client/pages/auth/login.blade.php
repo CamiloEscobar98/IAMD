@@ -23,11 +23,13 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="#"><b>IAMD</b> {{ $client->name_upper }} </a>
+            <a href="#"> <img src="{{ asset('assets/images/logo-login.png') }}" height="50%" class="img-fluid"
+                    style="opacity: .8"></a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
+                <h2 class="text-right font-weight-bold">{{ $client->name_upper }}</h2>
                 <p class="login-box-msg">{{ __('messages.login-title') }}</p>
 
                 <form action="{{ route('client.loggin', $client->name) }}" method="post">

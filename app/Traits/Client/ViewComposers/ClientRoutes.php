@@ -18,6 +18,9 @@ use App\Http\ViewComposers\Client\Creators\Internal\CreateCreatorInternalCompose
 use App\Http\ViewComposers\Client\Creators\External\CreatorExternalFilterComposer;
 use App\Http\ViewComposers\Client\Creators\External\CreateCreatorExternalComposer;
 
+use App\Http\ViewComposers\Client\IntangibleAssets\IntangibleAssetFilterComposer;
+use App\Http\ViewComposers\Client\IntangibleAssets\CreateIntangibleAssetComposer;
+
 trait ClientRoutes
 {
     /**
@@ -35,7 +38,8 @@ trait ClientRoutes
             $this->getAdministrativeUnitRoutes(),
             $this->getResearchUnitRoutes(),
             $this->getProjectRoutes(),
-            $this->getCreatorRoutes()
+            $this->getCreatorRoutes(),
+            $this->getIntangibleAssetRoutes()
         );
 
         View::composer($views, ClientComposer::class);
@@ -57,6 +61,10 @@ trait ClientRoutes
         /** External */
         View::composer('client.pages.creators.external.components.filters', CreatorExternalFilterComposer::class);
         View::composer('client.pages.creators.external.components.form', CreateCreatorExternalComposer::class);
+
+        /** Intangible Assets */
+        View::composer('client.pages.intangible_assets.components.filters', IntangibleAssetFilterComposer::class);
+        View::composer('client.pages.intangible_assets.components.form', CreateIntangibleAssetComposer::class);
     }
 
     /**
@@ -127,7 +135,7 @@ trait ClientRoutes
     }
 
     /**
-     * get Project Routes
+     * get Creator Routes
      * 
      * @return array
      */
@@ -149,6 +157,24 @@ trait ClientRoutes
 
             'client.pages.creators.external.components.filters',
             'client.pages.creators.external.components.table',
+        ];
+    }
+
+    /**
+     * get Intangible Assets Routes
+     * 
+     * @return array
+     */
+    protected function getIntangibleAssetRoutes(): array
+    {
+        return [
+            'client.pages.intangible_assets.index',
+            'client.pages.intangible_assets.create',
+            'client.pages.intangible_assets.show',
+            'client.pages.intangible_assets.edit',
+
+            'client.pages.intangible_assets.components.filters',
+            'client.pages.intangible_assets.components.table',
         ];
     }
 }

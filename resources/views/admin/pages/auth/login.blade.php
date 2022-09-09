@@ -23,7 +23,8 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="#"><b>ADMIN</b> IAMD</a>
+            <a href="#"> <img src="{{ asset('assets/images/logo-login.png') }}" height="50%" class="img-fluid"
+                    style="opacity: .8"></a>
         </div>
         <!-- /.login-logo -->
         <div class="card">

@@ -37,7 +37,7 @@ class Project extends BaseModel
      */
     public function director()
     {
-        return $this->belongsTo(\App\Models\Client\Creator\Creator\Creator::class, 'director_id');
+        return $this->belongsTo(\App\Models\Client\Creator\Creator::class, 'director_id');
     }
 
     /**

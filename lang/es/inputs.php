@@ -18,9 +18,14 @@ return [
     'telephone' => 'Teléfono',
 
     'country_id' => 'País',
+    
     'administrative_unit_id' => 'Subdirección Técnica',
+    
     'research_unit_id' => 'Unidad Investigativa',
     'research_unit_category_id' => 'Categoría Unidad Investigativa',
+
+    'project_id' => 'Proyectos',
+
     'director_id' => 'Director',
     'inventory_manager_id' => 'Administrador de Inventario',
 

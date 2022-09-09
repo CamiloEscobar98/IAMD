@@ -1,6 +1,6 @@
 @extends('client.layout.app')
 
-@section('title', __('pages.client.creators.internal.route-titles.create'))
+@section('title', __('pages.client.intangible_assets.route-titles.create'))
 
 @section('css')
     <!-- Select2 -->
@@ -13,15 +13,15 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>{{ __('pages.client.creators.internal.subtitle') }}</h1>
+                    <h1>{{ __('pages.client.intangible_assets.subtitle') }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">{{ __('pages.home.title') }}</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('client.creators.internal.index', $client->name) }}">
-                                {{ __('pages.client.creators.internal.title') }} </a>
+                            <a href="{{ route('client.intangible_assets.index', $client->name) }}">
+                                {{ __('pages.client.intangible_assets.title') }} </a>
                         </li>
                         <li class="breadcrumb-item">{{ __('pages.default.create') }}</li>
                     </ol>
@@ -40,8 +40,7 @@
                         <h3 class="font-italic font-weight-bold">
                             <u>{{ __('pages.default.title-information') }}</u>
                         </h3>
-                        <p>{!! __('pages.client.creators.internal.info.create') !!}</p>
-
+                        <p>{!! __('pages.client.intangible_assets.info.create') !!}</p>
                     </div>
                 </div>
             </div>
@@ -51,9 +50,9 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.client.creators.internal.form-titles.create') }}</u>
+                            <u>{{ __('pages.client.intangible_assets.form-titles.create') }}</u>
                         </h3>
-                        @include('client.pages.creators.internal.components.form', [
+                        @include('client.pages.intangible_assets.components.form', [
                             'editMode' => false,
                         ])
                     </div>
@@ -69,8 +68,6 @@
 @endsection
 
 @section('custom_js')
-    @include('messages.delete_item', ['title' => __('pages.client.creators.internal.messages.confirm')])
-
     <script>
         //Initialize Select2 Elements
         $('.select2').select2()

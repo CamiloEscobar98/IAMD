@@ -286,7 +286,7 @@
                 cols="30" rows="10">{{ old('description') }}</textarea>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-description"></span>
+                    <span class="fas fa-info"></span>
                 </div>
             </div>
         </div>

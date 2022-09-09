@@ -672,8 +672,8 @@ return [
                 'show' => "En esta sección de la aplicación podrás visualizar el proyecto de <b>:project</b>. ",
             ],
 
-            'projects' => [
-                'title' => 'Lista de Proyectos',
+            'intangible_assets' => [
+                'title' => 'Lista de Activos',
             ]
         ],
 
@@ -809,6 +809,67 @@ return [
                     'show' => "En esta sección de la aplicación podrás visualizar el creador externo <b>:creator_external</b>. ",
                 ],
             ]
-        ]
+        ],
+
+        /** Intangible Assets */
+        'intangible_assets' => [
+            'title' => 'Activos Intangibles',
+            'subtitle' => 'Activos Intangibles',
+
+            'route-titles' => [
+                'create' => 'Registrar Activo',
+                'show' => 'Visualizar Activo',
+                'edit' => 'Editar Activo',
+            ],
+
+            'form-titles' => [
+                'show' => 'Perfil de Visualización del Activo',
+                'create' => 'Formulario de Registro de un Activo',
+                'edit' => 'Actualización del Activo',
+            ],
+
+            'filters' => [
+                'name' => 'Buscar Nombre Activo',
+
+                'projects' => 'Buscar por Proyecto',
+
+                'total' => 'Total de Activos Intangibles: ',
+            ],
+
+            'table' => [
+                'head' => [
+                    'name' => 'Nombre',
+                    'description' => 'Descripción',
+
+                    'project' => 'Proyecto',
+                    'state' => 'Estado',
+
+                    'created_at' => 'Fecha de Creación',
+                    'updated_at' => 'Fecha de Actualización'
+                ],
+                'body' => []
+
+            ],
+
+            'messages' => [
+                'confirm' => '¿Estás seguro de que quieres eliminar el activo?',
+
+                'save_success' => 'Se ha registrado correctamente el activo: <b>:intangible_asset</b>.',
+                'save_error' => 'No se ha registrado el activo.',
+
+                'update_success' => 'Se ha actualizado correctamente el activo: <b>:intangible_asset</b>.',
+                'update_error' => 'No se ha actualizado el activo.',
+
+                'delete_success' => "Se ha eliminado el activo: <p><b>:intangible_asset</b></p>.",
+                'delete_error' => 'No se ha eliminado el activo.'
+            ],
+
+            'info' => [
+                'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>ACTIVO INTANGIBLE</b>. 
+                Dicho recurso actualmente está destinado para enriquecer la información de los activos dentro de la aplicación.",
+
+                'show' => "En esta sección de la aplicación podrás visualizar el activo de <b>:intangible_asset</b>. ",
+            ],
+        ],
     ]
 ];

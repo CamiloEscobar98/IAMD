@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('intangible_assets', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('project_id')->nullable();
+            $table->unsignedBigInteger('project_id');
             $table->unsignedSmallInteger('intangible_asset_state_id')->nullable();
 
             $table->string('name');

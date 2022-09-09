@@ -1,5 +1,5 @@
 @if ($editMode)
-    <form action="{{ getClientRoute('client.projects.update', [$client->name, $item->id]) }}" method="post">
+    <form action="{{ getClientRoute('client.intangible_assets.update', [$client->name, $item->id]) }}" method="post">
         @csrf
         @method('PUT')
 
@@ -25,7 +25,7 @@
                 class="form-control select2bs4 @error('research_unit_id') is-invalid @enderror">
                 <option value="-1">{{ __('inputs.research_unit_id') }}
                 </option>
-                @foreach ($administrativeUnits as $administrativeUnit)
+                @foreach ($projects as $administrativeUnit)
                     <optgroup label="{{ $administrativeUnit->name }}">
                         @foreach ($administrativeUnit->research_units as $researchUnit)
                             <option value="{{ $researchUnit->id }}"
@@ -91,8 +91,32 @@
 
     </form>
 @else
-    <form action="{{ route('client.projects.store', $client->name) }}" method="post">
+    <form action="{{ route('client.intangible_assets.store', $client->name) }}" method="post">
         @csrf
+
+        <!-- Project -->
+        <div class="input-group mt-3">
+            <select name="project_id" class="form-control select2bs4 @error('project_id') is-invalid @enderror">
+                <option value="-1">{{ __('inputs.project_id') }}
+                </option>
+
+                @foreach ($projects as $researchUnit)
+                    <option value="{{ $researchUnit->id }}"
+                        {{ twoOptionsIsEqual(old('project_id'), $researchUnit->id) }}>
+                        {{ $researchUnit->name }}</option>
+                @endforeach
+            </select>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-chalkboard-teacher"></span>
+                </div>
+            </div>
+        </div>
+
+        @error('project_id')
+            <small class="text-danger">{{ $message }}</small>
+        @enderror
+        <!-- ./Project -->
 
         <!-- Name -->
         <div class="input-group mt-3">
@@ -100,7 +124,7 @@
                 placeholder="{{ __('inputs.name') }}" value="{{ old('name') }}">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-archive"></span>
                 </div>
             </div>
         </div>
@@ -109,56 +133,6 @@
             <small class="text-danger">{{ $message }}</small>
         @enderror
         <!-- ./Name -->
-
-        <!-- Research Unit -->
-        <div class="input-group mt-3">
-            <select name="research_unit_id"
-                class="form-control select2bs4 @error('research_unit_id') is-invalid @enderror">
-                <option value="-1">{{ __('inputs.research_unit_id') }}
-                </option>
-                @foreach ($administrativeUnits as $administrativeUnit)
-                    <optgroup label="{{ $administrativeUnit->name }}">
-                        @foreach ($administrativeUnit->research_units as $researchUnit)
-                            <option value="{{ $researchUnit->id }}"
-                                {{ twoOptionsIsEqual(old('research_unit_id'), $researchUnit->id) }}>
-                                {{ $researchUnit->name }}</option>
-                        @endforeach
-                    </optgroup>
-                @endforeach
-            </select>
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
-                </div>
-            </div>
-        </div>
-
-        @error('research_unit_id')
-            <small class="text-danger">{{ $message }}</small>
-        @enderror
-        <!-- ./Research Unit -->
-
-        <!-- Director -->
-        <div class="input-group mt-3">
-            <select name="director_id" class="form-control select2bs4 @error('director_id') is-invalid @enderror">
-                <option value="-1">{{ __('inputs.director_id') }}
-                </option>
-                @foreach ($creators as $director)
-                    <option value="{{ $director->id }}" {{ twoOptionsIsEqual(old('director_id'), $director->id) }}>
-                        {{ $director->name }}</option>
-                @endforeach
-            </select>
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
-                </div>
-            </div>
-        </div>
-
-        @error('director_id')
-            <small class="text-danger">{{ $message }}</small>
-        @enderror
-        <!-- ./Director -->
 
         <!-- Description -->
         <div class="input-group mt-3">
