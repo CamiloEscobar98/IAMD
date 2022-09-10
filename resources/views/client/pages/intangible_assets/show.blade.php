@@ -2,6 +2,13 @@
 
 @section('title', __('pages.client.intangible_assets.route-titles.show'))
 
+@section('css')
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+@endsection
+
+
 @section('content-header')
     <section class="content-header">
         <div class="container-fluid">
@@ -44,7 +51,6 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-
                         <h3 class="text-center font-weight-bold">
                             <u>{{ __('pages.client.intangible_assets.form-titles.show') }}</u>
                         </h3>
@@ -96,5 +102,35 @@
                 </div>
             </div>
         </div>
+
+        <!-- Intangible Asset Process -->
+        @include('client.pages.intangible_assets.components.phases')
+        <!-- ./Intangible Asset Process -->
     </div>
+@endsection
+
+@section('js')
+    <!-- Select2 -->
+    <script src="{{ asset('adminlte/plugins/select2/js/select2.full.min.js') }}"></script>
+@endsection
+
+
+@section('custom_js')
+    <script src="{{ asset('adminlte/dist/js/iamd/intangible_asset_levels.js') }}"></script>
+
+
+
+    <script>
+        $(document).ready(function() {
+            getIntangibleAssetLevel1();
+        });
+
+        //Initialize Select2 Elements
+        $('.select2').select2()
+
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+    </script>
 @endsection

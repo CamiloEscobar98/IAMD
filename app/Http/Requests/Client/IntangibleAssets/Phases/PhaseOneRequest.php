@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Client\IntangibleAssets;
+namespace App\Http\Requests\Client\IntangibleAssets\Phases;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class PhaseOneRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

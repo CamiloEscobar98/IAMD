@@ -25,8 +25,8 @@ class IntangibleAssetTypeLevel1 extends BaseModel
      * 
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function intangibleAssetTypeLevel2()
+    public function intangible_asset_type_level_2()
     {
-        return $this->hasMany(intangibleAssetTypeLevel2::class);
+        return $this->hasMany(IntangibleAssetTypeLevel2::class);
     }
 }

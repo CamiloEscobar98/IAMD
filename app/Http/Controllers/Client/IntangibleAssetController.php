@@ -38,7 +38,7 @@ class IntangibleAssetController extends Controller
      *
      * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function index(Request $request) #: \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+    public function index(Request $request) : \Illuminate\View\View|\Illuminate\Http\RedirectResponse
     {
         try {
             $params = $this->intangibleAssetService->transformParams($request->all());
@@ -108,7 +108,7 @@ class IntangibleAssetController extends Controller
      * 
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function show($id, $intangibleAsset, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function show($id, $intangibleAsset): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
             $item = $this->intangibleAssetRepository->getByIdWithRelations($intangibleAsset, []);

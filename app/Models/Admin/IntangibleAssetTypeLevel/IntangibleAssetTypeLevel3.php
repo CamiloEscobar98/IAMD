@@ -25,7 +25,7 @@ class IntangibleAssetTypeLevel3 extends BaseModel
      * 
      * @return intangibleAssetTypeLevel2
      */
-    public function intangibleAssetTypeLevel2()
+    public function intangible_asset_type_level_2()
     {
         return $this->belongsTo(intangibleAssetTypeLevel2::class);
     }

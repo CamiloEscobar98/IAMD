@@ -6,10 +6,50 @@ use App\Repositories\AbstractRepository;
 
 use App\Models\Admin\IntangibleAssetTypeLevel\IntangibleAssetTypeLevel1;
 
-class IntangibleAssetTypeLevel1Repository extends AbstractRepository 
+class IntangibleAssetTypeLevel1Repository extends AbstractRepository
 {
     public function __construct(IntangibleAssetTypeLevel1 $model)
     {
         $this->model = $model;
+    }
+
+    /**
+     * @param array $params
+     * @param array $with
+     * @param array $withCount
+     * @param int $state_id
+     * 
+     * @return mixed
+     */
+    public function search(array $params = [], array $with = [], array $withCount = [])
+    {
+        $query = $this->model
+            ->select();
+
+        if (isset($params['id']) && $params['id']) {
+            $query->where('id', $params['id']);
+        }
+
+        if (isset($params['name']) && $params['name']) {
+            $query->where('name', 'like', '%' . $params['name'] . '%');
+        }
+
+        if (isset($params['date_from']) && $params['date_from']) {
+            $query->where('updated_at', '>=', $params['date_from']);
+        }
+
+        if (isset($params['date_to']) && $params['date_to']) {
+            $query->where('updated_at', '<=', $params['date_to']);
+        }
+
+        if (isset($params['state_id']) && $params['state_id']) {
+            $query->where('state_id', $params['state_id']);
+        }
+
+        if (isset($with) && $with) {
+            $query->with($with);
+        }
+
+        return $query;
     }
 }

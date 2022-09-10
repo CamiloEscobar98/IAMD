@@ -27,7 +27,6 @@ class UpdateRequest extends FormRequest
             'research_unit_id' => ['required', 'exists:tenant.research_units,id'],
             'director_id' => ['required', 'exists:tenant.creators,id'],
             'name' => ['required', 'unique:tenant.research_units,name,' . $this->research_unit],
-            'description' => ['nullable']
         ];
     }
 }

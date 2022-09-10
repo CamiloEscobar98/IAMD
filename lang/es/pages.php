@@ -870,6 +870,18 @@ return [
 
                 'show' => "En esta sección de la aplicación podrás visualizar el activo de <b>:intangible_asset</b>. ",
             ],
+
+            'phases' => [
+                'title' => 'Proceso de Registro',
+                'one' => [
+                    'title' => 'Clasificación del Activo',
+                    'form' => [
+                        'level_1' => 'Categoría',
+                        'level_2' => 'Subcategoría',
+                        'level_3' => 'Producto'
+                    ]
+                ]
+            ]
         ],
     ]
 ];
