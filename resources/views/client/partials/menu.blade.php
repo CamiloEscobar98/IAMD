@@ -38,7 +38,7 @@
 
 <!-- Creators Options -->
 <li class="nav-item">
-    <a href="#" class="nav-link">
+    <a href="#" class="nav-link {{ routeIsActived('internal') . routeIsActived('external') }}">
         <i class="nav-icon fas fa-users"></i>
         <p>
             {{ __('menu.client.Creators') }}
