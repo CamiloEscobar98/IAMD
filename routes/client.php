@@ -12,6 +12,7 @@ use App\Http\Controllers\Client\ProjectController;
 use App\Http\Controllers\Client\CreatorInternalController;
 use App\Http\Controllers\Client\CreatorExternalController;
 use App\Http\Controllers\Client\IntangibleAssetController;
+use App\Http\Controllers\Client\IntangibleAssetPhaseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,3 +47,11 @@ Route::name('creators.')
     });
 
 Route::resource('intangible_assets', IntangibleAssetController::class);
+
+Route::prefix('intangible_assets/{intangible_asset}/phases')
+    ->name('intangible_assets.phases.')
+    ->group(function () {
+        Route::patch('phase_one', [IntangibleAssetPhaseController::class, 'updatePhaseOne'])->name('one');
+        Route::patch('phase_two', [IntangibleAssetPhaseController::class, 'updatePhaseTwo'])->name('two');
+        Route::patch('phase_three', [IntangibleAssetPhaseController::class, 'updatePhaseThree'])->name('three');
+    });

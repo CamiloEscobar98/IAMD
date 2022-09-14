@@ -67,4 +67,12 @@ class ProjectRepository extends  AbstractRepository
 
         return $query;
     }
+
+    /**
+     * @param \App\Models\Client\ResearchUnit $researchUnit
+     */
+    public function getByResearchUnit($researchUnit)
+    {
+        return $this->all()->where('research_unit_id', $researchUnit->id);
+    }
 }

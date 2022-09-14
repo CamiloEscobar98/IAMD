@@ -4,7 +4,10 @@ namespace Database\Seeders\Tenant;
 
 use Illuminate\Database\Seeder;
 
+use App\Repositories\Admin\IntangibleAssetTypeLevel3Repository;
+
 use App\Repositories\Admin\IntangibleAssetStateRepository;
+
 use App\Repositories\Client\IntangibleAssetCommercialRepository;
 use App\Repositories\Client\IntangibleAssetPublishedRepository;
 use App\Repositories\Client\IntangibleAssetCreatorRepository;
@@ -36,6 +39,9 @@ class IntangibleAssetSeeder extends Seeder
     /** @var CreatorRepository */
     protected $creatorRepository;
 
+    /** @var IntangibleAssetTypeLevel3Repository */
+    protected $intangibleAssetTypeLevel3Repository;
+
     public function __construct(
         IntangibleAssetRepository $intangibleAssetRepository,
         IntangibleAssetStateRepository $intangibleAssetStateRepository,
@@ -43,7 +49,8 @@ class IntangibleAssetSeeder extends Seeder
         IntangibleAssetPublishedRepository $intangibleAssetPublishedRepository,
         IntangibleAssetCreatorRepository $intangibleAssetCreatorRepository,
         ProjectRepository $projectRepository,
-        CreatorRepository $creatorRepository
+        CreatorRepository $creatorRepository,
+        IntangibleAssetTypeLevel3Repository $intangibleAssetTypeLevel3Repository
     ) {
         $this->intangibleAssetRepository = $intangibleAssetRepository;
         $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
@@ -52,6 +59,7 @@ class IntangibleAssetSeeder extends Seeder
         $this->intangibleAssetCreatorRepository = $intangibleAssetCreatorRepository;
         $this->projectRepository = $projectRepository;
         $this->creatorRepository = $creatorRepository;
+        $this->intangibleAssetTypeLevel3Repository = $intangibleAssetTypeLevel3Repository;
     }
 
     /**
@@ -74,7 +82,7 @@ class IntangibleAssetSeeder extends Seeder
 
 
         $projects->each(function ($project) use ($states, $creators) {
-            $randomNumber = rand(4, 20);
+            $randomNumber = rand(3, 10);
 
             print("PROJECT: " . $project->name .  "\n \n");
 
@@ -89,6 +97,8 @@ class IntangibleAssetSeeder extends Seeder
                 ]);
 
                 print("Intangible Asset Created. Name: " . $intangibleAsset->name . "\n");
+
+                (bool) rand(0, 1) ? $this->updateHasClassification($intangibleAsset) : null;
 
                 (bool) rand(0, 1) ? $this->updateHasState($intangibleAsset, $states) : null;
 
@@ -109,7 +119,21 @@ class IntangibleAssetSeeder extends Seeder
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Model $intangibleAsset
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * 
+     * @return void
+     */
+    public function updateHasClassification($intangibleAsset)
+    {
+        $randomClassification = $this->intangibleAssetTypeLevel3Repository->randomFirst();
+
+        $this->intangibleAssetRepository->update($intangibleAsset, ['classification_id' => $randomClassification->id]);
+
+        print("This Intangible Asset has a State. State: " . $randomClassification->name . "\n");
+    }
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
      * @param \Illuminate\Database\Eloquent\Collection $states
      * 
      * @return void
@@ -124,7 +148,7 @@ class IntangibleAssetSeeder extends Seeder
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Model $intangibleAsset
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
      * 
      * @return void
      */
@@ -138,7 +162,7 @@ class IntangibleAssetSeeder extends Seeder
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Model $intangibleAsset
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
      * 
      * @return void
      */
@@ -152,7 +176,7 @@ class IntangibleAssetSeeder extends Seeder
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Model $intangibleAsset
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
      * @param \Illuminate\Database\Eloquent\Collection $creators
      * 
      * @return void

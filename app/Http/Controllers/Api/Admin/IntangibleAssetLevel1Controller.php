@@ -22,7 +22,7 @@ class IntangibleAssetLevel1Controller extends Controller
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request): \Illuminate\Http\JsonResponse
+    public function index(Request $request): \Illuminate\Http\JsonResponse|String
     {
         try {
             $items = $this->intangibleAssetTypeLevel1Repository->search([], ['intangible_asset_type_level_2', 'intangible_asset_type_level_2.intangible_asset_type_level_3'])->get();
@@ -40,7 +40,7 @@ class IntangibleAssetLevel1Controller extends Controller
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($intangible_asset_level_1): \Illuminate\Http\JsonResponse
+    public function show($intangible_asset_level_1): \Illuminate\Http\JsonResponse|String
     {
         try {
             $item = $this->intangibleAssetTypeLevel1Repository->getByIdWithRelations($intangible_asset_level_1, ['intangible_asset_type_level_2']);

@@ -79,17 +79,6 @@
                         </div>
                         <!-- ./Project -->
 
-                        <!-- Description -->
-                        <div class="input-group mt-3">
-                            <textarea class="form-control" cols="30" rows="5" disabled>{{ $item->description }}</textarea>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-sticky-note"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ./Description -->
-
                         <br>
 
                         <!-- Edit Button -->
@@ -104,7 +93,7 @@
         </div>
 
         <!-- Intangible Asset Process -->
-        @include('client.pages.intangible_assets.components.phases')
+        @include('client.pages.intangible_assets.components.phases', ['item' => $item])
         <!-- ./Intangible Asset Process -->
     </div>
 @endsection
@@ -117,13 +106,8 @@
 
 @section('custom_js')
     <script src="{{ asset('adminlte/dist/js/iamd/intangible_asset_levels.js') }}"></script>
-
-
-
+    
     <script>
-        $(document).ready(function() {
-            getIntangibleAssetLevel1();
-        });
 
         //Initialize Select2 Elements
         $('.select2').select2()

@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\Admin\IntangibleAssetLevel1Controller;
 use App\Http\Controllers\Api\Admin\IntangibleAssetLevel2Controller;
+use App\Http\Controllers\Api\Client\AdministrativeUnitController;
+use App\Http\Controllers\Api\Client\ResearchUnitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +32,20 @@ Route::prefix('intangible_asset_level_2')->group(function () {
     Route::get('/', [IntangibleAssetLevel2Controller::class,  'index']);
     Route::get('{intangible_asset_level_2}', [IntangibleAssetLevel2Controller::class, 'show']);
 });
+
+
+Route::middleware(['check-client'])
+    ->prefix('{client}')
+    ->group(function () {
+
+
+        Route::prefix('administrative_units')->group(function () {
+            Route::get('/', [AdministrativeUnitController::class, 'index']);
+            Route::get('{administrative_unit_id}', [AdministrativeUnitController::class, 'show']);
+        });
+
+        Route::prefix('research_units')->group(function () {
+            Route::get('/', [ResearchUnitController::class, 'index']);
+            Route::get('{research_unit_id}', [ResearchUnitController::class, 'show']);
+        });
+    });

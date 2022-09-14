@@ -22,7 +22,6 @@ class IntangibleAssetFactory extends Factory
     {
         return [
             'name' => 'Activo Intangible ' . $this->faker->unique()->words(2, true),
-            'description' => $this->faker->realText(200)
         ];
     }
 }

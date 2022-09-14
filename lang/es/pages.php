@@ -875,10 +875,33 @@ return [
                 'title' => 'Proceso de Registro',
                 'one' => [
                     'title' => 'Clasificación del Activo',
+
                     'form' => [
                         'level_1' => 'Categoría',
                         'level_2' => 'Subcategoría',
                         'level_3' => 'Producto'
+                    ],
+
+                    'messages' => [
+                        'save_success' => 'Se ha registrado correctamente la clasificación del Activo Intangible: <b>:intangible_asset</b>.',
+                        'save_error' => 'No se pudo registrar la clasificación.',
+                    ]
+
+                ],
+                'two' => [
+                    'title' => 'Descripción del Activo',
+
+                    'messages' => [
+                        'save_success' => 'Se ha registrado correctamente la descripción del Activo Intangible: <b>:intangible_asset</b>.',
+                        'save_error' => 'No se pudo registrar la descripción.',
+                    ]
+                ],
+                'three' => [
+                    'title' => 'Estado del Activo',
+
+                    'messages' => [
+                        'save_success' => 'Se ha registrado correctamente el estado del Activo Intangible: <b>:intangible_asset</b>.',
+                        'save_error' => 'No se pudo registrar el estado.',
                     ]
                 ]
             ]

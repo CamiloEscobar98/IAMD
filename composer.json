@@ -32,7 +32,8 @@
         "files": [
             "app/Supports/Helpers/MenuHelper.php",
             "app/Supports/Helpers/FilterHelper.php",
-            "app/Supports/Helpers/FormHelper.php"
+            "app/Supports/Helpers/FormHelper.php",
+            "app/Supports/Helpers/IntangibleAssetHelper.php"
         ]
     },
     "autoload-dev": {

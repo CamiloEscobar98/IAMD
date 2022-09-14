@@ -87,4 +87,12 @@ class ResearchUnitRepository extends  AbstractRepository
 
         return $query;
     }
+
+    /**
+     * @param \App\Models\Client\AdministrativeUnit $administrativeUnit
+     */
+    public function getByAdministrativeUnit($administrativeUnit)
+    {
+        return $this->all()->where('administrative_unit_id', $administrativeUnit->id);
+    }
 }

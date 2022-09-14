@@ -35,11 +35,57 @@ class IntangibleAssetPhaseService
 
     /**
      * Intangible Asset Phase One: Intangible Asset Classification
-     * 
+     * @param \App\MOdels\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
      * @param array $data
+     * 
+     * @return string
      */
-    public function updatePhaseOne(array $data)
+    public function updatePhaseOne($intangibleAsset, $data): string
     {
-        # code...
+        try {
+            $this->intangibleAssetRepository->update($intangibleAsset, ['classification_id'  => $data['intangible_asset_type_level_3']]);
+
+            return __('pages.client.intangible_assets.phases.one.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+        } catch (\Exception $th) {
+            return __('pages.client.intangible_assets.phases.one.messages.save_error');
+        }
+    }
+
+    /**
+     * Intangible Asset Phase One: Intangible Asset Description
+     * 
+     * @param \App\MOdels\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param array $data
+     * 
+     * @return string
+     */
+    public function updatePhaseTwo($intangibleAsset, $data): string
+    {
+        try {
+            $this->intangibleAssetRepository->update($intangibleAsset, $data);
+
+            return __('pages.client.intangible_assets.phases.two.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+        } catch (\Exception $th) {
+            return __('pages.client.intangible_assets.phases.two.messages.save_error');
+        }
+    }
+
+    /**
+     * Intangible Asset Phase One: Intangible Asset State
+     * 
+     * @param \App\MOdels\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param array $data
+     * 
+     * @return string
+     */
+    public function updatePhaseThree($intangibleAsset, $data): string
+    {
+        try {
+            $this->intangibleAssetRepository->update($intangibleAsset, $data);
+
+            return __('pages.client.intangible_assets.phases.three.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+        } catch (\Exception $th) {
+            return __('pages.client.intangible_assets.phases.three.messages.save_error');
+        }
     }
 }

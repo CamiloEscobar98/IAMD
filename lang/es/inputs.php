@@ -18,11 +18,13 @@ return [
     'telephone' => 'Teléfono',
 
     'country_id' => 'País',
-    
+
     'administrative_unit_id' => 'Subdirección Técnica',
-    
+
     'research_unit_id' => 'Unidad Investigativa',
     'research_unit_category_id' => 'Categoría Unidad Investigativa',
+
+    'intangible_asset_state_id' => 'Estado del Activo Intangible',
 
     'project_id' => 'Proyectos',
 

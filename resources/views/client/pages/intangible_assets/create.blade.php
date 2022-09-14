@@ -68,7 +68,13 @@
 @endsection
 
 @section('custom_js')
+    <script src="{{ asset('adminlte/dist/js/iamd/projects.js') }}"></script>
+
     <script>
+        $(document).ready(function() {
+            getAdministrativeUnits();
+        });
+
         //Initialize Select2 Elements
         $('.select2').select2()
 

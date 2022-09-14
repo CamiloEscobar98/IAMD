@@ -21,6 +21,7 @@ class IntangibleAsset extends BaseModel
      */
     protected $fillable = [
         'project_id',
+        'classification_id',
         'intangible_asset_state_id',
         'name',
         'description',
@@ -74,8 +75,32 @@ class IntangibleAsset extends BaseModel
      * 
      * @return BelongsToMany
      */
-    public function creators() : BelongsToMany
+    public function creators(): BelongsToMany
     {
         return $this->belongsToMany(Creator::class);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseOneCompleted(): bool
+    {
+        return !is_null($this->classification_id);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseTwoCompleted(): bool
+    {
+        return !is_null($this->description);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseThreeCompleted(): bool
+    {
+        return !is_null($this->intangible_asset_state_id);
     }
 }

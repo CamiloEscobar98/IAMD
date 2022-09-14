@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-12">
-        <form method="get">
-            <div class="row justify-content-between">
+        <form method="get" id="form" data-client="{{ $client->name }}">
+            <div class="row justify-content-center">
                 <div class="col-lg-2">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
@@ -43,24 +43,59 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-lg-8">
+
+                <!-- Administrative Unit -->
+                <div class="col-lg-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label class="input-group-text">{{ __('filters.administrative_units') }}</label>
+                        </div>
+                        <select name="administrative_unit_id" id="administrative_unit_id"
+                            class="form-control select2bs4" onchange="changeAdministrativeUnit()">
+                            @foreach ($administrativeUnits as $administrativeUnit)
+                                <option value="{{ $administrativeUnit->id }}"
+                                    {{ optionIsSelected($params, 'administrative_unit_id', $administrativeUnit->id) }}>
+                                    {{ $administrativeUnit->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <!-- ./Administrative Unit -->
+
+                <!-- Research Unit -->
+                <div class="col-lg-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label class="input-group-text">{{ __('filters.research_units') }}</label>
+                        </div>
+                        <select name="research_unit_id" id="research_unit_id" class="form-control select2bs4"
+                            onchange="changeResearchUnit()">
+                            @foreach ($researchUnits as $researchUnit)
+                                <option value="{{ $researchUnit->id }}"
+                                    {{ optionIsSelected($params, 'research_unit_id', $researchUnit->id) }}>
+                                    {{ $researchUnit->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <!-- ./Research Unit -->
+
+                <!-- Projects -->
+                <div class="col-lg-4">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.projects') }}</label>
                         </div>
-                        <select name="project_id" class="form-control select2bs4">
-                            <option value="">
-                                {{ __('pages.client.intangible_assets.filters.projects') }}
-                            </option>
+                        <select name="project_id" id="project_id" class="form-control select2bs4">
                             @foreach ($projects as $project)
                                 <option value="{{ $project->id }}"
                                     {{ optionIsSelected($params, 'project_id', $project->id) }}>
                                     {{ $project->name }}</option>
                             @endforeach
-
                         </select>
                     </div>
                 </div>
+                <!-- ./Projects -->
             </div>
 
             <div class="btn-group">

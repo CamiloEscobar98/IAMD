@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('intangible_assets', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('project_id');
+            $table->unsignedBigInteger('project_id')->nullable();
+            $table->unsignedInteger('classification_id')->nullable();
             $table->unsignedSmallInteger('intangible_asset_state_id')->nullable();
 
             $table->string('name');
@@ -27,6 +28,8 @@ return new class extends Migration
             $table->timestamps();
 
             $table->unique(['project_id', 'name', 'code']);
+
+            $table->foreign('classification_id')->references('id')->on('iamd.intangible_asset_type_level3s')->cascadeOnUpdate()->nullOnDelete();
             $table->foreign('project_id')->references('id')->on('projects')->cascadeOnUpdate()->nullOnDelete();
             $table->foreign('intangible_asset_state_id')->references('id')->on('iamd.intangible_asset_states')->cascadeOnUpdate()->nullOnDelete();
         });

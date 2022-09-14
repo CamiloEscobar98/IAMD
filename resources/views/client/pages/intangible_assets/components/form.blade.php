@@ -23,17 +23,6 @@
         <div class="input-group mt-3">
             <select name="research_unit_id"
                 class="form-control select2bs4 @error('research_unit_id') is-invalid @enderror">
-                <option value="-1">{{ __('inputs.research_unit_id') }}
-                </option>
-                @foreach ($projects as $administrativeUnit)
-                    <optgroup label="{{ $administrativeUnit->name }}">
-                        @foreach ($administrativeUnit->research_units as $researchUnit)
-                            <option value="{{ $researchUnit->id }}"
-                                {{ twoOptionsIsEqual($item->research_unit_id, $researchUnit->id) }}>
-                                {{ $researchUnit->name }}</option>
-                        @endforeach
-                    </optgroup>
-                @endforeach
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
@@ -47,63 +36,62 @@
         @enderror
         <!-- ./Research Unit -->
 
-        <!-- Director -->
-        <div class="input-group mt-3">
-            <select name="director_id" class="form-control select2bs4 @error('director_id') is-invalid @enderror">
-                <option value="-1">{{ __('inputs.director_id') }}
-                </option>
-                @foreach ($creators as $director)
-                    <option value="{{ $director->id }}" {{ twoOptionsIsEqual($item->director_id, $director->id) }}>
-                        {{ $director->name }}</option>
-                @endforeach
-            </select>
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
-                </div>
-            </div>
-        </div>
-
-        @error('director_id')
-            <small class="text-danger">{{ $message }}</small>
-        @enderror
-        <!-- ./Director -->
-
-        <!-- Description -->
-        <div class="input-group mt-3">
-            <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description"
-                cols="30" rows="10">{{ $item->description }}</textarea>
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-info"></span>
-                </div>
-            </div>
-        </div>
-
-        @error('description')
-            <small class="text-danger">{{ $message }}</small>
-        @enderror
-        <!-- ./Description -->
-
         <div class="form-group mt-3">
             <button class="btn btn-secondary btn-sm">{{ __('buttons.update') }}</button>
         </div>
 
     </form>
 @else
-    <form action="{{ route('client.intangible_assets.store', $client->name) }}" method="post">
+    <form action="{{ route('client.intangible_assets.store', $client->name) }}" method="post"
+        data-client="{{ $client->name }}" id="form">
         @csrf
+
+        <!-- Administrative Unit -->
+        <div class="input-group mt-3">
+            <select name="administrative_unit_id" id="administrative_unit_id" class="form-control select2bs4"
+                onchange="changeAdministrativeUnit()">
+
+                @foreach ($administrativeUnits as $administrativeUnit)
+                    <option value="{{ $administrativeUnit->id }}"
+                        {{ optionIsSelected(old(), 'administrative_unit_id', $administrativeUnit->id) }}>
+                        {{ $administrativeUnit->name }}</option>
+                @endforeach
+            </select>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-university"></span>
+                </div>
+            </div>
+        </div>
+        <!-- ./Administrative Unit -->
+
+        <!-- Research Unit -->
+        <div class="input-group mt-3">
+            <select name="research_unit_id" id="research_unit_id" class="form-control select2bs4"
+                onchange="changeResearchUnit()">
+
+                @foreach ($researchUnits as $researchUnit)
+                    <option value="{{ $researchUnit->id }}"
+                        {{ optionIsSelected(old(), 'research_unit_id', $researchUnit->id) }}>
+                        {{ $researchUnit->name }}</option>
+                @endforeach
+            </select>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-microscope"></span>
+                </div>
+            </div>
+        </div>
+        <!-- ./Research Unit -->
 
         <!-- Project -->
         <div class="input-group mt-3">
-            <select name="project_id" class="form-control select2bs4 @error('project_id') is-invalid @enderror">
-                <option value="-1">{{ __('inputs.project_id') }}
-                </option>
+            <select name="project_id" id="project_id"
+                class="form-control select2bs4 @error('project_id') is-invalid @enderror">
 
-                @foreach ($projects as $researchUnit)
-                    <option value="{{ $researchUnit->id }}"
-                        {{ twoOptionsIsEqual(old('project_id'), $researchUnit->id) }}>
-                        {{ $researchUnit->name }}</option>
+                @foreach ($projects as $project)
+                    <option value="{{ $project->id }}" {{ optionIsSelected(old(), 'project_id', $project->id) }}>
+                        {{ $project->name }}</option>
                 @endforeach
             </select>
             <div class="input-group-append">
@@ -134,25 +122,11 @@
         @enderror
         <!-- ./Name -->
 
-        <!-- Description -->
-        <div class="input-group mt-3">
-            <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description"
-                cols="30" rows="10">{{ old('description') }}</textarea>
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-info"></span>
-                </div>
-            </div>
-        </div>
-
-        @error('description')
-            <small class="text-danger">{{ $message }}</small>
-        @enderror
-        <!-- ./Description -->
-
+        <!-- Button Save -->
         <div class="form-group mt-3 mb-0">
             <button class="btn btn-secondary btn-sm">{{ __('buttons.save') }}</button>
         </div>
+        <!-- ./Button Save -->
 
     </form>
 @endif
