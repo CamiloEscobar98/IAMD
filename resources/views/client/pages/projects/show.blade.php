@@ -39,8 +39,7 @@
 
                         <!-- Name -->
                         <div class="input-group mt-3">
-                            <input type="text" class="form-control" placeholder="{{ __('inputs.name') }}"
-                                value="{{ $item->name }}" disabled>
+                            <input type="text" class="form-control" value="{{ $item->name }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-file-alt"></span>
@@ -51,8 +50,7 @@
 
                         <!-- Research Unit -->
                         <div class="input-group mt-3">
-                            <input type="text" class="form-control" placeholder="{{ __('inputs.research_unit') }}"
-                                value="{{ $item->research_unit->name }}" disabled>
+                            <input type="text" class="form-control" value="{{ $item->research_unit->name }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-microscope nav-icon"></span>
@@ -63,8 +61,7 @@
 
                         <!-- Directror -->
                         <div class="input-group mt-3">
-                            <input type="text" class="form-control" placeholder="{{ __('inputs.director_id') }}"
-                                value="{{ $item->director->name }}" disabled>
+                            <input type="text" class="form-control" value="{{ $item->director->name }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-user-tie nav-icon"></span>
@@ -83,6 +80,57 @@
                             </div>
                         </div>
                         <!-- ./Description -->
+
+                        <hr>
+
+                        <!-- Financing Types -->
+                        <div class="input-group mt-3">
+                            <input type="text" class="form-control"
+                                value="{{ $item->project_financing->financing_type->name }}" disabled>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user-tie nav-icon"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./Financing Types -->
+
+                        <!-- Project Contract Types -->
+                        <div class="input-group mt-3">
+                            <input type="text" class="form-control"
+                                value="{{ $item->project_financing->project_contract_type->name }}" disabled>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user-tie nav-icon"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./Project Contract Types -->
+
+                        <!-- Contract -->
+                        <div class="input-group mt-3">
+                            <input type="text" class="form-control" value="{{ $item->project_financing->contract }}"
+                                disabled>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user-tie nav-icon"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./Contract -->
+
+                        <!-- Date -->
+                        <div class="input-group mt-3">
+                            <input type="text" class="form-control" value="{{ $item->project_financing->date }}"
+                                disabled>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user-tie nav-icon"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./Date -->
+
 
                         <!-- Edit Button -->
                         <div class="form-group mt-3">

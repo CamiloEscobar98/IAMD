@@ -6,11 +6,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
+use Database\Factories\Admin\Localization\CountryFactory;
+
 use App\Models\Admin\BaseModel;
 
 class Country extends BaseModel
 {
     use HasFactory;
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory<static>
+     */
+    protected static function newFactory()
+    {
+        return CountryFactory::new();
+    }
 
     /**
      * The number of models to return for pagination.

@@ -4,7 +4,7 @@ namespace App\Repositories\Client;
 
 use App\Repositories\AbstractRepository;
 
-use App\Models\Client\ProjectContractType;
+use App\Models\Client\Project\ProjectContractType;
 
 class ProjectContractTypeRepository extends  AbstractRepository
 {

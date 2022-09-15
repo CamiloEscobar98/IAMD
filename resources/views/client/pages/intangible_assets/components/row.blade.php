@@ -2,7 +2,6 @@
     <td class="text-center">{{ $loop->iteration }}.</td>
     <td>{{ $item->project->name }}</td>
     <td>{{ $item->name }}</td>
-    <td>{{ $item->description }}</td>
     <td>{{ $item->created_at }}</td>
     <td>{{ $item->updated_at }}</td>
     <td>

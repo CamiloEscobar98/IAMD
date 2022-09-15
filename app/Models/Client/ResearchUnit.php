@@ -82,6 +82,6 @@ class ResearchUnit extends BaseModel
      */
     public function projects()
     {
-        return $this->hasMany(\App\Models\Client\Project::class);
+        return $this->hasMany(\App\Models\Client\Project\Project::class);
     }
 }

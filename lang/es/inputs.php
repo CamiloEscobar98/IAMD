@@ -40,6 +40,10 @@ return [
     'linkage_type_id' => 'Tipo de Vinculación',
     'assignment_contract_id' => 'Tipo de Contratación',
 
+    'contract' => 'Nombre de Contrato',
+    'financing_type_id' => 'Tipo de Financiación',
+    'project_contract_type_id' => 'Tipos de Contracto para Proyectos',
+
     'email' => 'Correo Electrónico',
     'phone' => 'Teléfono Celular',
 

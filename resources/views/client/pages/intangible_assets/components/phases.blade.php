@@ -87,7 +87,7 @@
 
                     <!-- Description -->
                     <div class="input-group mt-3">
-                        <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description"
+                        <textarea class="form-control {{ isInvalidByError($errors, 'description') }}" name="description" id="description"
                             cols="30" rows="3">{{ $item->description }}</textarea>
                         <div class="input-group-append">
                             <div class="input-group-text">

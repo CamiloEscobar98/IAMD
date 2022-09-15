@@ -2,11 +2,11 @@
 
 namespace App\Models\Client\IntangibleAsset;
 
-use App\Models\Client\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Client\BaseModel;
 
 use App\Models\Client\Creator\Creator;
 
@@ -47,7 +47,7 @@ class IntangibleAsset extends BaseModel
      */
     public function project()
     {
-        return $this->belongsTo(\App\Models\Client\Project::class);
+        return $this->belongsTo(\App\Models\Client\Project\Project::class);
     }
 
     /**
@@ -79,6 +79,17 @@ class IntangibleAsset extends BaseModel
     {
         return $this->belongsToMany(Creator::class);
     }
+
+    /**
+     * @return bool
+     */
+    public function HasProject(): bool
+    {
+        return !is_null($this->project_id);
+    }
+
+
+    /** Phases for Intangible Asset */
 
     /**
      * @return bool

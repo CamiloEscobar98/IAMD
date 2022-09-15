@@ -5,7 +5,7 @@
 
         <!-- Name -->
         <div class="input-group mt-3">
-            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+            <input type="text" name="name" class="form-control {{ isInvalidByError($errors, 'name') }}"
                 placeholder="{{ __('inputs.name') }}" value="{{ $item->creator->name }}">
             <div class="input-group-append">
                 <div class="input-group-text">
@@ -178,7 +178,7 @@
 
         <!-- Name -->
         <div class="input-group mt-3">
-            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+            <input type="text" name="name" class="form-control {{ isInvalidByError($errors, 'name') }}"
                 placeholder="{{ __('inputs.name') }}" value="{{ old('name') }}">
             <div class="input-group-append">
                 <div class="input-group-text">

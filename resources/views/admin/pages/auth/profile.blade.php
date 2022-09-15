@@ -44,7 +44,7 @@
                             <!-- Name -->
                             <div class="input-group mb-3">
                                 <input type="text" name="name"
-                                    class="form-control @error('name') is-invalid @enderror"
+                                    class="form-control {{ isInvalidByError($errors, 'name') }}"
                                     placeholder="{{ __('inputs.name') }}" value="{{ auth('admin')->user()->name }}">
                                 <div class="input-group-append">
                                     <div class="input-group-text">

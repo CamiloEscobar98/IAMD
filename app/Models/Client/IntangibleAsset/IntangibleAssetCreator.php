@@ -27,7 +27,7 @@ class IntangibleAssetCreator extends BaseModel
      */
     public function intangibleAsset(): BelongsTo
     {
-        return $this->belongsTo(intangibleAsset::class);
+        return $this->belongsTo(IntangibleAsset::class);
     }
 
     /**

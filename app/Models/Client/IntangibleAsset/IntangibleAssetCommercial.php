@@ -2,8 +2,10 @@
 
 namespace App\Models\Client\IntangibleAsset;
 
-use App\Models\Client\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+use App\Models\Client\BaseModel;
 
 class IntangibleAssetCommercial extends BaseModel
 {
@@ -34,7 +36,7 @@ class IntangibleAssetCommercial extends BaseModel
     /**
      * Get Intangible Asset.
      * 
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function intangibleAsset()
     {

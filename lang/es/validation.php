@@ -183,8 +183,11 @@ return [
         'linkage_type_id' => 'tipo de vinculación',
         'assignment_contract_id' => 'tipo de contratación',
 
+        'financing_type_id' => 'tipo de financión',
+        'project_contract_type_id' => 'tipo de contrato',
+
         /** Assignment Contracts */
         'is_internal' => 'es interno o externo',
-        
+
     ],
 ];

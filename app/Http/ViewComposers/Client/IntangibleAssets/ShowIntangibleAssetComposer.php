@@ -49,7 +49,7 @@ class ShowIntangibleAssetComposer
         $intangibleAssetId = request()->intangible_asset;
 
         /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset */
-        
+
         $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAssetId);
 
         /** Categories */
@@ -60,10 +60,10 @@ class ShowIntangibleAssetComposer
             /** @var \App\Models\Admin\IntangibleAssetTypeLevel\IntangibleAssetTypeLevel3 $product */
             $product = $this->intangibleAssetTypeLevel3Repository->getById($intangibleAsset->classification_id);
 
-            
+
             /** @var \App\Models\Admin\IntangibleAssetTypeLevel\IntangibleAssetTypeLevel2 $subCategory */
             $subCategory = $this->intangibleAssetTypeLevel2Repository->getById($product->intangible_asset_type_level2_id);
-            
+
             /** @var \App\Models\Admin\IntangibleAssetTypeLevel\IntangibleAssetTypeLevel1 $category */
             $category = $this->intangibleAssetTypeLevel1Repository->getById($subCategory->intangible_asset_type_level1_id);
 
@@ -78,8 +78,9 @@ class ShowIntangibleAssetComposer
             $category = $categories->first();
 
             /** SubCategories */
-            $subCategories = $this->intangibleAssetTypeLevel2Repository->getByIntangibleAssetTypeLevel1($categories->first());
+            $subCategories = $this->intangibleAssetTypeLevel2Repository->getByIntangibleAssetTypeLevel1($category);
 
+            /** @var \App\Models\Admin\IntangibleAssetTypeLevel\IntangibleAssetTypeLevel2 $subCategory */
             $subCategory = $subCategories->first();
 
             /** Products */

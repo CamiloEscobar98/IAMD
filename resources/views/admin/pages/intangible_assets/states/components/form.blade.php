@@ -9,7 +9,7 @@
 
         <!-- Name -->
         <div class="input-group">
-            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+            <input type="text" name="name" class="form-control {{ isInvalidByError($errors, 'name') }}"
                 placeholder="{{ __('inputs.name') }}" value="{{ $item->name }}">
             <div class="input-group-append">
                 <div class="input-group-text">
@@ -25,7 +25,7 @@
 
         <!-- Description -->
         <div class="input-group mt-3">
-            <textarea name="description" rows="3" class="form-control @error('description') is-invalid @enderror"
+            <textarea name="description" rows="3" class="form-control {{ isInvalidByError($errors, 'description') }}"
                 placeholder="{{ __('inputs.description') }}">{{ $item->description }}</textarea>
             <div class="input-group-append">
                 <div class="input-group-text">
@@ -54,7 +54,7 @@
 
         <!-- Name -->
         <div class="input-group">
-            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+            <input type="text" name="name" class="form-control {{ isInvalidByError($errors, 'name') }}"
                 placeholder="{{ __('inputs.name') }}" value="{{ old('name') }}">
             <div class="input-group-append">
                 <div class="input-group-text">
@@ -70,7 +70,7 @@
 
         <!-- Description -->
         <div class="input-group mt-3">
-            <input type="text" name="description" class="form-control @error('description') is-invalid @enderror"
+            <input type="text" name="description" class="form-control {{ isInvalidByError($errors, 'description') }}"
                 placeholder="{{ __('inputs.description') }}" value="{{ old('description') }}">
             <div class="input-group-append">
                 <div class="input-group-text">

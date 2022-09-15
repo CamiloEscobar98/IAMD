@@ -14,6 +14,7 @@ use App\Http\Requests\Client\Projects\UpdateRequest;
 use App\Services\Client\ProjectService;
 
 use App\Repositories\Client\ProjectRepository;
+use App\Repositories\Client\ProjectFinancingRepository;
 
 class ProjectController extends Controller
 {
@@ -24,14 +25,21 @@ class ProjectController extends Controller
     /** @var ProjectRepository */
     protected $projectRepository;
 
+    /** @var ProjectFinancingRepository */
+    protected $projectFinancingRepository;
+
     public function __construct(
         ProjectService $projectService,
-        ProjectRepository $projectRepository
+
+        ProjectRepository $projectRepository,
+        ProjectFinancingRepository $projectFinancingRepository
     ) {
         $this->middleware('auth');
 
         $this->projectService = $projectService;
+
         $this->projectRepository = $projectRepository;
+        $this->projectFinancingRepository = $projectFinancingRepository;
     }
 
     /**
@@ -39,12 +47,12 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function index(Request $request): \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+    public function index(Request $request) #: \Illuminate\View\View|\Illuminate\Http\RedirectResponse
     {
         try {
             $params = $this->projectService->transformParams($request->all());
 
-            $query = $this->projectRepository->search($params, [], ['intangible_assets']);
+            $query = $this->projectRepository->search($params, ['director', 'project_financing.financing_type'], ['intangible_assets']);
 
             $total = $query->count();
 
@@ -83,11 +91,17 @@ class ProjectController extends Controller
     public function store(StoreRequest $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
-            $data = $request->all();
+
+            $dataProject = $request->only(['research_unit_id', 'director_id', 'name', 'description']);
 
             DB::beginTransaction();
 
-            $item = $this->projectRepository->create($data);
+            $item = $this->projectRepository->create($dataProject);
+
+            $dataProjectFinancing = $request->only(['financing_type_id', 'project_contract_type_id', 'contract', 'date']);
+            $dataProjectFinancing['project_id'] = $item->id;
+
+            $this->projectFinancingRepository->create($dataProjectFinancing);
 
             DB::commit();
             return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.projects.messages.save_success', ['project' => $item->name])]);
@@ -108,7 +122,7 @@ class ProjectController extends Controller
     public function show($id, $project, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
-            $item = $this->projectRepository->getByIdWithRelations($project, ['research_unit', 'director', 'intangible_assets']);
+            $item = $this->projectRepository->getByIdWithRelations($project, ['research_unit', 'director', 'intangible_assets', 'project_financing.financing_type', 'project_financing.project_contract_type']);
 
             return view('client.pages.projects.show', compact('item'));
         } catch (\Exception $th) {
@@ -127,8 +141,7 @@ class ProjectController extends Controller
     public function edit($id, $project, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
-            $item = $this->projectRepository->getById($project);
-
+            $item = $this->projectRepository->getByIdWithRelations($project, ['project_financing']);
 
             return view('client.pages.projects.edit', compact('item'));
         } catch (\Exception $th) {
@@ -148,13 +161,20 @@ class ProjectController extends Controller
     public function update(UpdateRequest $request, $id, $project): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
-            $data = $request->all();
+
+            $dataProject = $request->only(['research_unit_id', 'director_id', 'name', 'description']);
 
             $item = $this->projectRepository->getById($project);
 
             DB::beginTransaction();
 
-            $this->projectRepository->update($item, $data);
+            $this->projectRepository->update($item, $dataProject);
+
+            $dataProjectFinancing = $request->only(['financing_type_id', 'project_contract_type_id', 'contract', 'date']);
+
+            $projectFinancing = $this->projectFinancingRepository->getById($project);
+
+            $this->projectFinancingRepository->update($projectFinancing, $dataProjectFinancing);
 
             DB::commit();
 

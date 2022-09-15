@@ -34,7 +34,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row justify-content-start">
-            <div class="col-md-7">
+            <div class="col-md-8">
                 <div class="card">
                     <div class="card-body">
                         <h3 class="text-center font-weight-bold">
@@ -46,15 +46,15 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
                         <h3 class="font-italic font-weight-bold">
                             <u>{{ __('pages.default.title-information') }}</u>
                         </h3>
                         <div class="row justify-content-center">
-                            <img src="{{ asset('assets/images/projects.png') }}" class="img-fluid mt-3"
-                                width="400em" alt="">
+                            <img src="{{ asset('assets/images/projects.png') }}" class="img-fluid mt-3" width="400em"
+                                alt="">
                             <p>{!! __('pages.client.projects.info.create') !!}</p>
                         </div>
                     </div>
@@ -70,6 +70,8 @@
 @endsection
 
 @section('custom_js')
+    <script src="{{ asset('adminlte/dist/js/iamd/projects.js') }}"></script>
+
     <script>
         //Initialize Select2 Elements
         $('.select2').select2()

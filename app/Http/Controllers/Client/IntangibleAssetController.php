@@ -108,7 +108,7 @@ class IntangibleAssetController extends Controller
      * 
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function show($id, $intangibleAsset)#: \Illuminate\Http\RedirectResponse|\Illuminate\View\View|
+    public function show($id, $intangibleAsset) : \Illuminate\Http\RedirectResponse|\Illuminate\View\View|
     {
         try {
             $item = $this->intangibleAssetRepository->getByIdWithRelations($intangibleAsset, []);
@@ -133,7 +133,7 @@ class IntangibleAssetController extends Controller
             $item = $this->intangibleAssetRepository->getById($intangibleAsset);
 
 
-            return view('client.pages.projects.edit', compact('item'));
+            return view('client.pages.intangible_assets.edit', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
@@ -151,7 +151,7 @@ class IntangibleAssetController extends Controller
     public function update(UpdateRequest $request, $id, $intangibleAsset): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
-            $data = $request->all();
+            $data = $request->only(['project_id', 'name']);
 
             $item = $this->intangibleAssetRepository->getById($intangibleAsset);
 
@@ -161,7 +161,7 @@ class IntangibleAssetController extends Controller
 
             DB::commit();
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.update_success', ['project' => $item->name])]);
+            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.update_success', ['intangible_asset' => $item->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
             return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.messages.update_error')]);

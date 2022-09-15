@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Client\Projects;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -26,8 +27,13 @@ class UpdateRequest extends FormRequest
         return [
             'research_unit_id' => ['required', 'exists:tenant.research_units,id'],
             'director_id' => ['required', 'exists:tenant.creators,id'],
-            'name' => ['required', 'unique:tenant.research_units,name,' . $this->research_unit],
-            'description' => ['nullable']
+            'name' => ['required', 'unique:tenant.projects,name,' . $this->project],
+            'description' => ['nullable'],
+
+            'financing_type_id' => ['required', 'exists:tenant.financing_types,id'],
+            'project_contract_type_id' => ['required', 'exists:tenant.project_contract_types,id'],
+            'contract' => ['required', 'string', Rule::unique('tenant.project_financings')->ignore($this->project, 'project_id')],
+            'date' => ['required', 'date']
         ];
     }
 }

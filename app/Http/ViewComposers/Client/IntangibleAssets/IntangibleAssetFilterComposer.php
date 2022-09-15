@@ -44,7 +44,7 @@ class IntangibleAssetFilterComposer
 
         if (isset($params['project_id']) && $params['project_id']) {
 
-            /** @var \App\Models\Client\Project $project */
+            /** @var \App\Models\Client\Project\Project $project */
             $project = $this->projectRepository->getById($params['project_id']);
 
             /** @var \App\Models\Client\ResearchUnit $researchUnit */

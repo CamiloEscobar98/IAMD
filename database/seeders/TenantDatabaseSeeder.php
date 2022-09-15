@@ -4,18 +4,18 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-use Database\Seeders\Tenant\AdministrativeUnitSeeder;
-use Database\Seeders\Tenant\ResearchUnit\ResearchUnitSeeder;
+use Database\Seeders\Client\AdministrativeUnitSeeder;
+use Database\Seeders\Client\ResearchUnit\ResearchUnitSeeder;
 
-use Database\Seeders\Tenant\Creator\CreatorSeeder;
+use Database\Seeders\Client\Creator\CreatorSeeder;
 
-use Database\Seeders\Tenant\FinancingTypeSeeder;
-use Database\Seeders\Tenant\ProjectContractTypeSeeder;
-use Database\Seeders\Tenant\ProjectSeeder;
+use Database\Seeders\Client\FinancingTypeSeeder;
+use Database\Seeders\Client\ProjectContractTypeSeeder;
+use Database\Seeders\Client\ProjectSeeder;
 
-use Database\Seeders\Tenant\IntangibleAssetSeeder;
+use Database\Seeders\Client\IntangibleAssetSeeder;
 
-use Database\Seeders\Tenant\UserSeeder;
+use Database\Seeders\Client\UserSeeder;
 
 class TenantDatabaseSeeder extends Seeder
 {

@@ -46,7 +46,7 @@
                 </tr>
                 @empty
                 <tr class="text-center">
-                    <td colspan="12">{{ __('pages.admin.default.empty_table') }}</td>
+                    <td colspan="12">{{ __('pages.default.empty_table') }}</td>
                 </tr>
             @endforelse
         </tbody>

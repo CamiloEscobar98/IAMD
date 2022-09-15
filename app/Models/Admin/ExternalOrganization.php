@@ -4,10 +4,22 @@ namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use Database\Factories\Admin\ExternalOrganizationFactory;
+
 class ExternalOrganization extends BaseModel
 {
     use HasFactory;
-    
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory<static>
+     */
+    protected static function newFactory()
+    {
+        return ExternalOrganizationFactory::new();
+    }
+
     /**
      * The number of models to return for pagination.
      *

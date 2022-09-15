@@ -4,11 +4,16 @@ namespace Database\Factories\Client;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+use App\Models\Client\Project\Project;
+
+
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client\Project>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client\Project\Project>
  */
 class ProjectFactory extends Factory
 {
+    protected $model = Project::class;
+
     /**
      * Define the model's default state.
      *
