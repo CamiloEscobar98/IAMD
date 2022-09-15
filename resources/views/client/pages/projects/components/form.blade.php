@@ -4,6 +4,21 @@
         @csrf
         @method('PUT')
 
+        <!-- Name -->
+        <div class="input-group mt-3">
+            <input type="text" name="name" class="form-control {{ isInvalidByError($errors, 'name') }}"
+                placeholder="{{ __('inputs.name') }}" value="{{ $item->name }}">
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-file-alt"> {{ __('inputs.project_name') }}</span>
+                </div>
+            </div>
+        </div>
+
+        @error('name')
+            <small class="text-danger">{{ $message }}</small>
+        @enderror
+        <!-- ./Name -->
 
         <!-- Administrative Unit -->
         <div class="input-group mt-3">
@@ -18,7 +33,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-university"></span>
+                    <span class="fas fa-university"> {{ __('inputs.administrative_unit_id') }}</span>
                 </div>
             </div>
         </div>
@@ -36,27 +51,11 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-microscope"></span>
+                    <span class="fas fa-microscope nav-icon"> {{ __('inputs.research_unit_id') }}</span>
                 </div>
             </div>
         </div>
         <!-- ./Research Unit -->
-
-        <!-- Name -->
-        <div class="input-group mt-3">
-            <input type="text" name="name" class="form-control {{ isInvalidByError($errors, 'name') }}"
-                placeholder="{{ __('inputs.name') }}" value="{{ $item->name }}">
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
-                </div>
-            </div>
-        </div>
-
-        @error('name')
-            <small class="text-danger">{{ $message }}</small>
-        @enderror
-        <!-- ./Name -->
 
         <!-- Director -->
         <div class="input-group mt-3">
@@ -70,7 +69,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-user-tie nav-icon"> {{ __('inputs.director_id') }}</span>
                 </div>
             </div>
         </div>
@@ -112,7 +111,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-user-tie nav-icon"> {{ __('inputs.financing_type_id') }}</span>
                 </div>
             </div>
         </div>
@@ -136,7 +135,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-briefcase nav-icon"> {{ __('inputs.project_contract_type_id') }}</span>
                 </div>
             </div>
         </div>
@@ -152,7 +151,7 @@
                 placeholder="{{ __('inputs.contract') }}" value="{{ $item->project_financing->contract }}">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-user-tie nav-icon"> {{ __('inputs.contract') }}</span>
                 </div>
             </div>
         </div>
@@ -166,11 +165,6 @@
         <div class="input-group mt-3">
             <input type="date" name="date" class="form-control {{ isInvalidByError($errors, 'date') }}"
                 placeholder="{{ __('inputs.date') }}" value="{{ $item->project_financing->date }}">
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
-                </div>
-            </div>
         </div>
 
         @error('date')
@@ -242,7 +236,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-user-tie"></span>
                 </div>
             </div>
         </div>
@@ -258,7 +252,7 @@
                 placeholder="{{ __('inputs.name') }}" value="{{ old('name') }}">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-user-tie"></span>
                 </div>
             </div>
         </div>
@@ -300,7 +294,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-user-tie"></span>
                 </div>
             </div>
         </div>
@@ -324,7 +318,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-user-tie"></span>
                 </div>
             </div>
         </div>
@@ -340,7 +334,7 @@
                 placeholder="{{ __('inputs.contract') }}" value="{{ old('contract') }}">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-user-tie"></span>
                 </div>
             </div>
         </div>
@@ -354,11 +348,6 @@
         <div class="input-group mt-3">
             <input type="date" name="date" class="form-control {{ isInvalidByError($errors, 'date') }}"
                 placeholder="{{ __('inputs.date') }}" value="{{ old('date') }}">
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
-                </div>
-            </div>
         </div>
 
         @error('date')

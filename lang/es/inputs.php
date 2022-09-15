@@ -27,6 +27,7 @@ return [
     'intangible_asset_state_id' => 'Estado del Activo Intangible',
 
     'project_id' => 'Proyectos',
+    'project_name' => 'Nombre del Proyecto',
 
     'director_id' => 'Director',
     'inventory_manager_id' => 'Administrador de Inventario',
@@ -42,7 +43,7 @@ return [
 
     'contract' => 'Nombre de Contrato',
     'financing_type_id' => 'Tipo de Financiación',
-    'project_contract_type_id' => 'Tipos de Contracto para Proyectos',
+    'project_contract_type_id' => 'Tipo de Contrato del Proyecto',
 
     'email' => 'Correo Electrónico',
     'phone' => 'Teléfono Celular',

@@ -42,7 +42,7 @@
                             <input type="text" class="form-control" value="{{ $item->name }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-file-alt"></span>
+                                    <span class="fas fa-file-alt"> {{ __('inputs.project_name') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                             <input type="text" class="form-control" value="{{ $item->research_unit->name }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-microscope nav-icon"></span>
+                                    <span class="fas fa-microscope nav-icon"> {{ __('inputs.research_unit_id') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                             <input type="text" class="form-control" value="{{ $item->director->name }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-user-tie nav-icon"></span>
+                                    <span class="fas fa-user-tie nav-icon"> {{ __('inputs.director_id') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                                 value="{{ $item->project_financing->financing_type->name }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-user-tie nav-icon"></span>
+                                    <span class="fas fa-user-tie nav-icon"> {{ __('inputs.financing_type_id') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                                 value="{{ $item->project_financing->project_contract_type->name }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-user-tie nav-icon"></span>
+                                    <span class="fas fa-briefcase nav-icon"> {{ __('inputs.project_contract_type_id') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -113,7 +113,7 @@
                                 disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-user-tie nav-icon"></span>
+                                    <span class="fas fa-user-tie nav-icon"> {{ __('inputs.contract') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -125,7 +125,7 @@
                                 disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-user-tie nav-icon"></span>
+                                    <span class="fas fa-calendar nav-icon"></span>
                                 </div>
                             </div>
                         </div>
