@@ -36,3 +36,17 @@ if (!function_exists('phaseIsCompletedOpen')) {
         return $phaseState ? null : 'open';
     }
 }
+
+
+if (!function_exists('phaseIsCompletedIcon')) {
+
+    /**
+     * @param bool $phaseState
+     * 
+     * @return string|null
+     */
+    function phaseIsCompletedIcon($phaseState)
+    {
+        return $phaseState ? 'fas fa-check' : 'fas fa-exclamation-circle';
+    }
+}

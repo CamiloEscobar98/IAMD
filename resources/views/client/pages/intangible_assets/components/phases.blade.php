@@ -1,8 +1,10 @@
 <div id="accordion">
+
     <!-- PHASE 1 -->
     <div class="card">
         <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseOneCompleted()) }}">
             <a class="card-link" data-toggle="collapse" href="#collapseOne">
+                <span class="{{ phaseIsCompletedIcon($item->hasPhaseOneCompleted()) }} mr-1"></span>
                 {{ __('pages.client.intangible_assets.phases.one.title') }}
             </a>
         </div>
@@ -73,6 +75,7 @@
     <div class="card">
         <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseTwoCompleted()) }}">
             <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
+                <span class="{{ phaseIsCompletedIcon($item->hasPhaseTwoCompleted()) }} mr-1"></span>
                 {{ __('pages.client.intangible_assets.phases.two.title') }}
             </a>
         </div>
@@ -117,6 +120,7 @@
     <div class="card">
         <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseThreeCompleted()) }}">
             <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
+                <span class="{{ phaseIsCompletedIcon($item->hasPhaseThreeCompleted()) }} mr-1"></span>
                 {{ __('pages.client.intangible_assets.phases.three.title') }}
             </a>
         </div>

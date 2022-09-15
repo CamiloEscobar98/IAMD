@@ -24,8 +24,10 @@
                             <a href="{{ route('client.intangible_assets.index', $client->name) }}">
                                 {{ __('pages.client.intangible_assets.title') }} </a>
                         </li>
-                        <li class="breadcrumb-item">{{ $item->name }}</li>
-                        <li class="breadcrumb-item">{{ __('pages.default.edit') }}</li>
+                        <li class="breadcrumb-item"><a
+                                href="{{ getClientRoute('client.intangible_assets.show', [$item->id]) }}">{{ $item->name }}</a>
+                        </li>
+                        <li class="breadcrumb-item active">{{ __('pages.default.edit') }}</li>
                     </ol>
                 </div>
             </div>
@@ -73,7 +75,6 @@
     <script src="{{ asset('adminlte/dist/js/iamd/projects.js') }}"></script>
 
     <script>
-
         //Initialize Select2 Elements
         $('.select2').select2()
 
