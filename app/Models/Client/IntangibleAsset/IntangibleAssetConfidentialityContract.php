@@ -23,7 +23,7 @@ class IntangibleAssetConfidentialityContract extends BaseModel
      * 
      * @return BelongsTo
      */
-    public function intangibleAsset(): BelongsTo
+    public function intangible_asset(): BelongsTo
     {
         return $this->belongsTo(IntangibleAsset::class);
     }

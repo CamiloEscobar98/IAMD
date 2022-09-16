@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Eloquent\Collection;
+
 if (!function_exists('phaseIsCompletedColor')) {
 
     /**
@@ -33,7 +35,7 @@ if (!function_exists('phaseIsCompletedOpen')) {
      */
     function phaseIsCompletedOpen($phaseState): string|null
     {
-        return $phaseState ? null : 'open';
+        return $phaseState ? null : 'show';
     }
 }
 
@@ -48,5 +50,20 @@ if (!function_exists('phaseIsCompletedIcon')) {
     function phaseIsCompletedIcon($phaseState)
     {
         return $phaseState ? 'fas fa-check' : 'fas fa-exclamation-circle';
+    }
+}
+
+
+if (!function_exists('intangibleAssetHasDPI')) {
+
+    /**
+     * @param Collection $intangibleAssetDpis
+     * @param int $dpi
+     * 
+     * @return string|null
+     */
+    function intangibleAssetHasDPI($intangibleAssetDpis, $dpi): string | null
+    {
+        return $intangibleAssetDpis->contains('dpi_id', $dpi) ? 'selected' : null;
     }
 }

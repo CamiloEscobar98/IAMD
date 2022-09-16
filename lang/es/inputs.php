@@ -16,6 +16,7 @@ return [
     'slug' => 'Abreviación',
     'address' => 'Dirección',
     'telephone' => 'Teléfono',
+    'phone' => 'Teléfono Celular',
 
     'country_id' => 'País',
 
@@ -25,6 +26,8 @@ return [
     'research_unit_category_id' => 'Categoría Unidad Investigativa',
 
     'intangible_asset_state_id' => 'Estado del Activo Intangible',
+    
+    'dpi_id' => 'Derecho de Propiedad Intelectual',
 
     'project_id' => 'Proyectos',
     'project_name' => 'Nombre del Proyecto',
@@ -44,9 +47,6 @@ return [
     'contract' => 'Nombre de Contrato',
     'financing_type_id' => 'Tipo de Financiación',
     'project_contract_type_id' => 'Tipo de Contrato del Proyecto',
-
-    'email' => 'Correo Electrónico',
-    'phone' => 'Teléfono Celular',
 
 
 ];

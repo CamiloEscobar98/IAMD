@@ -6,6 +6,7 @@ use App\Repositories\Client\IntangibleAssetRepository;
 use App\Repositories\Client\IntangibleAssetCommercialRepository;
 use App\Repositories\Client\IntangibleAssetCreatorRepository;
 use App\Repositories\Client\IntangibleAssetPublishedRepository;
+use App\Repositories\Client\IntangibleAssetDPIRepository;
 
 class IntangibleAssetPhaseService
 {
@@ -21,16 +22,22 @@ class IntangibleAssetPhaseService
     /** @var IntangibleAssetPublishedRepository */
     protected $intangibleAssetPublishedRepository;
 
+    /** @var IntangibleAssetDPIRepository */
+    protected $intangibleAssetDPIRepository;
+
     public function __construct(
         IntangibleAssetRepository $intangibleAssetRepository,
         IntangibleAssetCommercialRepository $intangibleAssetCommercialRepository,
         IntangibleAssetCreatorRepository $intangibleAssetCreatorRepository,
         IntangibleAssetPublishedRepository $intangibleAssetPublishedRepository,
+
+        IntangibleAssetDPIRepository $intangibleAssetDPIRepository,
     ) {
         $this->intangibleAssetRepository = $intangibleAssetRepository;
         $this->intangibleAssetCommercialRepository = $intangibleAssetCommercialRepository;
         $this->intangibleAssetCreatorRepository = $intangibleAssetCreatorRepository;
         $this->intangibleAssetPublishedRepository = $intangibleAssetPublishedRepository;
+        $this->intangibleAssetDPIRepository = $intangibleAssetDPIRepository;
     }
 
     /**
@@ -52,7 +59,7 @@ class IntangibleAssetPhaseService
     }
 
     /**
-     * Intangible Asset Phase One: Intangible Asset Description
+     * Intangible Asset Phase Two: Intangible Asset Description
      * 
      * @param \App\MOdels\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
      * @param array $data
@@ -71,7 +78,7 @@ class IntangibleAssetPhaseService
     }
 
     /**
-     * Intangible Asset Phase One: Intangible Asset State
+     * Intangible Asset Phase Three: Intangible Asset State
      * 
      * @param \App\MOdels\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
      * @param array $data
@@ -86,6 +93,33 @@ class IntangibleAssetPhaseService
             return __('pages.client.intangible_assets.phases.three.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
         } catch (\Exception $th) {
             return __('pages.client.intangible_assets.phases.three.messages.save_error');
+        }
+    }
+
+    /**
+     * Intangible Asset Phase Four: Intangible Asset DPIS
+     * 
+     * @param \App\MOdels\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param array $data
+     * 
+     * @return string
+     */
+    public function updatePhaseFour($intangibleAsset, $dpis): string
+    {
+        try {
+
+            $intangibleAsset->dpis()->delete();
+
+            foreach ($dpis as $dpi) {
+                $this->intangibleAssetDPIRepository->create([
+                    'intangible_asset_id' => $intangibleAsset->id,
+                    'dpi_id' => $dpi
+                ]);
+            }
+
+            return __('pages.client.intangible_assets.phases.four.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+        } catch (\Exception $th) {
+            return __('pages.client.intangible_assets.phases.four.messages.save_error');
         }
     }
 }

@@ -92,4 +92,25 @@ class IntangibleAssetPhaseController extends Controller
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
+
+    /**
+     * Intangible Asset Phase One: Intangible Asset State
+     * 
+     * @param int $id
+     * @param int $intangibleAsset,
+     * @param Request $request
+     */
+    public function updatePhaseFour($id, $intangibleAsset, Request $request)#: RedirectResponse
+    {
+        try {
+            $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAsset);
+
+            $data = $request->only('dpi_id');
+
+            $message = $this->intangibleAssetPhaseService->updatePhaseFour($intangibleAsset, $data['dpi_id']);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
+        } catch (\Exception $th) {
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        }
+    }
 }

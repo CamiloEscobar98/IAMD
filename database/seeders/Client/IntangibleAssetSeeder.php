@@ -4,16 +4,19 @@ namespace Database\Seeders\Client;
 
 use Illuminate\Database\Seeder;
 
+use Illuminate\Database\Eloquent\Collection;
+
+use App\Repositories\Admin\IntangibleAssetTypeLevel2Repository;
 use App\Repositories\Admin\IntangibleAssetTypeLevel3Repository;
 
+use App\Repositories\Client\IntangibleAssetRepository;
 use App\Repositories\Admin\IntangibleAssetStateRepository;
-
 use App\Repositories\Client\IntangibleAssetCommercialRepository;
 use App\Repositories\Client\IntangibleAssetPublishedRepository;
 use App\Repositories\Client\IntangibleAssetCreatorRepository;
 use App\Repositories\Client\IntangibleAssetCommentRepository;
+use App\Repositories\Client\IntangibleAssetDPIRepository;
 
-use App\Repositories\Client\IntangibleAssetRepository;
 
 use App\Repositories\Client\ProjectRepository;
 use App\Repositories\Client\CreatorRepository;
@@ -39,6 +42,12 @@ class IntangibleAssetSeeder extends Seeder
     /** @var IntangibleAssetCommentRepository */
     protected $intangibleAssetCommentRepository;
 
+    /** @var IntangibleAssetDPIRepository */
+    protected $intangibleAssetDPIRepository;
+
+    /** @var IntangibleAssetTypeLevel2Repository */
+    protected $intangibleAssetTypeLevel2Repository;
+
     /** @var IntangibleAssetTypeLevel3Repository */
     protected $intangibleAssetTypeLevel3Repository;
 
@@ -58,7 +67,9 @@ class IntangibleAssetSeeder extends Seeder
         IntangibleAssetPublishedRepository $intangibleAssetPublishedRepository,
         IntangibleAssetCreatorRepository $intangibleAssetCreatorRepository,
         IntangibleAssetCommentRepository $intangibleAssetCommentRepository,
+        IntangibleAssetDPIRepository $intangibleAssetDPIRepository,
 
+        IntangibleAssetTypeLevel2Repository $intangibleAssetTypeLevel2Repository,
         IntangibleAssetTypeLevel3Repository $intangibleAssetTypeLevel3Repository,
 
         ProjectRepository $projectRepository,
@@ -71,7 +82,9 @@ class IntangibleAssetSeeder extends Seeder
         $this->intangibleAssetPublishedRepository = $intangibleAssetPublishedRepository;
         $this->intangibleAssetCreatorRepository = $intangibleAssetCreatorRepository;
         $this->intangibleAssetCommentRepository = $intangibleAssetCommentRepository;
+        $this->intangibleAssetDPIRepository = $intangibleAssetDPIRepository;
 
+        $this->intangibleAssetTypeLevel2Repository =  $intangibleAssetTypeLevel2Repository;
         $this->intangibleAssetTypeLevel3Repository = $intangibleAssetTypeLevel3Repository;
 
         $this->projectRepository = $projectRepository;
@@ -95,13 +108,16 @@ class IntangibleAssetSeeder extends Seeder
         /** Searching Creators */
         $creators = $this->creatorRepository->all();
 
+        /** Searching DPIS */
+        $dpis = $this->intangibleAssetTypeLevel2Repository->all();
+
         /** Searching Users */
         $users = $this->userRepository->all();
 
         print("¡¡ CREATING INTANGIBLE ASSETS !! \n \n");
 
 
-        $projects->each(function ($project) use ($states, $creators, $users) {
+        $projects->each(function ($project) use ($states, $creators, $users, $dpis) {
             $randomNumber = rand(3, 10);
 
             print("PROJECT: " . $project->name .  "\n \n");
@@ -130,6 +146,8 @@ class IntangibleAssetSeeder extends Seeder
 
                 (bool) rand(0, 1) ? $this->updateHasCreators($intangibleAsset, $creators) : null;
 
+                (bool) rand(0, 1) ? $this->updateHasDPIS($intangibleAsset, $dpis) : null;
+
                 print("\n \n");
 
                 $cont++;
@@ -156,7 +174,7 @@ class IntangibleAssetSeeder extends Seeder
 
     /**
      * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
-     * @param \Illuminate\Database\Eloquent\Collection $states
+     * @param Collection $states
      * 
      * @return void
      */
@@ -171,7 +189,7 @@ class IntangibleAssetSeeder extends Seeder
 
     /**
      * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
-     * @param \Illuminate\Database\Eloquent\Collection $users
+     * @param Collection $users
      * 
      * @return void
      */
@@ -220,7 +238,7 @@ class IntangibleAssetSeeder extends Seeder
 
     /**
      * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
-     * @param \Illuminate\Database\Eloquent\Collection $creators
+     * @param Collection $creators
      * 
      * @return void
      */
@@ -230,16 +248,34 @@ class IntangibleAssetSeeder extends Seeder
 
         $randomCreators = $creators->random($randomNumber);
 
-        $cont = 0;
-
         foreach ($randomCreators as $creator) {
             $this->intangibleAssetCreatorRepository->create([
                 'intangible_asset_id' => $intangibleAsset->id,
                 'creator_id' => $creator->id,
             ]);
-            $cont++;
         }
 
-        print("This Intangible Asset has Creators: Count: " . $cont . "\n");
+        print("This Intangible Asset has Creators: Count: " . $randomCreators->count() . "\n");
+    }
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param Collection $dpis
+     * 
+     * @return void
+     */
+    public function updateHasDPIS($intangibleAsset, $dpis): void
+    {
+        $randomNumber = rand(1, $dpis->count() - 1);
+
+        $randomDPIS = $dpis->random($randomNumber);
+
+        foreach ($randomDPIS as $dpi) {
+            $this->intangibleAssetDPIRepository->create([
+                'intangible_asset_id' => $intangibleAsset->id,
+                'dpi_id' => $dpi->id
+            ]);
+        }
+        print("This Intangible Asset has DPIS: Count: " . $randomDPIS->count() . "\n");
     }
 }

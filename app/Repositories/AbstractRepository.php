@@ -46,9 +46,19 @@ class AbstractRepository
     /**
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    function all()
+    public function all()
     {
         return $this->model->all();
+    }
+
+    /**
+     * @param array $ids
+     * 
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function allByIds($ids)
+    {
+        return $this->model->all()->whereIn('id', $ids);
     }
 
 
@@ -62,7 +72,7 @@ class AbstractRepository
     /**
      * @return static
      */
-    function newInstance()
+    public function newInstance()
     {
         return $this->model->newInstance();
     }
@@ -72,7 +82,7 @@ class AbstractRepository
      *
      * @return Model
      */
-    function getById($id)
+    public function getById($id)
     {
         return $this->model->findOrFail($id);
     }

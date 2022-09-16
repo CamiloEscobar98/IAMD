@@ -1,6 +1,6 @@
 <div id="accordion">
 
-    <!-- PHASE 1 -->
+    <!-- PHASE ONE: INTANGIBLE ASSET CLASSIFICATION -->
     <div class="card">
         <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseOneCompleted()) }}">
             <a class="card-link" data-toggle="collapse" href="#collapseOne">
@@ -69,9 +69,9 @@
             </div>
         </div>
     </div>
-    <!-- ./PHASE ! -->
+    <!-- ./PHASE ONE: INTANGIBLE ASSET CLASSIFICATION -->
 
-    <!-- PHASE 2 -->
+    <!-- PHASE TWO: INTANGIBLE ASSET DESCRIPTION -->
     <div class="card">
         <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseTwoCompleted()) }}">
             <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
@@ -114,9 +114,9 @@
             </div>
         </div>
     </div>
-    <!-- ./PHASE 2 -->
+    <!-- ./PHASE TWO: INTANGIBLE ASSET DESCRIPTION -->
 
-    <!-- PHASE 3 -->
+    <!-- PHASE THREE: INTANGIBLE ASSET STATE -->
     <div class="card">
         <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseThreeCompleted()) }}">
             <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
@@ -156,6 +156,86 @@
             </div>
         </div>
     </div>
-    <!-- ./PHASE 3 -->
+    <!-- ./PHASE THREE: INTANGIBLE ASSET STATE -->
+
+    <!-- PHASE FOUR: INTANGIBLE ASSETS RELATIONED WITH DPIS -->
+    <div class="card">
+        <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseFourCompleted()) }}">
+            <a class="collapsed card-link" data-toggle="collapse" href="#collapseFour">
+                <span class="{{ phaseIsCompletedIcon($item->hasPhaseFourCompleted()) }} mr-1"></span>
+                {{ __('pages.client.intangible_assets.phases.four.title') }}
+            </a>
+        </div>
+        <div id="collapseFour" class="collapse {{ phaseIsCompletedOpen($item->hasPhaseFourCompleted()) }}"
+            data-parent="#accordion">
+            <div class="card-body">
+                <form action="{{ route('client.intangible_assets.phases.four', [$client->name, $item->id]) }}"
+                    method="post">
+
+                    @csrf
+
+                    @method('PATCH')
+                    <div class="form-group">
+                        <label>{{ __('inputs.dpi_id') }}</label>
+                        <select name="dpi_id[]" id="dpi_id" class="form-control select2bs4" multiple>
+                            @foreach ($dpis as $dpi)
+                                <option value="{{ $dpi->id }}"
+                                    {{ intangibleAssetHasDPI($item->dpis, $dpi->id) }}>
+                                    {{ $dpi->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Button Save -->
+                    <div class="form-group mt-3 mb-0">
+                        <button
+                            class="btn {{ phaseIsCompletedButton($item->hasPhaseFourCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
+                    </div>
+                    <!-- ./Button Save -->
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- ./PHASE FOUR: INTANGIBLE ASSETS RELATIONED WITH DPIS -->
+
+    <!-- PHASE FIVE: INTANGIBLE ASSET CURRENT STATE -->
+    <div class="card">
+        <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseFourCompleted()) }}">
+            <a class="collapsed card-link" data-toggle="collapse" href="#collapseFive">
+                <span class="{{ phaseIsCompletedIcon($item->hasPhaseFourCompleted()) }} mr-1"></span>
+                {{ __('pages.client.intangible_assets.phases.four.title') }}
+            </a>
+        </div>
+        <div id="collapseFive" class="collapse {{ phaseIsCompletedOpen($item->hasPhaseFourCompleted()) }}"
+            data-parent="#accordion">
+            <div class="card-body">
+                <form action="{{ route('client.intangible_assets.phases.four', [$client->name, $item->id]) }}"
+                    method="post">
+
+                    @csrf
+
+                    @method('PATCH')
+                    <div class="form-group">
+                        <label>{{ __('inputs.dpi_id') }}</label>
+                        {{-- <select name="dpi_id" id="dpi_id" class="form-control select2bs4" multiple>
+                            @foreach ($dpis as $dpi)
+                                <option value="{{ $dpi->id }}"
+                                    {{ intangibleAssetHasDPI($item->dpis, $dpi->id) }}>
+                                    {{ $dpi->name }}</option>
+                            @endforeach
+                        </select> --}}
+                    </div>
+
+                    <!-- Button Save -->
+                    <div class="form-group mt-3 mb-0">
+                        <button
+                            class="btn {{ phaseIsCompletedButton($item->hasPhaseFourCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
+                    </div>
+                    <!-- ./Button Save -->
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- PHASE FIVE: INTANGIBLE ASSET CURRENT STATE -->
 
 </div>

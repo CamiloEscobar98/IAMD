@@ -2,17 +2,24 @@
 
 namespace App\Models\Client\IntangibleAsset;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Str;
-
 use App\Models\Client\BaseModel;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+use Illuminate\Support\Str;
+
+use App\Traits\Client\IntangibleAsset\HasPhases;
+
 use App\Models\Client\Creator\Creator;
+use App\Models\Client\IntangibleAsset\IntangibleAssetDPI;
 
 class IntangibleAsset extends BaseModel
 {
-    use HasFactory;
+    use HasFactory, HasPhases;
 
     /**
      * The attributes that are mass assignable.
@@ -43,9 +50,9 @@ class IntangibleAsset extends BaseModel
     /**
      * Get Project.
      * 
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function project()
+    public function project(): BelongsTo
     {
         return $this->belongsTo(\App\Models\Client\Project\Project::class);
     }
@@ -53,9 +60,9 @@ class IntangibleAsset extends BaseModel
     /**
      * Get Intangible Asset State.
      * 
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function intangible_asset_state()
+    public function intangible_asset_state(): BelongsTo
     {
         return $this->belongsTo(\App\Models\Admin\IntangibleAssetState::class);
     }
@@ -63,11 +70,21 @@ class IntangibleAsset extends BaseModel
     /**
      * Get the Intangible Asset Published
      * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
-    public function intangibleAssetPublished()
+    public function intangible_asset_published(): HasOne
     {
         return $this->hasOne(intangibleAssetPublished::class);
+    }
+
+    /**
+     * Get all DPIS
+     * 
+     * @return  HasMany
+     */
+    public function dpis()
+    {
+        return $this->hasMany(IntangibleAssetDPI::class);
     }
 
     /**
@@ -89,29 +106,5 @@ class IntangibleAsset extends BaseModel
     }
 
 
-    /** Phases for Intangible Asset */
-
-    /**
-     * @return bool
-     */
-    public function hasPhaseOneCompleted(): bool
-    {
-        return !is_null($this->classification_id);
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasPhaseTwoCompleted(): bool
-    {
-        return !is_null($this->description);
-    }
-
-    /**
-     * @return bool
-     */
-    public function hasPhaseThreeCompleted(): bool
-    {
-        return !is_null($this->intangible_asset_state_id);
-    }
+ 
 }

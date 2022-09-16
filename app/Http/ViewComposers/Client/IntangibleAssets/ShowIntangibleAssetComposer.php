@@ -90,11 +90,23 @@ class ShowIntangibleAssetComposer
             $product = $products->first();
         }
 
-
-
         /** States */
         $states = $this->intangibleAssetStateRepository->all();
 
-        $view->with(compact('categories', 'subCategories', 'products', 'states', 'category', 'subCategory', 'product'));
+        /** DPIS */
+        $dpis = $this->intangibleAssetTypeLevel2Repository->all();
+
+        $view->with(compact(
+            'categories',
+            'subCategories',
+            'products',
+
+            'category',
+            'subCategory',
+            'product',
+
+            'states',
+            'dpis'
+        ));
     }
 }

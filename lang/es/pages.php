@@ -905,6 +905,14 @@ return [
                         'save_success' => 'Se ha registrado correctamente el estado del Activo Intangible: <b>:intangible_asset</b>.',
                         'save_error' => 'No se pudo registrar el estado.',
                     ]
+                ],
+                'four' => [
+                    'title' => 'Derechos de Propiedad Intelectual',
+
+                    'messages' => [
+                        'save_success' => 'Se ha registrado correctamente los derechos de propiedad intelectual del Activo Intangible: <b>:intangible_asset</b>.',
+                        'save_error' => 'No se pudo registrar los derechos de propiedad intelectual.',
+                    ]
                 ]
             ]
         ],
