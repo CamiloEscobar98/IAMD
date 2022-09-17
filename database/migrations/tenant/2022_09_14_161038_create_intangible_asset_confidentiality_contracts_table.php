@@ -14,8 +14,6 @@ return new class extends Migration
     public function up()
     {
         Schema::create('intangible_asset_confidentiality_contracts', function (Blueprint $table) {
-            $table->id();
-
             $table->unsignedBigInteger('intangible_asset_id');
 
             $table->string('organization_confidenciality');
@@ -25,6 +23,7 @@ return new class extends Migration
 
             $table->timestamps();
 
+            $table->primary('intangible_asset_id', 'pk_intangible_asset_confidentiality_contracts');
             $table->foreign('intangible_asset_id', 'intangible_asset_fk')->references('id')->on('intangible_assets')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }

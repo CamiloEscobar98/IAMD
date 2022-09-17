@@ -20,6 +20,7 @@ use App\Repositories\Client\IntangibleAssetDPIRepository;
 
 use App\Repositories\Client\ProjectRepository;
 use App\Repositories\Client\CreatorRepository;
+use App\Repositories\Client\IntangibleAssetConfidentialityContractRepository;
 use App\Repositories\Client\UserRepository;
 
 class IntangibleAssetSeeder extends Seeder
@@ -45,6 +46,9 @@ class IntangibleAssetSeeder extends Seeder
     /** @var IntangibleAssetDPIRepository */
     protected $intangibleAssetDPIRepository;
 
+    /** @var IntangibleAssetConfidentialityContractRepository */
+    protected $intangibleAssetConfidentialityContractRepository;
+
     /** @var IntangibleAssetTypeLevel2Repository */
     protected $intangibleAssetTypeLevel2Repository;
 
@@ -68,6 +72,7 @@ class IntangibleAssetSeeder extends Seeder
         IntangibleAssetCreatorRepository $intangibleAssetCreatorRepository,
         IntangibleAssetCommentRepository $intangibleAssetCommentRepository,
         IntangibleAssetDPIRepository $intangibleAssetDPIRepository,
+        IntangibleAssetConfidentialityContractRepository $intangibleAssetConfidentialityContractRepository,
 
         IntangibleAssetTypeLevel2Repository $intangibleAssetTypeLevel2Repository,
         IntangibleAssetTypeLevel3Repository $intangibleAssetTypeLevel3Repository,
@@ -83,6 +88,7 @@ class IntangibleAssetSeeder extends Seeder
         $this->intangibleAssetCreatorRepository = $intangibleAssetCreatorRepository;
         $this->intangibleAssetCommentRepository = $intangibleAssetCommentRepository;
         $this->intangibleAssetDPIRepository = $intangibleAssetDPIRepository;
+        $this->intangibleAssetConfidentialityContractRepository = $intangibleAssetConfidentialityContractRepository;
 
         $this->intangibleAssetTypeLevel2Repository =  $intangibleAssetTypeLevel2Repository;
         $this->intangibleAssetTypeLevel3Repository = $intangibleAssetTypeLevel3Repository;
@@ -147,6 +153,8 @@ class IntangibleAssetSeeder extends Seeder
                 (bool) rand(0, 1) ? $this->updateHasCreators($intangibleAsset, $creators) : null;
 
                 (bool) rand(0, 1) ? $this->updateHasDPIS($intangibleAsset, $dpis) : null;
+
+                (bool) rand(0, 1) ? $this->hasConfidencialityContract($intangibleAsset) : null;
 
                 print("\n \n");
 
@@ -277,5 +285,17 @@ class IntangibleAssetSeeder extends Seeder
             ]);
         }
         print("This Intangible Asset has DPIS: Count: " . $randomDPIS->count() . "\n");
+    }
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * 
+     * @return void
+     */
+    public function hasConfidencialityContract($intangibleAsset): void
+    {
+        $this->intangibleAssetConfidentialityContractRepository->createOneFactory([
+            'intangible_asset_id' => $intangibleAsset->id
+        ]);
     }
 }

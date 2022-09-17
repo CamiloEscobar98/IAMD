@@ -213,7 +213,6 @@
             <div class="card-body">
 
                 <!-- Subphase: Intangible Asset Is Published -->
-
                 <form action="{{ route('client.intangible_assets.phases.five', [$client->name, $item->id]) }}"
                     method="post">
                     @csrf
@@ -284,6 +283,10 @@
                     <!-- ./Button Save -->
                 </form>
                 <!-- ./Subphase: Intangible Asset Is Published -->
+
+                <!-- Subphase: Intangible Asset has Confidenciality Contract -->
+                
+                <!-- ./Subphase: Intangible Asset has Confidenciality Contract -->
 
             </div>
         </div>
