@@ -14,7 +14,10 @@ use Illuminate\Support\Str;
 
 use App\Traits\Client\IntangibleAsset\HasPhases;
 
+use App\Models\Admin\IntangibleAssetState;
+
 use App\Models\Client\Creator\Creator;
+use App\Models\Client\Project\Project;
 use App\Models\Client\IntangibleAsset\IntangibleAssetDPI;
 
 class IntangibleAsset extends BaseModel
@@ -54,7 +57,7 @@ class IntangibleAsset extends BaseModel
      */
     public function project(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\Client\Project\Project::class);
+        return $this->belongsTo(Project::class);
     }
 
     /**
@@ -64,7 +67,7 @@ class IntangibleAsset extends BaseModel
      */
     public function intangible_asset_state(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\Admin\IntangibleAssetState::class);
+        return $this->belongsTo(IntangibleAssetState::class);
     }
 
     /**
@@ -74,7 +77,7 @@ class IntangibleAsset extends BaseModel
      */
     public function intangible_asset_published(): HasOne
     {
-        return $this->hasOne(intangibleAssetPublished::class);
+        return $this->hasOne(IntangibleAssetPublished::class);
     }
 
     /**
@@ -100,11 +103,16 @@ class IntangibleAsset extends BaseModel
     /**
      * @return bool
      */
-    public function HasProject(): bool
+    public function hasProject(): bool
     {
         return !is_null($this->project_id);
     }
 
-
- 
+    /**
+     * @return bool
+     */
+    public function hasBeenPublished(): bool
+    {
+        return !is_null($this->intangible_asset_published);
+    }
 }

@@ -20,7 +20,8 @@
                             <div class="form-group">
                                 <label>{{ __('pages.client.intangible_assets.phases.one.form.level_1') }}</label>
                                 <select name="intangible_asset_type_level_1" id="intangible_asset_type_level_1"
-                                    class="form-control select2bs4" onchange="changeIntangibleAssetLevel1()">
+                                    class="form-control form-control-sm select2bs4"
+                                    onchange="changeIntangibleAssetLevel1()">
                                     @foreach ($categories as $categoryItem)
                                         <option value="{{ $categoryItem->id }}"
                                             {{ twoOptionsIsEqual($category->id, $categoryItem->id) }}>
@@ -33,7 +34,8 @@
                             <div class="form-group">
                                 <label>{{ __('pages.client.intangible_assets.phases.one.form.level_2') }}</label>
                                 <select name="intangible_asset_type_level_2" id="intangible_asset_type_level_2"
-                                    class="form-control select2bs4" onchange="changeIntangibleAssetLevel2()">
+                                    class="form-control form-control-sm select2bs4"
+                                    onchange="changeIntangibleAssetLevel2()">
                                     @foreach ($subCategories as $subCategoryItem)
                                         <option value="{{ $subCategoryItem->id }}"
                                             {{ twoOptionsIsEqual($subCategory->id, $subCategoryItem->id) }}>
@@ -46,7 +48,7 @@
                             <div class="form-group">
                                 <label>{{ __('pages.client.intangible_assets.phases.one.form.level_3') }}</label>
                                 <select name="intangible_asset_type_level_3" id="intangible_asset_type_level_3"
-                                    class="form-control select2bs4">
+                                    class="form-control form-control-sm select2bs4">
                                     @foreach ($products as $productItem)
                                         <option value="{{ $productItem->id }}"
                                             {{ twoOptionsIsEqual($product->id, $productItem->id) }}>
@@ -137,7 +139,7 @@
                     <div class="form-group">
                         <label>{{ __('inputs.intangible_asset_state_id') }}</label>
                         <select name="intangible_asset_state_id" id="intangible_asset_state_id"
-                            class="form-control select2bs4">
+                            class="form-control form-control-sm select2bs4">
                             @foreach ($states as $state)
                                 <option value="{{ $state->id }}"
                                     {{ twoOptionsIsEqual($item->intangible_asset_state_id, $state->id) }}>
@@ -200,39 +202,89 @@
 
     <!-- PHASE FIVE: INTANGIBLE ASSET CURRENT STATE -->
     <div class="card">
-        <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseFourCompleted()) }}">
+        <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseFiveCompleted()) }}">
             <a class="collapsed card-link" data-toggle="collapse" href="#collapseFive">
-                <span class="{{ phaseIsCompletedIcon($item->hasPhaseFourCompleted()) }} mr-1"></span>
-                {{ __('pages.client.intangible_assets.phases.four.title') }}
+                <span class="{{ phaseIsCompletedIcon($item->hasPhaseFiveCompleted()) }} mr-1"></span>
+                {{ __('pages.client.intangible_assets.phases.five.title') }}
             </a>
         </div>
-        <div id="collapseFive" class="collapse {{ phaseIsCompletedOpen($item->hasPhaseFourCompleted()) }}"
+        <div id="collapseFive" class="collapse {{ phaseIsCompletedOpen($item->hasPhaseFiveCompleted()) }}"
             data-parent="#accordion">
             <div class="card-body">
-                <form action="{{ route('client.intangible_assets.phases.four', [$client->name, $item->id]) }}"
+
+                <!-- Subphase: Intangible Asset Is Published -->
+
+                <form action="{{ route('client.intangible_assets.phases.five', [$client->name, $item->id]) }}"
                     method="post">
-
                     @csrf
-
                     @method('PATCH')
+
+                    <input type="hidden" name="sub_phase" value="1" readonly>
+
                     <div class="form-group">
-                        <label>{{ __('inputs.dpi_id') }}</label>
-                        {{-- <select name="dpi_id" id="dpi_id" class="form-control select2bs4" multiple>
-                            @foreach ($dpis as $dpi)
-                                <option value="{{ $dpi->id }}"
-                                    {{ intangibleAssetHasDPI($item->dpis, $dpi->id) }}>
-                                    {{ $dpi->name }}</option>
-                            @endforeach
-                        </select> --}}
+                        <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.is_published.title') }}</label>
+                        <select id="isPublished" name="is_published" class="form-control form-control-sm"
+                            onchange="changeIsPublished()">
+                            <option value="1" {{ intangibleAssetHasBeenPublished($item) }}>
+                                {{ __('inputs.yes') }}</option>
+                            <option value="-1" {{ intangibleAssetHasBeenPublished($item, true) }}>
+                                {{ __('inputs.no') }}</option>
+                        </select>
+                    </div>
+
+                    <div id="publishedContainer">
+                        <div class="row justify-content-center mb-4">
+                            <div class="col-sm-3 col-md-4">
+                                <div class="form-group">
+                                    <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.is_published.form.published_in') }}</label>
+                                    <input type="text" name="published_in"
+                                        class="form-control form-control-sm {{ isInvalidByError($errors, 'published_in') }}"
+                                        value="{{ getParamObject($item->intangible_asset_published, 'published_in') }}">
+                                    @error('published_in')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group">
+                                    <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.is_published.form.scope_information') }}</label>
+                                    <select name="scope_information" class="form-control form-control-sm">
+                                        @foreach ($informationScopes as $scope => $value)
+                                            <option value="{{ $scope }}"
+                                                {{ twoOptionsIsEqualIntoObject($item, 'intangible_asset_published', $value) }}>
+                                                {{ $value }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('scope_information')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group">
+                                    <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.is_published.form.published_date') }}</label>
+                                    <input type="date" name="published_at"
+                                        class="form-control form-control-sm {{ isInvalidByError($errors, 'published_at') }}"
+                                        value="{{ getParamObject($item->intangible_asset_published, 'published_at') }}">
+                                    @error('published_at')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Button Save -->
-                    <div class="form-group mt-3 mb-0">
+                    <div class="form-group">
                         <button
-                            class="btn {{ phaseIsCompletedButton($item->hasPhaseFourCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
+                            class="btn {{ phaseIsCompletedButton($item->hasPhaseFiveCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
                     </div>
                     <!-- ./Button Save -->
                 </form>
+                <!-- ./Subphase: Intangible Asset Is Published -->
+
             </div>
         </div>
     </div>

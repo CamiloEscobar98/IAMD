@@ -55,3 +55,32 @@ if (!function_exists('isInvalidByError')) {
         return $errors->has($key) ? 'is-invalid' : null;
     }
 }
+
+if (!function_exists('getParamObject')) {
+
+    /**
+     * @param mixed $object
+     * @param string $key
+     * 
+     * @return string|null
+     */
+    function getParamObject($object, $key): string|null
+    {
+        return !is_null($object) && $object->$key ? $object->$key : '';
+    }
+}
+
+if (!function_exists('twoOptionsIsEqualIntoObject')) {
+
+    /**
+     * @param mixed $object
+     * @param string $key
+     * @param mixed $value
+     * 
+     * @return string|null
+     */
+    function twoOptionsIsEqualIntoObject($object, $key, $value): string|null
+    {
+        return (!is_null($object) && $object->$key) && $object->$key == $value ? 'selected' : null;
+    }
+}

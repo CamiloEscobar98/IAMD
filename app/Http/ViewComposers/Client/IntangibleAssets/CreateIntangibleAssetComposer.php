@@ -66,7 +66,7 @@ class CreateIntangibleAssetComposer
             /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset */
             $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAssetId);
 
-            if ($intangibleAsset->HasProject()) {
+            if ($intangibleAsset->hasProject()) {
 
                 /** @var \App\Models\Client\Project\Project */
                 $project = $this->projectRepository->getById($intangibleAsset->project_id);

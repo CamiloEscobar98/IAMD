@@ -46,6 +46,6 @@ trait HasPhases
      */
     public function hasPhaseFiveCompleted(): bool
     {
-        return false;
+        return $this->hasBeenPublished();
     }
 }

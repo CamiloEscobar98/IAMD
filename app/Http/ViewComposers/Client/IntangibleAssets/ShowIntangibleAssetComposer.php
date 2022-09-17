@@ -96,6 +96,8 @@ class ShowIntangibleAssetComposer
         /** DPIS */
         $dpis = $this->intangibleAssetTypeLevel2Repository->all();
 
+        $informationScopes = collect([1 => 'Premilinar', 2 => 'Parcial', 3 => 'Total']);
+
         $view->with(compact(
             'categories',
             'subCategories',
@@ -106,7 +108,9 @@ class ShowIntangibleAssetComposer
             'product',
 
             'states',
-            'dpis'
+            'dpis',
+
+            'informationScopes',
         ));
     }
 }

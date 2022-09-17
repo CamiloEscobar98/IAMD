@@ -20,9 +20,11 @@ class IntangibleAssetPublishedFactory extends Factory
      */
     public function definition()
     {
+        $informationScopes = collect([1 => 'Premilinar', 2 => 'Parcial', 3 => 'Total']);
+
         return [
             'published_in' => $this->faker->words(4, true),
-            'information_scope' => $this->faker->realText(200),
+            'information_scope' => $informationScopes->random(1)->first(),
             'published_at' => $this->faker->dateTimeBetween('-60 years', '-5 months')
         ];
     }

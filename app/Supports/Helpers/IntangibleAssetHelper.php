@@ -67,3 +67,21 @@ if (!function_exists('intangibleAssetHasDPI')) {
         return $intangibleAssetDpis->contains('dpi_id', $dpi) ? 'selected' : null;
     }
 }
+
+if (!function_exists('intangibleAssetHasBeenPublished')) {
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param bool $not
+     * 
+     * @return string|null
+     */
+    function intangibleAssetHasBeenPublished($intangibleAsset, bool $not = false): string | null
+    {
+        if ($not) {
+            return !$intangibleAsset->hasBeenPublished() ? 'selected' : null;
+        } else {
+            return $intangibleAsset->hasBeenPublished() ? 'selected' : null;
+        }
+    }
+}

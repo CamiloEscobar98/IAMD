@@ -3,6 +3,9 @@
 return [
     'all' => 'Todos',
 
+    'yes' => 'Si',
+    'no' => 'No',
+
     'email' => 'Correo Electrónico',
     'password' => 'Contraseña',
     'repeat_password' => 'Repetir Contraseña',

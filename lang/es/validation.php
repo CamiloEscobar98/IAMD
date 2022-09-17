@@ -189,5 +189,8 @@ return [
         /** Assignment Contracts */
         'is_internal' => 'es interno o externo',
 
+        'published_in' => 'medio de publicación',
+        'published_at' => 'fecha de publicación',
+
     ],
 ];

@@ -106,8 +106,12 @@
 
 @section('custom_js')
     <script src="{{ asset('adminlte/dist/js/iamd/intangible_asset_levels.js') }}"></script>
-    
+    <script src="{{ asset('adminlte/dist/js/iamd/intangible_asset_phases.js') }}"></script>
+
     <script>
+        $(document).ready(function() {
+            changeIsPublished();
+        });
 
         //Initialize Select2 Elements
         $('.select2').select2()

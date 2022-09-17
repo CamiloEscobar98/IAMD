@@ -100,7 +100,7 @@ class IntangibleAssetPhaseService
      * Intangible Asset Phase Four: Intangible Asset DPIS
      * 
      * @param \App\MOdels\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
-     * @param array $data
+     * @param array $dpis
      * 
      * @return string
      */
@@ -120,6 +120,43 @@ class IntangibleAssetPhaseService
             return __('pages.client.intangible_assets.phases.four.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
         } catch (\Exception $th) {
             return __('pages.client.intangible_assets.phases.four.messages.save_error');
+        }
+    }
+
+    /**
+     * Intangible Asset Phase Four: Intangible Asset current State
+     * 
+     * @param \App\MOdels\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param array $data
+     * @param string $subPhase
+     * 
+     * @return string
+     */
+    public function updatePhaseFive($intangibleAsset, array $data, string $subPhase): string
+    {
+        try {
+            $message = null;
+            switch ($subPhase) {
+                case '1': # Intangible Asset has been published.
+                    if ($data['is_published'] == -1) {
+                        $intangibleAsset->intangible_asset_published()->delete();
+                    } else {
+                        $data['intangible_asset_id'] = $intangibleAsset->id;
+                        $this->intangibleAssetPublishedRepository->updateOrCreate([
+                            'intangible_asset_id' => $intangibleAsset->id
+                        ], $data);
+                    }
+                    $message = __('pages.client.intangible_assets.phases.five.sub_phases.is_published.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+                    break;
+
+                default:
+                    # code...
+                    break;
+            }
+
+            return $message;
+        } catch (\Exception $th) {
+            return __('pages.client.intangible_assets.phases.five.messages.save_error');
         }
     }
 }

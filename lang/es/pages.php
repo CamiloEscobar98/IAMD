@@ -913,6 +913,24 @@ return [
                         'save_success' => 'Se ha registrado correctamente los derechos de propiedad intelectual del Activo Intangible: <b>:intangible_asset</b>.',
                         'save_error' => 'No se pudo registrar los derechos de propiedad intelectual.',
                     ]
+                ],
+                'five' => [
+                    'title' => 'Estado Actual del Activo Intangible',
+                    'sub_phases' => [
+                        'is_published' => [
+                            'title' => '¿El Activo Intangible ha sido publicado o divulgado?',
+                            'form' => [
+                                'published_in' => 'Medio de publicación o divulgación:',
+                                'scope_information' => 'Alcance de la publicación o divulgación:',
+                                'published_date' => 'Fecha de la publicación o divulgación:',
+                            ],
+                            'messages' => [
+                                'save_success' => 'Se ha registrado el estado de publicación y/o divulgación del Activo Intangible: <b>:intangible_asset</b>.',
+                                'save_error' => 'No se pudo registrar el estado de publicación y/o divulgación.',
+                            ]
+                        ],
+
+                    ],
                 ]
             ]
         ],

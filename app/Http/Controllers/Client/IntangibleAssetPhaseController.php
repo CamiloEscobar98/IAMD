@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use App\Repositories\Client\IntangibleAssetRepository;
 
 use App\Services\Client\IntangibleAssetPhaseService;
+use Illuminate\Validation\Rule;
 
 class IntangibleAssetPhaseController extends Controller
 {
@@ -52,7 +53,7 @@ class IntangibleAssetPhaseController extends Controller
     }
 
     /**
-     * Intangible Asset Phase One: Intangible Asset Description
+     * Intangible Asset Phase Two: Intangible Asset Description
      * 
      * @param int $id
      * @param int $intangibleAsset,
@@ -73,7 +74,7 @@ class IntangibleAssetPhaseController extends Controller
     }
 
     /**
-     * Intangible Asset Phase One: Intangible Asset State
+     * Intangible Asset Phase Three: Intangible Asset State
      * 
      * @param int $id
      * @param int $intangibleAsset,
@@ -94,13 +95,13 @@ class IntangibleAssetPhaseController extends Controller
     }
 
     /**
-     * Intangible Asset Phase One: Intangible Asset State
+     * Intangible Asset Phase Four: Intangible Asset State
      * 
      * @param int $id
      * @param int $intangibleAsset,
      * @param Request $request
      */
-    public function updatePhaseFour($id, $intangibleAsset, Request $request)#: RedirectResponse
+    public function updatePhaseFour($id, $intangibleAsset, Request $request): RedirectResponse
     {
         try {
             $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAsset);
@@ -108,6 +109,46 @@ class IntangibleAssetPhaseController extends Controller
             $data = $request->only('dpi_id');
 
             $message = $this->intangibleAssetPhaseService->updatePhaseFour($intangibleAsset, $data['dpi_id']);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
+        } catch (\Exception $th) {
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        }
+    }
+
+    /**
+     * Intangible Asset Phase Five: Intangible Asset current State
+     * 
+     * @param int $id
+     * @param int $intangibleAsset,
+     * @param Request $request
+     */
+    public function updatePhaseFive($id, $intangibleAsset, Request $request) #: RedirectResponse
+    {
+        $request->validate(['sub_phase' => ['required']]);
+
+        $subPhase = $request->get('sub_phase');
+
+        $rules = [];
+
+        $data = [];
+
+        switch ($subPhase) {
+            case '1':
+                $rules = [
+                    'published_in' => [Rule::requiredIf($request->is_published == 1), 'nullable', 'string'],
+                    'scope_information' => [Rule::requiredIf($request->is_published == 1), 'nullable', 'numeric'],
+                    'published_at' => [Rule::requiredIf($request->is_published == 1), 'nullable', 'date']
+                ];
+                $data = $request->only(['is_published', 'published_in', 'scope_information', 'published_at']);
+
+                break;
+        }
+        $request->validate($rules);
+
+        try {
+            $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAsset);
+
+            $message = $this->intangibleAssetPhaseService->updatePhaseFive($intangibleAsset, $data, $subPhase);
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
