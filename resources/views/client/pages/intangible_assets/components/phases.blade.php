@@ -248,15 +248,15 @@
                             </div>
                             <div class="col-sm-4 col-md-4">
                                 <div class="form-group">
-                                    <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.is_published.form.scope_information') }}</label>
-                                    <select name="scope_information" class="form-control form-control-sm">
+                                    <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.is_published.form.information_scope') }}</label>
+                                    <select name="information_scope" class="form-control form-control-sm">
                                         @foreach ($informationScopes as $scope => $value)
-                                            <option value="{{ $scope }}"
-                                                {{ twoOptionsIsEqualIntoObject($item, 'intangible_asset_published', $value) }}>
+                                            <option value="{{ $value }}"
+                                                {{ twoOptionsIsEqualIntoObject($item->intangible_asset_published, 'information_scope', $value) }}>
                                                 {{ $value }}</option>
                                         @endforeach
                                     </select>
-                                    @error('scope_information')
+                                    @error('information_scope')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>

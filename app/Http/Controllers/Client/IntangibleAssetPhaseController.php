@@ -136,10 +136,10 @@ class IntangibleAssetPhaseController extends Controller
             case '1':
                 $rules = [
                     'published_in' => [Rule::requiredIf($request->is_published == 1), 'nullable', 'string'],
-                    'scope_information' => [Rule::requiredIf($request->is_published == 1), 'nullable', 'numeric'],
+                    'information_scope' => [Rule::requiredIf($request->is_published == 1), 'nullable', 'string'],
                     'published_at' => [Rule::requiredIf($request->is_published == 1), 'nullable', 'date']
                 ];
-                $data = $request->only(['is_published', 'published_in', 'scope_information', 'published_at']);
+                $data = $request->only(['is_published', 'published_in', 'information_scope', 'published_at']);
 
                 break;
         }

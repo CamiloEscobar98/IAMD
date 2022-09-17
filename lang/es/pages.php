@@ -921,7 +921,7 @@ return [
                             'title' => '¿El Activo Intangible ha sido publicado o divulgado?',
                             'form' => [
                                 'published_in' => 'Medio de publicación o divulgación:',
-                                'scope_information' => 'Alcance de la publicación o divulgación:',
+                                'information_scope' => 'Alcance de la publicación o divulgación:',
                                 'published_date' => 'Fecha de la publicación o divulgación:',
                             ],
                             'messages' => [
