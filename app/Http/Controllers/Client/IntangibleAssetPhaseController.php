@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\Rule;
 
 use App\Repositories\Client\IntangibleAssetRepository;
 
 use App\Services\Client\IntangibleAssetPhaseService;
-use Illuminate\Validation\Rule;
 
 class IntangibleAssetPhaseController extends Controller
 {
@@ -37,6 +38,8 @@ class IntangibleAssetPhaseController extends Controller
      * @param int $id
      * @param int $intangibleAsset,
      * @param Request $request
+     * 
+     * @return RedirectResponse
      */
     public function updatePhaseOne($id, $intangibleAsset, Request $request): RedirectResponse
     {
@@ -58,6 +61,8 @@ class IntangibleAssetPhaseController extends Controller
      * @param int $id
      * @param int $intangibleAsset,
      * @param Request $request
+     * 
+     * @return RedirectResponse
      */
     public function updatePhaseTwo($id, $intangibleAsset, Request $request): RedirectResponse
     {
@@ -79,6 +84,8 @@ class IntangibleAssetPhaseController extends Controller
      * @param int $id
      * @param int $intangibleAsset,
      * @param Request $request
+     * 
+     * @return RedirectResponse
      */
     public function updatePhaseThree($id, $intangibleAsset, Request $request): RedirectResponse
     {
@@ -100,6 +107,8 @@ class IntangibleAssetPhaseController extends Controller
      * @param int $id
      * @param int $intangibleAsset,
      * @param Request $request
+     * 
+     * @return RedirectResponse
      */
     public function updatePhaseFour($id, $intangibleAsset, Request $request): RedirectResponse
     {
@@ -121,6 +130,8 @@ class IntangibleAssetPhaseController extends Controller
      * @param int $id
      * @param int $intangibleAsset,
      * @param Request $request
+     * 
+     * @return RedirectResponse
      */
     public function updatePhaseFive($id, $intangibleAsset, Request $request) #: RedirectResponse
     {
@@ -140,7 +151,15 @@ class IntangibleAssetPhaseController extends Controller
                     'published_at' => [Rule::requiredIf($request->is_published == 1), 'nullable', 'date']
                 ];
                 $data = $request->only(['is_published', 'published_in', 'information_scope', 'published_at']);
+                break;
 
+            case '2':
+                $rules = [
+                    'organization_confidenciality' => [Rule::requiredIf($request->is_published == 2), 'nullable', 'string'],
+                    'file' => [Rule::requiredIf($request->is_published == 2), 'nullable', 'file', 'mimes:pdf,docx'],
+                ];
+                $data = $request->only(['has_confidenciality_contract', 'organization_confidenciality']);
+                $data['file'] = $request->file('file');
                 break;
         }
         $request->validate($rules);

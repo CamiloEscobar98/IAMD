@@ -930,6 +930,21 @@ return [
                             ]
                         ],
 
+                        'confidenciality_contract' => [
+                            'title' => '¿El Activo Intangible tiene contrato de confidencialidad firmado?',
+                            'form' => [
+                                'organization_confidenciality' => '¿Con quién se hizo el Contrato de Confidencialidad?',
+                                'file' => 'Documento de Contrato de Confidencialidad:',
+                            ],
+                            'messages' => [
+                                'save_success' => 'Se ha registrado el contrato de confidencialidad del Activo Intangible: <b>:intangible_asset</b>.',
+                                'save_error' => 'No se pudo registrar el contrato de confidencialidad.',
+                            ],
+                            'buttons' => [
+                                'download' => 'Descargar Contrato de Confidencialidad'
+                            ]
+                        ],
+
                     ],
                 ]
             ]

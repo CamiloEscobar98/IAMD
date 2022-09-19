@@ -42,10 +42,25 @@ trait HasPhases
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function hasPhaseFiveCompleted(): bool
+    public function hasPhaseFiveCompleted(): bool|null
     {
-        return $this->hasBeenPublished();
+        $phasesMethods = ['hasConfidencialityContract', 'hasBeenPublished'];
+
+        $cont = 0;
+        $i = 0;
+
+        while ($cont < count($phasesMethods)) {
+            $method = $phasesMethods[$i];
+            if (!$this->$method()) {
+                $cont++;
+            } else {
+                return null;
+            }
+            $i++;
+        }
+
+        return $cont == count($phasesMethods);
     }
 }

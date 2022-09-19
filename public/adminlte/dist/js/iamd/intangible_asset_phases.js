@@ -1,10 +1,21 @@
 function changeIsPublished() {
-    let selectIsPublished = $("#isPublished").val();
-    var publishedContainer = $("#publishedContainer");
-    console.log(selectIsPublished);
-    if (selectIsPublished == 1) {
-        publishedContainer.show();
+    let select = $("#isPublished").val();
+    var container = $("#publishedContainer");
+    console.log(select);
+    if (select == 1) {
+        container.show();
     } else {
-        publishedContainer.hide();
+        container.hide();
+    }
+}
+
+function changeHasConfidencialityContract() {
+    let select = $("#hasConfidencialityContract").val();
+    var container = $("#confidencialityContractContainer");
+    console.log(select);
+    if (select == 1) {
+        container.show();
+    } else {
+        container.hide();
     }
 }

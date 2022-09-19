@@ -2,11 +2,16 @@
 
 namespace App\Services\Client;
 
+use Illuminate\Support\Facades\DB;
+
 use App\Repositories\Client\IntangibleAssetRepository;
 use App\Repositories\Client\IntangibleAssetCommercialRepository;
+use App\Repositories\Client\IntangibleAssetConfidentialityContractRepository;
 use App\Repositories\Client\IntangibleAssetCreatorRepository;
 use App\Repositories\Client\IntangibleAssetPublishedRepository;
 use App\Repositories\Client\IntangibleAssetDPIRepository;
+use App\Services\FileSystem\IntangibleAsset\FileConfidencialityContractService;
+use Illuminate\Support\Facades\Storage;
 
 class IntangibleAssetPhaseService
 {
@@ -25,24 +30,37 @@ class IntangibleAssetPhaseService
     /** @var IntangibleAssetDPIRepository */
     protected $intangibleAssetDPIRepository;
 
+    /** @var IntangibleAssetConfidentialityContractRepository */
+    protected $intangibleAssetConfidentialityContractRepository;
+
+    /** @var FileConfidencialityContractService */
+    protected $fileConfidencialityContractService;
+
     public function __construct(
         IntangibleAssetRepository $intangibleAssetRepository,
         IntangibleAssetCommercialRepository $intangibleAssetCommercialRepository,
         IntangibleAssetCreatorRepository $intangibleAssetCreatorRepository,
         IntangibleAssetPublishedRepository $intangibleAssetPublishedRepository,
+        IntangibleAssetConfidentialityContractRepository $intangibleAssetConfidentialityContractRepository,
 
         IntangibleAssetDPIRepository $intangibleAssetDPIRepository,
+
+        FileConfidencialityContractService $fileConfidencialityContractService
     ) {
         $this->intangibleAssetRepository = $intangibleAssetRepository;
         $this->intangibleAssetCommercialRepository = $intangibleAssetCommercialRepository;
         $this->intangibleAssetCreatorRepository = $intangibleAssetCreatorRepository;
         $this->intangibleAssetPublishedRepository = $intangibleAssetPublishedRepository;
+        $this->intangibleAssetConfidentialityContractRepository = $intangibleAssetConfidentialityContractRepository;
+
         $this->intangibleAssetDPIRepository = $intangibleAssetDPIRepository;
+
+        $this->fileConfidencialityContractService = $fileConfidencialityContractService;
     }
 
     /**
      * Intangible Asset Phase One: Intangible Asset Classification
-     * @param \App\MOdels\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
      * @param array $data
      * 
      * @return string
@@ -61,7 +79,7 @@ class IntangibleAssetPhaseService
     /**
      * Intangible Asset Phase Two: Intangible Asset Description
      * 
-     * @param \App\MOdels\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
      * @param array $data
      * 
      * @return string
@@ -80,7 +98,7 @@ class IntangibleAssetPhaseService
     /**
      * Intangible Asset Phase Three: Intangible Asset State
      * 
-     * @param \App\MOdels\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
      * @param array $data
      * 
      * @return string
@@ -99,7 +117,7 @@ class IntangibleAssetPhaseService
     /**
      * Intangible Asset Phase Four: Intangible Asset DPIS
      * 
-     * @param \App\MOdels\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
      * @param array $dpis
      * 
      * @return string
@@ -126,7 +144,7 @@ class IntangibleAssetPhaseService
     /**
      * Intangible Asset Phase Four: Intangible Asset current State
      * 
-     * @param \App\MOdels\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
      * @param array $data
      * @param string $subPhase
      * 
@@ -138,15 +156,11 @@ class IntangibleAssetPhaseService
             $message = null;
             switch ($subPhase) {
                 case '1': # Intangible Asset has been published.
-                    if ($data['is_published'] == -1) {
-                        $intangibleAsset->intangible_asset_published()->delete();
-                    } else {
-                        $data['intangible_asset_id'] = $intangibleAsset->id;
-                        $this->intangibleAssetPublishedRepository->updateOrCreate([
-                            'intangible_asset_id' => $intangibleAsset->id
-                        ], $data);
-                    }
-                    $message = __('pages.client.intangible_assets.phases.five.sub_phases.is_published.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+                    $message = $this->updateIntangibleAssetPublished($intangibleAsset, $data);
+                    break;
+
+                case '2':
+                    $message = $this->updateIntangibleAssetConfidencialityContract($intangibleAsset, $data);
                     break;
 
                 default:
@@ -157,6 +171,112 @@ class IntangibleAssetPhaseService
             return $message;
         } catch (\Exception $th) {
             return __('pages.client.intangible_assets.phases.five.messages.save_error');
+        }
+    }
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param array $data
+     * 
+     * @return string
+     */
+    private function updateIntangibleAssetPublished($intangibleAsset, $data)
+    {
+        $message = __('pages.client.intangible_assets.phases.five.sub_phases.is_published.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+
+        if ($data['is_published'] == -1) {
+            try {
+                DB::beginTransaction();
+                $intangibleAsset->intangible_asset_published()->delete();
+                DB::commit();
+            } catch (\Exception $th) {
+                DB::rollBack();
+                $message = __('pages.client.intangible_assets.phases.five.sub_phases.is_published.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+            }
+        } else {
+            try {
+                DB::beginTransaction();
+                $data['intangible_asset_id'] = $intangibleAsset->id;
+                $this->intangibleAssetPublishedRepository->updateOrCreate([
+                    'intangible_asset_id' => $intangibleAsset->id
+                ], $data);
+
+                DB::commit();
+            } catch (\Exception $th) {
+                DB::rollBack();
+                $message = __('pages.client.intangible_assets.phases.five.sub_phases.is_published.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+            }
+        }
+
+        return $message;
+    }
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param array $data
+     * @param \Illuminate\Http\UploadedFile $file
+     * 
+     * @return string
+     */
+    private function updateIntangibleAssetConfidencialityContract($intangibleAsset, $data)
+    {
+        $message = __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+
+        if ($data['has_confidenciality_contract'] == -1) {
+            // $fileDeleted = $this->fileConfidencialityContractService->deleteConfidencialityContractFile()
+            $intangibleAsset->intangible_asset_confidenciality_contract()->delete();
+        } else {
+            $newData = [];
+
+            try {
+                DB::beginTransaction();
+
+                /** Store the File */
+
+                if ($intangibleAsset->hasFileOfConfidencialityContract()) {
+                    /** @var \App\Models\Client\IntangibleAsset\IntangibleAssetConfidentialityContract */
+                    $confidencialityContract = $intangibleAsset->intangible_asset_confidenciality_contract;
+
+                    $filePath = $confidencialityContract->file_path;
+                    $fileName = $confidencialityContract->file;
+
+                    /** @var string */
+                    $fullPath = $confidencialityContract->full_path;
+
+                    if (!$intangibleAsset->hasDummyFileOfConfidencialityContract()) {
+                        $this->fileConfidencialityContractService->deleteConfidencialityContractFile($fullPath);
+                    }
+                }
+
+                /** @var \Illuminate\Http\UploadedFile $file */
+                $file = $data['file'];
+                $filePath = '';
+                $fileName = time() . ".{$file->getClientOriginalExtension()}";
+
+                $fullPath = $filePath . $fileName;
+
+                $this->fileConfidencialityContractService->storeConfidencialityContractFile($fullPath, $file);
+
+                $newData['intangible_asset_id'] = $intangibleAsset->id;
+                $newData['file'] = $fileName;
+                $newData['file_path'] = $filePath;
+                $newData['organization_confidenciality'] = $data['organization_confidenciality'];
+
+                /** ./Store the File */
+
+                $this->intangibleAssetConfidentialityContractRepository->updateOrCreate([
+                    'intangible_asset_id' => $intangibleAsset->id
+                ], $newData);
+                DB::commit();
+
+                return $message;
+            } catch (\Exception $th) {
+                DB::rollBack();
+                $this->fileConfidencialityContractService->deleteConfidencialityContractFile($fullPath);
+
+                dd($th->getMessage());
+                return __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+            }
         }
     }
 }

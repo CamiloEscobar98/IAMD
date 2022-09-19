@@ -18,8 +18,8 @@ return new class extends Migration
 
             $table->string('organization_confidenciality');
 
-            $table->string('file_url')->nullable();
-            $table->string('file_name')->nullable();
+            $table->string('file_path')->nullable();
+            $table->string('file')->nullable();
 
             $table->timestamps();
 

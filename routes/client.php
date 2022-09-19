@@ -12,6 +12,7 @@ use App\Http\Controllers\Client\ProjectController;
 use App\Http\Controllers\Client\CreatorInternalController;
 use App\Http\Controllers\Client\CreatorExternalController;
 use App\Http\Controllers\Client\IntangibleAssetController;
+use App\Http\Controllers\Client\IntangibleAssetFileController;
 use App\Http\Controllers\Client\IntangibleAssetPhaseController;
 
 /*
@@ -47,6 +48,12 @@ Route::name('creators.')
     });
 
 Route::resource('intangible_assets', IntangibleAssetController::class);
+
+Route::prefix('intangible_assets/{intangible_asset}/downloads')
+    ->name('intangible_assets.downloads.')
+    ->group(function () {
+        Route::get('confidenciality_contract', [IntangibleAssetFileController::class, 'downloadConfidencialityContract'])->name('confidenciality_contract');
+    });
 
 Route::prefix('intangible_assets/{intangible_asset}/phases')
     ->name('intangible_assets.phases.')

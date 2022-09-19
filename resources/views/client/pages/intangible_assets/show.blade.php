@@ -111,6 +111,7 @@
     <script>
         $(document).ready(function() {
             changeIsPublished();
+            changeHasConfidencialityContract();
         });
 
         //Initialize Select2 Elements

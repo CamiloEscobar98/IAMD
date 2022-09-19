@@ -51,6 +51,10 @@ class IntangibleAsset extends BaseModel
     }
 
     /**
+     * Relations with the model IntangibleAsset
+     */
+
+    /**
      * Get Project.
      * 
      * @return BelongsTo
@@ -78,6 +82,14 @@ class IntangibleAsset extends BaseModel
     public function intangible_asset_published(): HasOne
     {
         return $this->hasOne(IntangibleAssetPublished::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function intangible_asset_confidenciality_contract()
+    {
+        return $this->hasOne(IntangibleAssetConfidentialityContract::class);
     }
 
     /**
@@ -114,5 +126,30 @@ class IntangibleAsset extends BaseModel
     public function hasBeenPublished(): bool
     {
         return !is_null($this->intangible_asset_published);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasConfidencialityContract(): bool
+    {
+        return !is_null($this->intangible_asset_confidenciality_contract);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasFileOfConfidencialityContract(): bool
+    {
+        /** @var \App\Models\Client\IntangibleAsset\IntangibleAssetConfidentialityContract $confidencialityContract */
+        $confidencialityContract = $this->intangible_asset_confidenciality_contract;
+        return $this->hasConfidencialityContract() && !is_null($confidencialityContract->file_path && $confidencialityContract->file);
+    }
+
+    public function hasDummyFileOfConfidencialityContract(): bool
+    {
+        /** @var \App\Models\Client\IntangibleAsset\IntangibleAssetConfidentialityContract $confidencialityContract */
+        $confidencialityContract = $this->intangible_asset_confidenciality_contract;
+        return $this->hasConfidencialityContract() && $confidencialityContract->file == 'example.txt';
     }
 }

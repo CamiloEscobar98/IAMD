@@ -22,7 +22,7 @@ class IntangibleAssetConfidentialityContractFactory extends Factory
     {
         return [
             'organization_confidenciality' => $this->faker->company,
-            'file_url' => $this->faker->imageUrl,
+            'file' => 'example.txt',
         ];
     }
 }

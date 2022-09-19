@@ -6,6 +6,8 @@ return [
     'yes' => 'Si',
     'no' => 'No',
 
+    'upload' => 'Subir',
+
     'email' => 'Correo Electrónico',
     'password' => 'Contraseña',
     'repeat_password' => 'Repetir Contraseña',

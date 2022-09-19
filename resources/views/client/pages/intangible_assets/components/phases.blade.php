@@ -285,7 +285,74 @@
                 <!-- ./Subphase: Intangible Asset Is Published -->
 
                 <!-- Subphase: Intangible Asset has Confidenciality Contract -->
-                
+                <form action="{{ route('client.intangible_assets.phases.five', [$client->name, $item->id]) }}"
+                    method="post" enctype="multipart/form-data">
+                    @csrf
+                    @method('PATCH')
+
+                    <input type="hidden" name="sub_phase" value="2" readonly>
+
+                    <div class="form-group">
+                        <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.title') }}</label>
+                        <select id="hasConfidencialityContract" name="has_confidenciality_contract"
+                            class="form-control form-control-sm" onchange="changeHasConfidencialityContract()">
+                            <option value="1" {{ intangibleAssetHasConfidencialityContract($item) }}>
+                                {{ __('inputs.yes') }}</option>
+                            <option value="-1" {{ intangibleAssetHasConfidencialityContract($item, true) }}>
+                                {{ __('inputs.no') }}</option>
+                        </select>
+                    </div>
+
+                    <div id="confidencialityContractContainer">
+                        <div class="row justify-content-center">
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                    <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.form.organization_confidenciality') }}</label>
+                                    <input type="text" name="organization_confidenciality"
+                                        class="form-control form-control-sm {{ isInvalidByError($errors, 'organization_confidenciality') }}"
+                                        value="{{ getParamObject($item->intangible_asset_confidenciality_contract, 'organization_confidenciality') }}">
+                                    @error('organization_confidenciality')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="form-group">
+                                    <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.form.file') }}</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">{{ __('inputs.upload') }}</span>
+                                        </div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" name="file">
+                                            <label class="custom-file-label"
+                                                for="inputGroupFile01">Seleccionar</label>
+                                        </div>
+                                    </div>
+                                    @error('file')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                            </div>
+                        </div>
+
+                        @if ($item->hasFileOfConfidencialityContract())
+                            <div class="form-group">
+                                <a href="{{ route('client.intangible_assets.downloads.confidenciality_contract', [$client->name, $item->id]) }}"
+                                    class="btn btn-xs btn-danger btn-outline text-white">{{ __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.buttons.download') }}</a>
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- Button Save -->
+                    <div class="form-group">
+                        <button
+                            class="btn {{ phaseIsCompletedButton($item->hasPhaseFiveCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
+                    </div>
+                    <!-- ./Button Save -->
+                </form>
                 <!-- ./Subphase: Intangible Asset has Confidenciality Contract -->
 
             </div>
