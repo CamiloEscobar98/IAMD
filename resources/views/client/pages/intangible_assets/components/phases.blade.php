@@ -177,6 +177,7 @@
                     @csrf
 
                     @method('PATCH')
+
                     <div class="form-group">
                         <label>{{ __('inputs.dpi_id') }}</label>
                         <select name="dpi_id[]" id="dpi_id" class="form-control select2bs4" multiple>
@@ -284,6 +285,8 @@
                 </form>
                 <!-- ./Subphase: Intangible Asset Is Published -->
 
+                <hr>
+
                 <!-- Subphase: Intangible Asset has Confidenciality Contract -->
                 <form action="{{ route('client.intangible_assets.phases.five', [$client->name, $item->id]) }}"
                     method="post" enctype="multipart/form-data">
@@ -354,6 +357,38 @@
                     <!-- ./Button Save -->
                 </form>
                 <!-- ./Subphase: Intangible Asset has Confidenciality Contract -->
+
+                <hr>
+
+                <!-- Subphase: Intangible Asset has Creators -->
+                <form action="{{ route('client.intangible_assets.phases.five', [$client->name, $item->id]) }}"
+                    method="post" enctype="multipart/form-data">
+                    @csrf
+                    @method('PATCH')
+
+                    <input type="hidden" name="sub_phase" value="3" readonly>
+
+                    <div class="form-group">
+                        <label>{{ __('inputs.creator_id') }}</label>
+                        <select name="creator_id[]" id="creator_id" class="form-control select2bs4" multiple>
+                            @foreach ($creators as $creator)
+                                <option value="{{ $creator->id }}"
+                                    {{ intangibleAssetHasCreators($item->creators, $creator->id) }}>
+                                    {{ $creator->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Button Save -->
+                    <div class="form-group">
+                        <button
+                            class="btn {{ phaseIsCompletedButton($item->hasPhaseFiveCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
+                    </div>
+                    <!-- ./Button Save -->
+                </form>
+                <!-- ./Subphase: Intangible Asset has Creators -->
+
+                <hr>
 
             </div>
         </div>

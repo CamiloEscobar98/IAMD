@@ -115,9 +115,9 @@ class IntangibleAssetPhaseController extends Controller
         try {
             $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAsset);
 
-            $data = $request->only('dpi_id');
+            $data = $request->get('dpi_id', []);
 
-            $message = $this->intangibleAssetPhaseService->updatePhaseFour($intangibleAsset, $data['dpi_id']);
+            $message = $this->intangibleAssetPhaseService->updatePhaseFour($intangibleAsset, $data);
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
@@ -160,6 +160,10 @@ class IntangibleAssetPhaseController extends Controller
                 ];
                 $data = $request->only(['has_confidenciality_contract', 'organization_confidenciality']);
                 $data['file'] = $request->file('file');
+                break;
+
+            case '3':
+                $data = $request->get('creator_id', []);
                 break;
         }
         $request->validate($rules);

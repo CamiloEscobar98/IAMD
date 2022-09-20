@@ -39,21 +39,21 @@ class IntangibleAssetPhaseService
     public function __construct(
         IntangibleAssetRepository $intangibleAssetRepository,
         IntangibleAssetCommercialRepository $intangibleAssetCommercialRepository,
-        IntangibleAssetCreatorRepository $intangibleAssetCreatorRepository,
         IntangibleAssetPublishedRepository $intangibleAssetPublishedRepository,
         IntangibleAssetConfidentialityContractRepository $intangibleAssetConfidentialityContractRepository,
 
         IntangibleAssetDPIRepository $intangibleAssetDPIRepository,
+        IntangibleAssetCreatorRepository $intangibleAssetCreatorRepository,
 
         FileConfidencialityContractService $fileConfidencialityContractService
     ) {
         $this->intangibleAssetRepository = $intangibleAssetRepository;
         $this->intangibleAssetCommercialRepository = $intangibleAssetCommercialRepository;
-        $this->intangibleAssetCreatorRepository = $intangibleAssetCreatorRepository;
         $this->intangibleAssetPublishedRepository = $intangibleAssetPublishedRepository;
         $this->intangibleAssetConfidentialityContractRepository = $intangibleAssetConfidentialityContractRepository;
 
         $this->intangibleAssetDPIRepository = $intangibleAssetDPIRepository;
+        $this->intangibleAssetCreatorRepository = $intangibleAssetCreatorRepository;
 
         $this->fileConfidencialityContractService = $fileConfidencialityContractService;
     }
@@ -163,8 +163,8 @@ class IntangibleAssetPhaseService
                     $message = $this->updateIntangibleAssetConfidencialityContract($intangibleAsset, $data);
                     break;
 
-                default:
-                    # code...
+                case '3':
+                    $message = $this->updateIntangibleAssetCreators($intangibleAsset, $data);
                     break;
             }
 
@@ -278,5 +278,34 @@ class IntangibleAssetPhaseService
                 return __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
             }
         }
+    }
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param array $creators
+     * 
+     * @return string
+     */
+    private function updateIntangibleAssetCreators($intangibleAsset, $creators)
+    {
+        $message = __('pages.client.intangible_assets.phases.five.sub_phases.creators.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+        try {
+            DB::beginTransaction();
+
+            $intangibleAsset->creators()->delete();
+
+            foreach ($creators as $creator) {
+                $this->intangibleAssetCreatorRepository->create([
+                    'intangible_asset_id' => $intangibleAsset->id,
+                    'creator_id' => $creator
+                ]);
+            }
+            DB::commit();
+        } catch (\Exception $th) {
+            DB::rollBack();
+            $message = __('pages.client.intangible_assets.phases.five.sub_phases.creators.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+        }
+
+        return $message;
     }
 }

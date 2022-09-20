@@ -8,7 +8,7 @@ use App\Repositories\Admin\IntangibleAssetStateRepository;
 use App\Repositories\Admin\IntangibleAssetTypeLevel1Repository;
 use App\Repositories\Admin\IntangibleAssetTypeLevel2Repository;
 use App\Repositories\Admin\IntangibleAssetTypeLevel3Repository;
-
+use App\Repositories\Client\CreatorRepository;
 use App\Repositories\Client\IntangibleAssetRepository;
 
 class ShowIntangibleAssetComposer
@@ -28,6 +28,9 @@ class ShowIntangibleAssetComposer
     /** @var IntangibleAssetStateRepository */
     protected $intangibleAssetStateRepository;
 
+    /** @var CreatorRepository */
+    protected $creatorRepository;
+
     public function __construct(
         IntangibleAssetTypeLevel1Repository $intangibleAssetTypeLevel1Repository,
         IntangibleAssetTypeLevel2Repository $intangibleAssetTypeLevel2Repository,
@@ -35,6 +38,8 @@ class ShowIntangibleAssetComposer
 
         IntangibleAssetRepository $intangibleAssetRepository,
         IntangibleAssetStateRepository $intangibleAssetStateRepository,
+
+        CreatorRepository $creatorRepository,
     ) {
         $this->intangibleAssetTypeLevel1Repository = $intangibleAssetTypeLevel1Repository;
         $this->intangibleAssetTypeLevel2Repository = $intangibleAssetTypeLevel2Repository;
@@ -42,6 +47,8 @@ class ShowIntangibleAssetComposer
 
         $this->intangibleAssetRepository = $intangibleAssetRepository;
         $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
+
+        $this->creatorRepository = $creatorRepository;
     }
 
     public function compose(View $view)
@@ -98,6 +105,8 @@ class ShowIntangibleAssetComposer
 
         $informationScopes = collect([1 => 'Premilinar', 2 => 'Parcial', 3 => 'Total']);
 
+        $creators = $this->creatorRepository->all();
+
         $view->with(compact(
             'categories',
             'subCategories',
@@ -111,6 +120,8 @@ class ShowIntangibleAssetComposer
             'dpis',
 
             'informationScopes',
+
+            'creators',
         ));
     }
 }

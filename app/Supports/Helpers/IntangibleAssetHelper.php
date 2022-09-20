@@ -10,8 +10,8 @@ if (!function_exists('phaseIsCompletedColor')) {
      */
     function phaseIsCompletedColor($phaseState): string|null
     {
-        if(is_null($phaseState)) return 'bg-warning';
-        
+        if (is_null($phaseState)) return 'bg-warning';
+
         return $phaseState ? 'bg-success' : 'bg-danger';
     }
 }
@@ -103,5 +103,19 @@ if (!function_exists('intangibleAssetHasConfidencialityContract')) {
         } else {
             return $intangibleAsset->hasConfidencialityContract() ? 'selected' : null;
         }
+    }
+}
+
+if (!function_exists('intangibleAssetHasCreators')) {
+
+    /**
+     * @param Collection $intangibleAssetCreators
+     * @param int $creator_id
+     * 
+     * @return string|null
+     */
+    function intangibleAssetHasCreators($intangibleAssetCreators, $creator_id): string | null
+    {
+        return $intangibleAssetCreators->contains('id', $creator_id) ? 'selected' : null;
     }
 }

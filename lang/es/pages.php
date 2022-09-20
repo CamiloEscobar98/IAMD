@@ -937,13 +937,20 @@ return [
                                 'file' => 'Documento de Contrato de Confidencialidad:',
                             ],
                             'messages' => [
-                                'save_success' => 'Se ha registrado el contrato de confidencialidad del Activo Intangible: <b>:intangible_asset</b>.',
+                                'save_success' => 'Se ha registrado estos creadores al del Activo Intangible: <b>:intangible_asset</b>.',
                                 'save_error' => 'No se pudo registrar el contrato de confidencialidad.',
                             ],
                             'buttons' => [
                                 'download' => 'Descargar Contrato de Confidencialidad'
                             ]
                         ],
+
+                        'creators' => [
+                            'messages' => [
+                                'save_success' => 'Se han registrado estos creadores al Activo Intangible: <b>:intangible_asset</b>.',
+                                'save_error' => 'No se han podido registrar estos creadores al Activo Intangible',
+                            ],
+                        ]
 
                     ],
                 ]

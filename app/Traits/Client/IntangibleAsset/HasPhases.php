@@ -38,7 +38,7 @@ trait HasPhases
      */
     public function hasPhaseFourCompleted(): bool
     {
-        return !empty($this->dpis);
+        return $this->hasDpis();
     }
 
     /**
@@ -46,7 +46,7 @@ trait HasPhases
      */
     public function hasPhaseFiveCompleted(): bool|null
     {
-        $phasesMethods = ['hasConfidencialityContract', 'hasBeenPublished'];
+        $phasesMethods = ['hasConfidencialityContract', 'hasBeenPublished', 'hasCreators'];
 
         $cont = 0;
         $i = 0;

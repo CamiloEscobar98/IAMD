@@ -109,7 +109,23 @@ class IntangibleAsset extends BaseModel
      */
     public function creators(): BelongsToMany
     {
-        return $this->belongsToMany(Creator::class);
+        return $this->belongsToMany(Creator::class, 'intangible_asset_creators');
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasDpis(): bool
+    {
+        return $this->dpis->count() > 0;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasCreators(): bool
+    {
+        return $this->creators->count() > 0;
     }
 
     /**

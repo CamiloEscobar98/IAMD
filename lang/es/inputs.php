@@ -37,6 +37,7 @@ return [
     'project_id' => 'Proyectos',
     'project_name' => 'Nombre del Proyecto',
 
+    'creator_id' => 'Creadores',
     'director_id' => 'Director',
     'inventory_manager_id' => 'Administrador de Inventario',
 
