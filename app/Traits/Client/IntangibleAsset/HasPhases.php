@@ -51,16 +51,16 @@ trait HasPhases
         $cont = 0;
         $i = 0;
 
-        while ($cont < count($phasesMethods)) {
+        while ($i < count($phasesMethods)) {
             $method = $phasesMethods[$i];
-            if (!$this->$method()) {
+            if ($this->$method()) {
                 $cont++;
-            } else {
-                return null;
             }
             $i++;
         }
 
-        return $cont == count($phasesMethods);
+        if ($cont === 0) return false;
+
+        return $cont === count($phasesMethods) ? true : null;
     }
 }
