@@ -137,3 +137,22 @@ if (!function_exists('intangibleAssetHasSessionRightContract')) {
         }
     }
 }
+
+
+if (!function_exists('intangibleAssetHasContability')) {
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param bool $not
+     * 
+     * @return string|null
+     */
+    function intangibleAssetHasContability($intangibleAsset, bool $not = false): string | null
+    {
+        if ($not) {
+            return !$intangibleAsset->hasContability() && !old('has_contability') == '1' ? 'selected' : null;
+        } else {
+            return $intangibleAsset->hasContability() || old('has_contability') == '1' ? 'selected' : null;
+        }
+    }
+}

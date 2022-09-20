@@ -175,6 +175,14 @@ class IntangibleAssetPhaseController extends Controller
                 $data = $request->only(['has_session_right', 'owner']);
                 $data['file'] = $request->file('session_right_contract_file');
                 break;
+
+            case '5':
+                $rules = [
+                    'price' => [Rule::requiredIf($request->has_contability == 1), 'nullable', 'numeric'],
+                    'comments' => [Rule::requiredIf($request->has_contability == 1), 'nullable', 'string'],
+                ];
+                $data = $request->only(['has_contability', 'price', 'comments']);
+                break;
         }
         $request->validate($rules);
 

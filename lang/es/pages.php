@@ -967,6 +967,18 @@ return [
                             ]
                         ],
 
+                        'contability' => [
+                            'title' => '¿Se encuentra incorporado a la contabilidad como Activo Intangible?',
+                            'form' => [
+                                'price' => '¿Cuál es el valor del Activo Intangible?',
+                                'comments' => 'Comentarios del Activo Intangible sobre la Contabilidad'
+                            ],
+                            'messages' => [
+                                'save_success' => 'Se ha registrado la contabilidad del Activo Intangible: <b>:intangible_asset</b>.',
+                                'save_error' => 'No se pudo registrar la contabilidad.',
+                            ],
+                        ]
+
                     ],
                 ]
             ]

@@ -30,3 +30,14 @@ function changeHasSessionRightContract() {
         container.hide();
     }
 }
+
+function changeHasContability() {
+    let select = $("#hasContability").val();
+    var container = $("#commercialContainer");
+    console.log(select);
+    if (select == 1) {
+        container.show();
+    } else {
+        container.hide();
+    }
+}

@@ -46,7 +46,7 @@ trait HasPhases
      */
     public function hasPhaseFiveCompleted(): bool|null
     {
-        $phasesMethods = ['hasConfidencialityContract', 'hasBeenPublished', 'hasCreators', 'hasSessionRightContract'];
+        $phasesMethods = ['hasConfidencialityContract', 'hasBeenPublished', 'hasCreators', 'hasSessionRightContract', 'hasContability'];
 
         $cont = 0;
         $i = 0;

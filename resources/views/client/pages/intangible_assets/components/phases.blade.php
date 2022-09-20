@@ -328,7 +328,8 @@
                                             <span class="input-group-text">{{ __('inputs.upload') }}</span>
                                         </div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="confidenciality_contract_file">
+                                            <input type="file" class="custom-file-input"
+                                                name="confidenciality_contract_file">
                                             <label class="custom-file-label"
                                                 for="inputGroupFile01">Seleccionar</label>
                                         </div>
@@ -431,7 +432,8 @@
                                             <span class="input-group-text">{{ __('inputs.upload') }}</span>
                                         </div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="session_right_contract_file">
+                                            <input type="file" class="custom-file-input"
+                                                name="session_right_contract_file">
                                             <label class="custom-file-label"
                                                 for="inputGroupFile01">Seleccionar</label>
                                         </div>
@@ -461,6 +463,55 @@
                 </form>
                 <!-- ./Subphase: Intangible Asset has Session Rights -->
 
+                <hr>
+
+                <!-- Subphase: Intangible Asset has Contability -->
+                <form action="{{ route('client.intangible_assets.phases.five', [$client->name, $item->id]) }}"
+                    method="post" enctype="multipart/form-data">
+                    @csrf
+                    @method('PATCH')
+
+                    <input type="hidden" name="sub_phase" value="5" readonly>
+
+                    <div class="form-group">
+                        <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.contability.title') }}</label>
+                        <select id="hasContability" name="has_contability" class="form-control form-control-sm"
+                            onchange="changeHasContability()">
+                            <option value="1" {{ intangibleAssetHasContability($item) }}>
+                                {{ __('inputs.yes') }}</option>
+                            <option value="-1" {{ intangibleAssetHasContability($item, true) }}>
+                                {{ __('inputs.no') }}</option>
+                        </select>
+                    </div>
+
+                    <div id="commercialContainer">
+                        <div class="form-group">
+                            <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.contability.form.price') }}</label>
+                            <input type="text" name="price"
+                                class="form-control form-control-sm {{ isInvalidByError($errors, 'price') }}"
+                                value="{{ getParamObject($item->intangible_asset_contability, 'price') }}">
+                            @error('price')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.contability.form.comments') }}</label>
+                            <textarea name="comments" class="form-control {{ isInvalidByError($errors, 'comments') }}" rows="3"
+                                cols="30">{{ getParamObject($item->intangible_asset_contability, 'comments') }}</textarea>
+                            @error('comments')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- Button Save -->
+                    <div class="form-group">
+                        <button
+                            class="btn {{ phaseIsCompletedButton($item->hasPhaseFiveCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
+                    </div>
+                    <!-- ./Button Save -->
+                </form>
+                <!-- Subphase: Intangible Asset has Contability -->
 
             </div>
         </div>

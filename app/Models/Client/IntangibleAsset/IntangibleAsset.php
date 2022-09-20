@@ -101,6 +101,14 @@ class IntangibleAsset extends BaseModel
     }
 
     /**
+     * @return  HasOne
+     */
+    public function intangible_asset_contability()
+    {
+        return $this->hasOne(IntangibleAssetContability::class);
+    }
+
+    /**
      * Get all DPIS
      * 
      * @return  HasMany
@@ -168,6 +176,14 @@ class IntangibleAsset extends BaseModel
         return !is_null($this->intangible_asset_session_right_contract);
     }
 
+    /**
+     * @return bool
+     */
+    public function hasContability(): bool
+    {
+        return !is_null($this->intangible_asset_contability);
+    }
+
     /** Intangible Asset Confidenciality Contract File Methods */
 
     /**
@@ -190,7 +206,7 @@ class IntangibleAsset extends BaseModel
     /** ./Intangible Asset Confidenciality Contract File Methods */
 
 
-    /** Intangible Asset Confidenciality Contract File Methods */
+    /** Intangible Asset Session Right File Methods */
 
     /**
      * @return bool
@@ -209,5 +225,5 @@ class IntangibleAsset extends BaseModel
         return $this->hasSessionRightContract() && $sessionRightContract->file == 'example.txt';
     }
 
-    /** ./Intangible Asset Confidenciality Contract File Methods */
+    /** ./Intangible Asset Session Right File Methods */
 }

@@ -113,6 +113,7 @@
             changeIsPublished();
             changeHasConfidencialityContract();
             changeHasSessionRightContract();
+            changeHasContability();
         });
 
         //Initialize Select2 Elements

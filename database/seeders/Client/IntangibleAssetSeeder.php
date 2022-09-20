@@ -21,6 +21,7 @@ use App\Repositories\Client\IntangibleAssetDPIRepository;
 use App\Repositories\Client\ProjectRepository;
 use App\Repositories\Client\CreatorRepository;
 use App\Repositories\Client\IntangibleAssetConfidentialityContractRepository;
+use App\Repositories\Client\IntangibleAssetContabilityRepository;
 use App\Repositories\Client\IntangibleAssetSessionRightContractRepository;
 use App\Repositories\Client\UserRepository;
 
@@ -53,6 +54,9 @@ class IntangibleAssetSeeder extends Seeder
     /** @var IntangibleAssetSessionRightContractRepository */
     protected $intangibleAssetSessionRightContractRepository;
 
+    /** @var IntangibleAssetContabilityRepository */
+    protected $intangibleAssetContabilityRepository;
+
     /** @var IntangibleAssetTypeLevel2Repository */
     protected $intangibleAssetTypeLevel2Repository;
 
@@ -78,6 +82,7 @@ class IntangibleAssetSeeder extends Seeder
         IntangibleAssetDPIRepository $intangibleAssetDPIRepository,
         IntangibleAssetConfidentialityContractRepository $intangibleAssetConfidentialityContractRepository,
         IntangibleAssetSessionRightContractRepository $intangibleAssetSessionRightContractRepository,
+        IntangibleAssetContabilityRepository $intangibleAssetContabilityRepository,
 
         IntangibleAssetTypeLevel2Repository $intangibleAssetTypeLevel2Repository,
         IntangibleAssetTypeLevel3Repository $intangibleAssetTypeLevel3Repository,
@@ -95,6 +100,7 @@ class IntangibleAssetSeeder extends Seeder
         $this->intangibleAssetDPIRepository = $intangibleAssetDPIRepository;
         $this->intangibleAssetConfidentialityContractRepository = $intangibleAssetConfidentialityContractRepository;
         $this->intangibleAssetSessionRightContractRepository = $intangibleAssetSessionRightContractRepository;
+        $this->intangibleAssetContabilityRepository = $intangibleAssetContabilityRepository;
 
         $this->intangibleAssetTypeLevel2Repository =  $intangibleAssetTypeLevel2Repository;
         $this->intangibleAssetTypeLevel3Repository = $intangibleAssetTypeLevel3Repository;
@@ -163,6 +169,8 @@ class IntangibleAssetSeeder extends Seeder
                 (bool) rand(0, 1) ? $this->hasConfidencialityContract($intangibleAsset) : null;
 
                 (bool) rand(0, 1) ? $this->hasSessionRightContract($intangibleAsset) : null;
+
+                (bool) rand(0, 1) ? $this->hasContability($intangibleAsset) : null;
 
                 print("\n \n");
 
@@ -260,6 +268,11 @@ class IntangibleAssetSeeder extends Seeder
      */
     private function updateHasCreators($intangibleAsset, $creators): void
     {
+        /**
+         * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+         * 
+         * @return void
+         */
         $randomNumber = rand(1, 10);
 
         $randomCreators = $creators->random($randomNumber);
@@ -321,5 +334,19 @@ class IntangibleAssetSeeder extends Seeder
         ]);
 
         print("This Intangible Asset has Session Right Contract \n");
+    }
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * 
+     * @return void
+     */
+    public function hasContability($intangibleAsset)
+    {
+        $this->intangibleAssetContabilityRepository->createOneFactory([
+            'intangible_asset_id' => $intangibleAsset->id
+        ]);
+
+        print("This Intangible Asset has Contability \n");
     }
 }
