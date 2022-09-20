@@ -99,9 +99,9 @@ if (!function_exists('intangibleAssetHasConfidencialityContract')) {
     function intangibleAssetHasConfidencialityContract($intangibleAsset, bool $not = false): string | null
     {
         if ($not) {
-            return !$intangibleAsset->hasConfidencialityContract() ? 'selected' : null;
+            return !$intangibleAsset->hasConfidencialityContract() && !old('has_confidenciality_contract') == '1' ? 'selected' : null;
         } else {
-            return $intangibleAsset->hasConfidencialityContract() ? 'selected' : null;
+            return $intangibleAsset->hasConfidencialityContract() || old('has_confidenciality_contract') == '1' ? 'selected' : null;
         }
     }
 }
@@ -117,5 +117,23 @@ if (!function_exists('intangibleAssetHasCreators')) {
     function intangibleAssetHasCreators($intangibleAssetCreators, $creator_id): string | null
     {
         return $intangibleAssetCreators->contains('id', $creator_id) ? 'selected' : null;
+    }
+}
+
+if (!function_exists('intangibleAssetHasSessionRightContract')) {
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param bool $not
+     * 
+     * @return string|null
+     */
+    function intangibleAssetHasSessionRightContract($intangibleAsset, bool $not = false): string | null
+    {
+        if ($not) {
+            return !$intangibleAsset->hasSessionRightContract() && !old('has_session_right') == '1' ? 'selected' : null;
+        } else {
+            return $intangibleAsset->hasSessionRightContract() || old('has_session_right') == '1' ? 'selected' : null;
+        }
     }
 }

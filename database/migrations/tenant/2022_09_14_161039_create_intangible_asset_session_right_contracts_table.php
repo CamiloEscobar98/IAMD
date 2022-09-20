@@ -13,18 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('intangible_asset_confidentiality_contracts', function (Blueprint $table) {
+        Schema::create('intangible_asset_session_right_contracts', function (Blueprint $table) {
             $table->unsignedBigInteger('intangible_asset_id');
 
-            $table->string('organization_confidenciality');
+            $table->string('owner');
 
             $table->string('file_path')->nullable();
             $table->string('file')->nullable();
 
             $table->timestamps();
 
-            $table->primary('intangible_asset_id', 'pk_intangible_asset_confidentiality_contracts');
-            $table->foreign('intangible_asset_id', 'intangible_asset_confidenciality_contracts_fk')->references('id')->on('intangible_assets')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->primary('intangible_asset_id', 'pk_intangible_asset_session_right_contracts');
+            $table->foreign('intangible_asset_id', 'intangible_asset_session_right_contracts_fk')->references('id')->on('intangible_assets')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('intangible_asset_confidentiality_contracts');
+        Schema::dropIfExists('intangible_asset_session_right_contracts');
     }
 };

@@ -87,9 +87,17 @@ class IntangibleAsset extends BaseModel
     /**
      * @return HasOne
      */
-    public function intangible_asset_confidenciality_contract()
+    public function intangible_asset_confidenciality_contract(): HasOne
     {
         return $this->hasOne(IntangibleAssetConfidentialityContract::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function intangible_asset_session_right_contract(): HasOne
+    {
+        return $this->hasOne(IntangibleAssetSessionRightContract::class);
     }
 
     /**
@@ -155,6 +163,16 @@ class IntangibleAsset extends BaseModel
     /**
      * @return bool
      */
+    public function hasSessionRightContract(): bool
+    {
+        return !is_null($this->intangible_asset_session_right_contract);
+    }
+
+    /** Intangible Asset Confidenciality Contract File Methods */
+
+    /**
+     * @return bool
+     */
     public function hasFileOfConfidencialityContract(): bool
     {
         /** @var \App\Models\Client\IntangibleAsset\IntangibleAssetConfidentialityContract $confidencialityContract */
@@ -168,4 +186,28 @@ class IntangibleAsset extends BaseModel
         $confidencialityContract = $this->intangible_asset_confidenciality_contract;
         return $this->hasConfidencialityContract() && $confidencialityContract->file == 'example.txt';
     }
+
+    /** ./Intangible Asset Confidenciality Contract File Methods */
+
+
+    /** Intangible Asset Confidenciality Contract File Methods */
+
+    /**
+     * @return bool
+     */
+    public function hasFileOfSessionRightContract(): bool
+    {
+        /** @var \App\Models\Client\IntangibleAsset\IntangibleAssetSessionRightContract $sessionRightContract */
+        $sessionRightContract = $this->intangible_asset_session_right_contract;
+        return $this->hasSessionRightContract() && !is_null($sessionRightContract->file_path && $sessionRightContract->file);
+    }
+
+    public function hasDummyFileOfSessionRightContract(): bool
+    {
+        /** @var \App\Models\Client\IntangibleAsset\IntangibleAssetSessionRightContract $sessionRightContract */
+        $sessionRightContract = $this->intangible_asset_session_right_contract;
+        return $this->hasSessionRightContract() && $sessionRightContract->file == 'example.txt';
+    }
+
+    /** ./Intangible Asset Confidenciality Contract File Methods */
 }

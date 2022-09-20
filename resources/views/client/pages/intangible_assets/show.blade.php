@@ -112,6 +112,7 @@
         $(document).ready(function() {
             changeIsPublished();
             changeHasConfidencialityContract();
+            changeHasSessionRightContract();
         });
 
         //Initialize Select2 Elements

@@ -10,7 +10,9 @@ use App\Repositories\Client\IntangibleAssetConfidentialityContractRepository;
 use App\Repositories\Client\IntangibleAssetCreatorRepository;
 use App\Repositories\Client\IntangibleAssetPublishedRepository;
 use App\Repositories\Client\IntangibleAssetDPIRepository;
+use App\Repositories\Client\IntangibleAssetSessionRightContractRepository;
 use App\Services\FileSystem\IntangibleAsset\FileConfidencialityContractService;
+use App\Services\FileSystem\IntangibleAsset\FileSessionRightContractService;
 use Illuminate\Support\Facades\Storage;
 
 class IntangibleAssetPhaseService
@@ -33,29 +35,39 @@ class IntangibleAssetPhaseService
     /** @var IntangibleAssetConfidentialityContractRepository */
     protected $intangibleAssetConfidentialityContractRepository;
 
+    /** @var IntangibleAssetSessionRightContractRepository */
+    protected $intangibleAssetSessionRightContractRepository;
+
     /** @var FileConfidencialityContractService */
     protected $fileConfidencialityContractService;
+
+    /** @var FileSessionRightContractService */
+    protected $fileSessionRightContractService;
 
     public function __construct(
         IntangibleAssetRepository $intangibleAssetRepository,
         IntangibleAssetCommercialRepository $intangibleAssetCommercialRepository,
         IntangibleAssetPublishedRepository $intangibleAssetPublishedRepository,
         IntangibleAssetConfidentialityContractRepository $intangibleAssetConfidentialityContractRepository,
+        IntangibleAssetSessionRightContractRepository $intangibleAssetSessionRightContractRepository,
 
         IntangibleAssetDPIRepository $intangibleAssetDPIRepository,
         IntangibleAssetCreatorRepository $intangibleAssetCreatorRepository,
 
-        FileConfidencialityContractService $fileConfidencialityContractService
+        FileConfidencialityContractService $fileConfidencialityContractService,
+        FileSessionRightContractService $fileSessionRightContractService,
     ) {
         $this->intangibleAssetRepository = $intangibleAssetRepository;
         $this->intangibleAssetCommercialRepository = $intangibleAssetCommercialRepository;
         $this->intangibleAssetPublishedRepository = $intangibleAssetPublishedRepository;
         $this->intangibleAssetConfidentialityContractRepository = $intangibleAssetConfidentialityContractRepository;
+        $this->intangibleAssetSessionRightContractRepository = $intangibleAssetSessionRightContractRepository;
 
         $this->intangibleAssetDPIRepository = $intangibleAssetDPIRepository;
         $this->intangibleAssetCreatorRepository = $intangibleAssetCreatorRepository;
 
         $this->fileConfidencialityContractService = $fileConfidencialityContractService;
+        $this->fileSessionRightContractService = $fileSessionRightContractService;
     }
 
     /**
@@ -166,6 +178,10 @@ class IntangibleAssetPhaseService
                 case '3':
                     $message = $this->updateIntangibleAssetCreators($intangibleAsset, $data);
                     break;
+
+                case '4':
+                    $message = $this->updateIntangibleAssetSessionRightContract($intangibleAsset, $data);
+                    break;
             }
 
             return $message;
@@ -211,19 +227,24 @@ class IntangibleAssetPhaseService
         return $message;
     }
 
+
     /**
      * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param array $data
+     * 
+     * @return string        $this->intangibleAssetConfidentialityContractRepository = $intangibleAssetConfidentialityContractRepository;
+
      * @param array $data
      * @param \Illuminate\Http\UploadedFile $file
      * 
      * @return string
      */
-    private function updateIntangibleAssetConfidencialityContract($intangibleAsset, $data)
+    private function updateIntangibleAssetConfidencialityContract($intangibleAsset, $data): string
     {
         $message = __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
 
         if ($data['has_confidenciality_contract'] == -1) {
-            // $fileDeleted = $this->fileConfidencialityContractService->deleteConfidencialityContractFile()
+            $this->fileConfidencialityContractService->deleteConfidencialityContractFile($intangibleAsset);
             $intangibleAsset->intangible_asset_confidenciality_contract()->delete();
         } else {
             $newData = [];
@@ -232,21 +253,7 @@ class IntangibleAssetPhaseService
                 DB::beginTransaction();
 
                 /** Store the File */
-
-                if ($intangibleAsset->hasFileOfConfidencialityContract()) {
-                    /** @var \App\Models\Client\IntangibleAsset\IntangibleAssetConfidentialityContract */
-                    $confidencialityContract = $intangibleAsset->intangible_asset_confidenciality_contract;
-
-                    $filePath = $confidencialityContract->file_path;
-                    $fileName = $confidencialityContract->file;
-
-                    /** @var string */
-                    $fullPath = $confidencialityContract->full_path;
-
-                    if (!$intangibleAsset->hasDummyFileOfConfidencialityContract()) {
-                        $this->fileConfidencialityContractService->deleteConfidencialityContractFile($fullPath);
-                    }
-                }
+                $this->fileConfidencialityContractService->deleteConfidencialityContractFile($intangibleAsset);
 
                 /** @var \Illuminate\Http\UploadedFile $file */
                 $file = $data['file'];
@@ -268,16 +275,15 @@ class IntangibleAssetPhaseService
                     'intangible_asset_id' => $intangibleAsset->id
                 ], $newData);
                 DB::commit();
-
-                return $message;
             } catch (\Exception $th) {
                 DB::rollBack();
-                $this->fileConfidencialityContractService->deleteConfidencialityContractFile($fullPath);
+                $this->fileConfidencialityContractService->deleteConfidencialityContractFile($intangibleAsset);
 
-                dd($th->getMessage());
-                return __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+                $message = __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
             }
         }
+
+        return $message;
     }
 
     /**
@@ -292,18 +298,68 @@ class IntangibleAssetPhaseService
         try {
             DB::beginTransaction();
 
-            $intangibleAsset->creators()->delete();
+            $intangibleAsset->creators()->sync($creators);
 
-            foreach ($creators as $creator) {
-                $this->intangibleAssetCreatorRepository->create([
-                    'intangible_asset_id' => $intangibleAsset->id,
-                    'creator_id' => $creator
-                ]);
-            }
             DB::commit();
         } catch (\Exception $th) {
             DB::rollBack();
-            $message = __('pages.client.intangible_assets.phases.five.sub_phases.creators.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+            dd($th->getMessage());
+            // $message = __('pages.client.intangible_assets.phases.five.sub_phases.creators.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+        }
+
+        return $message;
+    }
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param array $data
+     * @param \Illuminate\Http\UploadedFile $file
+     * 
+     * @return string
+     */
+    private function updateIntangibleAssetSessionRightContract($intangibleAsset, $data)
+    {
+        $message = __('pages.client.intangible_assets.phases.five.sub_phases.session_right_contract.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+
+        if ($data['has_session_right'] == -1) {
+            $this->fileSessionRightContractService->deleteSessionRightContractFile($intangibleAsset);
+            $intangibleAsset->intangible_asset_session_right_contract()->delete();
+        } else {
+            $newData = [];
+
+            try {
+                DB::beginTransaction();
+
+                /** Store the File */
+                $this->fileSessionRightContractService->deleteSessionRightContractFile($intangibleAsset);
+
+                /** @var \Illuminate\Http\UploadedFile $file */
+                $file = $data['file'];
+                $filePath = '';
+                $fileName = time() . ".{$file->getClientOriginalExtension()}";
+
+                $fullPath = $filePath . $fileName;
+
+                $this->fileSessionRightContractService->storeSessionRightContractFile($fullPath, $file);
+
+                $newData['intangible_asset_id'] = $intangibleAsset->id;
+                $newData['file'] = $fileName;
+                $newData['file_path'] = $filePath;
+                $newData['owner'] = $data['owner'];
+
+                /** ./Store the File */
+
+                $this->intangibleAssetSessionRightContractRepository->updateOrCreate([
+                    'intangible_asset_id' => $intangibleAsset->id
+                ], $newData);
+                DB::commit();
+            } catch (\Exception $th) {
+                DB::rollBack();
+                $message = $th->getMessage();
+                $this->fileSessionRightContractService->deleteSessionRightContractFile($intangibleAsset);
+
+                // $message = __('pages.client.intangible_assets.phases.five.sub_phases.session_right_contract.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+            }
         }
 
         return $message;

@@ -155,15 +155,25 @@ class IntangibleAssetPhaseController extends Controller
 
             case '2':
                 $rules = [
-                    'organization_confidenciality' => [Rule::requiredIf($request->is_published == 2), 'nullable', 'string'],
-                    'file' => [Rule::requiredIf($request->is_published == 2), 'nullable', 'file', 'mimes:pdf,docx'],
+                    'organization_confidenciality' => [Rule::requiredIf($request->has_confidenciality_contract == 1), 'nullable', 'string'],
+                    'confidenciality_contract_file' => [Rule::requiredIf($request->has_confidenciality_contract == 1), 'nullable', 'file', 'mimes:pdf,docx'],
                 ];
                 $data = $request->only(['has_confidenciality_contract', 'organization_confidenciality']);
-                $data['file'] = $request->file('file');
+                $data['file'] = $request->file('confidenciality_contract_file');
                 break;
 
             case '3':
                 $data = $request->get('creator_id', []);
+
+                break;
+
+            case '4':
+                $rules = [
+                    'owner' => [Rule::requiredIf($request->has_session_right == 1), 'nullable', 'string'],
+                    'session_right_contract_file' => [Rule::requiredIf($request->has_session_right == 1), 'nullable', 'file', 'mimes:pdf,docx'],
+                ];
+                $data = $request->only(['has_session_right', 'owner']);
+                $data['file'] = $request->file('session_right_contract_file');
                 break;
         }
         $request->validate($rules);

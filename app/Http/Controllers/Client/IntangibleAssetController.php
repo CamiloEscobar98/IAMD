@@ -111,7 +111,10 @@ class IntangibleAssetController extends Controller
     public function show($id, $intangibleAsset) #: \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
-            $item = $this->intangibleAssetRepository->getByIdWithRelations($intangibleAsset, ['dpis', 'intangible_asset_published', 'intangible_asset_confidenciality_contract', 'creators']);
+            $item = $this->intangibleAssetRepository->getByIdWithRelations($intangibleAsset, [
+                'dpis', 'intangible_asset_published',
+                'intangible_asset_confidenciality_contract', 'creators', 'intangible_asset_session_right_contract'
+            ]);
 
             return view('client.pages.intangible_assets.show', compact('item'));
         } catch (\Exception $th) {

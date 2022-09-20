@@ -19,3 +19,14 @@ function changeHasConfidencialityContract() {
         container.hide();
     }
 }
+
+function changeHasSessionRightContract() {
+    let select = $("#hasSessionRightContract").val();
+    var container = $("#sessionRightContractContainer");
+    console.log(select);
+    if (select == 1) {
+        container.show();
+    } else {
+        container.hide();
+    }
+}

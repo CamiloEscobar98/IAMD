@@ -53,6 +53,7 @@ Route::prefix('intangible_assets/{intangible_asset}/downloads')
     ->name('intangible_assets.downloads.')
     ->group(function () {
         Route::get('confidenciality_contract', [IntangibleAssetFileController::class, 'downloadConfidencialityContract'])->name('confidenciality_contract');
+        Route::get('session_right_contract', [IntangibleAssetFileController::class, 'downloadSessionRightContract'])->name('session_right_contract');
     });
 
 Route::prefix('intangible_assets/{intangible_asset}/phases')

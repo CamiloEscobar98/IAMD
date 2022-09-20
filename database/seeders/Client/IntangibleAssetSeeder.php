@@ -21,6 +21,7 @@ use App\Repositories\Client\IntangibleAssetDPIRepository;
 use App\Repositories\Client\ProjectRepository;
 use App\Repositories\Client\CreatorRepository;
 use App\Repositories\Client\IntangibleAssetConfidentialityContractRepository;
+use App\Repositories\Client\IntangibleAssetSessionRightContractRepository;
 use App\Repositories\Client\UserRepository;
 
 class IntangibleAssetSeeder extends Seeder
@@ -49,6 +50,9 @@ class IntangibleAssetSeeder extends Seeder
     /** @var IntangibleAssetConfidentialityContractRepository */
     protected $intangibleAssetConfidentialityContractRepository;
 
+    /** @var IntangibleAssetSessionRightContractRepository */
+    protected $intangibleAssetSessionRightContractRepository;
+
     /** @var IntangibleAssetTypeLevel2Repository */
     protected $intangibleAssetTypeLevel2Repository;
 
@@ -73,6 +77,7 @@ class IntangibleAssetSeeder extends Seeder
         IntangibleAssetCommentRepository $intangibleAssetCommentRepository,
         IntangibleAssetDPIRepository $intangibleAssetDPIRepository,
         IntangibleAssetConfidentialityContractRepository $intangibleAssetConfidentialityContractRepository,
+        IntangibleAssetSessionRightContractRepository $intangibleAssetSessionRightContractRepository,
 
         IntangibleAssetTypeLevel2Repository $intangibleAssetTypeLevel2Repository,
         IntangibleAssetTypeLevel3Repository $intangibleAssetTypeLevel3Repository,
@@ -89,6 +94,7 @@ class IntangibleAssetSeeder extends Seeder
         $this->intangibleAssetCommentRepository = $intangibleAssetCommentRepository;
         $this->intangibleAssetDPIRepository = $intangibleAssetDPIRepository;
         $this->intangibleAssetConfidentialityContractRepository = $intangibleAssetConfidentialityContractRepository;
+        $this->intangibleAssetSessionRightContractRepository = $intangibleAssetSessionRightContractRepository;
 
         $this->intangibleAssetTypeLevel2Repository =  $intangibleAssetTypeLevel2Repository;
         $this->intangibleAssetTypeLevel3Repository = $intangibleAssetTypeLevel3Repository;
@@ -155,6 +161,8 @@ class IntangibleAssetSeeder extends Seeder
                 (bool) rand(0, 1) ? $this->updateHasDPIS($intangibleAsset, $dpis) : null;
 
                 (bool) rand(0, 1) ? $this->hasConfidencialityContract($intangibleAsset) : null;
+
+                (bool) rand(0, 1) ? $this->hasSessionRightContract($intangibleAsset) : null;
 
                 print("\n \n");
 
@@ -297,5 +305,21 @@ class IntangibleAssetSeeder extends Seeder
         $this->intangibleAssetConfidentialityContractRepository->createOneFactory([
             'intangible_asset_id' => $intangibleAsset->id
         ]);
+
+        print("This Intangible Asset has Confidenciality Contract \n");
+    }
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * 
+     * @return void
+     */
+    public function hasSessionRightContract($intangibleAsset): void
+    {
+        $this->intangibleAssetSessionRightContractRepository->createOneFactory([
+            'intangible_asset_id' => $intangibleAsset->id
+        ]);
+
+        print("This Intangible Asset has Session Right Contract \n");
     }
 }

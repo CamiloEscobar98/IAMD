@@ -328,12 +328,12 @@
                                             <span class="input-group-text">{{ __('inputs.upload') }}</span>
                                         </div>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="file">
+                                            <input type="file" class="custom-file-input" name="confidenciality_contract_file">
                                             <label class="custom-file-label"
                                                 for="inputGroupFile01">Seleccionar</label>
                                         </div>
                                     </div>
-                                    @error('file')
+                                    @error('confidenciality_contract_file')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
@@ -389,6 +389,78 @@
                 <!-- ./Subphase: Intangible Asset has Creators -->
 
                 <hr>
+
+                <!-- Subphase: Intangible Asset has Session Rights -->
+                <form action="{{ route('client.intangible_assets.phases.five', [$client->name, $item->id]) }}"
+                    method="post" enctype="multipart/form-data">
+                    @csrf
+                    @method('PATCH')
+
+                    <input type="hidden" name="sub_phase" value="4" readonly>
+
+                    <div class="form-group">
+                        <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.session_right_contract.title') }}</label>
+                        <select id="hasSessionRightContract" name="has_session_right"
+                            class="form-control form-control-sm" onchange="changeHasSessionRightContract()">
+                            <option value="1" {{ intangibleAssetHasSessionRightContract($item) }}>
+                                {{ __('inputs.yes') }}</option>
+                            <option value="-1" {{ intangibleAssetHasSessionRightContract($item, true) }}>
+                                {{ __('inputs.no') }}</option>
+                        </select>
+                    </div>
+
+                    <div id="sessionRightContractContainer">
+                        <div class="row justify-content-center">
+                            <div class="col-sm-5">
+                                <div class="form-group">
+                                    <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.session_right_contract.form.owner') }}</label>
+                                    <input type="text" name="owner"
+                                        class="form-control form-control-sm {{ isInvalidByError($errors, 'owner') }}"
+                                        value="{{ getParamObject($item->intangible_asset_session_right_contract, 'owner') }}">
+                                    @error('owner')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="form-group">
+                                    <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.session_right_contract.form.file') }}</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">{{ __('inputs.upload') }}</span>
+                                        </div>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" name="session_right_contract_file">
+                                            <label class="custom-file-label"
+                                                for="inputGroupFile01">Seleccionar</label>
+                                        </div>
+                                    </div>
+                                    @error('session_right_contract_file')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                            </div>
+                        </div>
+
+                        @if ($item->hasFileOfSessionRightContract())
+                            <div class="form-group">
+                                <a href="{{ route('client.intangible_assets.downloads.session_right_contract', [$client->name, $item->id]) }}"
+                                    class="btn btn-xs btn-danger btn-outline text-white">{{ __('pages.client.intangible_assets.phases.five.sub_phases.session_right_contract.buttons.download') }}</a>
+                            </div>
+                        @endif
+                    </div>
+
+                    <!-- Button Save -->
+                    <div class="form-group">
+                        <button
+                            class="btn {{ phaseIsCompletedButton($item->hasPhaseFiveCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
+                    </div>
+                    <!-- ./Button Save -->
+                </form>
+                <!-- ./Subphase: Intangible Asset has Session Rights -->
+
 
             </div>
         </div>
