@@ -16,7 +16,7 @@ class IntangibleAssetProtectionAction extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['intangible_asset_id', 'reference', 'steps'];
+    protected $fillable = ['intangible_asset_id', 'reference'];
 
     /**
      * Get Intangible Asset

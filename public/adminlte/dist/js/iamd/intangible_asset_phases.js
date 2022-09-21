@@ -41,3 +41,14 @@ function changeHasContability() {
         container.hide();
     }
 }
+
+function changeHasDeposite() {
+    let select = $("#hasDeposite").val();
+    var container = $("#hasDepositeContainer");
+    console.log(select);
+    if (select == 1) {
+        container.show();
+    } else {
+        container.hide();
+    }
+}

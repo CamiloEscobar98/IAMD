@@ -19,6 +19,7 @@ use App\Models\Admin\IntangibleAssetState;
 use App\Models\Client\Creator\Creator;
 use App\Models\Client\Project\Project;
 use App\Models\Client\IntangibleAsset\IntangibleAssetDPI;
+use App\Models\Client\User;
 
 class IntangibleAsset extends BaseModel
 {
@@ -109,6 +110,14 @@ class IntangibleAsset extends BaseModel
     }
 
     /**
+     * @return HasOne
+     */
+    public function intangible_asset_protection_action(): HasOne
+    {
+        return $this->hasOne(IntangibleAssetProtectionAction::class);
+    }
+
+    /**
      * Get all DPIS
      * 
      * @return  HasMany
@@ -126,6 +135,14 @@ class IntangibleAsset extends BaseModel
     public function creators(): BelongsToMany
     {
         return $this->belongsToMany(Creator::class, 'intangible_asset_creators');
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function user_messages(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'intangible_asset_comments')->withPivot('message', 'updated_at')->orderByPivot('updated_at');
     }
 
     /**
@@ -182,6 +199,22 @@ class IntangibleAsset extends BaseModel
     public function hasContability(): bool
     {
         return !is_null($this->intangible_asset_contability);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasMessages(): bool
+    {
+        return !is_null($this->user_messages);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasProtectionAction(): bool
+    {
+        return !is_null($this->intangible_asset_protection_action);
     }
 
     /** Intangible Asset Confidenciality Contract File Methods */

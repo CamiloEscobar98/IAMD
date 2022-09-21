@@ -980,6 +980,36 @@ return [
                         ]
 
                     ],
+                ],
+
+                'six' => [
+                    'title' => 'Comentarios del Activo Intangible',
+
+                    'form' => [
+                        'message' => 'Redacta un nuevo comentario:'
+                    ],
+
+                    'messages' => [
+                        'save_success' => 'Se ha registrado correctamente un mensaje del Activo Intangible: <b>:intangible_asset</b>.',
+                        'save_error' => 'No se pudo registrar el mensaje.',
+                    ]
+                ],
+
+                'seven' => [
+                    'title' => 'Plan de Acción y Protección del Activo Intangible',
+
+                    'sub_phases' => [
+                        'has_deposite' => [
+                            'title' => '¿Existe un depósito ante la autoridad competente para el derecho de autor?',
+                            'form' => [
+                                'deposite_reference' => 'Digite el número de referencia:'
+                            ],
+                            'messages' => [
+                                'save_success' => 'Se ha registrado el número de referencia del depósito del Activo Intangible: <b>:intangible_asset</b>.',
+                                'save_error' => 'No se pudo registrar el número de referencia del depósito.',
+                            ]
+                        ]
+                    ]
                 ]
             ]
         ],

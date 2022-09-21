@@ -19,7 +19,6 @@ return new class extends Migration
             $table->unsignedBigInteger('intangible_asset_id');
 
             $table->string('reference')->nullable(); // Existe un depósito ante la autoridad competente para el derecho de autor
-            $table->tinyText('steps')->nullable(); // Medidas razonables para la protección de los secretos empresariales
 
             $table->timestamps();
 

@@ -35,9 +35,9 @@ if (!function_exists('phaseIsCompletedOpen')) {
      * @param bool $phaseState
      * @return string|null
      */
-    function phaseIsCompletedOpen($phaseState): string|null
+    function phaseIsCompletedOpen($phaseState, $not = null): string|null
     {
-        return $phaseState ? null : 'show';
+        return $phaseState || (!is_null($not) && !old($not)) ? null : 'show';
     }
 }
 
@@ -153,6 +153,23 @@ if (!function_exists('intangibleAssetHasContability')) {
             return !$intangibleAsset->hasContability() && !old('has_contability') == '1' ? 'selected' : null;
         } else {
             return $intangibleAsset->hasContability() || old('has_contability') == '1' ? 'selected' : null;
+        }
+    }
+}
+if (!function_exists('intangibleAssetHasProtectionAction')) {
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param bool $not
+     * 
+     * @return string|null
+     */
+    function intangibleAssetHasProtectionAction($intangibleAsset, bool $not = false): string | null
+    {
+        if ($not) {
+            return !$intangibleAsset->hasProtectionAction() && !old('has_protection_action') == '1' ? 'selected' : null;
+        } else {
+            return $intangibleAsset->hasProtectionAction() || old('has_protection_action') == '1' ? 'selected' : null;
         }
     }
 }

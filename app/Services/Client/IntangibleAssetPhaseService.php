@@ -6,26 +6,28 @@ use Illuminate\Support\Facades\DB;
 
 use App\Repositories\Client\IntangibleAssetRepository;
 use App\Repositories\Client\IntangibleAssetCommercialRepository;
-use App\Repositories\Client\IntangibleAssetConfidentialityContractRepository;
-use App\Repositories\Client\IntangibleAssetContabilityRepository;
-use App\Repositories\Client\IntangibleAssetCreatorRepository;
 use App\Repositories\Client\IntangibleAssetPublishedRepository;
+use App\Repositories\Client\IntangibleAssetContabilityRepository;
+use App\Repositories\Client\IntangibleAssetConfidentialityContractRepository;
+use App\Repositories\Client\IntangibleAssetProtectionActionRepository;
+
 use App\Repositories\Client\IntangibleAssetDPIRepository;
+use App\Repositories\Client\IntangibleAssetCreatorRepository;
+use App\Repositories\Client\IntangibleAssetCommentRepository;
 use App\Repositories\Client\IntangibleAssetSessionRightContractRepository;
+
 use App\Services\FileSystem\IntangibleAsset\FileConfidencialityContractService;
 use App\Services\FileSystem\IntangibleAsset\FileSessionRightContractService;
-use Illuminate\Support\Facades\Storage;
 
 class IntangibleAssetPhaseService
 {
+    /** Single Data */
+
     /** @var IntangibleAssetRepository */
     protected $intangibleAssetRepository;
 
     /** @var IntangibleAssetCommercialRepository */
     protected $intangibleAssetCommercialRepository;
-
-    /** @var IntangibleAssetCreatorRepository */
-    protected $intangibleAssetCreatorRepository;
 
     /** @var IntangibleAssetPublishedRepository */
     protected $intangibleAssetPublishedRepository;
@@ -33,14 +35,27 @@ class IntangibleAssetPhaseService
     /** @var IntangibleAssetContabilityRepository */
     protected $intangibleAssetContabilityRepository;
 
+    /** @var IntangibleAssetProtectionActionRepository */
+    protected $intangibleAssetProtectionActionRepository;
+
+    /** Multiple Data */
+
     /** @var IntangibleAssetDPIRepository */
     protected $intangibleAssetDPIRepository;
+
+    /** @var IntangibleAssetCreatorRepository */
+    protected $intangibleAssetCreatorRepository;
+
+    /** @var IntangibleAssetCommentRepository */
+    protected $intangibleAssetCommentRepository;
 
     /** @var IntangibleAssetConfidentialityContractRepository */
     protected $intangibleAssetConfidentialityContractRepository;
 
     /** @var IntangibleAssetSessionRightContractRepository */
     protected $intangibleAssetSessionRightContractRepository;
+
+    /** File Data */
 
     /** @var FileConfidencialityContractService */
     protected $fileConfidencialityContractService;
@@ -55,9 +70,12 @@ class IntangibleAssetPhaseService
         IntangibleAssetConfidentialityContractRepository $intangibleAssetConfidentialityContractRepository,
         IntangibleAssetSessionRightContractRepository $intangibleAssetSessionRightContractRepository,
         IntangibleAssetContabilityRepository $intangibleAssetContabilityRepository,
+        IntangibleAssetProtectionActionRepository $intangibleAssetProtectionActionRepository,
 
         IntangibleAssetDPIRepository $intangibleAssetDPIRepository,
         IntangibleAssetCreatorRepository $intangibleAssetCreatorRepository,
+
+        IntangibleAssetCommentRepository $intangibleAssetCommentRepository,
 
         FileConfidencialityContractService $fileConfidencialityContractService,
         FileSessionRightContractService $fileSessionRightContractService,
@@ -68,9 +86,11 @@ class IntangibleAssetPhaseService
         $this->intangibleAssetConfidentialityContractRepository = $intangibleAssetConfidentialityContractRepository;
         $this->intangibleAssetSessionRightContractRepository = $intangibleAssetSessionRightContractRepository;
         $this->intangibleAssetContabilityRepository = $intangibleAssetContabilityRepository;
+        $this->intangibleAssetProtectionActionRepository = $intangibleAssetProtectionActionRepository;
 
         $this->intangibleAssetDPIRepository = $intangibleAssetDPIRepository;
         $this->intangibleAssetCreatorRepository = $intangibleAssetCreatorRepository;
+        $this->intangibleAssetCommentRepository = $intangibleAssetCommentRepository;
 
         $this->fileConfidencialityContractService = $fileConfidencialityContractService;
         $this->fileSessionRightContractService = $fileSessionRightContractService;
@@ -197,6 +217,66 @@ class IntangibleAssetPhaseService
             return $message;
         } catch (\Exception $th) {
             return __('pages.client.intangible_assets.phases.five.messages.save_error');
+        }
+    }
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param array $data
+     * @param string $type
+     * 
+     * @return string
+     */
+    public function updatePhaseSix($intangibleAsset, $data, $type): string
+    {
+        try {
+
+            $message = __('pages.client.intangible_assets.phases.six.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+
+            switch ($type) {
+                case '1':
+                    $this->intangibleAssetCommentRepository->create($data);
+                    break;
+
+                case '2':
+                    # code...
+                    break;
+            }
+
+            $message = __('pages.client.intangible_assets.phases.six.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+
+            return $message;
+        } catch (\Exception $th) {
+            return __('pages.client.intangible_assets.phases.six.messages.save_error');
+        }
+    }
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param array $data
+     * @param string $subPhase
+     * 
+     * @return string
+     */
+    public function updatePhaseSeven($intangibleAsset, $data, $subPhase): string
+    {
+        try {
+
+            $message = __('pages.client.intangible_assets.phases.seven.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+
+            switch ($subPhase) {
+                case '1':
+                    $message = $this->updateIntangibleAssetProtectionAction($intangibleAsset, $data);
+                    break;
+
+                case '2':
+                    # code...
+                    break;
+            }
+
+            return $message;
+        } catch (\Exception $th) {
+            return __('pages.client.intangible_assets.phases.seven.messages.save_error');
         }
     }
 
@@ -381,7 +461,7 @@ class IntangibleAssetPhaseService
      * 
      * @return string
      */
-    public function updateIntangibleAssetContability($intangibleAsset, $data)
+    private function updateIntangibleAssetContability($intangibleAsset, $data)
     {
         $message = __('pages.client.intangible_assets.phases.five.sub_phases.contability.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
 
@@ -406,6 +486,43 @@ class IntangibleAssetPhaseService
             } catch (\Exception $th) {
                 DB::rollBack();
                 $message = __('pages.client.intangible_assets.phases.five.sub_phases.contability.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+            }
+        }
+
+        return $message;
+    }
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param array $data
+     * 
+     * @return string
+     */
+    private function updateIntangibleAssetProtectionAction($intangibleAsset, $data)
+    {
+        $message = __('pages.client.intangible_assets.phases.seven.sub_phases.has_deposite.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+
+        if ($data['has_protection_action'] == -1) {
+            try {
+                DB::beginTransaction();
+                $intangibleAsset->intangible_asset_protection_action()->delete();
+                DB::commit();
+            } catch (\Exception $th) {
+                DB::rollBack();
+                $message = __('pages.client.intangible_assets.phases.seven.sub_phases.has_deposite.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+            }
+        } else {
+            try {
+                DB::beginTransaction();
+                $data['intangible_asset_id'] = $intangibleAsset->id;
+                $this->intangibleAssetProtectionActionRepository->updateOrCreate([
+                    'intangible_asset_id' => $intangibleAsset->id
+                ], $data);
+
+                DB::commit();
+            } catch (\Exception $th) {
+                DB::rollBack();
+                $message = __('pages.client.intangible_assets.phases.seven.sub_phases.has_deposite.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
             }
         }
 

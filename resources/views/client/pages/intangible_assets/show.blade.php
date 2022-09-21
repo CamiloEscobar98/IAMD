@@ -114,6 +114,7 @@
             changeHasConfidencialityContract();
             changeHasSessionRightContract();
             changeHasContability();
+            changeHasDeposite();
         });
 
         //Initialize Select2 Elements

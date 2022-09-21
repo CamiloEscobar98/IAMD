@@ -63,4 +63,35 @@ trait HasPhases
 
         return $cont === count($phasesMethods) ? true : null;
     }
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseSixCompleted(): bool
+    {
+        return $this->hasMessages();
+    }
+
+    /** 
+     * @return bool
+     */
+    public function hasPhaseSevenCompleted(): bool
+    {
+        $phasesMethods = ['hasProtectionAction'];
+
+        $cont = 0;
+        $i = 0;
+
+        while ($i < count($phasesMethods)) {
+            $method = $phasesMethods[$i];
+            if ($this->$method()) {
+                $cont++;
+            }
+            $i++;
+        }
+
+        if ($cont === 0) return false;
+
+        return $cont === count($phasesMethods) ? true : null;
+    }
 }

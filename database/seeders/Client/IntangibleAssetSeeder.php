@@ -13,6 +13,8 @@ use App\Repositories\Client\IntangibleAssetRepository;
 use App\Repositories\Admin\IntangibleAssetStateRepository;
 use App\Repositories\Client\IntangibleAssetCommercialRepository;
 use App\Repositories\Client\IntangibleAssetPublishedRepository;
+use App\Repositories\Client\IntangibleAssetProtectionActionRepository;
+
 use App\Repositories\Client\IntangibleAssetCreatorRepository;
 use App\Repositories\Client\IntangibleAssetCommentRepository;
 use App\Repositories\Client\IntangibleAssetDPIRepository;
@@ -23,6 +25,7 @@ use App\Repositories\Client\CreatorRepository;
 use App\Repositories\Client\IntangibleAssetConfidentialityContractRepository;
 use App\Repositories\Client\IntangibleAssetContabilityRepository;
 use App\Repositories\Client\IntangibleAssetSessionRightContractRepository;
+
 use App\Repositories\Client\UserRepository;
 
 class IntangibleAssetSeeder extends Seeder
@@ -38,6 +41,9 @@ class IntangibleAssetSeeder extends Seeder
 
     /** @var IntangibleAssetCommercialRepository */
     protected $intangibleAssetCommercialRepository;
+
+    /** @var IntangibleAssetProtectionActionRepository */
+    protected $intangibleAssetProtectionActionRepository;
 
     /** @var IntangibleAssetCreatorRepository */
     protected $intangibleAssetCreatorRepository;
@@ -77,9 +83,12 @@ class IntangibleAssetSeeder extends Seeder
         IntangibleAssetStateRepository $intangibleAssetStateRepository,
         IntangibleAssetCommercialRepository $intangibleAssetCommercialRepository,
         IntangibleAssetPublishedRepository $intangibleAssetPublishedRepository,
+        IntangibleAssetProtectionActionRepository $intangibleAssetProtectionActionRepository,
+
         IntangibleAssetCreatorRepository $intangibleAssetCreatorRepository,
         IntangibleAssetCommentRepository $intangibleAssetCommentRepository,
         IntangibleAssetDPIRepository $intangibleAssetDPIRepository,
+
         IntangibleAssetConfidentialityContractRepository $intangibleAssetConfidentialityContractRepository,
         IntangibleAssetSessionRightContractRepository $intangibleAssetSessionRightContractRepository,
         IntangibleAssetContabilityRepository $intangibleAssetContabilityRepository,
@@ -95,9 +104,12 @@ class IntangibleAssetSeeder extends Seeder
         $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
         $this->intangibleAssetCommercialRepository = $intangibleAssetCommercialRepository;
         $this->intangibleAssetPublishedRepository = $intangibleAssetPublishedRepository;
+        $this->intangibleAssetProtectionActionRepository = $intangibleAssetProtectionActionRepository;
+
         $this->intangibleAssetCreatorRepository = $intangibleAssetCreatorRepository;
         $this->intangibleAssetCommentRepository = $intangibleAssetCommentRepository;
         $this->intangibleAssetDPIRepository = $intangibleAssetDPIRepository;
+
         $this->intangibleAssetConfidentialityContractRepository = $intangibleAssetConfidentialityContractRepository;
         $this->intangibleAssetSessionRightContractRepository = $intangibleAssetSessionRightContractRepository;
         $this->intangibleAssetContabilityRepository = $intangibleAssetContabilityRepository;
@@ -171,6 +183,8 @@ class IntangibleAssetSeeder extends Seeder
                 (bool) rand(0, 1) ? $this->hasSessionRightContract($intangibleAsset) : null;
 
                 (bool) rand(0, 1) ? $this->hasContability($intangibleAsset) : null;
+
+                (bool) rand(0, 1) ? $this->hasProtectionAction($intangibleAsset) : null;
 
                 print("\n \n");
 
@@ -341,12 +355,24 @@ class IntangibleAssetSeeder extends Seeder
      * 
      * @return void
      */
-    public function hasContability($intangibleAsset)
+    public function hasContability($intangibleAsset): void
     {
         $this->intangibleAssetContabilityRepository->createOneFactory([
             'intangible_asset_id' => $intangibleAsset->id
         ]);
 
         print("This Intangible Asset has Contability \n");
+    }
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * 
+     * @return void
+     */
+    public function hasProtectionAction($intangibleAsset): void
+    {
+        $this->intangibleAssetProtectionActionRepository->createOneFactory([
+            'intangible_asset_id' => $intangibleAsset->id
+        ]);
     }
 }

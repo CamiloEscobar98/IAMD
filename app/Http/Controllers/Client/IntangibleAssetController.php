@@ -113,7 +113,7 @@ class IntangibleAssetController extends Controller
         try {
             $item = $this->intangibleAssetRepository->getByIdWithRelations($intangibleAsset, [
                 'dpis', 'intangible_asset_published',
-                'intangible_asset_confidenciality_contract', 'creators', 'intangible_asset_session_right_contract'
+                'intangible_asset_confidenciality_contract', 'creators', 'intangible_asset_session_right_contract', 'user_messages'
             ]);
 
             return view('client.pages.intangible_assets.show', compact('item'));
@@ -134,7 +134,6 @@ class IntangibleAssetController extends Controller
     {
         try {
             $item = $this->intangibleAssetRepository->getById($intangibleAsset);
-
 
             return view('client.pages.intangible_assets.edit', compact('item'));
         } catch (\Exception $th) {

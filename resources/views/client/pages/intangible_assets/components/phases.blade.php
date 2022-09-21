@@ -518,4 +518,191 @@
     </div>
     <!-- PHASE FIVE: INTANGIBLE ASSET CURRENT STATE -->
 
+    <!-- PHASE SIX: INTANGIBLE ASSET USER MESSAGES -->
+    <div class="card">
+        <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseSixCompleted()) }}">
+            <a class="collapsed card-link" data-toggle="collapse" href="#collapseFour">
+                <span class="{{ phaseIsCompletedIcon($item->hasPhaseSixCompleted()) }} mr-1"></span>
+                {{ __('pages.client.intangible_assets.phases.six.title') }}
+            </a>
+        </div>
+        <div id="collapseFour" class="collapse show" data-parent="#accordion">
+            <div class="card-body">
+                @forelse ($item->user_messages as $message)
+                    <div class="card">
+                        <div class="card-header bg-gradient-info">
+                            <span><i class="fas fa-user mr-2"></i>{{ $message->name }}</span>
+                            <span class="float-right">{{ $message->pivot->updated_at }}</span>
+                            {{-- @if ($message->id == auth()->user()->id)
+                                <span><i class="fas fa-user mr-2"></i>{{ $message->name }}</span>
+                            @endif --}}
+                        </div>
+                        <div class="card-body">
+                            <p>{{ $message->pivot->message }}</p>
+                        </div>
+                    </div>
+                @empty
+                    <p>{{ __('filters.empty') }}</p>
+                @endforelse
+
+                <form action="{{ route('client.intangible_assets.phases.six', [$client->name, $item->id]) }}"
+                    method="post">
+
+                    @csrf
+
+                    @method('PATCH')
+
+                    <!-- Store a new message -->
+                    <input type="hidden" name="type" value="1">
+
+                    <div class="form-group">
+                        <label>{{ __('pages.client.intangible_assets.phases.six.form.message') }}</label>
+                        <textarea name="message" id="message" cols="30" rows="5"
+                            class="form-control {{ isInvalidByError($errors, 'message') }}"></textarea>
+
+                        @error('message')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <!-- Button Save -->
+                    <div class="form-group mt-3 mb-0">
+                        <button
+                            class="btn {{ phaseIsCompletedButton($item->hasPhaseSixCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
+                    </div>
+                    <!-- ./Button Save -->
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- ./PHASE SIX: INTANGIBLE ASSET USER MESSAGES -->
+
+    <!-- PHASE SEVEN: INTANGIBLE ASSET HAS PROTECTION ACTION -->
+    <div class="card">
+        <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseSevenCompleted()) }}">
+            <a class="collapsed card-link" data-toggle="collapse" href="#collapseFive">
+                <span class="{{ phaseIsCompletedIcon($item->hasPhaseSevenCompleted()) }} mr-1"></span>
+                {{ __('pages.client.intangible_assets.phases.seven.title') }}
+            </a>
+        </div>
+        <div id="collapseFive" class="collapse {{ phaseIsCompletedOpen($item->hasPhaseSevenCompleted()) }}"
+            data-parent="#accordion">
+            <div class="card-body">
+
+                <!-- Subphase: Intangible Asset has a deposite -->
+                <form action="{{ route('client.intangible_assets.phases.seven', [$client->name, $item->id]) }}"
+                    method="post">
+                    @csrf
+                    @method('PATCH')
+
+                    <input type="hidden" name="sub_phase" value="1" readonly>
+
+                    <div class="form-group">
+                        <label>{{ __('pages.client.intangible_assets.phases.seven.sub_phases.has_deposite.title') }}</label>
+                        <select id="hasDeposite" name="has_protection_action" class="form-control form-control-sm"
+                            onchange="changeHasDeposite()">
+                            <option value="1" {{ intangibleAssetHasProtectionAction($item) }}>
+                                {{ __('inputs.yes') }}</option>
+                            <option value="-1" {{ intangibleAssetHasProtectionAction($item, true) }}>
+                                {{ __('inputs.no') }}</option>
+                        </select>
+                    </div>
+
+                    <div id="hasDepositeContainer">
+                        <div class="form-group">
+                            <label>{{ __('pages.client.intangible_assets.phases.seven.sub_phases.has_deposite.form.deposite_reference') }}</label>
+                            <input type="text" name="reference"
+                                class="form-control form-control-sm {{ isInvalidByError($errors, 'reference') }}"
+                                value="{{ getParamObject($item->intangible_asset_protection_action, 'reference') }}">
+                            @error('published_in')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- Button Save -->
+                    <div class="form-group">
+                        <button
+                            class="btn {{ phaseIsCompletedButton($item->hasPhaseSevenCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
+                    </div>
+                    <!-- ./Button Save -->
+                </form>
+                <!-- ./Subphase: Intangible Asset has a deposite -->
+
+                <!-- Subphase: Intangible Asset Is Published -->
+                {{-- <form action="{{ route('client.intangible_assets.phases.five', [$client->name, $item->id]) }}"
+                    method="post">
+                    @csrf
+                    @method('PATCH')
+
+                    <input type="hidden" name="sub_phase" value="1" readonly>
+
+                    <div class="form-group">
+                        <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.is_published.title') }}</label>
+                        <select id="isPublished" name="is_published" class="form-control form-control-sm"
+                            onchange="changeIsPublished()">
+                            <option value="1" {{ intangibleAssetHasBeenPublished($item) }}>
+                                {{ __('inputs.yes') }}</option>
+                            <option value="-1" {{ intangibleAssetHasBeenPublished($item, true) }}>
+                                {{ __('inputs.no') }}</option>
+                        </select>
+                    </div>
+
+                    <div id="publishedContainer">
+                        <div class="row justify-content-center mb-4">
+                            <div class="col-sm-3 col-md-4">
+                                <div class="form-group">
+                                    <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.is_published.form.published_in') }}</label>
+                                    <input type="text" name="published_in"
+                                        class="form-control form-control-sm {{ isInvalidByError($errors, 'published_in') }}"
+                                        value="{{ getParamObject($item->intangible_asset_published, 'published_in') }}">
+                                    @error('published_in')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group">
+                                    <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.is_published.form.information_scope') }}</label>
+                                    <select name="information_scope" class="form-control form-control-sm">
+                                        @foreach ($informationScopes as $scope => $value)
+                                            <option value="{{ $value }}"
+                                                {{ twoOptionsIsEqualIntoObject($item->intangible_asset_published, 'information_scope', $value) }}>
+                                                {{ $value }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('information_scope')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                            </div>
+                            <div class="col-sm-4 col-md-4">
+                                <div class="form-group">
+                                    <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.is_published.form.published_date') }}</label>
+                                    <input type="date" name="published_at"
+                                        class="form-control form-control-sm {{ isInvalidByError($errors, 'published_at') }}"
+                                        value="{{ getParamObject($item->intangible_asset_published, 'published_at') }}">
+                                    @error('published_at')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Button Save -->
+                    <div class="form-group">
+                        <button
+                            class="btn {{ phaseIsCompletedButton($item->hasPhaseFiveCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
+                    </div>
+                    <!-- ./Button Save -->
+                </form> --}}
+                <!-- ./Subphase: Intangible Asset Is Published -->
+            </div>
+        </div>
+    </div>
+    <!-- ./ PHASE SEVEN: INTANGIBLE ASSET HAS PROTECTION ACTION -->
+
 </div>
