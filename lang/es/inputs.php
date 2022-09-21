@@ -33,6 +33,7 @@ return [
     'intangible_asset_state_id' => 'Estado del Activo Intangible',
     
     'dpi_id' => 'Derecho de Propiedad Intelectual',
+    'secret_protection_measure_id' => 'Medidas Secretas de Protección',
 
     'project_id' => 'Proyectos',
     'project_name' => 'Nombre del Proyecto',

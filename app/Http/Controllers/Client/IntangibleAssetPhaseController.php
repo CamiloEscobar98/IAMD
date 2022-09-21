@@ -267,7 +267,11 @@ class IntangibleAssetPhaseController extends Controller
                 break;
 
             case '2':
-
+                $rules = [
+                    'secret_protection_measure_id' => [Rule::requiredIf($request->has_secret_protection == 1)]
+                ];
+                $data = $request->only(['has_secret_protection']);
+                $data['secret_protection_measure_id'] = $request->get('secret_protection_measure_id', []);
                 break;
         }
         $request->validate($rules);

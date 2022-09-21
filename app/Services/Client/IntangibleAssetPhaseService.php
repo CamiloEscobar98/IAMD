@@ -14,6 +14,7 @@ use App\Repositories\Client\IntangibleAssetProtectionActionRepository;
 use App\Repositories\Client\IntangibleAssetDPIRepository;
 use App\Repositories\Client\IntangibleAssetCreatorRepository;
 use App\Repositories\Client\IntangibleAssetCommentRepository;
+use App\Repositories\Client\IntangibleAssetSecretProtectionMeasureRepository;
 use App\Repositories\Client\IntangibleAssetSessionRightContractRepository;
 
 use App\Services\FileSystem\IntangibleAsset\FileConfidencialityContractService;
@@ -38,6 +39,12 @@ class IntangibleAssetPhaseService
     /** @var IntangibleAssetProtectionActionRepository */
     protected $intangibleAssetProtectionActionRepository;
 
+    /** @var IntangibleAssetConfidentialityContractRepository */
+    protected $intangibleAssetConfidentialityContractRepository;
+
+    /** @var IntangibleAssetSessionRightContractRepository */
+    protected $intangibleAssetSessionRightContractRepository;
+
     /** Multiple Data */
 
     /** @var IntangibleAssetDPIRepository */
@@ -49,11 +56,8 @@ class IntangibleAssetPhaseService
     /** @var IntangibleAssetCommentRepository */
     protected $intangibleAssetCommentRepository;
 
-    /** @var IntangibleAssetConfidentialityContractRepository */
-    protected $intangibleAssetConfidentialityContractRepository;
-
-    /** @var IntangibleAssetSessionRightContractRepository */
-    protected $intangibleAssetSessionRightContractRepository;
+    /** @var IntangibleAssetSecretProtectionMeasureRepository */
+    protected $intangibleAssetSecretProtectionMeasureRepository;
 
     /** File Data */
 
@@ -74,8 +78,8 @@ class IntangibleAssetPhaseService
 
         IntangibleAssetDPIRepository $intangibleAssetDPIRepository,
         IntangibleAssetCreatorRepository $intangibleAssetCreatorRepository,
-
         IntangibleAssetCommentRepository $intangibleAssetCommentRepository,
+        IntangibleAssetSecretProtectionMeasureRepository $intangibleAssetSecretProtectionMeasureRepository,
 
         FileConfidencialityContractService $fileConfidencialityContractService,
         FileSessionRightContractService $fileSessionRightContractService,
@@ -91,6 +95,7 @@ class IntangibleAssetPhaseService
         $this->intangibleAssetDPIRepository = $intangibleAssetDPIRepository;
         $this->intangibleAssetCreatorRepository = $intangibleAssetCreatorRepository;
         $this->intangibleAssetCommentRepository = $intangibleAssetCommentRepository;
+        $this->intangibleAssetSecretProtectionMeasureRepository = $intangibleAssetSecretProtectionMeasureRepository;
 
         $this->fileConfidencialityContractService = $fileConfidencialityContractService;
         $this->fileSessionRightContractService = $fileSessionRightContractService;
@@ -270,7 +275,7 @@ class IntangibleAssetPhaseService
                     break;
 
                 case '2':
-                    # code...
+                    $message = $this->updateIntangibleAssetSecretProtectionMeasures($intangibleAsset, $data);
                     break;
             }
 
@@ -527,5 +532,29 @@ class IntangibleAssetPhaseService
         }
 
         return $message;
+    }
+
+    /**
+     * 
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param array $data
+     * 
+     * @return string
+     */
+    public function updateIntangibleAssetSecretProtectionMeasures($intangibleAsset, $data)
+    {
+        try {
+            $secretProtectionMeasures = $data['secret_protection_measure_id'];
+
+            if ($data['has_secret_protection'] == -1) {
+                $secretProtectionMeasures = [];
+            }
+
+            $intangibleAsset->secret_protection_measures()->sync($secretProtectionMeasures);
+
+            return __('pages.client.intangible_assets.phases.seven.sub_phases.has_secret_protection.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+        } catch (\Exception $th) {
+            return __('pages.client.intangible_assets.phases.seven.sub_phases.has_secret_protection.messages.save_error');
+        }
     }
 }

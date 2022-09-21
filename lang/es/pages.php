@@ -1008,6 +1008,14 @@ return [
                                 'save_success' => 'Se ha registrado el número de referencia del depósito del Activo Intangible: <b>:intangible_asset</b>.',
                                 'save_error' => 'No se pudo registrar el número de referencia del depósito.',
                             ]
+                        ],
+                        'has_secret_protection' => [
+                            'title' => '¿Sugiere tomar medidas razonables para la protección de los secretos empresariales?',
+
+                            'messages' => [
+                                'save_success' => 'Se ha registrado las medidas secretas de protección del Activo Intangible: <b>:intangible_asset</b>.',
+                                'save_error' => 'No se pudo registrar las medidas secretas de protección.',
+                            ]
                         ]
                     ]
                 ]

@@ -24,8 +24,9 @@ use App\Repositories\Client\ProjectRepository;
 use App\Repositories\Client\CreatorRepository;
 use App\Repositories\Client\IntangibleAssetConfidentialityContractRepository;
 use App\Repositories\Client\IntangibleAssetContabilityRepository;
+use App\Repositories\Client\IntangibleAssetSecretProtectionMeasureRepository;
 use App\Repositories\Client\IntangibleAssetSessionRightContractRepository;
-
+use App\Repositories\Client\SecretProtectionMeasureRepository;
 use App\Repositories\Client\UserRepository;
 
 class IntangibleAssetSeeder extends Seeder
@@ -54,6 +55,9 @@ class IntangibleAssetSeeder extends Seeder
     /** @var IntangibleAssetDPIRepository */
     protected $intangibleAssetDPIRepository;
 
+    /** @var IntangibleAssetSecretProtectionMeasureRepository */
+    protected $intangibleAssetSecretProtectionMeasureRepository;
+
     /** @var IntangibleAssetConfidentialityContractRepository */
     protected $intangibleAssetConfidentialityContractRepository;
 
@@ -78,6 +82,9 @@ class IntangibleAssetSeeder extends Seeder
     /** @var UserRepository */
     protected $userRepository;
 
+    /** @var SecretProtectionMeasureRepository */
+    protected $secretProtectionMeasureRepository;
+
     public function __construct(
         IntangibleAssetRepository $intangibleAssetRepository,
         IntangibleAssetStateRepository $intangibleAssetStateRepository,
@@ -88,6 +95,7 @@ class IntangibleAssetSeeder extends Seeder
         IntangibleAssetCreatorRepository $intangibleAssetCreatorRepository,
         IntangibleAssetCommentRepository $intangibleAssetCommentRepository,
         IntangibleAssetDPIRepository $intangibleAssetDPIRepository,
+        IntangibleAssetSecretProtectionMeasureRepository $intangibleAssetSecretProtectionMeasureRepository,
 
         IntangibleAssetConfidentialityContractRepository $intangibleAssetConfidentialityContractRepository,
         IntangibleAssetSessionRightContractRepository $intangibleAssetSessionRightContractRepository,
@@ -99,6 +107,7 @@ class IntangibleAssetSeeder extends Seeder
         ProjectRepository $projectRepository,
         CreatorRepository $creatorRepository,
         UserRepository $userRepository,
+        SecretProtectionMeasureRepository $secretProtectionMeasureRepository,
     ) {
         $this->intangibleAssetRepository = $intangibleAssetRepository;
         $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
@@ -109,6 +118,7 @@ class IntangibleAssetSeeder extends Seeder
         $this->intangibleAssetCreatorRepository = $intangibleAssetCreatorRepository;
         $this->intangibleAssetCommentRepository = $intangibleAssetCommentRepository;
         $this->intangibleAssetDPIRepository = $intangibleAssetDPIRepository;
+        $this->intangibleAssetSecretProtectionMeasureRepository = $intangibleAssetSecretProtectionMeasureRepository;
 
         $this->intangibleAssetConfidentialityContractRepository = $intangibleAssetConfidentialityContractRepository;
         $this->intangibleAssetSessionRightContractRepository = $intangibleAssetSessionRightContractRepository;
@@ -120,6 +130,7 @@ class IntangibleAssetSeeder extends Seeder
         $this->projectRepository = $projectRepository;
         $this->creatorRepository = $creatorRepository;
         $this->userRepository = $userRepository;
+        $this->secretProtectionMeasureRepository = $secretProtectionMeasureRepository;
     }
 
     /**
@@ -144,10 +155,12 @@ class IntangibleAssetSeeder extends Seeder
         /** Searching Users */
         $users = $this->userRepository->all();
 
+        $secretProtectionMeasures = $this->secretProtectionMeasureRepository->all();
+
         print("¡¡ CREATING INTANGIBLE ASSETS !! \n \n");
 
 
-        $projects->each(function ($project) use ($states, $creators, $users, $dpis) {
+        $projects->each(function ($project) use ($states, $creators, $users, $dpis, $secretProtectionMeasures) {
             $randomNumber = rand(3, 10);
 
             print("PROJECT: " . $project->name .  "\n \n");
@@ -185,6 +198,8 @@ class IntangibleAssetSeeder extends Seeder
                 (bool) rand(0, 1) ? $this->hasContability($intangibleAsset) : null;
 
                 (bool) rand(0, 1) ? $this->hasProtectionAction($intangibleAsset) : null;
+
+                (bool) rand(0, 1) ? $this->hasSecretProtectionMeasures($intangibleAsset, $secretProtectionMeasures) : null;
 
                 print("\n \n");
 
@@ -374,5 +389,28 @@ class IntangibleAssetSeeder extends Seeder
         $this->intangibleAssetProtectionActionRepository->createOneFactory([
             'intangible_asset_id' => $intangibleAsset->id
         ]);
+
+        print("This Intangible Asset has Protection Action \n");
+    }
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param Collection $secretProtectionMeasures
+     * 
+     * @return void
+     */
+    public function hasSecretProtectionMeasures($intangibleAsset, $secretProtectionMeasures)
+    {
+        $randomNumber = rand(1, $secretProtectionMeasures->count() - 1);
+
+        $randomSecretProtectionMeasures = $secretProtectionMeasures->random($randomNumber);
+
+        foreach ($randomSecretProtectionMeasures as $secretProtectionMeasure) {
+            $this->intangibleAssetSecretProtectionMeasureRepository->create([
+                'intangible_asset_id' => $intangibleAsset->id,
+                'secret_protection_measure_id' => $secretProtectionMeasure->id
+            ]);
+        }
+        print("This Intangible Asset has Secret Protection Measures: Count: " . $randomSecretProtectionMeasures->count() . "\n");
     }
 }

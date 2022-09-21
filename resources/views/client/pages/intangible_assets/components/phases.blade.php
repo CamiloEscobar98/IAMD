@@ -629,77 +629,54 @@
                 </form>
                 <!-- ./Subphase: Intangible Asset has a deposite -->
 
-                <!-- Subphase: Intangible Asset Is Published -->
-                {{-- <form action="{{ route('client.intangible_assets.phases.five', [$client->name, $item->id]) }}"
+                <hr>
+
+                <!-- Subphase: Intangible Asset has Secret Protection Measures -->
+                <form action="{{ route('client.intangible_assets.phases.seven', [$client->name, $item->id]) }}"
                     method="post">
                     @csrf
                     @method('PATCH')
 
-                    <input type="hidden" name="sub_phase" value="1" readonly>
+                    <input type="hidden" name="sub_phase" value="2" readonly>
 
                     <div class="form-group">
-                        <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.is_published.title') }}</label>
-                        <select id="isPublished" name="is_published" class="form-control form-control-sm"
-                            onchange="changeIsPublished()">
-                            <option value="1" {{ intangibleAssetHasBeenPublished($item) }}>
+                        <label>{{ __('pages.client.intangible_assets.phases.seven.sub_phases.has_secret_protection.title') }}</label>
+                        <select id="hasSecretProtection" name="has_secret_protection"
+                            class="form-control form-control-sm" onchange="changeHasSecretProtection()">
+                            <option value="1" {{ intangibleAssetHasSecretProtection($item) }}>
                                 {{ __('inputs.yes') }}</option>
-                            <option value="-1" {{ intangibleAssetHasBeenPublished($item, true) }}>
+                            <option value="-1" {{ intangibleAssetHasSecretProtection($item, true) }}>
                                 {{ __('inputs.no') }}</option>
                         </select>
                     </div>
 
-                    <div id="publishedContainer">
-                        <div class="row justify-content-center mb-4">
-                            <div class="col-sm-3 col-md-4">
-                                <div class="form-group">
-                                    <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.is_published.form.published_in') }}</label>
-                                    <input type="text" name="published_in"
-                                        class="form-control form-control-sm {{ isInvalidByError($errors, 'published_in') }}"
-                                        value="{{ getParamObject($item->intangible_asset_published, 'published_in') }}">
-                                    @error('published_in')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
+                    <div id="hasSecretProtectionContainer">
+                        <div class="form-group">
+                            <label>{{ __('inputs.secret_protection_measure_id') }}</label>
+                            <select name="secret_protection_measure_id[]" id="secret_protection_measure_id"
+                                class="form-control select2bs4 {{ isInvalidByError($errors, 'secret_protection_measure_id') }}"
+                                multiple>
+                                @foreach ($secretProtectionMeasures as $secretProtectionMeasure)
+                                    <option value="{{ $secretProtectionMeasure->id }}"
+                                        {{ intangibleAssetHasSecretProtectionMeasure($item->secret_protection_measures, $secretProtectionMeasure->id) }}>
+                                        {{ $secretProtectionMeasure->name }}</option>
+                                @endforeach
+                            </select>
 
-                            </div>
-                            <div class="col-sm-4 col-md-4">
-                                <div class="form-group">
-                                    <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.is_published.form.information_scope') }}</label>
-                                    <select name="information_scope" class="form-control form-control-sm">
-                                        @foreach ($informationScopes as $scope => $value)
-                                            <option value="{{ $value }}"
-                                                {{ twoOptionsIsEqualIntoObject($item->intangible_asset_published, 'information_scope', $value) }}>
-                                                {{ $value }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('information_scope')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                            </div>
-                            <div class="col-sm-4 col-md-4">
-                                <div class="form-group">
-                                    <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.is_published.form.published_date') }}</label>
-                                    <input type="date" name="published_at"
-                                        class="form-control form-control-sm {{ isInvalidByError($errors, 'published_at') }}"
-                                        value="{{ getParamObject($item->intangible_asset_published, 'published_at') }}">
-                                    @error('published_at')
-                                        <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
-                            </div>
+                            @error('secret_protection_measure_id')
+                                <small class="text-danger"{{ $message }}></small>
+                            @enderror
                         </div>
                     </div>
 
                     <!-- Button Save -->
                     <div class="form-group">
                         <button
-                            class="btn {{ phaseIsCompletedButton($item->hasPhaseFiveCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
+                            class="btn {{ phaseIsCompletedButton($item->hasPhaseSevenCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
                     </div>
                     <!-- ./Button Save -->
-                </form> --}}
-                <!-- ./Subphase: Intangible Asset Is Published -->
+                </form>
+                <!-- ./Subphase: Intangible Asset has Secret Protection Measures -->
             </div>
         </div>
     </div>

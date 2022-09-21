@@ -52,3 +52,15 @@ function changeHasDeposite() {
         container.hide();
     }
 }
+
+function changeHasSecretProtection() {
+    let select = $("#hasSecretProtection").val();
+    var container = $("#hasSecretProtectionContainer");
+    console.log(select);
+    if (select == 1) {
+        container.show();
+    } else {
+        container.hide();
+    }
+}
+

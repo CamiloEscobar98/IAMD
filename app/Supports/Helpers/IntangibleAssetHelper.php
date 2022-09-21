@@ -156,6 +156,7 @@ if (!function_exists('intangibleAssetHasContability')) {
         }
     }
 }
+
 if (!function_exists('intangibleAssetHasProtectionAction')) {
 
     /**
@@ -171,5 +172,37 @@ if (!function_exists('intangibleAssetHasProtectionAction')) {
         } else {
             return $intangibleAsset->hasProtectionAction() || old('has_protection_action') == '1' ? 'selected' : null;
         }
+    }
+}
+
+if (!function_exists('intangibleAssetHasSecretProtection')) {
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param bool $not
+     * 
+     * @return string|null
+     */
+    function intangibleAssetHasSecretProtection($intangibleAsset, bool $not = false): string | null
+    {
+        if ($not) {
+            return !$intangibleAsset->hasSecretProtectionMeasure() && !old('has_secret_protection') == '1' ? 'selected' : null;
+        } else {
+            return $intangibleAsset->hasSecretProtectionMeasure() || old('has_secret_protection') == '1' ? 'selected' : null;
+        }
+    }
+}
+
+if (!function_exists('intangibleAssetHasSecretProtectionMeasure')) {
+
+    /**
+     * @param Collection $secretProtectionMeasures
+     * @param int $secretProtectionMeasure
+     * 
+     * @return string|null
+     */
+    function intangibleAssetHasSecretProtectionMeasure($secretProtectionMeasures, $secretProtectionMeasure): string | null
+    {
+        return $secretProtectionMeasures->contains('id', $secretProtectionMeasure) ? 'selected' : null;
     }
 }

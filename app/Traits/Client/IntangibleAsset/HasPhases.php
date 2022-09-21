@@ -73,11 +73,11 @@ trait HasPhases
     }
 
     /** 
-     * @return bool
+     * @return bool|null
      */
-    public function hasPhaseSevenCompleted(): bool
+    public function hasPhaseSevenCompleted(): bool|null
     {
-        $phasesMethods = ['hasProtectionAction'];
+        $phasesMethods = ['hasProtectionAction', 'hasSecretProtectionMeasure'];
 
         $cont = 0;
         $i = 0;

@@ -10,6 +10,7 @@ use App\Repositories\Admin\IntangibleAssetTypeLevel2Repository;
 use App\Repositories\Admin\IntangibleAssetTypeLevel3Repository;
 use App\Repositories\Client\CreatorRepository;
 use App\Repositories\Client\IntangibleAssetRepository;
+use App\Repositories\Client\SecretProtectionMeasureRepository;
 
 class ShowIntangibleAssetComposer
 {
@@ -31,6 +32,9 @@ class ShowIntangibleAssetComposer
     /** @var CreatorRepository */
     protected $creatorRepository;
 
+    /** @var SecretProtectionMeasureRepository */
+    protected $secretProtectionMeasureRepository;
+
     public function __construct(
         IntangibleAssetTypeLevel1Repository $intangibleAssetTypeLevel1Repository,
         IntangibleAssetTypeLevel2Repository $intangibleAssetTypeLevel2Repository,
@@ -40,6 +44,7 @@ class ShowIntangibleAssetComposer
         IntangibleAssetStateRepository $intangibleAssetStateRepository,
 
         CreatorRepository $creatorRepository,
+        SecretProtectionMeasureRepository $secretProtectionMeasureRepository,
     ) {
         $this->intangibleAssetTypeLevel1Repository = $intangibleAssetTypeLevel1Repository;
         $this->intangibleAssetTypeLevel2Repository = $intangibleAssetTypeLevel2Repository;
@@ -49,6 +54,7 @@ class ShowIntangibleAssetComposer
         $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
 
         $this->creatorRepository = $creatorRepository;
+        $this->secretProtectionMeasureRepository = $secretProtectionMeasureRepository;
     }
 
     public function compose(View $view)
@@ -107,6 +113,8 @@ class ShowIntangibleAssetComposer
 
         $creators = $this->creatorRepository->all();
 
+        $secretProtectionMeasures = $this->secretProtectionMeasureRepository->all();
+
         $view->with(compact(
             'categories',
             'subCategories',
@@ -122,6 +130,7 @@ class ShowIntangibleAssetComposer
             'informationScopes',
 
             'creators',
+            'secretProtectionMeasures',
         ));
     }
 }

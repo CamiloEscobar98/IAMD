@@ -19,6 +19,7 @@ use App\Models\Admin\IntangibleAssetState;
 use App\Models\Client\Creator\Creator;
 use App\Models\Client\Project\Project;
 use App\Models\Client\IntangibleAsset\IntangibleAssetDPI;
+use App\Models\Client\SecretProtectionMeasure;
 use App\Models\Client\User;
 
 class IntangibleAsset extends BaseModel
@@ -146,6 +147,14 @@ class IntangibleAsset extends BaseModel
     }
 
     /**
+     * @return BelongsToMany
+     */
+    public function secret_protection_measures(): BelongsToMany
+    {
+        return $this->belongsToMany(SecretProtectionMeasure::class);
+    }
+
+    /**
      * @return bool
      */
     public function hasDpis(): bool
@@ -215,6 +224,14 @@ class IntangibleAsset extends BaseModel
     public function hasProtectionAction(): bool
     {
         return !is_null($this->intangible_asset_protection_action);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasSecretProtectionMeasure(): bool
+    {
+        return $this->secret_protection_measures->count() > 0;
     }
 
     /** Intangible Asset Confidenciality Contract File Methods */
