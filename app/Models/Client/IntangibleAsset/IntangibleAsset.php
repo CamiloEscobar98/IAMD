@@ -18,9 +18,10 @@ use App\Models\Admin\IntangibleAssetState;
 
 use App\Models\Client\Creator\Creator;
 use App\Models\Client\Project\Project;
-use App\Models\Client\IntangibleAsset\IntangibleAssetDPI;
-use App\Models\Client\SecretProtectionMeasure;
+use App\Models\Client\PriorityTool;
 use App\Models\Client\User;
+use App\Models\Client\SecretProtectionMeasure;
+use App\Models\Client\IntangibleAsset\IntangibleAssetDPI;
 
 class IntangibleAsset extends BaseModel
 {
@@ -152,6 +153,14 @@ class IntangibleAsset extends BaseModel
     public function secret_protection_measures(): BelongsToMany
     {
         return $this->belongsToMany(SecretProtectionMeasure::class);
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function priority_tools(): BelongsToMany
+    {
+        return $this->belongsToMany(PriorityTool::class);
     }
 
     /**

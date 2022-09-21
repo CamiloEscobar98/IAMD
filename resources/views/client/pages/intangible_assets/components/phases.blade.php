@@ -526,7 +526,8 @@
                 {{ __('pages.client.intangible_assets.phases.six.title') }}
             </a>
         </div>
-        <div id="collapseFour" class="collapse show" data-parent="#accordion">
+        <div id="collapseFour" class="collapse {{ phaseIsCompletedOpen($item->hasPhaseSixCompleted()) }}"
+            data-parent="#accordion">
             <div class="card-body">
                 @forelse ($item->user_messages as $message)
                     <div class="card">
@@ -580,12 +581,12 @@
     <!-- PHASE SEVEN: INTANGIBLE ASSET HAS PROTECTION ACTION -->
     <div class="card">
         <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseSevenCompleted()) }}">
-            <a class="collapsed card-link" data-toggle="collapse" href="#collapseFive">
+            <a class="collapsed card-link" data-toggle="collapse" href="#collapseSeven">
                 <span class="{{ phaseIsCompletedIcon($item->hasPhaseSevenCompleted()) }} mr-1"></span>
                 {{ __('pages.client.intangible_assets.phases.seven.title') }}
             </a>
         </div>
-        <div id="collapseFive" class="collapse {{ phaseIsCompletedOpen($item->hasPhaseSevenCompleted()) }}"
+        <div id="collapseSeven" class="collapse {{ phaseIsCompletedOpen($item->hasPhaseSevenCompleted()) }}"
             data-parent="#accordion">
             <div class="card-body">
 
@@ -681,5 +682,8 @@
         </div>
     </div>
     <!-- ./ PHASE SEVEN: INTANGIBLE ASSET HAS PROTECTION ACTION -->
+
+    <!-- PHASE EIGHT: INTANGIBLE ASSET HAS PRIORITY TOOLS -->
+    <!-- PHASE EIGHT: INTANGIBLE ASSET HAS PRIORITY TOOLS -->
 
 </div>

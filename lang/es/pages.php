@@ -1018,6 +1018,23 @@ return [
                             ]
                         ]
                     ]
+                ],
+
+                'eight' => [
+                    'title' => 'Priorización y Decisión del Activo Intangible',
+
+                    'sub_phases' => [
+                        'has_tool' => [
+                            'title' => '¿Se debe de realizar una búsqueda relacionada con los potenciales derechos de propiedad intelectual asociadas al Activo Intangible?',
+                            'form' => [
+                                'tools' => 'Seleccione las herramientas de priorización para el derecho de propiedad intelectual: <b>:name</b>'
+                            ],
+                            'messages' => [
+                                'save_success' => 'Se han registrado las herramientas de priorizacion al Activo Intangible: <b>:intangible_asset</b>.',
+                                'save_error' => 'No se pudo registrar las herramientas de priorizacion.',
+                            ]
+                        ],
+                    ]
                 ]
             ]
         ],

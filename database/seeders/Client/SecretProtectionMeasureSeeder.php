@@ -41,6 +41,6 @@ class SecretProtectionMeasureSeeder extends Seeder
             $randomNumber--;
         } while ($randomNumber > 0);
 
-        print("SECRET PROTECTION MEASURE FINISHED. \n \n");
+        print("SECRET PROTECTION MEASURES FINISHED. \n \n");
     }
 }

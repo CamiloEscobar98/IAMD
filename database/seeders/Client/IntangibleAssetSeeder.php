@@ -24,8 +24,10 @@ use App\Repositories\Client\ProjectRepository;
 use App\Repositories\Client\CreatorRepository;
 use App\Repositories\Client\IntangibleAssetConfidentialityContractRepository;
 use App\Repositories\Client\IntangibleAssetContabilityRepository;
+use App\Repositories\Client\IntangibleAssetDpiPriorityToolRepository;
 use App\Repositories\Client\IntangibleAssetSecretProtectionMeasureRepository;
 use App\Repositories\Client\IntangibleAssetSessionRightContractRepository;
+use App\Repositories\Client\PriorityToolRepository;
 use App\Repositories\Client\SecretProtectionMeasureRepository;
 use App\Repositories\Client\UserRepository;
 
@@ -58,6 +60,9 @@ class IntangibleAssetSeeder extends Seeder
     /** @var IntangibleAssetSecretProtectionMeasureRepository */
     protected $intangibleAssetSecretProtectionMeasureRepository;
 
+    /** @var IntangibleAssetDpiPriorityToolRepository */
+    protected $intangibleAssetDpiPriorityToolRepository;
+
     /** @var IntangibleAssetConfidentialityContractRepository */
     protected $intangibleAssetConfidentialityContractRepository;
 
@@ -82,8 +87,13 @@ class IntangibleAssetSeeder extends Seeder
     /** @var UserRepository */
     protected $userRepository;
 
+    /** Others */
+
     /** @var SecretProtectionMeasureRepository */
     protected $secretProtectionMeasureRepository;
+
+    /** @var PriorityToolRepository */
+    protected $priorityToolRepository;
 
     public function __construct(
         IntangibleAssetRepository $intangibleAssetRepository,
@@ -96,6 +106,7 @@ class IntangibleAssetSeeder extends Seeder
         IntangibleAssetCommentRepository $intangibleAssetCommentRepository,
         IntangibleAssetDPIRepository $intangibleAssetDPIRepository,
         IntangibleAssetSecretProtectionMeasureRepository $intangibleAssetSecretProtectionMeasureRepository,
+        IntangibleAssetDpiPriorityToolRepository $intangibleAssetDpiPriorityToolRepository,
 
         IntangibleAssetConfidentialityContractRepository $intangibleAssetConfidentialityContractRepository,
         IntangibleAssetSessionRightContractRepository $intangibleAssetSessionRightContractRepository,
@@ -107,7 +118,9 @@ class IntangibleAssetSeeder extends Seeder
         ProjectRepository $projectRepository,
         CreatorRepository $creatorRepository,
         UserRepository $userRepository,
+
         SecretProtectionMeasureRepository $secretProtectionMeasureRepository,
+        PriorityToolRepository $priorityToolRepository
     ) {
         $this->intangibleAssetRepository = $intangibleAssetRepository;
         $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
@@ -119,6 +132,7 @@ class IntangibleAssetSeeder extends Seeder
         $this->intangibleAssetCommentRepository = $intangibleAssetCommentRepository;
         $this->intangibleAssetDPIRepository = $intangibleAssetDPIRepository;
         $this->intangibleAssetSecretProtectionMeasureRepository = $intangibleAssetSecretProtectionMeasureRepository;
+        $this->intangibleAssetDpiPriorityToolRepository = $intangibleAssetDpiPriorityToolRepository;
 
         $this->intangibleAssetConfidentialityContractRepository = $intangibleAssetConfidentialityContractRepository;
         $this->intangibleAssetSessionRightContractRepository = $intangibleAssetSessionRightContractRepository;
@@ -130,7 +144,9 @@ class IntangibleAssetSeeder extends Seeder
         $this->projectRepository = $projectRepository;
         $this->creatorRepository = $creatorRepository;
         $this->userRepository = $userRepository;
+
         $this->secretProtectionMeasureRepository = $secretProtectionMeasureRepository;
+        $this->priorityToolRepository = $priorityToolRepository;
     }
 
     /**
@@ -155,12 +171,16 @@ class IntangibleAssetSeeder extends Seeder
         /** Searching Users */
         $users = $this->userRepository->all();
 
+        /** Secret Protection Measures */
         $secretProtectionMeasures = $this->secretProtectionMeasureRepository->all();
+
+        /** Priority Tools */
+        $priorityTools = $this->priorityToolRepository->all();
 
         print("¡¡ CREATING INTANGIBLE ASSETS !! \n \n");
 
 
-        $projects->each(function ($project) use ($states, $creators, $users, $dpis, $secretProtectionMeasures) {
+        $projects->each(function ($project) use ($states, $creators, $users, $dpis, $secretProtectionMeasures, $priorityTools) {
             $randomNumber = rand(3, 10);
 
             print("PROJECT: " . $project->name .  "\n \n");
@@ -200,6 +220,8 @@ class IntangibleAssetSeeder extends Seeder
                 (bool) rand(0, 1) ? $this->hasProtectionAction($intangibleAsset) : null;
 
                 (bool) rand(0, 1) ? $this->hasSecretProtectionMeasures($intangibleAsset, $secretProtectionMeasures) : null;
+
+                (bool) rand(0, 1) ? $this->hasPriorityTools($intangibleAsset, $priorityTools) : null;
 
                 print("\n \n");
 
@@ -412,5 +434,33 @@ class IntangibleAssetSeeder extends Seeder
             ]);
         }
         print("This Intangible Asset has Secret Protection Measures: Count: " . $randomSecretProtectionMeasures->count() . "\n");
+    }
+
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param Collection $priorityTools
+     * 
+     * @return void
+     */
+    public function hasPriorityTools($intangibleAsset, $priorityTools)
+    {
+        /** @var Collection */
+        $dpis = $intangibleAsset->dpis;
+
+        $dpis->each(function ($dpi) use ($intangibleAsset, $priorityTools) {
+            $randomNumber = rand(1, $priorityTools->count() - 10);
+            $randomTools = $priorityTools->random($randomNumber);
+
+            foreach ($randomTools as $tool) {
+                $this->intangibleAssetDpiPriorityToolRepository->create([
+                    'intangible_asset_id' => $intangibleAsset->id,
+                    'dpi_id' => $dpi->dpi_id,
+                    'priority_tool_id' => $tool->id
+                ]);
+            }
+        });
+
+        print("This Intangible Asset has Priority Tools \n");
     }
 }
