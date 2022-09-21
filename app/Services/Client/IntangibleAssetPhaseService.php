@@ -120,7 +120,7 @@ class IntangibleAssetPhaseService
         try {
             $this->intangibleAssetRepository->update($intangibleAsset, ['classification_id'  => $data['intangible_asset_type_level_3']]);
 
-            return __('pages.client.intangible_assets.phases.one.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+            return __('pages.client.intangible_assets.phases.one.messages.save_success');
         } catch (\Exception $th) {
             return __('pages.client.intangible_assets.phases.one.messages.save_error');
         }
@@ -139,7 +139,7 @@ class IntangibleAssetPhaseService
         try {
             $this->intangibleAssetRepository->update($intangibleAsset, $data);
 
-            return __('pages.client.intangible_assets.phases.two.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+            return __('pages.client.intangible_assets.phases.two.messages.save_success');
         } catch (\Exception $th) {
             return __('pages.client.intangible_assets.phases.two.messages.save_error');
         }
@@ -158,7 +158,7 @@ class IntangibleAssetPhaseService
         try {
             $this->intangibleAssetRepository->update($intangibleAsset, $data);
 
-            return __('pages.client.intangible_assets.phases.three.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+            return __('pages.client.intangible_assets.phases.three.messages.save_success');
         } catch (\Exception $th) {
             return __('pages.client.intangible_assets.phases.three.messages.save_error');
         }
@@ -185,7 +185,7 @@ class IntangibleAssetPhaseService
                 ]);
             }
 
-            return __('pages.client.intangible_assets.phases.four.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+            return __('pages.client.intangible_assets.phases.four.messages.save_success');
         } catch (\Exception $th) {
             return __('pages.client.intangible_assets.phases.four.messages.save_error');
         }
@@ -243,7 +243,7 @@ class IntangibleAssetPhaseService
     {
         try {
 
-            $message = __('pages.client.intangible_assets.phases.six.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+            $message = __('pages.client.intangible_assets.phases.six.messages.save_error');
 
             switch ($type) {
                 case '1':
@@ -255,7 +255,7 @@ class IntangibleAssetPhaseService
                     break;
             }
 
-            $message = __('pages.client.intangible_assets.phases.six.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+            $message = __('pages.client.intangible_assets.phases.six.messages.save_success');
 
             return $message;
         } catch (\Exception $th) {
@@ -274,7 +274,7 @@ class IntangibleAssetPhaseService
     {
         try {
 
-            $message = __('pages.client.intangible_assets.phases.seven.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+            $message = __('pages.client.intangible_assets.phases.seven.messages.save_error');
 
             switch ($subPhase) {
                 case '1':
@@ -365,6 +365,38 @@ class IntangibleAssetPhaseService
     }
 
     /**
+     * Intangible Asset Phase Three: Intangible Asset State
+     * 
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param array $data
+     * 
+     * @return string
+     */
+    public function updatePhaseNine($intangibleAsset, $data): string
+    {
+        $message = __('pages.client.intangible_assets.phases.nine.sub_phases.is_commercial.messages.save_success');
+
+        if ($data['is_commercial'] == -1) {
+            try {
+                $intangibleAsset->intangible_asset_commercial()->delete();
+                return $message;
+            } catch (\Exception $th) {
+                return __('pages.client.intangible_assets.phases.nine.sub_phases.is_commercial.messages.save_error');
+            }
+        } else {
+            try {
+                $this->intangibleAssetCommercialRepository->updateOrCreate([
+                    'intangible_asset_id' => $intangibleAsset->id
+                ], $data);
+
+                return $message;
+            } catch (\Exception $th) {
+                return __('pages.client.intangible_assets.phases.nine.sub_phases.is_commercial.messages.save_error');
+            }
+        }
+    }
+
+    /**
      * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
      * @param array $data
      * 
@@ -372,7 +404,7 @@ class IntangibleAssetPhaseService
      */
     private function updateIntangibleAssetPublished($intangibleAsset, $data): string
     {
-        $message = __('pages.client.intangible_assets.phases.five.sub_phases.is_published.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+        $message = __('pages.client.intangible_assets.phases.five.sub_phases.is_published.messages.save_success');
 
         if ($data['is_published'] == -1) {
             try {
@@ -381,7 +413,7 @@ class IntangibleAssetPhaseService
                 DB::commit();
             } catch (\Exception $th) {
                 DB::rollBack();
-                $message = __('pages.client.intangible_assets.phases.five.sub_phases.is_published.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+                $message = __('pages.client.intangible_assets.phases.five.sub_phases.is_published.messages.save_error');
             }
         } else {
             try {
@@ -394,7 +426,7 @@ class IntangibleAssetPhaseService
                 DB::commit();
             } catch (\Exception $th) {
                 DB::rollBack();
-                $message = __('pages.client.intangible_assets.phases.five.sub_phases.is_published.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+                $message = __('pages.client.intangible_assets.phases.five.sub_phases.is_published.messages.save_error');
             }
         }
 
@@ -415,7 +447,7 @@ class IntangibleAssetPhaseService
      */
     private function updateIntangibleAssetConfidencialityContract($intangibleAsset, $data): string
     {
-        $message = __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+        $message = __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.messages.save_success');
 
         if ($data['has_confidenciality_contract'] == -1) {
             $this->fileConfidencialityContractService->deleteConfidencialityContractFile($intangibleAsset);
@@ -453,7 +485,7 @@ class IntangibleAssetPhaseService
                 DB::rollBack();
                 $this->fileConfidencialityContractService->deleteConfidencialityContractFile($intangibleAsset);
 
-                $message = __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+                $message = __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.messages.save_error');
             }
         }
 
@@ -468,7 +500,7 @@ class IntangibleAssetPhaseService
      */
     private function updateIntangibleAssetCreators($intangibleAsset, $creators)
     {
-        $message = __('pages.client.intangible_assets.phases.five.sub_phases.creators.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+        $message = __('pages.client.intangible_assets.phases.five.sub_phases.creators.messages.save_success');
         try {
             DB::beginTransaction();
 
@@ -478,7 +510,7 @@ class IntangibleAssetPhaseService
         } catch (\Exception $th) {
             DB::rollBack();
             dd($th->getMessage());
-            // $message = __('pages.client.intangible_assets.phases.five.sub_phases.creators.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+            // $message = __('pages.client.intangible_assets.phases.five.sub_phases.creators.messages.save_error');
         }
 
         return $message;
@@ -493,7 +525,7 @@ class IntangibleAssetPhaseService
      */
     private function updateIntangibleAssetSessionRightContract($intangibleAsset, $data)
     {
-        $message = __('pages.client.intangible_assets.phases.five.sub_phases.session_right_contract.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+        $message = __('pages.client.intangible_assets.phases.five.sub_phases.session_right_contract.messages.save_success');
 
         if ($data['has_session_right'] == -1) {
             $this->fileSessionRightContractService->deleteSessionRightContractFile($intangibleAsset);
@@ -532,7 +564,7 @@ class IntangibleAssetPhaseService
                 $message = $th->getMessage();
                 $this->fileSessionRightContractService->deleteSessionRightContractFile($intangibleAsset);
 
-                // $message = __('pages.client.intangible_assets.phases.five.sub_phases.session_right_contract.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+                // $message = __('pages.client.intangible_assets.phases.five.sub_phases.session_right_contract.messages.save_error');
             }
         }
 
@@ -547,7 +579,7 @@ class IntangibleAssetPhaseService
      */
     private function updateIntangibleAssetContability($intangibleAsset, $data)
     {
-        $message = __('pages.client.intangible_assets.phases.five.sub_phases.contability.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+        $message = __('pages.client.intangible_assets.phases.five.sub_phases.contability.messages.save_success');
 
         if ($data['has_contability'] == -1) {
             try {
@@ -556,7 +588,7 @@ class IntangibleAssetPhaseService
                 DB::commit();
             } catch (\Exception $th) {
                 DB::rollBack();
-                $message = __('pages.client.intangible_assets.phases.five.sub_phases.contability.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+                $message = __('pages.client.intangible_assets.phases.five.sub_phases.contability.messages.save_error');
             }
         } else {
             try {
@@ -569,7 +601,7 @@ class IntangibleAssetPhaseService
                 DB::commit();
             } catch (\Exception $th) {
                 DB::rollBack();
-                $message = __('pages.client.intangible_assets.phases.five.sub_phases.contability.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+                $message = __('pages.client.intangible_assets.phases.five.sub_phases.contability.messages.save_error');
             }
         }
 
@@ -584,7 +616,7 @@ class IntangibleAssetPhaseService
      */
     private function updateIntangibleAssetProtectionAction($intangibleAsset, $data)
     {
-        $message = __('pages.client.intangible_assets.phases.seven.sub_phases.has_deposite.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+        $message = __('pages.client.intangible_assets.phases.seven.sub_phases.has_deposite.messages.save_success');
 
         if ($data['has_protection_action'] == -1) {
             try {
@@ -593,7 +625,7 @@ class IntangibleAssetPhaseService
                 DB::commit();
             } catch (\Exception $th) {
                 DB::rollBack();
-                $message = __('pages.client.intangible_assets.phases.seven.sub_phases.has_deposite.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+                $message = __('pages.client.intangible_assets.phases.seven.sub_phases.has_deposite.messages.save_error');
             }
         } else {
             try {
@@ -606,7 +638,7 @@ class IntangibleAssetPhaseService
                 DB::commit();
             } catch (\Exception $th) {
                 DB::rollBack();
-                $message = __('pages.client.intangible_assets.phases.seven.sub_phases.has_deposite.messages.save_error', ['intangible_asset' => $intangibleAsset->name]);
+                $message = __('pages.client.intangible_assets.phases.seven.sub_phases.has_deposite.messages.save_error');
             }
         }
 
@@ -631,7 +663,7 @@ class IntangibleAssetPhaseService
 
             $intangibleAsset->secret_protection_measures()->sync($secretProtectionMeasures);
 
-            return __('pages.client.intangible_assets.phases.seven.sub_phases.has_secret_protection.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
+            return __('pages.client.intangible_assets.phases.seven.sub_phases.has_secret_protection.messages.save_success');
         } catch (\Exception $th) {
             return __('pages.client.intangible_assets.phases.seven.sub_phases.has_secret_protection.messages.save_error');
         }

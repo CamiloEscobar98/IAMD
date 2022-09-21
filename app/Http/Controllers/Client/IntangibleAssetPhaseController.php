@@ -301,4 +301,32 @@ class IntangibleAssetPhaseController extends Controller
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
         }
     }
+
+    /**
+     * @param int $id
+     * @param int $intangibleAsset
+     * @param Request $request
+     * 
+     * @return RedirectResponse
+     */
+    public function updatePhaseNine($id, $intangibleAsset, Request $request)
+    {
+        try {
+            $rules = [
+                'reason' => [Rule::requiredIf($request->is_commercial == 1)]
+            ];
+
+            $request->validate($rules);
+
+            $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAsset);
+
+            $data = $request->only(['is_commercial', 'reason']);
+
+            $message = $this->intangibleAssetPhaseService->updatePhaseNine($intangibleAsset, $data);
+
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
+        } catch (\Exception $th) {
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
+        }
+    }
 }

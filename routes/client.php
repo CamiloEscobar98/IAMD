@@ -67,4 +67,5 @@ Route::prefix('intangible_assets/{intangible_asset}/phases')
         Route::patch('phase_six', [IntangibleAssetPhaseController::class, 'updatePhaseSix'])->name('six');
         Route::patch('phase_seven', [IntangibleAssetPhaseController::class, 'updatePhaseSeven'])->name('seven');
         Route::patch('phase_ eight', [IntangibleAssetPhaseController::class, 'updatePhaseEight'])->name('eight');
+        Route::patch('phase_ nine', [IntangibleAssetPhaseController::class, 'updatePhaseNine'])->name('nine');
     });

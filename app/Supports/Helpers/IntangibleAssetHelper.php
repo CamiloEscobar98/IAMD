@@ -245,6 +245,24 @@ if (!function_exists('intangibleAssetHasPriorityTool')) {
     }
 }
 
+if (!function_exists('intangibleAssetIsCommercial')) {
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param bool $not
+     * 
+     * @return string|null
+     */
+    function intangibleAssetIsCommercial($intangibleAsset, bool $not = false): string | null
+    {
+        if ($not) {
+            return !$intangibleAsset->isCommercial() && !old('is_commercial') == '1' ? 'selected' : null;
+        } else {
+            return $intangibleAsset->isCommercial() || old('is_commercial') == '1' ? 'selected' : null;
+        }
+    }
+}
+
 if (!function_exists('getIdsByCollection')) {
 
     /**

@@ -73,3 +73,15 @@ function changeHasPriorityTools() {
         container.hide();
     }
 }
+
+
+function changeIsCommercial() {
+    let select = $("#isCommercial").val();
+    var container = $("#isCommercialContainer");
+    
+    if (select == 1) {
+        container.show();
+    } else {
+        container.hide();
+    }
+}

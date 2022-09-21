@@ -117,6 +117,7 @@
             changeHasDeposite();
             changeHasSecretProtection();
             changeHasPriorityTools();
+            changeIsCommercial();
         });
 
         //Initialize Select2 Elements

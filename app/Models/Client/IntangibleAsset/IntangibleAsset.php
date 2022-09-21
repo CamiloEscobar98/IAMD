@@ -90,6 +90,14 @@ class IntangibleAsset extends BaseModel
     /**
      * @return HasOne
      */
+    public function intangible_asset_commercial(): HasOne
+    {
+        return $this->hasOne(IntangibleAssetCommercial::class);
+    }
+
+    /**
+     * @return HasOne
+     */
     public function intangible_asset_confidenciality_contract(): HasOne
     {
         return $this->hasOne(IntangibleAssetConfidentialityContract::class);
@@ -249,6 +257,14 @@ class IntangibleAsset extends BaseModel
     public function hasPriorityTools(): bool
     {
         return $this->priority_tools->count() > 0;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCommercial(): bool
+    {
+        return !is_null($this->intangible_asset_commercial);
     }
 
 

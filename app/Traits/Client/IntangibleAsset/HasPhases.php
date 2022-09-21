@@ -102,4 +102,12 @@ trait HasPhases
     {
         return $this->hasPriorityTools();
     }
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseNineCompleted(): bool
+    {
+        return $this->isCommercial();
+    }
 }

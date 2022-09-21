@@ -744,4 +744,67 @@
     </div>
     <!-- PHASE EIGHT: INTANGIBLE ASSET HAS PRIORITY TOOLS -->
 
+    <!-- PHASE NINE: INTANGIBLE ASSET IS COMMERCIAL -->
+    <div class="card">
+        <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseNineCompleted()) }}">
+            <a class="collapsed card-link" data-toggle="collapse" href="#collapseNine">
+                <span class="{{ phaseIsCompletedIcon($item->hasPhaseNineCompleted()) }} mr-1"></span>
+                {{ __('pages.client.intangible_assets.phases.nine.title') }}
+            </a>
+        </div>
+        <div id="collapseNine" class="collapse {{ phaseIsCompletedOpen($item->hasPhaseNineCompleted()) }}"
+            data-parent="#accordion">
+            <div class="card-body">
+                <form action="{{ route('client.intangible_assets.phases.nine', [$client->name, $item->id]) }}"
+                    method="post">
+
+                    @csrf
+                    @method('PATCH')
+
+                    <div class="form-group">
+                        <label>{{ __('pages.client.intangible_assets.phases.nine.sub_phases.is_commercial.title') }}</label>
+                        <select id="isCommercial" name="is_commercial" class="form-control form-control-sm"
+                            onchange="changeIsCommercial()">
+                            <option value="1" {{ intangibleAssetIsCommercial($item) }}>
+                                {{ __('inputs.yes') }}</option>
+                            <option value="-1" {{ intangibleAssetIsCommercial($item, true) }}>
+                                {{ __('inputs.no') }}</option>
+                        </select>
+                    </div>
+
+                    <div id="isCommercialContainer">
+                        <!-- Reason -->
+                        <div class="form-group">
+                            <label>{{ __('pages.client.intangible_assets.phases.nine.sub_phases.is_commercial.form.reason') }}</label>
+                            <div class="input-group">
+                                <textarea class="form-control {{ isInvalidByError($errors, 'reason') }}" name="reason" id="reason"
+                                    cols="30" rows="3">{{ getParamObject($item->intangible_asset_commercial, 'reason') }}</textarea>
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-info"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @error('reason')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <!-- ./Reason -->
+                    </div>
+
+
+
+                    <!-- Button Save -->
+                    <div class="form-group mt-3 mb-0">
+                        <button
+                            class="btn {{ phaseIsCompletedButton($item->hasPhaseNineCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
+                    </div>
+                    <!-- ./Button Save -->
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- ./PHASE NINE: INTANGIBLE ASSET IS COMMERCIAL -->
+
 </div>

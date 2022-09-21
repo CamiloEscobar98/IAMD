@@ -885,7 +885,7 @@ return [
                     ],
 
                     'messages' => [
-                        'save_success' => 'Se ha registrado correctamente la clasificación del Activo Intangible: <b>:intangible_asset</b>.',
+                        'save_success' => 'Se ha registrado correctamente la clasificación del Activo Intangible.',
                         'save_error' => 'No se pudo registrar la clasificación.',
                     ]
 
@@ -894,7 +894,7 @@ return [
                     'title' => 'Descripción del Activo',
 
                     'messages' => [
-                        'save_success' => 'Se ha registrado correctamente la descripción del Activo Intangible: <b>:intangible_asset</b>.',
+                        'save_success' => 'Se ha registrado correctamente la descripción del Activo Intangible.',
                         'save_error' => 'No se pudo registrar la descripción.',
                     ]
                 ],
@@ -902,7 +902,7 @@ return [
                     'title' => 'Estado del Activo',
 
                     'messages' => [
-                        'save_success' => 'Se ha registrado correctamente el estado del Activo Intangible: <b>:intangible_asset</b>.',
+                        'save_success' => 'Se ha registrado correctamente el estado del Activo Intangible.',
                         'save_error' => 'No se pudo registrar el estado.',
                     ]
                 ],
@@ -910,7 +910,7 @@ return [
                     'title' => 'Derechos de Propiedad Intelectual',
 
                     'messages' => [
-                        'save_success' => 'Se ha registrado correctamente los derechos de propiedad intelectual del Activo Intangible: <b>:intangible_asset</b>.',
+                        'save_success' => 'Se ha registrado correctamente los derechos de propiedad intelectual del Activo Intangible.',
                         'save_error' => 'No se pudo registrar los derechos de propiedad intelectual.',
                     ]
                 ],
@@ -925,7 +925,7 @@ return [
                                 'published_date' => 'Fecha de la publicación o divulgación:',
                             ],
                             'messages' => [
-                                'save_success' => 'Se ha registrado el estado de publicación y/o divulgación del Activo Intangible: <b>:intangible_asset</b>.',
+                                'save_success' => 'Se ha registrado el estado de publicación y/o divulgación del Activo Intangible.',
                                 'save_error' => 'No se pudo registrar el estado de publicación y/o divulgación.',
                             ]
                         ],
@@ -937,7 +937,7 @@ return [
                                 'file' => 'Contrato de Confidencialidad:',
                             ],
                             'messages' => [
-                                'save_success' => 'Se ha registrado el contrato de confidencialidad del Activo Intangible: <b>:intangible_asset</b>.',
+                                'save_success' => 'Se ha registrado el contrato de confidencialidad del Activo Intangible.',
                                 'save_error' => 'No se pudo registrar el contrato de confidencialidad.',
                             ],
                             'buttons' => [
@@ -947,7 +947,7 @@ return [
 
                         'creators' => [
                             'messages' => [
-                                'save_success' => 'Se ha registrado estos creadores al del Activo Intangible: <b>:intangible_asset</b>.',
+                                'save_success' => 'Se ha registrado estos creadores al del Activo Intangible.',
                                 'save_error' => 'No se han podido registrar estos creadores al Activo Intangible',
                             ],
                         ],
@@ -959,7 +959,7 @@ return [
                                 'file' => 'Contrato de Titularidad de los Derechos de Propiedad Intelectual:',
                             ],
                             'messages' => [
-                                'save_success' => 'Se ha registrado el contrato de sesión de derechos patrimoniales del Activo Intangible: <b>:intangible_asset</b>.',
+                                'save_success' => 'Se ha registrado el contrato de sesión de derechos patrimoniales del Activo Intangible.',
                                 'save_error' => 'No se pudo registrar el contrato de sesión de derechos patrimoniales.',
                             ],
                             'buttons' => [
@@ -974,7 +974,7 @@ return [
                                 'comments' => 'Comentarios del Activo Intangible sobre la Contabilidad'
                             ],
                             'messages' => [
-                                'save_success' => 'Se ha registrado la contabilidad del Activo Intangible: <b>:intangible_asset</b>.',
+                                'save_success' => 'Se ha registrado la contabilidad del Activo Intangible.',
                                 'save_error' => 'No se pudo registrar la contabilidad.',
                             ],
                         ]
@@ -990,7 +990,7 @@ return [
                     ],
 
                     'messages' => [
-                        'save_success' => 'Se ha registrado correctamente un mensaje del Activo Intangible: <b>:intangible_asset</b>.',
+                        'save_success' => 'Se ha registrado correctamente un mensaje del Activo Intangible.',
                         'save_error' => 'No se pudo registrar el mensaje.',
                     ]
                 ],
@@ -1005,7 +1005,7 @@ return [
                                 'deposite_reference' => 'Digite el número de referencia:'
                             ],
                             'messages' => [
-                                'save_success' => 'Se ha registrado el número de referencia del depósito del Activo Intangible: <b>:intangible_asset</b>.',
+                                'save_success' => 'Se ha registrado el número de referencia del depósito del Activo Intangible.',
                                 'save_error' => 'No se pudo registrar el número de referencia del depósito.',
                             ]
                         ],
@@ -1013,7 +1013,7 @@ return [
                             'title' => '¿Sugiere tomar medidas razonables para la protección de los secretos empresariales?',
 
                             'messages' => [
-                                'save_success' => 'Se ha registrado las medidas secretas de protección del Activo Intangible: <b>:intangible_asset</b>.',
+                                'save_success' => 'Se ha registrado las medidas secretas de protección del Activo Intangible.',
                                 'save_error' => 'No se pudo registrar las medidas secretas de protección.',
                             ]
                         ]
@@ -1030,10 +1030,26 @@ return [
                                 'tools' => 'Seleccione las herramientas de priorización para el derecho de propiedad intelectual: <b>:name</b>'
                             ],
                             'messages' => [
-                                'save_success' => 'Se han registrado las herramientas de priorizacion al Activo Intangible: <b>:intangible_asset</b>.',
+                                'save_success' => 'Se han registrado las herramientas de priorizacion al Activo Intangible.',
                                 'save_error' => 'No se pudo registrar las herramientas de priorizacion.',
                             ]
                         ],
+                    ]
+                ],
+                'nine' => [
+                    'title' => 'Activo Intangible de Uso Comercial',
+                    'sub_phases' => [
+                        'is_commercial' => [
+                            'title' => '¿Los Derechos de Propiedad Intelectual asociados a este Activo Intangible tienen algún uso comercial?',
+                            'form' => [
+                                'reason' => 'Describa el uso comercial que tendrá este Activo Intangible:'
+                            ],
+                            'messages' => [
+                                'save_success' => 'Se ha registrado el uso comercial al Activo Intangible.',
+                                'save_error' => 'No se pudo registrar el uso comercial.',
+                            ]
+                        ],
+
                     ]
                 ]
             ]
