@@ -156,11 +156,11 @@ class IntangibleAsset extends BaseModel
     }
 
     /**
-     * @return BelongsToMany
+     * @return HasMany
      */
-    public function priority_tools(): BelongsToMany
+    public function priority_tools(): HasMany
     {
-        return $this->belongsToMany(PriorityTool::class);
+        return $this->hasMany(IntangibleAssetDpiPriorityTool::class);
     }
 
     /**
@@ -242,6 +242,18 @@ class IntangibleAsset extends BaseModel
     {
         return $this->secret_protection_measures->count() > 0;
     }
+
+    /**
+     * @return bool
+     */
+    public function hasPriorityTools(): bool
+    {
+        return $this->priority_tools->count() > 0;
+    }
+
+
+
+
 
     /** Intangible Asset Confidenciality Contract File Methods */
 

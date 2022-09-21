@@ -193,6 +193,25 @@ if (!function_exists('intangibleAssetHasSecretProtection')) {
     }
 }
 
+if (!function_exists('intangibleAssetHasDpiPriorityTool')) {
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param bool $not
+     * 
+     * @return string|null
+     */
+    function intangibleAssetHasDpiPriorityTool($intangibleAsset, bool $not = false): string | null
+    {
+        if ($not) {
+            return !$intangibleAsset->hasPriorityTools() && !old('has_protection_action') == '1' ? 'selected' : null;
+        } else {
+            return $intangibleAsset->hasPriorityTools() || old('has_protection_action') == '1' ? 'selected' : null;
+        }
+    }
+}
+
+
 if (!function_exists('intangibleAssetHasSecretProtectionMeasure')) {
 
     /**
@@ -204,5 +223,40 @@ if (!function_exists('intangibleAssetHasSecretProtectionMeasure')) {
     function intangibleAssetHasSecretProtectionMeasure($secretProtectionMeasures, $secretProtectionMeasure): string | null
     {
         return $secretProtectionMeasures->contains('id', $secretProtectionMeasure) ? 'selected' : null;
+    }
+}
+
+if (!function_exists('intangibleAssetHasPriorityTool')) {
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param int $dpi
+     * @param int $tool
+     * 
+     * @return string|null
+     */
+    function intangibleAssetHasPriorityTool($intangibleAsset, $dpi, $tool): string | null
+    {
+        /** @var Collection */
+        $intangibleAssetPriorityTools = $intangibleAsset->priority_tools;
+        return $intangibleAssetPriorityTools->contains(function ($item) use ($dpi, $tool) {
+            return $item->dpi_id == $dpi && $item->priority_tool_id == $tool;
+        }) ? 'selected' : null;
+    }
+}
+
+if (!function_exists('getIdsByCollection')) {
+
+    /**
+     * @param Collection $collection
+     * @param string $key
+     * 
+     * @return array
+     */
+    function getIdsByCollection($collection, $key): array
+    {
+        $newArray = [];
+
+        return $newArray;
     }
 }

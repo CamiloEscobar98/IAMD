@@ -94,4 +94,12 @@ trait HasPhases
 
         return $cont === count($phasesMethods) ? true : null;
     }
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseEightCompleted(): bool
+    {
+        return $this->hasPriorityTools();
+    }
 }

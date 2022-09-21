@@ -10,6 +10,7 @@ use App\Repositories\Admin\IntangibleAssetTypeLevel2Repository;
 use App\Repositories\Admin\IntangibleAssetTypeLevel3Repository;
 use App\Repositories\Client\CreatorRepository;
 use App\Repositories\Client\IntangibleAssetRepository;
+use App\Repositories\Client\PriorityToolRepository;
 use App\Repositories\Client\SecretProtectionMeasureRepository;
 
 class ShowIntangibleAssetComposer
@@ -35,6 +36,9 @@ class ShowIntangibleAssetComposer
     /** @var SecretProtectionMeasureRepository */
     protected $secretProtectionMeasureRepository;
 
+    /** @var PriorityToolRepository */
+    protected $priorityToolRepository;
+
     public function __construct(
         IntangibleAssetTypeLevel1Repository $intangibleAssetTypeLevel1Repository,
         IntangibleAssetTypeLevel2Repository $intangibleAssetTypeLevel2Repository,
@@ -45,6 +49,7 @@ class ShowIntangibleAssetComposer
 
         CreatorRepository $creatorRepository,
         SecretProtectionMeasureRepository $secretProtectionMeasureRepository,
+        PriorityToolRepository $priorityToolRepository,
     ) {
         $this->intangibleAssetTypeLevel1Repository = $intangibleAssetTypeLevel1Repository;
         $this->intangibleAssetTypeLevel2Repository = $intangibleAssetTypeLevel2Repository;
@@ -55,6 +60,7 @@ class ShowIntangibleAssetComposer
 
         $this->creatorRepository = $creatorRepository;
         $this->secretProtectionMeasureRepository = $secretProtectionMeasureRepository;
+        $this->priorityToolRepository = $priorityToolRepository;
     }
 
     public function compose(View $view)
@@ -115,6 +121,8 @@ class ShowIntangibleAssetComposer
 
         $secretProtectionMeasures = $this->secretProtectionMeasureRepository->all();
 
+        $priorityTools = $this->priorityToolRepository->all();
+
         $view->with(compact(
             'categories',
             'subCategories',
@@ -131,6 +139,7 @@ class ShowIntangibleAssetComposer
 
             'creators',
             'secretProtectionMeasures',
+            'priorityTools'
         ));
     }
 }

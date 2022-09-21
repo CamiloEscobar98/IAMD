@@ -2,6 +2,8 @@
 
 namespace App\Models\Admin\IntangibleAssetTypeLevel;
 
+use Illuminate\Support\Str;
+
 use App\Models\Admin\BaseModel;
 
 class IntangibleAssetTypeLevel2 extends BaseModel
@@ -19,6 +21,17 @@ class IntangibleAssetTypeLevel2 extends BaseModel
      * @var array
      */
     protected $fillable = ['intangible_asset_type_level1_id', 'name'];
+
+/**
+ * Get the upper name
+ *
+ * @param  string  $value
+ * @return string
+ */
+public function getUpperNameAttribute($value)
+{
+    return Str::upper($this->name);
+}
 
     /**
      * Get Intangible Asset Type Level 1

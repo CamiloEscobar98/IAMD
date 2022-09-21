@@ -684,6 +684,64 @@
     <!-- ./ PHASE SEVEN: INTANGIBLE ASSET HAS PROTECTION ACTION -->
 
     <!-- PHASE EIGHT: INTANGIBLE ASSET HAS PRIORITY TOOLS -->
+    <div class="card">
+        <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseEightCompleted()) }}">
+            <a class="collapsed card-link" data-toggle="collapse" href="#collapseEight">
+                <span class="{{ phaseIsCompletedIcon($item->hasPhaseEightCompleted()) }} mr-1"></span>
+                {{ __('pages.client.intangible_assets.phases.eight.title') }}
+            </a>
+        </div>
+        <div id="collapseEight" class="collapse {{ phaseIsCompletedOpen($item->hasPhaseEightCompleted()) }}"
+            data-parent="#accordion">
+            <div class="card-body">
+
+                <form action="{{ route('client.intangible_assets.phases.eight', [$client->name, $item->id]) }}"
+                    method="post">
+                    @csrf
+                    @method('PATCH')
+
+                    <div class="form-group">
+                        <label>{{ __('pages.client.intangible_assets.phases.eight.sub_phases.has_tool.title') }}</label>
+                        <select id="hasProtectionAction" name="has_protection_action"
+                            class="form-control form-control-sm" onchange="changeHasPriorityTools()">
+                            <option value="1" {{ intangibleAssetHasDpiPriorityTool($item) }}>
+                                {{ __('inputs.yes') }}</option>
+                            <option value="-1" {{ intangibleAssetHasDpiPriorityTool($item, true) }}>
+                                {{ __('inputs.no') }}</option>
+                        </select>
+                    </div>
+
+                    <div id="hasProtectionActionContainer">
+                        @foreach ($item->dpis as $dpi)
+                            <div class="form-group">
+                                <label>{!! __('pages.client.intangible_assets.phases.eight.sub_phases.has_tool.form.tools', [
+                                    'name' => $dpi->dpi->upper_name . ' ' . $dpi->dpi_id,
+                                ]) !!}</label>
+                                <select name="tool_id_{{ $dpi->dpi_id }}[]" class="form-control select2bs4"
+                                    multiple>
+                                    @foreach ($priorityTools as $tool)
+                                        <option value="{{ $tool->id }}"
+                                            {{ intangibleAssetHasPriorityTool($item, $dpi->dpi_id, $tool->id) }}>
+                                            {{ $tool->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('published_in')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <!-- Button Save -->
+                    <div class="form-group">
+                        <button
+                            class="btn {{ phaseIsCompletedButton($item->hasPhaseEightCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
+                    </div>
+                    <!-- ./Button Save -->
+                </form>
+            </div>
+        </div>
+    </div>
     <!-- PHASE EIGHT: INTANGIBLE ASSET HAS PRIORITY TOOLS -->
 
 </div>

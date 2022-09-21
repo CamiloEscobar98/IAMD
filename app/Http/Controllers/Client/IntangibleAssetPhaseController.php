@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\Rule;
@@ -12,7 +11,6 @@ use Illuminate\Validation\Rule;
 use App\Repositories\Client\IntangibleAssetRepository;
 
 use App\Services\Client\IntangibleAssetPhaseService;
-use Laravel\Ui\Presets\React;
 
 class IntangibleAssetPhaseController extends Controller
 {
@@ -24,7 +22,7 @@ class IntangibleAssetPhaseController extends Controller
 
     public function __construct(
         IntangibleAssetPhaseService $intangibleAssetPhaseService,
-        IntangibleAssetRepository $intangibleAssetRepository
+        IntangibleAssetRepository $intangibleAssetRepository,
     ) {
         $this->middleware('auth');
 
@@ -52,7 +50,7 @@ class IntangibleAssetPhaseController extends Controller
             $message = $this->intangibleAssetPhaseService->updatePhaseOne($intangibleAsset, $data);
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
         }
     }
 
@@ -75,7 +73,7 @@ class IntangibleAssetPhaseController extends Controller
             $message = $this->intangibleAssetPhaseService->updatePhaseTwo($intangibleAsset, $data);
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
         }
     }
 
@@ -98,7 +96,7 @@ class IntangibleAssetPhaseController extends Controller
             $message = $this->intangibleAssetPhaseService->updatePhaseThree($intangibleAsset, $data);
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
         }
     }
 
@@ -121,7 +119,7 @@ class IntangibleAssetPhaseController extends Controller
             $message = $this->intangibleAssetPhaseService->updatePhaseFour($intangibleAsset, $data);
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
         }
     }
 
@@ -193,7 +191,7 @@ class IntangibleAssetPhaseController extends Controller
             $message = $this->intangibleAssetPhaseService->updatePhaseFive($intangibleAsset, $data, $subPhase);
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
         }
     }
 
@@ -237,7 +235,7 @@ class IntangibleAssetPhaseController extends Controller
             $message = $this->intangibleAssetPhaseService->updatePhaseSix($intangibleAsset, $data, $type);
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
         }
     }
 
@@ -282,7 +280,25 @@ class IntangibleAssetPhaseController extends Controller
             $message = $this->intangibleAssetPhaseService->updatePhaseSeven($intangibleAsset, $data, $subPhase);
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
+        }
+    }
+
+    /**
+     * @param int $id
+     * @param int $intangibleAsset
+     * @param Request $request
+     * 
+     * @return RedirectResponse
+     */
+    public function updatePhaseEight($id, $intangibleAsset, Request $request)
+    {
+        try {
+            $message = $this->intangibleAssetPhaseService->updatePhaseEight($intangibleAsset, $request);
+
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
+        } catch (\Exception $th) {
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
         }
     }
 }

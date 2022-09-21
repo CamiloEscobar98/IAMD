@@ -14,11 +14,13 @@ use App\Repositories\Client\IntangibleAssetProtectionActionRepository;
 use App\Repositories\Client\IntangibleAssetDPIRepository;
 use App\Repositories\Client\IntangibleAssetCreatorRepository;
 use App\Repositories\Client\IntangibleAssetCommentRepository;
+use App\Repositories\Client\IntangibleAssetDpiPriorityToolRepository;
 use App\Repositories\Client\IntangibleAssetSecretProtectionMeasureRepository;
 use App\Repositories\Client\IntangibleAssetSessionRightContractRepository;
 
 use App\Services\FileSystem\IntangibleAsset\FileConfidencialityContractService;
 use App\Services\FileSystem\IntangibleAsset\FileSessionRightContractService;
+use Illuminate\Http\Request;
 
 class IntangibleAssetPhaseService
 {
@@ -59,6 +61,9 @@ class IntangibleAssetPhaseService
     /** @var IntangibleAssetSecretProtectionMeasureRepository */
     protected $intangibleAssetSecretProtectionMeasureRepository;
 
+    /** @var IntangibleAssetDpiPriorityToolRepository */
+    protected $intangibleAssetDpiPriorityToolRepository;
+
     /** File Data */
 
     /** @var FileConfidencialityContractService */
@@ -80,6 +85,7 @@ class IntangibleAssetPhaseService
         IntangibleAssetCreatorRepository $intangibleAssetCreatorRepository,
         IntangibleAssetCommentRepository $intangibleAssetCommentRepository,
         IntangibleAssetSecretProtectionMeasureRepository $intangibleAssetSecretProtectionMeasureRepository,
+        IntangibleAssetDpiPriorityToolRepository $intangibleAssetDpiPriorityToolRepository,
 
         FileConfidencialityContractService $fileConfidencialityContractService,
         FileSessionRightContractService $fileSessionRightContractService,
@@ -91,6 +97,7 @@ class IntangibleAssetPhaseService
         $this->intangibleAssetSessionRightContractRepository = $intangibleAssetSessionRightContractRepository;
         $this->intangibleAssetContabilityRepository = $intangibleAssetContabilityRepository;
         $this->intangibleAssetProtectionActionRepository = $intangibleAssetProtectionActionRepository;
+        $this->intangibleAssetDpiPriorityToolRepository = $intangibleAssetDpiPriorityToolRepository;
 
         $this->intangibleAssetDPIRepository = $intangibleAssetDPIRepository;
         $this->intangibleAssetCreatorRepository = $intangibleAssetCreatorRepository;
@@ -286,12 +293,84 @@ class IntangibleAssetPhaseService
     }
 
     /**
+     * @param int $intangibleAsset
+     * @param Request $request
+     * 
+     * @return string
+     */
+    public function updatePhaseEight($intangibleAsset, $request) # : string
+    {
+        $message = __('pages.client.intangible_assets.phases.eight.sub_phases.has_tool.messages.save_success');
+
+        /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset */
+        $intangibleAsset = $this->intangibleAssetRepository->getByIdWithRelations($intangibleAsset, ['dpis', 'priority_tools']);
+
+        $hasProtectionAction = $request->get('has_protection_action');
+
+        if ($hasProtectionAction == -1) {
+            try {
+                $intangibleAsset->priority_tools()->delete();
+
+                return __('pages.client.intangible_assets.phases.eight.sub_phases.has_tool.messages.save_success');
+            } catch (\Exception $th) {
+                return __('pages.client.intangible_assets.phases.eight.sub_phases.has_tool.messages.save_error');
+            }
+        } else {
+            try {
+
+                $intangibleAsset->priority_tools()->delete();
+
+                /** @var Collection */
+                $dpis = $intangibleAsset->dpis;
+
+                DB::beginTransaction();
+
+                $dpis->each(function ($dpi) use ($request, $intangibleAsset) {
+                    $dpiId = $dpi->dpi_id;
+
+                    $toolDpiRequest = $request->get("tool_id_{$dpiId}");
+
+                    if (!is_null($toolDpiRequest)) {
+                        $intangibleAsset->priority_tools()->where('dpi_id', $dpiId)->delete();
+
+                        foreach ($toolDpiRequest as $tool) {
+                            $this->intangibleAssetDpiPriorityToolRepository->create([
+                                'intangible_asset_id' => $intangibleAsset->id,
+                                'priority_tool_id' => $tool,
+                                'dpi_id' => $dpiId
+                            ]);
+                        }
+                    }
+                });
+
+                DB::commit();
+
+                return $message;
+            } catch (\Exception $th) {
+                DB::rollBack();
+
+                dd($th->getMessage());
+
+                return __('pages.client.intangible_assets.phases.eight.sub_phases.has_tool.messages.save_error');
+            }
+        }
+
+
+
+
+
+        // return $dpis;
+
+
+    }
+
+    /**
      * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
      * @param array $data
      * 
      * @return string
      */
-    private function updateIntangibleAssetPublished($intangibleAsset, $data)
+    private function updateIntangibleAssetPublished($intangibleAsset, $data): string
     {
         $message = __('pages.client.intangible_assets.phases.five.sub_phases.is_published.messages.save_success', ['intangible_asset' => $intangibleAsset->name]);
 

@@ -116,6 +116,7 @@
             changeHasContability();
             changeHasDeposite();
             changeHasSecretProtection();
+            changeHasPriorityTools();
         });
 
         //Initialize Select2 Elements
