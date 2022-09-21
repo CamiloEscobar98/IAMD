@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tools', function (Blueprint $table) {
-            $table->smallIncrements('id');
+        Schema::create('strategy_categories', function (Blueprint $table) {
+            $table->tinyIncrements('id');
 
-            $table->string('name');
-            $table->tinyText('description')->nullable();
+            $table->string('name')->unique();
+            $table->text('description');
 
             $table->timestamps();
         });
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tools');
+        Schema::dropIfExists('strategy_categories');
     }
 };

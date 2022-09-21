@@ -17,7 +17,8 @@ class StrategyFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => "Estrategia {$this->faker->unique()->word}",
+            'description' => $this->faker->realText(20)
         ];
     }
 }

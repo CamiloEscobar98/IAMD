@@ -3,9 +3,8 @@
 namespace App\Models\Client;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Strategy extends Model
+class StrategyCategory extends BaseModel
 {
     use HasFactory;
 
@@ -14,5 +13,5 @@ class Strategy extends Model
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'description'];
 }

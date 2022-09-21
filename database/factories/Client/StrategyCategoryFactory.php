@@ -5,9 +5,9 @@ namespace Database\Factories\Client;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client\StrategyType>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Client\StrategyCategory>
  */
-class StrategyTypeFactory extends Factory
+class StrategyCategoryFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class StrategyTypeFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'description' => $this->faker->realText(20),
         ];
     }
 }

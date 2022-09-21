@@ -14,6 +14,9 @@ use Database\Seeders\Client\Creator\CreatorSeeder;
 use Database\Seeders\Client\SecretProtectionMeasureSeeder;
 use Database\Seeders\Client\PriorityToolSeeder;
 
+use Database\Seeders\Client\StrategyCategorySeeder;
+use Database\Seeders\Client\StrategySeeder;
+
 use Database\Seeders\Client\FinancingTypeSeeder;
 use Database\Seeders\Client\ProjectContractTypeSeeder;
 use Database\Seeders\Client\ProjectSeeder;
@@ -32,13 +35,16 @@ class TenantDatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
 
-            AdministrativeUnitSeeder::class,
             CreatorSeeder::class,
+            AdministrativeUnitSeeder::class,
 
             ResearchUnitSeeder::class,
 
             SecretProtectionMeasureSeeder::class,
             PriorityToolSeeder::class,
+
+            StrategyCategorySeeder::class,
+            StrategySeeder::class,
 
             FinancingTypeSeeder::class,
             ProjectContractTypeSeeder::class,
