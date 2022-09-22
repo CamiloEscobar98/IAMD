@@ -92,8 +92,26 @@
             </div>
         </div>
 
+        <hr>
+
+        <div class="card">
+            <div class="card-header bg-gradient-danger">
+                <h2 class="float-right">{{ __('pages.client.intangible_assets.strategy-title') }}</h2>
+            </div>
+            <div class="card-body">
+
+            </div>
+        </div>
+
         <!-- Intangible Asset Process -->
-        @include('client.pages.intangible_assets.components.phases', ['item' => $item])
+        <div class="card">
+            <div class="card-header bg-gradient-secondary">
+                <h2>{{ __('pages.client.intangible_assets.phases.title') }}</h2>
+            </div>
+            <div class="card-body">
+                @include('client.pages.intangible_assets.components.phases', ['item' => $item])
+            </div>
+        </div>
         <!-- ./Intangible Asset Process -->
     </div>
 @endsection

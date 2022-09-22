@@ -27,8 +27,11 @@ use App\Repositories\Client\IntangibleAssetContabilityRepository;
 use App\Repositories\Client\IntangibleAssetDpiPriorityToolRepository;
 use App\Repositories\Client\IntangibleAssetSecretProtectionMeasureRepository;
 use App\Repositories\Client\IntangibleAssetSessionRightContractRepository;
+use App\Repositories\Client\IntangibleAssetStrategyRepository;
 use App\Repositories\Client\PriorityToolRepository;
 use App\Repositories\Client\SecretProtectionMeasureRepository;
+use App\Repositories\Client\StrategyCategoryRepository;
+use App\Repositories\Client\StrategyRepository;
 use App\Repositories\Client\UserRepository;
 
 class IntangibleAssetSeeder extends Seeder
@@ -56,6 +59,9 @@ class IntangibleAssetSeeder extends Seeder
 
     /** @var IntangibleAssetDPIRepository */
     protected $intangibleAssetDPIRepository;
+
+    /** @var IntangibleAssetStrategyRepository */
+    protected $intangibleAssetStrategyRepository;
 
     /** @var IntangibleAssetSecretProtectionMeasureRepository */
     protected $intangibleAssetSecretProtectionMeasureRepository;
@@ -95,6 +101,12 @@ class IntangibleAssetSeeder extends Seeder
     /** @var PriorityToolRepository */
     protected $priorityToolRepository;
 
+    /** @var StrategyCategoryRepository */
+    protected $strategyCategoryRepository;
+
+    /** @var StrategyRepository */
+    protected $strategyRepository;
+
     public function __construct(
         IntangibleAssetRepository $intangibleAssetRepository,
         IntangibleAssetStateRepository $intangibleAssetStateRepository,
@@ -107,6 +119,7 @@ class IntangibleAssetSeeder extends Seeder
         IntangibleAssetDPIRepository $intangibleAssetDPIRepository,
         IntangibleAssetSecretProtectionMeasureRepository $intangibleAssetSecretProtectionMeasureRepository,
         IntangibleAssetDpiPriorityToolRepository $intangibleAssetDpiPriorityToolRepository,
+        IntangibleAssetStrategyRepository $intangibleAssetStrategyRepository,
 
         IntangibleAssetConfidentialityContractRepository $intangibleAssetConfidentialityContractRepository,
         IntangibleAssetSessionRightContractRepository $intangibleAssetSessionRightContractRepository,
@@ -120,7 +133,9 @@ class IntangibleAssetSeeder extends Seeder
         UserRepository $userRepository,
 
         SecretProtectionMeasureRepository $secretProtectionMeasureRepository,
-        PriorityToolRepository $priorityToolRepository
+        PriorityToolRepository $priorityToolRepository,
+        StrategyCategoryRepository $strategyCategoryRepository,
+        StrategyRepository $strategyRepository,
     ) {
         $this->intangibleAssetRepository = $intangibleAssetRepository;
         $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
@@ -133,6 +148,7 @@ class IntangibleAssetSeeder extends Seeder
         $this->intangibleAssetDPIRepository = $intangibleAssetDPIRepository;
         $this->intangibleAssetSecretProtectionMeasureRepository = $intangibleAssetSecretProtectionMeasureRepository;
         $this->intangibleAssetDpiPriorityToolRepository = $intangibleAssetDpiPriorityToolRepository;
+        $this->intangibleAssetStrategyRepository = $intangibleAssetStrategyRepository;
 
         $this->intangibleAssetConfidentialityContractRepository = $intangibleAssetConfidentialityContractRepository;
         $this->intangibleAssetSessionRightContractRepository = $intangibleAssetSessionRightContractRepository;
@@ -147,6 +163,8 @@ class IntangibleAssetSeeder extends Seeder
 
         $this->secretProtectionMeasureRepository = $secretProtectionMeasureRepository;
         $this->priorityToolRepository = $priorityToolRepository;
+        $this->strategyCategoryRepository = $strategyCategoryRepository;
+        $this->strategyRepository = $strategyRepository;
     }
 
     /**
@@ -177,10 +195,16 @@ class IntangibleAssetSeeder extends Seeder
         /** Priority Tools */
         $priorityTools = $this->priorityToolRepository->all();
 
+        /** Strategy Categories */
+        $strategyCategories = $this->strategyCategoryRepository->all();
+        
+        /** Strategies */
+        $strategies = $this->strategyRepository->all();
+
         print("¡¡ CREATING INTANGIBLE ASSETS !! \n \n");
 
 
-        $projects->each(function ($project) use ($states, $creators, $users, $dpis, $secretProtectionMeasures, $priorityTools) {
+        $projects->each(function ($project) use ($states, $creators, $users, $dpis, $secretProtectionMeasures, $priorityTools, $strategyCategories, $strategies) {
             $randomNumber = rand(3, 10);
 
             print("PROJECT: " . $project->name .  "\n \n");
@@ -222,6 +246,8 @@ class IntangibleAssetSeeder extends Seeder
                 (bool) rand(0, 1) ? $this->hasSecretProtectionMeasures($intangibleAsset, $secretProtectionMeasures) : null;
 
                 (bool) rand(0, 1) ? $this->hasPriorityTools($intangibleAsset, $priorityTools) : null;
+
+                (bool) rand(0, 1) ? $this->hasStrategies($intangibleAsset, $strategyCategories, $strategies) : null;
 
                 print("\n \n");
 
@@ -344,7 +370,7 @@ class IntangibleAssetSeeder extends Seeder
      * 
      * @return void
      */
-    public function updateHasDPIS($intangibleAsset, $dpis): void
+    private function updateHasDPIS($intangibleAsset, $dpis): void
     {
         $randomNumber = rand(1, $dpis->count() - 1);
 
@@ -364,7 +390,7 @@ class IntangibleAssetSeeder extends Seeder
      * 
      * @return void
      */
-    public function hasConfidencialityContract($intangibleAsset): void
+    private function hasConfidencialityContract($intangibleAsset): void
     {
         $this->intangibleAssetConfidentialityContractRepository->createOneFactory([
             'intangible_asset_id' => $intangibleAsset->id
@@ -378,7 +404,7 @@ class IntangibleAssetSeeder extends Seeder
      * 
      * @return void
      */
-    public function hasSessionRightContract($intangibleAsset): void
+    private function hasSessionRightContract($intangibleAsset): void
     {
         $this->intangibleAssetSessionRightContractRepository->createOneFactory([
             'intangible_asset_id' => $intangibleAsset->id
@@ -392,7 +418,7 @@ class IntangibleAssetSeeder extends Seeder
      * 
      * @return void
      */
-    public function hasContability($intangibleAsset): void
+    private function hasContability($intangibleAsset): void
     {
         $this->intangibleAssetContabilityRepository->createOneFactory([
             'intangible_asset_id' => $intangibleAsset->id
@@ -406,7 +432,7 @@ class IntangibleAssetSeeder extends Seeder
      * 
      * @return void
      */
-    public function hasProtectionAction($intangibleAsset): void
+    private function hasProtectionAction($intangibleAsset): void
     {
         $this->intangibleAssetProtectionActionRepository->createOneFactory([
             'intangible_asset_id' => $intangibleAsset->id
@@ -421,7 +447,7 @@ class IntangibleAssetSeeder extends Seeder
      * 
      * @return void
      */
-    public function hasSecretProtectionMeasures($intangibleAsset, $secretProtectionMeasures)
+    private function hasSecretProtectionMeasures($intangibleAsset, $secretProtectionMeasures)
     {
         $randomNumber = rand(1, $secretProtectionMeasures->count() - 1);
 
@@ -443,7 +469,7 @@ class IntangibleAssetSeeder extends Seeder
      * 
      * @return void
      */
-    public function hasPriorityTools($intangibleAsset, $priorityTools)
+    private function hasPriorityTools($intangibleAsset, $priorityTools)
     {
         /** @var Collection */
         $dpis = $intangibleAsset->dpis;
@@ -462,5 +488,33 @@ class IntangibleAssetSeeder extends Seeder
         });
 
         print("This Intangible Asset has Priority Tools \n");
+    }
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param Collection $strategyCategories
+     * @param Collection $strategies
+     * 
+     * @return void
+     */
+    private function hasStrategies($intangibleAsset, $strategyCategories, $strategies): void
+    {
+        $strategyCategories->each(function ($strategyCategory) use ($intangibleAsset, $strategies) {
+            if ((bool) rand(0, 1)) {
+                $randomNumber = rand(1, $strategies->count() - 1);
+
+                $randomStrategies = $strategies->random($randomNumber);
+
+                foreach ($randomStrategies as $strategy) {
+                    $this->intangibleAssetStrategyRepository->create([
+                        'intangible_asset_id' => $intangibleAsset->id,
+                        'strategy_category_id' => $strategyCategory->id,
+                        'strategy_id' => $strategy->id
+                    ]);
+                }
+            }
+        });
+
+        print("This Intangible Asset has Strategies \n");
     }
 }

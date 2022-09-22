@@ -818,6 +818,8 @@ return [
             'title' => 'Activos Intangibles',
             'subtitle' => 'Activos Intangibles',
 
+            'strategy-title' => 'Estrategias de Gestión',
+
             'route-titles' => [
                 'create' => 'Registrar Activo',
                 'show' => 'Visualizar Activo',
