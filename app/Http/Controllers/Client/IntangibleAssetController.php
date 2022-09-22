@@ -117,8 +117,6 @@ class IntangibleAssetController extends Controller
                 'secret_protection_measures', 'priority_tools'
             ]);
 
-            // return $item;
-
             return view('client.pages.intangible_assets.show', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);

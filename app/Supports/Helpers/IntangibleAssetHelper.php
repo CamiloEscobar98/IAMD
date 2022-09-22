@@ -251,19 +251,15 @@ if (!function_exists('intangibleAssetHasPriorityTool')) {
 if (!function_exists('intangibleAssetHasStrategy')) {
 
     /**
-     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAssetStrategy $intangibleAssetStrategy
      * @param int $strategy
      * @param int $tool
      * 
      * @return bool
      */
-    function intangibleAssetHasStrategy($intangibleAsset, $strategy, $strategyCategory): bool
+    function intangibleAssetHasStrategy($intangibleAssetStrategy, $strategyCategory): bool
     {
-        /** @var Collection */
-        $intangibleAssetPriorityTools = $intangibleAsset->strategies;
-        return $intangibleAssetPriorityTools->contains(function ($item) use ($strategy, $strategyCategory) {
-            return $item->strategy_id == $strategy && $item->strategy_category_id == $strategyCategory;
-        });
+        return $intangibleAssetStrategy->strategy_category_id == $strategyCategory;
     }
 }
 

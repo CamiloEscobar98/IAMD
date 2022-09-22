@@ -85,20 +85,20 @@
                     @if (intangibleAssetHasStrategyByStrategyCategory($item, $strategyCategory->id))
                         <div class="form-group">
                             <button class="collapsed btn btn-outline-danger" data-toggle="collapse"
-                                href="#collapse_{{ $strategyCategory->id }}_List">{{ __('pages.client.intangible_assets.strategies.buttons.list') }}</button>
+                                href="#collapse_{{ $strategyCategory->id }}_list">{{ __('pages.client.intangible_assets.strategies.buttons.list') }}</button>
                         </div>
 
 
                         <!-- Intangible Asset  Strategies List -->
-                        <div id="collapse_{{ $strategyCategory->id }}_List" class="collapse">
+                        <div id="collapse_{{ $strategyCategory->id }}_list" class="collapse">
                             <ul class="list-group">
                                 @foreach ($item->strategies as $strategy)
-                                    @if (intangibleAssetHasStrategy($item, $strategy->id, $strategyCategory->id))
+                                    @if (intangibleAssetHasStrategy($strategy, $strategyCategory->id))
                                         <li class="list-group-item text-center">
                                             <div class="float-left">
                                                 <span
                                                     class="font-weight-bold">{{ __('pages.client.intangible_assets.strategies.list.strategy') }}
-                                                </span>{{ $strategy->strategy->name }}
+                                                </span>{{ "{$strategy->strategy->id} {$strategy->strategy->name}" }}
                                             </div>
                                             <div class="float-center">
                                                 <span
@@ -115,10 +115,6 @@
                         </div>
                         <!-- Intangible Asset  Strategies List -->
                     @endif
-
-
-
-
                 </div>
             </div>
         @endforeach

@@ -837,6 +837,9 @@ return [
                 'messages' => [
                     'save_success' => 'Se ha registrado el interés de protegerse con las Estrategias de Gestión al Activo Intangible.',
                     'save_error' => 'No se pudo registrar el interés de protegerse con las Estrategias de Gestión.',
+
+                    'save_strategy_success' => 'Se ha registrado la Estrategia de Gestión al Activo Intangible.',
+                    'save_strategy_error' => 'No se pudo registrar la Estrategia de Gestión.',
                 ]
             ],
 

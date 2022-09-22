@@ -10,6 +10,7 @@ use Illuminate\View\View;
 
 use App\Repositories\Client\IntangibleAssetPhaseRepository;
 use App\Repositories\Client\IntangibleAssetRepository;
+use App\Repositories\Client\IntangibleAssetStrategyRepository;
 use App\Repositories\Client\StrategyCategoryRepository;
 
 class IntangibleAssetStrategyController extends Controller
@@ -20,6 +21,9 @@ class IntangibleAssetStrategyController extends Controller
     /** @var IntangibleAssetRepository */
     protected $intangibleAssetRepository;
 
+    /** @var IntangibleAssetStrategyRepository */
+    protected $intangibleAssetStrategyRepository;
+
     /** @var IntangibleAssetPhaseRepository */
     protected $intangibleAssetPhaseRepository;
 
@@ -27,11 +31,13 @@ class IntangibleAssetStrategyController extends Controller
         StrategyCategoryRepository $strategyCategoryRepository,
 
         IntangibleAssetRepository $intangibleAssetRepository,
+        IntangibleAssetStrategyRepository $intangibleAssetStrategyRepository,
         IntangibleAssetPhaseRepository $intangibleAssetPhaseRepository,
     ) {
         $this->strategyCategoryRepository = $strategyCategoryRepository;
 
         $this->intangibleAssetRepository = $intangibleAssetRepository;
+        $this->intangibleAssetStrategyRepository = $intangibleAssetStrategyRepository;
         $this->intangibleAssetPhaseRepository = $intangibleAssetPhaseRepository;
     }
 
@@ -50,9 +56,57 @@ class IntangibleAssetStrategyController extends Controller
                 'strategies', 'strategies.strategy', 'strategies.user'
             ]);
 
+            // return $item;
+
             return view('client.pages.intangible_assets.strategies', compact('item'));
         } catch (\Throwable $th) {
             //throw $th;
+        }
+    }
+
+    /**
+     * @param int $id
+     * @param int $intangibleAsset
+     * @param Request $request
+     * 
+     * @return RedirectResponse
+     */
+    public function add($id, $intangibleAsset, Request $request)
+    {
+        $request->validate([
+            'strategy_id' => ['required', 'exists:strategies'],
+            'strategy_category_id' => ['required', 'exists:strategy_categories'],
+            'user_id' => ['required', 'exists:users']
+        ]);
+
+        $data = $request->only(['strategy_id', 'strategy_category_id', 'user_id']);
+        array_push($data, ['intangible_asset_id' => $intangibleAsset]);
+
+        dd($data);
+
+        try {
+            $this->intangibleAssetStrategyRepository->create($data);
+
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.strategies.messages.save_strategy_success')]);
+        } catch (\Exception $th) {
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        }
+    }
+
+    /**
+     * @param int $id
+     * @param int $intangibleAsset
+     * @param Request $request
+     * 
+     * @return RedirectResponse
+     */
+    public function remove($id, $intangibleAsset, $intangibleAssetStrategy)
+    {
+        try {
+            $intangibleAssetStrategy = $this->intangibleAssetStrategyRepository->getById($intangibleAssetStrategy);
+
+            $this->intangibleAssetStrategyRepository->delete($intangibleAssetStrategy);
+        } catch (\Exception $th) {
         }
     }
 
