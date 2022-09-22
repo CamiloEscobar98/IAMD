@@ -46,7 +46,8 @@
                 <div class="card-body">
 
                     <!-- Create Intangible Asset Strategy -->
-                    <form action="" method="post">
+                    <form action="{{ route('client.intangible_assets.strategies.store', [$client->name, $item->id]) }}"
+                        method="post">
                         @csrf
 
                         <input type="hidden" name="strategy_category_id" value="{{ $strategyCategory->id }}">
@@ -105,9 +106,18 @@
                                                     class="font-weight-bold">{{ __('pages.client.intangible_assets.strategies.list.user') }}
                                                 </span>{{ $strategy->user->name }}
                                             </div>
-                                            <span class="btn btn-sm btn-danger float-right">
-                                                <i class="fas fa-sm fa-trash"></i>
-                                            </span>
+                                            <form
+                                                action="{{ route('client.intangible_assets.strategies.destroy', [$client->name, $item->id, $strategy->id]) }}"
+                                                method="post" id="form-delete-{{ $strategy->id }}">
+
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button class="btn btn-sm btn-danger float-right"
+                                                    onclick="destroy(event, {{ $strategy->id }})">
+                                                    <i class="fas fa-sm fa-trash"></i>
+                                                </button>
+                                            </form>
                                         </li>
                                     @endif
                                 @endforeach
@@ -129,6 +139,10 @@
 @section('custom_js')
     <script src="{{ asset('adminlte/dist/js/iamd/intangible_asset_levels.js') }}"></script>
     <script src="{{ asset('adminlte/dist/js/iamd/intangible_asset_phases.js') }}"></script>
+
+    @include('messages.delete_item', [
+        'title' => __('pages.client.intangible_assets.strategies.messages.confirm'),
+    ])
 
     <script>
         //Initialize Select2 Elements

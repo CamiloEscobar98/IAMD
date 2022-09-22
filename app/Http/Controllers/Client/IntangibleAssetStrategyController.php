@@ -12,6 +12,7 @@ use App\Repositories\Client\IntangibleAssetPhaseRepository;
 use App\Repositories\Client\IntangibleAssetRepository;
 use App\Repositories\Client\IntangibleAssetStrategyRepository;
 use App\Repositories\Client\StrategyCategoryRepository;
+use Illuminate\Support\Facades\DB;
 
 class IntangibleAssetStrategyController extends Controller
 {
@@ -71,25 +72,27 @@ class IntangibleAssetStrategyController extends Controller
      * 
      * @return RedirectResponse
      */
-    public function add($id, $intangibleAsset, Request $request)
+    public function store($id, $intangibleAsset, Request $request)
     {
         $request->validate([
-            'strategy_id' => ['required', 'exists:strategies'],
-            'strategy_category_id' => ['required', 'exists:strategy_categories'],
-            'user_id' => ['required', 'exists:users']
+            'strategy_id' => ['required', 'exists:tenant.strategies,id'],
+            'strategy_category_id' => ['required', 'exists:tenant.strategy_categories,id'],
+            'user_id' => ['required', 'exists:tenant.users,id']
         ]);
 
         $data = $request->only(['strategy_id', 'strategy_category_id', 'user_id']);
-        array_push($data, ['intangible_asset_id' => $intangibleAsset]);
-
-        dd($data);
+        $data['intangible_asset_id'] = $intangibleAsset;
 
         try {
+            DB::beginTransaction();
+
             $this->intangibleAssetStrategyRepository->create($data);
 
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.strategies.messages.save_strategy_success')]);
+            DB::commit();
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.strategies.messages.save_strategy_success')]);
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            DB::rollBack();
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.strategies.messages.save_strategy_error')]);
         }
     }
 
@@ -100,16 +103,19 @@ class IntangibleAssetStrategyController extends Controller
      * 
      * @return RedirectResponse
      */
-    public function remove($id, $intangibleAsset, $intangibleAssetStrategy)
+    public function destroy($id, $intangibleAsset, $intangibleAssetStrategy)
     {
         try {
             $intangibleAssetStrategy = $this->intangibleAssetStrategyRepository->getById($intangibleAssetStrategy);
 
             $this->intangibleAssetStrategyRepository->delete($intangibleAssetStrategy);
+
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.strategies.messages.delete_success')]);
         } catch (\Exception $th) {
+            DB::rollBack();
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.strategies.messages.delete_error')]);
         }
     }
-
     /**
      * @param int $id
      * @param int $intangibleAsset

@@ -840,6 +840,11 @@ return [
 
                     'save_strategy_success' => 'Se ha registrado la Estrategia de Gestión al Activo Intangible.',
                     'save_strategy_error' => 'No se pudo registrar la Estrategia de Gestión.',
+
+                    'confirm' => '¿Estás seguro de que quieres desasociar la estrategia del Activo Intangible?',
+
+                    'delete_success' => 'Se ha desasociado del Activo Intangible',
+                    'delete_error' => 'No se ha desasociado del Activo Intangible'
                 ]
             ],
 
@@ -879,7 +884,7 @@ return [
             ],
 
             'messages' => [
-                'confirm' => '¿Estás seguro de que quieres eliminar el activo?',
+                'confirm' => '¿Estás seguro de que quieres eliminar el activo intangible?',
 
                 'save_success' => 'Se ha registrado correctamente el activo: <b>:intangible_asset</b>.',
                 'save_error' => 'No se ha registrado el activo.',

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->unsignedMediumInteger('strategy_id');
             $table->unsignedBigInteger('user_id');
 
+            $table->unique(['intangible_asset_id', 'strategy_category_id', 'strategy_id'], 'intangible_asset_strategies_unique');
+
             $table->foreign('intangible_asset_id', 'strategies_intangible_asset_fk')->references('id')->on('intangible_assets')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('strategy_id')->references('id')->on('strategies')->cascadeOnUpdate()->restrictOnDelete();
             $table->foreign('strategy_category_id')->references('id')->on('strategy_categories')->cascadeOnUpdate()->restrictOnDelete();

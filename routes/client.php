@@ -62,7 +62,7 @@ Route::patch('intangible_assets/{intangible_asset}/has_strategies', [IntangibleA
 
 Route::get('intangible_assets/{intangible_asset}/strategies', [IntangibleAssetStrategyController::class, 'index'])->name('intangible_assets.strategies.index');
 Route::post('intangible_assets/{intangible_asset}/strategies', [IntangibleAssetStrategyController::class, 'store'])->name('intangible_assets.strategies.store');
-Route::delete('intangible_assets/{intangible_asset}/strategies/{intangible_asset_strategy}', [IntangibleAssetStrategyController::class, 'delete'])->name('intangible_assets.strategies.destroy');
+Route::delete('intangible_assets/{intangible_asset}/strategies/{intangible_asset_strategy}', [IntangibleAssetStrategyController::class, 'destroy'])->name('intangible_assets.strategies.destroy');
 
 Route::prefix('intangible_assets/{intangible_asset}/phases')
     ->name('intangible_assets.phases.')
