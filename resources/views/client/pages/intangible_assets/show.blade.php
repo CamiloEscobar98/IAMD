@@ -43,6 +43,11 @@
                             <u>{{ __('pages.default.title-information') }}</u>
                         </h3>
                         <p>{!! __('pages.client.intangible_assets.info.show', ['intangible_asset' => $item->name]) !!}</p>
+                        @if ($item->hasStrategies())
+                        <div class="float-right">
+                            <a href="" class="btn btn-sm btn-danger">{{ __('pages.client.intangible_assets.strategies.button') }}</a>
+                        </div>
+                    @endif
                     </div>
                 </div>
             </div>
@@ -109,7 +114,7 @@
 
                     <div class="form-group">
                         <label>{{ __('pages.client.intangible_assets.strategies.form.has_strategies') }}</label>
-                        <select id="hasProtectionAction" name="has_strategies" class="form-control form-control-sm">
+                        <select name="has_strategies" class="form-control form-control-sm">
                             <option value="1" {{ intangibleAssetHasStrategies($item) }}>
                                 {{ __('inputs.yes') }}</option>
                             <option value="-1" {{ intangibleAssetHasStrategies($item, true) }}>

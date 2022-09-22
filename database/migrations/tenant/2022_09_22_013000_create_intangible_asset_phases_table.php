@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('intangible_asset_phases', function (Blueprint $table) {
             $table->unsignedBigInteger('intangible_asset_id')->primary();
 
+            $table->boolean('has_strategies')->default(false)->nullable();
             $table->boolean('phase_one_completed')->default(false)->nullable();
             $table->boolean('phase_two_completed')->default(false)->nullable();
             $table->boolean('phase_three_completed')->default(false)->nullable();

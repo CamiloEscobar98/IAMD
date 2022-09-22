@@ -572,6 +572,8 @@ class IntangibleAssetSeeder extends Seeder
             }
         });
 
+        $this->intangibleAssetPhaseRepository->updateOrCreate(['intangible_asset_id' => $intangibleAsset->id], ['has_strategies' => true]);
+
         print("This Intangible Asset has Strategies \n");
     }
 }

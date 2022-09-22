@@ -820,8 +820,13 @@ return [
 
             'strategies' => [
                 'title' => 'Estrategias de Gestión',
+                'button' => 'Actualizar Estrategias de Gestión',
                 'form' => [
                     'has_strategies' => '¿El Activo Intangible tiene interés de protegerse?'
+                ],
+                'messages' => [
+                    'save_success' => 'Se ha registrado el interés de protegerse con las Estrategias de Gestión al Activo Intangible.',
+                    'save_error' => 'No se pudo registrar el interés de protegerse con las Estrategias de Gestión.',
                 ]
             ],
 
