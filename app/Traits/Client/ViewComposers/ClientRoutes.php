@@ -21,6 +21,7 @@ use App\Http\ViewComposers\Client\Creators\External\CreateCreatorExternalCompose
 use App\Http\ViewComposers\Client\IntangibleAssets\IntangibleAssetFilterComposer;
 use App\Http\ViewComposers\Client\IntangibleAssets\CreateIntangibleAssetComposer;
 use App\Http\ViewComposers\Client\IntangibleAssets\ShowIntangibleAssetComposer;
+use App\Http\ViewComposers\Client\IntangibleAssets\StrategyIntangibleAssetComposer;
 
 trait ClientRoutes
 {
@@ -67,6 +68,7 @@ trait ClientRoutes
         View::composer('client.pages.intangible_assets.components.filters', IntangibleAssetFilterComposer::class);
         View::composer('client.pages.intangible_assets.components.form', CreateIntangibleAssetComposer::class);
         View::composer('client.pages.intangible_assets.components.phases', ShowIntangibleAssetComposer::class);
+        View::composer('client.pages.intangible_assets.strategies', StrategyIntangibleAssetComposer::class);
     }
 
     /**
@@ -174,6 +176,7 @@ trait ClientRoutes
             'client.pages.intangible_assets.create',
             'client.pages.intangible_assets.show',
             'client.pages.intangible_assets.edit',
+            'client.pages.intangible_assets.strategies',
 
             'client.pages.intangible_assets.components.filters',
             'client.pages.intangible_assets.components.table',

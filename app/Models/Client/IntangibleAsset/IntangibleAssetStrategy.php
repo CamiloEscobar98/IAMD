@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use App\Models\Client\Strategy;
 use App\Models\Client\StrategyCategory;
+use App\Models\Client\User;
 
 use App\Models\Client\BaseModel;
 
@@ -26,7 +27,7 @@ class IntangibleAssetStrategy extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['intangible_asset_id', 'strategy_id', 'strategy_category_id'];
+    protected $fillable = ['intangible_asset_id', 'strategy_id', 'strategy_category_id', 'user_id'];
 
 
     /**
@@ -53,5 +54,13 @@ class IntangibleAssetStrategy extends BaseModel
     public function strategy_category(): BelongsTo
     {
         return $this->belongsTo(StrategyCategory::class);
+    }
+
+     /**
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

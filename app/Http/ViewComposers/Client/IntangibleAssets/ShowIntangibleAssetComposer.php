@@ -68,7 +68,6 @@ class ShowIntangibleAssetComposer
         $intangibleAssetId = request()->intangible_asset;
 
         /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset */
-
         $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAssetId);
 
         /** Categories */

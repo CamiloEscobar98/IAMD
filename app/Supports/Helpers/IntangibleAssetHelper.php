@@ -248,6 +248,42 @@ if (!function_exists('intangibleAssetHasPriorityTool')) {
     }
 }
 
+if (!function_exists('intangibleAssetHasStrategy')) {
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param int $strategy
+     * @param int $tool
+     * 
+     * @return bool
+     */
+    function intangibleAssetHasStrategy($intangibleAsset, $strategy, $strategyCategory): bool
+    {
+        /** @var Collection */
+        $intangibleAssetPriorityTools = $intangibleAsset->strategies;
+        return $intangibleAssetPriorityTools->contains(function ($item) use ($strategy, $strategyCategory) {
+            return $item->strategy_id == $strategy && $item->strategy_category_id == $strategyCategory;
+        });
+    }
+}
+
+if (!function_exists('intangibleAssetHasStrategyByStrategyCategory')) {
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param int $tool
+     * 
+     * @return bool
+     */
+    function intangibleAssetHasStrategyByStrategyCategory($intangibleAsset, $strategyCategory): bool
+    {
+        /** @var Collection */
+        $intangibleAssetPriorityTools = $intangibleAsset->strategies;
+        return $intangibleAssetPriorityTools->contains('strategy_category_id', $strategyCategory);
+    }
+}
+
+
 if (!function_exists('intangibleAssetIsCommercial')) {
 
     /**

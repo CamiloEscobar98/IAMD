@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+
 use App\Repositories\Client\IntangibleAssetPhaseRepository;
 use App\Repositories\Client\IntangibleAssetRepository;
 use App\Repositories\Client\StrategyCategoryRepository;
-use Illuminate\Http\Request;
-
 
 class IntangibleAssetStrategyController extends Controller
 {
@@ -32,7 +35,35 @@ class IntangibleAssetStrategyController extends Controller
         $this->intangibleAssetPhaseRepository = $intangibleAssetPhaseRepository;
     }
 
-    public function updateHasStrategies($id, $intangibleAsset, Request $request)
+
+    /**
+     * @param int $id
+     * @param int $intangibleAsset
+     * 
+     * @return View
+     */
+    public function index($id, $intangibleAsset) #: View
+    {
+        try {
+
+            $item = $this->intangibleAssetRepository->getByIdWithRelations($intangibleAsset, [
+                'strategies', 'strategies.strategy', 'strategies.user'
+            ]);
+
+            return view('client.pages.intangible_assets.strategies', compact('item'));
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    /**
+     * @param int $id
+     * @param int $intangibleAsset
+     * @param Request $request
+     * 
+     * @return RedirectResponse
+     */
+    public function updateHasStrategies($id, $intangibleAsset, Request $request): RedirectResponse
     {
         $request->validate(['has_strategies' => ['required']]);
 
@@ -46,7 +77,7 @@ class IntangibleAssetStrategyController extends Controller
                 $intangibleAsset->strategies()->delete();
                 $this->intangibleAssetPhaseRepository->updateOrCreate(['intangible_asset_id' => $intangibleAsset->id], ['has_strategies' => false]);
             } else {
-                $this->intangibleAssetPhaseRepository->updateOrCreate(['intangible_asset_id' => $intangibleAsset->id], ['has_strategies' => false]);
+                $this->intangibleAssetPhaseRepository->updateOrCreate(['intangible_asset_id' => $intangibleAsset->id], ['has_strategies' => true]);
             }
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.strategies.messages.save_success')]);
         } catch (\Exception $th) {

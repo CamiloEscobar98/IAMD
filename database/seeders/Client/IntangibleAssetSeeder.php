@@ -291,7 +291,7 @@ class IntangibleAssetSeeder extends Seeder
                 if ((bool) rand(0, 1)) $this->updateIsCommercial($intangibleAsset, $states);
                 /** ./Phase Nine */
 
-                if ((bool) rand(0, 1)) $this->hasStrategies($intangibleAsset, $strategyCategories, $strategies);
+                if ((bool) rand(0, 1)) $this->hasStrategies($intangibleAsset, $strategyCategories, $strategies, $users);
 
                 print("\n \n");
 
@@ -551,22 +551,27 @@ class IntangibleAssetSeeder extends Seeder
      * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
      * @param Collection $strategyCategories
      * @param Collection $strategies
+     * @param Collection $users
      * 
      * @return void
      */
-    private function hasStrategies($intangibleAsset, $strategyCategories, $strategies): void
+    private function hasStrategies($intangibleAsset, $strategyCategories, $strategies, $users): void
     {
-        $strategyCategories->each(function ($strategyCategory) use ($intangibleAsset, $strategies) {
+        $strategyCategories->each(function ($strategyCategory) use ($intangibleAsset, $strategies, $users) {
             if ((bool) rand(0, 1)) {
-                $randomNumber = rand(1, $strategies->count() - 1);
+                $randomNumberStrategies = rand(1, $strategies->count() - 1);
 
-                $randomStrategies = $strategies->random($randomNumber);
+
+                $randomStrategies = $strategies->random($randomNumberStrategies);
 
                 foreach ($randomStrategies as $strategy) {
+                    $randomUser = $users->random(1)->first();
+
                     $this->intangibleAssetStrategyRepository->create([
                         'intangible_asset_id' => $intangibleAsset->id,
                         'strategy_category_id' => $strategyCategory->id,
-                        'strategy_id' => $strategy->id
+                        'strategy_id' => $strategy->id,
+                        'user_id' => $randomUser->id
                     ]);
                 }
             }

@@ -25,7 +25,7 @@
                             <a href="{{ route('client.intangible_assets.index', $client->name) }}">
                                 {{ __('pages.client.intangible_assets.title') }} </a>
                         </li>
-                        <li class="breadcrumb-item">{{ $item->name }}</li>
+                        <li class="breadcrumb-item active">{{ $item->name }}</li>
                     </ol>
                 </div>
             </div>
@@ -44,10 +44,11 @@
                         </h3>
                         <p>{!! __('pages.client.intangible_assets.info.show', ['intangible_asset' => $item->name]) !!}</p>
                         @if ($item->hasStrategies())
-                        <div class="float-right">
-                            <a href="" class="btn btn-sm btn-danger">{{ __('pages.client.intangible_assets.strategies.button') }}</a>
-                        </div>
-                    @endif
+                            <div class="float-right">
+                                <a href="{{ route('client.intangible_assets.strategies.index', [$client->name, $item->id]) }}"
+                                    class="btn btn-sm btn-danger">{{ __('pages.client.intangible_assets.strategies.button') }}</a>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

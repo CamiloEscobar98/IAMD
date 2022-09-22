@@ -60,6 +60,8 @@ Route::prefix('intangible_assets/{intangible_asset}/downloads')
 Route::patch('intangible_assets/{intangible_asset}/has_strategies', [IntangibleAssetStrategyController::class, 'updateHasStrategies'])
     ->name('intangible_assets.has_estrategies');
 
+Route::get('intangible_assets/{intangible_asset}/strategies', [IntangibleAssetStrategyController::class, 'index'])->name('intangible_assets.strategies.index');
+
 Route::prefix('intangible_assets/{intangible_asset}/phases')
     ->name('intangible_assets.phases.')
     ->group(function () {

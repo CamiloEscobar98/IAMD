@@ -3,6 +3,7 @@
 return [
     'loggin' => 'Iniciar Sesión',
 
+    'add' => 'Agregar',
     'save' => 'Guardar',
     'update' => 'Actualizar',
     'update_to' => 'Ir a Actualizar',

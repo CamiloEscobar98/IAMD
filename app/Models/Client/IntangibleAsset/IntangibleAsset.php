@@ -287,9 +287,10 @@ class IntangibleAsset extends BaseModel
      */
     public function hasStrategies(): bool
     {
-        return $this->strategies->count() > 0;
+        return $this->intangible_asset_phases->has_strategies;
     }
 
+    
 
     /** Intangible Asset Confidenciality Contract File Methods */
 

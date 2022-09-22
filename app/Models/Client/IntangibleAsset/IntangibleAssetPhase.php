@@ -30,6 +30,8 @@ class IntangibleAssetPhase extends BaseModel
     protected $fillable = [
         'intangible_asset_id',
 
+        'has_strategies',
+
         'phase_one_completed',
         'phase_two_completed',
         'phase_three_completed',
