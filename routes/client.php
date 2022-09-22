@@ -56,6 +56,8 @@ Route::prefix('intangible_assets/{intangible_asset}/downloads')
         Route::get('session_right_contract', [IntangibleAssetFileController::class, 'downloadSessionRightContract'])->name('session_right_contract');
     });
 
+    Route::patch('intangible_assets/{intangible_asset}/strategies', [IntangibleAssetController::class, 'updateHasStrategies'])->name('intangible_assets.has_estrategies');
+
 Route::prefix('intangible_assets/{intangible_asset}/phases')
     ->name('intangible_assets.phases.')
     ->group(function () {

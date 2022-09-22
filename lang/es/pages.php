@@ -818,7 +818,12 @@ return [
             'title' => 'Activos Intangibles',
             'subtitle' => 'Activos Intangibles',
 
-            'strategy-title' => 'Estrategias de Gestión',
+            'strategies' => [
+                'title' => 'Estrategias de Gestión',
+                'form' => [
+                    'has_strategies' => '¿El Activo Intangible tiene interés de protegerse?'
+                ]
+            ],
 
             'route-titles' => [
                 'create' => 'Registrar Activo',

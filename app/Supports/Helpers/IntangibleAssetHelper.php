@@ -6,13 +6,16 @@ if (!function_exists('phaseIsCompletedColor')) {
 
     /**
      * @param bool|null $phaseState
+     * @param bool $gradient
+     * 
      * @return string|null
      */
-    function phaseIsCompletedColor($phaseState): string|null
+    function phaseIsCompletedColor($phaseState, $gradient = false): string|null
     {
-        if (is_null($phaseState)) return 'bg-warning';
+        $gradientText = $gradient ? 'gradient-' : '';
+        if (is_null($phaseState)) return "bg-{$gradientText}warning";
 
-        return $phaseState ? 'bg-success' : 'bg-danger';
+        return $phaseState ? "bg-{$gradientText}success" : "bg-{$gradientText}danger";
     }
 }
 
@@ -262,6 +265,25 @@ if (!function_exists('intangibleAssetIsCommercial')) {
         }
     }
 }
+
+if (!function_exists('intangibleAssetHasStrategies')) {
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param bool $not
+     * 
+     * @return string|null
+     */
+    function intangibleAssetHasStrategies($intangibleAsset, bool $not = false): string | null
+    {
+        if ($not) {
+            return !$intangibleAsset->hasStrategies() && !old('has_strategies') == '1' ? 'selected' : null;
+        } else {
+            return $intangibleAsset->hasStrategies() || old('has_strategies') == '1' ? 'selected' : null;
+        }
+    }
+}
+
 
 if (!function_exists('getIdsByCollection')) {
 

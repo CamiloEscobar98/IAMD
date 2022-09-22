@@ -112,7 +112,7 @@ class IntangibleAssetController extends Controller
     {
         try {
             $item = $this->intangibleAssetRepository->getByIdWithRelations($intangibleAsset, [
-                'dpis.dpi', 'intangible_asset_published',
+                'intangible_asset_phases', 'dpis.dpi', 'intangible_asset_published',
                 'intangible_asset_confidenciality_contract', 'creators', 'intangible_asset_session_right_contract', 'user_messages',
                 'secret_protection_measures', 'priority_tools'
             ]);

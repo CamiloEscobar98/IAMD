@@ -15,6 +15,7 @@ use App\Repositories\Client\IntangibleAssetDPIRepository;
 use App\Repositories\Client\IntangibleAssetCreatorRepository;
 use App\Repositories\Client\IntangibleAssetCommentRepository;
 use App\Repositories\Client\IntangibleAssetDpiPriorityToolRepository;
+use App\Repositories\Client\IntangibleAssetPhaseRepository;
 use App\Repositories\Client\IntangibleAssetSecretProtectionMeasureRepository;
 use App\Repositories\Client\IntangibleAssetSessionRightContractRepository;
 
@@ -46,6 +47,9 @@ class IntangibleAssetPhaseService
 
     /** @var IntangibleAssetSessionRightContractRepository */
     protected $intangibleAssetSessionRightContractRepository;
+
+    /** @var IntangibleAssetPhaseRepository */
+    protected $intangibleAssetPhaseRepository;
 
     /** Multiple Data */
 
@@ -80,6 +84,7 @@ class IntangibleAssetPhaseService
         IntangibleAssetSessionRightContractRepository $intangibleAssetSessionRightContractRepository,
         IntangibleAssetContabilityRepository $intangibleAssetContabilityRepository,
         IntangibleAssetProtectionActionRepository $intangibleAssetProtectionActionRepository,
+        IntangibleAssetPhaseRepository $intangibleAssetPhaseRepository,
 
         IntangibleAssetDPIRepository $intangibleAssetDPIRepository,
         IntangibleAssetCreatorRepository $intangibleAssetCreatorRepository,
@@ -98,6 +103,7 @@ class IntangibleAssetPhaseService
         $this->intangibleAssetContabilityRepository = $intangibleAssetContabilityRepository;
         $this->intangibleAssetProtectionActionRepository = $intangibleAssetProtectionActionRepository;
         $this->intangibleAssetDpiPriorityToolRepository = $intangibleAssetDpiPriorityToolRepository;
+        $this->intangibleAssetPhaseRepository = $intangibleAssetPhaseRepository;
 
         $this->intangibleAssetDPIRepository = $intangibleAssetDPIRepository;
         $this->intangibleAssetCreatorRepository = $intangibleAssetCreatorRepository;
@@ -118,10 +124,16 @@ class IntangibleAssetPhaseService
     public function updatePhaseOne($intangibleAsset, $data): string
     {
         try {
+            DB::beginTransaction();
+
             $this->intangibleAssetRepository->update($intangibleAsset, ['classification_id'  => $data['intangible_asset_type_level_3']]);
+            $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'one');
+
+            DB::commit();
 
             return __('pages.client.intangible_assets.phases.one.messages.save_success');
         } catch (\Exception $th) {
+            DB::rollBack();
             return __('pages.client.intangible_assets.phases.one.messages.save_error');
         }
     }
@@ -137,10 +149,16 @@ class IntangibleAssetPhaseService
     public function updatePhaseTwo($intangibleAsset, $data): string
     {
         try {
+            DB::beginTransaction();
+
             $this->intangibleAssetRepository->update($intangibleAsset, $data);
+            $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'two');
+
+            DB::commit();
 
             return __('pages.client.intangible_assets.phases.two.messages.save_success');
         } catch (\Exception $th) {
+            DB::rollBack();
             return __('pages.client.intangible_assets.phases.two.messages.save_error');
         }
     }
@@ -156,10 +174,15 @@ class IntangibleAssetPhaseService
     public function updatePhaseThree($intangibleAsset, $data): string
     {
         try {
+            DB::beginTransaction();
+
             $this->intangibleAssetRepository->update($intangibleAsset, $data);
+            $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'three');
+            DB::commit();
 
             return __('pages.client.intangible_assets.phases.three.messages.save_success');
         } catch (\Exception $th) {
+            DB::rollBack();
             return __('pages.client.intangible_assets.phases.three.messages.save_error');
         }
     }
@@ -175,6 +198,7 @@ class IntangibleAssetPhaseService
     public function updatePhaseFour($intangibleAsset, $dpis): string
     {
         try {
+            DB::beginTransaction();
 
             $intangibleAsset->dpis()->delete();
 
@@ -184,9 +208,11 @@ class IntangibleAssetPhaseService
                     'dpi_id' => $dpi
                 ]);
             }
-
+            $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'four');
+            DB::commit();
             return __('pages.client.intangible_assets.phases.four.messages.save_success');
         } catch (\Exception $th) {
+            DB::rollBack();
             return __('pages.client.intangible_assets.phases.four.messages.save_error');
         }
     }
@@ -204,6 +230,9 @@ class IntangibleAssetPhaseService
     {
         try {
             $message = null;
+
+            DB::beginTransaction();
+
             switch ($subPhase) {
                 case '1': # Intangible Asset has been published.
                     $message = $this->updateIntangibleAssetPublished($intangibleAsset, $data);
@@ -226,8 +255,13 @@ class IntangibleAssetPhaseService
                     break;
             }
 
+            $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'five');
+            DB::commit();
+
             return $message;
         } catch (\Exception $th) {
+
+            DB::rollBack();
             return __('pages.client.intangible_assets.phases.five.messages.save_error');
         }
     }
@@ -243,6 +277,8 @@ class IntangibleAssetPhaseService
     {
         try {
 
+            DB::beginTransaction();
+
             $message = __('pages.client.intangible_assets.phases.six.messages.save_error');
 
             switch ($type) {
@@ -256,6 +292,9 @@ class IntangibleAssetPhaseService
             }
 
             $message = __('pages.client.intangible_assets.phases.six.messages.save_success');
+
+            $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'six');
+            DB::commit();
 
             return $message;
         } catch (\Exception $th) {
@@ -274,6 +313,8 @@ class IntangibleAssetPhaseService
     {
         try {
 
+            DB::beginTransaction();
+
             $message = __('pages.client.intangible_assets.phases.seven.messages.save_error');
 
             switch ($subPhase) {
@@ -286,8 +327,12 @@ class IntangibleAssetPhaseService
                     break;
             }
 
+            $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'seven');
+            DB::commit();
+
             return $message;
         } catch (\Exception $th) {
+            DB::rollBack();
             return __('pages.client.intangible_assets.phases.seven.messages.save_error');
         }
     }
@@ -309,21 +354,27 @@ class IntangibleAssetPhaseService
 
         if ($hasProtectionAction == -1) {
             try {
+                DB::beginTransaction();
+
                 $intangibleAsset->priority_tools()->delete();
+
+                $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'eight');
+                DB::commit();
 
                 return __('pages.client.intangible_assets.phases.eight.sub_phases.has_tool.messages.save_success');
             } catch (\Exception $th) {
+                DB::rollBack();
                 return __('pages.client.intangible_assets.phases.eight.sub_phases.has_tool.messages.save_error');
             }
         } else {
             try {
 
+                DB::beginTransaction();
+
                 $intangibleAsset->priority_tools()->delete();
 
                 /** @var Collection */
                 $dpis = $intangibleAsset->dpis;
-
-                DB::beginTransaction();
 
                 $dpis->each(function ($dpi) use ($request, $intangibleAsset) {
                     $dpiId = $dpi->dpi_id;
@@ -342,7 +393,7 @@ class IntangibleAssetPhaseService
                         }
                     }
                 });
-
+                $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'eight');
                 DB::commit();
 
                 return $message;
@@ -354,14 +405,6 @@ class IntangibleAssetPhaseService
                 return __('pages.client.intangible_assets.phases.eight.sub_phases.has_tool.messages.save_error');
             }
         }
-
-
-
-
-
-        // return $dpis;
-
-
     }
 
     /**
@@ -378,19 +421,32 @@ class IntangibleAssetPhaseService
 
         if ($data['is_commercial'] == -1) {
             try {
+                DB::beginTransaction();
+
                 $intangibleAsset->intangible_asset_commercial()->delete();
+
+                $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'nine');
+                DB::commit();
+
                 return $message;
             } catch (\Exception $th) {
+                DB::rollBack();
                 return __('pages.client.intangible_assets.phases.nine.sub_phases.is_commercial.messages.save_error');
             }
         } else {
             try {
+                DB::beginTransaction();
+
                 $this->intangibleAssetCommercialRepository->updateOrCreate([
                     'intangible_asset_id' => $intangibleAsset->id
                 ], $data);
 
+                $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'nine');
+                DB::commit();
+
                 return $message;
             } catch (\Exception $th) {
+                DB::rollBack();
                 return __('pages.client.intangible_assets.phases.nine.sub_phases.is_commercial.messages.save_error');
             }
         }

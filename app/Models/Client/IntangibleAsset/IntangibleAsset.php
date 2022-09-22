@@ -18,7 +18,6 @@ use App\Models\Admin\IntangibleAssetState;
 
 use App\Models\Client\Creator\Creator;
 use App\Models\Client\Project\Project;
-use App\Models\Client\PriorityTool;
 use App\Models\Client\User;
 use App\Models\Client\SecretProtectionMeasure;
 use App\Models\Client\IntangibleAsset\IntangibleAssetDPI;
@@ -172,6 +171,22 @@ class IntangibleAsset extends BaseModel
     }
 
     /**
+     * @return HasMany
+     */
+    public function strategies(): HasMany
+    {
+        return $this->hasMany(IntangibleAssetStrategy::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function intangible_asset_phases(): HasOne
+    {
+        return $this->hasOne(IntangibleAssetPhase::class);
+    }
+
+    /**
      * @return bool
      */
     public function hasDpis(): bool
@@ -267,8 +282,13 @@ class IntangibleAsset extends BaseModel
         return !is_null($this->intangible_asset_commercial);
     }
 
-
-
+    /**
+     * @return bool
+     */
+    public function hasStrategies(): bool
+    {
+        return $this->strategies->count() > 0;
+    }
 
 
     /** Intangible Asset Confidenciality Contract File Methods */

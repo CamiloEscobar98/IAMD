@@ -95,11 +95,36 @@
         <hr>
 
         <div class="card">
-            <div class="card-header bg-gradient-danger">
-                <h2 class="float-right">{{ __('pages.client.intangible_assets.strategy-title') }}</h2>
+            <div class="card-header {{ phaseIsCompletedColor($item->hasStrategies(), true) }}">
+                <h2 class="float-right">{{ __('pages.client.intangible_assets.strategies.title') }}</h2>
             </div>
             <div class="card-body">
 
+                <form action="{{ route('client.intangible_assets.has_estrategies', [$client->name, $item->id]) }}"
+                    method="post">
+
+                    @csrf
+
+                    @method('PATCH')
+
+                    <div class="form-group">
+                        <label>{{ __('pages.client.intangible_assets.strategies.form.has_strategies') }}</label>
+                        <select id="hasProtectionAction" name="has_strategies" class="form-control form-control-sm">
+                            <option value="1" {{ intangibleAssetHasStrategies($item) }}>
+                                {{ __('inputs.yes') }}</option>
+                            <option value="-1" {{ intangibleAssetHasStrategies($item, true) }}>
+                                {{ __('inputs.no') }}</option>
+                        </select>
+                    </div>
+
+                    <!-- Button Save -->
+                    <div class="form-group">
+                        <button
+                            class="btn {{ phaseIsCompletedButton($item->hasStrategies()) }} btn-sm">{{ __('buttons.save') }}</button>
+                    </div>
+                    <!-- ./Button Save -->
+
+                </form>
             </div>
         </div>
 

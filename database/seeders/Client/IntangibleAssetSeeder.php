@@ -14,6 +14,7 @@ use App\Repositories\Admin\IntangibleAssetStateRepository;
 use App\Repositories\Client\IntangibleAssetCommercialRepository;
 use App\Repositories\Client\IntangibleAssetPublishedRepository;
 use App\Repositories\Client\IntangibleAssetProtectionActionRepository;
+use App\Repositories\Client\IntangibleAssetPhaseRepository;
 
 use App\Repositories\Client\IntangibleAssetCreatorRepository;
 use App\Repositories\Client\IntangibleAssetCommentRepository;
@@ -50,6 +51,9 @@ class IntangibleAssetSeeder extends Seeder
 
     /** @var IntangibleAssetProtectionActionRepository */
     protected $intangibleAssetProtectionActionRepository;
+
+    /** @var IntangibleAssetPhaseRepository */
+    protected $intangibleAssetPhaseRepository;
 
     /** @var IntangibleAssetCreatorRepository */
     protected $intangibleAssetCreatorRepository;
@@ -113,6 +117,7 @@ class IntangibleAssetSeeder extends Seeder
         IntangibleAssetCommercialRepository $intangibleAssetCommercialRepository,
         IntangibleAssetPublishedRepository $intangibleAssetPublishedRepository,
         IntangibleAssetProtectionActionRepository $intangibleAssetProtectionActionRepository,
+        IntangibleAssetPhaseRepository $intangibleAssetPhaseRepository,
 
         IntangibleAssetCreatorRepository $intangibleAssetCreatorRepository,
         IntangibleAssetCommentRepository $intangibleAssetCommentRepository,
@@ -142,6 +147,7 @@ class IntangibleAssetSeeder extends Seeder
         $this->intangibleAssetCommercialRepository = $intangibleAssetCommercialRepository;
         $this->intangibleAssetPublishedRepository = $intangibleAssetPublishedRepository;
         $this->intangibleAssetProtectionActionRepository = $intangibleAssetProtectionActionRepository;
+        $this->intangibleAssetPhaseRepository = $intangibleAssetPhaseRepository;
 
         $this->intangibleAssetCreatorRepository = $intangibleAssetCreatorRepository;
         $this->intangibleAssetCommentRepository = $intangibleAssetCommentRepository;
@@ -197,7 +203,7 @@ class IntangibleAssetSeeder extends Seeder
 
         /** Strategy Categories */
         $strategyCategories = $this->strategyCategoryRepository->all();
-        
+
         /** Strategies */
         $strategies = $this->strategyRepository->all();
 
@@ -221,33 +227,71 @@ class IntangibleAssetSeeder extends Seeder
 
                 print("Intangible Asset Created. Name: " . $intangibleAsset->name . "\n");
 
-                (bool) rand(0, 1) ? $this->updateHasClassification($intangibleAsset) : null;
+                $this->intangibleAssetPhaseRepository->create(['intangible_asset_id' => $intangibleAsset->id]);
 
-                (bool) rand(0, 1) ? $this->updateHasState($intangibleAsset, $states) : null;
+                /** Phase One */
+                if ((bool) rand(0, 1)) $this->updateHasClassification($intangibleAsset);
+                /** ./Phase One */
 
-                (bool) rand(0, 1) ? $this->updateHasComments($intangibleAsset, $users) : null;
+                /** Phase Two */
 
-                (bool) rand(0, 1) ? $this->updateHasBeenPublished($intangibleAsset, $states) : null;
+                /** ./Phase Two */
 
-                (bool) rand(0, 1) ? $this->updateIsCommercial($intangibleAsset, $states) : null;
+                /** Phase Three */
+                if ((bool) rand(0, 1)) $this->updateHasState($intangibleAsset, $states);
+                /** ./Phase Three */
 
-                (bool) rand(0, 1) ? $this->updateHasCreators($intangibleAsset, $creators) : null;
+                /** Phase Four */
+                if ((bool) rand(0, 1)) $this->updateHasDPIS($intangibleAsset, $dpis);
+                /** ./Phase Four */
 
-                (bool) rand(0, 1) ? $this->updateHasDPIS($intangibleAsset, $dpis) : null;
+                /** Phase Five */
+                $isPublished = (bool) rand(0, 1);
 
-                (bool) rand(0, 1) ? $this->hasConfidencialityContract($intangibleAsset) : null;
+                $hasConfidencialityContract = (bool) rand(0, 1);
 
-                (bool) rand(0, 1) ? $this->hasSessionRightContract($intangibleAsset) : null;
+                $hasCreators = (bool) rand(0, 1);
 
-                (bool) rand(0, 1) ? $this->hasContability($intangibleAsset) : null;
+                $hasSessionRightContract = (bool) rand(0, 1);
 
-                (bool) rand(0, 1) ? $this->hasProtectionAction($intangibleAsset) : null;
+                $hasContability = (bool) rand(0, 1);
 
-                (bool) rand(0, 1) ? $this->hasSecretProtectionMeasures($intangibleAsset, $secretProtectionMeasures) : null;
+                if ($isPublished)  $this->updateHasBeenPublished($intangibleAsset, $states);
 
-                (bool) rand(0, 1) ? $this->hasPriorityTools($intangibleAsset, $priorityTools) : null;
+                if ($hasConfidencialityContract)  $this->hasConfidencialityContract($intangibleAsset);
 
-                (bool) rand(0, 1) ? $this->hasStrategies($intangibleAsset, $strategyCategories, $strategies) : null;
+                if ($hasCreators)  $this->updateHasCreators($intangibleAsset, $creators);
+
+                if ($hasSessionRightContract)  $this->hasSessionRightContract($intangibleAsset);
+
+                if ($hasContability)  $this->hasContability($intangibleAsset);
+
+                if ($isPublished || $hasConfidencialityContract || $hasCreators || $hasSessionRightContract || $hasContability) $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'five', null);
+                /** ./Phase Five */
+
+                /** Phase Six */
+                if ((bool) rand(0, 1)) $this->updateHasComments($intangibleAsset, $users);
+                /** ./Phase Six */
+
+                /** Phase Seven */
+                $hasProtectionAction = (bool) rand(0, 1);
+                $hasSecretProtectionMeasures = (bool) rand(0, 1);
+
+                if ($hasProtectionAction) $this->hasProtectionAction($intangibleAsset);
+                if ($hasSecretProtectionMeasures) $this->hasSecretProtectionMeasures($intangibleAsset, $secretProtectionMeasures);
+
+                if ($hasProtectionAction || $hasSecretProtectionMeasures) $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'seven', null);
+                /** ./Phase Seven */
+
+                /** Phase Eight */
+                if ((bool) rand(0, 1)) $this->hasPriorityTools($intangibleAsset, $priorityTools);
+                /** ./Phase Eight */
+
+                /** Phase Nine */
+                if ((bool) rand(0, 1)) $this->updateIsCommercial($intangibleAsset, $states);
+                /** ./Phase Nine */
+
+                if ((bool) rand(0, 1)) $this->hasStrategies($intangibleAsset, $strategyCategories, $strategies);
 
                 print("\n \n");
 
@@ -270,6 +314,8 @@ class IntangibleAssetSeeder extends Seeder
 
         $this->intangibleAssetRepository->update($intangibleAsset, ['classification_id' => $randomClassification->id]);
 
+        $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'one');
+
         print("This Intangible Asset has a State. State: " . $randomClassification->name . "\n");
     }
 
@@ -284,6 +330,8 @@ class IntangibleAssetSeeder extends Seeder
         $randomState = $states->random(1)->first();
 
         $this->intangibleAssetRepository->update($intangibleAsset, ['intangible_asset_state_id' => $randomState->id]);
+
+        $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'three');
 
         print("This Intangible Asset has a State. State: " . $randomState->name . "\n");
     }
@@ -305,6 +353,8 @@ class IntangibleAssetSeeder extends Seeder
                 'user_id' => $user->id
             ]);
         });
+
+        $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'six');
 
         print("This Intangible Asset has comments! \n");
     }
@@ -333,6 +383,8 @@ class IntangibleAssetSeeder extends Seeder
         $assetCommercial = $this->intangibleAssetCommercialRepository->createOneFactory([
             'intangible_asset_id' => $intangibleAsset->id
         ]);
+
+        $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'nine');
 
         print("This Intangible Asset is Commercial: Reason: " . $assetCommercial->reason . "\n");
     }
@@ -382,6 +434,9 @@ class IntangibleAssetSeeder extends Seeder
                 'dpi_id' => $dpi->id
             ]);
         }
+
+        $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'four');
+
         print("This Intangible Asset has DPIS: Count: " . $randomDPIS->count() . "\n");
     }
 
@@ -486,6 +541,8 @@ class IntangibleAssetSeeder extends Seeder
                 ]);
             }
         });
+
+        $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'eight');
 
         print("This Intangible Asset has Priority Tools \n");
     }

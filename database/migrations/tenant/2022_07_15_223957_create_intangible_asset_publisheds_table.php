@@ -20,9 +20,9 @@ return new class extends Migration
             $table->tinyText('information_scope')->nullable(); // Alcance de la Publicación
             $table->date('published_at'); // Fecha de la Publicación o Divulgación del Activo
 
-            $table->foreign('intangible_asset_id')->references('id')->on('intangible_assets')->cascadeOnUpdate()->cascadeOnDelete();
-
             $table->timestamps();
+            
+            $table->foreign('intangible_asset_id')->references('id')->on('intangible_assets')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 

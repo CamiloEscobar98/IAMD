@@ -14,7 +14,7 @@ trait HasPhases
      */
     public function hasPhaseOneCompleted(): bool
     {
-        return !is_null($this->classification_id);
+        return $this->intangible_asset_phases->phase_one_completed;
     }
 
     /**
@@ -22,7 +22,7 @@ trait HasPhases
      */
     public function hasPhaseTwoCompleted(): bool
     {
-        return !is_null($this->description);
+        return $this->intangible_asset_phases->phase_two_completed;
     }
 
     /**
@@ -30,7 +30,7 @@ trait HasPhases
      */
     public function hasPhaseThreeCompleted(): bool
     {
-        return !is_null($this->intangible_asset_state_id);
+        return $this->intangible_asset_phases->phase_three_completed;
     }
 
     /**
@@ -38,7 +38,7 @@ trait HasPhases
      */
     public function hasPhaseFourCompleted(): bool
     {
-        return $this->hasDpis();
+        return $this->intangible_asset_phases->phase_four_completed;
     }
 
     /**
@@ -46,22 +46,7 @@ trait HasPhases
      */
     public function hasPhaseFiveCompleted(): bool|null
     {
-        $phasesMethods = ['hasConfidencialityContract', 'hasBeenPublished', 'hasCreators', 'hasSessionRightContract', 'hasContability'];
-
-        $cont = 0;
-        $i = 0;
-
-        while ($i < count($phasesMethods)) {
-            $method = $phasesMethods[$i];
-            if ($this->$method()) {
-                $cont++;
-            }
-            $i++;
-        }
-
-        if ($cont === 0) return false;
-
-        return $cont === count($phasesMethods) ? true : null;
+        return $this->intangible_asset_phases->phase_five_completed;
     }
 
     /**
@@ -69,7 +54,7 @@ trait HasPhases
      */
     public function hasPhaseSixCompleted(): bool
     {
-        return $this->hasMessages();
+        return $this->intangible_asset_phases->phase_six_completed;
     }
 
     /** 
@@ -77,22 +62,7 @@ trait HasPhases
      */
     public function hasPhaseSevenCompleted(): bool|null
     {
-        $phasesMethods = ['hasProtectionAction', 'hasSecretProtectionMeasure'];
-
-        $cont = 0;
-        $i = 0;
-
-        while ($i < count($phasesMethods)) {
-            $method = $phasesMethods[$i];
-            if ($this->$method()) {
-                $cont++;
-            }
-            $i++;
-        }
-
-        if ($cont === 0) return false;
-
-        return $cont === count($phasesMethods) ? true : null;
+        return $this->intangible_asset_phases->phase_seven_completed;
     }
 
     /**
@@ -100,7 +70,7 @@ trait HasPhases
      */
     public function hasPhaseEightCompleted(): bool
     {
-        return $this->hasPriorityTools();
+        return $this->intangible_asset_phases->phase_eight_completed;
     }
 
     /**
@@ -108,6 +78,7 @@ trait HasPhases
      */
     public function hasPhaseNineCompleted(): bool
     {
-        return $this->isCommercial();
+        return $this->intangible_asset_phases->phase_nine_completed;
+
     }
 }
