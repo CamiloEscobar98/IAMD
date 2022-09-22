@@ -43,6 +43,10 @@
                             <u>{{ __('pages.default.title-information') }}</u>
                         </h3>
                         <p>{!! __('pages.client.intangible_assets.info.show', ['intangible_asset' => $item->name]) !!}</p>
+                        <div class="float-left">
+                            <a href="{{ route('client.intangible_assets.reports.default', [$client->name, $item->id]) }}"
+                                class="btn btn-sm btn-danger">Descargar Reporte</a>
+                        </div>
                         @if ($item->hasStrategies())
                             <div class="float-right">
                                 <a href="{{ route('client.intangible_assets.strategies.index', [$client->name, $item->id]) }}"

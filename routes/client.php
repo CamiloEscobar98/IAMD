@@ -14,6 +14,7 @@ use App\Http\Controllers\Client\CreatorExternalController;
 use App\Http\Controllers\Client\IntangibleAssetController;
 use App\Http\Controllers\Client\IntangibleAssetFileController;
 use App\Http\Controllers\Client\IntangibleAssetPhaseController;
+use App\Http\Controllers\Client\IntangibleAssetReportController;
 use App\Http\Controllers\Client\IntangibleAssetStrategyController;
 
 /*
@@ -55,6 +56,12 @@ Route::prefix('intangible_assets/{intangible_asset}/downloads')
     ->group(function () {
         Route::get('confidenciality_contract', [IntangibleAssetFileController::class, 'downloadConfidencialityContract'])->name('confidenciality_contract');
         Route::get('session_right_contract', [IntangibleAssetFileController::class, 'downloadSessionRightContract'])->name('session_right_contract');
+    });
+
+Route::prefix('intangible_assets/{intangible_asset}/reports')
+    ->name('intangible_assets.reports.')
+    ->group(function () {
+        Route::get('default', [IntangibleAssetReportController::class,'downloadDefaultReport'])->name('default');
     });
 
 Route::patch('intangible_assets/{intangible_asset}/has_strategies', [IntangibleAssetStrategyController::class, 'updateHasStrategies'])
