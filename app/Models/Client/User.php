@@ -4,6 +4,7 @@ namespace App\Models\Client;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -50,6 +51,14 @@ class User extends Authenticatable
     ];
 
     /**
+     * @return HasOne
+     */
+    public function user_file(): HasOne
+    {
+        return $this->hasOne(UserFileReport::class);
+    }
+
+    /**
      * @return HasMany
      */
     public function notifications(): HasMany
@@ -63,5 +72,21 @@ class User extends Authenticatable
     public function hasNotifications(): bool
     {
         return $this->notifications->count() > 0;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasUserFileReport(): bool
+    {
+        return !is_null($this->user_file);
+    }
+
+    public function hasFileReport(): bool
+    {
+        /** @var UserFileReport */
+        $userFile = $this->user_file;
+
+        return $this->hasUserFileReport() && !is_null($userFile->file_path && $userFile->file_name);
     }
 }

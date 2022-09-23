@@ -4,10 +4,10 @@ namespace App\Services\FileSystem\IntangibleAsset;
 
 use App\Services\FileSystem\AbstractFileSystemService;
 
-class FileConfidencialityContractService extends AbstractFileSystemService
+class ReportFileSingleReportService extends AbstractFileSystemService
 {
     /** @var string */
-    protected $basePath = 'confidenciality_contracts/';
+    protected $basePath = 'reports/single/';
 
     public function __construct()
     {
@@ -21,7 +21,7 @@ class FileConfidencialityContractService extends AbstractFileSystemService
      * 
      * @return bool
      */
-    public function storeConfidencialityContractFile($path = '', $file, $options = [])
+    public function storeFileReport($path = '', $file, $options = [])
     {
         return $this->storeFile($this->basePath . $path, $file, $options);
     }
@@ -31,7 +31,7 @@ class FileConfidencialityContractService extends AbstractFileSystemService
      * 
      * @return mixed
      */
-    public function getConfidencialityContractFile($path = '')
+    public function getFileReport($path = '')
     {
         return $this->getFile($this->basePath . $path);
     }
@@ -41,7 +41,7 @@ class FileConfidencialityContractService extends AbstractFileSystemService
      * 
      * @return string|null
      */
-    public function getConfidencialityContractFilePath($path = ''): string|null
+    public function getFileReportPath($path = ''): string|null
     {
         return $this->getFilePath($this->basePath . $path);
     }
@@ -51,7 +51,7 @@ class FileConfidencialityContractService extends AbstractFileSystemService
      * 
      * @return bool
      */
-    public function deleteConfidencialityContractFile($intangibleAsset)
+    public function deleteFileReport($intangibleAsset)
     {
         if ($intangibleAsset->hasFileOfConfidencialityContract()) {
             /** @var \App\Models\Client\IntangibleAsset\IntangibleAssetConfidentialityContract */

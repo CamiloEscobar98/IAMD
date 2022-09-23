@@ -60,9 +60,14 @@ return [
         'intangible_assets' => [
             'driver' => 'local',
             'root' => storage_path('app/intangible_assets'),
-            'private' => 'private',
-        ]
+            'visibility' => 'private',
+        ],
 
+        'users' => [
+            'driver' => 'local',
+            'root' => storage_path('app/users'),
+            'visibility' => 'private',
+        ]
     ],
 
     /*
