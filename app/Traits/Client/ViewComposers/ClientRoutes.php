@@ -5,6 +5,7 @@ namespace App\Traits\Client\ViewComposers;
 use Illuminate\Support\Facades\View;
 
 use App\Http\ViewComposers\ClientComposer;
+use App\Http\ViewComposers\Client\NotificationComposer;
 
 use App\Http\ViewComposers\Client\ResearchUnits\ResearchUnitFilterComposer;
 use App\Http\ViewComposers\Client\ResearchUnits\CreateResearchUnitComposer;
@@ -45,6 +46,9 @@ trait ClientRoutes
         );
 
         View::composer($views, ClientComposer::class);
+
+        /** Notifications for Users */
+        View::composer('client.partials.navbar', NotificationComposer::class);
 
         /** Research Units */
         View::composer('client.pages.research_units.components.filters', ResearchUnitFilterComposer::class);

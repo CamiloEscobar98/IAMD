@@ -78,6 +78,8 @@ class MigrateFreshTenant extends Command
                 if ($this->confirm('Would you like seeding the tenants database?', false)) {
                     $options['--seeder'] = 'TenantDatabaseSeeder';
                 }
+            } else {
+                $command = 'migrate';
             }
             while (Artisan::call($command, $options)) {
                 print(Artisan::output());
