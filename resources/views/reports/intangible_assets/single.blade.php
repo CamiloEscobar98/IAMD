@@ -1,24 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('reports.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('adminlte/plugins/chart.js/Chart.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('adminlte/dist/css/report.css') }}">
-
-    <title>Document</title>
-</head>
-
-<body>
-
-    <table class="table table-sm table-bordered border-1">
+@section('content')
+    <table class="table table-sm table-bordered border-1 mt-4">
         <tbody>
             <tr class="text-center">
-                <td colspan="3" class="bg-title text-white font-weight-bold">Reporte: Activo Intangible</td>
+                <td colspan="3" class="bg-title text-white font-weight-bold">Reporte Individual: Activo Intangible</td>
             </tr>
             <tr class="text-center">
                 <td class="bg-subtitle">
@@ -70,7 +56,7 @@
                 <td colspan="3">
                     <small>
                         @if ($intangibleAsset->hasDescription())
-                            {{ $intangibleAsset->description }}
+                            <small> {{ $intangibleAsset->description }}</small>
                         @else
                             <small>El Activo Intangible aún no tiene una descripción establecida.</small>
                         @endif
@@ -120,9 +106,9 @@
                 <td colspan="1">
                     <small>
                         @if ($intangibleAsset->hasBeenPublished())
-                            <small>Sí</small>
+                            Si
                         @else
-                            <small>No</small>
+                            No
                         @endif
                     </small>
                 </td>
@@ -151,9 +137,9 @@
                 <td colspan="1">
                     <small>
                         @if ($intangibleAsset->hasConfidencialityContract())
-                            <small>Sí</small>
+                            Si
                         @else
-                            <small>No</small>
+                            No
                         @endif
                     </small>
                 </td>
@@ -298,26 +284,49 @@
                     <small class="font-weight-bold">Comentario</small>
                 </td>
                 <td colspan="1" class="bg-subtitle">
-                    <small class="font-weight-bold">Fecha de Comentario</small>
+                    <small class="font-weight-bold">Fecha</small>
                 </td>
             </tr>
-            @forelse ($intangibleAsset->user_messages as $comment)
+
+            @if ($intangibleAsset->hasMessages())
+                @foreach ($intangibleAsset->user_messages as $comment)
+                    <tr class="text-center">
+                        <td colspan="1">
+                            <small>{{ $comment->name }}</small>
+                        </td>
+                        <td colspan="1">
+                            <small>{{ $comment->pivot->message }}</small>
+                        </td>
+                        <td colspan="1">
+                            <small>{{ $comment->pivot->updated_at }}</small>
+                        </td>
+                    </tr>
+                @endforeach
+            @else
                 <tr class="text-center">
-                    <td colspan="1">
-                        <small>{{ $comment->name }}</small>
-                    </td>
-                    <td colspan="1">
-                        <small>{{ $comment->pivot->message }}</small>
-                    </td>
-                    <td colspan="1">
-                        <small>{{ $comment->pivot->updated_at }}</small>
-                    </td>
+                    <td colspan="3"><small>El Activo Intangible no tiene comentarios registrados.</small></td>
                 </tr>
-            @empty
-                <tr class="text-center">
-                    <td colspan="3"><small>No hay comentarios registrados.</small></td>
-                </tr>
-            @endforelse
+            @endif
+
+            @if ($intangibleAsset->user_messages->count() < 10)
+                @php
+                    $extra = 20 - $intangibleAsset->user_messages->count();
+                    
+                    $cont = 0;
+                @endphp
+
+                @while ($cont < $extra)
+                    <tr class="text-center py-4">
+                        <td colspan="1"></td>
+                        <td colspan="1"></td>
+                        <td colspan="1"></td>
+                    </tr>
+
+                    @php
+                        $cont++;
+                    @endphp
+                @endwhile
+            @endif
             <!-- ./Intangible Asset has Comments -->
 
         </tbody>
@@ -343,9 +352,9 @@
                 <td>
                     <small>
                         @if ($intangibleAsset->hasProtectionAction())
-                            <small>Sí</small>
+                            Si
                         @else
-                            <small>No</small>
+                            No
                         @endif
                     </small>
                 </td>
@@ -375,9 +384,9 @@
                 <td>
                     <small>
                         @if ($intangibleAsset->hasSecretProtectionMeasure())
-                            <small>Sí</small>
+                            Si
                         @else
-                            <small>No</small>
+                            No
                         @endif
                     </small>
                 </td>
@@ -408,19 +417,28 @@
             @endif
             <!-- ./Intagible Asset Secret Protection Measures -->
 
+            <!-- ./Intangible Asset has Protection Actions Measures -->
+
+
             <!-- Intangible Asset has Priority Tools  -->
             <tr class="text-center">
-                <td colspan="3" class="bg-questions">
+                <td colspan="3" class="bg-title text-white font-weight-bold">Priorización y Decisión del Activo
+                    Intangible</td>
+            </tr>
+
+            <tr class="text-center">
+                <td colspan="2" class="bg-questions">
                     <small class="font-weight-bold">
-                        ¿Se debe realizar una búsqueda relacionada con los potenciales DPI asociados al Activo Intangible?
+                        ¿Se debe realizar una búsqueda relacionada con los potenciales DPI asociados al Activo
+                        Intangible?
                     </small>
                 </td>
                 <td>
                     <small>
                         @if ($intangibleAsset->hasPriorityTools())
-                            <small>Sí</small>
+                            Si
                         @else
-                            <small>No</small>
+                            No
                         @endif
                     </small>
                 </td>
@@ -453,18 +471,51 @@
             </tr>
             <!-- ./Intangible Asset has Priority Tools -->
 
-            <!-- ./Intangible Asset has Protection Actions Measures -->
+            <!-- Intangible Asset is Commercial -->
+            <tr class="text-center">
+                <td colspan="3" class="bg-title text-white font-weight-bold">
+                    Activo Intangible de Uso Comercial
+                </td>
+            </tr>
+
+            <tr class="text-center">
+                <td colspan="2" class="bg-questions">
+                    <small class="font-weight-bold">
+                        ¿Los Derechos de Propiedad Intelectual asociados a este Activo Intangible tienen algún uso
+                        comercial?
+                    </small>
+                </td>
+                <td colspan="1">
+                    <small>
+                        @if ($intangibleAsset->isCommercial())
+                            Si
+                        @else
+                            No
+                        @endif
+                    </small>
+                </td>
+            </tr>
+            <tr class="text-center">
+                <td colspan="1" class="bg-questions">
+                    <small class="font-weight-bold text-small">
+                        Describa el uso comercial que tendrá este Activo Intangible:
+                    </small>
+                </td>
+                <td colspan="2">
+                    <small>
+                        @if ($intangibleAsset->isCommercial())
+                            <small>{{ $intangibleAsset->intangible_asset_commercial->reason }}</small>
+                        @else
+                            <small>El Activo Intangible no tiene uso comercial.</small>
+                        @endif
+                    </small>
+                </td>
+            </tr>
+
+
+
+            <!-- ./Intangible Asset is Commercial -->
 
         </tbody>
     </table>
-
-
-
-    <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('adminlte/plugins/overlayScrollbars/js/OverlayScrollbars.min.js') }}"></script>
-    <script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
-
-</body>
-
-</html>
+@endsection

@@ -229,69 +229,9 @@ class IntangibleAssetSeeder extends Seeder
 
                 $this->intangibleAssetPhaseRepository->create(['intangible_asset_id' => $intangibleAsset->id]);
 
-                /** Phase One */
-                if ((bool) rand(0, 1)) $this->updateHasClassification($intangibleAsset);
-                /** ./Phase One */
+                $randomAllCompleted = (bool) rand(0, 1);
 
-                /** Phase Two */
-
-                /** ./Phase Two */
-
-                /** Phase Three */
-                if ((bool) rand(0, 1)) $this->updateHasState($intangibleAsset, $states);
-                /** ./Phase Three */
-
-                /** Phase Four */
-                if ((bool) rand(0, 1)) $this->updateHasDPIS($intangibleAsset, $dpis);
-                /** ./Phase Four */
-
-                /** Phase Five */
-                $isPublished = (bool) rand(0, 1);
-
-                $hasConfidencialityContract = (bool) rand(0, 1);
-
-                $hasCreators = (bool) rand(0, 1);
-
-                $hasSessionRightContract = (bool) rand(0, 1);
-
-                $hasContability = (bool) rand(0, 1);
-
-                if ($isPublished)  $this->updateHasBeenPublished($intangibleAsset, $states);
-
-                if ($hasConfidencialityContract)  $this->hasConfidencialityContract($intangibleAsset);
-
-                if ($hasCreators)  $this->updateHasCreators($intangibleAsset, $creators);
-
-                if ($hasSessionRightContract)  $this->hasSessionRightContract($intangibleAsset);
-
-                if ($hasContability)  $this->hasContability($intangibleAsset);
-
-                if ($isPublished || $hasConfidencialityContract || $hasCreators || $hasSessionRightContract || $hasContability) $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'five', null);
-                /** ./Phase Five */
-
-                /** Phase Six */
-                if ((bool) rand(0, 1)) $this->updateHasComments($intangibleAsset, $users);
-                /** ./Phase Six */
-
-                /** Phase Seven */
-                $hasProtectionAction = (bool) rand(0, 1);
-                $hasSecretProtectionMeasures = (bool) rand(0, 1);
-
-                if ($hasProtectionAction) $this->hasProtectionAction($intangibleAsset);
-                if ($hasSecretProtectionMeasures) $this->hasSecretProtectionMeasures($intangibleAsset, $secretProtectionMeasures);
-
-                if ($hasProtectionAction || $hasSecretProtectionMeasures) $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'seven', null);
-                /** ./Phase Seven */
-
-                /** Phase Eight */
-                if ((bool) rand(0, 1)) $this->hasPriorityTools($intangibleAsset, $priorityTools);
-                /** ./Phase Eight */
-
-                /** Phase Nine */
-                if ((bool) rand(0, 1)) $this->updateIsCommercial($intangibleAsset, $states);
-                /** ./Phase Nine */
-
-                if ((bool) rand(0, 1)) $this->hasStrategies($intangibleAsset, $strategyCategories, $strategies, $users);
+                $this->randomPhases($randomAllCompleted, $intangibleAsset, $states, $dpis, $creators, $users, $secretProtectionMeasures, $strategyCategories, $strategies, $priorityTools);
 
                 print("\n \n");
 
@@ -304,11 +244,116 @@ class IntangibleAssetSeeder extends Seeder
     }
 
     /**
+     * @param bool $randomAllCompleted
+     * 
+     * @return void
+     */
+    public function randomPhases(bool $randomAllCompleted, $intangibleAsset, $states, $dpis, $creators, $users, $secretProtectionMeasures, $strategyCategories, $strategies, $priorityTools): void
+    {
+        $randomHasClassification = true;
+        $randomHasState = true;
+        $randomHasDpis = true;
+        $isPublished = true;
+        $hasConfidencialityContract = true;
+        $hasCreators = true;
+        $hasSessionRightContract = true;
+        $hasContability = true;
+        $hasComments = true;
+        $hasProtectionAction = true;
+        $hasSecretProtectionMeasures = true;
+        $hasPriorityTools = true;
+        $updateIsCommercial = true;
+        $hasStrategies = true;
+        $randomHasDescription = true;
+
+        if (!$randomAllCompleted) {
+            $randomHasClassification = (bool) rand(0, 1);
+            $randomHasState = (bool) rand(0, 1);
+            $randomHasDpis = (bool) rand(0, 1);
+            $isPublished = (bool) rand(0, 1);
+            $hasCreators = (bool) rand(0, 1);
+            $hasConfidencialityContract = (bool) rand(0, 1);
+            $hasSessionRightContract = (bool) rand(0, 1);
+            $hasContability = (bool) rand(0, 1);
+            $hasComments = (bool) rand(0, 1);
+            $hasProtectionAction = (bool) rand(0, 1);
+            $hasSecretProtectionMeasures = (bool) rand(0, 1);
+            $hasPriorityTools = (bool) rand(0, 1);
+            $updateIsCommercial = (bool) rand(0, 1);
+            $hasStrategies = (bool) rand(0, 1);
+            $randomHasDescription = (bool) rand(0, 1);
+        }
+
+        /** Phase One */
+        if ($randomHasClassification) $this->updateHasClassification($intangibleAsset);
+        /** ./Phase One */
+
+        /** Phase Two */
+        if ($randomHasDescription) $this->updateHasDescription($intangibleAsset);
+        /** ./Phase Two */
+
+        /** Phase Three */
+        if ($randomHasState) $this->updateHasState($intangibleAsset, $states);
+        /** ./Phase Three */
+
+        /** Phase Four */
+        if ($randomHasDpis) $this->updateHasDPIS($intangibleAsset, $dpis);
+        /** ./Phase Four */
+
+        /** Phase Five */
+        if ($isPublished)  $this->updateHasBeenPublished($intangibleAsset, $states);
+
+        if ($hasConfidencialityContract)  $this->hasConfidencialityContract($intangibleAsset);
+
+        if ($hasCreators)  $this->updateHasCreators($intangibleAsset, $creators);
+
+        if ($hasSessionRightContract)  $this->hasSessionRightContract($intangibleAsset);
+
+        if ($hasContability)  $this->hasContability($intangibleAsset);
+
+        if ($isPublished && $hasConfidencialityContract && $hasCreators && $hasSessionRightContract && $hasContability) {
+            $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'five', true);
+        } elseif (!($isPublished && $hasConfidencialityContract && $hasCreators && $hasSessionRightContract && $hasContability)) {
+            $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'five', false);
+        } else {
+            $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'five', null);
+        }
+        /** ./Phase Five */
+
+        /** Phase Six */
+        if ($hasComments) $this->updateHasComments($intangibleAsset, $users);
+        /** ./Phase Six */
+
+        /** Phase Seven */
+        if ($hasProtectionAction) $this->hasProtectionAction($intangibleAsset);
+        if ($hasSecretProtectionMeasures) $this->hasSecretProtectionMeasures($intangibleAsset, $secretProtectionMeasures);
+
+        if ($hasProtectionAction && $hasSecretProtectionMeasures) {
+            $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'seven', true);
+        } elseif (!($hasProtectionAction && $hasSecretProtectionMeasures)) {
+            $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'seven', false);
+        } else {
+            $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'seven', null);
+        }
+        /** ./Phase Seven */
+
+        /** Phase Eight */
+        if ($hasPriorityTools) $this->hasPriorityTools($intangibleAsset, $priorityTools);
+        /** ./Phase Eight */
+
+        /** Phase Nine */
+        if ($updateIsCommercial) $this->updateIsCommercial($intangibleAsset, $states);
+        /** ./Phase Nine */
+
+        if ($hasStrategies) $this->hasStrategies($intangibleAsset, $strategyCategories, $strategies, $users);
+    }
+
+    /**
      * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
      * 
      * @return void
      */
-    public function updateHasClassification($intangibleAsset)
+    public function updateHasClassification($intangibleAsset): void
     {
         $randomClassification = $this->intangibleAssetTypeLevel3Repository->randomFirst();
 
@@ -317,6 +362,24 @@ class IntangibleAssetSeeder extends Seeder
         $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'one');
 
         print("This Intangible Asset has a State. State: " . $randomClassification->name . "\n");
+    }
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * 
+     * @return void
+     */
+    public function updateHasDescription($intangibleAsset): void
+    {
+        $faker = \Faker\Factory::create();
+
+        $this->intangibleAssetRepository->update($intangibleAsset, [
+            'description' => $faker->realText(200)
+        ]);
+
+        $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'two');
+
+        print("This Intangible Asset has Description \n");
     }
 
     /**

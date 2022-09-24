@@ -43,7 +43,7 @@ class IntangibleAssetReportController extends Controller
             $intangibleAsset = $this->intangibleAssetRepository->getByIdWithRelations($intangibleAsset, [
                 'project.research_unit.administrative_unit', 'intangible_asset_state', 'classification', 'dpis.dpi',
                 'intangible_asset_published', 'intangible_asset_confidenciality_contract', 'intangible_asset_session_right_contract', 'intangible_asset_contability',
-                'user_messages', 'intangible_asset_protection_action', 'secret_protection_measures', 'priority_tools.priority_tool', 'priority_tools.dpi'
+                'user_messages', 'intangible_asset_protection_action', 'secret_protection_measures', 'priority_tools.priority_tool', 'priority_tools.dpi', 'intangible_asset_commercial'
             ]);
 
             // return $intangibleAsset;
