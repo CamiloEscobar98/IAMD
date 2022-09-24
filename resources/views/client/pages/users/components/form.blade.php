@@ -9,7 +9,7 @@
                 placeholder="{{ __('inputs.name') }}" value="{{ $item->name }}">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-user"></span>
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
                 placeholder="{{ __('inputs.email') }}" value="{{ $item->email }}">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-at"></span>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
                 placeholder="{{ __('inputs.password') }}" value="{{ old('password') }}">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-key"></span>
                 </div>
             </div>
         </div>
@@ -58,7 +58,7 @@
                 placeholder="{{ __('inputs.repeat_password') }}" value="{{ $item->repeat_password }}">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fa fa-repeat"></span>
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@
                 placeholder="{{ __('inputs.name') }}" value="{{ old('name') }}">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-user"></span>
                 </div>
             </div>
         </div>
@@ -99,7 +99,7 @@
                 placeholder="{{ __('inputs.email') }}" value="{{ old('email') }}">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-at"></span>
                 </div>
             </div>
         </div>
@@ -115,7 +115,7 @@
                 placeholder="{{ __('inputs.password') }}" value="{{ old('password') }}">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-key"></span>
                 </div>
             </div>
         </div>
@@ -132,7 +132,7 @@
                 placeholder="{{ __('inputs.repeat_password') }}" value="{{ old('repeat_password') }}">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fa fa-repeat"></span>
                 </div>
             </div>
         </div>

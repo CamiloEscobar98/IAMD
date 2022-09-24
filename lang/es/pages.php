@@ -1144,6 +1144,57 @@ return [
                 'show' => "En esta sección de la aplicación podrás visualizar el usuario <b>:user</b> ",
             ],
 
-        ]
+        ],
+
+        'priority_tools' => [
+            'title' => 'Herramientas de Priorización',
+            'subtitle' => 'Herramientas de Priorización',
+
+            'route-titles' => [
+                'create' => 'Registrar Herramienta de Priorización',
+                'show' => 'Visualizar Herramienta de Priorización',
+                'edit' => 'Editar Herramienta de Priorización',
+            ],
+
+            'form-titles' => [
+                'show' => 'Perfil de Visualización de la Herramienta de Priorización',
+                'create' => 'Formulario de Registro de una Herramienta de Priorización',
+                'edit' => 'Actualización de la Herramienta de Priorización',
+            ],
+
+            'filters' => [
+                'name' => 'Buscar Herramienta de Priorización',
+                'total' => 'Total de Herramientas de Priorización: ',
+            ],
+
+            'table' => [
+                'head' => [
+                    'name' => 'Nombre',
+                    'description' => 'Descripción',
+                    'created_at' => 'Fecha de Creación',
+                    'updated_at' => 'Fecha de Actualización'
+                ],
+            ],
+
+            'messages' => [
+                'confirm' => '¿Estás seguro de que quieres eliminar la herramienta de priorización?',
+
+                'save_success' => 'Se ha registrado correctamente la herramienta de priorización: <b>:priority_tool</b>',
+                'save_error' => 'No se ha registrado la herramienta de priorización.',
+
+                'update_success' => 'Se ha actualizado correctamente la herramienta de priorización: <b>:priority_tool</b>',
+                'update_error' => 'No se ha actualizado la herramienta de priorización.',
+
+                'delete_success' => 'Se ha eliminado la herramienta de priorización: <b>:priority_tool</b>',
+                'delete_error' => 'No se ha eliminado la herramienta de priorización.'
+            ],
+
+            'info' => [
+                'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>HERRAMIENTAS DE PRIORIZACIÓN</b>. 
+                Dicho recurso actualmente está destinado para enriquecer la información de las herramientas de priorización dentro de la aplicación.",
+
+                'show' => "En esta sección de la aplicación podrás visualizar la herramienta de priorización <b>:priority_tool</b> ",
+            ],
+        ],
     ]
 ];

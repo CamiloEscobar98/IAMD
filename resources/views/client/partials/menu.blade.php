@@ -67,13 +67,31 @@
 
 <!-- Users -->
 <li class="nav-item">
-    <a href="{{ route('client.users.index', [$client->name]) }}"
-        class="nav-link {{ routeIsActived('users') }}">
+    <a href="{{ route('client.users.index', [$client->name]) }}" class="nav-link {{ routeIsActived('users') }}">
         <i class="fas fa-user-friends nav-icon"></i>
         <p>{{ __('menu.client.users') }}</p>
     </a>
 </li>
 <!-- ./Users -->
+
+<!-- Strategies -->
+<li class="nav-item">
+    <a href="{{ route('client.users.index', [$client->name]) }}" class="nav-link {{ routeIsActived('strategies') }}">
+        <i class="fas fa-toolbox nav-icon"></i>
+        <p>{{ __('menu.client.strategies') }}</p>
+    </a>
+</li>
+<!-- ./Strategies -->
+
+<!-- Priority Tools -->
+<li class="nav-item">
+    <a href="{{ route('client.priority_tools.index', [$client->name]) }}" class="nav-link {{ routeIsActived('priority_tools') }}">
+        <i class="fas fa-tools nav-icon"></i>
+        <p>{{ __('menu.client.priority_tools') }}</p>
+    </a>
+</li>
+<!-- ./Priority Tools -->
+
 
 <!-- Reports -->
 <li class="nav-item">

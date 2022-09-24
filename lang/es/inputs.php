@@ -6,6 +6,8 @@ return [
     'yes' => 'Si',
     'no' => 'No',
 
+    'empty'  => 'N/N',
+
     'upload' => 'Subir',
 
     'email' => 'Correo Electrónico',

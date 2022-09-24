@@ -9,14 +9,18 @@ use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\AdministrativeUnitController;
 use App\Http\Controllers\Client\ResearchUnitController;
 use App\Http\Controllers\Client\ProjectController;
+
 use App\Http\Controllers\Client\CreatorInternalController;
 use App\Http\Controllers\Client\CreatorExternalController;
+
 use App\Http\Controllers\Client\IntangibleAssetController;
 use App\Http\Controllers\Client\IntangibleAssetFileController;
 use App\Http\Controllers\Client\IntangibleAssetPhaseController;
 use App\Http\Controllers\Client\IntangibleAssetReportController;
 use App\Http\Controllers\Client\IntangibleAssetStrategyController;
+
 use App\Http\Controllers\Client\UserController;
+use App\Http\Controllers\Client\PriorityToolController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,3 +98,5 @@ Route::prefix('reports')
     });
 
 Route::resource('users', UserController::class);
+
+Route::resource('priority_tools', PriorityToolController::class);

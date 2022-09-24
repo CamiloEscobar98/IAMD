@@ -43,7 +43,8 @@ trait ClientRoutes
             $this->getProjectRoutes(),
             $this->getCreatorRoutes(),
             $this->getIntangibleAssetRoutes(),
-            $this->getUserRoutes()
+            $this->getUserRoutes(),
+            $this->getPriorityToolRoutes(),
         );
 
         View::composer($views, ClientComposer::class);
@@ -204,6 +205,24 @@ trait ClientRoutes
 
             'client.pages.users.components.filters',
             'client.pages.users.components.table',
+        ];
+    }
+
+    /**
+     * get Users Routes
+     * 
+     * @return array
+     */
+    protected function getPriorityToolRoutes(): array
+    {
+        return [
+            'client.pages.priority_tools.index',
+            'client.pages.priority_tools.create',
+            'client.pages.priority_tools.show',
+            'client.pages.priority_tools.edit',
+
+            'client.pages.priority_tools.components.filters',
+            'client.pages.priority_tools.components.table',
         ];
     }
 }

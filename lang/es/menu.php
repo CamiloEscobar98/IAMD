@@ -67,6 +67,12 @@ return [
         'users' => 'Usuarios',
 
         /** Level 1 */
+        'strategies' => 'Estrategias de Gestión',
+
+        /** Level 1 */
+        'priority_tools' => 'Herramientas de Priorización',
+
+        /** Level 1 */
         'Reports' => 'Reportes',
 
         /** Level 2 */
