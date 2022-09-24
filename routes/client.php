@@ -16,6 +16,7 @@ use App\Http\Controllers\Client\IntangibleAssetFileController;
 use App\Http\Controllers\Client\IntangibleAssetPhaseController;
 use App\Http\Controllers\Client\IntangibleAssetReportController;
 use App\Http\Controllers\Client\IntangibleAssetStrategyController;
+use App\Http\Controllers\Client\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,14 +62,16 @@ Route::prefix('intangible_assets/{intangible_asset}/downloads')
 Route::prefix('intangible_assets/{intangible_asset}/reports')
     ->name('intangible_assets.reports.')
     ->group(function () {
-        Route::get('default', [IntangibleAssetReportController::class,'downloadDefaultReport'])->name('default');
+        Route::get('default', [IntangibleAssetReportController::class, 'downloadDefaultReport'])->name('default');
     });
 
 Route::patch('intangible_assets/{intangible_asset}/has_strategies', [IntangibleAssetStrategyController::class, 'updateHasStrategies'])
     ->name('intangible_assets.has_estrategies');
 
 Route::get('intangible_assets/{intangible_asset}/strategies', [IntangibleAssetStrategyController::class, 'index'])->name('intangible_assets.strategies.index');
+
 Route::post('intangible_assets/{intangible_asset}/strategies', [IntangibleAssetStrategyController::class, 'store'])->name('intangible_assets.strategies.store');
+
 Route::delete('intangible_assets/{intangible_asset}/strategies/{intangible_asset_strategy}', [IntangibleAssetStrategyController::class, 'destroy'])->name('intangible_assets.strategies.destroy');
 
 Route::prefix('intangible_assets/{intangible_asset}/phases')
@@ -84,3 +87,10 @@ Route::prefix('intangible_assets/{intangible_asset}/phases')
         Route::patch('phase_ eight', [IntangibleAssetPhaseController::class, 'updatePhaseEight'])->name('eight');
         Route::patch('phase_ nine', [IntangibleAssetPhaseController::class, 'updatePhaseNine'])->name('nine');
     });
+
+Route::prefix('reports')
+    ->name('reports.')
+    ->group(function () {
+    });
+
+Route::resource('users', UserController::class);

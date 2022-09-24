@@ -10,6 +10,7 @@ return [
 
     'nit' => 'Identificación:',
     'name' => 'Nombre:',
+    'email' => 'Correo Electrónico:',
     'document' => 'Documento:',
     'code' => 'Código:',
 

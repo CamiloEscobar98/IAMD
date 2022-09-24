@@ -67,7 +67,7 @@
 
 <!-- Users -->
 <li class="nav-item">
-    <a href="{{ route('client.intangible_assets.index', [$client->name]) }}"
+    <a href="{{ route('client.users.index', [$client->name]) }}"
         class="nav-link {{ routeIsActived('users') }}">
         <i class="fas fa-user-friends nav-icon"></i>
         <p>{{ __('menu.client.users') }}</p>

@@ -118,7 +118,7 @@ class CreatorInternalController extends Controller
             $creatorInternal = $this->creatorInternalRepository->create($creatorInternalData);
             DB::commit();
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.internal.messages.save_success', ['creator_internal' => $creator->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.internal.messages.save_success', ['creator_internal' => $creator->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
@@ -207,10 +207,10 @@ class CreatorInternalController extends Controller
             $creatorInternal = $this->creatorInternalRepository->update($creatorInternal, $creatorInternalData);
             DB::commit();
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.internal.messages.update_success', ['creator_internal' => $creator->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.internal.messages.update_success', ['creator_internal' => $creator->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 
@@ -232,11 +232,11 @@ class CreatorInternalController extends Controller
 
             DB::commit();
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.internal.messages.delete_success', ['creator_internal' => $item->creator->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.internal.messages.delete_success', ['creator_internal' => $item->creator->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
             return $th->getMessage();
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.creators.internal.messages.delete_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.creators.internal.messages.delete_error')]);
         }
     }
 }

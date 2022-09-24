@@ -104,7 +104,7 @@ class ProjectController extends Controller
             $this->projectFinancingRepository->create($dataProjectFinancing);
 
             DB::commit();
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.projects.messages.save_success', ['project' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.projects.messages.save_success', ['project' => $item->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
@@ -178,10 +178,10 @@ class ProjectController extends Controller
 
             DB::commit();
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.projects.messages.update_success', ['project' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.projects.messages.update_success', ['project' => $item->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.projects.messages.update_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.projects.messages.update_error')]);
         }
     }
 
@@ -203,10 +203,10 @@ class ProjectController extends Controller
 
             DB::commit();
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.projects.messages.delete_success', ['project' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.projects.messages.delete_success', ['project' => $item->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.projects.messages.delete_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.projects.messages.delete_error')]);
         }
     }
 }

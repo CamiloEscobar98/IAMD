@@ -118,7 +118,7 @@ class CreatorExternalController extends Controller
             $creatorInternal = $this->creatorExternalRepository->create($creatorExternalData);
             DB::commit();
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.external.messages.save_success', ['creator_external' => $creator->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.external.messages.save_success', ['creator_external' => $creator->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
@@ -207,10 +207,10 @@ class CreatorExternalController extends Controller
             $creatorExternal = $this->creatorExternalRepository->update($creatorExternal, $creatorExternalData);
             DB::commit();
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.external.messages.update_success', ['creator_external' => $creator->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.external.messages.update_success', ['creator_external' => $creator->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 
@@ -232,11 +232,11 @@ class CreatorExternalController extends Controller
 
             DB::commit();
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.external.messages.delete_success', ['creator_external' => $item->creator->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.external.messages.delete_success', ['creator_external' => $item->creator->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
             return $th->getMessage();
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.creators.external.messages.delete_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.creators.external.messages.delete_error')]);
         }
     }
 }

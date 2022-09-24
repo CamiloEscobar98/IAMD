@@ -88,9 +88,9 @@ class DocumentTypeController extends Controller
                 return $this->documentTypeRepository->create($data);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.save_success', ['document_type' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.save_success', ['document_type' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.save_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.save_error')]);
         }
     }
 
@@ -146,9 +146,9 @@ class DocumentTypeController extends Controller
                 $this->documentTypeRepository->update($item, $data);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.update_success', ['document_type' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.update_success', ['document_type' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.update_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.update_error')]);
         }
     }
 
@@ -167,9 +167,9 @@ class DocumentTypeController extends Controller
                 $this->documentTypeRepository->delete($item);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.delete_success', ['document_type' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.delete_success', ['document_type' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.delete_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.delete_error')]);
         }
     }
 }

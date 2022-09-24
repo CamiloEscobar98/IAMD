@@ -90,7 +90,7 @@ class ResearchUnitController extends Controller
             $item = $this->researchUnitRepository->create($data);
 
             DB::commit();
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.research_units.messages.save_success', ['research_unit' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.research_units.messages.save_success', ['research_unit' => $item->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
@@ -152,10 +152,10 @@ class ResearchUnitController extends Controller
 
             DB::commit();
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.research_units.messages.update_success', ['research_unit' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.research_units.messages.update_success', ['research_unit' => $item->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.research_units.messages.update_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.research_units.messages.update_error')]);
         }
     }
 
@@ -177,10 +177,10 @@ class ResearchUnitController extends Controller
 
             DB::commit();
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.research_units.messages.delete_success', ['research_unit' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.research_units.messages.delete_success', ['research_unit' => $item->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.research_units.messages.delete_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.research_units.messages.delete_error')]);
         }
     }
 }

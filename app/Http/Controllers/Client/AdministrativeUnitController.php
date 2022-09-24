@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
+
 use App\Http\Requests\Client\AdministrativeUnits\StoreRequest;
 use App\Http\Requests\Client\AdministrativeUnits\UpdateRequest;
 
@@ -83,9 +84,9 @@ class AdministrativeUnitController extends Controller
                 return $this->administrativeUnitRepository->create($data);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.administrative_units.messages.save_success', ['administrative_unit' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.administrative_units.messages.save_success', ['administrative_unit' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.administrative_units.messages.save_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.administrative_units.messages.save_error')]);
         }
     }
 
@@ -145,10 +146,10 @@ class AdministrativeUnitController extends Controller
                 return $this->administrativeUnitRepository->update($item, $data);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.administrative_units.messages.update_success', ['administrative_unit' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.administrative_units.messages.update_success', ['administrative_unit' => $item->name])]);
         } catch (\Exception $th) {
             dd($th->getMessage());
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.administrative_units.messages.update_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.administrative_units.messages.update_error')]);
         }
     }
 
@@ -169,10 +170,10 @@ class AdministrativeUnitController extends Controller
             
             DB::commit();
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.administrative_units.messages.delete_success', ['country' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.administrative_units.messages.delete_success', ['country' => $item->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.administrative_units.messages.delete_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.administrative_units.messages.delete_error')]);
         }
     }
 }

@@ -90,7 +90,7 @@ class IntangibleAssetController extends Controller
             $item = $this->intangibleAssetRepository->create($data);
 
             DB::commit();
-            return back()->with('alert', [
+            return redirect()->back()->with('alert', [
                 'title' => __('messages.success'), 'icon' => 'success',
                 'text' => __('pages.client.intangible_assets.messages.save_success', ['intangible_asset' => $item->name])
             ]);
@@ -164,10 +164,10 @@ class IntangibleAssetController extends Controller
 
             DB::commit();
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.update_success', ['intangible_asset' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.update_success', ['intangible_asset' => $item->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.messages.update_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.messages.update_error')]);
         }
     }
 
@@ -190,10 +190,10 @@ class IntangibleAssetController extends Controller
 
             DB::commit();
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.delete_success', ['intangible_asset' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.delete_success', ['intangible_asset' => $item->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.messages.delete_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.messages.delete_error')]);
         }
     }
 }

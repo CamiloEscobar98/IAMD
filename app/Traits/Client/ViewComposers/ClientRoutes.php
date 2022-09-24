@@ -42,7 +42,8 @@ trait ClientRoutes
             $this->getResearchUnitRoutes(),
             $this->getProjectRoutes(),
             $this->getCreatorRoutes(),
-            $this->getIntangibleAssetRoutes()
+            $this->getIntangibleAssetRoutes(),
+            $this->getUserRoutes()
         );
 
         View::composer($views, ClientComposer::class);
@@ -185,6 +186,24 @@ trait ClientRoutes
             'client.pages.intangible_assets.components.filters',
             'client.pages.intangible_assets.components.table',
             'client.pages.intangible_assets.components.form',
+        ];
+    }
+
+    /**
+     * get Users Routes
+     * 
+     * @return array
+     */
+    protected function getUserRoutes(): array
+    {
+        return [
+            'client.pages.users.index',
+            'client.pages.users.create',
+            'client.pages.users.show',
+            'client.pages.users.edit',
+
+            'client.pages.users.components.filters',
+            'client.pages.users.components.table',
         ];
     }
 }

@@ -90,9 +90,9 @@ class CityController extends Controller
                 return $this->cityRepository->create($data);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.cities.messages.save_success', ['city' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.cities.messages.save_success', ['city' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.save_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.save_error')]);
         }
     }
 
@@ -152,9 +152,9 @@ class CityController extends Controller
                 $this->cityRepository->update($item, $data);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.cities.messages.update_success', ['city' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.cities.messages.update_success', ['city' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.update_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.update_error')]);
         }
     }
 
@@ -173,9 +173,9 @@ class CityController extends Controller
                 $this->cityRepository->delete($item);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.cities.messages.delete_success', ['city' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.cities.messages.delete_success', ['city' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.delete_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.delete_error')]);
         }
     }
 }

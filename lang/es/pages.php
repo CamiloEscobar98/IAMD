@@ -536,10 +536,6 @@ return [
 
                 'show' => "En esta sección de la aplicación podrás visualizar la subdirección técnica <b>:administrative_unit</b> ",
             ],
-
-            'states' => [
-                'title' => 'Lista de Departamentos',
-            ]
         ],
 
         /** Research Units */
@@ -1093,5 +1089,57 @@ return [
                 ]
             ]
         ],
+
+        'users' => [
+            'title' => 'Usuarios del Sistema',
+            'subtitle' => 'Usuarios',
+
+            'route-titles' => [
+                'create' => 'Registrar Usuario',
+                'show' => 'Visualizar Usuario',
+                'edit' => 'Editar Usuario',
+            ],
+
+            'form-titles' => [
+                'show' => 'Perfil de Visualización del Usuario',
+                'create' => 'Formulario de Registro de un Usuario',
+                'edit' => 'Actualización del Usuario',
+            ],
+
+            'filters' => [
+                'email' => 'Buscar Usuario por Email',
+                'total' => 'Total de Usuarios: ',
+            ],
+
+            'table' => [
+                'head' => [
+                    'name' => 'Nombre',
+                    'email' => 'Email',
+                    'created_at' => 'Fecha de Creación',
+                    'updated_at' => 'Fecha de Actualización'
+                ],
+            ],
+
+            'messages' => [
+                'confirm' => '¿Estás seguro de que quieres eliminar el usuario?',
+
+                'save_success' => 'Se ha registrado correctamente el usuario: <b>:user</b>',
+                'save_error' => 'No se ha registrado el usuario.',
+
+                'update_success' => 'Se ha actualizado correctamente el usuario: <b>:user</b>',
+                'update_error' => 'No se ha actualizado el usuario.',
+
+                'delete_success' => 'Se ha eliminado el usuario: <b>:user</b>',
+                'delete_error' => 'No se ha eliminado el usuario.'
+            ],
+
+            'info' => [
+                'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>USUARIOS DEL SISTEMA</b>. 
+                Dicho recurso actualmente está destinado para enriquecer la información de los usuarios dentro de la aplicación.",
+
+                'show' => "En esta sección de la aplicación podrás visualizar el usuario <b>:user</b> ",
+            ],
+
+        ]
     ]
 ];

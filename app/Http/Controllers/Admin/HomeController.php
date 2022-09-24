@@ -39,9 +39,9 @@ class HomeController extends Controller
                 $this->adminRepository->update($admin, $data);
             });
 
-            return back()->with('alert', ['title' => '¡Éxito!', 'icon' => 'success', 'text' => 'Se ha actualizado tu información correctamente.']);
+            return redirect()->back()->with('alert', ['title' => '¡Éxito!', 'icon' => 'success', 'text' => 'Se ha actualizado tu información correctamente.']);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => '¡Error!', 'icon' => 'error', 'text' => 'No se pudo actualizar tu información.']);
+            return redirect()->back()->with('alert', ['title' => '¡Error!', 'icon' => 'error', 'text' => 'No se pudo actualizar tu información.']);
         }
     }
 
@@ -56,9 +56,9 @@ class HomeController extends Controller
                 $this->adminRepository->update($admin, $data);
             });
 
-            return back()->with('alert', ['title' => '¡Éxito!', 'icon' => 'success', 'text' => 'Se ha actualizado tu contraseña correctamente.']);
+            return redirect()->back()->with('alert', ['title' => '¡Éxito!', 'icon' => 'success', 'text' => 'Se ha actualizado tu contraseña correctamente.']);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => '¡Error!', 'icon' => 'error', 'text' => 'NO se pudo actualizar tu contraseña.']);
+            return redirect()->back()->with('alert', ['title' => '¡Error!', 'icon' => 'error', 'text' => 'NO se pudo actualizar tu contraseña.']);
         }
     }
 

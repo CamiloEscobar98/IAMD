@@ -88,9 +88,9 @@ class ExternalOrganizationController extends Controller
                 return $this->externalOrganizationRepository->create($data);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.external_organizations.messages.save_success', ['external_organization' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.external_organizations.messages.save_success', ['external_organization' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.external_organizations.messages.save_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.external_organizations.messages.save_error')]);
         }
     }
 
@@ -147,9 +147,9 @@ class ExternalOrganizationController extends Controller
                 $this->externalOrganizationRepository->update($item, $data);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.external_organizations.messages.update_success', ['external_organization' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.external_organizations.messages.update_success', ['external_organization' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.external_organizations.messages.update_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.external_organizations.messages.update_error')]);
         }
     }
 
@@ -168,9 +168,9 @@ class ExternalOrganizationController extends Controller
                 $this->externalOrganizationRepository->delete($item);
             });
 
-            return back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.external_organizations.messages.delete_success', ['external_organization' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.external_organizations.messages.delete_success', ['external_organization' => $item->name])]);
         } catch (\Exception $th) {
-            return back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.external_organizations.messages.delete_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.external_organizations.messages.delete_error')]);
         }
     }
 }
