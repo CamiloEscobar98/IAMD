@@ -32,10 +32,26 @@ abstract class AbstractFileSystemService
      * 
      * @return bool|Exception
      */
-    public function storeFile($path, $file, $options = []): bool
+    public function storeFile($path, $file, $options): bool
     {
         try {
             return Storage::disk($this->disk)->put($path, file_get_contents($file), $options);
+        } catch (Exception $th) {
+            throw new Exception("The file hasn't been saved.");
+        }
+    }
+
+    /**
+     * @param string $path
+     * @param \Illuminate\Http\UploadedFile $file
+     * @param ?array $options
+     * 
+     * @return bool|Exception
+     */
+    public function storeGeneratedFile($path, $file,)
+    {
+        try {
+            return Storage::disk($this->disk)->put($path, $file);
         } catch (Exception $th) {
             throw new Exception("The file hasn't been saved.");
         }

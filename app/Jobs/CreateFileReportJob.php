@@ -16,13 +16,12 @@ use App\Repositories\Admin\TenantRepository;
 use App\Repositories\Client\NotificationRepository;
 use App\Repositories\Client\UserFileReportRepository;
 use App\Services\FileSystem\IntangibleAsset\ReportFileSingleReportService;
+use Illuminate\Log\Logger;
+use Illuminate\Support\Facades\Log;
 
 class CreateFileReportJob implements ShouldQueue
 {
     use Dispatchable, Queueable, SerializesModels;
-
-    /** @var string */
-    protected $view;
 
     /** @var array */
     protected $data;
@@ -37,9 +36,8 @@ class CreateFileReportJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(string $view, array $data = [], array $config)
+    public function __construct(array $data, array $config)
     {
-        $this->view = $view;
         $this->data = $data;
         $this->config = $config;
     }
@@ -57,40 +55,51 @@ class CreateFileReportJob implements ShouldQueue
 
         ReportFileSingleReportService $reportFileSingleReportService
     ) {
-        $client  = $tenantRepository->getByAttribute('name', $this->clientName);
-        Config::set('database.connections.tenant', $tenantRepository->getArrayConfigurationDatabase($client));
-
-        $view = $this->view;
         $data = $this->data;
         $config = $this->config;
 
-        switch ($config['report_type']) {
-            case 'intangible_report_single':
-                $notificationType = $notificationTypeRepository->getByAttribute('name', 'Reporte');
+        try {
+            $client  = $tenantRepository->getByAttribute('name', $config['client']);
+            Config::set('database.connections.tenant', $tenantRepository->getArrayConfigurationDatabase($client));
 
-                $pdf = Pdf::loadView($view, $data)->setPaper('a4', 'landscape')->output();
+            Log::alert('---- CREATING A NEW REPORT ----');
 
-                $fileName = 'intangible_asset_report_single_' . time() . '.pdf';
+            switch ($config['report_type']) {
+                case 'intangible_assets.reports.single':
+                    Log::info("INTANGIBLE ASSET SINGLE REPORT SELECTED");
 
-                $reportFileSingleReportService->storeFile($fileName, $pdf);
+                    $notificationType = $notificationTypeRepository->getByAttribute('name', 'Reporte');
 
-                $notificationRepository->create([
-                    'user_id' => $this->userId,
-                    'message' => 'Se ha generado el reporte.',
-                    'notification_type_id' => $notificationType->id
-                ]);
+                    $pdf = Pdf::loadView('reports.intangible_assets.single', $data)->output();
 
-                $userFileReportRepository->create([
-                    'user_id' => $config['userId'],
-                    'report_type' => $config['report_type'],
-                    'file_name' => $fileName
-                ]);
+                    $fileName = 'intangible_asset_report_single_' . time() . '.pdf';
 
-                break;
+                    $reportFileSingleReportService->storeFileReport($fileName, $pdf, []);
 
-            case 'intangible_report_multiple':
-                # code...
-                break;
+                    $notificationRepository->create([
+                        'user_id' => $config['userId'],
+                        'message' => 'Se ha generado el reporte.',
+                        'notification_type_id' => $notificationType->id
+                    ]);
+
+                    $userFileReportRepository->create([
+                        'user_id' => $config['userId'],
+                        'report_type' => $config['report_type'],
+                        'file_name' => $fileName
+                    ]);
+
+                    Log::info('REPORT DONE');
+
+                    break;
+
+                case 'intangible_assets.reports.multiple':
+                    # code...
+                    break;
+            }
+
+            Log::alert('---- CREATING NEW REPORT FINISHED ----');
+        } catch (\Exception $th) {
+            Log::error($th->getMessage());
         }
     }
 }

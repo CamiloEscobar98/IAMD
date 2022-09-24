@@ -1,0 +1,15 @@
+.page-break {
+    page-break-after: always;
+}
+
+.bg-title {
+    background-color: rgb(204, 85, 85);
+}
+
+.bg-subtitle {
+    background-color: rgb(235, 182, 182);
+}
+
+.bg-questions {
+    background-color: rgb(236, 236, 236);
+}

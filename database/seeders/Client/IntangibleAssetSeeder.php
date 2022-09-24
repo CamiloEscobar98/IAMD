@@ -211,7 +211,7 @@ class IntangibleAssetSeeder extends Seeder
 
 
         $projects->each(function ($project) use ($states, $creators, $users, $dpis, $secretProtectionMeasures, $priorityTools, $strategyCategories, $strategies) {
-            $randomNumber = rand(3, 10);
+            $randomNumber = rand(3, 5);
 
             print("PROJECT: " . $project->name .  "\n \n");
 

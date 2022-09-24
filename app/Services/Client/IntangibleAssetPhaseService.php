@@ -350,9 +350,10 @@ class IntangibleAssetPhaseService
         /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset */
         $intangibleAsset = $this->intangibleAssetRepository->getByIdWithRelations($intangibleAsset, ['dpis', 'priority_tools']);
 
-        $hasProtectionAction = $request->get('has_protection_action');
+        $hasPriorityTool = $request->get('has_priority_tools');
+        
 
-        if ($hasProtectionAction == -1) {
+        if ($hasPriorityTool == -1) {
             try {
                 DB::beginTransaction();
 

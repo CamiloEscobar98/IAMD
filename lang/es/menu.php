@@ -55,7 +55,7 @@ return [
 
         /** Level 1 */
         'IntangibleAssets' => 'Activos Intangibles',
-        
+
         /** Level 1 */
         'Creators' => 'Creadores',
 
@@ -64,6 +64,13 @@ return [
         'CreatorsExternal' => 'Externos',
 
         /** Level 1 */
-        'users' => 'Usuarios'
+        'users' => 'Usuarios',
+
+        /** Level 1 */
+        'Reports' => 'Reportes',
+
+        /** Level 2 */
+        'GenerateReport' => 'Generar Reporte',
+        'MyReports' => 'Reportes Generados'
     ]
 ];

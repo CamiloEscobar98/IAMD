@@ -116,7 +116,7 @@ class IntangibleAssetController extends Controller
                 'intangible_asset_confidenciality_contract', 'creators', 'intangible_asset_session_right_contract', 'user_messages',
                 'secret_protection_measures', 'priority_tools'
             ]);
-
+            
             return view('client.pages.intangible_assets.show', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);

@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 use App\Traits\Client\IntangibleAsset\HasPhases;
 
 use App\Models\Admin\IntangibleAssetState;
-
+use App\Models\Admin\IntangibleAssetTypeLevel\IntangibleAssetTypeLevel3;
 use App\Models\Client\Creator\Creator;
 use App\Models\Client\Project\Project;
 use App\Models\Client\User;
@@ -64,6 +64,14 @@ class IntangibleAsset extends BaseModel
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function classification(): BelongsTo
+    {
+        return $this->belongsTo(IntangibleAssetTypeLevel3::class, 'classification_id');
     }
 
     /**
@@ -197,6 +205,30 @@ class IntangibleAsset extends BaseModel
     /**
      * @return bool
      */
+    public function hasClassification(): bool
+    {
+        return !is_null($this->classification);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasDescription(): bool
+    {
+        return !is_null($this->description);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasState(): bool
+    {
+        return !is_null($this->intangible_asset_state);
+    }
+
+    /**
+     * @return bool
+     */
     public function hasCreators(): bool
     {
         return $this->creators->count() > 0;
@@ -290,7 +322,7 @@ class IntangibleAsset extends BaseModel
         return $this->intangible_asset_phases->has_strategies;
     }
 
-    
+
 
     /** Intangible Asset Confidenciality Contract File Methods */
 

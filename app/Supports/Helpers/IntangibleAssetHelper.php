@@ -207,9 +207,9 @@ if (!function_exists('intangibleAssetHasDpiPriorityTool')) {
     function intangibleAssetHasDpiPriorityTool($intangibleAsset, bool $not = false): string | null
     {
         if ($not) {
-            return !$intangibleAsset->hasPriorityTools() && !old('has_protection_action') == '1' ? 'selected' : null;
+            return !$intangibleAsset->hasPriorityTools() && !old('has_priority_tools') == '1' ? 'selected' : null;
         } else {
-            return $intangibleAsset->hasPriorityTools() || old('has_protection_action') == '1' ? 'selected' : null;
+            return $intangibleAsset->hasPriorityTools() || old('has_priority_tools') == '1' ? 'selected' : null;
         }
     }
 }

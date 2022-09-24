@@ -1082,6 +1082,15 @@ return [
 
                     ]
                 ]
+            ],
+
+            'reports' => [
+                'single' => [
+                    'messages' => [
+                        'generate_success' => 'Se está generando el reporte del Activo Intangible',
+                        'generate_error' => 'No se ha podido generar el reporte del Activo Intangible'
+                    ]
+                ]
             ]
         ],
     ]

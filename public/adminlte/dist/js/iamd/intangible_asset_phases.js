@@ -1,7 +1,7 @@
 function changeIsPublished() {
     let select = $("#isPublished").val();
     var container = $("#publishedContainer");
-    
+
     if (select == 1) {
         container.show();
     } else {
@@ -12,7 +12,7 @@ function changeIsPublished() {
 function changeHasConfidencialityContract() {
     let select = $("#hasConfidencialityContract").val();
     var container = $("#confidencialityContractContainer");
-    
+
     if (select == 1) {
         container.show();
     } else {
@@ -23,7 +23,7 @@ function changeHasConfidencialityContract() {
 function changeHasSessionRightContract() {
     let select = $("#hasSessionRightContract").val();
     var container = $("#sessionRightContractContainer");
-    
+
     if (select == 1) {
         container.show();
     } else {
@@ -34,7 +34,7 @@ function changeHasSessionRightContract() {
 function changeHasContability() {
     let select = $("#hasContability").val();
     var container = $("#commercialContainer");
-    
+
     if (select == 1) {
         container.show();
     } else {
@@ -55,7 +55,7 @@ function changeHasDeposite() {
 function changeHasSecretProtection() {
     let select = $("#hasSecretProtection").val();
     var container = $("#hasSecretProtectionContainer");
-    
+
     if (select == 1) {
         container.show();
     } else {
@@ -64,9 +64,11 @@ function changeHasSecretProtection() {
 }
 
 function changeHasPriorityTools() {
-    let select = $("#hasProtectionAction").val();
-    var container = $("#hasProtectionActionContainer");
-    
+    let select = $("#hasPriorityTools").val();
+    var container = $("#hasPriorityToolsContainer");
+
+    console.log(select);
+
     if (select == 1) {
         container.show();
     } else {
@@ -78,7 +80,7 @@ function changeHasPriorityTools() {
 function changeIsCommercial() {
     let select = $("#isCommercial").val();
     var container = $("#isCommercialContainer");
-    
+
     if (select == 1) {
         container.show();
     } else {

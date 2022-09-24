@@ -24,7 +24,7 @@ class PriorityToolSeeder extends Seeder
     {
         print("¡¡ CREATING PRIORITY TOOLS !! \n \n");
 
-        $randomNumber = rand(10, 50);
+        $randomNumber = rand(10, 20);
 
         $cont = 0;
 

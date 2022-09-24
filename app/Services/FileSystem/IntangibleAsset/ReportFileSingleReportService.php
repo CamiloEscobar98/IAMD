@@ -7,7 +7,7 @@ use App\Services\FileSystem\AbstractFileSystemService;
 class ReportFileSingleReportService extends AbstractFileSystemService
 {
     /** @var string */
-    protected $basePath = 'reports/single/';
+    protected $basePath = 'reports/';
 
     public function __construct()
     {
@@ -21,9 +21,9 @@ class ReportFileSingleReportService extends AbstractFileSystemService
      * 
      * @return bool
      */
-    public function storeFileReport($path = '', $file, $options = [])
+    public function storeFileReport($path, $file, $options)
     {
-        return $this->storeFile($this->basePath . $path, $file, $options);
+        return $this->storeGeneratedFile($this->basePath . $path, $file, $options);
     }
 
     /**

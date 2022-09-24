@@ -521,12 +521,12 @@
     <!-- PHASE SIX: INTANGIBLE ASSET USER MESSAGES -->
     <div class="card">
         <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseSixCompleted()) }}">
-            <a class="collapsed card-link" data-toggle="collapse" href="#collapseFour">
+            <a class="collapsed card-link" data-toggle="collapse" href="#collapseSix">
                 <span class="{{ phaseIsCompletedIcon($item->hasPhaseSixCompleted()) }} mr-1"></span>
                 {{ __('pages.client.intangible_assets.phases.six.title') }}
             </a>
         </div>
-        <div id="collapseFour" class="collapse {{ phaseIsCompletedOpen($item->hasPhaseSixCompleted()) }}"
+        <div id="collapseSix" class="collapse {{ phaseIsCompletedOpen($item->hasPhaseSixCompleted()) }}"
             data-parent="#accordion">
             <div class="card-body">
                 @forelse ($item->user_messages as $message)
@@ -702,8 +702,8 @@
 
                     <div class="form-group">
                         <label>{{ __('pages.client.intangible_assets.phases.eight.sub_phases.has_tool.title') }}</label>
-                        <select id="hasProtectionAction" name="has_protection_action"
-                            class="form-control form-control-sm" onchange="changeHasPriorityTools()">
+                        <select id="hasPriorityTools" name="has_priority_tools" class="form-control form-control-sm"
+                            onchange="changeHasPriorityTools()">
                             <option value="1" {{ intangibleAssetHasDpiPriorityTool($item) }}>
                                 {{ __('inputs.yes') }}</option>
                             <option value="-1" {{ intangibleAssetHasDpiPriorityTool($item, true) }}>
@@ -711,7 +711,7 @@
                         </select>
                     </div>
 
-                    <div id="hasProtectionActionContainer">
+                    <div id="hasPriorityToolsContainer">
                         @foreach ($item->dpis as $dpi)
                             <div class="form-group">
                                 <label>{!! __('pages.client.intangible_assets.phases.eight.sub_phases.has_tool.form.tools', [

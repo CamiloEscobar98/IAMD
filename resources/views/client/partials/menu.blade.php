@@ -65,11 +65,40 @@
 </li>
 <!-- ./Creators Options -->
 
-<!-- Intangible Assets -->
+<!-- Users -->
 <li class="nav-item">
     <a href="{{ route('client.intangible_assets.index', [$client->name]) }}"
-        class="nav-link {{ routeIsActived('intangible_assets') }}">
+        class="nav-link {{ routeIsActived('users') }}">
         <i class="fas fa-user-friends nav-icon"></i>
         <p>{{ __('menu.client.users') }}</p>
     </a>
 </li>
+<!-- ./Users -->
+
+<!-- Reports -->
+<li class="nav-item">
+    <a href="#" class="nav-link {{ routeIsActived('reports') . routeIsActived('reports') }}">
+        <i class="nav-icon fas fa-file"></i>
+        <p>
+            {{ __('menu.client.Reports') }}
+            <i class="right fas fa-angle-left"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview">
+        <li class="nav-item">
+            <a href="{{ route('client.creators.internal.index', [$client->name]) }}"
+                class="nav-link {{ routeIsActived('internal') }}">
+                <i class="fas fa-clipboard-check nav-icon"></i>
+                <p>{{ __('menu.client.GenerateReport') }}</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('client.creators.external.index', [$client->name]) }}"
+                class="nav-link {{ routeIsActived('external') }}">
+                <i class="fas fa-folder-open	 nav-icon"></i>
+                <p>{{ __('menu.client.MyReports') }}</p>
+            </a>
+        </li>
+    </ul>
+</li>
+<!-- ./Reports -->
