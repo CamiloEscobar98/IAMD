@@ -1,13 +1,13 @@
 @extends('client.layout.app')
 
-@section('title', __('pages.client.administrative_units.route-titles.edit'))
+@section('title', __('pages.client.users.route-titles.edit'))
 
 @section('content-header')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>{{ __('pages.client.administrative_units.subtitle') }}</h1>
+                    <h1>{{ __('pages.client.users.subtitle') }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -15,8 +15,8 @@
                                 href="{{ route('client.home', $client->name) }}">{{ __('pages.home.title') }}</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('client.administrative_units.index', $client->name) }}">
-                                {{ __('pages.client.administrative_units.title') }} </a>
+                            <a href="{{ route('client.users.index', $client->name) }}">
+                                {{ __('pages.client.users.title') }} </a>
                         </li>
                         <li class="breadcrumb-item">{{ $item->name }}</li>
                         <li class="breadcrumb-item active">{{ __('pages.default.edit') }}</li>
@@ -34,9 +34,9 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.client.administrative_units.form-titles.edit') }}</u>
+                            <u>{{ __('pages.client.users.form-titles.edit') }}</u>
                         </h3>
-                        @include('client.pages.administrative_units.components.form', [
+                        @include('client.pages.users.components.form', [
                             'editMode' => true,
                         ])
                     </div>
@@ -49,9 +49,9 @@
                             <u>{{ __('pages.default.title-information') }}</u>
                         </h3>
                         <div class="row justify-content-center">
-                            <img src="{{ asset('assets/images/administrative_units.png') }}" class="img-fluid mt-3"
+                            <img src="{{ asset('assets/images/users.png') }}" class="img-fluid mt-3"
                                 width="400em" alt="">
-                            <p>{!! __('pages.client.administrative_units.info.create') !!}</p>
+                            <p>{!! __('pages.client.users.info.create') !!}</p>
                         </div>
                     </div>
                 </div>

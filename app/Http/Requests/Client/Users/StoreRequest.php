@@ -26,6 +26,8 @@ class StoreRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'email' => ['required', 'email', 'unique:tenant.users'],
+            'password' => ['required', 'string', 'min:5'],
+            'repeat_password' => ['same:password']
         ];
     }
 }

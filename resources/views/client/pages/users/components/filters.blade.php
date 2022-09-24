@@ -36,9 +36,9 @@
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.email') }}</label>
                         </div>
-                        <input type="text" name="name" class="form-control"
+                        <input type="email" name="email" class="form-control"
                             placeholder="{{ __('pages.client.users.filters.email') }}"
-                            value="{{ getParamValue($params, 'name') }}">
+                            value="{{ getParamValue($params, 'email') }}">
                     </div>
                 </div>
             </div>

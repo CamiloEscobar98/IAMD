@@ -25,7 +25,9 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:tenant.users,email' . $this->user],
+            'email' => ['required', 'email', 'unique:tenant.users,email,' . $this->user],
+            'password' => ['required', 'string', 'min:5'],
+            'repeat_password' => ['same:password']
         ];
     }
 }

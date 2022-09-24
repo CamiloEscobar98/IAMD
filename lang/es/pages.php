@@ -1130,7 +1130,11 @@ return [
                 'update_error' => 'No se ha actualizado el usuario.',
 
                 'delete_success' => 'Se ha eliminado el usuario: <b>:user</b>',
-                'delete_error' => 'No se ha eliminado el usuario.'
+                'delete_error' => 'No se ha eliminado el usuario.',
+
+                'status_code' => [
+                    '23000' => 'El usuario se encuentra relacionado con otra entidad en el aplicativo y por esto no es posible su eliminación.'
+                ]
             ],
 
             'info' => [

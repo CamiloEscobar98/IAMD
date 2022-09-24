@@ -1,13 +1,13 @@
 @extends('client.layout.app')
 
-@section('title', __('pages.client.administrative_units.route-titles.show'))
+@section('title', __('pages.client.users.route-titles.show'))
 
 @section('content-header')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>{{ __('pages.client.administrative_units.subtitle') }}</h1>
+                    <h1>{{ __('pages.client.users.subtitle') }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -15,8 +15,8 @@
                                 href="{{ route('client.home', $client->name) }}">{{ __('pages.home.title') }}</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('client.administrative_units.index', $client->name) }}">
-                                {{ __('pages.client.administrative_units.title') }} </a>
+                            <a href="{{ route('client.users.index', $client->name) }}">
+                                {{ __('pages.client.users.title') }} </a>
                         </li>
                         <li class="breadcrumb-item active">{{ $item->name }}</li>
                     </ol>
@@ -33,8 +33,9 @@
                 <div class="card">
                     <div class="card-body">
                         <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.client.administrative_units.form-titles.show') }}</u>
+                            <u>{{ __('pages.client.users.form-titles.show') }}</u>
                         </h3>
+
                         <!-- Name -->
                         <div class="input-group mt-3">
                             <input type="text" class="form-control" placeholder="{{ __('inputs.name') }}"
@@ -47,20 +48,21 @@
                         </div>
                         <!-- ./Name -->
 
-                        <!-- Info -->
+                        <!-- Email -->
                         <div class="input-group mt-3">
-                            <textarea class="form-control" cols="30" rows="10" disabled>{{ $item->info }}</textarea>
+                            <input type="email" class="form-control" placeholder="{{ __('inputs.email') }}"
+                                value="{{ $item->email }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-flag"></span>
                                 </div>
                             </div>
                         </div>
-                        <!-- ./Info -->
+                        <!-- ./Email -->
 
                         <!-- Edit Button -->
                         <div class="form-group mt-3">
-                            <a href="{{ getClientRoute('client.administrative_units.edit', [$item->id]) }}"
+                            <a href="{{ getClientRoute('client.users.edit', [$item->id]) }}"
                                 class="btn btn-warning btn-sm">{{ __('buttons.update_to') }}</a>
                         </div>
                         <!-- Edit Button -->
@@ -76,9 +78,9 @@
                             <u>{{ __('pages.default.title-information') }}</u>
                         </h3>
                         <div class="row justify-content-center">
-                            <img src="{{ asset('assets/images/administrative_units.png') }}" class="img-fluid mt-3"
-                                width="400em" alt="">
-                            <p>{!! __('pages.client.administrative_units.info.show', ['administrative_unit' => $item->name]) !!}</p>
+                            <img src="{{ asset('assets/images/users.png') }}" class="img-fluid mt-3" width="400em"
+                                alt="">
+                            <p>{!! __('pages.client.users.info.show', ['user' => $item->name]) !!}</p>
                         </div>
                     </div>
                 </div>

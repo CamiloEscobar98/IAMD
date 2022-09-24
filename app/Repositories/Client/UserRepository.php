@@ -29,6 +29,10 @@ class UserRepository extends  AbstractRepository
             $query->where('name', 'like', '%' . $params['name'] . '%');
         }
 
+        if (isset($params['email']) && $params['email']) {
+            $query->where('email', 'like', '%' . $params['email'] . '%');
+        }
+
         if (isset($params['date_from']) && $params['date_from']) {
             $query->where('updated_at', '>=', $params['date_from']);
         }

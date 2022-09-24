@@ -1,5 +1,5 @@
 @if ($editMode)
-    <form action="{{ getClientRoute('client.administrative_units.update', [$item->id]) }}" method="post">
+    <form action="{{ getClientRoute('client.users.update', [$item->id]) }}" method="post">
         @csrf
         @method('PUT')
 
@@ -38,7 +38,7 @@
         <!-- Password -->
         <div class="input-group mt-3">
             <input type="password" name="password" class="form-control {{ isInvalidByError($errors, 'password') }}"
-                placeholder="{{ __('inputs.password') }}" value="{{ $item->password }}">
+                placeholder="{{ __('inputs.password') }}" value="{{ old('password') }}">
             <div class="input-group-append">
                 <div class="input-group-text">
                     <span class="fas fa-flag"></span>
@@ -74,7 +74,7 @@
 
     </form>
 @else
-    <form action="{{ route('client.administrative_units.store', $client->name) }}" method="post">
+    <form action="{{ route('client.users.store', $client->name) }}" method="post">
         @csrf
 
         <!-- Name -->
