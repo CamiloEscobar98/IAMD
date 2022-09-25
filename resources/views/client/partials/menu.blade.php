@@ -98,7 +98,7 @@
 <li class="nav-item">
     <a href="{{ route('client.financing_types.index', [$client->name]) }}"
         class="nav-link {{ routeIsActived('financing_types') }}">
-        <i class="fas fa-star nav-icon"></i>
+        <i class="fas fa-balance-scale-right nav-icon"></i>
         <p>{{ __('menu.client.financing_types') }}</p>
     </a>
 </li>
