@@ -1,4 +1,4 @@
-<li class="nav-header">{{ __('menu.admin.title') }}</li>
+<li class="nav-header">{{ __('menu.client.title') }}</li>
 
 <!-- Administrative Units -->
 <li class="nav-item">
@@ -74,6 +74,8 @@
 </li>
 <!-- ./Users -->
 
+<li class="nav-header">{{ __('menu.client.first_subtitle') }}</li>
+
 <!-- Strategies -->
 <li class="nav-item">
     <a href="{{ route('client.strategies.index', [$client->name]) }}"
@@ -123,6 +125,8 @@
     </a>
 </li>
 <!-- ./Secret Protection Measures -->
+
+<li class="nav-header">{{ __('menu.client.second_subtitle') }}</li>
 
 <!-- Reports -->
 <li class="nav-item">

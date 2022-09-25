@@ -44,6 +44,10 @@ return [
 
 
     'client' => [
+
+        /** Main Title */
+        'title' => 'MENÚ PRINCIPAL',
+
         /** Level 1 */
         'AdministrativeUnits' => 'Subdirecciones Técnicas',
 
@@ -66,6 +70,9 @@ return [
         /** Level 1 */
         'users' => 'Usuarios',
 
+        /** Second Title */
+        'first_subtitle' => 'CONFIGURACIÓN',
+
         /** Level 1 */
         'strategies' => 'Estrategias de Gestión',
 
@@ -83,6 +90,9 @@ return [
 
         /** Level 1 */
         'Reports' => 'Reportes',
+
+         /** Second Title */
+         'second_subtitle' => 'ESTADÍSTICA',
 
         /** Level 2 */
         'GenerateReport' => 'Generar Reporte',
