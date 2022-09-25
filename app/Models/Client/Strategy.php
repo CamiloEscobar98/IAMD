@@ -13,5 +13,5 @@ class Strategy extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'description'];
 }

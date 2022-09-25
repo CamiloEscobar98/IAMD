@@ -76,7 +76,7 @@
 
 <!-- Strategies -->
 <li class="nav-item">
-    <a href="{{ route('client.users.index', [$client->name]) }}" class="nav-link {{ routeIsActived('strategies') }}">
+    <a href="{{ route('client.strategies.index', [$client->name]) }}" class="nav-link {{ routeIsActived('strategies') }}">
         <i class="fas fa-toolbox nav-icon"></i>
         <p>{{ __('menu.client.strategies') }}</p>
     </a>
