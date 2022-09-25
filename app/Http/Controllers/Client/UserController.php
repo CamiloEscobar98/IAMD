@@ -195,11 +195,11 @@ class UserController extends Controller
             $message = '';
             switch ($th->getCode()) {
                 case 23000:
-                    $message = __('pages.client.users.messages.status_code.23000');
+                    $message = __('messages.status_code.23000');
                     break;
 
                 default:
-                    $message = __('pages.client.users.messages.delete_error');
+                    $message = __('messages.delete_error');
                     break;
             }
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);

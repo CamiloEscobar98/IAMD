@@ -35,6 +35,8 @@ class IntangibleAssetFileController extends Controller
         IntangibleAssetConfidentialityContractRepository $intangibleAssetConfidentialityContractRepository,
         IntangibleAssetSessionRightContractRepository $intangibleAssetSessionRightContractRepository,
     ) {
+        $this->middleware('auth');
+
         $this->fileConfidencialityContractService = $fileConfidencialityContractService;
         $this->fileSessionRightContractService = $fileSessionRightContractService;
 

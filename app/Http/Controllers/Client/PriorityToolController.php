@@ -29,6 +29,8 @@ class PriorityToolController extends Controller
         PriorityToolService $priorityToolService,
         PriorityToolRepository $priorityToolRepository
     ) {
+        $this->middleware('auth');
+
         $this->priorityToolService = $priorityToolService;
         $this->priorityToolRepository = $priorityToolRepository;
     }

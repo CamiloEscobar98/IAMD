@@ -740,6 +740,7 @@ return [
                     Dicho recurso actualmente está destinado para enriquecer la información de los creadores internos dentro de la aplicación.",
 
                     'show' => "En esta sección de la aplicación podrás visualizar el creador externo <b>:creator_internal</b>. ",
+                    'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Creadores Internos. La información del recurso será: <b>:creator_internal</b>"
                 ],
             ],
 
@@ -805,6 +806,7 @@ return [
                     Dicho recurso actualmente está destinado para enriquecer la información de los creadores externos dentro de la aplicación.",
 
                     'show' => "En esta sección de la aplicación podrás visualizar el creador externo <b>:creator_external</b>. ",
+                    'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Creadores Externos. La información del recurso será: <b>:creator_external</b>"
                 ],
             ]
         ],
@@ -897,6 +899,7 @@ return [
                 Dicho recurso actualmente está destinado para enriquecer la información de los activos dentro de la aplicación.",
 
                 'show' => "En esta sección de la aplicación podrás visualizar el activo de <b>:intangible_asset</b>. ",
+                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Activos Intangibles. La información del recurso será: <b>:intangible_asset</b>"
             ],
 
             'phases' => [
@@ -1121,27 +1124,24 @@ return [
             ],
 
             'messages' => [
-                'confirm' => '¿Estás seguro de que quieres eliminar el usuario?',
+                'confirm' => '¿Estás seguro de que quieres eliminar el Usuario?',
 
-                'save_success' => 'Se ha registrado correctamente el usuario: <b>:user</b>',
-                'save_error' => 'No se ha registrado el usuario.',
+                'save_success' => 'Se ha registrado correctamente el Usuario: <b>:user</b>',
+                'save_error' => 'No se ha registrado el Usuario.',
 
-                'update_success' => 'Se ha actualizado correctamente el usuario: <b>:user</b>',
-                'update_error' => 'No se ha actualizado el usuario.',
+                'update_success' => 'Se ha actualizado correctamente el Usuario: <b>:user</b>',
+                'update_error' => 'No se ha actualizado el Usuario.',
 
-                'delete_success' => 'Se ha eliminado el usuario: <b>:user</b>',
-                'delete_error' => 'No se ha eliminado el usuario.',
-
-                'status_code' => [
-                    '23000' => 'El usuario se encuentra relacionado con otra entidad en el aplicativo y por esto no es posible su eliminación.'
-                ]
+                'delete_success' => 'Se ha eliminado el Usuario: <b>:user</b>',
+                'delete_error' => 'No se ha eliminado el Usuario.',
             ],
 
             'info' => [
                 'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>USUARIOS DEL SISTEMA</b>. 
                 Dicho recurso actualmente está destinado para enriquecer la información de los usuarios dentro de la aplicación.",
 
-                'show' => "En esta sección de la aplicación podrás visualizar el usuario <b>:user</b> ",
+                'show' => "En esta sección de la aplicación podrás visualizar toda la información del Usuario <b>:user</b> ",
+                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Usuarios del Sistema. La información del recurso será: <b>:user</b>"
             ],
 
         ],
@@ -1177,23 +1177,24 @@ return [
             ],
 
             'messages' => [
-                'confirm' => '¿Estás seguro de que quieres eliminar la herramienta de priorización?',
+                'confirm' => '¿Estás seguro de que quieres eliminar la Herramienta de Priorización?',
 
-                'save_success' => 'Se ha registrado correctamente la herramienta de priorización: <b>:priority_tool</b>',
-                'save_error' => 'No se ha registrado la herramienta de priorización.',
+                'save_success' => 'Se ha registrado correctamente la Herramienta de Priorización: <b>:priority_tool</b>',
+                'save_error' => 'No se ha registrado la Herramienta de Priorización.',
 
-                'update_success' => 'Se ha actualizado correctamente la herramienta de priorización: <b>:priority_tool</b>',
-                'update_error' => 'No se ha actualizado la herramienta de priorización.',
+                'update_success' => 'Se ha actualizado correctamente la Herramienta de Priorización: <b>:priority_tool</b>',
+                'update_error' => 'No se ha actualizado la Herramienta de Priorización.',
 
-                'delete_success' => 'Se ha eliminado la herramienta de priorización: <b>:priority_tool</b>',
-                'delete_error' => 'No se ha eliminado la herramienta de priorización.'
+                'delete_success' => 'Se ha eliminado la Herramienta de Priorización: <b>:priority_tool</b>',
+                'delete_error' => 'No se ha eliminado la Herramienta de Priorización.'
             ],
 
             'info' => [
                 'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>HERRAMIENTAS DE PRIORIZACIÓN</b>. 
-                Dicho recurso actualmente está destinado para enriquecer la información de las herramientas de priorización dentro de la aplicación.",
+                Dicho recurso actualmente está destinado para enriquecer la información de las Herramientas de Priorización dentro de la aplicación.",
 
-                'show' => "En esta sección de la aplicación podrás visualizar la herramienta de priorización <b>:priority_tool</b> ",
+                'show' => "En esta sección de la aplicación podrás visualizar la Herramienta de Priorización <b>:priority_tool</b> ",
+                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Herramientas de Priorización. La información del recurso será: <b>:priority_tool</b>"
             ],
         ],
 
@@ -1228,23 +1229,24 @@ return [
             ],
 
             'messages' => [
-                'confirm' => '¿Estás seguro de que quieres eliminar la estrategia de gestión?',
+                'confirm' => '¿Estás seguro de que quieres eliminar la Estrategias de Gestión?',
 
-                'save_success' => 'Se ha registrado correctamente la estrategia de gestión: <b>:strategy</b>',
-                'save_error' => 'No se ha registrado la estrategia de gestión.',
+                'save_success' => 'Se ha registrado correctamente la Estrategias de Gestión: <b>:strategy</b>',
+                'save_error' => 'No se ha registrado la Estrategias de Gestión.',
 
-                'update_success' => 'Se ha actualizado correctamente la estrategia de gestión: <b>:strategy</b>',
-                'update_error' => 'No se ha actualizado la estrategia de gestión.',
+                'update_success' => 'Se ha actualizado correctamente la Estrategias de Gestión: <b>:strategy</b>',
+                'update_error' => 'No se ha actualizado la Estrategias de Gestión.',
 
-                'delete_success' => 'Se ha eliminado la estrategia de gestión: <b>:strategy</b>',
-                'delete_error' => 'No se ha eliminado la estrategia de gestión.'
+                'delete_success' => 'Se ha eliminado la Estrategias de Gestión: <b>:strategy</b>',
+                'delete_error' => 'No se ha eliminado la Estrategias de Gestión.'
             ],
 
             'info' => [
                 'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>ESTRATEGIAS DE GESTIÓN</b>. 
-                Dicho recurso actualmente está destinado para enriquecer la información de las estrategias de gestión dentro de la aplicación.",
+                Dicho recurso actualmente está destinado para enriquecer la información de las Estrategias de Gestión dentro de la aplicación.",
 
-                'show' => "En esta sección de la aplicación podrás visualizar la estrategia de gestión <b>:strategy</b> ",
+                'show' => "En esta sección de la aplicación podrás visualizar la Estrategias de Gestión <b>:strategy</b> ",
+                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Estrategias de Gestión. La información del recurso será: <b>:strategy</b>"
             ],
         ],
 
@@ -1273,30 +1275,31 @@ return [
             'table' => [
                 'head' => [
                     'name' => 'Nombre',
-                    'code' => 'Código',
+                    'description' => 'Descripción',
                     'created_at' => 'Fecha de Creación',
                     'updated_at' => 'Fecha de Actualización'
                 ],
             ],
 
             'messages' => [
-                'confirm' => '¿Estás seguro de que quieres eliminar la categoría de la estrategia de gestión?',
+                'confirm' => '¿Estás seguro de que quieres eliminar la Categoría de la Estrategia de Gestión?',
 
-                'save_success' => 'Se ha registrado correctamente la categoría de la estrategia de gestión: <b>:strategy_category</b>',
-                'save_error' => 'No se ha registrado la categoría de la estrategia de gestión.',
+                'save_success' => 'Se ha registrado correctamente la Categoría de la Estrategia de Gestión: <b>:strategy_category</b>',
+                'save_error' => 'No se ha registrado la Categoría de la Estrategia de Gestión.',
 
-                'update_success' => 'Se ha actualizado correctamente la categoría de la estrategia de gestión: <b>:strategy_category</b>',
-                'update_error' => 'No se ha actualizado la categoría de la estrategia de gestión.',
+                'update_success' => 'Se ha actualizado correctamente la Categoría de la Estrategia de Gestión: <b>:strategy_category</b>',
+                'update_error' => 'No se ha actualizado la Categoría de la Estrategia de Gestión.',
 
-                'delete_success' => 'Se ha eliminado la categoría de la estrategia de gestión: <b>:strategy_category</b>',
-                'delete_error' => 'No se ha eliminado la categoría de la estrategia de gestión.'
+                'delete_success' => 'Se ha eliminado la Categoría de la Estrategia de Gestión: <b>:strategy_category</b>',
+                'delete_error' => 'No se ha eliminado la Categoría de la Estrategia de Gestión.'
             ],
 
             'info' => [
                 'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>CATEGORÍAS DE LAS ESTRATEGIAS DE GESTIÓN</b>. 
-                Dicho recurso actualmente está destinado para enriquecer la información de las estrategias de gestión dentro de la aplicación.",
+                Dicho recurso actualmente está destinado para enriquecer la información de las Categorías de las Estrategias de Gestión dentro de la aplicación.",
 
-                'show' => "En esta sección de la aplicación podrás visualizar la categoría de la estrategia de gestión <b>:strategy_category</b> ",
+                'show' => "En esta sección de la aplicación podrás visualizar la Categoría de la Estrategia de Gestión <b>:strategy_category</b> ",
+                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Categoría de las Estrategias de Gestión. La información del recurso será: <b>:strategy_category</b>"
             ],
         ],
 
@@ -1332,23 +1335,24 @@ return [
             ],
 
             'messages' => [
-                'confirm' => '¿Estás seguro de que quieres eliminar la financiación de proyectos?',
+                'confirm' => '¿Estás seguro de que quieres eliminar la Financiación de Proyectos?',
 
-                'save_success' => 'Se ha registrado correctamente la financiación de proyectos: <b>:financing_type</b>',
-                'save_error' => 'No se ha registrado la financiación de proyectos.',
+                'save_success' => 'Se ha registrado correctamente la Financiación de Proyectos: <b>:financing_type</b>',
+                'save_error' => 'No se ha registrado la Financiación de Proyectos.',
 
-                'update_success' => 'Se ha actualizado correctamente la financiación de proyectos: <b>:financing_type</b>',
-                'update_error' => 'No se ha actualizado la financiación de proyectos.',
+                'update_success' => 'Se ha actualizado correctamente la Financiación de Proyectos: <b>:financing_type</b>',
+                'update_error' => 'No se ha actualizado la Financiación de Proyectos.',
 
-                'delete_success' => 'Se ha eliminado la financiación de proyectos: <b>:financing_type</b>',
-                'delete_error' => 'No se ha eliminado la financiación de proyectos.'
+                'delete_success' => 'Se ha eliminado la Financiación de Proyectos: <b>:financing_type</b>',
+                'delete_error' => 'No se ha eliminado la Financiación de Proyectos.'
             ],
 
             'info' => [
                 'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>FINANCIACIONES DE PROYECTOS</b>. 
-                Dicho recurso actualmente está destinado para enriquecer la información de las financiaciones de proyectos dentro de la aplicación.",
+                Dicho recurso actualmente está destinado para enriquecer la información de las Financiaciones de Proyectos dentro de la aplicación.",
 
-                'show' => "En esta sección de la aplicación podrás visualizar la financiación de proyectos <b>:financing_type</b> ",
+                'show' => "En esta sección de la aplicación podrás visualizar la Financiación de Proyectos <b>:financing_type</b> ",
+                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Financiación de Proyectos. La información del recurso será: <b>:financing_type</b>"
             ],
         ],
     ]

@@ -35,6 +35,8 @@ class IntangibleAssetStrategyController extends Controller
         IntangibleAssetStrategyRepository $intangibleAssetStrategyRepository,
         IntangibleAssetPhaseRepository $intangibleAssetPhaseRepository,
     ) {
+        $this->middleware('auth');
+
         $this->strategyCategoryRepository = $strategyCategoryRepository;
 
         $this->intangibleAssetRepository = $intangibleAssetRepository;

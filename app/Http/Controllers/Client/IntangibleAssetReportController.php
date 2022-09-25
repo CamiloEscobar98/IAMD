@@ -25,6 +25,8 @@ class IntangibleAssetReportController extends Controller
         IntangibleAssetRepository $intangibleAssetRepository,
         IntangibleAssetTypeLevel2Repository $intangibleAssetTypeLevel2Repository,
     ) {
+        $this->middleware('auth');
+
         $this->intangibleAssetRepository = $intangibleAssetRepository;
         $this->intangibleAssetTypeLevel2Repository = $intangibleAssetTypeLevel2Repository;
     }

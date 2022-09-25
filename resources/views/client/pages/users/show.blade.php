@@ -78,10 +78,10 @@
                             <u>{{ __('pages.default.title-information') }}</u>
                         </h3>
                         <div class="row justify-content-center">
-                            <img src="{{ asset('assets/images/users.png') }}" class="img-fluid mt-3" width="400em"
+                            <img src="{{ asset('assets/images/users.webp') }}" class="img-fluid mt-3" width="350em"
                                 alt="">
-                            <p>{!! __('pages.client.users.info.show', ['user' => $item->name]) !!}</p>
                         </div>
+                        <p>{!! __('pages.client.users.info.show', ['user' => $item->name]) !!}</p>
                     </div>
                 </div>
             </div>

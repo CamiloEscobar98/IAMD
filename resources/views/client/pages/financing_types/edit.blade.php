@@ -34,7 +34,7 @@
                 <h3 class="font-italic font-weight-bold">
                     <u>{{ __('pages.default.title-information') }}</u>
                 </h3>
-                <p>{!! __('pages.client.financing_types.info.show', ['financing_type' => $item->name]) !!}</p>
+                <p>{!! __('pages.client.financing_types.info.edit', ['financing_type' => $item->name]) !!}</p>
             </div>
         </div>
         <div class="card">

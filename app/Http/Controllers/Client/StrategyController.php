@@ -29,6 +29,8 @@ class StrategyController extends Controller
         StrategyService $strategyService,
         StrategyRepository $strategyRepository
     ) {
+        $this->middleware('auth');
+
         $this->strategyService = $strategyService;
         $this->strategyRepository = $strategyRepository;
     }

@@ -34,7 +34,7 @@
                 <h3 class="font-italic font-weight-bold">
                     <u>{{ __('pages.default.title-information') }}</u>
                 </h3>
-                <p>{!! __('pages.client.priority_tools.info.create') !!}</p>
+                <p>{!! __('pages.client.priority_tools.info.edit', ['priority_tool' => $item->name]) !!}</p>
             </div>
         </div>
         <div class="card">

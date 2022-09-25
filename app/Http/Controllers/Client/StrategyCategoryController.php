@@ -29,6 +29,8 @@ class StrategyCategoryController extends Controller
         StrategyCategoryService $strategyCategoryService,
         StrategyCategoryRepository $strategyCategoryRepository
     ) {
+        $this->middleware('auth');
+        
         $this->strategyCategoryService = $strategyCategoryService;
         $this->strategyCategoryRepository = $strategyCategoryRepository;
     }

@@ -29,6 +29,8 @@ class FinancingTypeController extends Controller
         FinancingTypeService $financingTypeService,
         FinancingTypeRepository $financingTypeRepository
     ) {
+        $this->middleware('auth');
+
         $this->financingTypeService = $financingTypeService;
         $this->financingTypeRepository = $financingTypeRepository;
     }

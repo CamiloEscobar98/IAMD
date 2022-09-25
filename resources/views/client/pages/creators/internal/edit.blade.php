@@ -29,32 +29,22 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row justify-content-start">
-            <div class="col-md-7">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.client.creators.internal.form-titles.edit') }}</u>
-                        </h3>
-                        @include('client.pages.creators.internal.components.form', [
-                            'editMode' => true,
-                        ])
-                    </div>
-                </div>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="font-italic font-weight-bold">
+                    <u>{{ __('pages.default.title-information') }}</u>
+                </h3>
+                <p>{!! __('pages.client.creators.internal.info.create') !!}</p>
             </div>
-            <div class="col-md-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="font-italic font-weight-bold">
-                            <u>{{ __('pages.default.title-information') }}</u>
-                        </h3>
-                        <div class="row justify-content-center">
-                            <img src="{{ asset('assets/images/administrative_units.png') }}" class="img-fluid mt-3"
-                                width="400em" alt="">
-                            <p>{!! __('pages.client.creators.internal.info.create') !!}</p>
-                        </div>
-                    </div>
-                </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="text-center font-weight-bold">
+                    <u>{{ __('pages.client.creators.internal.form-titles.edit') }}</u>
+                </h3>
+                @include('client.pages.creators.internal.components.form', [
+                    'editMode' => true,
+                ])
             </div>
         </div>
     </div>
