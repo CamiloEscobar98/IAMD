@@ -23,6 +23,7 @@ use App\Http\Controllers\Client\UserController;
 use App\Http\Controllers\Client\PriorityToolController;
 use App\Http\Controllers\Client\StrategyCategoryController;
 use App\Http\Controllers\Client\StrategyController;
+use App\Http\Controllers\Client\SecretProtectionMeasureController;
 
 /*
 |--------------------------------------------------------------------------
@@ -108,3 +109,5 @@ Route::resource('strategies', StrategyController::class);
 Route::resource('strategy_categories', StrategyCategoryController::class);
 
 Route::resource('financing_types', FinancingTypeController::class);
+
+Route::resource('secret_protection_measures', SecretProtectionMeasureController::class);

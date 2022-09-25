@@ -48,6 +48,7 @@ trait ClientRoutes
             $this->getStrategiesRoute(),
             $this->getStrategyCategoriesRoute(),
             $this->getFinancingTypeRoutes(),
+            $this->getSecretProtectionMeasureRoutes(),
         );
 
         View::composer($views, ClientComposer::class);
@@ -280,6 +281,24 @@ trait ClientRoutes
 
             'client.pages.financing_types.components.filters',
             'client.pages.financing_types.components.table',
+        ];
+    }
+
+    /**
+     * get Financing Types Routes
+     * 
+     * @return array
+     */
+    protected function getSecretProtectionMeasureRoutes(): array
+    {
+        return [
+            'client.pages.secret_protection_measures.index',
+            'client.pages.secret_protection_measures.create',
+            'client.pages.secret_protection_measures.show',
+            'client.pages.secret_protection_measures.edit',
+
+            'client.pages.secret_protection_measures.components.filters',
+            'client.pages.secret_protection_measures.components.table',
         ];
     }
 }

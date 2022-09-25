@@ -114,6 +114,15 @@
 </li>
 <!-- ./Priority Tools -->
 
+<!-- Secret Protection Measures -->
+<li class="nav-item">
+    <a href="{{ route('client.secret_protection_measures.index', [$client->name]) }}"
+        class="nav-link {{ routeIsActived('secret_protection_measures') }}">
+        <i class="fas fa-user-secret nav-icon"></i>
+        <p>{{ __('menu.client.secret_protection_measures') }}</p>
+    </a>
+</li>
+<!-- ./Secret Protection Measures -->
 
 <!-- Reports -->
 <li class="nav-item">

@@ -1229,24 +1229,24 @@ return [
             ],
 
             'messages' => [
-                'confirm' => '¿Estás seguro de que quieres eliminar la Estrategias de Gestión?',
+                'confirm' => '¿Estás seguro de que quieres eliminar la Estrategia de Gestión?',
 
-                'save_success' => 'Se ha registrado correctamente la Estrategias de Gestión: <b>:strategy</b>',
-                'save_error' => 'No se ha registrado la Estrategias de Gestión.',
+                'save_success' => 'Se ha registrado correctamente la Estrategia de Gestión: <b>:strategy</b>',
+                'save_error' => 'No se ha registrado la Estrategia de Gestión.',
 
-                'update_success' => 'Se ha actualizado correctamente la Estrategias de Gestión: <b>:strategy</b>',
-                'update_error' => 'No se ha actualizado la Estrategias de Gestión.',
+                'update_success' => 'Se ha actualizado correctamente la Estrategia de Gestión: <b>:strategy</b>',
+                'update_error' => 'No se ha actualizado la Estrategia de Gestión.',
 
-                'delete_success' => 'Se ha eliminado la Estrategias de Gestión: <b>:strategy</b>',
-                'delete_error' => 'No se ha eliminado la Estrategias de Gestión.'
+                'delete_success' => 'Se ha eliminado la Estrategia de Gestión: <b>:strategy</b>',
+                'delete_error' => 'No se ha eliminado la Estrategia de Gestión.'
             ],
 
             'info' => [
                 'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>ESTRATEGIAS DE GESTIÓN</b>. 
-                Dicho recurso actualmente está destinado para enriquecer la información de las Estrategias de Gestión dentro de la aplicación.",
+                Dicho recurso actualmente está destinado para enriquecer la información de las Estrategia de Gestión dentro de la aplicación.",
 
-                'show' => "En esta sección de la aplicación podrás visualizar la Estrategias de Gestión <b>:strategy</b> ",
-                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Estrategias de Gestión. La información del recurso será: <b>:strategy</b>"
+                'show' => "En esta sección de la aplicación podrás visualizar la Estrategia de Gestión <b>:strategy</b> ",
+                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Estrategia de Gestión. La información del recurso será: <b>:strategy</b>"
             ],
         ],
 
@@ -1353,6 +1353,57 @@ return [
 
                 'show' => "En esta sección de la aplicación podrás visualizar la Financiación de Proyectos <b>:financing_type</b> ",
                 'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Financiación de Proyectos. La información del recurso será: <b>:financing_type</b>"
+            ],
+        ],
+
+        'secret_protection_measures' => [
+            'title' => 'Medidas Secretas de Protección',
+            'subtitle' => 'Medidas Secretas de Protección',
+
+            'route-titles' => [
+                'create' => 'Registrar Media Secreta de Protección',
+                'show' => 'Visualizar Media Secreta de Protección',
+                'edit' => 'Editar Media Secreta de Protección',
+            ],
+
+            'form-titles' => [
+                'show' => 'Perfil de Visualización de la Media Secreta de Protección',
+                'create' => 'Formulario de Registro de una Media Secreta de Protección',
+                'edit' => 'Actualización de la Media Secreta de Protección',
+            ],
+
+            'filters' => [
+                'name' => 'Buscar Media Secreta de Protección',
+                'total' => 'Total de Medidas Secretas de Protección: ',
+            ],
+
+            'table' => [
+                'head' => [
+                    'name' => 'Nombre',
+                    'created_at' => 'Fecha de Creación',
+                    'updated_at' => 'Fecha de Actualización'
+                ],
+            ],
+
+            'messages' => [
+                'confirm' => '¿Estás seguro de que quieres eliminar la Medida Secreta de Protección?',
+
+                'save_success' => 'Se ha registrado correctamente la Medida Secreta de Protección: <b>:secret_protection_measure</b>',
+                'save_error' => 'No se ha registrado la Medida Secreta de Protección.',
+
+                'update_success' => 'Se ha actualizado correctamente la Medida Secreta de Protección: <b>:secret_protection_measure</b>',
+                'update_error' => 'No se ha actualizado la Medida Secreta de Protección.',
+
+                'delete_success' => 'Se ha eliminado la Medida Secreta de Protección: <b>:secret_protection_measure</b>',
+                'delete_error' => 'No se ha eliminado la Medida Secreta de Protección.'
+            ],
+
+            'info' => [
+                'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>MEDIDAS SECRETAS DE PROTECCIÓN</b>. 
+                Dicho recurso actualmente está destinado para enriquecer la información de las Medida Secreta de Protección dentro de la aplicación.",
+
+                'show' => "En esta sección de la aplicación podrás visualizar la Medida Secreta de Protección <b>:secret_protection_measure</b> ",
+                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Medida Secreta de Protección. La información del recurso será: <b>:secret_protection_measure</b>"
             ],
         ],
     ]

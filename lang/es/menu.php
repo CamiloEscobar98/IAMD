@@ -79,6 +79,9 @@ return [
         'priority_tools' => 'Herramientas de Priorización',
 
         /** Level 1 */
+        'secret_protection_measures' => 'Medidas Secretas de Protección',
+
+        /** Level 1 */
         'Reports' => 'Reportes',
 
         /** Level 2 */
