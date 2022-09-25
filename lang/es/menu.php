@@ -70,6 +70,9 @@ return [
         'strategies' => 'Estrategias de Gestión',
 
         /** Level 1 */
+        'strategy_categories' => 'Categorías de las Estrategias de Gestión',
+
+        /** Level 1 */
         'priority_tools' => 'Herramientas de Priorización',
 
         /** Level 1 */

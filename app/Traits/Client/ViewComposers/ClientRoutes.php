@@ -46,6 +46,7 @@ trait ClientRoutes
             $this->getUserRoutes(),
             $this->getPriorityToolRoutes(),
             $this->getStrategiesRoute(),
+            $this->getStrategyCategoriesRoute(),
         );
 
         View::composer($views, ClientComposer::class);
@@ -242,6 +243,23 @@ trait ClientRoutes
 
             'client.pages.strategies.components.filters',
             'client.pages.strategies.components.table',
+        ];
+    }
+    /**
+     * get Users Routes
+     * 
+     * @return array
+     */
+    protected function getStrategyCategoriesRoute(): array
+    {
+        return [
+            'client.pages.strategy_categories.index',
+            'client.pages.strategy_categories.create',
+            'client.pages.strategy_categories.show',
+            'client.pages.strategy_categories.edit',
+
+            'client.pages.strategy_categories.components.filters',
+            'client.pages.strategy_categories.components.table',
         ];
     }
 }

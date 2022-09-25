@@ -76,16 +76,28 @@
 
 <!-- Strategies -->
 <li class="nav-item">
-    <a href="{{ route('client.strategies.index', [$client->name]) }}" class="nav-link {{ routeIsActived('strategies') }}">
+    <a href="{{ route('client.strategies.index', [$client->name]) }}"
+        class="nav-link {{ routeIsActived('strategies') }}">
         <i class="fas fa-toolbox nav-icon"></i>
         <p>{{ __('menu.client.strategies') }}</p>
     </a>
 </li>
 <!-- ./Strategies -->
 
+<!-- Strategy Categories -->
+<li class="nav-item">
+    <a href="{{ route('client.strategy_categories.index', [$client->name]) }}"
+        class="nav-link {{ routeIsActived('strategy_categories') }}">
+        <i class="fas fa-star nav-icon"></i>
+        <p>{{ __('menu.client.strategy_categories') }}</p>
+    </a>
+</li>
+<!-- ./Strategy Categories -->
+
 <!-- Priority Tools -->
 <li class="nav-item">
-    <a href="{{ route('client.priority_tools.index', [$client->name]) }}" class="nav-link {{ routeIsActived('priority_tools') }}">
+    <a href="{{ route('client.priority_tools.index', [$client->name]) }}"
+        class="nav-link {{ routeIsActived('priority_tools') }}">
         <i class="fas fa-tools nav-icon"></i>
         <p>{{ __('menu.client.priority_tools') }}</p>
     </a>

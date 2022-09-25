@@ -1247,5 +1247,56 @@ return [
                 'show' => "En esta sección de la aplicación podrás visualizar la estrategia de gestión <b>:strategy</b> ",
             ],
         ],
+
+        'strategy_categories' => [
+            'title' => 'Categorías de las Estrategias de Gestión',
+            'subtitle' => 'Categorías de las Estrategias de Gestión',
+
+            'route-titles' => [
+                'create' => 'Registrar Categoría de la Estrategia de Gestión',
+                'show' => 'Visualizar Categoría de la Estrategia de Gestión',
+                'edit' => 'Editar Categoría de la Estrategia de Gestión',
+            ],
+
+            'form-titles' => [
+                'show' => 'Perfil de Visualización de la Categoría de la Estrategia de Gestión',
+                'create' => 'Formulario de Registro de una Categoría de la Estrategia de Gestión',
+                'edit' => 'Actualización de la Categoría de la Estrategia de Gestión',
+            ],
+
+            'filters' => [
+                'name' => 'Buscar Categoría de la Estrategia de Gestión',
+                'total' => 'Total de Categorías de las Estrategias de Gestión: ',
+            ],
+
+            'table' => [
+                'head' => [
+                    'name' => 'Nombre',
+                    'description' => 'Descripción',
+                    'created_at' => 'Fecha de Creación',
+                    'updated_at' => 'Fecha de Actualización'
+                ],
+            ],
+
+            'messages' => [
+                'confirm' => '¿Estás seguro de que quieres eliminar la categoría de la estrategia de gestión?',
+
+                'save_success' => 'Se ha registrado correctamente la categoría de la estrategia de gestión: <b>:strategy_category</b>',
+                'save_error' => 'No se ha registrado la categoría de la estrategia de gestión.',
+
+                'update_success' => 'Se ha actualizado correctamente la categoría de la estrategia de gestión: <b>:strategy_category</b>',
+                'update_error' => 'No se ha actualizado la categoría de la estrategia de gestión.',
+
+                'delete_success' => 'Se ha eliminado la categoría de la estrategia de gestión: <b>:strategy_category</b>',
+                'delete_error' => 'No se ha eliminado la categoría de la estrategia de gestión.'
+            ],
+
+            'info' => [
+                'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>CATEGORÍAS DE LAS ESTRATEGIAS DE GESTIÓN</b>. 
+                Dicho recurso actualmente está destinado para enriquecer la información de las estrategias de gestión dentro de la aplicación.",
+
+                'show' => "En esta sección de la aplicación podrás visualizar la categoría de la estrategia de gestión <b>:strategy_category</b> ",
+            ],
+        ],
     ]
 ];

@@ -21,6 +21,7 @@ use App\Http\Controllers\Client\IntangibleAssetStrategyController;
 
 use App\Http\Controllers\Client\UserController;
 use App\Http\Controllers\Client\PriorityToolController;
+use App\Http\Controllers\Client\StrategyCategoryController;
 use App\Http\Controllers\Client\StrategyController;
 
 /*
@@ -103,3 +104,5 @@ Route::resource('users', UserController::class);
 Route::resource('priority_tools', PriorityToolController::class);
 
 Route::resource('strategies', StrategyController::class);
+
+Route::resource('strategy_categories', StrategyCategoryController::class);
