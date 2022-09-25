@@ -34,7 +34,7 @@
                 <div class="card">
                     <div class="card-header bg-gradient-secondary py-2">
                         <div class="row justify-content-between">
-                            <i class="fas fa-university"></i>
+                            <i class="fas fa-users"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.users.title') }}</h5>
                             <a class="text-white fas fa-angle-double-right"
                                 href="{{ getClientRoute('client.users.index') }}"></a>
@@ -52,7 +52,7 @@
                 <div class="card">
                     <div class="card-header bg-gradient-secondary py-2">
                         <div class="row justify-content-between">
-                            <i class="fas fa-university"></i>
+                            <i class="fas fa-user-friends"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.creators.internal.title') }}</h5>
                             <a class="text-white fas fa-angle-double-right"
                                 href="{{ getClientRoute('client.creators.internal.index') }}"></a>
@@ -63,15 +63,15 @@
                     </div>
                 </div>
             </div>
-            <!-- Administrative Units Card -->
+            <!-- Internal Creators Card -->
 
 
-            <!-- Administrative Units Card -->
+            <!-- External Creators Card -->
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-header bg-gradient-secondary py-2">
                         <div class="row justify-content-between">
-                            <i class="fas fa-university"></i>
+                            <i class="fas fa-user-tie"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.creators.external.title') }}</h5>
                             <a class="text-white fas fa-angle-double-right"
                                 href="{{ getClientRoute('client.creators.external.index') }}"></a>
@@ -82,7 +82,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Administrative Units Card -->
+            <!-- External Creators Card -->
         </div>
 
         <div class="row">
@@ -110,7 +110,7 @@
                 <div class="card">
                     <div class="card-header bg-gradient-success py-2">
                         <div class="row justify-content-between">
-                            <i class="fas fa-university"></i>
+                            <i class="fas fa-microscope"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.research_units.title') }}</h5>
                             <a class="text-white fas fa-angle-double-right"
                                 href="{{ getClientRoute('client.research_units.index') }}"></a>
@@ -128,7 +128,7 @@
                 <div class="card">
                     <div class="card-header bg-gradient-primary py-2">
                         <div class="row justify-content-between">
-                            <i class="fas fa-university"></i>
+                            <i class="fas fa-chalkboard-teacher"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.projects.title') }}</h5>
                             <a class="text-white fas fa-angle-double-right"
                                 href="{{ getClientRoute('client.projects.index') }}"></a>
@@ -146,7 +146,7 @@
                 <div class="card">
                     <div class="card-header bg-gradient-danger py-2">
                         <div class="row justify-content-between">
-                            <i class="fas fa-university"></i>
+                            <i class="fas fa-archive"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.intangible_assets.title') }}</h5>
                             <a class="text-white fas fa-angle-double-right"
                                 href="{{ getClientRoute('client.intangible_assets.index') }}"></a>
@@ -172,7 +172,7 @@
                 <div class="card">
                     <div class="card-header bg-gradient-warning py-2">
                         <div class="row justify-content-between">
-                            <i class="fas fa-university"></i>
+                            <i class="fas fa-star"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.strategy_categories.title') }}</h5>
                             <a class="text-white fas fa-angle-double-right"
                                 href="{{ getClientRoute('client.strategy_categories.index') }}"></a>
@@ -190,7 +190,7 @@
                 <div class="card">
                     <div class="card-header bg-warning py-2">
                         <div class="row justify-content-between">
-                            <i class="fas fa-university"></i>
+                            <i class="fas fa-toolbox"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.strategies.title') }}</h5>
                             <a class="text-white fas fa-angle-double-right"
                                 href="{{ getClientRoute('client.strategies.index') }}"></a>
@@ -208,7 +208,7 @@
                 <div class="card">
                     <div class="card-header bg-gradient-info py-2">
                         <div class="row justify-content-between">
-                            <i class="fas fa-university"></i>
+                            <i class="fas fa-balance-scale"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.financing_types.title') }}</h5>
                             <a class="text-white fas fa-angle-double-right"
                                 href="{{ getClientRoute('client.financing_types.index') }}"></a>
@@ -225,12 +225,12 @@
 
         <div class="row">
 
-            <!-- Strategy Categories Card -->
+            <!-- Priority Tools Card -->
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-header bg-success py-2">
                         <div class="row justify-content-between">
-                            <i class="fas fa-university"></i>
+                            <i class="fas fa-tools"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.priority_tools.title') }}</h5>
                             <a class="text-white fas fa-angle-double-right"
                                 href="{{ getClientRoute('client.priority_tools.index') }}"></a>
@@ -241,14 +241,14 @@
                     </div>
                 </div>
             </div>
-            <!-- Strategy Categories Card -->
+            <!-- Priority Tools Card -->
 
-            <!-- Strategies Card -->
+            <!-- Secret Protection Measures Card -->
             <div class="col-lg-4">
                 <div class="card">
-                    <div class="card-header bg-warning py-2">
+                    <div class="card-header bg-danger py-2">
                         <div class="row justify-content-between">
-                            <i class="fas fa-university"></i>
+                            <i class="fas fa-user-secret"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.secret_protection_measures.title') }}</h5>
                             <a class="text-white fas fa-angle-double-right"
                                 href="{{ getClientRoute('client.secret_protection_measures.index') }}"></a>
@@ -259,25 +259,25 @@
                     </div>
                 </div>
             </div>
-            <!-- Strategies Card -->
+            <!-- Secret Protection Measures Card -->
 
-            <!-- Financing Projects Card -->
+            <!-- Project Contract Types Card -->
             <div class="col-lg-4">
                 <div class="card">
-                    <div class="card-header bg-gradient-info py-2">
+                    <div class="card-header bg-info py-2">
                         <div class="row justify-content-between">
-                            <i class="fas fa-university"></i>
-                            <h5 class="font-weight-bold">{{ __('pages.client.financing_types.title') }}</h5>
+                            <i class="fas fa-hands-helping"></i>
+                            <h5 class="font-weight-bold">{{ __('pages.client.project_contract_types.title') }}</h5>
                             <a class="text-white fas fa-angle-double-right"
-                                href="{{ getClientRoute('client.financing_types.index') }}"></a>
+                                href="{{ getClientRoute('client.project_contract_types.index') }}"></a>
                         </div>
                     </div>
                     <div class="card-body">
-                        {!! __('pages.client.financing_types.info.callout', ['count' => $financingTypeCount]) !!}
+                        {!! __('pages.client.project_contract_types.info.callout', ['count' => $financingTypeCount]) !!}
                     </div>
                 </div>
             </div>
-            <!-- Financing Projects Card -->
+            <!-- Project Contract Types Card -->
 
         </div>
 

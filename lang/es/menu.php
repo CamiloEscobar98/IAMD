@@ -81,6 +81,9 @@ return [
         'financing_types' => 'Financiación de Proyectos',
 
         /** Level 1 */
+        'project_contract_types' => 'Tipos de Contratos para Proyectos',
+
+        /** Level 1 */
         'priority_tools' => 'Herramientas de Priorización',
 
         /** Level 1 */
@@ -89,8 +92,8 @@ return [
         /** Level 1 */
         'Reports' => 'Reportes',
 
-         /** Second Title */
-         'second_subtitle' => 'ESTADÍSTICA',
+        /** Second Title */
+        'second_subtitle' => 'ESTADÍSTICA',
 
         /** Level 2 */
         'GenerateReport' => 'Generar Reporte',

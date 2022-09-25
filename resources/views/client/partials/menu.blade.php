@@ -60,7 +60,7 @@
 <!-- Users -->
 <li class="nav-item">
     <a href="{{ route('client.users.index', [$client->name]) }}" class="nav-link {{ routeIsActived('users') }}">
-        <i class="fas fa-user-friends nav-icon"></i>
+        <i class="fas fa-users nav-icon"></i>
         <p>{{ __('menu.client.users') }}</p>
     </a>
 </li>
@@ -97,6 +97,16 @@
     </a>
 </li>
 <!-- ./Financing Types -->
+
+<!-- Project Contract Types -->
+<li class="nav-item">
+    <a href="{{ route('client.project_contract_types.index', [$client->name]) }}"
+        class="nav-link {{ routeIsActived('project_contract_types') }}">
+        <i class="fas fa-hands-helping	 nav-icon"></i>
+        <p>{{ __('menu.client.project_contract_types') }}</p>
+    </a>
+</li>
+<!-- ./Project Contract Types -->
 
 <!-- Priority Tools -->
 <li class="nav-item">

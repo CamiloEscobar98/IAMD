@@ -1388,6 +1388,61 @@ return [
             ],
         ],
 
+        'project_contract_types' => [
+            'title' => 'Contrato para Proyectos',
+            'subtitle' => 'Contrato para Proyectos',
+
+            'route-titles' => [
+                'create' => 'Registrar Tipo de Contrato de Proyectos',
+                'show' => 'Visualizar Tipo de Contrato de Proyectos',
+                'edit' => 'Editar Tipo de Contrato de Proyectos',
+            ],
+
+            'form-titles' => [
+                'show' => 'Perfil de Visualización del Tipo de Contrato de Proyectos',
+                'create' => 'Formulario de Registro de un Tipo de Contrato de Proyectos',
+                'edit' => 'Actualización del Tipo de Contrato de Proyectos',
+            ],
+
+            'filters' => [
+                'name' => 'Buscar por Nombre',
+                'code' => 'Buscar por Código',
+                'total' => 'Total de Tipo de Contrato de Proyectos: ',
+            ],
+
+            'table' => [
+                'head' => [
+                    'name' => 'Nombre',
+                    'code' => 'Código',
+                    'created_at' => 'Fecha de Creación',
+                    'updated_at' => 'Fecha de Actualización'
+                ],
+            ],
+
+            'messages' => [
+                'confirm' => '¿Estás seguro de que quieres eliminar el Tipo de Contrato de Proyectos?',
+
+                'save_success' => 'Se ha registrado correctamente el Tipo de Contrato de Proyectos: <b>:project_contract_type</b>',
+                'save_error' => 'No se ha registrado el Tipo de Contrato de Proyectos.',
+
+                'update_success' => 'Se ha actualizado correctamente el Tipo de Contrato de Proyectos: <b>:project_contract_type</b>',
+                'update_error' => 'No se ha actualizado el Tipo de Contrato de Proyectos.',
+
+                'delete_success' => 'Se ha eliminado el Tipo de Contrato de Proyectos: <b>:project_contract_type</b>',
+                'delete_error' => 'No se ha eliminado el Tipo de Contrato de Proyectos.'
+            ],
+
+            'info' => [
+                'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>TIPOS DE CONTRATO PARA PROYECTOS</b>. 
+                Dicho recurso actualmente está destinado para enriquecer la información de los Tipos de Contrato para Proyectos dentro de la aplicación.",
+
+                'show' => "En esta sección de la aplicación podrás visualizar el Tipo de Contrato de Proyectos <b>:project_contract_type</b> ",
+                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Tipo de Contrato de Proyectos. La información del recurso será: <b>:project_contract_type</b>",
+
+                'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Tipos de Tipo de Contrato de Proyectos registrados.'
+            ],
+        ],
+
         'secret_protection_measures' => [
             'title' => 'Medidas Secretas de Protección',
             'subtitle' => 'Medidas Secretas de Protección',
