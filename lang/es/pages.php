@@ -1265,14 +1265,15 @@ return [
             ],
 
             'filters' => [
-                'name' => 'Buscar Categoría de la Estrategia de Gestión',
+                'name' => 'Buscar por Nombre',
+                'code' => 'Buscar por Código',
                 'total' => 'Total de Categorías de las Estrategias de Gestión: ',
             ],
 
             'table' => [
                 'head' => [
                     'name' => 'Nombre',
-                    'description' => 'Descripción',
+                    'code' => 'Código',
                     'created_at' => 'Fecha de Creación',
                     'updated_at' => 'Fecha de Actualización'
                 ],
@@ -1296,6 +1297,58 @@ return [
                 Dicho recurso actualmente está destinado para enriquecer la información de las estrategias de gestión dentro de la aplicación.",
 
                 'show' => "En esta sección de la aplicación podrás visualizar la categoría de la estrategia de gestión <b>:strategy_category</b> ",
+            ],
+        ],
+
+        'financing_types' => [
+            'title' => 'Financiaciones de Proyectos',
+            'subtitle' => 'Financiaciones de Proyectos',
+
+            'route-titles' => [
+                'create' => 'Registrar Financiación de Proyectos',
+                'show' => 'Visualizar Financiación de Proyectos',
+                'edit' => 'Editar Financiación de Proyectos',
+            ],
+
+            'form-titles' => [
+                'show' => 'Perfil de Visualización de la Financiación de Proyectos',
+                'create' => 'Formulario de Registro de una Financiación de Proyectos',
+                'edit' => 'Actualización de la Financiación de Proyectos',
+            ],
+
+            'filters' => [
+                'name' => 'Buscar por Nombre',
+                'code' => 'Buscar por Código',
+                'total' => 'Total de Financiación de Proyectos: ',
+            ],
+
+            'table' => [
+                'head' => [
+                    'name' => 'Nombre',
+                    'code' => 'Código',
+                    'created_at' => 'Fecha de Creación',
+                    'updated_at' => 'Fecha de Actualización'
+                ],
+            ],
+
+            'messages' => [
+                'confirm' => '¿Estás seguro de que quieres eliminar la financiación de proyectos?',
+
+                'save_success' => 'Se ha registrado correctamente la financiación de proyectos: <b>:financing_type</b>',
+                'save_error' => 'No se ha registrado la financiación de proyectos.',
+
+                'update_success' => 'Se ha actualizado correctamente la financiación de proyectos: <b>:financing_type</b>',
+                'update_error' => 'No se ha actualizado la financiación de proyectos.',
+
+                'delete_success' => 'Se ha eliminado la financiación de proyectos: <b>:financing_type</b>',
+                'delete_error' => 'No se ha eliminado la financiación de proyectos.'
+            ],
+
+            'info' => [
+                'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>FINANCIACIONES DE PROYECTOS</b>. 
+                Dicho recurso actualmente está destinado para enriquecer la información de las financiaciones de proyectos dentro de la aplicación.",
+
+                'show' => "En esta sección de la aplicación podrás visualizar la financiación de proyectos <b>:financing_type</b> ",
             ],
         ],
     ]

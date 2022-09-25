@@ -47,6 +47,7 @@ trait ClientRoutes
             $this->getPriorityToolRoutes(),
             $this->getStrategiesRoute(),
             $this->getStrategyCategoriesRoute(),
+            $this->getFinancingTypeRoutes(),
         );
 
         View::composer($views, ClientComposer::class);
@@ -211,7 +212,7 @@ trait ClientRoutes
     }
 
     /**
-     * get Users Routes
+     * get Priority Tools Routes
      * 
      * @return array
      */
@@ -229,7 +230,7 @@ trait ClientRoutes
     }
 
     /**
-     * get Users Routes
+     * get Strategies Routes
      * 
      * @return array
      */
@@ -245,8 +246,9 @@ trait ClientRoutes
             'client.pages.strategies.components.table',
         ];
     }
+
     /**
-     * get Users Routes
+     * get Strategy Categories Routes
      * 
      * @return array
      */
@@ -260,6 +262,24 @@ trait ClientRoutes
 
             'client.pages.strategy_categories.components.filters',
             'client.pages.strategy_categories.components.table',
+        ];
+    }
+
+    /**
+     * get Financing Types Routes
+     * 
+     * @return array
+     */
+    protected function getFinancingTypeRoutes(): array
+    {
+        return [
+            'client.pages.financing_types.index',
+            'client.pages.financing_types.create',
+            'client.pages.financing_types.show',
+            'client.pages.financing_types.edit',
+
+            'client.pages.financing_types.components.filters',
+            'client.pages.financing_types.components.table',
         ];
     }
 }

@@ -169,6 +169,9 @@ return [
         'repeat_password'       => 'repetir contraseña',
 
         /** Custom Attributes */
+
+        'code' => 'código',
+
         'country_id' => 'país',
         'state_id' => 'departamento',
 

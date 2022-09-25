@@ -12,7 +12,7 @@ use App\Http\Controllers\Client\ProjectController;
 
 use App\Http\Controllers\Client\CreatorInternalController;
 use App\Http\Controllers\Client\CreatorExternalController;
-
+use App\Http\Controllers\Client\FinancingTypeController;
 use App\Http\Controllers\Client\IntangibleAssetController;
 use App\Http\Controllers\Client\IntangibleAssetFileController;
 use App\Http\Controllers\Client\IntangibleAssetPhaseController;
@@ -106,3 +106,5 @@ Route::resource('priority_tools', PriorityToolController::class);
 Route::resource('strategies', StrategyController::class);
 
 Route::resource('strategy_categories', StrategyCategoryController::class);
+
+Route::resource('financing_types', FinancingTypeController::class);

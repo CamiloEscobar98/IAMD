@@ -94,6 +94,16 @@
 </li>
 <!-- ./Strategy Categories -->
 
+<!-- Financing Types -->
+<li class="nav-item">
+    <a href="{{ route('client.financing_types.index', [$client->name]) }}"
+        class="nav-link {{ routeIsActived('financing_types') }}">
+        <i class="fas fa-star nav-icon"></i>
+        <p>{{ __('menu.client.financing_types') }}</p>
+    </a>
+</li>
+<!-- ./Financing Types -->
+
 <!-- Priority Tools -->
 <li class="nav-item">
     <a href="{{ route('client.priority_tools.index', [$client->name]) }}"
