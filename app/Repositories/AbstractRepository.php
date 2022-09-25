@@ -48,6 +48,7 @@ class AbstractRepository
      */
     public function all()
     {
+        
         return $this->model->all();
     }
 

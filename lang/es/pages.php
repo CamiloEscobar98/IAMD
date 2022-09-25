@@ -478,6 +478,11 @@ return [
         /** Home Page */
         'home' => [
             'title' => 'Inicio',
+            'subtitle' => 'Dashboard',
+
+            'main' => 'Principal',
+
+            'config' => 'Configuración'
         ],
 
         /** Administrative Units */
@@ -535,6 +540,8 @@ return [
                 Dicho recurso actualmente está destinado para enriquecer la información de las subdirecciones técnicas dentro de la aplicación.",
 
                 'show' => "En esta sección de la aplicación podrás visualizar la subdirección técnica <b>:administrative_unit</b> ",
+
+                'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Subdirecciones Técnicas registradas.'
             ],
         ],
 
@@ -599,6 +606,8 @@ return [
                 Dicho recurso actualmente está destinado para enriquecer la información de las unidades investigativas dentro de la aplicación.",
 
                 'show' => "En esta sección de la aplicación podrás visualizar la unidad investigativa de <b>:research_unit</b>. ",
+
+                'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Unidades Investigativas registradas.'
             ],
 
             'projects' => [
@@ -668,6 +677,8 @@ return [
                 Dicho recurso actualmente está destinado para enriquecer la información de los proyectos dentro de la aplicación.",
 
                 'show' => "En esta sección de la aplicación podrás visualizar el proyecto de <b>:project</b>. ",
+
+                'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Proyectos registrados.'
             ],
 
             'intangible_assets' => [
@@ -740,7 +751,10 @@ return [
                     Dicho recurso actualmente está destinado para enriquecer la información de los creadores internos dentro de la aplicación.",
 
                     'show' => "En esta sección de la aplicación podrás visualizar el creador externo <b>:creator_internal</b>. ",
-                    'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Creadores Internos. La información del recurso será: <b>:creator_internal</b>"
+
+                    'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Creadores Internos. La información del recurso será: <b>:creator_internal</b>",
+
+                    'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Creadores Internos registrados.'
                 ],
             ],
 
@@ -806,7 +820,10 @@ return [
                     Dicho recurso actualmente está destinado para enriquecer la información de los creadores externos dentro de la aplicación.",
 
                     'show' => "En esta sección de la aplicación podrás visualizar el creador externo <b>:creator_external</b>. ",
-                    'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Creadores Externos. La información del recurso será: <b>:creator_external</b>"
+
+                    'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Creadores Externos. La información del recurso será: <b>:creator_external</b>",
+
+                    'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Creadores Externos registrados.'
                 ],
             ]
         ],
@@ -899,7 +916,10 @@ return [
                 Dicho recurso actualmente está destinado para enriquecer la información de los activos dentro de la aplicación.",
 
                 'show' => "En esta sección de la aplicación podrás visualizar el activo de <b>:intangible_asset</b>. ",
-                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Activos Intangibles. La información del recurso será: <b>:intangible_asset</b>"
+
+                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Activos Intangibles. La información del recurso será: <b>:intangible_asset</b>",
+
+                'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Activos Intangibles registrados.'
             ],
 
             'phases' => [
@@ -1141,7 +1161,10 @@ return [
                 Dicho recurso actualmente está destinado para enriquecer la información de los usuarios dentro de la aplicación.",
 
                 'show' => "En esta sección de la aplicación podrás visualizar toda la información del Usuario <b>:user</b> ",
-                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Usuarios del Sistema. La información del recurso será: <b>:user</b>"
+
+                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Usuarios del Sistema. La información del recurso será: <b>:user</b>",
+
+                'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Usuarios del Sistema registrados.'
             ],
 
         ],
@@ -1194,7 +1217,10 @@ return [
                 Dicho recurso actualmente está destinado para enriquecer la información de las Herramientas de Priorización dentro de la aplicación.",
 
                 'show' => "En esta sección de la aplicación podrás visualizar la Herramienta de Priorización <b>:priority_tool</b> ",
-                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Herramientas de Priorización. La información del recurso será: <b>:priority_tool</b>"
+
+                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Herramientas de Priorización. La información del recurso será: <b>:priority_tool</b>",
+
+                'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Herramientas de Priorización registradas.'
             ],
         ],
 
@@ -1246,7 +1272,9 @@ return [
                 Dicho recurso actualmente está destinado para enriquecer la información de las Estrategia de Gestión dentro de la aplicación.",
 
                 'show' => "En esta sección de la aplicación podrás visualizar la Estrategia de Gestión <b>:strategy</b> ",
-                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Estrategia de Gestión. La información del recurso será: <b>:strategy</b>"
+                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Estrategia de Gestión. La información del recurso será: <b>:strategy</b>",
+
+                'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Estrategias de Gestión registradas.'
             ],
         ],
 
@@ -1299,7 +1327,9 @@ return [
                 Dicho recurso actualmente está destinado para enriquecer la información de las Categorías de las Estrategias de Gestión dentro de la aplicación.",
 
                 'show' => "En esta sección de la aplicación podrás visualizar la Categoría de la Estrategia de Gestión <b>:strategy_category</b> ",
-                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Categoría de las Estrategias de Gestión. La información del recurso será: <b>:strategy_category</b>"
+                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Categoría de las Estrategias de Gestión. La información del recurso será: <b>:strategy_category</b>",
+
+                'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Categorías de las Estrategias de Gestión registradas.'
             ],
         ],
 
@@ -1352,7 +1382,9 @@ return [
                 Dicho recurso actualmente está destinado para enriquecer la información de las Financiaciones de Proyectos dentro de la aplicación.",
 
                 'show' => "En esta sección de la aplicación podrás visualizar la Financiación de Proyectos <b>:financing_type</b> ",
-                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Financiación de Proyectos. La información del recurso será: <b>:financing_type</b>"
+                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Financiación de Proyectos. La información del recurso será: <b>:financing_type</b>",
+
+                'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Tipos de Financiación de Proyectos registrados.'
             ],
         ],
 
@@ -1403,7 +1435,9 @@ return [
                 Dicho recurso actualmente está destinado para enriquecer la información de las Medida Secreta de Protección dentro de la aplicación.",
 
                 'show' => "En esta sección de la aplicación podrás visualizar la Medida Secreta de Protección <b>:secret_protection_measure</b> ",
-                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Medida Secreta de Protección. La información del recurso será: <b>:secret_protection_measure</b>"
+                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Medida Secreta de Protección. La información del recurso será: <b>:secret_protection_measure</b>",
+
+                'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Medidas Secretas de Protección registrados.'
             ],
         ],
     ]

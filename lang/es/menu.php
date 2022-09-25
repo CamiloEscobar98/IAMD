@@ -60,12 +60,10 @@ return [
         /** Level 1 */
         'IntangibleAssets' => 'Activos Intangibles',
 
-        /** Level 1 */
-        'Creators' => 'Creadores',
 
         /** Level 2 */
-        'CreatorsInternal' => 'Internos',
-        'CreatorsExternal' => 'Externos',
+        'CreatorsInternal' => 'Creadores Internos',
+        'CreatorsExternal' => 'Creadores Externos',
 
         /** Level 1 */
         'users' => 'Usuarios',

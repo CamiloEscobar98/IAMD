@@ -18,7 +18,7 @@ use App\Http\ViewComposers\Client\Creators\Internal\CreateCreatorInternalCompose
 
 use App\Http\ViewComposers\Client\Creators\External\CreatorExternalFilterComposer;
 use App\Http\ViewComposers\Client\Creators\External\CreateCreatorExternalComposer;
-
+use App\Http\ViewComposers\Client\DashboardComposer;
 use App\Http\ViewComposers\Client\IntangibleAssets\IntangibleAssetFilterComposer;
 use App\Http\ViewComposers\Client\IntangibleAssets\CreateIntangibleAssetComposer;
 use App\Http\ViewComposers\Client\IntangibleAssets\ShowIntangibleAssetComposer;
@@ -56,6 +56,9 @@ trait ClientRoutes
         /** Notifications for Users */
         View::composer('client.partials.navbar', NotificationComposer::class);
 
+        /** Dashboard */
+        View::composer('client.pages.home', DashboardComposer::class);
+
         /** Research Units */
         View::composer('client.pages.research_units.components.filters', ResearchUnitFilterComposer::class);
         View::composer('client.pages.research_units.components.form', CreateResearchUnitComposer::class);
@@ -91,6 +94,7 @@ trait ClientRoutes
         return [
             'client.layout.app',
             'client.pages.auth.login',
+            'client.pages.home'
         ];
     }
 

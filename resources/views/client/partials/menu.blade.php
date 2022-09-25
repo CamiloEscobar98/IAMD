@@ -36,34 +36,26 @@
     </a>
 </li>
 
-<!-- Creators Options -->
+<!-- Internal Creators -->
 <li class="nav-item">
-    <a href="#" class="nav-link {{ routeIsActived('internal') . routeIsActived('external') }}">
-        <i class="nav-icon fas fa-users"></i>
-        <p>
-            {{ __('menu.client.Creators') }}
-            <i class="right fas fa-angle-left"></i>
-        </p>
+    <a href="{{ route('client.creators.internal.index', [$client->name]) }}"
+        class="nav-link {{ routeIsActived('internal') }}">
+        <i class="fas fa-user-friends
+        nav-icon"></i>
+        <p>{{ __('menu.client.CreatorsInternal') }}</p>
     </a>
-    <ul class="nav nav-treeview">
-        <li class="nav-item">
-            <a href="{{ route('client.creators.internal.index', [$client->name]) }}"
-                class="nav-link {{ routeIsActived('internal') }}">
-                <i class="fas fa-user-friends
-                nav-icon"></i>
-                <p>{{ __('menu.client.CreatorsInternal') }}</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('client.creators.external.index', [$client->name]) }}"
-                class="nav-link {{ routeIsActived('external') }}">
-                <i class="fas fa-user-tie nav-icon"></i>
-                <p>{{ __('menu.client.CreatorsExternal') }}</p>
-            </a>
-        </li>
-    </ul>
 </li>
-<!-- ./Creators Options -->
+<!-- ./Internal Creators -->
+
+<!-- External Creators -->
+<li class="nav-item">
+    <a href="{{ route('client.creators.external.index', [$client->name]) }}"
+        class="nav-link {{ routeIsActived('external') }}">
+        <i class="fas fa-user-tie nav-icon"></i>
+        <p>{{ __('menu.client.CreatorsExternal') }}</p>
+    </a>
+</li>
+<!-- ./External Creators -->
 
 <!-- Users -->
 <li class="nav-item">
@@ -76,16 +68,6 @@
 
 <li class="nav-header">{{ __('menu.client.first_subtitle') }}</li>
 
-<!-- Strategies -->
-<li class="nav-item">
-    <a href="{{ route('client.strategies.index', [$client->name]) }}"
-        class="nav-link {{ routeIsActived('strategies') }}">
-        <i class="fas fa-toolbox nav-icon"></i>
-        <p>{{ __('menu.client.strategies') }}</p>
-    </a>
-</li>
-<!-- ./Strategies -->
-
 <!-- Strategy Categories -->
 <li class="nav-item">
     <a href="{{ route('client.strategy_categories.index', [$client->name]) }}"
@@ -95,6 +77,16 @@
     </a>
 </li>
 <!-- ./Strategy Categories -->
+
+<!-- Strategies -->
+<li class="nav-item">
+    <a href="{{ route('client.strategies.index', [$client->name]) }}"
+        class="nav-link {{ routeIsActived('strategies') }}">
+        <i class="fas fa-toolbox nav-icon"></i>
+        <p>{{ __('menu.client.strategies') }}</p>
+    </a>
+</li>
+<!-- ./Strategies -->
 
 <!-- Financing Types -->
 <li class="nav-item">
