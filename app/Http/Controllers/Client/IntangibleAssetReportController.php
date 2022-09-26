@@ -51,7 +51,8 @@ class IntangibleAssetReportController extends Controller
 
             CreateFileReportJob::dispatch([
                 'intangibleAsset' => $intangibleAsset,
-                'dpis' => $this->intangibleAssetTypeLevel2Repository->all()
+                'dpis' => $this->intangibleAssetTypeLevel2Repository->all(),
+                'client' => $request->client
             ], [
                 'userId' => auth('web')->user()->id,
                 'client' => $request->client,

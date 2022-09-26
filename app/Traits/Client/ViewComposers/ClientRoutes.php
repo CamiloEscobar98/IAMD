@@ -96,7 +96,7 @@ trait ClientRoutes
         return [
             'client.layout.app',
             'client.pages.auth.login',
-            'client.pages.home'
+            'client.pages.home',
         ];
     }
 

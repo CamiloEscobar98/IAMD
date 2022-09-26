@@ -443,32 +443,27 @@
                     </small>
                 </td>
             </tr>
-            @foreach ($intangibleAsset->dpis as $intangibleAssetDpi)
-                <tr class="text-center">
-                    <td colspan="3">
-                        <small class="font-weight-bold">herramientas de Priorización para el Derecho de Propiedad
-                            Intelectual: {{ $intangibleAssetDpi->dpi->upper_name }}</small>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="3">
-                        @foreach ($intangibleAsset->priority_tools as $tool)
-                            @if ($tool->dpi_id == $intangibleAssetDpi->dpi_id)
-                                <span
-                                    class="btn btn-xs btn-outline-secondary m-0 p-1"><small>{{ $tool->priority_tool->name }}</small></span>
-                            @endif
-                        @endforeach
-                    </td>
-                </tr>
-            @endforeach
 
-            <tr class="text-center">
-                <td colspan="3">
-                    <small>
-
-                    </small>
-                </td>
-            </tr>
+            @if ($intangibleAsset->hasPriorityTools())
+                @foreach ($intangibleAsset->dpis as $intangibleAssetDpi)
+                    <tr class="text-center">
+                        <td colspan="3">
+                            <small class="font-weight-bold">herramientas de Priorización para el Derecho de Propiedad
+                                Intelectual: {{ $intangibleAssetDpi->dpi->upper_name }}</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            @foreach ($intangibleAsset->priority_tools as $tool)
+                                @if ($tool->dpi_id == $intangibleAssetDpi->dpi_id)
+                                    <span
+                                        class="btn btn-xs btn-outline-secondary m-0 p-1"><small>{{ $tool->priority_tool->name }}</small></span>
+                                @endif
+                            @endforeach
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
             <!-- ./Intangible Asset has Priority Tools -->
 
             <!-- Intangible Asset is Commercial -->

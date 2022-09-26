@@ -15,11 +15,22 @@
 
 <body>
 
-    <!-- Logo UFPS -->
-    <div class="row justify-content-start">
-        <img src="{{ asset('assets/images/LogoufpsoMen17.png') }}" class="img-fluid" width="250em">
-    </div>
-    <!-- ./Logo UFPS -->
+    @if ($client == 'ufpso')
+        <!-- Logo UFPSO -->
+        <div class="row justify-content-start">
+            <img src="{{ asset('assets/images/LogoufpsoMen17.png') }}" class="img-fluid" width="250em">
+        </div>
+        <!-- ./Logo UFPSO -->
+    @else
+        <!-- Logo UFPS -->
+        <div class="row justify-content-start">
+            <img src="{{ asset('assets/images/Logoufpsc.jpg') }}" class="img-fluid" width="250em">
+        </div>
+        <!-- ./Logo UFPS -->
+    @endif
+
+
+
 
     @yield('content')
 
