@@ -16,4 +16,15 @@ class ProjectContractType extends BaseModel
      * @var array
      */
     protected $fillable = ['name', 'code'];
+
+    /**
+     * Get the Code Table
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getCodeTableAttribute($value)
+    {
+        return $this->code ?? __('inputs.empty');
+    }
 }

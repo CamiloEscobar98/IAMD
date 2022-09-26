@@ -1,7 +1,7 @@
 <tr>
     <td class="text-center">{{ $loop->iteration }}.</td>
     <td>{{ $item->name }}</td>
-    <td>{{ $item->code }}</td>
+    <td>{{ $item->code_table }}</td>
     <td>{{ $item->created_at }}</td>
     <td>{{ $item->updated_at }}</td>
     <td>
