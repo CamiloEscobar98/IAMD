@@ -25,6 +25,7 @@ use App\Http\Controllers\Client\ProjectContractTypeController;
 use App\Http\Controllers\Client\StrategyCategoryController;
 use App\Http\Controllers\Client\StrategyController;
 use App\Http\Controllers\Client\SecretProtectionMeasureController;
+use App\Http\Controllers\Client\UserFileReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -99,6 +100,8 @@ Route::prefix('intangible_assets/{intangible_asset}/phases')
 Route::prefix('reports')
     ->name('reports.')
     ->group(function () {
+        Route::get('generated_reports', [UserFileReportController::class, 'index'])->name('generated');
+        Route::get('download_report/{reportId}', [UserFileReportController::class, 'downloadIntangibleAssetReportSingle'])->name('download.report');
     });
 
 Route::resource('users', UserController::class);

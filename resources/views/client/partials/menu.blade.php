@@ -148,8 +148,8 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('client.creators.external.index', [$client->name]) }}"
-                class="nav-link {{ routeIsActived('external') }}">
+            <a href="{{ route('client.reports.generated', [$client->name]) }}"
+                class="nav-link {{ routeIsActived('generated_reports') }}">
                 <i class="fas fa-folder-open	 nav-icon"></i>
                 <p>{{ __('menu.client.MyReports') }}</p>
             </a>

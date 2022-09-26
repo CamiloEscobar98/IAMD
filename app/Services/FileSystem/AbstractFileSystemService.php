@@ -93,19 +93,19 @@ abstract class AbstractFileSystemService
         return $this->getFileExists($path) ?  Storage::disk($this->disk)->path($path) : null;
     }
 
-    // /**
-    //  * @param string $path
-    //  * 
-    //  * @return void|null
-    //  */
-    // public function downloadFile($path)
-    // {
-    //     try {
-    //         return $this->getFileExists($path) ?  Storage::disk($this->disk)->download($path) : null;
-    //     } catch (Exception $th) {
-    //         throw new Exception("The file doesn't have been downloaded.");
-    //     }
-    // }
+    /**
+     * @param string $path
+     * 
+     * @return void|null
+     */
+    public function downloadFile($path)
+    {
+        try {
+            return $this->getFileExists($path) ?  Storage::disk($this->disk)->download($path) : null;
+        } catch (Exception $th) {
+            throw new Exception("The file doesn't have been downloaded.");
+        }
+    }
 
     /**
      * @param string $path

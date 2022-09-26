@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-use Barryvdh\DomPDF\Facade\Pdf;
-
 use App\Jobs\CreateFileReportJob;
+
 use App\Repositories\Admin\IntangibleAssetTypeLevel2Repository;
 use App\Repositories\Client\IntangibleAssetRepository;
-use Illuminate\Http\RedirectResponse;
 
 class IntangibleAssetReportController extends Controller
 {

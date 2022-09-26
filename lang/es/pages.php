@@ -1167,6 +1167,13 @@ return [
                 'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Usuarios del Sistema registrados.'
             ],
 
+            'reports' => [
+                'title' => 'Reportes Generados por el Usuario',
+                'subtitle' => 'Reportes Generados',
+                'messages' => [
+                    'download_error' => 'No se ha podido descargar correctamente el reporte.'
+                ]
+            ]
         ],
 
         'priority_tools' => [

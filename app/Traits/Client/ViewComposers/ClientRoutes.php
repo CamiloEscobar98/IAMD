@@ -50,6 +50,7 @@ trait ClientRoutes
             $this->getFinancingTypeRoutes(),
             $this->getSecretProtectionMeasureRoutes(),
             $this->getProjectContractTypeRoutes(),
+            $this->getUserReportRoutes(),
         );
 
         View::composer($views, ClientComposer::class);
@@ -322,6 +323,18 @@ trait ClientRoutes
 
             'client.pages.project_contract_types.components.filters',
             'client.pages.project_contract_types.components.table',
+        ];
+    }
+
+    /**
+     * get Financing Types Routes
+     * 
+     * @return array
+     */
+    protected function getUserReportRoutes(): array
+    {
+        return [
+            'client.pages.users.reports.index',
         ];
     }
 }
