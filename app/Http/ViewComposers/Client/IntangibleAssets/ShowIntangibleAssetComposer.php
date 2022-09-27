@@ -81,10 +81,10 @@ class ShowIntangibleAssetComposer
 
 
             /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightSubcategory $subCategory */
-            $subCategory = $this->intellectualPropertyRightSubcategoryRepository->getById($product->intangible_asset_type_level2_id);
+            $subCategory = $this->intellectualPropertyRightSubcategoryRepository->getById($product->intellectual_property_right_subcategory_id);
 
             /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightCategory $category */
-            $category = $this->intellectualPropertyRightCategoryRepository->getById($subCategory->intangible_asset_type_level1_id);
+            $category = $this->intellectualPropertyRightCategoryRepository->getById($subCategory->intellectual_property_right_category_id);
 
             /** SubCategories */
             $subCategories = $this->intellectualPropertyRightSubcategoryRepository->getIntellectualPropertyRightCategory($category);

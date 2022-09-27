@@ -1,5 +1,5 @@
 function changeIntangibleAssetLevel1() {
-    let category = $('#intangible_asset_type_level_1').val();
+    let category = $('#intellectual_property_right_category_id').val();
 
     getIntangibleAssetLevel2(category);
 }
@@ -47,7 +47,7 @@ function getIntangibleAssetLevel3(subcategory) {
 
 
 function putIntangibleAssetLevel1(items) {
-    let selectCategory = $('#intangible_asset_type_level_1');
+    let selectCategory = $('#intellectual_property_right_category_id');
 
     selectCategory.empty();
 
@@ -61,7 +61,7 @@ function putIntangibleAssetLevel1(items) {
 }
 
 function putIntangibleAssetLevel2(items) {
-    let selectCategory = $('#intangible_asset_type_level_2');
+    let selectCategory = $('#intellectual_property_right_subcategory_id');
 
     selectCategory.empty();
 
@@ -75,7 +75,7 @@ function putIntangibleAssetLevel2(items) {
 }
 
 function putIntangibleAssetLevel3(items) {
-    let selectCategory = $('#intangible_asset_type_level_3');
+    let selectCategory = $('#intellectual_property_right_product_id');
 
     selectCategory.empty();
 

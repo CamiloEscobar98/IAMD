@@ -19,7 +19,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>{{ __('pages.client.intangible_assets.phases.one.form.level_1') }}</label>
-                                <select name="intangible_asset_type_level_1" id="intangible_asset_type_level_1"
+                                <select name="intellectual_property_right_category_id" id="intellectual_property_right_category_id"
                                     class="form-control form-control-sm select2bs4"
                                     onchange="changeIntangibleAssetLevel1()">
                                     @foreach ($categories as $categoryItem)
@@ -33,7 +33,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>{{ __('pages.client.intangible_assets.phases.one.form.level_2') }}</label>
-                                <select name="intangible_asset_type_level_2" id="intangible_asset_type_level_2"
+                                <select name="intellectual_property_right_subcategory_id" id="intellectual_property_right_subcategory_id"
                                     class="form-control form-control-sm select2bs4"
                                     onchange="changeIntangibleAssetLevel2()">
                                     @foreach ($subCategories as $subCategoryItem)
@@ -47,7 +47,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>{{ __('pages.client.intangible_assets.phases.one.form.level_3') }}</label>
-                                <select name="intangible_asset_type_level_3" id="intangible_asset_type_level_3"
+                                <select name="intellectual_property_right_product_id" id="intellectual_property_right_product_id"
                                     class="form-control form-control-sm select2bs4">
                                     @foreach ($products as $productItem)
                                         <option value="{{ $productItem->id }}"

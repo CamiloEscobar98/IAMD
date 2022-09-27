@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 use App\Traits\Client\IntangibleAsset\HasPhases;
 
 use App\Models\Admin\IntangibleAssetState;
-use App\Models\Admin\IntangibleAssetTypeLevel\IntangibleAssetTypeLevel3;
+use App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightProduct;
 use App\Models\Client\Creator\Creator;
 use App\Models\Client\Project\Project;
 use App\Models\Client\User;
@@ -71,7 +71,7 @@ class IntangibleAsset extends BaseModel
      */
     public function classification(): BelongsTo
     {
-        return $this->belongsTo(IntangibleAssetTypeLevel3::class, 'classification_id');
+        return $this->belongsTo(IntellectualPropertyRightProduct::class, 'classification_id');
     }
 
     /**

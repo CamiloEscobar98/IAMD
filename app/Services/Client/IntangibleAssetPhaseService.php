@@ -126,7 +126,7 @@ class IntangibleAssetPhaseService
         try {
             DB::beginTransaction();
 
-            $this->intangibleAssetRepository->update($intangibleAsset, ['classification_id'  => $data['intangible_asset_type_level_3']]);
+            $this->intangibleAssetRepository->update($intangibleAsset, ['classification_id'  => $data['intellectual_property_right_product_id']]);
             $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'one');
 
             DB::commit();

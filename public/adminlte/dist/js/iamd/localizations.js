@@ -65,7 +65,7 @@ function putCountries(items) {
 }
 
 function putStates(items) {
-    let selectLevel1 = $('#intangible_asset_type_level_2');
+    let selectLevel1 = $('#intellectual_property_right_subcategory_id');
 
     selectLevel1.empty();
 
@@ -79,7 +79,7 @@ function putStates(items) {
 }
 
 function putCities(items) {
-    let selectLevel1 = $('#intangible_asset_type_level_3');
+    let selectLevel1 = $('#intellectual_property_right_product_id');
 
     selectLevel1.empty();
 

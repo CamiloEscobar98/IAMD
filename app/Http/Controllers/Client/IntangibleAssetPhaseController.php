@@ -40,12 +40,12 @@ class IntangibleAssetPhaseController extends Controller
      * 
      * @return RedirectResponse
      */
-    public function updatePhaseOne($id, $intangibleAsset, Request $request): RedirectResponse
+    public function updatePhaseOne($id, $intangibleAsset, Request $request) #: RedirectResponse
     {
         try {
             $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAsset);
 
-            $data = $request->only(['intangible_asset_type_level_3']);
+            $data = $request->only(['intellectual_property_right_product_id']);
 
             $message = $this->intangibleAssetPhaseService->updatePhaseOne($intangibleAsset, $data);
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
