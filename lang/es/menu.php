@@ -12,7 +12,7 @@ return [
         'search' => 'Buscar',
 
         /** Level 1 */
-        'Localizations' => 'Localizaciones',
+        'Localizations' => ' LOCALIZACIONES',
 
         /** Level 2 */
         'Countries' => 'Paises',
@@ -21,7 +21,7 @@ return [
 
 
         /** Level 1 */
-        'Creators' => 'Creadores',
+        'Creators' => 'INFORMACIÓN CREADORES',
 
         /** Level 2 */
         'DocumentTypes' => 'Tipos de Documento',
@@ -29,17 +29,10 @@ return [
         'AssignmentContracts' => 'Tipos de Contrato',
 
         /** Level 1 */
-        'IntangibleAssets' => 'Activos Intangibles',
+        'IntangibleAssets' => 'ACTIVOS INTANGIBLES',
 
         /** Level 2 */
-        'IntangibleAssetStates' => 'Estados IA',
-
-
-        'subtitle_1' => 'UNIVERSIDADES',
-
-
-
-        'subtitle_2' => 'CONFIGURACIÓN',
+        'IntangibleAssetStates' => 'Estados del Activo Intangible',
     ],
 
 

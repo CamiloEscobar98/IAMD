@@ -28,8 +28,8 @@ class AdminSeeder extends Seeder
 
         $admin = $this->adminRepository->create([
             'name' => 'Patricia Ramirez',
-            'email' => 'admin@admin.com',
-            'password' => Hash::make('password')
+            'email' => 'admin@gmail.com',
+            'password' => 'password'
         ]);
 
         print("Admin Created. Name: " . $admin->name .  "\n \n");
