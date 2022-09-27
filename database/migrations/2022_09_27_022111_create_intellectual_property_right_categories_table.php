@@ -13,10 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('intangible_asset_type_level1s', function (Blueprint $table) {
-            $table->tinyIncrements('id');
+        Schema::create('intellectual_property_right_categories', function (Blueprint $table) {
+            $table->smallIncrements('id');
 
-            $table->string('name')->unique('unique_intangible_asset_type_level1');
+            $table->string('name')->unique();
+
+            $table->timestamps();
         });
     }
 
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('intangible_asset_type_level1s');
+        Schema::dropIfExists('intellectual_property_right_categories');
     }
 };

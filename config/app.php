@@ -185,7 +185,7 @@ return [
         /*
          * Package Service Providers...
          */
-        
+
         /*
          * Application Service Providers...
          */
@@ -216,32 +216,32 @@ return [
 
 
     /** Default Intangible Asset Levels */
-    'intangibleAssetCategoryLevels' => [
+    'intellectual_property_right_categories' => [
 
-        /** Level 1 */
+        /** Category */
         [
             'name' => 'Propiedad Industrial',
 
-            /** Level 2 */
-            'level2' => [
+            /** Subcategories */
+            'subcategories' => [
                 [
                     'name' => 'Diseño Industrial',
 
-                    /** Level 3 */
-                    'level3' => ['Diseños Industriales']
+                    /** Products */
+                    'products' => ['Diseños Industriales']
                 ],
 
                 [
                     'name' => 'Esquemas de Trazado de Circuito Integrado',
 
-                    /** Level 3 */
-                    'level3' => ['Esquemas de trazado de circuito integrado']
+                    /** Products */
+                    'products' => ['Esquemas de trazado de circuito integrado']
                 ],
                 [
                     'name' => 'Nuevas Creaciones e Innovaciones',
 
-                    /** Level 3 */
-                    'level3' => [
+                    /** Products */
+                    'products' => [
                         'Patente oncedida',
                         'Patente concedida y explotada',
                         'Patente en trámite',
@@ -250,14 +250,14 @@ return [
                 [
                     'name' => 'Prototipos Industriales',
 
-                    /** Level 3 */
-                    'level3' => ['Prototipos Industriales']
+                    /** Products */
+                    'products' => ['Prototipos Industriales']
                 ],
                 [
                     'name' => 'Secretos Industriales',
 
-                    /** Level 3 */
-                    'level3' => [
+                    /** Products */
+                    'products' => [
                         'Innovaciones generadas en la gestión empresarial',
                         'Secreto empresarial'
                     ]
@@ -265,25 +265,25 @@ return [
                 [
                     'name' => 'Signos Distintivos',
 
-                    /** Level 3 */
-                    'level3' => [
+                    /** Products */
+                    'products' => [
                         'Signos Distintivos'
                     ],
                 ],
             ]
         ],
 
-        /** Level 1 */
+        /** Category */
         [
             'name' => 'Derechos de Autor',
 
-            /** Level 2 */
-            'level2' => [
+            /** Subcategories */
+            'subcategories' => [
                 [
                     'name' => 'Derechos de Autor',
 
-                    /** Level 3 */
-                    'level3' => [
+                    /** Products */
+                    'products' => [
                         'Acuerdo de Ley',
                         'Artículos de investigación',
                         'Boletines divulgativos de resultado de investigación',
@@ -319,34 +319,34 @@ return [
             ]
         ],
 
-        /** Level 1 */
+        /** Category */
         [
             'name' => 'Derechos Conexos',
 
-            /** Level 2 */
-            'level2' => [
+            /** Subcategories */
+            'subcategories' => [
                 [
                     'name' => 'Derechos Conexos',
 
-                    /** Level 3 */
-                    'level3' => [
+                    /** Products */
+                    'products' => [
                         'Producción de Contenido Digital'
                     ]
                 ]
             ]
         ],
 
-        /** Level 1 */
+        /** Category */
         [
             'name' => 'Otras Formas de Propiedad',
 
-            /** Level 2 */
-            'level2' => [
+            /** Subcategories */
+            'subcategories' => [
                 [
                     'name' => 'Otras Formas',
 
-                    /** Level 3 */
-                    'level3' => [
+                    /** Products */
+                    'products' => [
                         'Colecciones científicas',
                         'Nuevas razas animales',
                         'Nuevas secuencias genéticas',

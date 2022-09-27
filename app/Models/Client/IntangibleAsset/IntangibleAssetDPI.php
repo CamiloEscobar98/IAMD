@@ -5,7 +5,7 @@ namespace App\Models\Client\IntangibleAsset;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-use App\Models\Admin\IntangibleAssetTypeLevel\IntangibleAssetTypeLevel2 as DPI;
+use App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightSubcategory as DPI;
 use App\Models\Client\BaseModel;
 
 class IntangibleAssetDPI extends BaseModel

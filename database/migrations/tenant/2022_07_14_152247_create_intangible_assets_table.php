@@ -29,7 +29,7 @@ return new class extends Migration
 
             $table->unique(['project_id', 'name', 'code']);
 
-            $table->foreign('classification_id')->references('id')->on('iamd.intangible_asset_type_level3s')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreign('classification_id')->references('id')->on('iamd.intellectual_property_right_products')->cascadeOnUpdate()->nullOnDelete();
             $table->foreign('project_id')->references('id')->on('projects')->cascadeOnUpdate()->nullOnDelete();
             $table->foreign('intangible_asset_state_id')->references('id')->on('iamd.intangible_asset_states')->cascadeOnUpdate()->nullOnDelete();
         });

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->unique(['intangible_asset_id', 'dpi_id', 'priority_tool_id'], 'unique_intangible_asset_dpi_priority_tools');
 
             $table->foreign('intangible_asset_id', 'asset_dpi_priority_tools_intangible_asset_fk')->references('id')->on('intangible_assets')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreign('dpi_id', 'asset_dpi_priority_tools_dpi_id_fk')->references('id')->on('iamd.intangible_asset_type_level2s')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreign('dpi_id', 'asset_dpi_priority_tools_dpi_id_fk')->references('id')->on('iamd.intellectual_property_right_subcategories')->cascadeOnUpdate()->restrictOnDelete();
             $table->foreign('priority_tool_id', 'asset_dpi_priority_tools_priority_tool_fk')->references('id')->on('priority_tools')->cascadeOnUpdate()->restrictOnDelete();
         });
     }

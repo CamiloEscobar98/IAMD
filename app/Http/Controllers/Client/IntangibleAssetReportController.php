@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 use App\Jobs\CreateFileReportJob;
 
-use App\Repositories\Admin\IntangibleAssetTypeLevel2Repository;
+use App\Repositories\Admin\IntellectualPropertyRightSubcategoryRepository;
 use App\Repositories\Client\IntangibleAssetRepository;
 
 class IntangibleAssetReportController extends Controller
@@ -17,17 +17,17 @@ class IntangibleAssetReportController extends Controller
     /** @var IntangibleAssetRepository */
     protected $intangibleAssetRepository;
 
-    /** @var IntangibleAssetTypeLevel2Repository */
-    protected $intangibleAssetTypeLevel2Repository;
+   /** @var IntellectualPropertyRightSubcategoryRepository */
+    protected $intellectualPropertyRightSubcategoryRepository;
 
     public function __construct(
         IntangibleAssetRepository $intangibleAssetRepository,
-        IntangibleAssetTypeLevel2Repository $intangibleAssetTypeLevel2Repository,
+        IntellectualPropertyRightSubcategoryRepository $intellectualPropertyRightSubcategoryRepository,
     ) {
         $this->middleware('auth');
 
         $this->intangibleAssetRepository = $intangibleAssetRepository;
-        $this->intangibleAssetTypeLevel2Repository = $intangibleAssetTypeLevel2Repository;
+        $this->intellectualPropertyRightSubcategoryRepository = $intellectualPropertyRightSubcategoryRepository;
     }
 
     /**
@@ -51,7 +51,7 @@ class IntangibleAssetReportController extends Controller
 
             CreateFileReportJob::dispatch([
                 'intangibleAsset' => $intangibleAsset,
-                'dpis' => $this->intangibleAssetTypeLevel2Repository->all(),
+                'dpis' => $this->intellectualPropertyRightSubcategoryRepository->all(),
                 'client' => $request->client
             ], [
                 'userId' => auth('web')->user()->id,

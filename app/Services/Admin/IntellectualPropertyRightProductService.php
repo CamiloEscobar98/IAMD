@@ -5,16 +5,16 @@ namespace App\Services\Admin;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-use App\Repositories\Admin\IntangibleAssetTypeLevel1Repository;
+use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
 
-class IntangibleAssetLevel1Service
+class IntellectualPropertyRightProductService
 {
-    /** @var IntangibleAssetTypeLevel1Repository */
-    protected $intangibleAssetTypeLevel1Repository;
+    /** @var IntellectualPropertyRightProductRepository */
+    protected $intellectualPropertyRightProductRepository;
 
-    public function __construct(IntangibleAssetTypeLevel1Repository $intangibleAssetTypeLevel1Repository)
+    public function __construct(IntellectualPropertyRightProductRepository $intellectualPropertyRightProductRepository)
     {
-        $this->intangibleAssetTypeLevel1Repository = $intangibleAssetTypeLevel1Repository;
+        $this->intellectualPropertyRightProductRepository = $intellectualPropertyRightProductRepository;
     }
 
     /**
@@ -46,7 +46,7 @@ class IntangibleAssetLevel1Service
     {
         try {
 
-            $perPage = $this->intangibleAssetTypeLevel1Repository->getPerPage();
+            $perPage = $this->intellectualPropertyRightProductRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 

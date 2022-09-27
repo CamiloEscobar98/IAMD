@@ -2,7 +2,7 @@
 
 namespace App\Models\Client\IntangibleAsset;
 
-use App\Models\Admin\IntangibleAssetTypeLevel\IntangibleAssetTypeLevel2;
+use App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightSubcategory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use App\Models\Client\BaseModel;

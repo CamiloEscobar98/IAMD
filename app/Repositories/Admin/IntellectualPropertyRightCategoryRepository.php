@@ -4,11 +4,11 @@ namespace App\Repositories\Admin;
 
 use App\Repositories\AbstractRepository;
 
-use App\Models\Admin\IntangibleAssetTypeLevel\IntangibleAssetTypeLevel1;
+use App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightCategory;
 
-class IntangibleAssetTypeLevel1Repository extends AbstractRepository
+class IntellectualPropertyRightCategoryRepository extends AbstractRepository
 {
-    public function __construct(IntangibleAssetTypeLevel1 $model)
+    public function __construct(IntellectualPropertyRightCategory $model)
     {
         $this->model = $model;
     }
@@ -27,23 +27,19 @@ class IntangibleAssetTypeLevel1Repository extends AbstractRepository
             ->select();
 
         if (isset($params['id']) && $params['id']) {
-            $query->where('id', $params['id']);
+            $query->ofId($params['id']);
         }
 
         if (isset($params['name']) && $params['name']) {
-            $query->where('name', 'like', '%' . $params['name'] . '%');
+            $query->ofNameLike($params['name']);
         }
 
         if (isset($params['date_from']) && $params['date_from']) {
-            $query->where('updated_at', '>=', $params['date_from']);
+            $query->ofDateFrom($params['date_from']);
         }
 
         if (isset($params['date_to']) && $params['date_to']) {
-            $query->where('updated_at', '<=', $params['date_to']);
-        }
-
-        if (isset($params['state_id']) && $params['state_id']) {
-            $query->where('state_id', $params['state_id']);
+            $query->ofDateTo($params['date_to']);
         }
 
         if (isset($with) && $with) {

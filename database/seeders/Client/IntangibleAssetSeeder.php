@@ -6,8 +6,8 @@ use Illuminate\Database\Seeder;
 
 use Illuminate\Database\Eloquent\Collection;
 
-use App\Repositories\Admin\IntangibleAssetTypeLevel2Repository;
-use App\Repositories\Admin\IntangibleAssetTypeLevel3Repository;
+use App\Repositories\Admin\IntellectualPropertyRightSubcategoryRepository;
+use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
 
 use App\Repositories\Client\IntangibleAssetRepository;
 use App\Repositories\Admin\IntangibleAssetStateRepository;
@@ -82,11 +82,11 @@ class IntangibleAssetSeeder extends Seeder
     /** @var IntangibleAssetContabilityRepository */
     protected $intangibleAssetContabilityRepository;
 
-    /** @var IntangibleAssetTypeLevel2Repository */
-    protected $intangibleAssetTypeLevel2Repository;
+    /** @var IntellectualPropertyRightSubcategoryRepository */
+    protected $intellectualPropertyRightSubcategoryRepository;
 
     /** @var IntangibleAssetTypeLevel3Repository */
-    protected $intangibleAssetTypeLevel3Repository;
+    protected $intellectualPropertyRightProductRepository;
 
     /** @var ProjectRepository */
     protected $projectRepository;
@@ -130,8 +130,8 @@ class IntangibleAssetSeeder extends Seeder
         IntangibleAssetSessionRightContractRepository $intangibleAssetSessionRightContractRepository,
         IntangibleAssetContabilityRepository $intangibleAssetContabilityRepository,
 
-        IntangibleAssetTypeLevel2Repository $intangibleAssetTypeLevel2Repository,
-        IntangibleAssetTypeLevel3Repository $intangibleAssetTypeLevel3Repository,
+        IntellectualPropertyRightSubcategoryRepository $intellectualPropertyRightSubcategoryRepository,
+        IntellectualPropertyRightProductRepository $intellectualPropertyRightProductRepository,
 
         ProjectRepository $projectRepository,
         CreatorRepository $creatorRepository,
@@ -160,8 +160,8 @@ class IntangibleAssetSeeder extends Seeder
         $this->intangibleAssetSessionRightContractRepository = $intangibleAssetSessionRightContractRepository;
         $this->intangibleAssetContabilityRepository = $intangibleAssetContabilityRepository;
 
-        $this->intangibleAssetTypeLevel2Repository =  $intangibleAssetTypeLevel2Repository;
-        $this->intangibleAssetTypeLevel3Repository = $intangibleAssetTypeLevel3Repository;
+        $this->intellectualPropertyRightSubcategoryRepository =  $intellectualPropertyRightSubcategoryRepository;
+        $this->intellectualPropertyRightProductRepository = $intellectualPropertyRightProductRepository;
 
         $this->projectRepository = $projectRepository;
         $this->creatorRepository = $creatorRepository;
@@ -190,7 +190,7 @@ class IntangibleAssetSeeder extends Seeder
         $creators = $this->creatorRepository->all();
 
         /** Searching DPIS */
-        $dpis = $this->intangibleAssetTypeLevel2Repository->all();
+        $dpis = $this->intellectualPropertyRightSubcategoryRepository->all();
 
         /** Searching Users */
         $users = $this->userRepository->all();
@@ -355,7 +355,7 @@ class IntangibleAssetSeeder extends Seeder
      */
     public function updateHasClassification($intangibleAsset): void
     {
-        $randomClassification = $this->intangibleAssetTypeLevel3Repository->randomFirst();
+        $randomClassification = $this->intellectualPropertyRightProductRepository->randomFirst();
 
         $this->intangibleAssetRepository->update($intangibleAsset, ['classification_id' => $randomClassification->id]);
 

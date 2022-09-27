@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedMediumInteger('dpi_id');
 
             $table->foreign('intangible_asset_id')->references('id')->on('intangible_assets')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreign('dpi_id')->references('id')->on('iamd.intangible_asset_type_level2s')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreign('dpi_id')->references('id')->on('iamd.intellectual_property_right_subcategories')->cascadeOnUpdate()->restrictOnDelete();
         });
     }
 

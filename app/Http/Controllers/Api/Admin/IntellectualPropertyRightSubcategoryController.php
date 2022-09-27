@@ -3,18 +3,18 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\Admin\IntangibleAssetTypeLevel2Repository;
+use App\Repositories\Admin\IntellectualPropertyRightSubcategoryRepository;
 use Illuminate\Http\Request;
 
-class IntangibleAssetLevel2Controller extends Controller
+class IntellectualPropertyRightSubcategoryController extends Controller
 {
 
-    /** @var IntangibleAssetTypeLevel2Repository */
-    protected $intangibleAssetTypeLevel2Repository;
+   /** @var IntellectualPropertyRightSubcategoryRepository */
+    protected $intellectualPropertyRightSubcategoryRepository;
 
-    public function __construct(IntangibleAssetTypeLevel2Repository $intangibleAssetTypeLevel2Repository)
+    public function __construct(IntellectualPropertyRightSubcategoryRepository $intellectualPropertyRightSubcategoryRepository)
     {
-        $this->intangibleAssetTypeLevel2Repository = $intangibleAssetTypeLevel2Repository;
+        $this->intellectualPropertyRightSubcategoryRepository = $intellectualPropertyRightSubcategoryRepository;
     }
 
     /**
@@ -25,7 +25,7 @@ class IntangibleAssetLevel2Controller extends Controller
     public function index(): \Illuminate\Http\JsonResponse
     {
         try {
-            $items = $this->intangibleAssetTypeLevel2Repository->all();
+            $items = $this->intellectualPropertyRightSubcategoryRepository->all();
 
             return response()->json($items);
         } catch (\Exception $th) {
@@ -43,7 +43,7 @@ class IntangibleAssetLevel2Controller extends Controller
     public function show($intangible_asset_level_2)#: \Illuminate\Http\JsonResponse
     {
         try {
-            $item = $this->intangibleAssetTypeLevel2Repository->getByIdWithRelations($intangible_asset_level_2, ['intangible_asset_type_level_3']);
+            $item = $this->intellectualPropertyRightSubcategoryRepository->getByIdWithRelations($intangible_asset_level_2, ['intellectual_property_right_products']);
 
             return response()->json($item);
         } catch (\Exception $th) {

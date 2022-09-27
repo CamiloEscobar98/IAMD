@@ -1,88 +1,89 @@
 function changeIntangibleAssetLevel1() {
-    let level_1 = $('#intangible_asset_type_level_1').val();
+    let category = $('#intangible_asset_type_level_1').val();
 
-    getIntangibleAssetLevel2(level_1);
+    getIntangibleAssetLevel2(category);
 }
 
 function changeIntangibleAssetLevel2() {
-    let level_2 = $('#intangible_asset_type_level_2').val();
+    let subcategory = $('#intellectual_property_right_subcategories').val();
 
-    getIntangibleAssetLevel3(level_2);
+    getIntangibleAssetLevel3(subcategory);
 }
 
 function getIntangibleAssetLevel1() {
     $.ajax({
         type: 'GET',
-        url: "/api/intangible_asset_level_1/"
+        url: "/api/intellectual_property_right/categories/"
     }).done(function (res) {
         putIntangibleAssetLevel1(res);
-        let level_1 = res[0]['id'];
-        getIntangibleAssetLevel2(level_1);
+        let category = res[0]['id'];
+        getIntangibleAssetLevel2(category);
     });
 }
 
-function getIntangibleAssetLevel2(level_1) {
+function getIntangibleAssetLevel2(category) {
 
     $.ajax({
         type: 'GET',
-        url: "/api/intangible_asset_level_1/" + level_1
+        url: "/api/intellectual_property_right/categories/" + category
     }).done(function (res) {
-        putIntangibleAssetLevel2(res['intangible_asset_type_level_2']);
-        let level_2 = res['intangible_asset_type_level_2'][0]['id'];
-        getIntangibleAssetLevel3(level_2);
+        console.log(res['intellectual_property_right_subcategories']);
+        putIntangibleAssetLevel2(res['intellectual_property_right_subcategories']);
+        let subcategory = res['intellectual_property_right_subcategories'][0]['id'];
+        getIntangibleAssetLevel3(subcategory);
 
     });
 }
 
-function getIntangibleAssetLevel3(level_2) {
+function getIntangibleAssetLevel3(subcategory) {
 
     $.ajax({
         type: 'GET',
-        url: "/api/intangible_asset_level_2/" + level_2
+        url: "/api/intellectual_property_right/subcategories/" + subcategory
     }).done(function (res) {
-        putIntangibleAssetLevel3(res['intangible_asset_type_level_3']);
+        putIntangibleAssetLevel3(res['intellectual_property_right_products']);
     });
 }
 
 
 function putIntangibleAssetLevel1(items) {
-    let selectLevel1 = $('#intangible_asset_type_level_1');
+    let selectCategory = $('#intangible_asset_type_level_1');
 
-    selectLevel1.empty();
+    selectCategory.empty();
 
     items.forEach(category => {
         var id = category['id'];
         var name = category['name'];
 
-        selectLevel1.append(`<option value="${id}">${name}</option>`);
+        selectCategory.append(`<option value="${id}">${name}</option>`);
 
     });
 }
 
 function putIntangibleAssetLevel2(items) {
-    let selectLevel1 = $('#intangible_asset_type_level_2');
+    let selectCategory = $('#intangible_asset_type_level_2');
 
-    selectLevel1.empty();
+    selectCategory.empty();
 
     items.forEach(category => {
         var id = category['id'];
         var name = category['name'];
 
-        selectLevel1.append(`<option value="${id}">${name}</option>`);
+        selectCategory.append(`<option value="${id}">${name}</option>`);
 
     });
 }
 
 function putIntangibleAssetLevel3(items) {
-    let selectLevel1 = $('#intangible_asset_type_level_3');
+    let selectCategory = $('#intangible_asset_type_level_3');
 
-    selectLevel1.empty();
+    selectCategory.empty();
 
     items.forEach(category => {
         var id = category['id'];
         var name = category['name'];
 
-        selectLevel1.append(`<option value="${id}">${name}</option>`);
+        selectCategory.append(`<option value="${id}">${name}</option>`);
 
     });
 }

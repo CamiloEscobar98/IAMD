@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+
+use App\Services\FileSystem\IntangibleAsset\FileConfidencialityContractService;
+use App\Services\FileSystem\IntangibleAsset\FileSessionRightContractService;
+
 use App\Repositories\Client\IntangibleAssetConfidentialityContractRepository;
 use App\Repositories\Client\IntangibleAssetRepository;
 use App\Repositories\Client\IntangibleAssetSessionRightContractRepository;
-use App\Services\FileSystem\IntangibleAsset\FileConfidencialityContractService;
-use App\Services\FileSystem\IntangibleAsset\FileSessionRightContractService;
-use Illuminate\Support\Facades\Storage;
 
 class IntangibleAssetFileController extends Controller
 {

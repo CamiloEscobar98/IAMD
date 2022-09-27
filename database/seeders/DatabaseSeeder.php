@@ -16,9 +16,8 @@ use Database\Seeders\Localization\StateAndCitySeeder;
 use Database\Seeders\Admin\AssignmentContractSeeder;
 use Database\Seeders\Admin\LinkageTypeSeeder;
 
-use Database\Seeders\Admin\IntangibleAssetTypeLevels;
+use Database\Seeders\Admin\IntellectualPropertyRightSeeder;
 use Database\Seeders\Admin\IntangibleAssetStateSeeder;
-
 use Database\Seeders\Admin\NotificationTypeSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -43,7 +42,7 @@ class DatabaseSeeder extends Seeder
             AssignmentContractSeeder::class,
             LinkageTypeSeeder::class,
 
-            IntangibleAssetTypeLevels::class,
+            IntellectualPropertyRightSeeder::class,
             IntangibleAssetStateSeeder::class,
 
             NotificationTypeSeeder::class
