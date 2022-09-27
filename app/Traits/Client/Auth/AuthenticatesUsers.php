@@ -110,7 +110,7 @@ trait AuthenticatesUsers
      */
     protected function sendLoginResponse(Request $request)
     {
-        $request->session()->regenerate();
+        // $request->session()->regenerate();
 
         $this->clearLoginAttempts($request);
 
@@ -170,9 +170,9 @@ trait AuthenticatesUsers
     {
         $this->guard()->logout();
 
-        $request->session()->invalidate();
+        // $request->session()->invalidate();
 
-        $request->session()->regenerateToken();
+        // $request->session()->regenerateToken();
 
         if ($response = $this->loggedOut($request)) {
             return $response;
