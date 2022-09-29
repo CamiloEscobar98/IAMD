@@ -40,6 +40,7 @@ class CreateCreatorExternalComposer
         StateRepository $stateRepository,
         CityRepository $cityRepository
     ) {
+
         $this->externalOrganizationRepository = $externalOrganizationRepository;
         $this->assignmentContractRepository = $assignmentContractRepository;
         $this->documentTypeRepository = $documentTypeRepository;
@@ -52,23 +53,39 @@ class CreateCreatorExternalComposer
     public function compose(View $view)
     {
 
+        $creatorExternalId = request()->external;
+
         $countries = $this->countryRepository->all();
+        
+        if (is_null($creatorExternalId)) {
 
-        $country = $countries->where('id', old('country_id', 11))->first();
+            $country = $countries->where('id', old('country_id', 11))->first();
 
-        $states = $this->stateRepository->getByCountry($country);
+            $states = $this->stateRepository->getByCountry($country);
 
-        if ($states->count() > 0) {
-            $state = old('state_id') ? $states->where('id', old('state_id'))->first() : $states->first();
-            $cities = $this->cityRepository->getByState($state);
-            $city = old('expedition_place_id') ? $cities->where('id', old('expedition_place_id'))->first() : $cities->first();
+            if ($states->count() > 0) {
+                $state = old('state_id') ? $states->where('id', old('state_id'))->first() : $states->first();
+                $cities = $this->cityRepository->getByState($state);
+                $city = old('expedition_place_id') ? $cities->where('id', old('expedition_place_id'))->first() : $cities->first();
+            } else {
+                $states = [];
+                $cities = [];
+                $state = $this->stateRepository->newInstance();
+                $city = $this->cityRepository->newInstance();
+            }
         } else {
-            $states = [];
-            $cities = [];
-            $state = $this->stateRepository->newInstance();
-            $city = $this->cityRepository->newInstance();
-        }
 
+            /** @var \App\Models\Admin\Localization\City $city */
+            $city = $this->cityRepository->getByCreator($creatorExternalId)->get()->first();
+
+            $state = $this->stateRepository->getById($city->state_id);
+
+            $country = $this->countryRepository->getById($state->country_id);
+
+            $states = $this->stateRepository->getByCountry($country);
+
+            $cities = $this->cityRepository->getByState($state);
+        }
 
         $externalOrganizations = $this->externalOrganizationRepository->all();
 

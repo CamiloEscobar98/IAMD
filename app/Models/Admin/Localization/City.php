@@ -54,4 +54,21 @@ class City extends BaseModel
         }
         return $query->where('state_id', $stateId);
     }
+
+    /**
+     * Scope a query to only include Creator External
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfCreator($query, $creatorId)
+    {
+        $client = request()->client;
+        $table = $this->getTable();
+        $joinCreatorDocuments = "{$client}.creator_documents";
+
+        $query->join($joinCreatorDocuments, "{$joinCreatorDocuments}.expedition_place_id", "{$table}.id");
+
+        return  $query->where("{$joinCreatorDocuments}.creator_id", $creatorId);
+    }
 }

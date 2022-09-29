@@ -4,7 +4,7 @@ namespace App\Repositories\Admin;
 
 use App\Repositories\AbstractRepository;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Builder;
 
 use App\Models\Admin\Localization\City;
 
@@ -67,5 +67,13 @@ class CityRepository extends AbstractRepository
     public function getByState($state)
     {
         return $this->model->ofState($state->id)->get();
+    }
+
+    /**
+     * 
+     */
+    public function getByCreator($creatorId)
+    {
+        return $this->model->ofCreator($creatorId);
     }
 }

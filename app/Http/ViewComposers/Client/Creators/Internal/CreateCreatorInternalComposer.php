@@ -10,13 +10,9 @@ use App\Repositories\Admin\CityRepository;
 use App\Repositories\Admin\CountryRepository;
 use App\Repositories\Admin\DocumentTypeRepository;
 use App\Repositories\Admin\StateRepository;
-use App\Repositories\Client\CreatorInternalRepository;
 
 class CreateCreatorInternalComposer
 {
-    /** @var CreatorInternalRepository */
-    protected $creatorInternalRepository;
-
     /** @var LinkageTypeRepository */
     protected $linkageTypeRepository;
 
@@ -36,7 +32,6 @@ class CreateCreatorInternalComposer
     protected $cityRepository;
 
     public function __construct(
-        CreatorInternalRepository $creatorInternalRepository,
         LinkageTypeRepository $linkageTypeRepository,
         AssignmentContractRepository $assignmentContractRepository,
         DocumentTypeRepository $documentTypeRepository,
@@ -45,7 +40,6 @@ class CreateCreatorInternalComposer
         StateRepository $stateRepository,
         CityRepository $cityRepository
     ) {
-        $this->creatorInternalRepository = $creatorInternalRepository;
 
         $this->linkageTypeRepository = $linkageTypeRepository;
         $this->assignmentContractRepository = $assignmentContractRepository;
@@ -60,8 +54,9 @@ class CreateCreatorInternalComposer
     {
         $creatorInternalId = request()->internal;
 
+        $countries = $this->countryRepository->all();
+        
         if (is_null($creatorInternalId)) {
-            $countries = $this->countryRepository->all();
             $country = $countries->where('id', old('country_id', 11))->first();
             $states = $this->stateRepository->getByCountry($country);
 
@@ -76,7 +71,16 @@ class CreateCreatorInternalComposer
                 $city = $this->cityRepository->newInstance();
             }
         } else {
-            $creatorInternal = $this->creatorInternalRepository->getById($creatorInternalId);
+            /** @var \App\Models\Admin\Localization\City $city */
+            $city = $this->cityRepository->getByCreator($creatorInternalId)->get()->first();
+
+            $state = $this->stateRepository->getById($city->state_id);
+
+            $country = $this->countryRepository->getById($state->country_id);
+
+            $states = $this->stateRepository->getByCountry($country);
+
+            $cities = $this->cityRepository->getByState($state);
         }
 
         $linkageTypes = $this->linkageTypeRepository->all();
@@ -97,6 +101,7 @@ class CreateCreatorInternalComposer
 
             'country',
             'state',
+            'city'
         ));
     }
 }

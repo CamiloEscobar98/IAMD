@@ -24,8 +24,11 @@
                             <a href="{{ route('client.creators.internal.index', $client->name) }}">
                                 {{ __('pages.client.creators.internal.title') }} </a>
                         </li>
-                        <li class="breadcrumb-item">{{ $item->name }}</li>
-                        <li class="breadcrumb-item">{{ __('pages.default.edit') }}</li>
+                        <li class="breadcrumb-item">
+                            <a
+                                href="{{ route('client.creators.internal.show', [$client->name, $item->creator_id]) }}">{{ $item->creator->name }}</a>
+                        </li>
+                        <li class="breadcrumb-item active">{{ __('pages.default.edit') }}</li>
                     </ol>
                 </div>
             </div>
