@@ -182,6 +182,7 @@ return [
 
         'document' => 'documento',
         'document_type_id' => 'tipo de documento',
+        'expedition_place_id' => 'lugar de expedición',
 
         'linkage_type_id' => 'tipo de vinculación',
         'assignment_contract_id' => 'tipo de contratación',

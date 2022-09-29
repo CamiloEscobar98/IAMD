@@ -21,7 +21,7 @@
                                 <label>{{ __('pages.client.intangible_assets.phases.one.form.level_1') }}</label>
                                 <select name="intellectual_property_right_category_id" id="intellectual_property_right_category_id"
                                     class="form-control form-control-sm select2bs4"
-                                    onchange="changeIntangibleAssetLevel1()">
+                                    onchange="changeIntellectualPropertyRightCategory()">
                                     @foreach ($categories as $categoryItem)
                                         <option value="{{ $categoryItem->id }}"
                                             {{ twoOptionsIsEqual($category->id, $categoryItem->id) }}>
@@ -35,7 +35,7 @@
                                 <label>{{ __('pages.client.intangible_assets.phases.one.form.level_2') }}</label>
                                 <select name="intellectual_property_right_subcategory_id" id="intellectual_property_right_subcategory_id"
                                     class="form-control form-control-sm select2bs4"
-                                    onchange="changeIntangibleAssetLevel2()">
+                                    onchange="changeIntellectualPropertyRightSubcategory()">
                                     @foreach ($subCategories as $subCategoryItem)
                                         <option value="{{ $subCategoryItem->id }}"
                                             {{ twoOptionsIsEqual($subCategory->id, $subCategoryItem->id) }}>

@@ -1,52 +1,52 @@
-function changeIntangibleAssetLevel1() {
-    let category = $('#intellectual_property_right_category_id').val();
+function changeIntellectualPropertyRightCategory() {
+    let selectCategory = $('#intellectual_property_right_category_id').val();
 
-    getIntangibleAssetLevel2(category);
+    getIntellectualPropertyRightSubcategories(selectCategory);
 }
 
-function changeIntangibleAssetLevel2() {
-    let subcategory = $('#intellectual_property_right_subcategories').val();
+function changeIntellectualPropertyRightSubcategory() {
+    let selectSubcategory = $('#intellectual_property_right_subcategories').val();
 
-    getIntangibleAssetLevel3(subcategory);
+    getIntellectualPropertyRightProducts(selectSubcategory);
 }
 
-function getIntangibleAssetLevel1() {
+function getIntellectualPropertyRightCategories() {
     $.ajax({
         type: 'GET',
-        url: "/api/intellectual_property_right/categories/"
+        url: "/api/intellectual_property_rights/categories/"
     }).done(function (res) {
-        putIntangibleAssetLevel1(res);
+        putIntellectualPropertyRightCategories(res);
         let category = res[0]['id'];
-        getIntangibleAssetLevel2(category);
+        getIntellectualPropertyRightSubcategories(category);
     });
 }
 
-function getIntangibleAssetLevel2(category) {
+function getIntellectualPropertyRightSubcategories(category) {
 
     $.ajax({
         type: 'GET',
-        url: "/api/intellectual_property_right/categories/" + category
+        url: "/api/intellectual_property_rights/categories/" + category + "/subcategories"
     }).done(function (res) {
         console.log(res['intellectual_property_right_subcategories']);
-        putIntangibleAssetLevel2(res['intellectual_property_right_subcategories']);
-        let subcategory = res['intellectual_property_right_subcategories'][0]['id'];
-        getIntangibleAssetLevel3(subcategory);
+        putIntellectualPropertyRightSubcategories(res);
+        let subcategory = res[0]['id'];
+        getIntellectualPropertyRightProducts(subcategory);
 
     });
 }
 
-function getIntangibleAssetLevel3(subcategory) {
+function getIntellectualPropertyRightProducts(subcategory) {
 
     $.ajax({
         type: 'GET',
-        url: "/api/intellectual_property_right/subcategories/" + subcategory
+        url: "/api/intellectual_property_rights/subcategories/" + subcategory + "/products"
     }).done(function (res) {
-        putIntangibleAssetLevel3(res['intellectual_property_right_products']);
+        putIntellectualPropertyRightProducts(res);
     });
 }
 
 
-function putIntangibleAssetLevel1(items) {
+function putIntellectualPropertyRightCategories(items) {
     let selectCategory = $('#intellectual_property_right_category_id');
 
     selectCategory.empty();
@@ -60,7 +60,7 @@ function putIntangibleAssetLevel1(items) {
     });
 }
 
-function putIntangibleAssetLevel2(items) {
+function putIntellectualPropertyRightSubcategories(items) {
     let selectCategory = $('#intellectual_property_right_subcategory_id');
 
     selectCategory.empty();
@@ -74,7 +74,7 @@ function putIntangibleAssetLevel2(items) {
     });
 }
 
-function putIntangibleAssetLevel3(items) {
+function putIntellectualPropertyRightProducts(items) {
     let selectCategory = $('#intellectual_property_right_product_id');
 
     selectCategory.empty();

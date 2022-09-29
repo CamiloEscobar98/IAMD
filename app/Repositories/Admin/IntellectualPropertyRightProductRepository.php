@@ -56,7 +56,7 @@ class IntellectualPropertyRightProductRepository extends AbstractRepository
     /**
      * @param \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightSubcategory $subCategory
      */
-    public function getIntellectualPropertyRightSubcategory($subCategory)
+    public function getByIntellectualPropertyRightSubcategory($subCategory)
     {
         return $this->model->ofSubcategory($subCategory->id)->get();
     }

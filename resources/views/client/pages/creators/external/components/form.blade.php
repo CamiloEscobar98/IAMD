@@ -133,7 +133,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-user-friends"></span>
+                    <span class="fas fa-industry"></span>
                 </div>
             </div>
         </div>
@@ -306,7 +306,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-user-friends"></span>
+                    <span class="fas fa-industry"></span>
                 </div>
             </div>
         </div>

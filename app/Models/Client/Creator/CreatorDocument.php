@@ -63,4 +63,12 @@ class CreatorDocument extends BaseModel
     {
         return $this->belongsTo(\App\Models\Admin\Localization\City::class, 'expedition_place_id');
     }
+
+    /**
+     * @return bool
+     */
+    public function hasExpeditionPlace(): bool
+    {
+        return !is_null($this->expedition_place);
+    }
 }

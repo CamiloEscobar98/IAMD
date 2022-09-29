@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\Api\Admin\Localization\CountryController;
+use App\Http\Controllers\Api\Admin\Localization\StateController;
 
 use App\Http\Controllers\Api\Admin\IntellectualPropertyRightCategoryController;
 use App\Http\Controllers\Api\Admin\IntellectualPropertyRightSubcategoryController;
@@ -21,22 +23,34 @@ use App\Http\Controllers\Api\Client\ResearchUnitController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
-Route::prefix('intellectual_property_right')->group(function () {
-
+/** Intellectual Property Rights */
+Route::prefix('intellectual_property_rights')->group(function () {
     Route::prefix('categories')->group(function () {
         Route::get('/', [IntellectualPropertyRightCategoryController::class,  'index']);
-        Route::get('{category}', [IntellectualPropertyRightCategoryController::class, 'show']);
+        Route::get('{category}/subcategories', [IntellectualPropertyRightCategoryController::class, 'subcategories']);
     });
 
     Route::prefix('subcategories')->group(function () {
         Route::get('/', [IntellectualPropertyRightSubcategoryController::class,  'index']);
-        Route::get('{subcategory}', [IntellectualPropertyRightSubcategoryController::class, 'show']);
+        Route::get('{subcategory}/products', [IntellectualPropertyRightSubcategoryController::class, 'products']);
     });
 });
+/** ./Intellectual Property Rights */
+
+/** Localizations */
+Route::prefix('localizations')->group(function () {
+    Route::prefix('countries')->group(function () {
+        Route::get('/', [CountryController::class,  'index']);
+        Route::get('{country}/states', [CountryController::class, 'states']);
+    });
+
+    Route::prefix('states')->group(function () {
+        Route::get('/', [StateController::class,  'index']);
+        Route::get('{state}/cities', [StateController::class, 'cities']);
+    });
+});
+/** ./Localizations */
 
 Route::middleware(['check-client'])
     ->prefix('{client}')

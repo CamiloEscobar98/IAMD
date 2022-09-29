@@ -5,6 +5,7 @@ namespace App\Repositories\Admin;
 use App\Repositories\AbstractRepository;
 
 use App\Models\Admin\Localization\State;
+use Illuminate\Database\Eloquent\Collection;
 
 class StateRepository extends AbstractRepository
 {
@@ -54,5 +55,15 @@ class StateRepository extends AbstractRepository
         }
 
         return $query;
+    }
+
+    /**
+     * @param \App\Models\Admin\Localization\Country $country
+     * 
+     * @return Collection
+     */
+    public function getByCountry($country): Collection
+    {
+        return $this->all()->where('country_id', $country->id);
     }
 }

@@ -87,23 +87,23 @@ class ShowIntangibleAssetComposer
             $category = $this->intellectualPropertyRightCategoryRepository->getById($subCategory->intellectual_property_right_category_id);
 
             /** SubCategories */
-            $subCategories = $this->intellectualPropertyRightSubcategoryRepository->getIntellectualPropertyRightCategory($category);
+            $subCategories = $this->intellectualPropertyRightSubcategoryRepository->getByIntellectualPropertyRightCategory($category);
 
             /** Products */
-            $products = $this->intellectualPropertyRightProductRepository->getIntellectualPropertyRightSubcategory($subCategory);
+            $products = $this->intellectualPropertyRightProductRepository->getByIntellectualPropertyRightSubcategory($subCategory);
         } else {
 
             /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightCategory $category */
             $category = $categories->first();
 
             /** SubCategories */
-            $subCategories = $this->intellectualPropertyRightSubcategoryRepository->getIntellectualPropertyRightCategory($category);
+            $subCategories = $this->intellectualPropertyRightSubcategoryRepository->getByIntellectualPropertyRightCategory($category);
 
             /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightSubcategory $subCategory */
             $subCategory = $subCategories->first();
 
             /** Products */
-            $products = $this->intellectualPropertyRightProductRepository->getIntellectualPropertyRightSubcategory($subCategories->first());
+            $products = $this->intellectualPropertyRightProductRepository->getByIntellectualPropertyRightSubcategory($subCategories->first());
 
             /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightProduct $product */
             $product = $products->first();

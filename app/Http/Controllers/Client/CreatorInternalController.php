@@ -66,7 +66,6 @@ class CreatorInternalController extends Controller
             $total = $query->count();
 
             $items = $this->creatorInternalService->customPagination($query, $params, $request->get('page'), $total);
-            // return $items;
 
             $links = $items->links('pagination.customized');
 
@@ -133,11 +132,11 @@ class CreatorInternalController extends Controller
      * 
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function show($id, $internal, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function show($id, $internal, Request $request)#: \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
             $item = $this->creatorInternalRepository->getByIdWithRelations($internal, [
-                'creator', 'creator.document', 'creator.document.document_type', 'creator.document.expedition_place',
+                'creator', 'creator.document', 'creator.document.document_type', 'creator.document.expedition_place.state.country',
                 'linkage_type', 'assignment_contract'
             ], 'creator_id');
 

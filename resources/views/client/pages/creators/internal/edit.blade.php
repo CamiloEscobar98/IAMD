@@ -2,6 +2,12 @@
 
 @section('title', __('pages.client.creators.internal.route-titles.edit'))
 
+@section('css')
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+@endsection
+
 @section('content-header')
     <section class="content-header">
         <div class="container-fluid">
@@ -48,4 +54,24 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <!-- Select2 -->
+    <script src="{{ asset('adminlte/plugins/select2/js/select2.full.min.js') }}"></script>
+@endsection
+
+@section('custom_js')
+    @include('messages.delete_item', ['title' => __('pages.client.creators.internal.messages.confirm')])
+    <script src="{{ asset('adminlte/dist/js/iamd/localizations.js') }}"></script>
+
+    <script>
+        //Initialize Select2 Elements
+        $('.select2').select2()
+
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+    </script>
 @endsection

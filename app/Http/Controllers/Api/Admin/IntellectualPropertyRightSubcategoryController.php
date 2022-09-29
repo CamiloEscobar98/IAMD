@@ -3,18 +3,27 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+
+use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
 use App\Repositories\Admin\IntellectualPropertyRightSubcategoryRepository;
-use Illuminate\Http\Request;
+
+use App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightSubcategory;
 
 class IntellectualPropertyRightSubcategoryController extends Controller
 {
 
-   /** @var IntellectualPropertyRightSubcategoryRepository */
+    /** @var IntellectualPropertyRightSubcategoryRepository */
     protected $intellectualPropertyRightSubcategoryRepository;
 
-    public function __construct(IntellectualPropertyRightSubcategoryRepository $intellectualPropertyRightSubcategoryRepository)
-    {
+    /** @var IntellectualPropertyRightProductRepository */
+    protected $intellectualPropertyRightProductRepository;
+
+    public function __construct(
+        IntellectualPropertyRightSubcategoryRepository $intellectualPropertyRightSubcategoryRepository,
+        IntellectualPropertyRightProductRepository $intellectualPropertyRightProductRepository
+    ) {
         $this->intellectualPropertyRightSubcategoryRepository = $intellectualPropertyRightSubcategoryRepository;
+        $this->intellectualPropertyRightProductRepository = $intellectualPropertyRightProductRepository;
     }
 
     /**
@@ -36,14 +45,14 @@ class IntellectualPropertyRightSubcategoryController extends Controller
     /**
      * Get Item
      * 
-     * @param int $intangible_asset_level_2 
+     * @param IntellectualPropertyRightSubcategory $subCategory 
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($intangible_asset_level_2)#: \Illuminate\Http\JsonResponse
+    public function products(IntellectualPropertyRightSubcategory $subCategory) #: \Illuminate\Http\JsonResponse
     {
         try {
-            $item = $this->intellectualPropertyRightSubcategoryRepository->getByIdWithRelations($intangible_asset_level_2, ['intellectual_property_right_products']);
+            $item = $this->intellectualPropertyRightProductRepository->getByIntellectualPropertyRightSubcategory($subCategory);
 
             return response()->json($item);
         } catch (\Exception $th) {

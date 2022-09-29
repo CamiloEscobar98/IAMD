@@ -93,10 +93,30 @@
                 <!-- Expedition Place -->
                 <div class="input-group mt-3">
                     <input type="text" class="form-control" placeholder="{{ __('inputs.expedition_place') }}"
-                        value="{{ $item->creator->document->expedition_place->name }}" disabled>
+                        value="{{ $item->creator->document->expedition_place->state->country->name }}" disabled>
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-flag"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group mt-3">
+                    <input type="text" class="form-control" placeholder="{{ __('inputs.expedition_place') }}"
+                        value="{{ $item->creator->document->expedition_place->state->name }}" disabled>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-building"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group mt-3">
+                    <input type="text" class="form-control" placeholder="{{ __('inputs.expedition_place') }}"
+                        value="{{ $item->creator->document->expedition_place->name }}" disabled>
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-city"></span>
                         </div>
                     </div>
                 </div>

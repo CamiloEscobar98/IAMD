@@ -13,7 +13,7 @@ function changeState() {
 function getCountries() {
     $.ajax({
         type: 'GET',
-        url: "/api/countries/"
+        url: "/api/localizations/countries/"
     }).done(function (res) {
         let countries = res;
         putCountries(countries);
@@ -27,14 +27,11 @@ function getStates(country_id) {
 
     $.ajax({
         type: 'GET',
-        url: "/api/countries/" + country_id
+        url: "/api/localizations/countries/" + country_id + "/states"
     }).done(function (res) {
-        let states = res['states'];
+        let states = res;
+    
         putStates(states);
-
-        let first_state_id = states[0]['id'];
-        getCities(first_state_id);
-
     });
 }
 
@@ -42,52 +39,62 @@ function getCities(state_id) {
 
     $.ajax({
         type: 'GET',
-        url: "/api/states/" + state_id
+        url: "/api/localizations/states/" + state_id + "/cities"
     }).done(function (res) {
-        let cities = res['cities'];
+        let cities = res;
+
         putCities(cities);
     });
 }
 
 
 function putCountries(items) {
-    let selectLevel1 = $('#country_id');
+    let selectCountries = $('#country_id');
 
-    selectLevel1.empty();
+    selectCountries.empty();
 
     items.forEach(item => {
         var id = item['id'];
         var name = item['name'];
 
-        selectLevel1.append(`<option value="${id}">${name}</option>`);
+        selectCountries.append(`<option value="${id}">${name}</option>`);
 
     });
 }
 
 function putStates(items) {
-    let selectLevel1 = $('#intellectual_property_right_subcategory_id');
+    let selectStates = $('#state_id');
 
-    selectLevel1.empty();
+    selectStates.empty();
 
-    items.forEach(item => {
-        var id = item['id'];
-        var name = item['name'];
+    if (items.length > 0) {
+        items.forEach(item => {
+            var id = item['id'];
+            var name = item['name'];
 
-        selectLevel1.append(`<option value="${id}">${name}</option>`);
+            selectStates.append(`<option value="${id}">${name}</option>`);
 
-    });
+        });
+
+        let state_id = items[0]['id'];
+        getCities(state_id);
+    } else {
+        putCities([]);
+    }
 }
 
 function putCities(items) {
-    let selectLevel1 = $('#intellectual_property_right_product_id');
+    let selectCities = $('#city_id');
 
-    selectLevel1.empty();
+    selectCities.empty();
 
-    items.forEach(item => {
-        var id = item['id'];
-        var name = item['name'];
+    if (items.length > 0) {
+        items.forEach(item => {
+            var id = item['id'];
+            var name = item['name'];
 
-        selectLevel1.append(`<option value="${id}">${name}</option>`);
+            selectCities.append(`<option value="${id}">${name}</option>`);
 
-    });
+        });
+    }
 }

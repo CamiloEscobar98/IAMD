@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 use App\Repositories\Admin\IntellectualPropertyRightCategoryRepository;
+use App\Repositories\Admin\IntellectualPropertyRightSubcategoryRepository;
+
+use App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightCategory;
 
 class IntellectualPropertyRightCategoryController extends Controller
 {
@@ -14,20 +17,26 @@ class IntellectualPropertyRightCategoryController extends Controller
     /** @var IntellectualPropertyRightCategoryRepository */
     protected $intellectualPropertyRightCategoryRepository;
 
-    public function __construct(IntellectualPropertyRightCategoryRepository $intellectualPropertyRightCategoryRepository)
-    {
+    /** @var IntellectualPropertyRightSubcategoryRepository */
+    protected $intellectualPropertyRightSubcategoryRepository;
+
+    public function __construct(
+        IntellectualPropertyRightCategoryRepository $intellectualPropertyRightCategoryRepository,
+        IntellectualPropertyRightSubcategoryRepository $intellectualPropertyRightSubcategoryRepository
+    ) {
         $this->intellectualPropertyRightCategoryRepository = $intellectualPropertyRightCategoryRepository;
+        $this->intellectualPropertyRightSubcategoryRepository = $intellectualPropertyRightSubcategoryRepository;
     }
 
     /**
      * Get All
      * 
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index(Request $request): \Illuminate\Http\JsonResponse|String
+    public function index(): JsonResponse|String
     {
         try {
-            $items = $this->intellectualPropertyRightCategoryRepository->search([], ['intellectual_property_right_subcategories', 'intellectual_property_right_subcategories.intellectual_property_right_products'])->get();
+            $items = $this->intellectualPropertyRightCategoryRepository->all();
 
             return response()->json($items);
         } catch (\Exception $th) {
@@ -38,14 +47,14 @@ class IntellectualPropertyRightCategoryController extends Controller
     /**
      * Get Item
      * 
-     * @param int $category 
+     * @param IntellectualPropertyRightCategory $category 
      * 
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function show($category): \Illuminate\Http\JsonResponse|String
+    public function subcategories(IntellectualPropertyRightCategory $category): JsonResponse|String
     {
         try {
-            $item = $this->intellectualPropertyRightCategoryRepository->getByIdWithRelations($category, ['intellectual_property_right_subcategories']);
+            $item = $this->intellectualPropertyRightSubcategoryRepository->getByIntellectualPropertyRightCategory($category);
 
             return response()->json($item);
         } catch (\Exception $th) {

@@ -38,4 +38,20 @@ class City extends BaseModel
     {
         return $this->belongsToThrough(Country::class, State::class);
     }
+
+    /**
+     * Scope a query to only include State
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param array|int $stateId
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfState($query, $stateId)
+    {
+        if (is_array($stateId) && !empty($stateId)) {
+            return $query->whereIn($stateId);
+        }
+        return $query->where('state_id', $stateId);
+    }
 }

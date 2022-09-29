@@ -76,19 +76,46 @@
         <!-- ./Document Type -->
 
         <!--Expedition Place -->
+
+        <!-- Countries -->
         <div class="input-group mt-3">
-            <select name="expedition_place_id" class="form-control select2bs4">
-                <option value="">
-                    {{ __('inputs.expedition_place_id') }}
-                </option>
-                @foreach ($states as $state)
-                    <optgroup label="{{ $state->country->name }}: {{ $state->name }}">
-                        @foreach ($state->cities as $city)
-                            <option value="{{ $city->id }}"
-                                {{ twoOptionsIsEqual($item->creator->document->expedition_place_id, $city->id) }}>
-                                {{ $city->name }}</option>
-                        @endforeach
-                    </optgroup>
+            <select name="country_id" id="country_id" class="form-control select2bs4" onchange="changeCountry()">
+                @foreach ($countries as $countryItem)
+                    <option value="{{ $countryItem->id }}" {{ twoOptionsIsEqual($country->id, $countryItem->id) }}>
+                        {{ $countryItem->name }}</option>
+                @endforeach
+            </select>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-flag"></span>
+                </div>
+            </div>
+        </div>
+        <!-- ./Countries -->
+
+        <!-- States -->
+        <div class="input-group mt-3">
+            <select name="state_id" id="state_id" class="form-control select2bs4" onchange="changeState()">
+                @foreach ($states as $stateItem)
+                    <option value="{{ $stateItem->id }}" {{ twoOptionsIsEqual($state->id, $stateItem->id) }}>
+                        {{ $stateItem->name }}</option>
+                @endforeach
+            </select>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-flag"></span>
+                </div>
+            </div>
+        </div>
+        <!-- ./States -->
+
+        <!-- Cities -->
+        <div class="input-group mt-3">
+            <select name="expedition_place_id" id="city_id" class="form-control select2bs4">
+                @foreach ($cities as $cityItem)
+                    <option value="{{ $cityItem->id }}"
+                        {{ twoOptionsIsEqual($item->creator->document->expedition_place_id, $cityItem->id) }}>
+                        {{ $cityItem->name }}</option>
                 @endforeach
             </select>
             <div class="input-group-append">
@@ -101,6 +128,8 @@
         @error('expedition_place_id')
             <small class="text-danger">{{ $message }}</small>
         @enderror
+        <!-- ./Cities -->
+
         <!-- ./Expedition Place -->
 
         <!-- Email -->
@@ -249,19 +278,13 @@
         <!-- ./Document Type -->
 
         <!--Expedition Place -->
+
+        <!-- Countries -->
         <div class="input-group mt-3">
-            <select name="expedition_place_id" class="form-control select2bs4">
-                <option value="">
-                    {{ __('inputs.expedition_place_id') }}
-                </option>
-                @foreach ($states as $state)
-                    <optgroup label="{{ $state->country->name }}: {{ $state->name }}">
-                        @foreach ($state->cities as $city)
-                            <option value="{{ $city->id }}"
-                                {{ twoOptionsIsEqual(old('expedition_place_id'), $city->id) }}>
-                                {{ $city->name }}</option>
-                        @endforeach
-                    </optgroup>
+            <select name="country_id" id="country_id" class="form-control select2bs4" onchange="changeCountry()">
+                @foreach ($countries as $countryItem)
+                    <option value="{{ $countryItem->id }}" {{ twoOptionsIsEqual($country->id, $countryItem->id) }}>
+                        {{ $countryItem->name }}</option>
                 @endforeach
             </select>
             <div class="input-group-append">
@@ -270,10 +293,45 @@
                 </div>
             </div>
         </div>
+        <!-- ./Countries -->
+
+        <!-- States -->
+        <div class="input-group mt-3">
+            <select name="state_id" id="state_id" class="form-control select2bs4" onchange="changeState()">
+                @foreach ($states as $stateItem)
+                    <option value="{{ $stateItem->id }}" {{ twoOptionsIsEqual($state->id, $stateItem->id) }}>
+                        {{ $stateItem->name }}</option>
+                @endforeach
+            </select>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-building"></span>
+                </div>
+            </div>
+        </div>
+        <!-- ./States -->
+
+        <!-- Cities -->
+        <div class="input-group mt-3">
+            <select name="expedition_place_id" id="city_id" class="form-control select2bs4">
+                @foreach ($cities as $cityItem)
+                    <option value="{{ $cityItem->id }}"
+                        {{ twoOptionsIsEqual(old('expedition_place_id'), $cityItem->id) }}>
+                        {{ $cityItem->name }}</option>
+                @endforeach
+            </select>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-city"></span>
+                </div>
+            </div>
+        </div>
 
         @error('expedition_place_id')
             <small class="text-danger">{{ $message }}</small>
         @enderror
+        <!-- ./Cities -->
+
         <!-- ./Expedition Place -->
 
         <!-- Email -->

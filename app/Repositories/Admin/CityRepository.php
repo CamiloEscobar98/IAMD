@@ -4,6 +4,8 @@ namespace App\Repositories\Admin;
 
 use App\Repositories\AbstractRepository;
 
+use Illuminate\Database\Eloquent\Collection;
+
 use App\Models\Admin\Localization\City;
 
 class CityRepository extends AbstractRepository
@@ -47,7 +49,7 @@ class CityRepository extends AbstractRepository
         }
 
         if (isset($params['state_id']) && $params['state_id']) {
-            $query->where('state_id', $params['state_id']);
+            $query->ofState($params['state_id']);
         }
 
         if (isset($with) && $with) {
@@ -55,5 +57,15 @@ class CityRepository extends AbstractRepository
         }
 
         return $query;
+    }
+
+    /**
+     * @param \App\Models\Admin\Localization\State $state
+     * 
+     * @return Collecion
+     */
+    public function getByState($state)
+    {
+        return $this->model->ofState($state->id)->get();
     }
 }

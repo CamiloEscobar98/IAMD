@@ -70,6 +70,7 @@
 
 @section('custom_js')
     @include('messages.delete_item', ['title' => __('pages.client.creators.internal.messages.confirm')])
+    <script src="{{ asset('adminlte/dist/js/iamd/localizations.js') }}"></script>
 
     <script>
         //Initialize Select2 Elements
