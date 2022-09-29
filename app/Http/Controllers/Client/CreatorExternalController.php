@@ -137,7 +137,7 @@ class CreatorExternalController extends Controller
     {
         try {
             $item = $this->creatorExternalRepository->getByIdWithRelations($external, [
-                'creator', 'creator.document', 'creator.document.document_type', 'creator.document.expedition_place',
+                'creator', 'creator.document', 'creator.document.document_type', 'creator.document.expedition_place.state.country',
                 'external_organization', 'assignment_contract'
             ], 'creator_id');
 

@@ -70,7 +70,6 @@
 @endsection
 
 @section('custom_js')
-    @include('messages.delete_item', ['title' => __('pages.client.creators.external.messages.confirm')])
     <script src="{{ asset('adminlte/dist/js/iamd/localizations.js') }}"></script>
 
     <script>

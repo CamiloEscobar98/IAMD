@@ -91,6 +91,8 @@
                 <!-- ./Document Type -->
 
                 <!-- Expedition Place -->
+
+                <!-- Countries -->
                 <div class="input-group mt-3">
                     <input type="text" class="form-control" placeholder="{{ __('inputs.expedition_place') }}"
                         value="{{ $item->creator->document->expedition_place->state->country->name }}" disabled>
@@ -100,7 +102,9 @@
                         </div>
                     </div>
                 </div>
+                <!-- ./Countries -->
 
+                <!-- State -->
                 <div class="input-group mt-3">
                     <input type="text" class="form-control" placeholder="{{ __('inputs.expedition_place') }}"
                         value="{{ $item->creator->document->expedition_place->state->name }}" disabled>
@@ -110,7 +114,9 @@
                         </div>
                     </div>
                 </div>
+                <!-- ./States -->
 
+                <!-- Cities -->
                 <div class="input-group mt-3">
                     <input type="text" class="form-control" placeholder="{{ __('inputs.expedition_place') }}"
                         value="{{ $item->creator->document->expedition_place->name }}" disabled>
@@ -120,6 +126,8 @@
                         </div>
                     </div>
                 </div>
+                <!-- ./Cities -->
+
                 <!-- ./Expedition Place -->
 
                 <!-- Email -->

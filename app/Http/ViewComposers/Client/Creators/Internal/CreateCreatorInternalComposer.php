@@ -10,9 +10,13 @@ use App\Repositories\Admin\CityRepository;
 use App\Repositories\Admin\CountryRepository;
 use App\Repositories\Admin\DocumentTypeRepository;
 use App\Repositories\Admin\StateRepository;
+use App\Repositories\Client\CreatorInternalRepository;
 
 class CreateCreatorInternalComposer
 {
+    /** @var CreatorInternalRepository */
+    protected $creatorInternalRepository;
+
     /** @var LinkageTypeRepository */
     protected $linkageTypeRepository;
 
@@ -32,6 +36,7 @@ class CreateCreatorInternalComposer
     protected $cityRepository;
 
     public function __construct(
+        CreatorInternalRepository $creatorInternalRepository,
         LinkageTypeRepository $linkageTypeRepository,
         AssignmentContractRepository $assignmentContractRepository,
         DocumentTypeRepository $documentTypeRepository,
@@ -40,6 +45,8 @@ class CreateCreatorInternalComposer
         StateRepository $stateRepository,
         CityRepository $cityRepository
     ) {
+        $this->creatorInternalRepository = $creatorInternalRepository;
+
         $this->linkageTypeRepository = $linkageTypeRepository;
         $this->assignmentContractRepository = $assignmentContractRepository;
         $this->documentTypeRepository = $documentTypeRepository;
@@ -51,22 +58,25 @@ class CreateCreatorInternalComposer
 
     public function compose(View $view)
     {
+        $creatorInternalId = request()->internal;
 
-        $countries = $this->countryRepository->all();
+        if (is_null($creatorInternalId)) {
+            $countries = $this->countryRepository->all();
+            $country = $countries->where('id', old('country_id', 11))->first();
+            $states = $this->stateRepository->getByCountry($country);
 
-        $country = $countries->where('id', old('country_id', 11))->first();
-
-        $states = $this->stateRepository->getByCountry($country);
-
-        if ($states->count() > 0) {
-            $state = old('state_id') ? $states->where('id', old('state_id'))->first() : $states->first();
-            $cities = $this->cityRepository->getByState($state);
-            $city = old('expedition_place_id') ? $cities->where('id', old('expedition_place_id'))->first() : $cities->first();
+            if ($states->count() > 0) {
+                $state = old('state_id') ? $states->where('id', old('state_id'))->first() : $states->first();
+                $cities = $this->cityRepository->getByState($state);
+                $city = old('expedition_place_id') ? $cities->where('id', old('expedition_place_id'))->first() : $cities->first();
+            } else {
+                $states = [];
+                $cities = [];
+                $state = $this->stateRepository->newInstance();
+                $city = $this->cityRepository->newInstance();
+            }
         } else {
-            $states = [];
-            $cities = [];
-            $state = $this->stateRepository->newInstance();
-            $city = $this->cityRepository->newInstance();
+            $creatorInternal = $this->creatorInternalRepository->getById($creatorInternalId);
         }
 
         $linkageTypes = $this->linkageTypeRepository->all();

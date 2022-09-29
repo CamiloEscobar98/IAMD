@@ -25,7 +25,8 @@
                                 {{ __('pages.client.creators.external.title') }} </a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('client.creators.external.show', [$client->name, $item->creator_id]) }}">{{ $item->creator->name }}</a>
+                            <a
+                                href="{{ route('client.creators.external.show', [$client->name, $item->creator_id]) }}">{{ $item->creator->name }}</a>
                         </li>
                         <li class="breadcrumb-item active">{{ __('pages.default.edit') }}</li>
                     </ol>
@@ -65,6 +66,8 @@
 @endsection
 
 @section('custom_js')
+    <script src="{{ asset('adminlte/dist/js/iamd/localizations.js') }}"></script>
+    
     <script>
         //Initialize Select2 Elements
         $('.select2').select2()
