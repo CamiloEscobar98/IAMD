@@ -1,12 +1,14 @@
 <tr>
     <td class="text-center">{{ $loop->iteration }}.</td>
-    <td>{{ $item->director->name }}</td>
+    <td>{{ getParamObject($item->research_unit->administrative_unit, 'name') }}</td>
+    <td>{{ getParamObject($item->research_unit, 'name') }}</td>
+    <td>{{ getParamObject($item->director, 'name') }}</td>
     <td>{{ $item->name }}</td>
     <td>{{ $item->description }}</td>
     <td>
-        <b>{{ $item->project_financing->financing_type->name }}</b>
-        <p>{{ $item->project_financing->contract }}</p>
-        <p>{{ $item->project_financing->date }}</p>
+        <b>{{ getParamObject($item->project_financing->financing_type, 'name') }}</b>
+        <p>{{ getParamObject($item->project_financing, 'contract') }}</p>
+        <p>{{ getParamObject($item->project_financing, 'date') }}</p>
     </td>
     <td>
         {{ __('pages.client.projects.table.body.intangible_assets_count', ['intangible_assets' => $item->intangible_assets_count]) }}

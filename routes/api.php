@@ -58,11 +58,11 @@ Route::middleware(['check-client'])
 
         Route::prefix('administrative_units')->group(function () {
             Route::get('/', [AdministrativeUnitController::class, 'index']);
-            Route::get('{administrative_unit_id}', [AdministrativeUnitController::class, 'show']);
+            Route::get('{administrative_unit}/research_units', [AdministrativeUnitController::class, 'research_units']);
         });
 
         Route::prefix('research_units')->group(function () {
             Route::get('/', [ResearchUnitController::class, 'index']);
-            Route::get('{research_unit_id}', [ResearchUnitController::class, 'show']);
+            Route::get('{research_unit}/projects', [ResearchUnitController::class, 'projects']);
         });
     });

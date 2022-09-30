@@ -4,30 +4,37 @@ namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
-
 use App\Repositories\Client\AdministrativeUnitRepository;
+use App\Repositories\Client\ResearchUnitRepository;
+
+use App\Models\Client\AdministrativeUnit;
+use Illuminate\Http\JsonResponse;
 
 class AdministrativeUnitController extends Controller
 {
-
     /** @var AdministrativeUnitRepository */
     protected $administrativeUnitRepository;
 
-    public function __construct(AdministrativeUnitRepository $administrativeUnitRepository)
-    {
+    /** @var ResearchUnitRepository */
+    protected $researchUnitRepository;
+
+    public function __construct(
+        AdministrativeUnitRepository $administrativeUnitRepository,
+        ResearchUnitRepository $researchUnitRepository,
+    ) {
         $this->administrativeUnitRepository = $administrativeUnitRepository;
+        $this->researchUnitRepository = $researchUnitRepository;
     }
 
     /**
      * Get All
      * 
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index(): \Illuminate\Http\JsonResponse|String
+    public function index(): JsonResponse|String
     {
         try {
-            $items = $this->administrativeUnitRepository->search([], ['research_units', 'research_units.projects'])->get();
+            $items = $this->administrativeUnitRepository->all();
 
             return response()->json($items);
         } catch (\Exception $th) {
@@ -38,16 +45,19 @@ class AdministrativeUnitController extends Controller
     /**
      * Get Item
      * 
-     * @param int $admnistrative_unit 
+     * @param int $id
+     * @param AdministrativeUnit $administrative_unit 
      * 
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function show($id, $admnistrative_unit): \Illuminate\Http\JsonResponse|String
+    public function research_units($id, $administrative_unit): JsonResponse|String
     {
         try {
-            $item = $this->administrativeUnitRepository->getByIdWithRelations($admnistrative_unit, ['research_units']);
+            $administrativeUnit = $this->administrativeUnitRepository->getById($administrative_unit);
 
-            return response()->json($item);
+            $items = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnit);
+
+            return response()->json($items);
         } catch (\Exception $th) {
             return $th->getMessage();
         }

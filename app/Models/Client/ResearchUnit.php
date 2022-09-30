@@ -92,6 +92,19 @@ class ResearchUnit extends BaseModel
     }
 
     /**
+     * Scope a query to only include Id
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param int $id
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeById($query, int $id)
+    {
+        return $query->where('id', $id);
+    }
+
+    /**
      * Scope a query to only include Name
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
@@ -183,5 +196,31 @@ class ResearchUnit extends BaseModel
         }
 
         return $query->where('inventory_manager_id', $inventoryManager);
+    }
+
+    /**
+     * Scope a query to only include Date From
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $dateFrom
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSinceDate($query, string $dateFrom)
+    {
+        $query->where('updated_at', '>=', $dateFrom);
+    }
+
+    /**
+     * Scope a query to only include Date To
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $dateTo
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeToDate($query, string $dateTo)
+    {
+        $query->where('updated_at', '<=', $dateTo);
     }
 }

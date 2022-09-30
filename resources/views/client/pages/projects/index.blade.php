@@ -35,6 +35,12 @@
 
         {!! $table !!}
     </div>
+
+    <div class="container-fluid">
+        <div class="mt-4">
+            {!! $links !!}
+        </div>
+    </div>
 @endsection
 
 @section('js')
@@ -45,13 +51,22 @@
 @section('custom_js')
     @include('messages.delete_item', ['title' => __('pages.client.projects.messages.confirm')])
 
+    <script src="{{ asset('adminlte/dist/js/iamd/projects.js') }}"></script>
+
     <script>
         //Initialize Select2 Elements
         $('.select2').select2()
 
-        //Initialize Select2 Elements
-        $('.select2bs4').select2({
-            theme: 'bootstrap4'
+        // Administrative Units
+        $('.administrative_units').select2({
+            theme: 'bootstrap4',
+            placeholder: "{{ __('pages.client.projects.filters.administrative_units') }}"
+        });
+
+        // Research Units
+        $('.research_units').select2({
+            theme: 'bootstrap4',
+            placeholder: "{{ __('pages.client.projects.filters.research_units') }}"
         })
     </script>
 @endsection

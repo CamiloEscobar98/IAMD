@@ -22,39 +22,37 @@ class ProjectRepository extends  AbstractRepository
      */
     public function search(array $params = [], array $with = [], array $withCount = [])
     {
+        $table = $this->model->getTable();
+
         $query = $this->model
-            ->select();
+            ->select("{$table}.*");
 
         if (isset($params['id']) && $params['id']) {
-            $query->where('id', $params['id']);
+            $query->byId($params['id']);
         }
 
         if (isset($params['name']) && $params['name']) {
-            $query->where('name', 'like', '%' . $params['name'] . '%');
+            $query->byName($params['name']);
+        }
+
+        if (isset($params['administrative_unit_id']) && $params['administrative_unit_id']) {
+            $query->byAdministrativeUnit($params['administrative_unit_id']);
         }
 
         if (isset($params['research_unit_id']) && $params['research_unit_id']) {
-            if (is_array($params['research_unit_id'])) {
-                $query->wherenIn('research_unit_id', $params['research_unit_id']);
-            } else {
-                $query->where('research_unit_id', $params['research_unit_id']);
-            }
+            $query->byResearchUnit($params['research_unit_id']);
         }
 
         if (isset($params['director_id']) && $params['director_id']) {
-            if (is_array($params['director_id'])) {
-                $query->wherenIn('director_id', $params['director_id']);
-            } else {
-                $query->where('director_id', $params['director_id']);
-            }
+            $query->byDirector($params['research_unit_id']);
         }
 
         if (isset($params['date_from']) && $params['date_from']) {
-            $query->where('updated_at', '>=', $params['date_from']);
+            $query->sinceDate($params['date_from']);
         }
 
         if (isset($params['date_to']) && $params['date_to']) {
-            $query->where('updated_at', '<=', $params['date_to']);
+            $query->toDate($params['date_to']);
         }
 
         if (isset($with) && $with) {
@@ -73,6 +71,6 @@ class ProjectRepository extends  AbstractRepository
      */
     public function getByResearchUnit($researchUnit)
     {
-        return $this->all()->where('research_unit_id', $researchUnit->id);
+        return $this->model->byResearchUnit($researchUnit->id)->get();
     }
 }

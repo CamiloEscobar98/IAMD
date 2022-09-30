@@ -1,25 +1,36 @@
 function getAdministrativeUnits() {
     let client = $('#form').data('client');
+
     $.ajax({
         type: 'GET',
         url: "/api/" + client + "/administrative_units"
     }).done(function (res) {
         putAdministrativeUnits(res);
-        let administrative_unit_id = res[0]['id'];
-        getResearchUnits(administrative_unit_id);
+
+        if ($('#research_unit_id')) {
+            let administrative_unit_id = res[0]['id'];
+            getResearchUnits(administrative_unit_id);
+        }
     });
 }
 
 function getResearchUnits(administrative_unit_id) {
     let client = $('#form').data('client');
+
     $.ajax({
         type: 'GET',
-        url: "/api/" + client + "/administrative_units/" + administrative_unit_id
+        url: "/api/" + client + "/administrative_units/" + administrative_unit_id + '/research_units'
     }).done(function (res) {
-        putResearchUnits(res['research_units']);
-        let research_unit_id = res['research_units'][0]['id'];
-        getProjects(research_unit_id);
 
+        if (res.length > 0) {
+            putResearchUnits(res);
+        }
+
+        if ($('#project_id').length > 0) {
+            console.log('entro');
+            let research_unit_id = res[0]['id'];
+            getProjects(research_unit_id);
+        }
     });
 }
 
@@ -27,9 +38,11 @@ function getProjects(research_unit_id) {
     let client = $('#form').data('client');
     $.ajax({
         type: 'GET',
-        url: "/api/" + client + "/research_units/" + research_unit_id
+        url: "/api/" + client + "/research_units/" + research_unit_id + '/projects'
     }).done(function (res) {
-        putProjects(res['projects']);
+        if (res.length > 0) {
+            putProjects(res);
+        }
     });
 }
 
@@ -42,7 +55,9 @@ function changeAdministrativeUnit() {
 function changeResearchUnit() {
     let research_unit_id = $('#research_unit_id').val();
 
-    getProjects(research_unit_id);
+    if ($('#project_id').length > 0) {
+        getProjects(research_unit_id);
+    }
 }
 
 function putAdministrativeUnits(items) {

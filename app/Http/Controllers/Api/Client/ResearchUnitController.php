@@ -4,32 +4,40 @@ namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 use App\Repositories\Client\ResearchUnitRepository;
 
+use App\Models\Client\ResearchUnit;
+use App\Repositories\Client\ProjectRepository;
+
 class ResearchUnitController extends Controller
 {
-
     /** @var ResearchUnitRepository */
     protected $researchUnitRepository;
 
-    public function __construct(ResearchUnitRepository $researchUnitRepository)
-    {
+    /** @var ProjectRepository */
+    protected $projectRepository;
+
+    public function __construct(
+        ResearchUnitRepository $researchUnitRepository,
+        ProjectRepository $projectRepository
+    ) {
         $this->researchUnitRepository = $researchUnitRepository;
+        $this->projectRepository = $projectRepository;
     }
 
     /**
      * Get All
      * 
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index(): \Illuminate\Http\JsonResponse|String
+    public function index(): JsonResponse|String
     {
         try {
-            $items = $this->researchUnitRepository->search([], ['projects'])->get();
+            $items = $this->researchUnitRepository->all();
 
-            return response()->json($items);
+            return response()->json('hola');
         } catch (\Exception $th) {
             return $th->getMessage();
         }
@@ -38,16 +46,18 @@ class ResearchUnitController extends Controller
     /**
      * Get Item
      * 
-     * @param int $research_unit 
+     * @param int $researchUnit 
      * 
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function show($id, $research_unit): \Illuminate\Http\JsonResponse|String
+    public function projects($id, int $research_unit): JsonResponse|String
     {
         try {
-            $item = $this->researchUnitRepository->getByIdWithRelations($research_unit, ['projects']);
+            $researchUnit = $this->researchUnitRepository->getById($research_unit);
+            
+            $items = $this->projectRepository->getByResearchUnit($researchUnit);
 
-            return response()->json($item);
+            return response()->json($items);
         } catch (\Exception $th) {
             return $th->getMessage();
         }

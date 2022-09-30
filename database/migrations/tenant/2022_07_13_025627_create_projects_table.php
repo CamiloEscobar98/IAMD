@@ -16,15 +16,15 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedMediumInteger('research_unit_id')->nullable();
+            $table->unsignedMediumInteger('research_unit_id');
             $table->uuid('director_id')->nullable();
 
             $table->string('name')->unique();
-            $table->tinyText('description');
+            $table->tinyText('description')->nullable();
 
             $table->timestamps();
 
-            $table->foreign('research_unit_id')->references('id')->on('research_units')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreign('research_unit_id')->references('id')->on('research_units')->cascadeOnUpdate()->restrictOnDelete();
             $table->foreign('director_id')->references('id')->on('creators')->cascadeOnUpdate()->nullOnDelete();
         });
     }

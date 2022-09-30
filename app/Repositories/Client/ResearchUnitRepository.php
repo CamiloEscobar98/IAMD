@@ -26,7 +26,7 @@ class ResearchUnitRepository extends  AbstractRepository
             ->select();
 
         if (isset($params['id']) && $params['id']) {
-            $query->where('id', $params['id']);
+            $query->byId($params['id']);
         }
 
         if (isset($params['name']) && $params['name']) {
@@ -54,11 +54,11 @@ class ResearchUnitRepository extends  AbstractRepository
         }
 
         if (isset($params['date_from']) && $params['date_from']) {
-            $query->where('updated_at', '>=', $params['date_from']);
+            $query->sinceDate($params['date_from']);
         }
 
         if (isset($params['date_to']) && $params['date_to']) {
-            $query->where('updated_at', '<=', $params['date_to']);
+            $query->toDate($params['date_to']);
         }
 
         if (isset($with) && $with) {
@@ -77,6 +77,6 @@ class ResearchUnitRepository extends  AbstractRepository
      */
     public function getByAdministrativeUnit($administrativeUnit)
     {
-        return $this->all()->where('administrative_unit_id', $administrativeUnit->id);
+        return $this->model->byAdministrativeUnit($administrativeUnit->id)->get();
     }
 }

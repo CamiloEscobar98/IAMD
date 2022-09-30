@@ -38,7 +38,7 @@ if (!function_exists('optionIsSelected')) {
 if (!function_exists('optionInArray')) {
     /**
      * @param array $options
-     * @param mixed $option
+     * @param string $option
      * @param mixed $value
      * 
      * @return string

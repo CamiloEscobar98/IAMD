@@ -52,7 +52,7 @@ class ProjectController extends Controller
         try {
             $params = $this->projectService->transformParams($request->all());
 
-            $query = $this->projectRepository->search($params, ['director', 'project_financing.financing_type'], ['intangible_assets']);
+            $query = $this->projectRepository->search($params, ['director','research_unit.administrative_unit', 'project_financing.financing_type'], ['intangible_assets']);
 
             $total = $query->count();
 
@@ -60,9 +60,9 @@ class ProjectController extends Controller
 
             $links = $items->links('pagination.customized');
 
-            return view('client.pages.projects.index')
+            return view('client.pages.projects.index', compact('links'))
                 ->nest('filters', 'client.pages.projects.components.filters', compact('params', 'total'))
-                ->nest('table', 'client.pages.projects.components.table', compact('items', 'links'));
+                ->nest('table', 'client.pages.projects.components.table', compact('items'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }

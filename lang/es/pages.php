@@ -654,6 +654,8 @@ return [
 
             'table' => [
                 'head' => [
+                    'administrative_unit' => 'Subdirección Técnica',
+                    'research_unit' => 'Unidad Investigativa',
                     'director' => 'Director',
                     'project_financing' => 'Financiación',
                     'name' => 'Nombre',

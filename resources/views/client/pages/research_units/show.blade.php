@@ -43,7 +43,7 @@
                                 value="{{ $item->name }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-file-alt"></span>
+                                    <span class="fas fa-file-alt"> [Nombre]</span>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                                 value="{{ $item->code }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-barcode"></span>
+                                    <span class="fas fa-barcode"> [Código]</span>
                                 </div>
                             </div>
                         </div>
@@ -68,7 +68,7 @@
                                 value="{{ getParamObject($item->research_unit_category, 'name') }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-microscope nav-icon"></span>
+                                    <span class="fas fa-microscope nav-icon"> [Categoría]</span>
                                 </div>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                                 value="{{ getParamObject($item->administrative_unit, 'name') }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-university nav-icon"></span>
+                                    <span class="fas fa-university nav-icon"> [Subdirección Técnica]</span>
                                 </div>
                             </div>
                         </div>
@@ -94,7 +94,7 @@
                                 value="{{ getParamObject($item->director, 'name') }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-user-tie nav-icon"></span>
+                                    <span class="fas fa-user-tie nav-icon"> [Director]</span>
                                 </div>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                                 value="{{ $item->inventory_manager->name }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-user nav-icon"></span>
+                                    <span class="fas fa-user nav-icon"> Administrador de Inventario</span>
                                 </div>
                             </div>
                         </div>
@@ -118,7 +118,7 @@
                             <textarea class="form-control" cols="30" rows="5" disabled>{{ $item->description }}</textarea>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-sticky-note"></span>
+                                    <span class="fas fa-info"> [Descripción]</span>
                                 </div>
                             </div>
                         </div>

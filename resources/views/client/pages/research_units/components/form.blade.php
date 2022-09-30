@@ -9,7 +9,7 @@
                 placeholder="{{ __('inputs.name') }}" value="{{ $item->name }}">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-file-alt"></span>
+                    <span class="fas fa-file-alt"> [Nombre]</span>
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
                 placeholder="{{ __('inputs.code') }}" value="{{ $item->code }}">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-barcode"></span>
+                    <span class="fas fa-barcode"> [Código]</span>
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-university"></span>
+                    <span class="fas fa-university"> [Subdirección Técnica]</span>
                 </div>
             </div>
         </div>
@@ -73,7 +73,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-microscope"></span>
+                    <span class="fas fa-microscope"> [Categoría]</span>
                 </div>
             </div>
         </div>
@@ -95,7 +95,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-user-tie"></span>
+                    <span class="fas fa-user-tie"> [Director]</span>
                 </div>
             </div>
         </div>
@@ -119,7 +119,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-user"></span>
+                    <span class="fas fa-user"> [Administrador de Inventario]</span>
                 </div>
             </div>
         </div>
@@ -135,7 +135,7 @@
                 cols="30" rows="10">{{ $item->description }}</textarea>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-sticky-note"></span>
+                    <span class="fas fa-sticky-note"> [Descripción]</span>
                 </div>
             </div>
         </div>
@@ -160,7 +160,7 @@
                 placeholder="{{ __('inputs.name') }}" value="{{ old('name') }}">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-file-alt"> [Nombre]</span>
                 </div>
             </div>
         </div>
@@ -176,7 +176,7 @@
                 placeholder="{{ __('inputs.code') }}" value="{{ old('code') }}">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-barcode"> [Código]</span>
                 </div>
             </div>
         </div>
@@ -200,7 +200,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-university"> [Subdirección Técnica]</span>
                 </div>
             </div>
         </div>
@@ -224,7 +224,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-microscope"> [Categoría]</span>
                 </div>
             </div>
         </div>
@@ -246,7 +246,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-user-tie"> [Director]</span>
                 </div>
             </div>
         </div>
@@ -270,7 +270,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-user"> [Administrador de Inventario]</span>
                 </div>
             </div>
         </div>
@@ -286,7 +286,7 @@
                 cols="30" rows="10">{{ old('description') }}</textarea>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-info"></span>
+                    <span class="fas fa-info"> [Descripción]</span>
                 </div>
             </div>
         </div>

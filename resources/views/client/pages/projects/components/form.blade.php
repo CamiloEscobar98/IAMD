@@ -1,8 +1,9 @@
 @if ($editMode)
-    <form action="{{ getClientRoute('client.projects.update', [$item->id]) }}"
-        method="post"data-client="{{ $client->name }}" id="form">
+    <form action="{{ getClientRoute('client.projects.update', [$item->id]) }}" method="post">
         @csrf
         @method('PUT')
+
+        <div data-client="{{ $client->name }}" id="client_id"></div>
 
         <!-- Name -->
         <div class="input-group mt-3">
@@ -178,9 +179,10 @@
 
     </form>
 @else
-    <form action="{{ route('client.projects.store', $client->name) }}" method="post"
-        data-client="{{ $client->name }}" id="form">
+    <form action="{{ route('client.projects.store', $client->name) }}" method="post">
         @csrf
+
+        <div data-client="{{ $client->name }}" id="client_id"></div>
 
         <!-- Administrative Unit -->
         <div class="input-group mt-3">

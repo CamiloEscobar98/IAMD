@@ -3,6 +3,8 @@
         <thead>
             <tr>
                 <th class="text-center">No.</th>
+                <th>{{ __('pages.client.projects.table.head.administrative_unit') }}</th>
+                <th>{{ __('pages.client.projects.table.head.research_unit') }}</th>
                 <th>{{ __('pages.client.projects.table.head.director') }}</th>
                 <th>{{ __('pages.client.projects.table.head.name') }}</th>
                 <th>{{ __('pages.client.projects.table.head.description') }}</th>
@@ -15,14 +17,10 @@
         </thead>
         <tbody>
             @forelse ($items as $item)
-               @include('client.pages.projects.components.row')
+                @include('client.pages.projects.components.row')
             @empty
                 <td colspan="12">{{ __('pages.default.empty_table') }}</td>
             @endforelse
         </tbody>
     </table>
-</div>
-
-<div class="mt-4">
-    {!! $links !!}
 </div>
