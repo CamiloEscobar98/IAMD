@@ -3,13 +3,17 @@
 
 return [
     'default' => [
+        'home' => 'Inicio',
+
         'create' => 'Registrar',
 
         'edit' => 'Editar',
 
         'title-information' => 'Información',
 
-        'empty_table' => 'Actualmente no existen registros.'
+        'empty_table' => 'Actualmente no existen registros.',
+
+        'empty_field' => 'Vacío',
     ],
 
 
@@ -569,13 +573,20 @@ return [
                 'administrative_units' => 'Buscar por Subdirección Técnica',
                 'research_unit_categories' => 'Buscar por Categoría de Unidad Investigativa',
 
+                'directors' => 'Buscar por Director',
+                'inventory_managers' => 'Buscar por Administrador de Inventario',
+
                 'total' => 'Total de Unidades Investigativas: ',
             ],
 
             'table' => [
                 'head' => [
+                    'administrative_unit' => 'Subdirección Técnica',
                     'name' => 'Nombre',
                     'code' => 'Código',
+                    'research_unit_category' => 'Categoría',
+                    'director' => 'Director',
+                    'inventory_manager' => 'Administrador de Inventario',
                     'description' => 'Descripción',
                     'projects' => 'Proyectos',
                     'cities' => 'Ciudades',

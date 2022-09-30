@@ -32,9 +32,13 @@ class ResearchUnitFilterComposer
     public function compose(View $view)
     {
         $researchUnitCategories = $this->researchUnitCategoryRepository->all();
-        $administrativeUnits = $this->administrativeUnitRepository->all();
-        $creators = $this->creatorRepository->allCreators();
 
-        $view->with(compact('researchUnitCategories', 'administrativeUnits',  'creators'));
+        $administrativeUnits = $this->administrativeUnitRepository->all();
+
+        $directors = $this->creatorRepository->getDirectors();
+
+        $inventoryManagers = $this->creatorRepository->getInventoryManagers();
+
+        $view->with(compact('researchUnitCategories', 'administrativeUnits',  'directors', 'inventoryManagers'));
     }
 }

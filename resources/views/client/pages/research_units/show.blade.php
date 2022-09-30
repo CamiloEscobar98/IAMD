@@ -12,7 +12,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a
-                                href="{{ route('client.home', $client->name) }}">{{ __('pages.home.title') }}</a>
+                                href="{{ route('client.home', $client->name) }}">{{ __('pages.default.home') }}</a>
                         </li>
                         <li class="breadcrumb-item">
                             <a href="{{ route('client.research_units.index', $client->name) }}">
@@ -65,7 +65,7 @@
                         <div class="input-group mt-3">
                             <input type="text" class="form-control"
                                 placeholder="{{ __('inputs.research_unit_category') }}"
-                                value="{{ $item->research_unit_category->name }}" disabled>
+                                value="{{ getParamObject($item->research_unit_category, 'name') }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-microscope nav-icon"></span>
@@ -79,7 +79,7 @@
                         <div class="input-group mt-3">
                             <input type="text" class="form-control"
                                 placeholder="{{ __('inputs.administrative_unit_id') }}"
-                                value="{{ $item->administrative_unit->name }}" disabled>
+                                value="{{ getParamObject($item->administrative_unit, 'name') }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-university nav-icon"></span>
@@ -91,7 +91,7 @@
                         <!-- Directror -->
                         <div class="input-group mt-3">
                             <input type="text" class="form-control" placeholder="{{ __('inputs.director_id') }}"
-                                value="{{ $item->director->name }}" disabled>
+                                value="{{ getParamObject($item->director, 'name') }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-user-tie nav-icon"></span>

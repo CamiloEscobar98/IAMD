@@ -34,7 +34,7 @@ class ProjectFilterComposer
     {
         $researchUnits = $this->researchUnitRepository->all();
         $administrativeUnits = $this->administrativeUnitRepository->search([], ['research_units'])->get();
-        $creators = $this->creatorRepository->allCreators();
+        $creators = $this->creatorRepository->getAllCreators();
 
         $view->with(compact('researchUnits', 'administrativeUnits',  'creators'));
     }

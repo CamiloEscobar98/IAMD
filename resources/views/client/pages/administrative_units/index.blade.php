@@ -18,7 +18,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a
-                                href="{{ route('client.home', $client->name) }}">{{ __('pages.client.home.title') }}</a>
+                                href="{{ getClientRoute('client.home') }}">{{ __('pages.default.home') }}</a>
                         </li>
                         <li class="breadcrumb-item active">{{ __('pages.client.administrative_units.title') }}</li>
                     </ol>

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 use App\Http\Requests\Client\AdministrativeUnits\StoreRequest;
 use App\Http\Requests\Client\AdministrativeUnits\UpdateRequest;
@@ -35,10 +38,12 @@ class AdministrativeUnitController extends Controller
 
     /**
      * Display a listing of the resource.
+     * 
+     * @param Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @return View|RedirectResponse
      */
-    public function index(Request $request)
+    public function index(Request $request): View|RedirectResponse
     {
         try {
             $params = $this->administrativeUnitService->transformParams($request->all());
@@ -55,27 +60,32 @@ class AdministrativeUnitController extends Controller
                 ->nest('filters', 'client.pages.administrative_units.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.administrative_units.components.table', compact('items', 'links'));
         } catch (\Exception $th) {
-            return $th->getMessage();
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View|RedirectResponse
      */
-    public function create()
+    public function create(): View|RedirectResponse
     {
-        return view('client.pages.administrative_units.create');
+        try {
+            return view('client.pages.administrative_units.create');
+        } catch (\Exception $th) {
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * 
+     * @return RedirectResponse
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): RedirectResponse
     {
         try {
             $data = $request->all();
@@ -96,9 +106,9 @@ class AdministrativeUnitController extends Controller
      * @param  int  $administrative_unit
      * @param Request $request
      * 
-     * @return \Illuminate\Http\Response
+     * @return View|RedirectResponse
      */
-    public function show($id, $administrative_unit, Request $request)
+    public function show($id, $administrative_unit, Request $request): View|RedirectResponse
     {
         try {
             $item = $this->administrativeUnitRepository->getById($administrative_unit);
@@ -114,9 +124,9 @@ class AdministrativeUnitController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return View|RedirectResponse
      */
-    public function edit($id, $administrative_unit, Request $request)
+    public function edit($id, $administrative_unit, Request $request): View|RedirectResponse
     {
         try {
             $item = $this->administrativeUnitRepository->getById($administrative_unit);
@@ -133,9 +143,9 @@ class AdministrativeUnitController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function update(UpdateRequest $request, $id, $administrative_unit)
+    public function update(UpdateRequest $request, $id, $administrative_unit): RedirectResponse
     {
         try {
             $data = $request->all();
@@ -157,17 +167,17 @@ class AdministrativeUnitController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function destroy($id, $administrative_unit)
+    public function destroy($id, $administrative_unit): RedirectResponse
     {
         try {
             $item = $this->administrativeUnitRepository->getById($administrative_unit);
-            
+
             DB::beginTransaction();
 
             $this->administrativeUnitRepository->delete($item);
-            
+
             DB::commit();
 
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.administrative_units.messages.delete_success', ['country' => $item->name])]);

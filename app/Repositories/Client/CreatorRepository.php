@@ -4,6 +4,8 @@ namespace App\Repositories\Client;
 
 use App\Repositories\AbstractRepository;
 
+use Illuminate\Database\Eloquent\Collection;
+
 use App\Models\Client\Creator\Creator;
 
 class CreatorRepository extends AbstractRepository
@@ -13,7 +15,10 @@ class CreatorRepository extends AbstractRepository
         $this->model = $model;
     }
 
-    public function allCreators()
+    /**
+     * @return Collection
+     */
+    public function getAllCreators(): Collection
     {
         $table = $this->model->getTable();
 
@@ -23,10 +28,44 @@ class CreatorRepository extends AbstractRepository
         $query = $this->model
             ->select()
             ->distinct()
-            ->leftJoin( $joinCreatorInternal, "$table.id", "$joinCreatorInternal.creator_id")
-            ->leftJoin( $joinCreatorExternal, "$table.id", "$joinCreatorExternal.creator_id");
+            ->leftJoin($joinCreatorInternal, "$table.id", "$joinCreatorInternal.creator_id")
+            ->leftJoin($joinCreatorExternal, "$table.id", "$joinCreatorExternal.creator_id");
 
-            return $query->get();
+        return $query->get();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getDirectors(): Collection
+    {
+        $table = $this->model->getTable();
+
+        $joinResearchUnit = "research_units";
+
+        $query = $this->model
+            ->select("{$table}.*")
+            ->distinct()
+            ->join($joinResearchUnit, "{$joinResearchUnit}.director_id", "{$table}.id");
+
+        return $query->get();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getInventoryManagers(): Collection
+    {
+        $table = $this->model->getTable();
+
+        $joinResearchUnit = "research_units";
+
+        $query = $this->model
+            ->select("{$table}.*")
+            ->distinct()
+            ->join($joinResearchUnit, "{$joinResearchUnit}.inventory_manager_id", "{$table}.id");
+
+        return $query->get();
     }
 
     /**

@@ -9,7 +9,7 @@
                 placeholder="{{ __('inputs.name') }}" value="{{ $item->name }}">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-university"> [Nombre]</span>
                 </div>
             </div>
         </div>
@@ -25,7 +25,7 @@
                 rows="10">{{ $item->info }}</textarea>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-info"> [Descripción]</span>
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
                 placeholder="{{ __('inputs.name') }}" value="{{ old('name') }}">
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
+                    <span class="fas fa-university"> [Nombre]</span>
                 </div>
             </div>
         </div>
@@ -66,7 +66,7 @@
                 rows="10">{{ old('info') }}</textarea>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-info"></span>
+                    <span class="fas fa-info"> [Descripción]</span>
                 </div>
             </div>
         </div>

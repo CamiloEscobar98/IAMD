@@ -5,6 +5,12 @@ namespace App\Models\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 
+use App\Models\Client\AdministrativeUnit;
+use App\Models\Client\ResearchUnitCategory;
+use App\Models\Client\Creator\Creator;
+use App\Models\Client\Project\Project;
+
+
 class ResearchUnit extends BaseModel
 {
     use HasFactory;
@@ -42,7 +48,7 @@ class ResearchUnit extends BaseModel
      */
     public function administrative_unit()
     {
-        return $this->belongsTo(\App\Models\Client\AdministrativeUnit::class);
+        return $this->belongsTo(AdministrativeUnit::class);
     }
 
     /**
@@ -52,7 +58,7 @@ class ResearchUnit extends BaseModel
      */
     public function research_unit_category()
     {
-        return $this->belongsTo(\App\Models\Client\ResearchUnitCategory::class);
+        return $this->belongsTo(ResearchUnitCategory::class);
     }
 
     /**
@@ -62,7 +68,7 @@ class ResearchUnit extends BaseModel
      */
     public function director()
     {
-        return $this->belongsTo(\App\Models\Client\Creator\Creator\Creator::class, 'director_id');
+        return $this->belongsTo(Creator::class, 'director_id');
     }
 
     /**
@@ -72,7 +78,7 @@ class ResearchUnit extends BaseModel
      */
     public function inventory_manager()
     {
-        return $this->belongsTo(\App\Models\Client\Creator\Creator\Creator::class, 'inventory_manager_id');
+        return $this->belongsTo(Creator::class, 'inventory_manager_id');
     }
 
     /**
@@ -82,6 +88,100 @@ class ResearchUnit extends BaseModel
      */
     public function projects()
     {
-        return $this->hasMany(\App\Models\Client\Project\Project::class);
+        return $this->hasMany(Project::class);
+    }
+
+    /**
+     * Scope a query to only include Name
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $name
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByName($query, string $name)
+    {
+        $query->where('name', 'like', "%{$name}%");
+    }
+
+    /**
+     * Scope a query to only include Code
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $code
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByCode($query, string $code)
+    {
+        return $query->where('code', $code);
+    }
+
+    /**
+     * Scope a query to only include Administrative Unit
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param array|string $administrativeUnit
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByAdministrativeUnit($query, array|string $administrativeUnit)
+    {
+        if (is_array($administrativeUnit) && !empty($administrativeUnit)) {
+            return $query->whereIn('administrative_unit_id', $administrativeUnit);
+        }
+
+        return $query->where('administrative_unit_id', $administrativeUnit);
+    }
+
+    /**
+     * Scope a query to only include Research Unit Category
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param array|string $researchUnitCategory
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByResearchUnitCategory($query, array|string $researchUnitCategory)
+    {
+        if (is_array($researchUnitCategory) && !empty($researchUnitCategory)) {
+            return $query->whereIn('research_unit_category_id', $researchUnitCategory);
+        }
+
+        return $query->where('research_unit_category_id', $researchUnitCategory);
+    }
+
+    /**
+     * Scope a query to only include Director
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param array|string $director
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByDirector($query, $director)
+    {
+        if (is_array($director) && !empty($director)) {
+            return $query->whereIn('director_id', $director);
+        }
+
+        return $query->where('director_id', $director);
+    }
+
+    /**
+     * Scope a query to only include Director
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param array|string $director
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByInventoryManager($query, $inventoryManager)
+    {
+        if (is_array($inventoryManager) && !empty($inventoryManager)) {
+            return $query->whereIn('inventory_manager_id', $inventoryManager);
+        }
+
+        return $query->where('inventory_manager_id', $inventoryManager);
     }
 }

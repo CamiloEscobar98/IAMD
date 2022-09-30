@@ -18,7 +18,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a
-                                href="{{ route('client.home', $client->name) }}">{{ __('pages.client.home.title') }}</a>
+                                href="{{ route('client.home', $client->name) }}">{{ __('pages.default.home') }}</a>
                         </li>
                         <li class="breadcrumb-item active">{{ __('pages.client.research_units.title') }}</li>
                     </ol>
@@ -46,12 +46,25 @@
     @include('messages.delete_item', ['title' => __('pages.client.research_units.messages.confirm')])
 
     <script>
-        //Initialize Select2 Elements
-        $('.select2').select2()
+        // Administrative Units filter
+        $('.administrative_units').select2({
+            theme: 'bootstrap4',
+            placeholder: "{{ __('pages.client.research_units.filters.administrative_units') }}"
+        });
 
-        //Initialize Select2 Elements
-        $('.select2bs4').select2({
-            theme: 'bootstrap4'
-        })
+        $('.research_unit_categories').select2({
+            theme: 'bootstrap4',
+            placeholder: "{{ __('pages.client.research_units.filters.research_unit_categories') }}"
+        });
+
+        $('.directors').select2({
+            theme: 'bootstrap4',
+            placeholder: "{{ __('pages.client.research_units.filters.directors') }}"
+        });
+
+        $('.inventory_managers').select2({
+            theme: 'bootstrap4',
+            placeholder: "{{ __('pages.client.research_units.filters.inventory_managers') }}"
+        });
     </script>
 @endsection

@@ -1,6 +1,6 @@
 @extends('client.layout.app')
 
-@section('title', __('pages.client.home.title'))
+@section('title', __('pages.default.home'))
 
 @section('content-header')
     <section class="content-header">
@@ -11,7 +11,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">{{ __('pages.client.home.title') }}</li>
+                        <li class="breadcrumb-item active">{{ __('pages.default.home') }}</li>
                     </ol>
                 </div>
             </div>

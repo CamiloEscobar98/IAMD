@@ -19,7 +19,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a
-                                href="{{ route('client.home', $client->name) }}">{{ __('pages.home.title') }}</a>
+                                href="{{ route('client.home', $client->name) }}">{{ __('pages.default.home') }}</a>
                         </li>
                         <li class="breadcrumb-item">
                             <a href="{{ route('client.intangible_assets.index', $client->name) }}">

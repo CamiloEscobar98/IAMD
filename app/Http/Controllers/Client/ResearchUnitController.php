@@ -44,7 +44,7 @@ class ResearchUnitController extends Controller
         try {
             $params = $this->researchUnitService->transformParams($request->all());
 
-            $query = $this->researchUnitRepository->search($params, [], ['projects']);
+            $query = $this->researchUnitRepository->search($params, ['administrative_unit', 'research_unit_category', 'director', 'inventory_manager'], ['projects']);
 
             $total = $query->count();
 

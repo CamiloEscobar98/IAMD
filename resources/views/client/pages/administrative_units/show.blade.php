@@ -12,17 +12,17 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a
-                                href="{{ route('client.home', $client->name) }}">{{ __('pages.home.title') }}</a>
+                                href="{{ getClientRoute('client.home') }}">{{ __('pages.default.home') }}</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('client.administrative_units.index', $client->name) }}">
+                            <a href="{{ getClientRoute('client.administrative_units.index') }}">
                                 {{ __('pages.client.administrative_units.title') }} </a>
                         </li>
                         <li class="breadcrumb-item active">{{ $item->name }}</li>
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 @endsection
 
@@ -41,7 +41,7 @@
                                 value="{{ $item->name }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-flag"></span>
+                                    <span class="fas fa-university"> [Nombre]</span>
                                 </div>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                             <textarea class="form-control" cols="30" rows="10" disabled>{{ $item->info }}</textarea>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-flag"></span>
+                                    <span class="fas fa-info"> [Descripción]</span>
                                 </div>
                             </div>
                         </div>

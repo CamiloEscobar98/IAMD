@@ -2,6 +2,7 @@
     <div class="col-12">
         <form method="get">
             <div class="row justify-content-between">
+                <!-- Order By Filter -->
                 <div class="col-lg-2">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
@@ -13,6 +14,9 @@
                         </select>
                     </div>
                 </div>
+                <!-- Order By Filter -->
+
+                <!-- Date From Filter -->
                 <div class="col-lg-2">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
@@ -22,6 +26,9 @@
                             value="{{ getParamValue($params, 'date_from') }}">
                     </div>
                 </div>
+                <!-- ./Date From Filter -->
+
+                <!-- Date To Filter -->
                 <div class="col-lg-2">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
@@ -31,6 +38,9 @@
                             value="{{ getParamValue($params, 'date_to') }}">
                     </div>
                 </div>
+                <!-- Date To Filter -->
+
+                <!-- Code Filter -->
                 <div class="col-lg-3">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
@@ -41,6 +51,9 @@
                             value="{{ getParamValue($params, 'name') }}">
                     </div>
                 </div>
+                <!-- ./Code Filter -->
+
+                <!-- Name Filter -->
                 <div class="col-lg-3">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
@@ -51,37 +64,72 @@
                             value="{{ getParamValue($params, 'name') }}">
                     </div>
                 </div>
+                <!-- ./Name Filter -->
             </div>
             <div class="row justify-content-center">
-                <div class="col-lg-4">
+                <!-- Administrative Units Filter -->
+                <div class="col-lg-6">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.administrative_units') }}</label>
                         </div>
-                        <select name="administrative_unit_id" class="form-control select2bs4">
-                            <option value="">{{ __('pages.client.research_units.filters.administrative_units') }}
-                            </option>
+                        <select name="administrative_unit_id[]" class="form-control select2bs4 administrative_units"
+                            multiple>
                             @foreach ($administrativeUnits as $administrativeUnit)
                                 <option value="{{ $administrativeUnit->id }}"
-                                    {{ optionIsSelected($params, 'administrative_unit_id', $administrativeUnit->id) }}>
+                                    {{ optionInArray($params, 'administrative_unit_id', $administrativeUnit->id) }}>
                                     {{ $administrativeUnit->name }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-5">
+                <!-- ./Administrative Units Filter -->
+
+                <!-- Research Unit Categories Filter -->
+                <div class="col-lg-6">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.research_unit_categories') }}</label>
                         </div>
-                        <select name="research_unit_category_id" class="form-control select2bs4">
-                            <option value="">
-                                {{ __('pages.client.research_units.filters.research_unit_categories') }}
-                            </option>
+                        <select name="research_unit_category_id[]"
+                            class="form-control select2bs4 research_unit_categories" multiple>
                             @foreach ($researchUnitCategories as $researchUnitCategory)
                                 <option value="{{ $researchUnitCategory->id }}"
-                                    {{ optionIsSelected($params, 'research_unit_category_id', $researchUnitCategory->id) }}>
+                                    {{ optionInArray($params, 'research_unit_category_id', $researchUnitCategory->id) }}>
                                     {{ $researchUnitCategory->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <!-- ./Research Unit Categories Filter -->
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label class="input-group-text">{{ __('filters.directors') }}</label>
+                        </div>
+                        <select name="director_id[]" class="form-control select2bs4 directors" multiple>
+                            @foreach ($directors as $director)
+                                <option value="{{ $director->id }}"
+                                    {{ optionInArray($params, 'director_id', $director->id) }}>
+                                    {{ $director->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label class="input-group-text">{{ __('filters.inventory_managers') }}</label>
+                        </div>
+                        <select name="inventory_manager_id[]" class="form-control select2bs4 inventory_managers"
+                            multiple>
+                            @foreach ($inventoryManagers as $inventoryManager)
+                                <option value="{{ $inventoryManager->id }}"
+                                    {{ optionInArray($params, 'inventory_manager_id', $inventoryManager->id) }}>
+                                    {{ $inventoryManager->name }}
                                 </option>
                             @endforeach
                         </select>

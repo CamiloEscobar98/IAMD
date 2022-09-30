@@ -11,10 +11,10 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">{{ __('pages.home.title') }}</a>
+                        <li class="breadcrumb-item"><a href="{{ getClientRoute('client.home') }}">{{ __('pages.default.home') }}</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('client.administrative_units.index', $client->name) }}">
+                            <a href="{{ getClientRoute('client.administrative_units.index') }}">
                                 {{ __('pages.client.administrative_units.title') }} </a>
                         </li>
                         <li class="breadcrumb-item">{{ __('pages.default.create') }}</li>

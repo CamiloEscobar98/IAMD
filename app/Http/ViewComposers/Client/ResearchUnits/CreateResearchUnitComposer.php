@@ -33,7 +33,7 @@ class CreateResearchUnitComposer
     {
         $researchUnitCategories = $this->researchUnitCategoryRepository->all();
         $administrativeUnits = $this->administrativeUnitRepository->all();
-        $creators = $this->creatorRepository->allCreators();
+        $creators = $this->creatorRepository->getAllCreators();
 
         $view->with(compact('researchUnitCategories', 'administrativeUnits',  'creators'));
     }

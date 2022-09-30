@@ -81,7 +81,7 @@ class CreateProjectComposer
         }
 
         /** Creators */
-        $creators = $this->creatorRepository->allCreators();
+        $creators = $this->creatorRepository->getAllCreators();
 
         /** Financing Types */
         $financingTypes = $this->financingTypeRepository->all();

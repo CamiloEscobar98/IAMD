@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('research_units', function (Blueprint $table) {
             $table->mediumIncrements('id');
 
-            $table->unsignedSmallInteger('administrative_unit_id')->nullable(); // Unidad Administrativa a la que pertenece
-            $table->unsignedTinyInteger('research_unit_category_id')->nullable(); // Grupo de Investigación, OPS
+            $table->unsignedSmallInteger('administrative_unit_id'); // Unidad Administrativa a la que pertenece
+            $table->unsignedTinyInteger('research_unit_category_id'); // Grupo de Investigación, OPS
 
             $table->uuid('director_id')->nullable(); // Director de la Unidad de Investigación (Creador)
             $table->uuid('inventory_manager_id')->nullable(); // Responsable de Inventario de la Unidad de Investigación (Creador)
@@ -28,8 +28,8 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->foreign('administrative_unit_id')->references('id')->on('administrative_units')->cascadeOnUpdate()->nullOnDelete();
-            $table->foreign('research_unit_category_id')->references('id')->on('research_unit_categories')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreign('administrative_unit_id')->references('id')->on('administrative_units')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreign('research_unit_category_id')->references('id')->on('research_unit_categories')->cascadeOnUpdate()->restrictOnDelete();
             $table->foreign('director_id')->references('id')->on('creators')->cascadeOnUpdate()->nullOnDelete();
             $table->foreign('inventory_manager_id')->references('id')->on('creators')->cascadeOnUpdate()->nullOnDelete();
         });

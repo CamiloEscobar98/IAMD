@@ -66,7 +66,7 @@ if (!function_exists('getParamObject')) {
      */
     function getParamObject($object, $key): string|null
     {
-        return !is_null($object) && $object->$key ? $object->$key : '';
+        return !is_null($object) && $object->$key ? $object->$key : __('pages.default.empty_field');
     }
 }
 

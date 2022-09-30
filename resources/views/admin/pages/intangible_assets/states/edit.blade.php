@@ -12,7 +12,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a
-                                href="{{ route('admin.home') }}">{{ __('pages.admin.home.title') }}</a>
+                                href="{{ route('admin.home') }}">{{ __('pages.default.home') }}</a>
                         </li>
                         <li class="breadcrumb-item">{{ __('pages.admin.intangible_assets.title') }}</li>
                         <li class="breadcrumb-item">
