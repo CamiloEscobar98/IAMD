@@ -195,6 +195,137 @@ class IntangibleAsset extends BaseModel
     }
 
     /**
+     * Scope a query to only include Id
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param int $id
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeById($query, int $id)
+    {
+        return $query->where('id', $id);
+    }
+
+    /**
+     * Scope a query to only include Name
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $name
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByName($query, string $name)
+    {
+        $query->where('name', 'like', "%{$name}%");
+    }
+
+    /**
+     * Scope a query to only include Code
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $code
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByCode($query, string $code)
+    {
+        return $query->where('code', $code);
+    }
+
+    /**
+     * Scope a query to only include Project
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param array|string $administrativeUnit
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+
+    public function scopeByAdministrativeUnit($query, $administrativeUnit)
+    {
+        $table = $this->getTable();
+        $joinResearchUnit = 'research_units';
+        $joinProject = 'projects';
+
+        $query->join($joinProject, "{$table}.project_id", "{$joinProject}.id");
+        $query->join($joinResearchUnit, "{$joinProject}.research_unit_id", "{$joinResearchUnit}.id");
+
+        if (is_array($administrativeUnit) && !empty($administrativeUnit)) {
+            return $query->whereIn("{$joinResearchUnit}.administrative_unit_id", $administrativeUnit);
+        }
+
+        return $query->where("{$joinResearchUnit}.administrative_unit_id", $administrativeUnit);
+    }
+
+    /**
+     * Scope a query to only include Project
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param array|string $researchUnit
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+
+    public function scopeByResearchUnit($query, $researchUnit)
+    {
+        $table = $this->getTable();
+        $joinProject = 'projects';
+
+        $query->join($joinProject, "{$table}.project_id", "{$joinProject}.id");
+
+        if (is_array($researchUnit) && !empty($researchUnit)) {
+            return $query->whereIn("{$joinProject}.research_unit_id", $researchUnit);
+        }
+
+        return $query->where("{$joinProject}.research_unit_id", $researchUnit);
+    }
+
+    /**
+     * Scope a query to only include Project
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param array|string $project
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+
+    public function scopeByProject($query, $project)
+    {
+        if (is_array($project) && !empty($project)) {
+            return $query->whereIn('project', $project);
+        }
+
+        return $query->where('project', $project);
+    }
+
+    /**
+     * Scope a query to only include Date From
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $dateFrom
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSinceDate($query, string $dateFrom)
+    {
+        $query->where('updated_at', '>=', $dateFrom);
+    }
+
+    /**
+     * Scope a query to only include Date To
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $dateTo
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeToDate($query, string $dateTo)
+    {
+        $query->where('updated_at', '<=', $dateTo);
+    }
+
+    /**
      * @return bool
      */
     public function hasDpis(): bool

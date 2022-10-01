@@ -3,6 +3,8 @@
         <thead>
             <tr>
                 <th class="text-center">No.</th>
+                <th>{{ __('pages.client.intangible_assets.table.head.administrative_unit') }}</th>
+                <th>{{ __('pages.client.intangible_assets.table.head.research_unit') }}</th>
                 <th>{{ __('pages.client.intangible_assets.table.head.project') }}</th>
                 <th>{{ __('pages.client.intangible_assets.table.head.name') }}</th>
         

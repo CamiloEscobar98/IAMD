@@ -52,10 +52,10 @@
                         </div>
                         <select name="administrative_unit_id" id="administrative_unit_id"
                             class="form-control select2bs4" onchange="changeAdministrativeUnit()">
-                            @foreach ($administrativeUnits as $administrativeUnit)
-                                <option value="{{ $administrativeUnit->id }}"
-                                    {{ optionIsSelected($params, 'administrative_unit_id', $administrativeUnit->id) }}>
-                                    {{ $administrativeUnit->name }}</option>
+                            @foreach ($administrativeUnits as $administrativeUnit => $value)
+                                <option value="{{ $administrativeUnit }}"
+                                    {{ optionIsSelected($params, 'administrative_unit_id', $administrativeUnit) }}>
+                                    {{ $value }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -70,10 +70,10 @@
                         </div>
                         <select name="research_unit_id" id="research_unit_id" class="form-control select2bs4"
                             onchange="changeResearchUnit()">
-                            @foreach ($researchUnits as $researchUnit)
-                                <option value="{{ $researchUnit->id }}"
-                                    {{ optionIsSelected($params, 'research_unit_id', $researchUnit->id) }}>
-                                    {{ $researchUnit->name }}</option>
+                            @foreach ($researchUnits as $researchUnit => $value)
+                                <option value="{{ $researchUnit }}"
+                                    {{ optionIsSelected($params, 'research_unit_id', $researchUnit) }}>
+                                    {{ $value }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -87,10 +87,10 @@
                             <label class="input-group-text">{{ __('filters.projects') }}</label>
                         </div>
                         <select name="project_id" id="project_id" class="form-control select2bs4">
-                            @foreach ($projects as $project)
-                                <option value="{{ $project->id }}"
-                                    {{ optionIsSelected($params, 'project_id', $project->id) }}>
-                                    {{ $project->name }}</option>
+                            @foreach ($projects as $project => $value)
+                                <option value="{{ $project }}"
+                                    {{ optionIsSelected($params, 'project_id', $project) }}>
+                                    {{ $value }}</option>
                             @endforeach
                         </select>
                     </div>

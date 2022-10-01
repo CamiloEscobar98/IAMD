@@ -43,7 +43,7 @@ class IntangibleAssetController extends Controller
         try {
             $params = $this->intangibleAssetService->transformParams($request->all());
 
-            $query = $this->intangibleAssetRepository->search($params, ['project'], []);
+            $query = $this->intangibleAssetRepository->search($params, ['project.research_unit.administrative_unit'], []);
 
             $total = $query->count();
 
@@ -116,7 +116,7 @@ class IntangibleAssetController extends Controller
                 'intangible_asset_confidenciality_contract', 'creators', 'intangible_asset_session_right_contract', 'user_messages',
                 'secret_protection_measures', 'priority_tools'
             ]);
-            
+
             return view('client.pages.intangible_assets.show', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);

@@ -22,14 +22,17 @@ function getResearchUnits(administrative_unit_id) {
         url: "/api/" + client + "/administrative_units/" + administrative_unit_id + '/research_units'
     }).done(function (res) {
 
-        if (res.length > 0) {
-            putResearchUnits(res);
-        }
+        console.log(res);
 
-        if ($('#project_id').length > 0) {
-            console.log('entro');
+        if (Array.isArray(res)) {
+            putResearchUnits(res);
+
             let research_unit_id = res[0]['id'];
+
             getProjects(research_unit_id);
+        } else {
+            putResearchUnits([]);
+            putProjects([]);
         }
     });
 }
@@ -40,8 +43,11 @@ function getProjects(research_unit_id) {
         type: 'GET',
         url: "/api/" + client + "/research_units/" + research_unit_id + '/projects'
     }).done(function (res) {
-        if (res.length > 0) {
+
+        if (Array.isArray(res)) {
             putProjects(res);
+        } else {
+            putProjects([]);
         }
     });
 }
@@ -65,7 +71,7 @@ function putAdministrativeUnits(items) {
 
     selectAdministrativeUnit.empty();
 
-    items.forEach(item => {
+    items.forEach((item, index) => {
         var id = item['id'];
         var name = item['name'];
 
@@ -79,7 +85,9 @@ function putResearchUnits(items) {
 
     selectResearchUnit.empty();
 
-    items.forEach(item => {
+    selectResearchUnit.append(`<option value="-1">Seleccionar Unidad Investigativa</option>`);
+
+    items.forEach((item, index) => {
         var id = item['id'];
         var name = item['name'];
 
@@ -93,7 +101,9 @@ function putProjects(items) {
 
     selectProject.empty();
 
-    items.forEach(item => {
+    selectProject.append(`<option value="-1">Seleccionar Proyecto</option>`);
+
+    items.forEach((item, index) => {
         var id = item['id'];
         var name = item['name'];
 

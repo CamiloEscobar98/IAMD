@@ -5,7 +5,7 @@ function changeIntellectualPropertyRightCategory() {
 }
 
 function changeIntellectualPropertyRightSubcategory() {
-    let selectSubcategory = $('#intellectual_property_right_subcategories').val();
+    let selectSubcategory = $('#intellectual_property_right_subcategory_id').val();
 
     getIntellectualPropertyRightProducts(selectSubcategory);
 }
@@ -15,9 +15,14 @@ function getIntellectualPropertyRightCategories() {
         type: 'GET',
         url: "/api/intellectual_property_rights/categories/"
     }).done(function (res) {
-        putIntellectualPropertyRightCategories(res);
-        let category = res[0]['id'];
-        getIntellectualPropertyRightSubcategories(category);
+
+        if (Array.isArray(res)) {
+            putIntellectualPropertyRightCategories(res);
+
+            let category = res[0]['id'];
+
+            getIntellectualPropertyRightSubcategories(category);
+        }
     });
 }
 
@@ -27,10 +32,17 @@ function getIntellectualPropertyRightSubcategories(category) {
         type: 'GET',
         url: "/api/intellectual_property_rights/categories/" + category + "/subcategories"
     }).done(function (res) {
-        console.log(res['intellectual_property_right_subcategories']);
-        putIntellectualPropertyRightSubcategories(res);
-        let subcategory = res[0]['id'];
-        getIntellectualPropertyRightProducts(subcategory);
+
+        if (Array.isArray(res)) {
+            putIntellectualPropertyRightSubcategories(res);
+
+            let subcategory = res[0]['id'];
+
+            getIntellectualPropertyRightProducts(subcategory);
+        } else {
+            putIntellectualPropertyRightSubcategories([]);
+            putIntellectualPropertyRightProducts([]);
+        }
 
     });
 }
@@ -41,7 +53,11 @@ function getIntellectualPropertyRightProducts(subcategory) {
         type: 'GET',
         url: "/api/intellectual_property_rights/subcategories/" + subcategory + "/products"
     }).done(function (res) {
-        putIntellectualPropertyRightProducts(res);
+        if (Array.isArray(res)) {
+            putIntellectualPropertyRightProducts(res);
+        }else{
+            putIntellectualPropertyRightProducts([]);
+        }
     });
 }
 
@@ -50,6 +66,8 @@ function putIntellectualPropertyRightCategories(items) {
     let selectCategory = $('#intellectual_property_right_category_id');
 
     selectCategory.empty();
+
+    selectCategory.append(`<option value="-1">Seleccionar Categoría</option>`);
 
     items.forEach(category => {
         var id = category['id'];
@@ -61,29 +79,33 @@ function putIntellectualPropertyRightCategories(items) {
 }
 
 function putIntellectualPropertyRightSubcategories(items) {
-    let selectCategory = $('#intellectual_property_right_subcategory_id');
+    let selectSubcategory = $('#intellectual_property_right_subcategory_id');
 
-    selectCategory.empty();
+    selectSubcategory.empty();
+
+    selectSubcategory.append(`<option value="-1">Seleccionar Subcategoría</option>`);
 
     items.forEach(category => {
         var id = category['id'];
         var name = category['name'];
 
-        selectCategory.append(`<option value="${id}">${name}</option>`);
+        selectSubcategory.append(`<option value="${id}">${name}</option>`);
 
     });
 }
 
 function putIntellectualPropertyRightProducts(items) {
-    let selectCategory = $('#intellectual_property_right_product_id');
+    let selectProduct = $('#intellectual_property_right_product_id');
 
-    selectCategory.empty();
+    selectProduct.empty();
+
+    selectProduct.append(`<option value="-1">Seleccionar Producto</option>`);
 
     items.forEach(category => {
         var id = category['id'];
         var name = category['name'];
 
-        selectCategory.append(`<option value="${id}">${name}</option>`);
+        selectProduct.append(`<option value="${id}">${name}</option>`);
 
     });
 }

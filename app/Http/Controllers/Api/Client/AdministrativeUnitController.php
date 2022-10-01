@@ -46,7 +46,7 @@ class AdministrativeUnitController extends Controller
      * Get Item
      * 
      * @param int $id
-     * @param AdministrativeUnit $administrative_unit 
+     * @param int $administrative_unit 
      * 
      * @return JsonResponse
      */

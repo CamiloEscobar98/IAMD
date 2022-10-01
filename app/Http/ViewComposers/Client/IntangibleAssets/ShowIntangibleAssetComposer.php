@@ -123,6 +123,12 @@ class ShowIntangibleAssetComposer
 
         $priorityTools = $this->priorityToolRepository->all();
 
+        $categories = $categories->pluck('name', 'id')->prepend('Seleccionar Categoría', -1);
+
+        $subCategories = $subCategories->pluck('name', 'id')->prepend('Seleccionar Subategoría', -1);
+
+        $products = $products->pluck('name', 'id')->prepend('Seleccionar Producto', -1);
+
         $view->with(compact(
             'categories',
             'subCategories',

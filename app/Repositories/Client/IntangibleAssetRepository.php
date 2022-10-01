@@ -26,19 +26,27 @@ class IntangibleAssetRepository extends AbstractRepository
             ->select();
 
         if (isset($params['id']) && $params['id']) {
-            $query->where('id', $params['id']);
+            $query->byId($params['id']);
         }
 
         if (isset($params['name']) && $params['name']) {
-            $query->where('name', 'like', '%' . $params['name'] . '%');
+            $query->byName($params['name']);
         }
 
         if (isset($params['code']) && $params['code']) {
-            $query->where('code', 'like', $params['code']);
+            $query->byCode($params['code']);
+        }
+
+        if (isset($params['administrative_unit']) && $params['administrative_unit']) {
+            $query->byAdministrativeUnit($params['administrative_unit']);
+        }
+
+        if (isset($params['research_unit_id']) && $params['research_unit_id']) {
+            $query->byResearchUnit($params['research_unit_id']);
         }
 
         if (isset($params['project_id']) && $params['project_id']) {
-            $query->where('project_id', $params['project_id']);
+            $query->byProject($params['project_id']);
         }
 
         if (isset($params['intangible_asset_state_id']) && $params['intangible_asset_state_id']) {
@@ -50,11 +58,11 @@ class IntangibleAssetRepository extends AbstractRepository
         }
 
         if (isset($params['date_from']) && $params['date_from']) {
-            $query->where('updated_at', '>=', $params['date_from']);
+            $query->sinceDate($params['date_from']);
         }
 
         if (isset($params['date_to']) && $params['date_to']) {
-            $query->where('updated_at', '<=', $params['date_to']);
+            $query->toDate($params['date_to']);
         }
 
         if (isset($with) && $with) {

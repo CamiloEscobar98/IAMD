@@ -45,16 +45,17 @@ class IntellectualPropertyRightSubcategoryController extends Controller
     /**
      * Get Item
      * 
-     * @param IntellectualPropertyRightSubcategory $subCategory 
+     * @param int $subCategory 
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function products(IntellectualPropertyRightSubcategory $subCategory) #: \Illuminate\Http\JsonResponse
+    public function products(int $subCategory) #: \Illuminate\Http\JsonResponse
     {
         try {
-            $item = $this->intellectualPropertyRightProductRepository->getByIntellectualPropertyRightSubcategory($subCategory);
+            $intellectualPropertyRightSubcategory = $this->intellectualPropertyRightSubcategoryRepository->getById($subCategory);
+            $items = $this->intellectualPropertyRightProductRepository->getByIntellectualPropertyRightSubcategory($intellectualPropertyRightSubcategory);
 
-            return response()->json($item);
+            return response()->json($items);
         } catch (\Exception $th) {
             return $th->getMessage();
         }

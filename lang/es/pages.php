@@ -898,11 +898,11 @@ return [
 
             'table' => [
                 'head' => [
-                    'name' => 'Nombre',
-                    'description' => 'Descripción',
-
+                    'administrative_unit' => 'Subdirección Técnica',
+                    'research_unit' => 'Unidad Investigativa',
                     'project' => 'Proyecto',
-                    'state' => 'Estado',
+
+                    'name' => 'Nombre',
 
                     'created_at' => 'Fecha de Creación',
                     'updated_at' => 'Fecha de Actualización'

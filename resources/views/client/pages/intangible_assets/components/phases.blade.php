@@ -19,13 +19,14 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>{{ __('pages.client.intangible_assets.phases.one.form.level_1') }}</label>
-                                <select name="intellectual_property_right_category_id" id="intellectual_property_right_category_id"
+                                <select name="intellectual_property_right_category_id"
+                                    id="intellectual_property_right_category_id"
                                     class="form-control form-control-sm select2bs4"
                                     onchange="changeIntellectualPropertyRightCategory()">
-                                    @foreach ($categories as $categoryItem)
-                                        <option value="{{ $categoryItem->id }}"
-                                            {{ twoOptionsIsEqual($category->id, $categoryItem->id) }}>
-                                            {{ $categoryItem->name }}</option>
+                                    @foreach ($categories as $categoryItem => $value)
+                                        <option value="{{ $categoryItem }}"
+                                            {{ twoOptionsIsEqual($category->id, $categoryItem) }}>
+                                            {{ $value }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -33,13 +34,14 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>{{ __('pages.client.intangible_assets.phases.one.form.level_2') }}</label>
-                                <select name="intellectual_property_right_subcategory_id" id="intellectual_property_right_subcategory_id"
+                                <select name="intellectual_property_right_subcategory_id"
+                                    id="intellectual_property_right_subcategory_id"
                                     class="form-control form-control-sm select2bs4"
                                     onchange="changeIntellectualPropertyRightSubcategory()">
-                                    @foreach ($subCategories as $subCategoryItem)
-                                        <option value="{{ $subCategoryItem->id }}"
-                                            {{ twoOptionsIsEqual($subCategory->id, $subCategoryItem->id) }}>
-                                            {{ $subCategoryItem->name }}</option>
+                                    @foreach ($subCategories as $subCategoryItem => $value)
+                                        <option value="{{ $subCategoryItem }}"
+                                            {{ twoOptionsIsEqual($subCategory->id, $subCategoryItem) }}>
+                                            {{ $value }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -47,12 +49,13 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>{{ __('pages.client.intangible_assets.phases.one.form.level_3') }}</label>
-                                <select name="intellectual_property_right_product_id" id="intellectual_property_right_product_id"
+                                <select name="intellectual_property_right_product_id"
+                                    id="intellectual_property_right_product_id"
                                     class="form-control form-control-sm select2bs4">
-                                    @foreach ($products as $productItem)
-                                        <option value="{{ $productItem->id }}"
-                                            {{ twoOptionsIsEqual($product->id, $productItem->id) }}>
-                                            {{ $productItem->name }}</option>
+                                    @foreach ($products as $productItem => $value)
+                                        <option value="{{ $productItem }}"
+                                            {{ twoOptionsIsEqual($product->id, $productItem) }}>
+                                            {{ $value }}</option>
                                     @endforeach
                                 </select>
                             </div>

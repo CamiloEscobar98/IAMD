@@ -182,7 +182,7 @@ class ResearchUnit extends BaseModel
     }
 
     /**
-     * Scope a query to only include Director
+     * Scope a query to only include Inventory Manager
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
      * @param array|string $director

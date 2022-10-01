@@ -25,7 +25,10 @@
                             <a href="{{ route('client.intangible_assets.index', $client->name) }}">
                                 {{ __('pages.client.intangible_assets.title') }} </a>
                         </li>
-                        <li class="breadcrumb-item active">{{ $item->name }}</li>
+                        <li class="breadcrumb-item active">
+                            <a
+                                href="{{ getClientRoute('client.intangible_assets.show', [$item->id]) }}">{{ $item->name }}</a>
+                        </li>
                     </ol>
                 </div>
             </div>
