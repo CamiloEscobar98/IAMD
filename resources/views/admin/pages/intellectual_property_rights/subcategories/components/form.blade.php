@@ -1,9 +1,9 @@
 <!-- Intellectual Property Rights Categories -->
 <div class="input-group mt-3">
     <select class="form-control select2bs4" name="intellectual_property_right_category_id">
-        @foreach ($categories as $category)
-            <option value="{{ $category->id }}" {{ twoOptionsIsEqual($item->intellectual_property_right_category_id, $category->id) }}>
-                {{ $category->name }}
+        @foreach ($categories as $categoryItem => $value)
+            <option value="{{ $categoryItem }}" {{ twoOptionsIsEqual($item->intellectual_property_right_category_id, $categoryItem) }}>
+                {{ $value }}
             </option>
         @endforeach
     </select>
@@ -14,7 +14,7 @@
     </div>
 </div>
 
-@error('country_id')
+@error('intellectual_property_right_category_id')
     <small class="text-danger">{{ $message }}</small>
 @enderror
 <!-- ./Intellectual Property Rights Categories  -->

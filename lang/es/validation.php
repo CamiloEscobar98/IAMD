@@ -172,6 +172,10 @@ return [
 
         'code' => 'código',
 
+        'intellectual_property_right_category_id' =>  'categoría de los derechos de propiedad intelectual',
+        'intellectual_property_right_subcategory_id' =>  'subcategoría de los derechos de propiedad intelectual',
+        'intellectual_property_right_product_id' =>  'producto de los derechos de propiedad intelectual',
+
         'country_id' => 'país',
         'state_id' => 'departamento',
 

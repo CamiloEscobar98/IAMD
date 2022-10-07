@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\IntangibleAssets\States;
+namespace App\Http\Requests\Admin\IntellectualPropertyRights\Products;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,8 +24,9 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'unique:mysql.intangible_asset_states'],
-            'description' => ['required']
+            'intellectual_property_right_category_id' => ['required', 'exists:intellectual_property_right_categories,id'],
+            'intellectual_property_right_subcategory_id' => ['required', 'exists:intellectual_property_right_subcategories,id'],
+            'name' => ['required', 'unique:mysql.intellectual_property_right_products'],
         ];
     }
 }

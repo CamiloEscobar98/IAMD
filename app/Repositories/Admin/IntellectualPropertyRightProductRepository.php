@@ -30,8 +30,13 @@ class IntellectualPropertyRightProductRepository extends AbstractRepository
             $query->ofId($params['id']);
         }
 
-        if (isset($params['category_id']) && $params['category_id']) {
-            $query->ofSubcategory($params['category_id']);
+        if (isset($params['intellectual_property_right_category_id']) && $params['intellectual_property_right_category_id'] > 0) {
+            $query->ofCategory($params['intellectual_property_right_category_id']);
+        }
+
+
+        if (isset($params['intellectual_property_right_subcategory_id']) && $params['intellectual_property_right_subcategory_id'] > 0) {
+            $query->ofSubcategory($params['intellectual_property_right_subcategory_id']);
         }
 
         if (isset($params['name']) && $params['name']) {
@@ -48,6 +53,10 @@ class IntellectualPropertyRightProductRepository extends AbstractRepository
 
         if (isset($with) && $with) {
             $query->with($with);
+        }
+
+        if (isset($withCount) && $withCount) {
+            $query->withCount($withCount);
         }
 
         return $query;

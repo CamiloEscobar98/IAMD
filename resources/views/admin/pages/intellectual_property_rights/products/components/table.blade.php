@@ -3,11 +3,11 @@
         <thead>
             <tr>
                 <th class="text-center">No.</th>
-                <th>{{ __('pages.admin.localizations.countries.table.head.name') }}</th>
-                <th>{{ __('pages.admin.localizations.countries.table.head.states') }}</th>
-                <th>{{ __('pages.admin.localizations.countries.table.head.cities') }}</th>
-                <th>{{ __('pages.admin.localizations.countries.table.head.created_at') }}</th>
-                <th>{{ __('pages.admin.localizations.countries.table.head.updated_at') }}</th>
+                <th>{{ __('pages.admin.intellectual_property_rights.products.table.head.category') }}</th>
+                <th>{{ __('pages.admin.intellectual_property_rights.products.table.head.subcategory') }}</th>
+                <th>{{ __('pages.admin.intellectual_property_rights.products.table.head.name') }}</th>
+                <th>{{ __('pages.admin.intellectual_property_rights.products.table.head.created_at') }}</th>
+                <th>{{ __('pages.admin.intellectual_property_rights.products.table.head.updated_at') }}</th>
                 <th class="text-right">#</th>
             </tr>
         </thead>
@@ -15,18 +15,19 @@
             @forelse ($items as $item)
                 <tr>
                     <td class="text-center">{{ $loop->iteration }}.</td>
+                    <td>{{ $item->intellectual_property_right_subcategory->intellectual_property_right_category->name }}
+                    </td>
+                    <td>{{ $item->intellectual_property_right_subcategory->name }}</td>
                     <td>{{ $item->name }}</td>
-                    <td>{{ $item->states_count }}</td>
-                    <td>{{ $item->cities_count }}</td>
                     <td>{{ $item->created_at }}</td>
                     <td>{{ $item->updated_at }}</td>
                     <td>
                         <div class="row justify-content-center">
-                            <a href="{{ route('admin.localizations.countries.show', $item->id) }}"
+                            <a href="{{ route('admin.intellectual_property_rights.products.show', $item->id) }}"
                                 class="btn btn-sm btn-secondary">
                                 <i class="fas fa-sm fa-eye"></i>
                             </a>
-                            <form action="{{ route('admin.localizations.countries.destroy', $item->id) }}"
+                            <form action="{{ route('admin.intellectual_property_rights.products.destroy', $item->id) }}"
                                 id="form-delete-{{ $item->id }}" method="post">
                                 @csrf
                                 @method('DELETE')

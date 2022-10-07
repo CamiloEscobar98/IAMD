@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\IntangibleAssets\States;
+namespace App\Http\Requests\Admin\IntellectualPropertyRights\Products;
 
 use Illuminate\Foundation\Http\FormRequest;
 

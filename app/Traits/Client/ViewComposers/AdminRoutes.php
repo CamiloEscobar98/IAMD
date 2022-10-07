@@ -2,6 +2,7 @@
 
 namespace App\Traits\Client\ViewComposers;
 
+use App\Http\ViewComposers\Admin\IntellectualPropertyRights\Products\IntellectualPropertyRightProductFilterComposer;
 use Illuminate\Support\Facades\View;
 
 use App\Http\ViewComposers\Admin\Localization\States\StateFilterComposer;
@@ -12,6 +13,7 @@ use App\Http\ViewComposers\Admin\Localization\Cities\CityFilterComposer;
 use App\Http\ViewComposers\Admin\Localization\Cities\CityFormComposer;
 
 use App\Http\ViewComposers\Admin\IntellectualPropertyRights\Subcategories\IntellectualPropertyRightSubcategoryFormComposer;
+use App\Http\ViewComposers\Admin\IntellectualPropertyRights\Products\IntellectualPropertyRightProductFormComposer;
 
 /**
  * 
@@ -38,7 +40,11 @@ trait AdminRoutes
         /** Intellectual Property Rights */
         // Categories
 
-        // Subcategories]
+        // Subcategories
         View::composer('admin.pages.intellectual_property_rights.subcategories.components.form', IntellectualPropertyRightSubcategoryFormComposer::class);
+
+        // Products
+        View::composer('admin.pages.intellectual_property_rights.products.components.filters', IntellectualPropertyRightProductFilterComposer::class);
+        View::composer('admin.pages.intellectual_property_rights.products.components.form', IntellectualPropertyRightProductFormComposer::class);
     }
 }

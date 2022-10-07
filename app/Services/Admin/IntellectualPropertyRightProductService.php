@@ -57,12 +57,12 @@ class IntellectualPropertyRightProductService
 
             if (isset($params['order_by'])) {
                 if ($params['order_by'] == 1) {
-                    $query->orderBy('name', 'ASC');
+                    $query->orderBy("intellectual_property_right_products.name", 'ASC');
                 } else {
-                    $query->orderBy('name', 'DESC');
+                    $query->orderBy("intellectual_property_right_products.name", 'DESC');
                 }
             } else {
-                $query->orderBy('name', 'ASC');
+                $query->orderBy("intellectual_property_right_products.name", 'ASC');
             }
             $items = $query->get();
 

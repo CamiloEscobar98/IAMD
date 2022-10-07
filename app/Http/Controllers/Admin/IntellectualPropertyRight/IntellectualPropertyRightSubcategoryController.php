@@ -182,7 +182,7 @@ class IntellectualPropertyRightSubcategoryController extends Controller
             $this->intellectualPropertyRightSubcategoryRepository->delete($item);
             DB::commit();
 
-            return redirect()->route('admin.intellectual_property_rights.subcategories.index')->with('alert', ['title' => '', 'icon' => 'success', 'text' => __('pages.admin.intellectual_property_rights.subcategories.messages.delete_success', ['category' => $item->name])]);
+            return redirect()->route('admin.intellectual_property_rights.subcategories.index')->with('alert', ['title' => '', 'icon' => 'success', 'text' => __('pages.admin.intellectual_property_rights.subcategories.messages.delete_success', ['subcategory' => $item->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);

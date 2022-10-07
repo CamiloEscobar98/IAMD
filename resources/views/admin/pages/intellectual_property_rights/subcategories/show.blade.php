@@ -30,18 +30,14 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
-                <div class="row justify-content center">
-                    <h3 class="text-center font-italic font-weight-bold">
-                        <u>{{ __('pages.default.title-information') }}</u>
-                    </h3>
-                    <div class="mb-0">
-                        <p>{!! __('pages.admin.intellectual_property_rights.subcategories.info.show', [
-                            'subcategory' => $item->name,
-                            'products_count' => $item->intellectual_property_right_products_count,
-                        ]) !!}
-                        </p>
-                    </div>
-                </div>
+                <h3 class="font-italic font-weight-bold">
+                    <u>{{ __('pages.default.title-information') }}</u>
+                </h3>
+                <p>{!! __('pages.admin.intellectual_property_rights.subcategories.info.show', [
+                    'subcategory' => $item->name,
+                    'products_count' => $item->intellectual_property_right_products_count,
+                ]) !!}
+                </p>
             </div>
         </div>
 
