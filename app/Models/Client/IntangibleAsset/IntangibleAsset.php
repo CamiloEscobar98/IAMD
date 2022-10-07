@@ -204,7 +204,7 @@ class IntangibleAsset extends BaseModel
      */
     public function scopeById($query, int $id)
     {
-        return $query->where('id', $id);
+        return $query->where("{$this->getTable()}.id", $id);
     }
 
     /**
@@ -217,7 +217,7 @@ class IntangibleAsset extends BaseModel
      */
     public function scopeByName($query, string $name)
     {
-        $query->where('name', 'like', "%{$name}%");
+        $query->where("{$this->getTable()}.name", 'like', "%{$name}%");
     }
 
     /**
@@ -230,7 +230,7 @@ class IntangibleAsset extends BaseModel
      */
     public function scopeByCode($query, string $code)
     {
-        return $query->where('code', $code);
+        return $query->where("{$this->getTable()}.code", $code);
     }
 
     /**
@@ -293,10 +293,10 @@ class IntangibleAsset extends BaseModel
     public function scopeByProject($query, $project)
     {
         if (is_array($project) && !empty($project)) {
-            return $query->whereIn('project', $project);
+            return $query->whereIn("{$this->getTable()}.project_id", $project);
         }
 
-        return $query->where('project', $project);
+        return $query->where("{$this->getTable()}.project_id", $project);
     }
 
     /**
@@ -309,7 +309,7 @@ class IntangibleAsset extends BaseModel
      */
     public function scopeSinceDate($query, string $dateFrom)
     {
-        $query->where('updated_at', '>=', $dateFrom);
+        $query->where("{$this->getTable()}.updated_at", '>=', $dateFrom);
     }
 
     /**
@@ -322,7 +322,7 @@ class IntangibleAsset extends BaseModel
      */
     public function scopeToDate($query, string $dateTo)
     {
-        $query->where('updated_at', '<=', $dateTo);
+        $query->where("{$this->getTable()}.updated_at", '<=', $dateTo);
     }
 
     /**

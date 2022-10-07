@@ -13,6 +13,8 @@ use App\Http\Requests\Client\IntangibleAssets\UpdateRequest;
 use App\Services\Client\IntangibleAssetService;
 
 use App\Repositories\Client\IntangibleAssetRepository;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class IntangibleAssetController extends Controller
 {
@@ -36,9 +38,9 @@ class IntangibleAssetController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     * @return View|RedirectResponse
      */
-    public function index(Request $request): \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+    public function index(Request $request) #: View|RedirectResponse
     {
         try {
             $params = $this->intangibleAssetService->transformParams($request->all());
@@ -65,7 +67,7 @@ class IntangibleAssetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function create(): RedirectResponse|View
     {
         try {
             return view('client.pages.intangible_assets.create');
@@ -78,9 +80,9 @@ class IntangibleAssetController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @return RedirectResponse|View
      */
-    public function store(StoreRequest $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function store(StoreRequest $request): RedirectResponse|View
     {
         try {
             $data = $request->all();
@@ -106,9 +108,9 @@ class IntangibleAssetController extends Controller
      * @param  int  $id
      * @param int $intangibleAsset
      * 
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @return RedirectResponse|View
      */
-    public function show($id, $intangibleAsset) #: \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function show($id, $intangibleAsset) #: RedirectResponse|View
     {
         try {
             $item = $this->intangibleAssetRepository->getByIdWithRelations($intangibleAsset, [
@@ -129,9 +131,9 @@ class IntangibleAssetController extends Controller
      * @param  int  $id
      * @param int $intangibleAsset
      * 
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @return RedirectResponse|View
      */
-    public function edit($id, $intangibleAsset, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function edit($id, $intangibleAsset, Request $request): RedirectResponse|View
     {
         try {
             $item = $this->intangibleAssetRepository->getById($intangibleAsset);
@@ -151,7 +153,7 @@ class IntangibleAssetController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, $id, $intangibleAsset): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function update(UpdateRequest $request, $id, $intangibleAsset): RedirectResponse|View
     {
         try {
             $data = $request->only(['project_id', 'name']);

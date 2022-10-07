@@ -45,9 +45,9 @@ class ProjectFilterComposer
         /** Administrative Units */
         $administrativeUnits = $this->administrativeUnitRepository->all();
 
-        
+
         if (isset($params['administrative_unit_id']) && $params['administrative_unit_id']) {
-            
+
             /** @var \App\Models\Client\AdministrativeUnit */
             $administrativeUnit = $this->administrativeUnitRepository->getById($params['administrative_unit_id']);
 
@@ -58,6 +58,10 @@ class ProjectFilterComposer
             /** Research Units */
             $researchUnits = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnits->first());
         }
+
+        $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('Seleccionar Subdirección Técnica', 0);
+
+        $researchUnits = $researchUnits->pluck('name', 'id')->prepend('Seleccionar Unidad Investigativa', 0);
 
         /** Creators */
         $creators = $this->creatorRepository->getAllCreators();

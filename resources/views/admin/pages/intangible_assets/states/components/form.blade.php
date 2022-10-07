@@ -1,5 +1,5 @@
 @if ($editMode)
-    <form action="{{ route('admin.intangible_assets.states.update', $item->id) }}" method="post">
+    <form action="{{ route('admin.intangible_assets.status.update', $item->id) }}" method="post">
         @csrf
         @method('PUT')
 
@@ -45,7 +45,7 @@
 
     </form>
 @else
-    <form action="{{ route('admin.intangible_assets.states.store') }}" method="post">
+    <form action="{{ route('admin.intangible_assets.status.store') }}" method="post">
         @csrf
 
         <div class="row justify-content-center">

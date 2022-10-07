@@ -15,7 +15,7 @@
                         </li>
                         <li class="breadcrumb-item">{{ __('pages.admin.intangible_assets.title') }}</li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.intangible_assets.states.index') }}">
+                            <a href="{{ route('admin.intangible_assets.status.index') }}">
                                 {{ __('pages.admin.intangible_assets.states.title') }} </a>
                         </li>
                         <li class="breadcrumb-item">{{ __('pages.default.create') }}</li>

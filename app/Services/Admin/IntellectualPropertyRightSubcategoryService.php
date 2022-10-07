@@ -55,15 +55,8 @@ class IntellectualPropertyRightSubcategoryService
             $query->skip($offset)
                 ->take($perPage);
 
-            if (isset($params['order_by'])) {
-                if ($params['order_by'] == 1) {
-                    $query->orderBy('name', 'ASC');
-                } else {
-                    $query->orderBy('name', 'DESC');
-                }
-            } else {
-                $query->orderBy('name', 'ASC');
-            }
+            $query->orderBy('intellectual_property_right_category_id', 'ASC');
+
             $items = $query->get();
 
             $items = new LengthAwarePaginator($items, $total, $perPage, $page, [

@@ -4,10 +4,12 @@ namespace App\Models\Admin\IntellectualPropertyRight;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 use App\Models\Admin\BaseModel;
 
 use App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightSubcategory;
+use App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightProduct;
 
 class IntellectualPropertyRightCategory extends BaseModel
 {
@@ -28,6 +30,16 @@ class IntellectualPropertyRightCategory extends BaseModel
     public function intellectual_property_right_subcategories(): HasMany
     {
         return $this->hasMany(IntellectualPropertyRightSubcategory::class);
+    }
+
+    /**
+     * Get all products of Intellectual Property Rights
+     * 
+     * @return HasManyThrough
+     */
+    public function intellectual_property_right_products()
+    {
+        return $this->hasManyThrough(IntellectualPropertyRightProduct::class, IntellectualPropertyRightSubcategory::class);
     }
 
     /**

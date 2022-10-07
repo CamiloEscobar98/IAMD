@@ -464,6 +464,127 @@ return [
                     'show' => "En esta sección de la aplicación podrás visualizar el Estado del Activo Intangible de <b>:state</b>",
                 ]
             ],
+        ],
+
+        'intellectual_property_rights' => [
+            'title' => 'Derechos de Propiedad Intelectual',
+
+            /** Categories */
+            'categories' => [
+                'title' => 'Categorias',
+                'subtitle' => 'Categorias de los Derechos de Propiedad Intelectual',
+
+                'route-titles' => [
+                    'create' => 'Registrar Categoria de Derecho de Propiedad Intelectual',
+                    'show' => 'Visualizar Categoria de Derecho de Propiedad Intelectual',
+                    'edit' => 'Editar Categoria de Derecho de Propiedad Intelectual',
+                ],
+
+                'form-titles' => [
+                    'show' => 'Perfil de Visualización del Categoria de Derecho de Propiedad Intelectual',
+                    'create' => 'Formulario de Registro de Categoria de Derecho de Propiedad Intelectual',
+                    'update' => 'Actualización del Categoria de Derecho de Propiedad Intelectual',
+                ],
+
+                'filters' => [
+                    'name' => 'Buscar Categoria de Derecho de Propiedad Intelectual',
+                    'total' => 'Total de Categorias: ',
+                ],
+
+                'table' => [
+                    'head' => [
+                        'name' => 'Nombre',
+                        'subcategories' => 'Subcategorias',
+                        'products' => 'Productos',
+                        'created_at' => 'Fecha de Creación',
+                        'updated_at' => 'Fecha de Actualización'
+                    ],
+                    'body' => [
+                        'intellectual_property_right_subcategories_count' => ':count Subcategorias de los Derechos de Propiedad Intelectual registradas.',
+                        'intellectual_property_right_products_count' => ':count Productos de los Derechos de Propiedad Intelectual.'
+                    ]
+
+                ],
+
+                'messages' => [
+                    'confirm' => '¿Estás seguro de que quieres eliminar el Categoria de Derecho de Propiedad Intelectual?',
+
+                    'save_success' => 'Se ha registrado correctamente el Categoria de Derecho de Propiedad Intelectual: :category.',
+                    'save_error' => 'No se ha registrado el Categoria de Derecho de Propiedad Intelectual.',
+
+                    'update_success' => 'Se ha actualizado correctamente el Categoria de Derecho de Propiedad Intelectual: :category.',
+                    'update_error' => 'No se ha actualizado el Categoria de Derecho de Propiedad Intelectual.',
+
+                    'delete_success' => 'Se ha eliminado el Categoria de Derecho de Propiedad Intelectual: :category.',
+                    'delete_error' => 'No se ha eliminado el Categoria de Derecho de Propiedad Intelectual.'
+                ],
+
+                'info' => [
+                    'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>CATEGORIAS DE LOS DERECHOS DE PROPIEDAD INTELECTUAL</b>. 
+                    Dicho recurso actualmente está destinado para enriquecer la información de las categorias de los derechos de propiedad intelectual dentro de la aplicación. ",
+
+                    'show' => "En esta sección de la aplicación podrás visualizar la Categoria de Derechos de Propiedad Intelectual <b>:category</b>. \n
+                    Este país actualmente tiene una cantidad de :subcategories_count Subcategorias y :products_count Productos de Derechos de Propiedad Intelectual.",
+                ]
+            ],
+
+            /** Subategories */
+            'subcategories' => [
+                'title' => 'Subcategorías',
+                'subtitle' => 'Subcategorías de los Derechos de Propiedad Intelectual',
+
+                'route-titles' => [
+                    'create' => 'Registrar Subcategoría de Derecho de Propiedad Intelectual',
+                    'show' => 'Visualizar Subcategoría de Derecho de Propiedad Intelectual',
+                    'edit' => 'Editar Subcategoría de Derecho de Propiedad Intelectual',
+                ],
+
+                'form-titles' => [
+                    'show' => 'Perfil de Visualización de la Subcategoría de Derecho de Propiedad Intelectual',
+                    'create' => 'Formulario de Registro de Subcategoría de Derecho de Propiedad Intelectual',
+                    'update' => 'Actualización de la Subcategoría de Derecho de Propiedad Intelectual',
+                ],
+
+                'filters' => [
+                    'name' => 'Buscar Subcategoría de Derecho de Propiedad Intelectual',
+                    'total' => 'Total de Subcategorías: ',
+                ],
+
+                'table' => [
+                    'head' => [
+                        'name' => 'Nombre',
+                        'category' => 'Categoria',
+                        'products' => 'Productos',
+                        'created_at' => 'Fecha de Creación',
+                        'updated_at' => 'Fecha de Actualización'
+                    ],
+                    'body' => [
+                        'intellectual_property_right_products_count' => ':count Productos de los Derechos de Propiedad Intelectual.'
+                    ]
+
+                ],
+
+                'messages' => [
+                    'confirm' => '¿Estás seguro de que quieres eliminar la Subcategoría de Derecho de Propiedad Intelectual?',
+
+                    'save_success' => 'Se ha registrado correctamente la Subcategoría de Derecho de Propiedad Intelectual: :subcategory.',
+                    'save_error' => 'No se ha registrado la Subcategoría de Derecho de Propiedad Intelectual.',
+
+                    'update_success' => 'Se ha actualizado correctamente la Subcategoría de Derecho de Propiedad Intelectual: :subcategory.',
+                    'update_error' => 'No se ha actualizado la Subcategoría de Derecho de Propiedad Intelectual.',
+
+                    'delete_success' => 'Se ha eliminado la Subcategoría de Derecho de Propiedad Intelectual: :subcategory.',
+                    'delete_error' => 'No se ha eliminado la Subcategoría de Derecho de Propiedad Intelectual.'
+                ],
+
+                'info' => [
+                    'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>SUBCATEGORIAS DE LOS DERECHOS DE PROPIEDAD INTELECTUAL</b>. 
+                    Dicho recurso actualmente está destinado para enriquecer la información de las subcategorias de los derechos de propiedad intelectual dentro de la aplicación. ",
+
+                    'show' => "En esta sección de la aplicación podrás visualizar la Subcategoría de Derechos de Propiedad Intelectual <b>:subcategory</b>. \n
+                    Este país actualmente tiene una cantidad de :products_count Productos de Derechos de Propiedad Intelectual.",
+                ]
+            ]
         ]
     ],
 

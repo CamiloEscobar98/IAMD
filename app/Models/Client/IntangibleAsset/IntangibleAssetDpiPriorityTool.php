@@ -38,7 +38,7 @@ class IntangibleAssetDpiPriorityTool extends BaseModel
      */
     public function dpi(): BelongsTo
     {
-        return $this->belongsTo(IntangibleAssetTypeLevel2::class);
+        return $this->belongsTo(IntellectualPropertyRightSubcategory::class);
     }
 
     /**

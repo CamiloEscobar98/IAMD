@@ -46,6 +46,10 @@ class IntellectualPropertyRightCategoryRepository extends AbstractRepository
             $query->with($with);
         }
 
+        if (isset($withCount) && $withCount) {
+            $query->withCount($withCount);
+        }
+
         return $query;
     }
 }

@@ -22,8 +22,6 @@ function getResearchUnits(administrative_unit_id) {
         url: "/api/" + client + "/administrative_units/" + administrative_unit_id + '/research_units'
     }).done(function (res) {
 
-        console.log(res);
-
         if (Array.isArray(res)) {
             putResearchUnits(res);
 
@@ -85,13 +83,15 @@ function putResearchUnits(items) {
 
     selectResearchUnit.empty();
 
-    selectResearchUnit.append(`<option value="-1">Seleccionar Unidad Investigativa</option>`);
+    selectResearchUnit.append(`<option value="0">Seleccionar Unidad Investigativa</option>`);
+
+    let isSelected = '';
 
     items.forEach((item, index) => {
         var id = item['id'];
         var name = item['name'];
 
-        selectResearchUnit.append(`<option value="${id}">${name}</option>`);
+        selectResearchUnit.append(`<option value="${id}" ${isSelected}>${name}</option>`);
 
     });
 }
@@ -101,13 +101,15 @@ function putProjects(items) {
 
     selectProject.empty();
 
-    selectProject.append(`<option value="-1">Seleccionar Proyecto</option>`);
+    selectProject.append(`<option value="0">Seleccionar Proyecto</option>`);
+
+    let isSelected = '';
 
     items.forEach((item, index) => {
         var id = item['id'];
         var name = item['name'];
 
-        selectProject.append(`<option value="${id}">${name}</option>`);
+        selectProject.append(`<option value="${id}" ${isSelected}>${name}</option>`);
 
     });
 }

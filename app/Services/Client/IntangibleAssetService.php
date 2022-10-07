@@ -57,12 +57,12 @@ class IntangibleAssetService
 
             if (isset($params['order_by'])) {
                 if ($params['order_by'] == 1) {
-                    $query->orderBy('name', 'ASC');
+                    $query->orderBy("intangible_assets.name", 'ASC');
                 } else {
-                    $query->orderBy('name', 'DESC');
+                    $query->orderBy("intangible_assets.name", 'DESC');
                 }
             } else {
-                $query->orderBy('name', 'ASC');
+                $query->orderBy("intangible_assets.name", 'ASC');
             }
             $items = $query->get();
 

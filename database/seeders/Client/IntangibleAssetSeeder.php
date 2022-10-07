@@ -85,7 +85,7 @@ class IntangibleAssetSeeder extends Seeder
     /** @var IntellectualPropertyRightSubcategoryRepository */
     protected $intellectualPropertyRightSubcategoryRepository;
 
-    /** @var IntangibleAssetTypeLevel3Repository */
+    /** @var IntellectualPropertyRightProductRepository */
     protected $intellectualPropertyRightProductRepository;
 
     /** @var ProjectRepository */

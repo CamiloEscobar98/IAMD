@@ -20,11 +20,11 @@
                     <td>{{ $item->updated_at }}</td>
                     <td>
                         <div class="row justify-content-center">
-                            <a href="{{ route('admin.intangible_assets.states.show', $item->id) }}"
+                            <a href="{{ route('admin.intangible_assets.status.show', $item->id) }}"
                                 class="btn btn-sm btn-secondary">
                                 <i class="fas fa-sm fa-eye"></i>
                             </a>
-                            <form action="{{ route('admin.intangible_assets.states.destroy', $item->id) }}"
+                            <form action="{{ route('admin.intangible_assets.status.destroy', $item->id) }}"
                                 id="form-delete-{{ $item->id }}" method="post">
                                 @csrf
                                 @method('DELETE')

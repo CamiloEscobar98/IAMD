@@ -25,6 +25,8 @@ return [
     'telephone' => 'Teléfono',
     'phone' => 'Teléfono Celular',
 
+    'intellectual_property_rights_category' => 'Categoria de los Derechos de Propiedad Intelectual',
+
     'country_id' => 'País',
 
     'administrative_unit_id' => 'Subdirección Técnica',

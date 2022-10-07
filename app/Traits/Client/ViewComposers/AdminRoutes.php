@@ -10,7 +10,8 @@ use App\Http\ViewComposers\Admin\Localization\States\StateShowComposer;
 
 use App\Http\ViewComposers\Admin\Localization\Cities\CityFilterComposer;
 use App\Http\ViewComposers\Admin\Localization\Cities\CityFormComposer;
-use App\Http\ViewComposers\Admin\Localization\Cities\CityShowComposer;
+
+use App\Http\ViewComposers\Admin\IntellectualPropertyRights\Subcategories\IntellectualPropertyRightSubcategoryFormComposer;
 
 /**
  * 
@@ -33,5 +34,11 @@ trait AdminRoutes
         /** Cities */
         View::composer('admin.pages.localization.cities.components.filters', CityFilterComposer::class);
         View::composer('admin.pages.localization.cities.components.form', CityFormComposer::class);
+
+        /** Intellectual Property Rights */
+        // Categories
+
+        // Subcategories]
+        View::composer('admin.pages.intellectual_property_rights.subcategories.components.form', IntellectualPropertyRightSubcategoryFormComposer::class);
     }
 }

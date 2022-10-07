@@ -33,6 +33,20 @@ return [
 
         /** Level 2 */
         'IntangibleAssetStates' => 'Estados del Activo Intangible',
+
+        /** Level 1 */
+        'IntellectualPropertyRights' => 'DERECHOS DE PROPIEDAD <br> INTELECTUAL',
+
+        /** Level 2 */
+        'IntellectualPropertyRightsCategories' => 'Categorías de los Derechos de Propiedad Intelectual',
+
+        /** Level 2 */
+        'IntellectualPropertyRightsSubcategories' => 'Subcategorías de los Derechos de Propiedad Intelectual',
+
+        /** Level 2 */
+        'IntellectualPropertyRightsProducts' => 'Productos de los Derechos de Propiedad Intelectual',
+
+
     ],
 
 

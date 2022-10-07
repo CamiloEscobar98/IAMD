@@ -44,7 +44,7 @@
                 </div>
                 <div class="btn-group">
                     <button class="btn btn-secondary btn-sm">{{ __('buttons.filter') }}</button>
-                    <a href="{{ route('admin.intangible_assets.states.create') }}"
+                    <a href="{{ route('admin.intangible_assets.status.create') }}"
                         class="btn btn-dark btn-sm ml-2">{{ __('buttons.register') }}</a>
                 </div>
                 <hr>

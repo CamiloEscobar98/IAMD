@@ -50,7 +50,7 @@
                         </div>
                         <select name="administrative_unit_id" id="administrative_unit_id"
                             class="form-control select2bs4 administrative_units" onchange="changeAdministrativeUnit()">
-                            @foreach ($administrativeUnits as $administrativeUnit)
+                            @foreach ($administrativeUnits as $administrativeUnit => $value)
                                 <option value="{{ $administrativeUnit->id }}"
                                     {{ optionIsSelected($params, 'administrative_unit_id', $administrativeUnit->id) }}>
                                     {{ $administrativeUnit->name }}</option>
@@ -64,7 +64,8 @@
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.research_units') }}</label>
                         </div>
-                        <select name="research_unit_id[]" id="research_unit_id" class="form-control select2bs4 research_units" multiple>
+                        <select name="research_unit_id[]" id="research_unit_id"
+                            class="form-control select2bs4 research_units" multiple>
                             @foreach ($researchUnits as $researchUnit)
                                 <option value="{{ $researchUnit->id }}"
                                     {{ optionInArray($params, 'research_unit_id', $researchUnit->id) }}>

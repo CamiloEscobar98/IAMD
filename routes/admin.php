@@ -14,6 +14,10 @@ use App\Http\Controllers\Admin\Creator\ExternalOrganizationController;
 use App\Http\Controllers\Admin\Creator\AssignmentContractController;
 use App\Http\Controllers\Admin\IntangibleAsset\IntangibleAssetStateController;
 
+use App\Http\Controllers\Admin\IntellectualPropertyRight\IntellectualPropertyRightCategoryController;
+use App\Http\Controllers\Admin\IntellectualPropertyRight\IntellectualPropertyRightProductController;
+use App\Http\Controllers\Admin\IntellectualPropertyRight\IntellectualPropertyRightSubcategoryController;
+
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
@@ -49,5 +53,11 @@ Route::prefix('creators')->group(function () {
 });
 
 Route::prefix('intangible_assets')->group(function () {
-    Route::resource('states', IntangibleAssetStateController::class, ['as' => 'admin.intangible_assets']);
+    Route::resource('status', IntangibleAssetStateController::class, ['as' => 'admin.intangible_assets']);
+});
+
+Route::prefix('intellectual_property_rights')->group(function () {
+    Route::resource('categories', IntellectualPropertyRightCategoryController::class, ['as' => 'admin.intellectual_property_rights']);
+    Route::resource('subcategories', IntellectualPropertyRightSubcategoryController::class, ['as' => 'admin.intellectual_property_rights']);
+    Route::resource('products', IntellectualPropertyRightProductController::class, ['as' => 'admin.intellectual_property_rights']);
 });

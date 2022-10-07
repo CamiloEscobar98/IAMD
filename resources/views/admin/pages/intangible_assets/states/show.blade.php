@@ -15,7 +15,7 @@
                         </li>
                         <li class="breadcrumb-item">{{ __('pages.admin.intangible_assets.title') }}</li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.intangible_assets.states.index') }}">
+                            <a href="{{ route('admin.intangible_assets.status.index') }}">
                                 {{ __('pages.admin.intangible_assets.states.title') }} </a>
                         </li>
                         <li class="breadcrumb-item active">{{ $item->name }}</li>
@@ -62,7 +62,7 @@
                         <!-- ./Description -->
 
                         <div class="form-group mt-3">
-                            <a href="{{ route('admin.intangible_assets.states.edit', $item->id) }}"
+                            <a href="{{ route('admin.intangible_assets.status.edit', $item->id) }}"
                                 class="btn btn-warning btn-sm">{{ __('buttons.update_to') }}</a>
                         </div>
 

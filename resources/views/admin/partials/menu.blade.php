@@ -70,10 +70,37 @@
 <li class="nav-header">{{ __('menu.admin.IntangibleAssets') }}</li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.intangible_assets.states.index') }}"
-        class="nav-link {{ routeIsActived('states') }}">
+    <a href="{{ route('admin.intangible_assets.status.index') }}" class="nav-link {{ routeIsActived('status') }}">
         <i class="fas fa-battery-half nav-icon"></i>
         <p>{{ __('menu.admin.IntangibleAssetStates') }}</p>
     </a>
 </li>
 <!-- ./IntangibleAssets Options -->
+
+<!-- Intellectual Property Rights -->
+<li class="nav-header">{!! __('menu.admin.IntellectualPropertyRights') !!}</li>
+
+<li class="nav-item">
+    <a href="{{ route('admin.intellectual_property_rights.categories.index') }}"
+        class="nav-link {{ routeIsActived('categories') }}">
+        <i class="fas fa-caret-right nav-icon"></i>
+        <p>{{ __('menu.admin.IntellectualPropertyRightsCategories') }}</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('admin.intellectual_property_rights.subcategories.index') }}"
+        class="nav-link {{ routeIsActived('subcategories') }}">
+        <i class="fas fa-caret-right nav-icon"></i>
+        <p>{{ __('menu.admin.IntellectualPropertyRightsSubcategories') }}</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('admin.intellectual_property_rights.products.index') }}"
+        class="nav-link {{ routeIsActived('products') }}">
+        <i class="fas fa-caret-right nav-icon"></i>
+        <p>{{ __('menu.admin.IntellectualPropertyRightsProducts') }}</p>
+    </a>
+</li>
+<!-- ./Intellectual Property Rights -->
