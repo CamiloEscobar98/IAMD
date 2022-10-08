@@ -24,8 +24,9 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'unique:mysql.intangible_asset_states,name,' . $this->state],
-            'description' => ['required'],
+            'intellectual_property_right_category_id' => ['required', 'exists:intellectual_property_right_categories,id'],
+            'intellectual_property_right_subcategory_id' => ['required', 'exists:intellectual_property_right_subcategories,id'],
+            'name' => ['required', 'unique:mysql.intellectual_property_right_products,name,' . $this->product],
         ];
     }
 }

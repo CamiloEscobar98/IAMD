@@ -32,7 +32,7 @@
        </select>
        <div class="input-group-append">
            <div class="input-group-text">
-               <span class="fas fa-star"> {{ __('inputs.intellectual_property_rights_subcategory') }}</span>
+               <span class="fas fa-square"> {{ __('inputs.intellectual_property_rights_subcategory') }}</span>
            </div>
        </div>
    </div>
@@ -48,7 +48,7 @@
            placeholder="{{ __('inputs.name') }}" value="{{ old('name', $item->name) }}">
        <div class="input-group-append">
            <div class="input-group-text">
-               <span class="fas fa-flag"></span>
+               <span class="fas fa-circle"> {{ __('inputs.intellectual_property_rights_product') }}</span>
            </div>
        </div>
    </div>

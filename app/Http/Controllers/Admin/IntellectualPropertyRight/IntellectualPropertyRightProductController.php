@@ -113,12 +113,12 @@ class IntellectualPropertyRightProductController extends Controller
      * @param  int  $id
      * @return RedirectResponse|View
      */
-    public function show($id): RedirectResponse|View
+    public function show($id)#: RedirectResponse|View
     {
         try {
             $data['id'] = $id;
 
-            $item = $this->intellectualPropertyRightProductRepository->search($data, ['intellectual_property_right_category'], ['intellectual_property_right_products'])->first();
+            $item = $this->intellectualPropertyRightProductRepository->search($data, ['intellectual_property_right_subcategory.intellectual_property_right_category'], )->first();
 
             return view('admin.pages.intellectual_property_rights.products.show', compact('item'));
         } catch (\Throwable $th) {

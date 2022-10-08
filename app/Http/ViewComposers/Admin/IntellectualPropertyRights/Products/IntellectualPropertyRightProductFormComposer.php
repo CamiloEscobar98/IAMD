@@ -31,14 +31,14 @@ class IntellectualPropertyRightProductFormComposer
 
     public function compose(View $view)
     {
-        $intellectualPropertyRightProductId = request()->product;
+        $productId = request()->product;
 
         $categories = $this->intellectualPropertyRightCategoryRepository->all();
 
-        if ($intellectualPropertyRightProductId) {
+        if ($productId) {
 
             /** Product */
-            $product = $this->intellectualPropertyRightProductRepository->getById($intellectualPropertyRightProductId);
+            $product = $this->intellectualPropertyRightProductRepository->getById($productId);
 
             /** Subcategory */
             $subcategory = $this->intellectualPropertyRightSubcategoryRepository->getById($product->intellectual_property_right_subcategory_id);
@@ -48,16 +48,16 @@ class IntellectualPropertyRightProductFormComposer
 
             /** Subcategories */
             $subcategories = $this->intellectualPropertyRightSubcategoryRepository->getByIntellectualPropertyRightCategory($category);
+        } else {
+            /** Category */
+            $category = $categories->first();
+
+            /** Subcategories */
+            $subcategories = $this->intellectualPropertyRightSubcategoryRepository->getByIntellectualPropertyRightCategory($category);
+
+            /** Subcategory */
+            $subcategory = $subcategories->first();
         }
-
-        /** Category */
-        $category = $categories->first();
-
-        /** Subcategories */
-        $subcategories = $this->intellectualPropertyRightSubcategoryRepository->getByIntellectualPropertyRightCategory($category);
-
-        /** Subcategory */
-        $subcategory = $subcategories->first();
 
         $categories = $categories->pluck('name', 'id')->prepend('Seleccionar Categoría', -1);
 

@@ -24,7 +24,7 @@ class IntellectualPropertyRightProductRepository extends AbstractRepository
     public function search(array $params = [], array $with = [], array $withCount = [])
     {
         $query = $this->model
-            ->select();
+            ->select("{$this->model->getTable()}.*");
 
         if (isset($params['id']) && $params['id']) {
             $query->ofId($params['id']);

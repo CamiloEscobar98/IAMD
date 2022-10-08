@@ -19,7 +19,7 @@
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">{{ __('pages.default.home') }}</a>
                         </li>
-                        <li class="breadcrumb-item">{{ __('pages.admin.localizations.title') }}</li>
+                        <li class="breadcrumb-item">{{ __('pages.admin.intellectual_property_rights.title') }}</li>
                         <li class="breadcrumb-item active">
                             {{ __('pages.admin.intellectual_property_rights.products.title') }}</li>
                     </ol>

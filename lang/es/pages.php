@@ -598,9 +598,9 @@ return [
                 ],
 
                 'form-titles' => [
-                    'show' => 'Perfil de Visualización de el Producto de Derecho de Propiedad Intelectual',
+                    'show' => 'Perfil de Visualización del Producto de Derecho de Propiedad Intelectual',
                     'create' => 'Formulario de Registro de Producto de Derecho de Propiedad Intelectual',
-                    'update' => 'Actualización de el Producto de Derecho de Propiedad Intelectual',
+                    'update' => 'Actualización del Producto de Derecho de Propiedad Intelectual',
                 ],
 
                 'filters' => [
@@ -622,13 +622,13 @@ return [
                 'messages' => [
                     'confirm' => '¿Estás seguro de que quieres eliminar el Producto de Derecho de Propiedad Intelectual?',
 
-                    'save_success' => 'Se ha registrado correctamente el Producto de Derecho de Propiedad Intelectual: :subcategory.',
+                    'save_success' => 'Se ha registrado correctamente el Producto de Derecho de Propiedad Intelectual: :product.',
                     'save_error' => 'No se ha registrado el Producto de Derecho de Propiedad Intelectual.',
 
-                    'update_success' => 'Se ha actualizado correctamente el Producto de Derecho de Propiedad Intelectual: :subcategory.',
+                    'update_success' => 'Se ha actualizado correctamente el Producto de Derecho de Propiedad Intelectual: :product.',
                     'update_error' => 'No se ha actualizado el Producto de Derecho de Propiedad Intelectual.',
 
-                    'delete_success' => 'Se ha eliminado el Producto de Derecho de Propiedad Intelectual: :subcategory.',
+                    'delete_success' => 'Se ha eliminado el Producto de Derecho de Propiedad Intelectual: :product.',
                     'delete_error' => 'No se ha eliminado el Producto de Derecho de Propiedad Intelectual.'
                 ],
 
@@ -636,8 +636,7 @@ return [
                     'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>PRODUCTOS DE LOS DERECHOS DE PROPIEDAD INTELECTUAL</b>. 
                     Dicho recurso actualmente está destinado para enriquecer la información de los productos de los derechos de propiedad intelectual dentro de la aplicación. ",
 
-                    'show' => "En esta sección de la aplicación podrás visualizar el Producto de Derechos de Propiedad Intelectual <b>:subcategory</b>. \n
-                    Este país actualmente tiene una cantidad de :products_count Productos de Derechos de Propiedad Intelectual.",
+                    'show' => "En esta sección de la aplicación podrás visualizar el Producto de Derechos de Propiedad Intelectual <b>:product</b>",
                 ]
             ]
         ]
