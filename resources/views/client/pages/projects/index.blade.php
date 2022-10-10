@@ -54,8 +54,7 @@
     <script src="{{ asset('adminlte/dist/js/iamd/projects.js') }}"></script>
 
     <script>
-        //Initialize Select2 Elements
-        $('.select2').select2()
+      
 
         // Administrative Units
         $('.administrative_units').select2({

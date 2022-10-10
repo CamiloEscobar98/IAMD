@@ -5,6 +5,8 @@ return [
     'default' => [
         'home' => 'Inicio',
 
+        'profile' => 'Perfil',
+
         'create' => 'Registrar',
 
         'edit' => 'Editar',
@@ -41,6 +43,12 @@ return [
         /** Home Page */
         'home' => [
             'title' => 'Inicio',
+        ],
+
+        /** Profile Page */
+        'profile' => [
+            'title' => 'Perfil',
+            'subtitle' => 'Perfil',
         ],
 
         /** Localizations */
@@ -662,6 +670,25 @@ return [
             'main' => 'Principal',
 
             'config' => 'Configuración'
+        ],
+
+        /** Profile Page */
+        'profile' => [
+            'title' => 'Perfil',
+            'subtitle' => 'Perfil',
+
+            'form-titles' => [
+                'show' => 'Información del Usuario',
+                'password' => 'Contraseña de Acceso',
+            ],
+
+            'messages' => [
+                'update_success' => 'Se ha actualizado correctamente el Usuario Autenticado.',
+                'update_error' => 'No se ha actualizado el Usuario Autenticado.',
+
+                'update_password_success' => 'Se ha actualizado correctamente la contraseña del Usuario Autenticado.',
+                'update_password_error' => 'No se ha actualizado la contraseña.',
+            ]
         ],
 
         /** Administrative Units */
@@ -1689,6 +1716,16 @@ return [
 
                 'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Medidas Secretas de Protección registrados.'
             ],
+        ],
+
+        'reports' => [
+            'title' => 'Reportes',
+            'subtitle' => 'Reportes',
+
+            'custom' => [
+                'title' => 'Reporte Personalizado',
+                'subtitle' => 'Personizable',
+            ]
         ],
     ]
 ];

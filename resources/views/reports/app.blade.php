@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/chart.js/Chart.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/report.css') }}">
 
-    <title>Document</title>
+    <title>Reporte Individual del Activo Intangible</title>
 </head>
 
 <body>

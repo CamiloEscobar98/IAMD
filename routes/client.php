@@ -7,6 +7,7 @@ use App\Http\Controllers\Client\Auth\LoginController;
 use App\Http\Controllers\Client\HomeController;
 
 use App\Http\Controllers\Client\AdministrativeUnitController;
+use App\Http\Controllers\Client\Auth\AuthController;
 use App\Http\Controllers\Client\ResearchUnitController;
 use App\Http\Controllers\Client\ProjectController;
 
@@ -22,6 +23,7 @@ use App\Http\Controllers\Client\IntangibleAssetStrategyController;
 use App\Http\Controllers\Client\UserController;
 use App\Http\Controllers\Client\PriorityToolController;
 use App\Http\Controllers\Client\ProjectContractTypeController;
+use App\Http\Controllers\Client\ReportController;
 use App\Http\Controllers\Client\StrategyCategoryController;
 use App\Http\Controllers\Client\StrategyController;
 use App\Http\Controllers\Client\SecretProtectionMeasureController;
@@ -43,6 +45,10 @@ Route::post('login', [LoginController::class, 'login'])->name('loggin');
 Route::post('logout', [LoginController::class, 'logout'])->name('loggout');
 
 Route::get('profile', [HomeController::class, 'profile'])->name('profile');
+
+Route::patch('update_information', [AuthController::class, 'update'])->name('auth.update_information');
+
+Route::patch('update_password', [AuthController::class, 'updatePassword'])->name('auth.update_password');
 
 Route::get('home', [HomeController::class, 'home'])->name('home');
 
@@ -102,6 +108,11 @@ Route::prefix('reports')
     ->group(function () {
         Route::get('generated_reports', [UserFileReportController::class, 'index'])->name('generated');
         Route::get('download_report/{reportId}', [UserFileReportController::class, 'downloadIntangibleAssetReportSingle'])->name('download.report');
+
+        Route::name('custom.')
+            ->group(function () {
+                Route::get('custom', [ReportController::class, 'index'])->name('index');
+            });
     });
 
 Route::resource('users', UserController::class);

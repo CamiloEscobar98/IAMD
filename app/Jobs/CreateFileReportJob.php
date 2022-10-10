@@ -92,8 +92,33 @@ class CreateFileReportJob implements ShouldQueue
 
                     break;
 
-                case 'intangible_assets.reports.multiple':
-                    # code...
+                case 'intangible_assets.reports.custom':
+                    Log::info("INTANGIBLE ASSET SINGLE REPORT SELECTED");
+
+                    $notificationType = $notificationTypeRepository->getByAttribute('name', 'Reporte');
+
+                    $pdf = Pdf::loadView('reports.intangible_assets.custom', $data)->output();
+
+                    $fileName = 'intangible_asset_report_single_' . time() . '.pdf';
+
+                    $reportFileSingleReportService->storeFileReport($fileName, $pdf, []);
+
+                    $notificationRepository->create([
+                        'user_id' => $config['userId'],
+                        'message' => 'Se ha generado el reporte.',
+                        'notification_type_id' => $notificationType->id
+                    ]);
+
+                    $userFileReportRepository->create([
+                        'user_id' => $config['userId'],
+                        'report_type' => $config['report_type'],
+                        'file_name' => $fileName
+                    ]);
+
+                    Log::info('REPORT DONE');
+
+                    break;
+
                     break;
             }
 

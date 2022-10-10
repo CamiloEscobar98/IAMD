@@ -13,6 +13,8 @@ return [
     'filter' => 'Filtrar', 
     'register' => 'Registrar',
 
+    'report' => 'Generar Reporte',
+
     'sure' => 'Estoy seguro.',
     'cancel' => 'Cancelar'
 ];

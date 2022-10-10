@@ -74,8 +74,7 @@
     <script src="{{ asset('adminlte/dist/js/iamd/intangible_asset_levels.js') }}"></script>
 
     <script>
-        //Initialize Select2 Elements
-        $('.select2').select2()
+      
 
         //Initialize Select2 Elements
         $('.select2bs4').select2({

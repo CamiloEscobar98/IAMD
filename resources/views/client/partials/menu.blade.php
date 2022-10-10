@@ -141,7 +141,7 @@
     </a>
     <ul class="nav nav-treeview">
         <li class="nav-item">
-            <a href="{{ route('client.creators.internal.index', [$client->name]) }}"
+            <a href="{{ route('client.reports.custom.index', [$client->name]) }}"
                 class="nav-link {{ routeIsActived('internal') }}">
                 <i class="fas fa-clipboard-check nav-icon"></i>
                 <p>{{ __('menu.client.GenerateReport') }}</p>

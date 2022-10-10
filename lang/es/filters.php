@@ -16,6 +16,10 @@ return [
 
     'empty' => 'No hay registros',
 
+    'order_by' => 'Ordenar por:', 
+
+    'phases_completed' => 'Fases del Activo Intangible Completadas:',
+
     'administrative_units' => 'Subdirecciones Técnicas:',
 
     'research_unit_categories' => 'Categorías de Unidades Investigativas:',

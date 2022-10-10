@@ -23,6 +23,7 @@ use App\Http\ViewComposers\Client\IntangibleAssets\IntangibleAssetFilterComposer
 use App\Http\ViewComposers\Client\IntangibleAssets\CreateIntangibleAssetComposer;
 use App\Http\ViewComposers\Client\IntangibleAssets\ShowIntangibleAssetComposer;
 use App\Http\ViewComposers\Client\IntangibleAssets\StrategyIntangibleAssetComposer;
+use App\Http\ViewComposers\Client\Reports\Custom\CustomReportFilterComposer;
 
 trait ClientRoutes
 {
@@ -84,6 +85,9 @@ trait ClientRoutes
         View::composer('client.pages.intangible_assets.components.form', CreateIntangibleAssetComposer::class);
         View::composer('client.pages.intangible_assets.components.phases', ShowIntangibleAssetComposer::class);
         View::composer('client.pages.intangible_assets.strategies', StrategyIntangibleAssetComposer::class);
+
+        /** Custom Reports */
+        View::composer('client.pages.reports.custom.index', CustomReportFilterComposer::class);
     }
 
     /**
@@ -335,6 +339,7 @@ trait ClientRoutes
     {
         return [
             'client.pages.users.reports.index',
+            'client.pages.reports.custom.index'
         ];
     }
 }

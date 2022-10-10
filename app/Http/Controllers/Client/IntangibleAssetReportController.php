@@ -65,4 +65,9 @@ class IntangibleAssetReportController extends Controller
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.reports.single.messages.generate_success')]);
         }
     }
+
+    public function generateCustomReport()
+    {
+        # code...
+    }
 }
