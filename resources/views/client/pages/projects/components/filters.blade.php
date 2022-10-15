@@ -51,9 +51,9 @@
                         <select name="administrative_unit_id" id="administrative_unit_id"
                             class="form-control select2bs4 administrative_units" onchange="changeAdministrativeUnit()">
                             @foreach ($administrativeUnits as $administrativeUnit => $value)
-                                <option value="{{ $administrativeUnit->id }}"
-                                    {{ optionIsSelected($params, 'administrative_unit_id', $administrativeUnit->id) }}>
-                                    {{ $administrativeUnit->name }}</option>
+                                <option value="{{ $administrativeUnit }}"
+                                    {{ optionIsSelected($params, 'administrative_unit_id', $administrativeUnit) }}>
+                                    {{ $value }}</option>
                             @endforeach
 
                         </select>
@@ -66,10 +66,10 @@
                         </div>
                         <select name="research_unit_id[]" id="research_unit_id"
                             class="form-control select2bs4 research_units" multiple>
-                            @foreach ($researchUnits as $researchUnit)
-                                <option value="{{ $researchUnit->id }}"
-                                    {{ optionInArray($params, 'research_unit_id', $researchUnit->id) }}>
-                                    {{ $researchUnit->name }}</option>
+                            @foreach ($researchUnits as $researchUnit => $value)
+                                <option value="{{ $researchUnit }}"
+                                    {{ optionInArray($params, 'research_unit_id', $researchUnit) }}>
+                                    {{ $value }}</option>
                             @endforeach
 
                         </select>

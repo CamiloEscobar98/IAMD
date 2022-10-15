@@ -63,6 +63,8 @@ class ProjectFilterComposer
 
         $researchUnits = $researchUnits->pluck('name', 'id')->prepend('Seleccionar Unidad Investigativa', 0);
 
+        // dd($researchUnits);
+
         /** Creators */
         $creators = $this->creatorRepository->getAllCreators();
 

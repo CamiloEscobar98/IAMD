@@ -54,8 +54,6 @@
     <script src="{{ asset('adminlte/dist/js/iamd/projects.js') }}"></script>
 
     <script>
-      
-
         // Administrative Units
         $('.administrative_units').select2({
             theme: 'bootstrap4',
@@ -65,7 +63,8 @@
         // Research Units
         $('.research_units').select2({
             theme: 'bootstrap4',
-            placeholder: "{{ __('pages.client.projects.filters.research_units') }}"
+            placeholder: "{{ __('pages.client.projects.filters.research_units') }}",
+            allowClear: true
         })
     </script>
 @endsection
