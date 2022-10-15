@@ -74,10 +74,16 @@ Route::prefix('intangible_assets/{intangible_asset}/downloads')
         Route::get('session_right_contract', [IntangibleAssetFileController::class, 'downloadSessionRightContract'])->name('session_right_contract');
     });
 
+Route::prefix('intangible_assets/reports')
+    ->name('intangible_assets.reports.')
+    ->group(function () {
+        Route::get('custom', [IntangibleAssetReportController::class, 'generateCustomReport'])->name('custom');
+    });
+
 Route::prefix('intangible_assets/{intangible_asset}/reports')
     ->name('intangible_assets.reports.')
     ->group(function () {
-        Route::get('default', [IntangibleAssetReportController::class, 'downloadDefaultReport'])->name('default');
+        Route::get('default', [IntangibleAssetReportController::class, 'generateDefaultReport'])->name('default');
     });
 
 Route::patch('intangible_assets/{intangible_asset}/has_strategies', [IntangibleAssetStrategyController::class, 'updateHasStrategies'])

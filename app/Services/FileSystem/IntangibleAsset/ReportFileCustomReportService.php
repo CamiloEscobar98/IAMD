@@ -4,10 +4,10 @@ namespace App\Services\FileSystem\IntangibleAsset;
 
 use App\Services\FileSystem\AbstractFileSystemService;
 
-class ReportFileSingleReportService extends AbstractFileSystemService
+class ReportFileCustomReportService extends AbstractFileSystemService
 {
     /** @var string */
-    protected $basePath = 'reports/single/';
+    protected $basePath = 'reports/custom/';
 
     public function __construct()
     {

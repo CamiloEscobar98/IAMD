@@ -29,7 +29,7 @@ class IntangibleAssetService
         }
 
         # Clean empty keys
-        $params = array_filter($params);
+        // $params = array_filter($params);
 
         return $params;
     }

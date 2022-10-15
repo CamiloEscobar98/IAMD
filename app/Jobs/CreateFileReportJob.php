@@ -15,6 +15,7 @@ use App\Repositories\Admin\NotificationTypeRepository;
 use App\Repositories\Admin\TenantRepository;
 use App\Repositories\Client\NotificationRepository;
 use App\Repositories\Client\UserFileReportRepository;
+use App\Services\FileSystem\IntangibleAsset\ReportFileCustomReportService;
 use App\Services\FileSystem\IntangibleAsset\ReportFileSingleReportService;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Log;
@@ -22,6 +23,9 @@ use Illuminate\Support\Facades\Log;
 class CreateFileReportJob implements ShouldQueue
 {
     use Dispatchable, Queueable, SerializesModels;
+
+    /** @var int */
+    public $timeout = 3600;
 
     /** @var array */
     protected $data;
@@ -53,7 +57,8 @@ class CreateFileReportJob implements ShouldQueue
         TenantRepository $tenantRepository,
         UserFileReportRepository $userFileReportRepository,
 
-        ReportFileSingleReportService $reportFileSingleReportService
+        ReportFileSingleReportService $reportFileSingleReportService,
+        ReportFileCustomReportService $reportFileCustomReportService,
     ) {
         $data = $this->data;
         $config = $this->config;
@@ -99,13 +104,13 @@ class CreateFileReportJob implements ShouldQueue
 
                     $pdf = Pdf::loadView('reports.intangible_assets.custom', $data)->output();
 
-                    $fileName = 'intangible_asset_report_single_' . time() . '.pdf';
+                    $fileName = 'intangible_asset_report_custom_' . time() . '.pdf';
 
-                    $reportFileSingleReportService->storeFileReport($fileName, $pdf, []);
+                    $reportFileCustomReportService->storeFileReport($fileName, $pdf, []);
 
                     $notificationRepository->create([
                         'user_id' => $config['userId'],
-                        'message' => 'Se ha generado el reporte.',
+                        'message' => 'Se ha generado el reporte personalizado.',
                         'notification_type_id' => $notificationType->id
                     ]);
 

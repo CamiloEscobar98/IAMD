@@ -3,12 +3,15 @@
         <tr class="text-center">
             <td colspan="3" class="bg-title text-white font-weight-bold">Reporte Individual: Activo Intangible</td>
         </tr>
+
+        <!-- Name -->
         <tr class="text-center">
             <td class="bg-subtitle">
                 <small class="font-weight-bold">Nombre del Activo Intangible:</small>
             </td>
             <td colspan="2" class="font-weight-bold"><small>{{ $intangibleAsset->name }}</small></td>
         </tr>
+        <!-- ./Name -->
 
         <!-- Intangible Asset Information -->
         <tr class="text-center">

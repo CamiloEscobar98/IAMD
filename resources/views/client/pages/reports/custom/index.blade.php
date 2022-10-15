@@ -30,7 +30,8 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
-                <form method="get" id="form" data-client="{{ $client->name }}">
+                <form action="{{ getClientRoute('client.intangible_assets.reports.custom') }}" method="get" id="form"
+                    data-client="{{ $client->name }}">
                     <div class="row justify-content-center">
 
                         <!-- Administrative Unit -->

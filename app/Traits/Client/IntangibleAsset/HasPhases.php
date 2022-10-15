@@ -79,6 +79,18 @@ trait HasPhases
     public function hasPhaseNineCompleted(): bool
     {
         return $this->intangible_asset_phases->phase_nine_completed;
+    }
 
+    public function hasAllPhasesCompleted()
+    {
+        return $this->hasPhaseOneCompleted() &&
+            $this->hasPhaseTwoCompleted() &&
+            $this->hasPhaseThreeCompleted() &&
+            $this->hasPhaseFourCompleted() &&
+            $this->hasPhaseFiveCompleted() &&
+            $this->hasPhaseSixCompleted() &&
+            $this->hasPhaseSevenCompleted() &&
+            $this->hasPhaseEightCompleted() &&
+            $this->hasPhaseNineCompleted();
     }
 }

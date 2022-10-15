@@ -22,6 +22,7 @@ class IntangibleAssetRepository extends AbstractRepository
      */
     public function search(array $params = [], array $with = [], array $withCount = [])
     {
+
         $table = $this->model->getTable();
 
         $query = $this->model->select("{$table}.*");
@@ -38,15 +39,15 @@ class IntangibleAssetRepository extends AbstractRepository
             $query->byCode($params['code']);
         }
 
-        if (isset($params['administrative_unit_id']) && $params['administrative_unit_id'] && !isset($params['research_unit_id'])) {
+        if (isset($params['administrative_unit_id']) && $params['administrative_unit_id'] && isset($params['research_unit_id']) && $params['research_unit_id'] == 0) {
             $query->byAdministrativeUnit($params['administrative_unit_id']);
         }
 
-        if (isset($params['research_unit_id']) && $params['research_unit_id']) {
+        if (isset($params['research_unit_id']) && $params['research_unit_id']  && isset($params['project_id']) && $params['project_id'] == 0) {
             $query->byResearchUnit($params['research_unit_id']);
         }
 
-        if (isset($params['project_id']) && $params['project_id']) {
+        if (isset($params['project_id']) && $params['project_id'] > 0) {
             $query->byProject($params['project_id']);
         }
 
