@@ -47,4 +47,14 @@ class FinancingTypeRepository  extends AbstractRepository
 
         return $query;
     }
+
+    /**
+     * @param int $projectId
+     * 
+     * @return FinancingType
+     */
+    public function getByProject($projectId): FinancingType
+    {
+        return $this->model->byProject($projectId)->get();
+    }
 }

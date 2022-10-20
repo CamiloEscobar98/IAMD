@@ -4,8 +4,9 @@ namespace App\Repositories\Client;
 
 use App\Repositories\AbstractRepository;
 
-use App\Models\Client\ResearchUnit;
 use Illuminate\Database\Eloquent\Collection;
+
+use App\Models\Client\ResearchUnit;
 
 class ResearchUnitRepository extends  AbstractRepository
 {
@@ -81,5 +82,13 @@ class ResearchUnitRepository extends  AbstractRepository
     public function getByAdministrativeUnit($administrativeUnit): Collection
     {
         return $this->model->byAdministrativeUnit($administrativeUnit->id)->get();
+    }
+
+    /** 
+     * @param int $projectId
+     */
+    public function getByProject($projectId)
+    {
+        return $this->model->byProject($projectId)->get();
     }
 }

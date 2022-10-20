@@ -199,6 +199,28 @@ class ResearchUnit extends BaseModel
     }
 
     /**
+     * Scope a query to only include Project
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param array|int $project
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByProject($query, $project)
+    {
+        $table = $this->getTable();
+        $joinProjects = 'projects';
+
+        $query->join($joinProjects, "{$table}.id", "{$joinProjects}.research_unit_id");
+
+        if (is_array($project) && !empty($project)) {
+            return $query->whereIn("{$joinProjects}.id", $project);
+        }
+
+        return $query->where("{$joinProjects}.id", $project);
+    }
+
+    /**
      * Scope a query to only include Date From
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query

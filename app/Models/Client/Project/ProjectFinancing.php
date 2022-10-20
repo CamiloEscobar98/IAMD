@@ -9,6 +9,9 @@ use Database\Factories\Client\ProjectFinancingFactory;
 
 use App\Models\Client\BaseModel;
 
+use App\Models\Client\FinancingType;
+use App\Models\Client\Project\ProjectContractType;
+
 class ProjectFinancing extends BaseModel
 {
     use HasFactory;
@@ -49,7 +52,7 @@ class ProjectFinancing extends BaseModel
      */
     public function financing_type()
     {
-        return $this->belongsTo(\App\Models\Client\FinancingType::class);
+        return $this->belongsTo(FinancingType::class);
     }
 
     /**
@@ -57,6 +60,29 @@ class ProjectFinancing extends BaseModel
      */
     public function project_contract_type()
     {
-        return $this->belongsTo(\App\Models\Client\Project\ProjectContractType::class);
+        return $this->belongsTo(ProjectContractType::class);
+    }
+
+    /**
+     * Get Project.
+     * 
+     * @return BelongsTo
+     */
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+    /**
+     * Scope a query to only include Project
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param int $projectId
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByProject($query, $projectId)
+    {
+        return $query->where('project_id', $projectId);
     }
 }

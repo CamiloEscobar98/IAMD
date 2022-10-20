@@ -2,19 +2,40 @@
 
 namespace App\Services\Client;
 
+use App\Models\Client\IntangibleAsset\IntangibleAsset;
+use App\Repositories\Client\FinancingTypeRepository;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Client\IntangibleAssetRepository;
+use App\Repositories\Client\ProjectFinancingRepository;
+use App\Repositories\Client\ResearchUnitRepository;
+use Illuminate\Support\Carbon;
 
 class IntangibleAssetService
 {
     /** @var IntangibleAssetRepository */
     protected $intangibleAssetRepository;
 
-    public function __construct(IntangibleAssetRepository $intangibleAssetRepository)
-    {
+    /** @var ProjectFinancingRepository */
+    protected $projectFinancingRepository;
+
+    /** @var FinancingTypeRepository */
+    protected $financingTypeRepository;
+
+    /** @var ResearchUnitRepository */
+    protected $researchUnitRepository;
+
+    public function __construct(
+        IntangibleAssetRepository $intangibleAssetRepository,
+        ProjectFinancingRepository $projectFinancingRepository,
+        FinancingTypeRepository $financingTypeRepository,
+        ResearchUnitRepository $researchUnitRepository,
+    ) {
         $this->intangibleAssetRepository = $intangibleAssetRepository;
+        $this->projectFinancingRepository = $projectFinancingRepository;
+        $this->financingTypeRepository = $financingTypeRepository;
+        $this->researchUnitRepository = $researchUnitRepository;
     }
 
     /**
@@ -76,6 +97,46 @@ class IntangibleAssetService
             return $items;
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
+        }
+    }
+
+    /**
+     * @param IntangibleAsset $intangibleAsset
+     * @param string $financingTypeCode
+     * @param string $researchUnitCode
+     * @param 
+     */
+    public function generateCodeOfIntangibleAsset($intangibleAsset)
+    {
+        /** @var \App\Models\Client\FinancingType $financingType */
+        $financingType = $this->financingTypeRepository->getByProject($intangibleAsset->project_id)->first();
+
+        /** @var \App\Models\Client\Project\ProjectFinancing $projectFinancing */
+        $projectFinancing = $this->projectFinancingRepository->getByProject($intangibleAsset->project_id)->first();
+
+        /** @var \App\Models\Client\ResearchUnit $researchUnit */
+        $researchUnit = $this->researchUnitRepository->getByProject($intangibleAsset->project_id)->first();
+
+        /** CodePart I */
+        $financingTypeCode = $financingType->code;
+
+        /** CodePart II */
+        $researchUnitCode = $researchUnit->code;
+
+        /** CodePart III */
+        $year = (new Carbon($projectFinancing->date))->year;
+
+        /** CodePart IV */
+        $projectContractTypeCode = '';
+
+        /** CodePart V */
+        
+
+        $code = "{$financingTypeCode}{$researchUnitCode}{$year}";
+
+        try {
+            $this->intangibleAssetRepository->update($intangibleAsset, ['code' => $code]);
+        } catch (\Exception $e) {
         }
     }
 }

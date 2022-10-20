@@ -173,6 +173,23 @@ class IntangibleAssetController extends Controller
         }
     }
 
+    /**
+     * @return RedirectResponse
+     */
+    public function updateCode($id, $intangibleAsset): RedirectResponse
+    {
+        try {
+            $item = $this->intangibleAssetRepository->getById($intangibleAsset);
+            
+            $this->intangibleAssetService->generateCodeOfIntangibleAsset($intangibleAsset);
+
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.update_success', ['intangible_asset' => $item->name])]);
+        } catch (\Exception $th) {
+            DB::rollBack();
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.messages.update_error')]);
+        }
+    }
+
 
     /**
      * Remove the specified resource from storage.

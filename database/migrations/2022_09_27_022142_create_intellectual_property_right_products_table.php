@@ -18,11 +18,13 @@ return new class extends Migration
 
             $table->unsignedMediumInteger('intellectual_property_right_subcategory_id');
             $table->string('name');
+            $table->string('code');
 
             $table->timestamps();
 
             $table->foreign('intellectual_property_right_subcategory_id', 'intellectual_property_right_subcategory_fk')->references('id')->on('intellectual_property_right_subcategories')->cascadeOnUpdate()->restrictOnDelete();
-            $table->unique(['intellectual_property_right_subcategory_id', 'name'], 'intellectual_property_right_products_unique');
+            $table->unique(['intellectual_property_right_subcategory_id', 'name'], 'intellectual_property_right_products_name_unique');
+            $table->unique(['intellectual_property_right_subcategory_id', 'code'], 'intellectual_property_right_products_code_unique');
         });
     }
 
