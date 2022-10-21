@@ -5,6 +5,7 @@ namespace App\Repositories\Client;
 use App\Repositories\AbstractRepository;
 
 use App\Models\Client\FinancingType;
+use Illuminate\Database\Eloquent\Collection;
 
 class FinancingTypeRepository  extends AbstractRepository
 {
@@ -51,9 +52,9 @@ class FinancingTypeRepository  extends AbstractRepository
     /**
      * @param int $projectId
      * 
-     * @return FinancingType
+     * @return Collection
      */
-    public function getByProject($projectId): FinancingType
+    public function getByProject($projectId): Collection
     {
         return $this->model->byProject($projectId)->get();
     }

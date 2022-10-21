@@ -81,6 +81,9 @@ trait HasPhases
         return $this->intangible_asset_phases->phase_nine_completed;
     }
 
+    /**
+     * @return bool
+     */
     public function hasAllPhasesCompleted()
     {
         return $this->hasPhaseOneCompleted() &&
@@ -92,5 +95,23 @@ trait HasPhases
             $this->hasPhaseSevenCompleted() &&
             $this->hasPhaseEightCompleted() &&
             $this->hasPhaseNineCompleted();
+    }
+
+    public function progressPhases()
+    {
+        $phases = [
+            'hasPhaseOneCompleted', 'hasPhaseTwoCompleted', 'hasPhaseThreeCompleted', 'hasPhaseFourCompleted',
+            'hasPhaseFiveCompleted', 'hasPhaseSixCompleted', 'hasPhaseSevenCompleted', 'hasPhaseEightCompleted', 'hasPhaseNineCompleted'
+        ];
+
+        $cont = 0;
+
+        foreach ($phases as $value) {
+            if ($this->$value()) {
+                $cont++;
+            }
+        }
+
+        return $cont / count($phases) * 100;
     }
 }

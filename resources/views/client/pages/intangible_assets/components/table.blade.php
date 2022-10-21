@@ -7,7 +7,7 @@
                 <th>{{ __('pages.client.intangible_assets.table.head.research_unit') }}</th>
                 <th>{{ __('pages.client.intangible_assets.table.head.project') }}</th>
                 <th>{{ __('pages.client.intangible_assets.table.head.name') }}</th>
-        
+                <th>{{ __('pages.client.intangible_assets.table.head.status') }}</th>
                 <th>{{ __('pages.client.intangible_assets.table.head.created_at') }}</th>
                 <th>{{ __('pages.client.intangible_assets.table.head.updated_at') }}</th>
                 <th class="text-right">#</th>

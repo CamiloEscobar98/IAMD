@@ -67,6 +67,8 @@ Route::name('creators.')
 
 Route::resource('intangible_assets', IntangibleAssetController::class);
 
+Route::get('intangible_assets/{intangible_asset}/generate_code', [IntangibleAssetController::class, 'updateCode'])->name('intangible_assets.generate_code');
+
 Route::prefix('intangible_assets/{intangible_asset}/downloads')
     ->name('intangible_assets.downloads.')
     ->group(function () {

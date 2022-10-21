@@ -4,6 +4,14 @@
     <td>{{ getParamObject($item->project->research_unit, 'name') }}</td>
     <td>{{ getParamObject($item->project, 'name') }}</td>
     <td>{{ $item->name }}</td>
+    <td>
+        <div class="progress">
+            <div class="progress-bar {{ getStatusBarColor($item->progressPhases()) }}" role="progressbar" aria-valuenow="40"
+                aria-valuemin="0" aria-valuemax="100" style="width: {{ $item->progressPhases() }}%">
+                <span class="">{{ round($item->progressPhases()) }}%</span>
+            </div>
+        </div>
+    </td>
     <td>{{ $item->created_at }}</td>
     <td>{{ $item->updated_at }}</td>
     <td>

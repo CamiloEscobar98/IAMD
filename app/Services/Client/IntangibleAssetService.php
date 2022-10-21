@@ -114,9 +114,8 @@ class IntangibleAssetService
 
     /**
      * @param IntangibleAsset $intangibleAsset
-     * @param string $financingTypeCode
-     * @param string $researchUnitCode
-     * @param 
+     * 
+     * @return void
      */
     public function generateCodeOfIntangibleAsset($intangibleAsset)
     {
@@ -148,9 +147,6 @@ class IntangibleAssetService
 
         $code = "{$financingTypeCode}{$researchUnitCode}{$year}{$projectContractTypeCode}{$intellectualPropertyRightProductCode}";
 
-        try {
-            $this->intangibleAssetRepository->update($intangibleAsset, ['code' => $code]);
-        } catch (\Exception $e) {
-        }
+        $this->intangibleAssetRepository->update($intangibleAsset, ['code' => $code]);
     }
 }

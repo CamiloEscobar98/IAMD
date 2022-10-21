@@ -332,3 +332,26 @@ if (!function_exists('getIdsByCollection')) {
         return $newArray;
     }
 }
+
+if (!function_exists('getStatusBarColor')) {
+    /**
+     * @param float $porcent
+     * 
+     * @return string
+     */
+    function getStatusBarColor(float $porcent)
+    {
+        switch ($porcent) {
+            case $porcent < 50:
+                return 'bg-gradient-danger';
+                break;
+            case $porcent > 50 && $porcent < 75:
+                return 'bg-gradient-warning';
+                break;
+
+            default:
+                return 'bg-gradient-success';
+                break;
+        }
+    }
+}

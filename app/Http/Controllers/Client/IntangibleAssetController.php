@@ -65,7 +65,7 @@ class IntangibleAssetController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View|RedirectResponse
      */
     public function create(): RedirectResponse|View
     {
@@ -79,10 +79,10 @@ class IntangibleAssetController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return RedirectResponse|View
+     * @param  StoreRequest $request
+     * @return RedirectResponse
      */
-    public function store(StoreRequest $request): RedirectResponse|View
+    public function store(StoreRequest $request): RedirectResponse
     {
         try {
             $data = $request->all();
@@ -147,13 +147,13 @@ class IntangibleAssetController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  UpdateRequest  $request
      * @param  int  $id
      * @param int $intangibleAsset
      * 
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function update(UpdateRequest $request, $id, $intangibleAsset): RedirectResponse|View
+    public function update(UpdateRequest $request, $id, $intangibleAsset): RedirectResponse
     {
         try {
             $data = $request->only(['project_id', 'name']);
@@ -174,17 +174,23 @@ class IntangibleAssetController extends Controller
     }
 
     /**
+     * Generate Code
+     * 
+     * @param int $id
+     * @param int $intangibleAsset
+     * 
      * @return RedirectResponse
      */
-    public function updateCode($id, $intangibleAsset): RedirectResponse
+    public function updateCode($id, $intangibleAsset)#: RedirectResponse
     {
         try {
             $item = $this->intangibleAssetRepository->getById($intangibleAsset);
-            
-            $this->intangibleAssetService->generateCodeOfIntangibleAsset($intangibleAsset);
+
+            $this->intangibleAssetService->generateCodeOfIntangibleAsset($item);
 
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.update_success', ['intangible_asset' => $item->name])]);
         } catch (\Exception $th) {
+            return $th->getMessage();
             DB::rollBack();
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.messages.update_error')]);
         }
@@ -196,7 +202,7 @@ class IntangibleAssetController extends Controller
      *
      * @param  int  $id
      * @param int $intangibleAsset
-     * @return \Illuminate\Http\Response
+     * @return View|RedirectResponse
      */
     public function destroy($id, $intangibleAsset)
     {

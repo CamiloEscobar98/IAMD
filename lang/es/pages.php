@@ -1105,6 +1105,7 @@ return [
                     'project' => 'Proyecto',
 
                     'name' => 'Nombre',
+                    'status' => 'Estado de las Fases',
 
                     'created_at' => 'Fecha de Creación',
                     'updated_at' => 'Fecha de Actualización'

@@ -50,7 +50,7 @@
                             <a href="{{ route('client.intangible_assets.reports.default', [$client->name, $item->id]) }}"
                                 class="btn btn-sm btn-danger">Descargar Reporte</a>
                             @if ($item->hasAllPhasesCompleted())
-                                <a href="{{ getClientRoute('client.intangible_assets.reports.default', [$item->id]) }}"
+                                <a href="{{ getClientRoute('client.intangible_assets.generate_code', [$item->id]) }}"
                                     class="btn btn-sm btn-outline-danger">Generar Codificación</a>
                             @endif
                         </div>
@@ -71,6 +71,10 @@
                         <h3 class="text-center font-weight-bold">
                             <u>{{ __('pages.client.intangible_assets.form-titles.show') }}</u>
                         </h3>
+
+                        @if ($item->hasCode())
+                            <p class="font-weight-bold">{{ $item->code }}</p>
+                        @endif
 
                         <!-- Name -->
                         <div class="input-group mt-3">

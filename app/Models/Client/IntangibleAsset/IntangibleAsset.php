@@ -349,6 +349,14 @@ class IntangibleAsset extends BaseModel
     /**
      * @return bool
      */
+    public function hasCode() : bool    
+    {
+        return !is_null($this->code);
+    }
+
+    /**
+     * @return bool
+     */
     public function hasCreators(): bool
     {
         return $this->creators->count() > 0;
