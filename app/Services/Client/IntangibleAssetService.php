@@ -3,11 +3,13 @@
 namespace App\Services\Client;
 
 use App\Models\Client\IntangibleAsset\IntangibleAsset;
+use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
 use App\Repositories\Client\FinancingTypeRepository;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Client\IntangibleAssetRepository;
+use App\Repositories\Client\ProjectContractTypeRepository;
 use App\Repositories\Client\ProjectFinancingRepository;
 use App\Repositories\Client\ResearchUnitRepository;
 use Illuminate\Support\Carbon;
@@ -20,22 +22,32 @@ class IntangibleAssetService
     /** @var ProjectFinancingRepository */
     protected $projectFinancingRepository;
 
+    /** @var ProjectContractTypeRepository */
+    protected $projectContractTypeRepository;
+
     /** @var FinancingTypeRepository */
     protected $financingTypeRepository;
 
     /** @var ResearchUnitRepository */
     protected $researchUnitRepository;
 
+    /** @var IntellectualPropertyRightProductRepository */
+    protected $intellectualPropertyRightProductRepository;
+
     public function __construct(
         IntangibleAssetRepository $intangibleAssetRepository,
         ProjectFinancingRepository $projectFinancingRepository,
+        ProjectContractTypeRepository $projectContractTypeRepository,
         FinancingTypeRepository $financingTypeRepository,
         ResearchUnitRepository $researchUnitRepository,
+        IntellectualPropertyRightProductRepository $intellectualPropertyRightProductRepository
     ) {
         $this->intangibleAssetRepository = $intangibleAssetRepository;
         $this->projectFinancingRepository = $projectFinancingRepository;
+        $this->projectContractTypeRepository = $projectContractTypeRepository;
         $this->financingTypeRepository = $financingTypeRepository;
         $this->researchUnitRepository = $researchUnitRepository;
+        $this->intellectualPropertyRightProductRepository = $intellectualPropertyRightProductRepository;
     }
 
     /**
@@ -127,12 +139,14 @@ class IntangibleAssetService
         $year = (new Carbon($projectFinancing->date))->year;
 
         /** CodePart IV */
-        $projectContractTypeCode = '';
+        $projectContractType = $this->projectContractTypeRepository->getById($projectFinancing->project_contract_type_id);
+        $projectContractTypeCode = $projectContractType->code ?? '';
 
         /** CodePart V */
-        
+        $intellectualPropertyRightProduct = $this->intellectualPropertyRightProductRepository->getById($intangibleAsset->classification_id);
+        $intellectualPropertyRightProductCode = $intellectualPropertyRightProduct->code;
 
-        $code = "{$financingTypeCode}{$researchUnitCode}{$year}";
+        $code = "{$financingTypeCode}{$researchUnitCode}{$year}{$projectContractTypeCode}{$intellectualPropertyRightProductCode}";
 
         try {
             $this->intangibleAssetRepository->update($intangibleAsset, ['code' => $code]);

@@ -49,6 +49,10 @@
                         <div class="float-left">
                             <a href="{{ route('client.intangible_assets.reports.default', [$client->name, $item->id]) }}"
                                 class="btn btn-sm btn-danger">Descargar Reporte</a>
+                            @if ($item->hasAllPhasesCompleted())
+                                <a href="{{ getClientRoute('client.intangible_assets.reports.default', [$item->id]) }}"
+                                    class="btn btn-sm btn-outline-danger">Generar Codificación</a>
+                            @endif
                         </div>
                         @if ($item->hasStrategies())
                             <div class="float-right">
@@ -176,7 +180,7 @@
             changeIsCommercial();
         });
 
-      
+
 
         //Initialize Select2 Elements
         $('.select2bs4').select2({

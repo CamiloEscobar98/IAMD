@@ -37,9 +37,11 @@ class UserSeeder extends Seeder
 
             print("Creating User: $current. \n");
 
+            /** @var \App\Models\Client\User $user */
             $user = $this->userRepository->createOneFactory();
-
             print("User Created. Name: " . $user->name . "\n \n");
+
+            $user->assignRole('employee');
 
             $cont++;
             $randomNumber--;

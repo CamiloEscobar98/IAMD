@@ -1,69 +1,83 @@
 <li class="nav-header">{{ __('menu.client.title') }}</li>
 
 <!-- Administrative Units -->
-<li class="nav-item">
-    <a href="{{ route('client.administrative_units.index', [$client->name]) }}"
-        class="nav-link {{ routeIsActived('administrative_units') }}">
-        <i class="fas fa-university nav-icon"></i>
-        <p>{{ __('menu.client.AdministrativeUnits') }}</p>
-    </a>
-</li>
+@can('administrative_units.index')
+    <li class="nav-item">
+        <a href="{{ route('client.administrative_units.index', [$client->name]) }}"
+            class="nav-link {{ routeIsActived('administrative_units') }}">
+            <i class="fas fa-university nav-icon"></i>
+            <p>{{ __('menu.client.AdministrativeUnits') }}</p>
+        </a>
+    </li>
+@endcan
 
 <!-- Research Units -->
-<li class="nav-item">
-    <a href="{{ route('client.research_units.index', [$client->name]) }}"
-        class="nav-link {{ routeIsActived('research_units') }}">
-        <i class="fas fa-microscope nav-icon"></i>
-        <p>{{ __('menu.client.ResearchUnits') }}</p>
-    </a>
-</li>
+@can('research_units.index')
+    <li class="nav-item">
+        <a href="{{ route('client.research_units.index', [$client->name]) }}"
+            class="nav-link {{ routeIsActived('research_units') }}">
+            <i class="fas fa-microscope nav-icon"></i>
+            <p>{{ __('menu.client.ResearchUnits') }}</p>
+        </a>
+    </li>
+@endcan
 
 
 <!-- Projects -->
-<li class="nav-item">
-    <a href="{{ route('client.projects.index', [$client->name]) }}" class="nav-link {{ routeIsActived('projects') }}">
-        <i class="fas fa-chalkboard-teacher nav-icon"></i>
-        <p>{{ __('menu.client.Projects') }}</p>
-    </a>
-</li>
+@can('projects.index')
+    <li class="nav-item">
+        <a href="{{ route('client.projects.index', [$client->name]) }}" class="nav-link {{ routeIsActived('projects') }}">
+            <i class="fas fa-chalkboard-teacher nav-icon"></i>
+            <p>{{ __('menu.client.Projects') }}</p>
+        </a>
+    </li>
+@endcan
 
 <!-- Intangible Assets -->
-<li class="nav-item">
-    <a href="{{ route('client.intangible_assets.index', [$client->name]) }}"
-        class="nav-link {{ routeIsActived('intangible_assets') }}">
-        <i class="fas fa-archive nav-icon"></i>
-        <p>{{ __('menu.client.IntangibleAssets') }}</p>
-    </a>
-</li>
+@can('intangible_assets.index')
+    <li class="nav-item">
+        <a href="{{ route('client.intangible_assets.index', [$client->name]) }}"
+            class="nav-link {{ routeIsActived('intangible_assets') }}">
+            <i class="fas fa-archive nav-icon"></i>
+            <p>{{ __('menu.client.IntangibleAssets') }}</p>
+        </a>
+    </li>
+@endcan
 
 <!-- Internal Creators -->
-<li class="nav-item">
-    <a href="{{ route('client.creators.internal.index', [$client->name]) }}"
-        class="nav-link {{ routeIsActived('internal') }}">
-        <i class="fas fa-user-friends
+@can('creators.internal.index')
+    <li class="nav-item">
+        <a href="{{ route('client.creators.internal.index', [$client->name]) }}"
+            class="nav-link {{ routeIsActived('internal') }}">
+            <i class="fas fa-user-friends
         nav-icon"></i>
-        <p>{{ __('menu.client.CreatorsInternal') }}</p>
-    </a>
-</li>
+            <p>{{ __('menu.client.CreatorsInternal') }}</p>
+        </a>
+    </li>
+@endcan
 <!-- ./Internal Creators -->
 
 <!-- External Creators -->
-<li class="nav-item">
-    <a href="{{ route('client.creators.external.index', [$client->name]) }}"
-        class="nav-link {{ routeIsActived('external') }}">
-        <i class="fas fa-user-tie nav-icon"></i>
-        <p>{{ __('menu.client.CreatorsExternal') }}</p>
-    </a>
-</li>
+@can('creators.external.index')
+    <li class="nav-item">
+        <a href="{{ route('client.creators.external.index', [$client->name]) }}"
+            class="nav-link {{ routeIsActived('external') }}">
+            <i class="fas fa-user-tie nav-icon"></i>
+            <p>{{ __('menu.client.CreatorsExternal') }}</p>
+        </a>
+    </li>
+@endcan
 <!-- ./External Creators -->
 
 <!-- Users -->
-<li class="nav-item">
-    <a href="{{ route('client.users.index', [$client->name]) }}" class="nav-link {{ routeIsActived('users') }}">
-        <i class="fas fa-users nav-icon"></i>
-        <p>{{ __('menu.client.users') }}</p>
-    </a>
-</li>
+@can('users.index')
+    <li class="nav-item">
+        <a href="{{ route('client.users.index', [$client->name]) }}" class="nav-link {{ routeIsActived('users') }}">
+            <i class="fas fa-users nav-icon"></i>
+            <p>{{ __('menu.client.users') }}</p>
+        </a>
+    </li>
+@endcan
 <!-- ./Users -->
 
 <li class="nav-header">{{ __('menu.client.first_subtitle') }}</li>

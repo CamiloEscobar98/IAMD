@@ -71,7 +71,8 @@ class IntellectualPropertyRightSeeder extends Seeder
 
                     $productCreated = $this->intellectualPropertyRightProductRepository->create([
                         'intellectual_property_right_subcategory_id' => $subcategoryCreated->id,
-                        'name' => $product
+                        'name' => $product['name'],
+                        'code' => $product['code']
                     ]);
 
                     print("Intellectual Property Right Product created! Name " . $productCreated->name . "\n \n");

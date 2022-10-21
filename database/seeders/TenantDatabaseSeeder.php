@@ -22,6 +22,8 @@ use Database\Seeders\Client\ProjectContractTypeSeeder;
 use Database\Seeders\Client\ProjectSeeder;
 
 use Database\Seeders\Client\IntangibleAssetSeeder;
+use Database\Seeders\Client\SpatieRoles\PermissionModuleSeeder;
+use Database\Seeders\Client\SpatieRoles\RoleSeeder;
 
 class TenantDatabaseSeeder extends Seeder
 {
@@ -33,6 +35,10 @@ class TenantDatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
+            PermissionModuleSeeder::class,
+
+            RoleSeeder::class,
+
             UserSeeder::class,
 
             CreatorSeeder::class,

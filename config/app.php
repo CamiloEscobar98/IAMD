@@ -185,7 +185,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Spatie\Permission\PermissionServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -228,38 +228,68 @@ return [
                     'name' => 'Diseño Industrial',
 
                     /** Products */
-                    'products' => ['Diseños Industriales']
+                    'products' => [
+                        [
+                            'name' => 'Diseños Industriales',
+                            'code' => 'DI'
+                        ]
+                    ]
                 ],
 
                 [
                     'name' => 'Esquemas de Trazado de Circuito Integrado',
 
                     /** Products */
-                    'products' => ['Esquemas de trazado de circuito integrado']
+                    'products' => [
+                        [
+                            'name' => 'Esquemas de trazado de circuito integrado',
+                            'code' => 'ECI'
+                        ]
+                    ]
                 ],
                 [
                     'name' => 'Nuevas Creaciones e Innovaciones',
 
                     /** Products */
                     'products' => [
-                        'Patente oncedida',
-                        'Patente concedida y explotada',
-                        'Patente en trámite',
+                        [
+                            'name' => 'Patente oncedida',
+                            'code' => 'PAC'
+                        ],
+                        [
+                            'name' => 'Patente concedida y explotada',
+                            'code' => 'PAA'
+                        ],
+                        [
+                            'name' => 'Patente en trámite',
+                            'code' => 'PAB'
+                        ],
                     ]
                 ],
                 [
                     'name' => 'Prototipos Industriales',
 
                     /** Products */
-                    'products' => ['Prototipos Industriales']
+                    'products' => [
+                        [
+                            'name' => 'Prototipos Industriales',
+                            'code' => 'PI'
+                        ]
+                    ]
                 ],
                 [
                     'name' => 'Secretos Industriales',
 
                     /** Products */
                     'products' => [
-                        'Innovaciones generadas en la gestión empresarial',
-                        'Secreto empresarial'
+                        [
+                            'name' => 'Innovaciones generadas en la gestión empresarial',
+                            'code' => 'IG'
+                        ],
+                        [
+                            'name' => 'Secreto empresarial',
+                            'code' => 'SE'
+                        ],
                     ]
                 ],
                 [
@@ -267,7 +297,14 @@ return [
 
                     /** Products */
                     'products' => [
-                        'Signos Distintivos'
+                        [
+                            'name' => 'Signos Distintivos',
+                            'code' => 'SD',
+                        ],
+                        [
+                            'name' => 'Marcas',
+                            'code' => 'MA',
+                        ],
                     ],
                 ],
             ]
@@ -284,36 +321,126 @@ return [
 
                     /** Products */
                     'products' => [
-                        'Acuerdo de Ley',
-                        'Artículos de investigación',
-                        'Boletines divulgativos de resultado de investigación',
-                        'Capítulos en libro resultado de investigación',
-                        'Direcciones de tesis de doctorado',
-                        'Direcciones de trabajo de grado de maestría',
-                        'Direcciones de trabajo de pregrado',
-                        'Documentos de trabajo (working papers)',
-                        'Eventos artísticos, de arquitectura o de diseño con componentes de apropiación',
-                        'Eventos científicos con componente de apropiación',
-                        'Guía de manejo clínico forense',
-                        'Guía de práctica clínica',
-                        'Informes finales de investigación',
-                        'Libros de creación (Piloto)',
-                        'Libros de divulgación de investigación y/o compilación de divulgación',
-                        'Libros de formación',
-                        'Libros resultados de investigación',
-                        'Manuales y guías especializadas',
-                        'Manuales y modelos de atención diferencial a víctimas',
-                        'Norma técnica',
-                        'Normatividad del espectro radioeléctrico',
-                        'Notas científicas',
-                        'Productos resultados de la creación o investigación – creación.',
-                        'Protocolos de atención a usuarios/víctimas (pacientes)',
-                        'Protocolos de vigilancia epidemiológica',
-                        'Proyectos de Ley',
-                        'Publicaciones editoriales no especializadas',
-                        'Regulaciones, normas, reglamentos o legislaciones',
-                        'Softwares',
-                        'Talleres de creación',
+                        [
+                            'name' => 'Acuerdo de Ley',
+                            'code' => 'AL',
+                        ],
+                        [
+                            'name' => 'Artículos de investigación',
+                            'code' => 'ART'
+                        ],
+                        [
+                            'name' => 'Boletines divulgativos de resultado de investigación',
+                            'code' => 'BOL'
+                        ],
+                        [
+                            'name' => 'Capítulos en libro resultado de investigación',
+                            'code' => 'CAP_LIB'
+                        ],
+                        [
+                            'name' => 'Direcciones de tesis de doctorado',
+                            'code' => 'TD'
+                        ],
+                        [
+                            'name' => 'Direcciones de trabajo de grado de maestría',
+                            'code' => 'TM'
+                        ],
+                        [
+                            'name' => 'Direcciones de trabajo de pregrado',
+                            'code' => 'TP'
+                        ],
+                        [
+                            'name' => 'Documentos de trabajo (working papers)',
+                            'code' => 'WP'
+                        ],
+                        [
+                            'name' => 'Eventos artísticos, de arquitectura o de diseño con componentes de apropiación',
+                            'code' => 'ECA'
+                        ],
+                        [
+                            'name' => 'Eventos científicos con componente de apropiación',
+                            'code' => 'EC'
+                        ],
+                        [
+                            'name' => 'Guía de manejo clínico forense',
+                            'code' => 'GMCF'
+                        ],
+                        [
+                            'name' => 'Guía de práctica clínica',
+                            'code' => 'RNPC'
+                        ],
+                        [
+                            'name' => 'Informes finales de investigación',
+                            'code' => 'IFI'
+                        ],
+                        [
+                            'name' => 'Libros de creación (Piloto)',
+                            'code' => 'LIB_CRE'
+                        ],
+                        [
+                            'name' => 'Libros de divulgación de investigación y/o compilación de divulgación',
+                            'code' => 'LIB_DIV'
+                        ],
+                        [
+                            'name' => 'Libros de formación',
+                            'code' => 'LIB_FOR'
+                        ],
+                        [
+                            'name' => 'Libros resultados de investigación',
+                            'code' => 'LIB'
+                        ],
+                        [
+                            'name' => 'Manuales y guías especializadas',
+                            'code' => 'MAN_GUI'
+                        ],
+                        [
+                            'name' => 'Manuales y modelos de atención diferencial a víctimas',
+                            'code' => 'MADV'
+                        ],
+                        [
+                            'name' => 'Norma técnica',
+                            'code' => 'RNT'
+                        ],
+                        [
+                            'name' => 'Normatividad del espectro radioeléctrico',
+                            'code' => 'RNR'
+                        ],
+                        [
+                            'name' => 'Notas científicas',
+                            'code' => 'N'
+                        ],
+                        [
+                            'name' => 'Productos resultados de la creación o investigación – creación.',
+                            'code' => 'AAD'
+                        ],
+                        [
+                            'name' => 'Protocolos de atención a usuarios/víctimas (pacientes)',
+                            'code' => 'PAU'
+                        ],
+                        [
+                            'name' => 'Protocolos de vigilancia epidemiológica',
+                            'code' => 'PVE'
+                        ],
+                        [
+                            'name' => 'Proyectos de Ley',
+                            'code' => 'RNPL'
+                        ],
+                        [
+                            'name' => 'Publicaciones editoriales no especializadas',
+                            'code' => 'PEE'
+                        ],
+                        [
+                            'name' => 'Regulaciones, normas, reglamentos o legislaciones',
+                            'code' => 'RNL'
+                        ],
+                        [
+                            'name' => 'Softwares',
+                            'code' => 'SF'
+                        ],
+                        [
+                            'name' => 'Talleres de creación',
+                            'code' => 'TC'
+                        ],
                     ]
                 ]
             ]
@@ -330,7 +457,10 @@ return [
 
                     /** Products */
                     'products' => [
-                        'Producción de Contenido Digital'
+                        [
+                            'name' => 'Producción de Contenido Digital',
+                            'code' => 'PCD'
+                        ]
                     ]
                 ]
             ]
@@ -347,12 +477,30 @@ return [
 
                     /** Products */
                     'products' => [
-                        'Colecciones científicas',
-                        'Nuevas razas animales',
-                        'Nuevas secuencias genéticas',
-                        'Nuevos registros científicos',
-                        'Poblaciones mejoradas de razas pecuarias',
-                        'Variedades vegetales',
+                        [
+                            'name' => 'Colecciones científicas',
+                            'code' => 'CC'
+                        ],
+                        [
+                            'name' => 'Nuevas razas animales',
+                            'code' => 'VAA'
+                        ],
+                        [
+                            'name' => 'Nuevas secuencias genéticas',
+                            'code' => 'NSG'
+                        ],
+                        [
+                            'name' => 'Nuevos registros científicos',
+                            'code' => 'NRC'
+                        ],
+                        [
+                            'name' => 'Poblaciones mejoradas de razas pecuarias',
+                            'code' => 'VAB'
+                        ],
+                        [
+                            'name' => 'Variedades vegetales',
+                            'code' => 'W'
+                        ],
                     ]
                 ]
             ]

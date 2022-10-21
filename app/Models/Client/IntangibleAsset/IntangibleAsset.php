@@ -42,17 +42,6 @@ class IntangibleAsset extends BaseModel
     ];
 
     /**
-     * Set the Code.
-     *
-     * @param  string  $value
-     * @return void
-     */
-    public function setCodeAttribute($value)
-    {
-        return $this->attributes['code'] = Str::upper($value);
-    }
-
-    /**
      * Relations with the model IntangibleAsset
      */
 

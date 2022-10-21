@@ -29,6 +29,14 @@ class ResearchUnitController extends Controller
     ) {
         $this->middleware('auth');
 
+        $this->middleware('permission:research_units.create')->only('create');
+        $this->middleware('permission:research_units.index')->only('index');
+        $this->middleware('permission:research_units.store')->only('store');
+        $this->middleware('permission:research_units.show')->only('show');
+        $this->middleware('permission:research_units.edit')->only('edit');
+        $this->middleware('permission:research_units.update')->only('update');
+        $this->middleware('permission:research_units.destroy')->only('destroy');
+
         $this->researchUnitService = $researchUnitService;
         $this->researchUnitRepository = $researchUnitRepository;
     }
