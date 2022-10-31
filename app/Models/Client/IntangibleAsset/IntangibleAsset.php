@@ -64,6 +64,16 @@ class IntangibleAsset extends BaseModel
     }
 
     /**
+     * Get Localization in UFPS.
+     * 
+     * @return HasOne
+     */
+    public function intangible_asset_localization(): HasOne
+    {
+        return $this->hasOne(IntangibleAssetLocalization::class);
+    }
+
+    /**
      * Get Intangible Asset State.
      * 
      * @return BelongsTo
@@ -349,7 +359,7 @@ class IntangibleAsset extends BaseModel
     /**
      * @return bool
      */
-    public function hasCode() : bool    
+    public function hasCode(): bool
     {
         return !is_null($this->code);
     }

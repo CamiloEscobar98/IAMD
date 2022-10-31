@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 use App\Jobs\CreateFileReportJob;
 
@@ -74,8 +75,19 @@ class IntangibleAssetReportController extends Controller
     {
         $params = $request->all();
 
+        $contentConfiguration = $request->only([
+            'with_basic_information', 'with_dpis', 'with_published',
+            'with_confidenciality_contract', 'with_creators', 'with_right_session',
+            'with_contability', 'with_comments', 'with_protection_action', 'with_priority_tools', 'with_commercial'
+        ]);
+
+        // return $contentConfiguration;
+
         try {
 
+            Log::alert('GENERATING CUSTOM REPORT');
+
+            Log::info('Searching Intangible Assets..');
             /** @var Collection $intangibleAssets */
             $intangibleAssets = $this->intangibleAssetRepository->search($params, [
                 'project.research_unit.administrative_unit', 'intangible_asset_state', 'classification', 'dpis.dpi',
@@ -83,32 +95,76 @@ class IntangibleAssetReportController extends Controller
                 'user_messages', 'intangible_asset_protection_action', 'secret_protection_measures', 'priority_tools.priority_tool', 'priority_tools.dpi', 'intangible_asset_commercial'
             ])->get();
 
+            Log::notice('Intangible Assets searched!');
+
             $dpis = $this->intellectualPropertyRightSubcategoryRepository->all();
 
             $count = $intangibleAssets->count();
 
+            Log::info("Total Intangible Assets {$count}");
+
+            $userId = auth('web')->user()->id;
+            $client = $request->client;
+            $reportType = 'intangible_assets.reports.custom';
+
+            $config = [
+                'user_id' => $userId,
+                'client' => $client,
+                'report_type' => $reportType
+            ];
+
+            $data = [
+                'count' => $count,
+                'dpis' => $dpis,
+                'client' => $client,
+                'contentConfiguration' => $contentConfiguration
+            ];
+
+            // $phasesCompleted = $this->getPhasesCompletedArray($intangibleAssets);
+            // $data = [
+            //     'intangibleAssets' => $intangibleAssets,
+            //     'count' => $count,
+            //     'phasesCompleted' => $phasesCompleted,
+            //     'dpis' => $dpis,
+            //     'client' => $client
+            // ];
+            // $this->callJobReportCustom($data, $config);
+
+
             if ($count < 50) {
+                Log::notice('One report file will be created!');
                 $phasesCompleted = $this->getPhasesCompletedArray($intangibleAssets);
-                $this->callJobReportCustom($intangibleAssets, $phasesCompleted, $dpis, auth('web')->user()->id, $request->client);
+                $data['intangibleAssets'] = $intangibleAssets;
+                $data['phasesCompleted'] = $phasesCompleted;
+                $this->callJobReportCustom($data, $config);
             } else {
                 $splitIntangibleAssets = [];
 
                 if ($count > 1000) {
-                    $splitIntangibleAssets = $intangibleAssets->split(8);
+                    $fileCount = 8;
+                    $splitIntangibleAssets = $intangibleAssets->split($fileCount);
                 } elseif ($count > 500 && $count < 1000) {
-                    $splitIntangibleAssets = $intangibleAssets->split(6);
+                    $fileCount = 6;
+                    $splitIntangibleAssets = $intangibleAssets->split($fileCount);
                 } elseif ($count > 100 && $count < 500) {
-                    $splitIntangibleAssets = $intangibleAssets->split(4);
+                    $fileCount = 4;
+                    $splitIntangibleAssets = $intangibleAssets->split($fileCount);
                 } elseif ($count > 50 && $count < 100) {
-                    $splitIntangibleAssets = $intangibleAssets->split(2);
+                    $fileCount = 2;
+                    $splitIntangibleAssets = $intangibleAssets->split($fileCount);
                 }
 
+                Log::notice("Total Report Files will be created: {$fileCount}");
 
                 foreach ($splitIntangibleAssets as $split) {
                     $phasesCompleted = $this->getPhasesCompletedArray($split);
-                    $this->callJobReportCustom($split, $phasesCompleted, $dpis, auth('web')->user()->id, $request->client);
+                    $data['intangibleAssets'] = $split;
+                    $data['phasesCompleted'] = $phasesCompleted;
+                    $this->callJobReportCustom($data, $config);
                 }
             }
+
+            Log::alert('CUSTOM REPORT ALERT FINISHED');
 
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.reports.single.messages.generate_success')]);
         } catch (\Exception $th) {
@@ -118,23 +174,12 @@ class IntangibleAssetReportController extends Controller
     }
 
     /**
-     * @param Collection $intangibleAssets
-     * @param Collection $dpis
-     * @param int $userId
-     * @param string $client
+     * @param array $data
+     * @param array $config
      */
-    private function callJobReportCustom($intangibleAssets, $phasesCompleted, $dpis, $userId, $client)
+    private function callJobReportCustom($data, $config)
     {
-        CreateFileReportJob::dispatch([
-            'intangibleAssets' => $intangibleAssets,
-            'phasesCompleted' => $phasesCompleted,
-            'dpis' => $dpis,
-            'client' => $client
-        ], [
-            'userId' => $userId,
-            'client' => $client,
-            'report_type' => 'intangible_assets.reports.custom'
-        ]);
+        CreateFileReportJob::dispatch($data, $config)->onQueue('intangible_assets-reports-custom');
     }
 
     /**
@@ -145,43 +190,43 @@ class IntangibleAssetReportController extends Controller
     public function getPhasesCompletedArray($intangibleAssets): array
     {
         return [
-            'allPhasesCompleted' => $allPhasesCompleted = $intangibleAssets->where(function ($intangibleAsset) {
+            'allPhasesCompleted' => $intangibleAssets->where(function ($intangibleAsset) {
                 return $intangibleAsset->hasAllPhasesCompleted();
             })->count(),
 
-            'phaseOneCompleted' => $phaseOneCompleted = $intangibleAssets->where(function ($intangibleAsset) {
+            'phaseOneCompleted' => $intangibleAssets->where(function ($intangibleAsset) {
                 return $intangibleAsset->hasPhaseOneCompleted();
             })->count(),
 
-            'phaseTwoCompleted' => $phaseTwoCompleted = $intangibleAssets->where(function ($intangibleAsset) {
+            'phaseTwoCompleted' => $intangibleAssets->where(function ($intangibleAsset) {
                 return $intangibleAsset->hasPhaseTwoCompleted();
             })->count(),
 
-            'phaseThreeCompleted' => $phaseThreeCompleted = $intangibleAssets->where(function ($intangibleAsset) {
+            'phaseThreeCompleted' => $intangibleAssets->where(function ($intangibleAsset) {
                 return $intangibleAsset->hasPhaseThreeCompleted();
             })->count(),
 
-            'phaseFourCompleted' => $phaseFourCompleted = $intangibleAssets->where(function ($intangibleAsset) {
+            'phaseFourCompleted' => $intangibleAssets->where(function ($intangibleAsset) {
                 return $intangibleAsset->hasPhaseFourCompleted();
             })->count(),
 
-            'phaseFiveCompleted' => $phaseFiveCompleted = $intangibleAssets->where(function ($intangibleAsset) {
+            'phaseFiveCompleted' => $intangibleAssets->where(function ($intangibleAsset) {
                 return $intangibleAsset->hasPhaseFiveCompleted();
             })->count(),
 
-            'phaseSixCompleted' => $phaseSixCompleted = $intangibleAssets->where(function ($intangibleAsset) {
+            'phaseSixCompleted' => $intangibleAssets->where(function ($intangibleAsset) {
                 return $intangibleAsset->hasPhaseSixCompleted();
             })->count(),
 
-            'phaseSevenCompleted' => $phaseSevenCompleted = $intangibleAssets->where(function ($intangibleAsset) {
+            'phaseSevenCompleted' => $intangibleAssets->where(function ($intangibleAsset) {
                 return $intangibleAsset->hasPhaseSevenCompleted();
             })->count(),
 
-            'phaseEightCompleted' => $phaseEightCompleted = $intangibleAssets->where(function ($intangibleAsset) {
+            'phaseEightCompleted' => $intangibleAssets->where(function ($intangibleAsset) {
                 return $intangibleAsset->hasPhaseEightCompleted();
             })->count(),
 
-            'phaseNineCompleted' => $phaseNineCompleted = $intangibleAssets->where(function ($intangibleAsset) {
+            'phaseNineCompleted' => $intangibleAssets->where(function ($intangibleAsset) {
                 return $intangibleAsset->hasPhaseNineCompleted();
             })->count(),
         ];

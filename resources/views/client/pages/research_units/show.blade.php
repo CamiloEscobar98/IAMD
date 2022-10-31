@@ -82,7 +82,7 @@
                                 value="{{ getParamObject($item->administrative_unit, 'name') }}" disabled>
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-university nav-icon"> [Subdirección Técnica]</span>
+                                    <span class="fas fa-university nav-icon"> [Facultad]</span>
                                 </div>
                             </div>
                         </div>

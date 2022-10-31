@@ -23,15 +23,18 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $this->userRepository->createOneFactory([
+        $user = $this->userRepository->createOneFactory([
             'email' => 'client@gmail.com',
         ]);
+
+        $user->assignRole('admin');
 
         print("¡¡ CREATING USERS !! \n \n");
 
         $randomNumber = rand(50, 100);
 
         $cont = 0;
+        
         do {
             $current = $cont + 1;
 

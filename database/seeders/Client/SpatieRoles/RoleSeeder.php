@@ -44,11 +44,20 @@ class RoleSeeder extends Seeder
 
         $permissions = $this->permissionRepository->all();
 
-        $administrativeUnitsPermissions = $permissions->where('name', 'like', "%administrative_units%");
-        $researchUnitsPermissions = $permissions->where('name', "%research_units%");
+        $administrativeUnitsPermissions = $permissions->where('name', 'like', "administrative_units%");
+        $researchUnitsPermissions = $permissions->where('name', "research_units%");
 
-        /** @var \App\Models\Client\Role */
+        $employeePermissions = collect();
+        $employeePermissions->merge($administrativeUnitsPermissions);
+        $employeePermissions->merge($researchUnitsPermissions);
+
+        /** @var \App\Models\Client\Role $employeeRole */
         $employeeRole = $this->roleRepository->getByAttribute('name', 'employee');
+
+        /** @var \App\Models\Client\Role $adminRole */
+        $adminRole = $this->roleRepository->getByAttribute('name', 'admin');
+
+        $adminRole->syncPermissions($permissions);
 
         $employeeRole->syncPermissions($permissions);
     }

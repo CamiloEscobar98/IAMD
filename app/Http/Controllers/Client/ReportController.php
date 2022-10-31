@@ -9,7 +9,7 @@ class ReportController extends Controller
 {
     public function __construct()
     {
-        # code...
+        $this->middleware('auth');
     }
 
     public function index(Request $request)

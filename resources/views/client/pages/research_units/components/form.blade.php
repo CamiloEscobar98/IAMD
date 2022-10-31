@@ -49,7 +49,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-university"> [Subdirección Técnica]</span>
+                    <span class="fas fa-university"> [Facultad]</span>
                 </div>
             </div>
         </div>
@@ -200,7 +200,7 @@
             </select>
             <div class="input-group-append">
                 <div class="input-group-text">
-                    <span class="fas fa-university"> [Subdirección Técnica]</span>
+                    <span class="fas fa-university"> [Facultad]</span>
                 </div>
             </div>
         </div>

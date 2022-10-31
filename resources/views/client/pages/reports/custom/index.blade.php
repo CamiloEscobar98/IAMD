@@ -28,113 +28,154 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
-                <form action="{{ getClientRoute('client.intangible_assets.reports.custom') }}" method="get" id="form"
-                    data-client="{{ $client->name }}">
-                    <div class="row justify-content-center">
 
-                        <!-- Administrative Unit -->
-                        <div class="col-lg-4">
-                            <div class="input-group mb-3">
-                                <div class="input-group-append">
-                                    <label class="input-group-text">{{ __('filters.administrative_units') }}</label>
-                                </div>
-                                <select name="administrative_unit_id" id="administrative_unit_id"
-                                    class="form-control select2bs4 administrative_units"
-                                    onchange="changeAdministrativeUnit()">
-                                    @foreach ($administrativeUnits as $administrativeUnit => $value)
-                                        <option value="{{ $administrativeUnit }}"
-                                            {{ optionIsSelected($params, 'administrative_unit_id', $administrativeUnit) }}>
-                                            {{ $value }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <!-- ./Administrative Unit -->
 
-                        <!-- Research Unit -->
-                        <div class="col-lg-4">
-                            <div class="input-group mb-3">
-                                <div class="input-group-append">
-                                    <label class="input-group-text">{{ __('filters.research_units') }}</label>
-                                </div>
-                                <select name="research_unit_id" id="research_unit_id"
-                                    class="form-control select2bs4 research_units" onchange="changeResearchUnit()">
-                                    @foreach ($researchUnits as $researchUnit => $value)
-                                        <option value="{{ $researchUnit }}"
-                                            {{ optionIsSelected($params, 'research_unit_id', $researchUnit) }}>
-                                            {{ $value }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <!-- ./Research Unit -->
+        <form action="{{ getClientRoute('client.intangible_assets.reports.custom') }}" method="get" id="form"
+            data-client="{{ $client->name }}">
 
-                        <!-- Projects -->
-                        <div class="col-lg-4">
-                            <div class="input-group mb-3">
-                                <div class="input-group-append">
-                                    <label class="input-group-text">{{ __('filters.projects') }}</label>
-                                </div>
-                                <select name="project_id" id="project_id" class="form-control select2bs4 projects">
-                                    @foreach ($projects as $project => $value)
-                                        <option value="{{ $project }}"
-                                            {{ optionIsSelected($params, 'project_id', $project) }}>
-                                            {{ $value }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+            <!-- Filters -->
+            <h5 class="font-weight-bold">{{ __('pages.client.reports.custom.sections.filters.title') }}</h5>
+
+            <div class="row justify-content-center">
+
+                <!-- Administrative Unit -->
+                <div class="col-lg-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label class="input-group-text">{{ __('filters.administrative_units') }}</label>
                         </div>
-                        <!-- ./Projects -->
+                        <select name="administrative_unit_id" id="administrative_unit_id"
+                            class="form-control select2bs4 administrative_units" onchange="changeAdministrativeUnit()">
+                            @foreach ($administrativeUnits as $administrativeUnit => $value)
+                                <option value="{{ $administrativeUnit }}"
+                                    {{ optionIsSelected($params, 'administrative_unit_id', $administrativeUnit) }}>
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
                     </div>
+                </div>
+                <!-- ./Administrative Unit -->
 
-                    <div class="row justify-content-center">
-
-                        <!-- Phases Completed -->
-                        <div class="col-lg-12">
-                            <div class="input-group mb-3">
-                                <div class="input-group-append">
-                                    <label class="input-group-text">{{ __('filters.phases_completed') }}</label>
-                                </div>
-                                <select name="phases" class="form-control select2bs4 phases" multiple>
-                                    @foreach ($phases as $phase => $value)
-                                        <option value="{{ $phase }}"
-                                            {{ optionInArray($params, 'phases', $phase) }}>
-                                            {{ $value }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                <!-- Research Unit -->
+                <div class="col-lg-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label class="input-group-text">{{ __('filters.research_units') }}</label>
                         </div>
-                        <!-- ./Administrative Unit -->
-
+                        <select name="research_unit_id" id="research_unit_id" class="form-control select2bs4 research_units"
+                            onchange="changeResearchUnit()">
+                            @foreach ($researchUnits as $researchUnit => $value)
+                                <option value="{{ $researchUnit }}"
+                                    {{ optionIsSelected($params, 'research_unit_id', $researchUnit) }}>
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
                     </div>
+                </div>
+                <!-- ./Research Unit -->
 
-                    <div class="row justify-content-center">
-
-                        <!-- Orders -->
-                        <div class="col-lg-12">
-                            <div class="input-group mb-3">
-                                <div class="input-group-append">
-                                    <label class="input-group-text">{{ __('filters.order_by') }}</label>
-                                </div>
-                                <select name="order_by" class="form-control select2bs4 order_by">
-                                    @foreach ($ordersBy as $orderBy => $value)
-                                        <option value="{{ $orderBy }}"
-                                            {{ optionInArray($params, 'order_by', $orderBy) }}>
-                                            {{ $value }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                <!-- Project -->
+                <div class="col-lg-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label class="input-group-text">{{ __('filters.projects') }}</label>
                         </div>
-                        <!-- ./Orders -->
-
+                        <select name="project_id" id="project_id" class="form-control select2bs4 projects">
+                            @foreach ($projects as $project => $value)
+                                <option value="{{ $project }}"
+                                    {{ optionIsSelected($params, 'project_id', $project) }}>
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
                     </div>
-
-                    <button type="submit" class="btn btn-danger btn-sm">{{ __('buttons.report') }}</button>
-                </form>
+                </div>
+                <!-- ./Project -->
             </div>
-        </div>
+
+            <!-- Phases Completed -->
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label class="input-group-text">{{ __('filters.phases_completed') }}</label>
+                        </div>
+                        <select name="phases" class="form-control select2bs4 phases" multiple>
+                            @foreach ($phases as $phase => $value)
+                                <option value="{{ $phase }}" {{ optionInArray($params, 'phases', $phase) }}>
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- ./Phases Completed -->
+
+            <!-- Orders -->
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label class="input-group-text">{{ __('filters.order_by') }}</label>
+                        </div>
+                        <select name="order_by" class="form-control select2bs4 order_by">
+                            @foreach ($ordersBy as $orderBy => $value)
+                                <option value="{{ $orderBy }}" {{ optionInArray($params, 'order_by', $orderBy) }}>
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- ./Orders -->
+
+            <!-- ./Filters -->
+
+            <!-- Contents -->
+            <h5 class="font-weight-bold">{{ __('pages.client.reports.custom.sections.contents.title') }}</h5>
+
+            <!-- General Information -->
+            <h6 class="font-weight-bold">{{ __('pages.client.reports.custom.sections.contents.general') }} </h6>
+            <!-- ./General Information -->
+
+            <!-- Intangible Asset Information -->
+            <h6 class="font-weight-bold">{{ __('pages.client.reports.custom.sections.contents.intangible_asset') }} </h6>
+            <div class="row mx-2 mt-2">
+                @foreach ($intangibleAssetCustomContents as $index => $item)
+                    <div class="col-md-3 mt-3">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" name="{{ $item['name'] }}" class="custom-control-input"
+                                id="switch{{ $index }}">
+                            <label class="custom-control-label"
+                                for="switch{{ $index }}">{{ $item['value'] }}</label>
+                        </div>
+                    </div>
+                @endforeach
+
+            </div>
+            <!-- ./Intangible Asset Information -->
+
+            <!-- Graphics -->
+            <h6 class="font-weight-bold mt-4">{{ __('pages.client.reports.custom.sections.contents.graphics') }} </h6>
+            <div class="row mx-2 mt-2">
+                @foreach ($graphics as $index => $item)
+                    <div class="col-md-3 mt-3">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" name="{{ $item['name'] }}" class="custom-control-input"
+                                id="switch{{ $index }}">
+                            <label class="custom-control-label"
+                                for="switch{{ $index }}">{{ $item['value'] }}</label>
+                        </div>
+                    </div>
+                @endforeach
+
+            </div>
+            <!-- ./Graphics -->
+
+            <!-- ./Contents -->
+
+
+            <button type="submit" class="mt-4 btn btn-danger btn-sm">{{ __('buttons.report') }}</button>
+        </form>
     </div>
 @endsection
 

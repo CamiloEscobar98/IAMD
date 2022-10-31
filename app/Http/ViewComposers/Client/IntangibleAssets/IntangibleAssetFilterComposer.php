@@ -65,7 +65,7 @@ class IntangibleAssetFilterComposer
             $projects = $this->projectRepository->getByResearchUnit($researchUnits->first());
         }
 
-        $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('Seleccionar Subdirección Técnica', 0);
+        $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('Seleccionar Facultad', 0);
 
         $researchUnits = $researchUnits->pluck('name', 'id')->prepend('Seleccionar Unidad Investigativa', 0);
 

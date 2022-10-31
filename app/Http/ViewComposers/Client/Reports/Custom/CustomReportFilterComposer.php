@@ -65,7 +65,7 @@ class CustomReportFilterComposer
             $projects = $this->projectRepository->getByResearchUnit($researchUnits->first());
         }
 
-        $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('Seleccionar Subdirección Técnica', -1);
+        $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('Seleccionar Facultad', -1);
 
         $researchUnits = $researchUnits->pluck('name', 'id')->prepend('Seleccionar Unidad Investigativa', -1);
 
@@ -93,6 +93,88 @@ class CustomReportFilterComposer
             2 => 'Recientes',
         ]);
 
-        $view->with(compact('administrativeUnits', 'researchUnits', 'projects', 'phases', 'ordersBy'));
+        $intangibleAssetCustomContents = collect([
+            [
+                'name' =>  'with_basic_information',
+                'value' =>  'Mostrar/Ocultar Informaciíon Básica.'
+            ],
+            [
+                'name' => 'with_dpis',
+                'value' => 'Mostrar/Ocultar Derechos de Propiedad Intelectual Asociados.'
+            ],
+            [
+                'name' =>  'with_published',
+                'value' =>  'Mostrar/Ocultar si ha sido Publicado o Divulgado.'
+            ],
+            [
+                'name' =>  'with_confidenciality_contract',
+                'value' =>  'Mostrar/Ocultar si tiene Contrato de Confidencialidad.'
+            ],
+            [
+                'name' =>  'with_creators',
+                'value' =>  'Mostrar/Ocultar si tiene Creadores asociados.'
+            ],
+            [
+                'name' =>  'with_right_session',
+                'value' =>  'Mostrar/Ocultar si tiene Contrato de Sesión de Derechos Patrimoniales.'
+            ],
+            [
+                'name' =>  'with_contability',
+                'value' =>  'Mostrar/Ocultar si está incorporado a la Contabilidad.'
+            ],
+            [
+                'name' =>  'with_comments',
+                'value' =>  'Mostrar/Ocultar historial de comentarios.'
+            ],
+            [
+                'name' =>  'with_protection_action',
+                'value' =>  'Mostrar/Ocultar si tiene un Plan de Acción y Protección.'
+            ],
+            [
+                'name' =>  'with_priority_tools',
+                'value' =>  'Mostrar/Ocultar si cuenta con Herramientas de Priorización para el Derecho de Propiedad Intelectual.'
+            ],
+            [
+                'name' =>  'with_commercial',
+                'value' =>  'Mostrar/Ocultar si los Derechos de Propiedad Intelectual tiene un Uso Comercial.'
+            ],
+        ]);
+
+        $graphics = collect([
+            [
+                'name' =>  'with_graphics_default',
+                'value' =>  'Mostrar/Ocultar Gráfica Activos Intangibles por Año.'
+            ],
+            [
+                'name' =>  'with_graphics_default',
+                'value' =>  'Mostrar/Ocultar Gráfica Clasificación de los Activos Intangibles por Año.'
+            ],
+            [
+                'name' =>  'with_graphics_default',
+                'value' =>  'Mostrar/Ocultar Gráfica Estado de Protección de los Tipos de Activos Intangibles por Año.'
+            ],
+            [
+                'name' =>  'with_graphics_default',
+                'value' =>  'Mostrar/Ocultar Gráfica Tipos de Activos Intangibles asociados a una Facultad.'
+            ],
+            [
+                'name' =>  'with_graphics_default',
+                'value' =>  'Mostrar/Ocultar Gráfica Tipos de Activos Intangibles por Estados asociados a una Facultad.'
+            ],
+            [
+                'name' =>  'with_graphics_default',
+                'value' =>  'Mostrar/Ocultar Gráfica Activos Intangibles por Grupos de Investigación asociados a una Facultad.'
+            ],
+            [
+                'name' =>  'with_graphics_default',
+                'value' =>  'Mostrar/Ocultar Gráfica Activos Intangibles asociados a un Grupo de Investigación.'
+            ],
+            [
+                'name' => '',
+                'value' => 'Mostrar/Ocultar Gráfica Estados de los Tipos de Activos Intangibles asociados a un Grupo de Investigación.'
+            ]
+        ]);
+
+        $view->with(compact('administrativeUnits', 'researchUnits', 'projects', 'phases', 'ordersBy', 'intangibleAssetCustomContents', 'graphics'));
     }
 }

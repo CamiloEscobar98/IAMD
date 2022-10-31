@@ -693,24 +693,24 @@ return [
 
         /** Administrative Units */
         'administrative_units' => [
-            'title' => 'Subdirecciones Técnicas',
-            'subtitle' => 'Subdirecciones Técnicas',
+            'title' => 'Facultades',
+            'subtitle' => 'Facultades',
 
             'route-titles' => [
-                'create' => 'Registrar Subdirección Técnica',
-                'show' => 'Visualizar Subdirección Técnica',
-                'edit' => 'Editar Subdirección Técnica',
+                'create' => 'Registrar Facultad',
+                'show' => 'Visualizar Facultad',
+                'edit' => 'Editar Facultad',
             ],
 
             'form-titles' => [
-                'show' => 'Perfil de Visualización de la Subdirección Técnica',
-                'create' => 'Formulario de Registro de una Subdirección Técnica',
-                'edit' => 'Actualización de la Subdirección Técnica',
+                'show' => 'Perfil de Visualización de la Facultad',
+                'create' => 'Formulario de Registro de una Facultad',
+                'edit' => 'Actualización de la Facultad',
             ],
 
             'filters' => [
-                'name' => 'Buscar Subdirección Técnica',
-                'total' => 'Total de Subdirecciones Técnicas: ',
+                'name' => 'Buscar Facultad',
+                'total' => 'Total de Facultades: ',
             ],
 
             'table' => [
@@ -729,25 +729,25 @@ return [
             ],
 
             'messages' => [
-                'confirm' => '¿Estás seguro de que quieres eliminar la subdirección técnica?',
+                'confirm' => '¿Estás seguro de que quieres eliminar la facultad?',
 
-                'save_success' => 'Se ha registrado correctamente la subdirección técnica: <b>:administrative_unit</b>',
-                'save_error' => 'No se ha registrado la subdirección técnica.',
+                'save_success' => 'Se ha registrado correctamente la facultad: <b>:administrative_unit</b>',
+                'save_error' => 'No se ha registrado la facultad.',
 
-                'update_success' => 'Se ha actualizado correctamente la subdirección técnica: <b>:administrative_unit</b>',
-                'update_error' => 'No se ha actualizado la subdirección técnica.',
+                'update_success' => 'Se ha actualizado correctamente la facultad: <b>:administrative_unit</b>',
+                'update_error' => 'No se ha actualizado la facultad.',
 
-                'delete_success' => 'Se ha eliminado la subdirección técnica: <b>:administrative_unit</b>',
-                'delete_error' => 'No se ha eliminado la subdirección técnica.'
+                'delete_success' => 'Se ha eliminado la facultad: <b>:administrative_unit</b>',
+                'delete_error' => 'No se ha eliminado la facultad.'
             ],
 
             'info' => [
-                'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>SUBDIRECCIÓN TÉCNICA</b>. 
-                Dicho recurso actualmente está destinado para enriquecer la información de las subdirecciones técnicas dentro de la aplicación.",
+                'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>FACULTAD</b>. 
+                Dicho recurso actualmente está destinado para enriquecer la información de las facultades dentro de la aplicación.",
 
-                'show' => "En esta sección de la aplicación podrás visualizar la subdirección técnica <b>:administrative_unit</b> ",
+                'show' => "En esta sección de la aplicación podrás visualizar la facultad <b>:administrative_unit</b> ",
 
-                'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Subdirecciones Técnicas registradas.'
+                'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Facultades registradas.'
             ],
         ],
 
@@ -772,7 +772,7 @@ return [
                 'name' => 'Buscar Nombre Unidad Investigativa',
                 'code' => 'Buscar Código Unidad Investigativa',
 
-                'administrative_units' => 'Buscar por Subdirección Técnica',
+                'administrative_units' => 'Buscar por Facultad',
                 'research_unit_categories' => 'Buscar por Categoría de Unidad Investigativa',
 
                 'directors' => 'Buscar por Director',
@@ -783,7 +783,7 @@ return [
 
             'table' => [
                 'head' => [
-                    'administrative_unit' => 'Subdirección Técnica',
+                    'administrative_unit' => 'Facultad',
                     'name' => 'Nombre',
                     'code' => 'Código',
                     'research_unit_category' => 'Categoría',
@@ -848,7 +848,7 @@ return [
             'filters' => [
                 'name' => 'Buscar Nombre Proyecto',
 
-                'administrative_units' => 'Buscar por Subdirección Técnica',
+                'administrative_units' => 'Buscar por Facultad',
                 'research_units' => 'Buscar por Unidad Investigativa',
 
                 'total' => 'Total de Proyectos: ',
@@ -856,7 +856,7 @@ return [
 
             'table' => [
                 'head' => [
-                    'administrative_unit' => 'Subdirección Técnica',
+                    'administrative_unit' => 'Facultad',
                     'research_unit' => 'Unidad Investigativa',
                     'director' => 'Director',
                     'project_financing' => 'Financiación',
@@ -1100,7 +1100,7 @@ return [
 
             'table' => [
                 'head' => [
-                    'administrative_unit' => 'Subdirección Técnica',
+                    'administrative_unit' => 'Facultad',
                     'research_unit' => 'Unidad Investigativa',
                     'project' => 'Proyecto',
 
@@ -1390,6 +1390,61 @@ return [
                     'download_error' => 'No se ha podido descargar correctamente el reporte.'
                 ]
             ]
+        ],
+
+        'roles' => [
+            'title' => 'Roles del Sistema',
+            'subtitle' => 'Roles',
+
+            'route-titles' => [
+                'create' => 'Registrar Rol del Sistema',
+                'show' => 'Visualizar Rol del Sistema',
+                'edit' => 'Editar Rol del Sistema',
+            ],
+
+            'form-titles' => [
+                'show' => 'Perfil de Visualización del Rol del Sistema',
+                'create' => 'Formulario de Registro de un Rol del Sistema',
+                'edit' => 'Actualización del Rol del Sistema',
+            ],
+
+            'filters' => [
+                'email' => 'Buscar Rol del Sistema por Email',
+                'total' => 'Total de Roles: ',
+            ],
+
+            'table' => [
+                'head' => [
+                    'name' => 'Nombre',
+                    'email' => 'Email',
+                    'created_at' => 'Fecha de Creación',
+                    'updated_at' => 'Fecha de Actualización'
+                ],
+            ],
+
+            'messages' => [
+                'confirm' => '¿Estás seguro de que quieres eliminar el Rol del Sistema?',
+
+                'save_success' => 'Se ha registrado correctamente el Rol del Sistema: <b>:role</b>',
+                'save_error' => 'No se ha registrado el Rol del Sistema.',
+
+                'update_success' => 'Se ha actualizado correctamente el Rol del Sistema: <b>:role</b>',
+                'update_error' => 'No se ha actualizado el Rol del Sistema.',
+
+                'delete_success' => 'Se ha eliminado el Rol del Sistema: <b>:role</b>',
+                'delete_error' => 'No se ha eliminado el Rol del Sistema.',
+            ],
+
+            'info' => [
+                'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>ROLES DEL SISTEMA</b>. 
+                Dicho recurso actualmente está destinado para enriquecer la información de los usuarios dentro de la aplicación.",
+
+                'show' => "En esta sección de la aplicación podrás visualizar toda la información del Rol del Sistema <b>:role</b> ",
+
+                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Roles del Sistema. La información del recurso será: <b>:user</b>",
+
+                'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Roles del Sistema registrados.'
+            ],
         ],
 
         'priority_tools' => [
@@ -1726,6 +1781,20 @@ return [
             'custom' => [
                 'title' => 'Reporte Personalizado',
                 'subtitle' => 'Personizable',
+
+                'sections' => [
+                    'filters' => [
+                        'title' => 'Filtros de Personalización',
+                    ],
+
+                    'contents' => [
+                        'title' => 'Personalización del Contenido',
+
+                        'general' => 'Información General',
+                        'intangible_asset' => 'Información del Activo Intangible',
+                        'graphics' => 'Visualización de Gráficas'
+                    ]
+                ]
             ]
         ],
     ]

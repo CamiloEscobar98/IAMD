@@ -31,7 +31,7 @@ return [
 
     'country_id' => 'País',
 
-    'administrative_unit_id' => 'Subdirección Técnica',
+    'administrative_unit_id' => 'Facultad',
 
     'research_unit_id' => 'Unidad Investigativa',
     'research_unit_category_id' => 'Categoría Unidad Investigativa',

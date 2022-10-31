@@ -56,7 +56,7 @@ return [
         'title' => 'MENÚ PRINCIPAL',
 
         /** Level 1 */
-        'AdministrativeUnits' => 'Subdirecciones Técnicas',
+        'AdministrativeUnits' => 'Facultades',
 
         /** Level 1 */
         'ResearchUnits' => "Unidades Investigativas",

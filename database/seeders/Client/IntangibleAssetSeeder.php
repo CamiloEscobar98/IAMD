@@ -26,6 +26,7 @@ use App\Repositories\Client\CreatorRepository;
 use App\Repositories\Client\IntangibleAssetConfidentialityContractRepository;
 use App\Repositories\Client\IntangibleAssetContabilityRepository;
 use App\Repositories\Client\IntangibleAssetDpiPriorityToolRepository;
+use App\Repositories\Client\IntangibleAssetLocalizationRepository;
 use App\Repositories\Client\IntangibleAssetSecretProtectionMeasureRepository;
 use App\Repositories\Client\IntangibleAssetSessionRightContractRepository;
 use App\Repositories\Client\IntangibleAssetStrategyRepository;
@@ -39,6 +40,9 @@ class IntangibleAssetSeeder extends Seeder
 {
     /** @var IntangibleAssetRepository */
     protected $intangibleAssetRepository;
+
+    /** @var IntangibleAssetLocalizationRepository */
+    protected $intangibleAssetLocalizationRepository;
 
     /** @var IntangibleAssetStateRepository */
     protected $intangibleAssetStateRepository;
@@ -113,6 +117,7 @@ class IntangibleAssetSeeder extends Seeder
 
     public function __construct(
         IntangibleAssetRepository $intangibleAssetRepository,
+        IntangibleAssetLocalizationRepository $intangibleAssetLocalizationRepository,
         IntangibleAssetStateRepository $intangibleAssetStateRepository,
         IntangibleAssetCommercialRepository $intangibleAssetCommercialRepository,
         IntangibleAssetPublishedRepository $intangibleAssetPublishedRepository,
@@ -143,6 +148,7 @@ class IntangibleAssetSeeder extends Seeder
         StrategyRepository $strategyRepository,
     ) {
         $this->intangibleAssetRepository = $intangibleAssetRepository;
+        $this->intangibleAssetLocalizationRepository = $intangibleAssetLocalizationRepository;
         $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
         $this->intangibleAssetCommercialRepository = $intangibleAssetCommercialRepository;
         $this->intangibleAssetPublishedRepository = $intangibleAssetPublishedRepository;
@@ -227,6 +233,8 @@ class IntangibleAssetSeeder extends Seeder
 
                 print("Intangible Asset Created. Name: " . $intangibleAsset->name . "\n");
 
+                $this->createLocalization($intangibleAsset);
+
                 $this->intangibleAssetPhaseRepository->create(['intangible_asset_id' => $intangibleAsset->id]);
 
                 $randomAllCompleted = (bool) rand(0, 1);
@@ -244,11 +252,21 @@ class IntangibleAssetSeeder extends Seeder
     }
 
     /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     */
+    private function createLocalization($intangibleAsset)
+    {
+        $this->intangibleAssetLocalizationRepository->createOneFactory(['intangible_asset_id' => $intangibleAsset->id]);
+
+        print("This Intangible Asset has Localization in the University. \n");
+    }
+
+    /**
      * @param bool $randomAllCompleted
      * 
      * @return void
      */
-    public function randomPhases(bool $randomAllCompleted, $intangibleAsset, $states, $dpis, $creators, $users, $secretProtectionMeasures, $strategyCategories, $strategies, $priorityTools): void
+    private function randomPhases(bool $randomAllCompleted, $intangibleAsset, $states, $dpis, $creators, $users, $secretProtectionMeasures, $strategyCategories, $strategies, $priorityTools): void
     {
         $randomHasClassification = true;
         $randomHasState = true;
@@ -353,7 +371,7 @@ class IntangibleAssetSeeder extends Seeder
      * 
      * @return void
      */
-    public function updateHasClassification($intangibleAsset): void
+    private function updateHasClassification($intangibleAsset): void
     {
         $randomClassification = $this->intellectualPropertyRightProductRepository->randomFirst();
 
@@ -369,7 +387,7 @@ class IntangibleAssetSeeder extends Seeder
      * 
      * @return void
      */
-    public function updateHasDescription($intangibleAsset): void
+    private function updateHasDescription($intangibleAsset): void
     {
         $faker = \Faker\Factory::create();
 
@@ -405,7 +423,7 @@ class IntangibleAssetSeeder extends Seeder
      * 
      * @return void
      */
-    public function updateHasComments($intangibleAsset, $users): void
+    private function updateHasComments($intangibleAsset, $users): void
     {
         $randomNumber = rand(1, 10);
         $randomUsers = $users->random($randomNumber);

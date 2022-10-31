@@ -11,7 +11,9 @@
                 <td class="bg-subtitle">
                     <small class="font-weight-bold">Total de Activos:</small>
                 </td>
-                <td colspan="2" class="font-weight-bold"><small>{{ $intangibleAssets->count() }}</small></td>
+                <td colspan="2" class="font-weight-bold">
+                    <small>{{ $intangibleAssets->count() }}/{{ $count }}</small>
+                </td>
             </tr>
             <!-- ./Total -->
 
@@ -157,12 +159,18 @@
         </tbody>
     </table>
 
-    <div class="page-break"></div>
 
-    <!-- Items -->
-    @foreach ($intangibleAssets as $intangibleAsset)
-        @include('reports.intangible_assets.components.asset', ['intangibleAsset' => $intangibleAsset])
+    @if (!empty($contentConfiguration))
         <div class="page-break"></div>
-    @endforeach
-    <!-- ./Items -->
+
+        <!-- Items -->
+        @foreach ($intangibleAssets as $intangibleAsset)
+            @include('reports.intangible_assets.components.asset', [
+                'intangibleAsset' => $intangibleAsset,
+                'contentConfiguration' => $contentConfiguration,
+            ])
+            <div class="page-break"></div>
+        @endforeach
+        <!-- ./Items -->
+    @endif
 @endsection

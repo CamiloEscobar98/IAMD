@@ -21,6 +21,8 @@ use App\Http\Controllers\Client\IntangibleAssetReportController;
 use App\Http\Controllers\Client\IntangibleAssetStrategyController;
 
 use App\Http\Controllers\Client\UserController;
+use App\Http\Controllers\Client\RoleController;
+
 use App\Http\Controllers\Client\PriorityToolController;
 use App\Http\Controllers\Client\ProjectContractTypeController;
 use App\Http\Controllers\Client\ReportController;
@@ -124,6 +126,8 @@ Route::prefix('reports')
     });
 
 Route::resource('users', UserController::class);
+
+Route::resource('roles', RoleController::class);
 
 Route::resource('priority_tools', PriorityToolController::class);
 
