@@ -142,16 +142,16 @@ class CustomReportFilterComposer
 
         $graphics = collect([
             [
-                'name' =>  'with_graphics_default',
+                'name' =>  'with_graphics_assets_per_year',
                 'value' =>  'Mostrar/Ocultar Gráfica Activos Intangibles por Año.'
             ],
             [
-                'name' =>  'with_graphics_default',
+                'name' =>  'with_graphics_assets_classification_per_year',
                 'value' =>  'Mostrar/Ocultar Gráfica Clasificación de los Activos Intangibles por Año.'
             ],
             [
                 'name' =>  'with_graphics_default',
-                'value' =>  'Mostrar/Ocultar Gráfica Estado de Protección de los Tipos de Activos Intangibles por Año.'
+                'value' =>  'Mostrar/Ocultar Gráfica Estados de Protección de los Tipos de Activos Intangibles por Año.'
             ],
             [
                 'name' =>  'with_graphics_default',
@@ -170,7 +170,7 @@ class CustomReportFilterComposer
                 'value' =>  'Mostrar/Ocultar Gráfica Activos Intangibles asociados a un Grupo de Investigación.'
             ],
             [
-                'name' => '',
+                'name' => 'with_graphics_default',
                 'value' => 'Mostrar/Ocultar Gráfica Estados de los Tipos de Activos Intangibles asociados a un Grupo de Investigación.'
             ]
         ]);

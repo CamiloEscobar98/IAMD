@@ -1,5 +1,11 @@
 @extends('reports.app')
 
+@section('css')
+    @if (hasGraphics($graphicConfiguration))
+        <link rel="stylesheet" href="{{ asset('adminlte/plugins/chart.js/Chart.min.css') }}">
+    @endif
+@endsection
+
 @section('content')
     <table class="table table-sm table-bordered border-1">
         <tbody>
@@ -172,5 +178,19 @@
             <div class="page-break"></div>
         @endforeach
         <!-- ./Items -->
+    @endif
+
+    @if (hasContent($graphicConfiguration, 'with_graphics_assets_per_year'))
+        <div class="page-break"></div>
+        <!-- Graphics Assets per Year -->
+        @include('charts.intangible_assets.assets_per_year', compact('intangibleAssets'))
+    @endif
+
+@endsection
+
+
+@section('js')
+    @if (hasGraphics($graphicConfiguration))
+        <script src="{{ asset('adminlte/plugins/chart.js/Chart.min.js') }}"></script>
     @endif
 @endsection

@@ -144,9 +144,9 @@
                     <div class="col-md-3 mt-3">
                         <div class="custom-control custom-switch">
                             <input type="checkbox" name="{{ $item['name'] }}" class="custom-control-input"
-                                id="switch{{ $index }}">
+                                id="switch-{{ $index }}">
                             <label class="custom-control-label"
-                                for="switch{{ $index }}">{{ $item['value'] }}</label>
+                                for="switch-{{ $index }}">{{ $item['value'] }}</label>
                         </div>
                     </div>
                 @endforeach
@@ -157,13 +157,13 @@
             <!-- Graphics -->
             <h6 class="font-weight-bold mt-4">{{ __('pages.client.reports.custom.sections.contents.graphics') }} </h6>
             <div class="row mx-2 mt-2">
-                @foreach ($graphics as $index => $item)
+                @foreach ($graphics as $index => $graphicItem)
                     <div class="col-md-3 mt-3">
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" name="{{ $item['name'] }}" class="custom-control-input"
-                                id="switch{{ $index }}">
+                            <input type="checkbox" name="{{ $graphicItem['name'] }}" class="custom-control-input"
+                                id="switch-graphic-{{ $index }}">
                             <label class="custom-control-label"
-                                for="switch{{ $index }}">{{ $item['value'] }}</label>
+                                for="switch-graphic-{{ $index }}">{{ $graphicItem['value'] }}</label>
                         </div>
                     </div>
                 @endforeach

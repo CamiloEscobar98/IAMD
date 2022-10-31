@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('adminlte/plugins/chart.js/Chart.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/report.css') }}">
+    @yield('css')
 
     <title>Reporte Individual del Activo Intangible</title>
 </head>
@@ -34,12 +34,14 @@
 
     @yield('content')
 
-
-
     <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('adminlte/plugins/overlayScrollbars/js/OverlayScrollbars.min.js') }}"></script>
     <script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
+
+    @yield('js')
+
+    @yield('custom_js')
 
 </body>
 

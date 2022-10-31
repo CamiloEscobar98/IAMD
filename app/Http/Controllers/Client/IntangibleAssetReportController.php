@@ -12,6 +12,7 @@ use App\Jobs\CreateFileReportJob;
 
 use App\Repositories\Admin\IntellectualPropertyRightSubcategoryRepository;
 use App\Repositories\Client\IntangibleAssetRepository;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 
 class IntangibleAssetReportController extends Controller
@@ -81,7 +82,9 @@ class IntangibleAssetReportController extends Controller
             'with_contability', 'with_comments', 'with_protection_action', 'with_priority_tools', 'with_commercial'
         ]);
 
-        // return $contentConfiguration;
+        $graphicConfiguration = $request->only([
+            'with_graphics_assets_per_year', 'with_graphics_assets_classification_per_year', 'with_graphics_default'
+        ]);
 
         try {
 
@@ -108,7 +111,7 @@ class IntangibleAssetReportController extends Controller
             $reportType = 'intangible_assets.reports.custom';
 
             $config = [
-                'user_id' => $userId,
+                'userId' => $userId,
                 'client' => $client,
                 'report_type' => $reportType
             ];
@@ -117,7 +120,8 @@ class IntangibleAssetReportController extends Controller
                 'count' => $count,
                 'dpis' => $dpis,
                 'client' => $client,
-                'contentConfiguration' => $contentConfiguration
+                'contentConfiguration' => $contentConfiguration,
+                'graphicConfiguration' => $graphicConfiguration
             ];
 
             // $phasesCompleted = $this->getPhasesCompletedArray($intangibleAssets);
@@ -130,12 +134,20 @@ class IntangibleAssetReportController extends Controller
             // ];
             // $this->callJobReportCustom($data, $config);
 
+            // return $intangibleAssets->groupBy(function($val){
+            //     return Carbon::parse($val->created_at)->format('Y');
+            // });
+
+            // return view('reports.intangible_assets.custom', compact('contentConfiguration', 'graphicConfiguration', 'phasesCompleted', 'intangibleAssets', 'count', 'client', 'dpis'));
+
 
             if ($count < 50) {
                 Log::notice('One report file will be created!');
                 $phasesCompleted = $this->getPhasesCompletedArray($intangibleAssets);
+
                 $data['intangibleAssets'] = $intangibleAssets;
                 $data['phasesCompleted'] = $phasesCompleted;
+
                 $this->callJobReportCustom($data, $config);
             } else {
                 $splitIntangibleAssets = [];
@@ -158,8 +170,10 @@ class IntangibleAssetReportController extends Controller
 
                 foreach ($splitIntangibleAssets as $split) {
                     $phasesCompleted = $this->getPhasesCompletedArray($split);
+
                     $data['intangibleAssets'] = $split;
                     $data['phasesCompleted'] = $phasesCompleted;
+
                     $this->callJobReportCustom($data, $config);
                 }
             }
