@@ -169,6 +169,17 @@
         @enderror
         <!-- ./Name -->
 
+        <!-- Date -->
+        <div class="input-group mt-3">
+            <input type="date" name="date" class="form-control {{ isInvalidByError($errors, 'date') }}"
+                placeholder="{{ __('inputs.date') }}" value="{{ old('date') }}">
+        </div>
+
+        @error('date')
+            <small class="text-danger">{{ $message }}</small>
+        @enderror
+        <!-- ./Date -->
+
         <!-- Button Save -->
         <div class="form-group mt-3 mb-0">
             <button class="btn btn-secondary btn-sm">{{ __('buttons.save') }}</button>

@@ -25,6 +25,8 @@ return [
     'telephone' => 'Teléfono',
     'phone' => 'Teléfono Celular',
 
+    'date' => 'Fecha de registro',
+
     'intellectual_property_rights_category' => 'Categoría de los Derechos de Propiedad Intelectual',
     'intellectual_property_rights_subcategory' => 'Subcategorías de los Derechos de Propiedad Intelectual',
     'intellectual_property_rights_product' => 'Producto de los Derechos de Propiedad Intelectual',

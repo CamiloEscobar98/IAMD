@@ -20,11 +20,10 @@ class IntangibleAssetFactory extends Factory
      */
     public function definition()
     {
-        $date = $this->faker->date('Y-m-d H:i:s');
+        $date = $this->faker->dateTimeBetween('-20 years', '-5 months');
         return [
             'name' => 'Activo Intangible ' . $this->faker->unique()->words(2, true),
-            'created_at' => $date,
-            'updated_at' => $date
+            'date' => $date,
         ];
     }
 }

@@ -217,7 +217,7 @@ class IntangibleAssetSeeder extends Seeder
 
 
         $projects->each(function ($project) use ($states, $creators, $users, $dpis, $secretProtectionMeasures, $priorityTools, $strategyCategories, $strategies) {
-            $randomNumber = rand(3, 5);
+            $randomNumber = rand(10, 25);
 
             print("PROJECT: " . $project->name .  "\n \n");
 
@@ -233,10 +233,6 @@ class IntangibleAssetSeeder extends Seeder
 
                 print("Intangible Asset Created. Name: " . $intangibleAsset->name . "\n");
 
-                $this->createLocalization($intangibleAsset);
-
-                $this->intangibleAssetPhaseRepository->create(['intangible_asset_id' => $intangibleAsset->id]);
-
                 $randomAllCompleted = (bool) rand(0, 1);
 
                 $this->randomPhases($randomAllCompleted, $intangibleAsset, $states, $dpis, $creators, $users, $secretProtectionMeasures, $strategyCategories, $strategies, $priorityTools);
@@ -249,16 +245,6 @@ class IntangibleAssetSeeder extends Seeder
 
             print("INTANGIBLE ASSET FINISHED. \n \n");
         });
-    }
-
-    /**
-     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
-     */
-    private function createLocalization($intangibleAsset)
-    {
-        $this->intangibleAssetLocalizationRepository->createOneFactory(['intangible_asset_id' => $intangibleAsset->id]);
-
-        print("This Intangible Asset has Localization in the University. \n");
     }
 
     /**

@@ -12,8 +12,7 @@
             </div>
         </div>
     </td>
-    <td>{{ $item->created_at }}</td>
-    <td>{{ $item->updated_at }}</td>
+    <td>{{ $item->date }}</td>
     <td>
         <div class="row justify-content-center">
             <a href="{{ route('client.intangible_assets.show', [$client->name, $item->id]) }}"

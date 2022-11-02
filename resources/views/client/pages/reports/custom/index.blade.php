@@ -135,6 +135,20 @@
 
             <!-- General Information -->
             <h6 class="font-weight-bold">{{ __('pages.client.reports.custom.sections.contents.general') }} </h6>
+
+            <div class="row mx-2 mt-2">
+                @foreach ($intangibleAssetCustomGeneral as $index => $item)
+                    <div class="col-md-3 mt-3">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" name="{{ $item['name'] }}" class="custom-control-input"
+                                id="switch-general-{{ $index }}">
+                            <label class="custom-control-label"
+                                for="switch-general-{{ $index }}">{{ $item['value'] }}</label>
+                        </div>
+                    </div>
+                @endforeach
+
+            </div>
             <!-- ./General Information -->
 
             <!-- Intangible Asset Information -->
@@ -144,9 +158,9 @@
                     <div class="col-md-3 mt-3">
                         <div class="custom-control custom-switch">
                             <input type="checkbox" name="{{ $item['name'] }}" class="custom-control-input"
-                                id="switch-{{ $index }}">
+                                id="switch-content-{{ $index }}">
                             <label class="custom-control-label"
-                                for="switch-{{ $index }}">{{ $item['value'] }}</label>
+                                for="switch-content-{{ $index }}">{{ $item['value'] }}</label>
                         </div>
                     </div>
                 @endforeach

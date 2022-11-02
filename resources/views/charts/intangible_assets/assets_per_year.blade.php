@@ -1,6 +1,6 @@
 @php
     $items = $intangibleAssets->groupBy(function ($val) {
-        return \Carbon\Carbon::parse($val->created_at)->format('Y');
+        return \Carbon\Carbon::parse($val->date)->format('Y');
     });
     
     $labels = [];
@@ -44,7 +44,8 @@
     <table class="table table-sm table-bordered border-1 mt-4">
         <tbody>
             <tr class="text-center">
-                <td colspan="3" class="bg-title text-white font-weight-bold">Información de la Gráfica</td>
+                <td colspan="3" class="bg-title text-white font-weight-bold">Información de la Gráfica: Activos
+                    Intangibles por Año</td>
             </tr>
 
             @foreach ($items as $key => $item)

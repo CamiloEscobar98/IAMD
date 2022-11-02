@@ -21,10 +21,23 @@ use App\Models\Client\Project\Project;
 use App\Models\Client\User;
 use App\Models\Client\SecretProtectionMeasure;
 use App\Models\Client\IntangibleAsset\IntangibleAssetDPI;
+use App\Observers\IntangibleAssetObserver;
 
 class IntangibleAsset extends BaseModel
 {
     use HasFactory, HasPhases;
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        IntangibleAsset::observe(IntangibleAssetObserver::class);
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -39,6 +52,7 @@ class IntangibleAsset extends BaseModel
         'description',
         'code',
         'path',
+        'date'
     ];
 
     /**

@@ -25,6 +25,8 @@ return new class extends Migration
             $table->string('code')->nullable();
             $table->string('path')->nullable();
 
+            $table->date('date');
+
             $table->timestamps();
 
             $table->unique(['project_id', 'name', 'code']);

@@ -93,6 +93,17 @@ class CustomReportFilterComposer
             2 => 'Recientes',
         ]);
 
+        $intangibleAssetCustomGeneral = collect([
+            [
+                'name' =>  'with_general_total',
+                'value' =>  'Mostrar/Ocultar Total de Activos Intangibles.'
+            ],
+            [
+                'name' => 'with_general_phase_status',
+                'value' => 'Mostrar/Ocultar Proceso de las Fases de los Activos Intangibles.'
+            ],
+        ]);
+
         $intangibleAssetCustomContents = collect([
             [
                 'name' =>  'with_basic_information',
@@ -175,6 +186,6 @@ class CustomReportFilterComposer
             ]
         ]);
 
-        $view->with(compact('administrativeUnits', 'researchUnits', 'projects', 'phases', 'ordersBy', 'intangibleAssetCustomContents', 'graphics'));
+        $view->with(compact('administrativeUnits', 'researchUnits', 'projects', 'phases', 'ordersBy', 'intangibleAssetCustomGeneral', 'intangibleAssetCustomContents', 'graphics'));
     }
 }

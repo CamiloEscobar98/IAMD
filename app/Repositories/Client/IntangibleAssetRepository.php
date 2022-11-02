@@ -75,7 +75,7 @@ class IntangibleAssetRepository extends AbstractRepository
             $query->withCount($withCount);
         }
 
-        $query->orderBy('created_at');
+        $query->orderBy('date');
 
         // dd($query->get()->toArray());
 

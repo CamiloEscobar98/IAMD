@@ -26,6 +26,7 @@ class StoreRequest extends FormRequest
         return [
             'project_id' => ['required', 'exists:tenant.projects,id'],
             'name' => ['required', 'unique:tenant.intangible_assets'],
+            'date' => ['required', 'date']
         ];
     }
 }
