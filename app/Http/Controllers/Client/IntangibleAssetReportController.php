@@ -178,21 +178,18 @@ class IntangibleAssetReportController extends Controller
                 'client' => $client,
             ];
 
-            $dataCompact = compact('generalConfiguration', 'contentConfiguration', 'graphicConfiguration', 'count', 'client');
+            /** Testing the View Custom PDF */
+            // $dataCompact = compact('generalConfiguration', 'contentConfiguration', 'intangibleAssets', 'graphicConfiguration', 'count', 'client');
 
             if (isset($dataCompact) && $dataCompact) {
-                $dataCompact['intangibleAssets'] = $intangibleAssets;
 
                 if (hasContent($generalConfiguration, 'with_general_phase_status')) $dataCompact['phasesCompleted'] = $this->getPhasesCompletedArray($intangibleAssets);
 
                 $phasesCompleted = $this->getPhasesCompletedArray($intangibleAssets);
 
-                # Graphics Configuration
-
                 if (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_year')) {
                     $response = $this->getDataGraphicIntangibleAssetClassificationPerYear($intangibleAssets, $dataCompact);
 
-                    $data = $response;
                     $dataCompact = $response;
                 }
 
@@ -200,20 +197,36 @@ class IntangibleAssetReportController extends Controller
                     $response = $this->getDataGraphicIntangibleAssetPerYear($intangibleAssets, $dataCompact);
 
 
-                    $data = $response;
                     $dataCompact = $response;
                 }
 
-                // return $dataCompact;
-
+                return $dataCompact;
                 return view('reports.intangible_assets.custom', $dataCompact);
             }
+            /** ./Testing the View Custom PDF */
 
+
+            # Graphics Configuration
+            if (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_year')) {
+                $response = $this->getDataGraphicIntangibleAssetClassificationPerYear($intangibleAssets, $data);
+                $data = $response;
+            }
+
+            if (hasContent($graphicConfiguration, 'with_graphics_assets_per_year')) {
+                $response = $this->getDataGraphicIntangibleAssetPerYear($intangibleAssets, $data);
+                $data = $response;
+            }
+
+            // return $data;
+
+            if (!empty($generalConfiguration) && !empty($contentConfiguration)) {
+                return 'Hi';
+            }
+            // return 'Bye';
 
             if (!empty($graphicConfiguration) || !empty($generalConfiguration)) {
                 Log::notice('One report file will be created!');
                 $data['intangibleAssets'] = $intangibleAssets;
-                $data['graphicData'] = $dataCompact['graphicData'];
                 if (hasContent($generalConfiguration, 'with_general_phase_status')) $data['phasesCompleted'] = $this->getPhasesCompletedArray($intangibleAssets);
 
                 $this->callJobReportCustom($data, $config);

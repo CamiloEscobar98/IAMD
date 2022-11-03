@@ -171,9 +171,7 @@
 
             </tbody>
         </table>
-    @endif
 
-    @if (!empty($generalConfiguration) && !empty($contentConfiguration))
         <div class="page-break"></div>
     @endif
 
@@ -187,16 +185,16 @@
             <div class="page-break"></div>
         @endforeach
         <!-- ./Items -->
+
+        <div class="page-break"></div>
     @endif
 
     @if (hasContent($graphicConfiguration, 'with_graphics_assets_per_year'))
-        <div class="page-break"></div>
         <!-- Graphics Assets per Year -->
         @include('charts.intangible_assets.assets_per_year', compact('intangibleAssets', 'graphicData'))
     @endif
 
     @if (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_year'))
-        <div class="page-break"></div>
         <!-- Graphics Assets per Year -->
         @include('charts.intangible_assets.asset_classification_per_year',
             compact('intangibleAssets', 'graphicData'))
