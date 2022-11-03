@@ -192,7 +192,7 @@
     @if (hasContent($graphicConfiguration, 'with_graphics_assets_per_year'))
         <div class="page-break"></div>
         <!-- Graphics Assets per Year -->
-        @include('charts.intangible_assets.assets_per_year', compact('intangibleAssets'))
+        @include('charts.intangible_assets.assets_per_year', compact('intangibleAssets', 'graphicData'))
     @endif
 
     @if (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_year'))

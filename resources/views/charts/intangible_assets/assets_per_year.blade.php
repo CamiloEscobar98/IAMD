@@ -1,43 +1,15 @@
 @php
-    $items = $intangibleAssets->groupBy(function ($val) {
-        return \Carbon\Carbon::parse($val->date)->format('Y');
-    });
     
-    $labels = [];
+    $collection = collect($graphicData['with_graphics_assets_per_year']);
     
-    $data = [];
-    
-    foreach ($items as $key => $item) {
-        array_push($labels, $key);
-        array_push($data, $item->count());
-    }
-    
-    $datasets = [
-        [
-            'label' => 'Activos Intangibles',
-            'data' => $data,
-            'backgroundColor' => 'red',
-        ],
-    ];
-    
-    $data = [
-        'labels' => $labels,
-        'datasets' => $datasets,
-    ];
-    
-    $config = json_encode([
-        'type' => 'bar',
-        'data' => $data,
-    ]);
-    
-    // dd($data);
+    $dataConfig = $collection->only(['type', 'data'])->toJson();
     
 @endphp
 
 <div class="chart text-center">
 
     <h4 class="mb-4">Gráfica Activos Intangibles por Año</h4>
-    <img src="https://quickchart.io/chart?c={{ $config }}" style="width: 100%">
+    <img src="https://quickchart.io/chart?c={{ $dataConfig }}" style="width: 100%">
 
     <div class="page-break"></div>
 
@@ -48,7 +20,7 @@
                     Intangibles por Año</td>
             </tr>
 
-            @foreach ($items as $key => $item)
+            @foreach ($graphicData['with_graphics_assets_per_year']['items'] as $key => $item)
                 <tr class="text-center">
                     <td colspan="1" class="bg-subtitle">
                         <small class="font-weight-bold">{{ $key }}</small>

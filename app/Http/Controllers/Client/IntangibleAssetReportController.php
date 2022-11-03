@@ -171,75 +171,59 @@ class IntangibleAssetReportController extends Controller
             ];
 
             $data = [
-                'count' => $count,
-                'client' => $client,
                 'generalConfiguration' => $generalConfiguration,
                 'contentConfiguration' => $contentConfiguration,
                 'graphicConfiguration' => $graphicConfiguration,
+                'count' => $count,
+                'client' => $client,
             ];
 
-            $phasesCompleted = $this->getPhasesCompletedArray($intangibleAssets);
+            $dataCompact = compact('generalConfiguration', 'contentConfiguration', 'graphicConfiguration', 'count', 'client');
 
-            $dataCompact = compact('generalConfiguration', 'contentConfiguration', 'graphicConfiguration', 'phasesCompleted', 'intangibleAssets', 'count', 'client');
+            if (isset($dataCompact) && $dataCompact) {
+                $dataCompact['intangibleAssets'] = $intangibleAssets;
 
-            if (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_year')) {
-                /** @var Collection $products */
-                $products = $this->intellectualPropertyRightProductRepository->search([])->get();
+                if (hasContent($generalConfiguration, 'with_general_phase_status')) $dataCompact['phasesCompleted'] = $this->getPhasesCompletedArray($intangibleAssets);
 
-                $productArray = $products->split(8);
+                $phasesCompleted = $this->getPhasesCompletedArray($intangibleAssets);
 
-                $intangibleAssetsGroupByClassification = $intangibleAssets->groupBy(function ($val) {
-                    return \Carbon\Carbon::parse($val->date)->format('Y');
-                });
+                # Graphics Configuration
 
-                $labels = [];
-                foreach ($intangibleAssetsGroupByClassification as $key => $items) {
-                    array_push($labels, $key);
+                if (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_year')) {
+                    $response = $this->getDataGraphicIntangibleAssetClassificationPerYear($intangibleAssets, $dataCompact);
+
+                    $data = $response;
+                    $dataCompact = $response;
                 }
 
-                $dataCompact['graphicData'] = [
-                    'with_graphics_assets_classification_per_year' => []
-                ];
+                if (hasContent($graphicConfiguration, 'with_graphics_assets_per_year')) {
+                    $response = $this->getDataGraphicIntangibleAssetPerYear($intangibleAssets, $dataCompact);
 
-                foreach ($productArray as $productArrayItem) {
-                    $datasets = [];
-                    foreach ($productArrayItem as $productItem) {
-                        $dataArrayClassification = [];
 
-                        foreach ($labels as $label) {
-                            array_push($dataArrayClassification, $intangibleAssets->where('classification_id', $productItem->id)->where(function ($val) use ($label) {
-                                $year = (int)\Carbon\Carbon::parse($val->date)->format('Y');
-                                return $year == $label;
-                            })->count());
-                        }
-                        array_push($datasets, ['label' => $productItem->name, 'data' => $dataArrayClassification]);
-                    }
-                    array_push($dataCompact['graphicData']['with_graphics_assets_classification_per_year'], ['labels' => $labels, 'datasets' => $datasets]);
+                    $data = $response;
+                    $dataCompact = $response;
                 }
+
+                // return $dataCompact;
+
+                return view('reports.intangible_assets.custom', $dataCompact);
             }
-
-            // return $dataCompact;
-
-            // return view('reports.intangible_assets.custom', $dataCompact);
-
 
 
             if (!empty($graphicConfiguration) || !empty($generalConfiguration)) {
                 Log::notice('One report file will be created!');
-                $phasesCompleted = $this->getPhasesCompletedArray($intangibleAssets);
-
                 $data['intangibleAssets'] = $intangibleAssets;
-                $data['phasesCompleted'] = $phasesCompleted;
                 $data['graphicData'] = $dataCompact['graphicData'];
+                if (hasContent($generalConfiguration, 'with_general_phase_status')) $data['phasesCompleted'] = $this->getPhasesCompletedArray($intangibleAssets);
 
                 $this->callJobReportCustom($data, $config);
             } else {
                 if ($count < 50) {
                     Log::notice('One report file will be created!');
-                    $phasesCompleted = $this->getPhasesCompletedArray($intangibleAssets);
+
 
                     $data['intangibleAssets'] = $intangibleAssets;
-                    $data['phasesCompleted'] = $phasesCompleted;
+                    if (hasContent($generalConfiguration, 'with_general_phase_status')) $data['phasesCompleted'] = $this->getPhasesCompletedArray($intangibleAssets);
 
                     $this->callJobReportCustom($data, $config);
                 } else {
@@ -284,7 +268,7 @@ class IntangibleAssetReportController extends Controller
      * @param array $data
      * @param array $config
      */
-    private function callJobReportCustom($data, $config)
+    protected function callJobReportCustom($data, $config)
     {
         CreateFileReportJob::dispatch($data, $config)->onQueue('intangible_assets-reports-custom');
     }
@@ -294,7 +278,7 @@ class IntangibleAssetReportController extends Controller
      * 
      * @return array
      */
-    public function getPhasesCompletedArray($intangibleAssets): array
+    protected function getPhasesCompletedArray($intangibleAssets): array
     {
         return [
             'allPhasesCompleted' => $intangibleAssets->where(function ($intangibleAsset) {
@@ -337,5 +321,93 @@ class IntangibleAssetReportController extends Controller
                 return $intangibleAsset->hasPhaseNineCompleted();
             })->count(),
         ];
+    }
+
+    /**
+     * @param Collection $intangibleAssets
+     * @param array $dataArray
+     * 
+     * @return array
+     */
+    protected function getDataGraphicIntangibleAssetPerYear($intangibleAssets, $dataArray)
+    {
+        $items = $intangibleAssets->groupBy(function ($val) {
+            return \Carbon\Carbon::parse($val->date)->format('Y');
+        });
+
+        $labels = [];
+
+        $data = [];
+
+        foreach ($items as $key => $item) {
+            array_push($labels, $key);
+            array_push($data, $item->count());
+        }
+
+        $datasets = [
+            [
+                'label' => 'Activos Intangibles',
+                'data' => $data,
+                'backgroundColor' => 'red',
+            ],
+        ];
+
+        $data = [
+            'labels' => $labels,
+            'datasets' => $datasets,
+        ];
+
+        $dataArray['graphicData']['with_graphics_assets_per_year'] = [
+            'items' => $items,
+            'type' => 'bar',
+            'data' => $data,
+        ];
+
+        return $dataArray;
+    }
+
+    /**
+     * @param Collection $intangibleAssets
+     * @param array $dataArray
+     * 
+     * @return array
+     */
+    protected function getDataGraphicIntangibleAssetClassificationPerYear($intangibleAssets, $dataArray)
+    {
+        /** @var Collection $products */
+        $products = $this->intellectualPropertyRightProductRepository->search([])->get();
+
+        $productArray = $products->split(8);
+
+        $intangibleAssetsGroupByClassification = $intangibleAssets->groupBy(function ($val) {
+            return \Carbon\Carbon::parse($val->date)->format('Y');
+        });
+
+        $labels = [];
+        foreach ($intangibleAssetsGroupByClassification as $key => $items) {
+            array_push($labels, $key);
+        }
+
+        $dataArray['graphicData'] = [
+            'with_graphics_assets_classification_per_year' => []
+        ];
+
+        foreach ($productArray as $productArrayItem) {
+            $datasets = [];
+            foreach ($productArrayItem as $productItem) {
+                $dataArrayClassification = [];
+
+                foreach ($labels as $label) {
+                    array_push($dataArrayClassification, $intangibleAssets->where('classification_id', $productItem->id)->where(function ($val) use ($label) {
+                        $year = (int)\Carbon\Carbon::parse($val->date)->format('Y');
+                        return $year == $label;
+                    })->count());
+                }
+                array_push($datasets, ['label' => $productItem->name, 'data' => $dataArrayClassification]);
+            }
+            array_push($dataArray['graphicData']['with_graphics_assets_classification_per_year'], ['labels' => $labels, 'datasets' => $datasets]);
+        }
+
+        return $dataArray;
     }
 }
