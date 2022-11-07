@@ -6,15 +6,28 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Admin\IntellectualPropertyRightCategoryRepository;
+use App\Repositories\Admin\IntellectualPropertyRightSubcategoryRepository;
+use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
 
 class IntellectualPropertyRightCategoryService
 {
     /** @var IntellectualPropertyRightCategoryRepository */
     protected $intellectualPropertyRightCategoryRepository;
 
-    public function __construct(IntellectualPropertyRightCategoryRepository $intellectualPropertyRightCategoryRepository)
-    {
+    /** @var IntellectualPropertyRightSubcategoryRepository */
+    protected $intellectualPropertyRightSubcategoryRepository;
+
+    /** @var IntellectualPropertyRightProductRepository */
+    protected $intellectualPropertyRightProductRepository;
+
+    public function __construct(
+        IntellectualPropertyRightCategoryRepository $intellectualPropertyRightCategoryRepository,
+        IntellectualPropertyRightSubcategoryRepository $intellectualPropertyRightSubcategoryRepository,
+        IntellectualPropertyRightProductRepository $intellectualPropertyRightProductRepository,
+    ) {
         $this->intellectualPropertyRightCategoryRepository = $intellectualPropertyRightCategoryRepository;
+        $this->intellectualPropertyRightSubcategoryRepository = $intellectualPropertyRightSubcategoryRepository;
+        $this->intellectualPropertyRightProductRepository = $intellectualPropertyRightProductRepository;
     }
 
     /**
@@ -77,5 +90,47 @@ class IntellectualPropertyRightCategoryService
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
+    }
+
+    /**
+     * @param mixed $productId
+     */
+    public function getIntellectualPropertyCategorySelect($productId = null): array
+    {
+        if (!is_null($productId)) {
+            /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightProduct $product */
+            $product = $this->intellectualPropertyRightProductRepository->getById($productId);
+
+            /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightSubcategory $subCategory */
+            $subCategory = $this->intellectualPropertyRightSubcategoryRepository->getById($product->intellectual_property_right_subcategory_id);
+
+            /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightCategory $category */
+            $category = $this->intellectualPropertyRightCategoryRepository->getById($subCategory->intellectual_property_right_category_id);
+
+            /** SubCategories */
+            $subCategories = $this->intellectualPropertyRightSubcategoryRepository->getByIntellectualPropertyRightCategory($category);
+
+            /** Products */
+            $products = $this->intellectualPropertyRightProductRepository->getByIntellectualPropertyRightSubcategory($subCategory);
+        } else {
+            /** Categories */
+            $categories = $this->intellectualPropertyRightCategoryRepository->all();
+
+            /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightCategory $category */
+            $category = $categories->first();
+
+            /** SubCategories */
+            $subCategories = $this->intellectualPropertyRightSubcategoryRepository->getByIntellectualPropertyRightCategory($category);
+
+            /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightSubcategory $subCategory */
+            $subCategory = $subCategories->first();
+
+            /** Products */
+            $products = $this->intellectualPropertyRightProductRepository->getByIntellectualPropertyRightSubcategory($subCategories->first());
+
+            /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightProduct $product */
+            $product = $products->first();
+        }
+        return [$categories, $subCategories, $products, $category, $subCategory, $product];
     }
 }

@@ -46,10 +46,13 @@ class AbstractRepository
     /**
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function all()
+    public function all($columns = [])
     {
-        
-        return $this->model->all();
+        if (!empty($columns)) {
+            return $this->model->all($columns);
+        } else {
+            return $this->model->all();
+        }
     }
 
     /**

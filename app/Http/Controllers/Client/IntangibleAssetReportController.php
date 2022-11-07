@@ -7,13 +7,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Collection;
 
 use App\Jobs\CreateFileReportJob;
+
+use App\Repositories\Admin\IntangibleAssetStateRepository;
 use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
 use App\Repositories\Admin\IntellectualPropertyRightSubcategoryRepository;
 use App\Repositories\Client\IntangibleAssetRepository;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
+use App\Repositories\Client\ResearchUnitRepository;
 
 class IntangibleAssetReportController extends Controller
 {
@@ -26,16 +28,27 @@ class IntangibleAssetReportController extends Controller
     /** @var IntellectualPropertyRightProductRepository */
     protected $intellectualPropertyRightProductRepository;
 
+    /** @var IntangibleAssetStateRepository */
+    protected $intangibleAssetStateRepository;
+
+    /** @var ResearchUnitRepository */
+    protected $researchUnitRepository;
+
     public function __construct(
         IntangibleAssetRepository $intangibleAssetRepository,
         IntellectualPropertyRightSubcategoryRepository $intellectualPropertyRightSubcategoryRepository,
-        IntellectualPropertyRightProductRepository $intellectualPropertyRightProductRepository
+        IntellectualPropertyRightProductRepository $intellectualPropertyRightProductRepository,
+        IntangibleAssetStateRepository $intangibleAssetStateRepository,
+
+        ResearchUnitRepository $researchUnitRepository
     ) {
         $this->middleware('auth');
 
         $this->intangibleAssetRepository = $intangibleAssetRepository;
         $this->intellectualPropertyRightSubcategoryRepository = $intellectualPropertyRightSubcategoryRepository;
         $this->intellectualPropertyRightProductRepository = $intellectualPropertyRightProductRepository;
+        $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
+        $this->researchUnitRepository = $researchUnitRepository;
     }
 
     /**
@@ -79,7 +92,7 @@ class IntangibleAssetReportController extends Controller
      */
     public function generateCustomReport(Request $request) #: RedirectResponse
     {
-        $params = $request->all();
+        $rules = [];
 
         $generalConfiguration = $request->only([
             'with_general_total', 'with_general_phase_status'
@@ -92,67 +105,44 @@ class IntangibleAssetReportController extends Controller
         ]);
 
         $graphicConfiguration = $request->only([
-            'with_graphics_assets_per_year', 'with_graphics_assets_classification_per_year', 'with_graphics_default'
+            'with_graphics_assets_per_year', 'with_graphics_assets_classification_per_year', 'with_graphics_assets_state_per_year',
+            'with_graphics_assets_classification_per_administrative_unit', 'with_graphics_assets_state_research_unit_per_administrative_unit', 'with_graphics_assets_research_unit_per_administrative_unit',
+            'with_graphics_assets_research_unit_per_administrative_unit', 'with_graphics_assets_classification_per_research_unit'
         ]);
+
+        $rules = $this->getRulesPerGraphicConfiguration($rules, $graphicConfiguration);
+
+        $request->validate($rules);
+
+        $params = $request->all();
+
+        // return $params;
+
 
         try {
             Log::alert('GENERATING CUSTOM REPORT');
 
             Log::info('Searching Intangible Assets..');
 
-            $withRelations =  [
-                'secret_protection_measures'
+            # Default Array
+            $withRelations =  [];
+
+            $selectData = [
+                "intangible_assets.id",
             ];
 
-            if (hasContent($contentConfiguration, 'with_basic_information')) {
-                array_push($withRelations, 'project.research_unit.administrative_unit');
-                array_push($withRelations, 'intangible_asset_state');
-                array_push($withRelations, 'classification');
-            }
+            /** Relations per Content Configuration */
+            [$withRelations, $selectData] = $this->getRelationsArrayPerContentConfiguration($withRelations, $selectData, $contentConfiguration);
+            /** ./Relations per Content Configuration */
 
-            if (hasContent($contentConfiguration, 'with_published')) {
-                array_push($withRelations, 'intangible_asset_published');
-            }
-
-            if (hasContent($contentConfiguration, 'with_confidenciality_contract')) {
-                array_push($withRelations, 'intangible_asset_confidenciality_contract');
-            }
-
-            if (hasContent($contentConfiguration, 'with_creators')) {
-                array_push($withRelations, 'creators');
-            }
-
-            if (hasContent($contentConfiguration, 'with_right_session')) {
-                array_push($withRelations, 'intangible_asset_session_right_contract');
-            }
-
-            if (hasContent($contentConfiguration, 'with_contability')) {
-                array_push($withRelations, 'intangible_asset_contability');
-            }
-
-            if (hasContent($contentConfiguration, 'with_comments')) {
-                array_push($withRelations, 'user_messages');
-            }
-
-            if (hasContent($contentConfiguration, 'with_protection_action')) {
-                array_push($withRelations, 'intangible_asset_protection_action');
-            }
-
-            if (hasContent($contentConfiguration, 'with_priority_tools')) {
-                array_push($withRelations, 'priority_tools.priority_tool');
-                array_push($withRelations, 'priority_tools.dpi');
-            }
-
-            if (hasContent($contentConfiguration, 'with_commercial')) {
-                array_push($withRelations, 'intangible_asset_commercial');
-            }
-
-            if (hasContent($contentConfiguration, 'with_dpis')) {
-                array_push($withRelations, 'dpis.dpi');
-            }
+            /** Relations per Graphic Configuration */
+            [$withRelations, $selectData] = $this->getRelationsArrayPerGraphicConfiguration($withRelations, $selectData, $graphicConfiguration);
+            /** ./Relations per Graphic Configuration */
 
             /** @var Collection $intangibleAssets */
-            $intangibleAssets = $this->intangibleAssetRepository->search($params, $withRelations)->get();
+            $intangibleAssets = $this->intangibleAssetRepository->searchForReport($params, $withRelations, [], $selectData)->get();
+
+            // return $intangibleAssets;
 
             Log::notice('Intangible Assets searched!');
 
@@ -179,13 +169,16 @@ class IntangibleAssetReportController extends Controller
             ];
 
             /** Testing the View Custom PDF */
-            // $dataCompact = compact('generalConfiguration', 'contentConfiguration', 'intangibleAssets', 'graphicConfiguration', 'count', 'client');
+
+            $dataCompact = compact('generalConfiguration', 'contentConfiguration', 'graphicConfiguration', 'count', 'client');
 
             if (isset($dataCompact) && $dataCompact) {
 
-                if (hasContent($generalConfiguration, 'with_general_phase_status')) $dataCompact['phasesCompleted'] = $this->getPhasesCompletedArray($intangibleAssets);
+                if (!empty($contentConfiguration) || !empty($generalConfiguration)) {
+                    $dataCompact['intangibleAssets'] = $intangibleAssets;
+                }
 
-                $phasesCompleted = $this->getPhasesCompletedArray($intangibleAssets);
+                if (hasContent($generalConfiguration, 'with_general_phase_status')) $dataCompact['phasesCompleted'] = $this->getPhasesCompletedArray($intangibleAssets);
 
                 if (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_year')) {
                     $response = $this->getDataGraphicIntangibleAssetClassificationPerYear($intangibleAssets, $dataCompact);
@@ -200,33 +193,83 @@ class IntangibleAssetReportController extends Controller
                     $dataCompact = $response;
                 }
 
-                return $dataCompact;
+                if (hasContent($graphicConfiguration, 'with_graphics_assets_state_per_year')) {
+                    $response = $this->getDataGraphicIntangibleAssetsStatesPerYear($intangibleAssets, $dataCompact);
+                    $dataCompact = $response;
+                }
+
+                if (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_administrative_unit')) {
+                    $response = $this->getDataGraphicIntangibleAssetClassificationPerAdministrativeUnit($intangibleAssets, $dataCompact);
+                    $dataCompact = $response;
+                }
+
+                if (hasContent($graphicConfiguration, 'with_graphics_assets_state_research_unit_per_administrative_unit')) {
+                    $response = $this->getDataGraphicIntangibleAssetStateResearchUnitPerAdministrativeUnit($intangibleAssets, $dataCompact);
+                    $dataCompact = $response;
+                }
+
+                if (hasContent($graphicConfiguration, 'with_graphics_assets_research_unit_per_administrative_unit')) {
+                    $response = $this->getDataGraphicIntangibleStateResearchUnitPerAdministrativeUnit($intangibleAssets, $request, $dataCompact);
+                    $dataCompact = $response;
+                }
+
+                if (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_research_unit')) {
+                    $response = $this->getDataGraphicIntangibleAssetClassificationPerResearchUnit($intangibleAssets, $dataCompact);
+                    $dataCompact = $response;
+                }
+
+                // return $dataCompact;
+
                 return view('reports.intangible_assets.custom', $dataCompact);
             }
             /** ./Testing the View Custom PDF */
 
 
             # Graphics Configuration
-            if (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_year')) {
-                $response = $this->getDataGraphicIntangibleAssetClassificationPerYear($intangibleAssets, $data);
-                $data = $response;
-            }
 
-            if (hasContent($graphicConfiguration, 'with_graphics_assets_per_year')) {
-                $response = $this->getDataGraphicIntangibleAssetPerYear($intangibleAssets, $data);
-                $data = $response;
-            }
+            if (!empty($graphicConfiguration)) {
 
-            // return $data;
+                $data['graphicData'] = [];
 
-            if (!empty($generalConfiguration) && !empty($contentConfiguration)) {
-                return 'Hi';
+                if (hasContent($graphicConfiguration, 'with_graphics_assets_per_year')) {
+                    $response = $this->getDataGraphicIntangibleAssetPerYear($intangibleAssets, $data);
+                    $data = $response;
+                }
+
+                if (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_year')) {
+                    $response = $this->getDataGraphicIntangibleAssetClassificationPerYear($intangibleAssets, $data);
+                    $data = $response;
+                }
+
+                if (hasContent($graphicConfiguration, 'with_graphics_assets_state_per_year')) {
+                    $response = $this->getDataGraphicIntangibleAssetsStatesPerYear($intangibleAssets, $data);
+                    $data = $response;
+                }
+
+                if (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_administrative_unit')) {
+                    $response = $this->getDataGraphicIntangibleAssetClassificationPerAdministrativeUnit($intangibleAssets, $data);
+                    $data = $response;
+                }
+
+                if (hasContent($graphicConfiguration, 'with_graphics_assets_state_research_unit_per_administrative_unit')) {
+                    $response = $this->getDataGraphicIntangibleAssetStateResearchUnitPerAdministrativeUnit($intangibleAssets, $data);
+                    $data = $response;
+                }
+
+                if (hasContent($graphicConfiguration, 'with_graphics_assets_research_unit_per_administrative_unit')) {
+                    $response = $this->getDataGraphicIntangibleStateResearchUnitPerAdministrativeUnit($intangibleAssets, $request, $data);
+                    $data = $response;
+                }
+
+                if (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_research_unit')) {
+                    $response = $this->getDataGraphicIntangibleAssetClassificationPerResearchUnit($intangibleAssets, $data);
+                    $data = $response;
+                }
             }
-            // return 'Bye';
 
             if (!empty($graphicConfiguration) || !empty($generalConfiguration)) {
                 Log::notice('One report file will be created!');
-                $data['intangibleAssets'] = $intangibleAssets;
+                if (!empty($contentConfiguration) || !empty($generalConfiguration)) $data['intangibleAssets'] = $intangibleAssets;
                 if (hasContent($generalConfiguration, 'with_general_phase_status')) $data['phasesCompleted'] = $this->getPhasesCompletedArray($intangibleAssets);
 
                 $this->callJobReportCustom($data, $config);
@@ -268,6 +311,7 @@ class IntangibleAssetReportController extends Controller
                     }
                 }
             }
+
             Log::alert('CUSTOM REPORT ALERT FINISHED');
 
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.reports.single.messages.generate_success')]);
@@ -286,12 +330,168 @@ class IntangibleAssetReportController extends Controller
         CreateFileReportJob::dispatch($data, $config)->onQueue('intangible_assets-reports-custom');
     }
 
+    ### RELATIONS ARRAY PER CONTENT CONFIGURATION
+
+    /**
+     * @param array $withRelations
+     * @param array $selectData
+     * @param array $contentConfiguration
+     * 
+     * @return array
+     */
+    protected function getRelationsArrayPerContentConfiguration(array $withRelations, array $selectData, array $contentConfiguration): array
+    {
+        if (hasContent($contentConfiguration, 'with_basic_information')) {
+            array_push($withRelations, 'project:id,research_unit_id,name');
+            array_push($withRelations, 'project.research_unit:id,administrative_unit_id,name');
+            array_push($withRelations, 'project.research_unit.administrative_unit:id,name');
+            array_push($withRelations, 'intangible_asset_state');
+            array_push($withRelations, 'classification');
+
+            array_push($selectData, 'intangible_assets.id');
+            array_push($selectData, 'intangible_assets.project_id');
+            array_push($selectData, 'intangible_assets.classification_id');
+            array_push($selectData, 'intangible_assets.intangible_asset_state_id');
+            array_push($selectData, 'intangible_assets.name');
+            array_push($selectData, 'intangible_assets.description');
+            array_push($selectData, 'intangible_assets.code');
+            array_push($selectData, 'intangible_assets.date');
+        }
+
+        if (hasContent($contentConfiguration, 'with_published')) {
+            array_push($withRelations, 'intangible_asset_published:intangible_asset_id,published_in,information_scope,published_at');
+        }
+
+        if (hasContent($contentConfiguration, 'with_confidenciality_contract')) {
+            array_push($withRelations, 'intangible_asset_confidenciality_contract:intangible_asset_id,organization_confidenciality');
+        }
+
+        if (hasContent($contentConfiguration, 'with_creators')) {
+            array_push($withRelations, 'creators:name');
+        }
+
+        if (hasContent($contentConfiguration, 'with_right_session')) {
+            array_push($withRelations, 'intangible_asset_session_right_contract:intangible_asset_id,owner');
+        }
+
+        if (hasContent($contentConfiguration, 'with_contability')) {
+            array_push($withRelations, 'intangible_asset_contability:intangible_asset_id,price,comments');
+        }
+
+        if (hasContent($contentConfiguration, 'with_comments')) {
+            array_push($withRelations, 'user_messages:id,name');
+        }
+
+        if (hasContent($contentConfiguration, 'with_protection_action')) {
+            array_push($withRelations, 'intangible_asset_protection_action:id,intangible_asset_id,reference');
+            array_push($withRelations, 'secret_protection_measures:name');
+        }
+
+        if (hasContent($contentConfiguration, 'with_priority_tools')) {
+            array_push($withRelations, 'priority_tools.priority_tool');
+            array_push($withRelations, 'priority_tools.dpi');
+        }
+
+        if (hasContent($contentConfiguration, 'with_commercial')) {
+            array_push($withRelations, 'intangible_asset_commercial');
+        }
+
+        if (hasContent($contentConfiguration, 'with_dpis')) {
+            array_push($withRelations, 'dpis.dpi:id,name');
+        }
+
+        return [$withRelations, $selectData];
+    }
+
+    ### RELATIONS ARRAY PER GRAPHIC CONFIGURATION
+
+    /**
+     * @param array $withRelations
+     * @param array $selectData
+     * @param array $graphicConfiguration
+     * 
+     * @return array
+     */
+    protected function getRelationsArrayPerGraphicConfiguration(array $withRelations, array $selectData, array $graphicConfiguration): array
+    {
+        if (!in_array('intangible_assets.date', $selectData) && hasContent($graphicConfiguration, 'with_graphics_assets_per_year')) {
+            array_push($selectData, 'intangible_assets.date');
+        }
+
+        if (!in_array('intangible_asset_state', $withRelations) && hasContent($graphicConfiguration, 'with_graphics_assets_state_per_year')) {
+            array_push($withRelations, 'intangible_asset_state');
+        }
+
+        if (!in_array('intangible_asset_state_id', $selectData) && hasContent($graphicConfiguration, 'with_graphics_assets_state_per_year')) {
+            array_push($selectData, 'intangible_assets.intangible_asset_state_id');
+            array_push($selectData, 'intangible_assets.date');
+        }
+
+        if (!in_array('classification', $withRelations) && hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_year')) {
+            array_push($withRelations, 'classification');
+        }
+
+        if (!in_array('classification_id', $selectData) && hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_year')) {
+            array_push($selectData, 'intangible_assets.classification_id');
+        }
+
+        if (!in_array('classification', $withRelations) && (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_administrative_unit') ||
+            hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_research_unit'))) {
+            array_push($withRelations, 'classification');
+        }
+
+        if (!in_array('classification_id', $selectData) && (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_administrative_unit') ||
+            hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_research_unit'))) {
+            array_push($selectData, 'intangible_assets.classification_id');
+        }
+
+        if (!in_array('project', $withRelations) && hasContent($graphicConfiguration, 'with_graphics_assets_research_unit_per_administrative_unit')) {
+            array_push($withRelations, 'project:id,research_unit_id,name');
+        }
+
+        if (!in_array('intangible_assets.project_id', $selectData) && hasContent($graphicConfiguration, 'with_graphics_assets_research_unit_per_administrative_unit')) {
+            array_push($selectData, 'intangible_assets.project_id');
+        }
+
+        if (!in_array('project.research_unit:id,administrative_unit_id,name', $withRelations) && hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_research_unit')) {
+            array_push($selectData, 'intangible_assets.project_id');
+            array_push($withRelations, 'project.research_unit:id,administrative_unit_id,name');
+        }
+
+
+        return [$withRelations, $selectData];
+    }
+
+    /**
+     * @param array $rules
+     * @param array $graphicConfiguration
+     */
+    protected function getRulesPerGraphicConfiguration(array $rules, array $graphicConfiguration): array
+    {
+        if (
+            !in_array('administrative_unit_id', $rules)
+            && (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_administrative_unit')
+                || hasContent($graphicConfiguration, 'with_graphics_assets_state_research_unit_per_administrative_unit')
+                || hasContent($graphicConfiguration, 'with_graphics_assets_research_unit_per_administrative_unit'))
+        ) {
+            $rules['administrative_unit_id'] = ['required', 'exists:tenant.administrative_units,id'];
+        }
+
+        if (!in_array('research_unit_id', $rules) && hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_research_unit')) {
+            $rules['research_unit_id'] = ['required', 'exists:tenant.research_units,id'];
+        }
+
+        return $rules;
+    }
+
+    ### BUILDING GRAPHIC DATA ARRAY
+
     /**
      * @param Collection $intangibleAssets
      * 
      * @return array
      */
-    protected function getPhasesCompletedArray($intangibleAssets): array
+    protected function getPhasesCompletedArray(Collection $intangibleAssets): array
     {
         return [
             'allPhasesCompleted' => $intangibleAssets->where(function ($intangibleAsset) {
@@ -342,7 +542,7 @@ class IntangibleAssetReportController extends Controller
      * 
      * @return array
      */
-    protected function getDataGraphicIntangibleAssetPerYear($intangibleAssets, $dataArray)
+    protected function getDataGraphicIntangibleAssetPerYear(Collection $intangibleAssets, array $dataArray): array
     {
         $items = $intangibleAssets->groupBy(function ($val) {
             return \Carbon\Carbon::parse($val->date)->format('Y');
@@ -385,25 +585,24 @@ class IntangibleAssetReportController extends Controller
      * 
      * @return array
      */
-    protected function getDataGraphicIntangibleAssetClassificationPerYear($intangibleAssets, $dataArray)
+    protected function getDataGraphicIntangibleAssetClassificationPerYear(Collection $intangibleAssets, array $dataArray): array
     {
         /** @var Collection $products */
         $products = $this->intellectualPropertyRightProductRepository->search([])->get();
 
         $productArray = $products->split(8);
 
-        $intangibleAssetsGroupByClassification = $intangibleAssets->groupBy(function ($val) {
+        $intangibleAssetsPerYear = $intangibleAssets->groupBy(function ($val) {
             return \Carbon\Carbon::parse($val->date)->format('Y');
         });
 
         $labels = [];
-        foreach ($intangibleAssetsGroupByClassification as $key => $items) {
+        foreach ($intangibleAssetsPerYear as $key => $items) {
             array_push($labels, $key);
         }
 
-        $dataArray['graphicData'] = [
-            'with_graphics_assets_classification_per_year' => []
-        ];
+
+        $dataArray['graphicData']['with_graphics_assets_classification_per_year'] = [];
 
         foreach ($productArray as $productArrayItem) {
             $datasets = [];
@@ -420,6 +619,166 @@ class IntangibleAssetReportController extends Controller
             }
             array_push($dataArray['graphicData']['with_graphics_assets_classification_per_year'], ['labels' => $labels, 'datasets' => $datasets]);
         }
+
+        return $dataArray;
+    }
+
+    /**
+     * @param Collection $intangibleAssets
+     * @param array $dataArray
+     */
+    protected function getDataGraphicIntangibleAssetsStatesPerYear(Collection $intangibleAssets, array $dataArray): array
+    {
+        $states = $this->intangibleAssetStateRepository->all(['id', 'name']);
+
+        $intangibleAssetsPerYear = $intangibleAssets->groupBy(function ($val) {
+            return \Carbon\Carbon::parse($val->date)->format('Y');
+        });
+
+        $labels = [];
+        foreach ($intangibleAssetsPerYear as $key => $items) {
+            array_push($labels, $key);
+        }
+
+        $dataArray['graphicData']['with_graphics_assets_state_per_year'] = [];
+
+        $datasets = [];
+        foreach ($states as $state) {
+            $dataArrayState = [];
+
+            foreach ($labels as $label) {
+                array_push($dataArrayState, $intangibleAssets->where('intangible_asset_state_id', $state->id)->where(function ($val) use ($label) {
+                    $year = (int)\Carbon\Carbon::parse($val->date)->format('Y');
+                    return $year == $label;
+                })->count());
+            }
+            array_push($datasets, ['label' => $state->name, 'data' => $dataArrayState]);
+        }
+
+        $dataArray['graphicData']['with_graphics_assets_state_per_year'] = ['labels' => $labels, 'datasets' => $datasets];
+
+        return $dataArray;
+    }
+
+    /**
+     * @param Collection $intangibleAssets
+     * @param array $dataArray
+     */
+    protected function getDataGraphicIntangibleAssetClassificationPerAdministrativeUnit(Collection $intangibleAssets, array $dataArray): array
+    {
+        $products = $this->intellectualPropertyRightProductRepository->all(['id', 'name']);
+
+        $productSplitArray = $products->split(8);
+
+        $bodyArray = [];
+        foreach ($productSplitArray as $key => $productItemsArray) {
+            $labels = [];
+            $data = [];
+            $datasets = [];
+            if ($key == 0) {
+                if (($nullIntangibleAssets = $intangibleAssets->whereNull('classification_id')->count()) > 0) {
+                    array_push($labels, "Sin Clasificacion [{$nullIntangibleAssets}]");
+                    array_push($data, $nullIntangibleAssets);
+                }
+            }
+            /** @var Collection $productItemsArray */
+            foreach ($productItemsArray as $productItem) {
+                $count = $intangibleAssets->where('classification_id', $productItem->id)->count();
+                array_push($labels, "{$productItem->name} [{$count}]");
+                array_push($data, $count);
+            }
+            array_push($datasets, ['data' => $data]);
+            array_push($bodyArray, ['type' => 'doughnut', 'data' => ['labels' => $labels, 'datasets' => $datasets]]);
+        }
+
+        $dataArray['graphicData']['with_graphics_assets_classification_per_administrative_unit'] = $bodyArray;
+
+        return $dataArray;
+    }
+
+    /**
+     * @param Collection $intangibleAssets
+     * @param array $dataArray
+     */
+    protected function getDataGraphicIntangibleAssetStateResearchUnitPerAdministrativeUnit(Collection $intangibleAssets, array $dataArray): array
+    {
+        return $dataArray;
+    }
+
+    /**
+     * @param Collection $intangibleAssets
+     * @param Request $request
+     * @param array $dataArray
+     */
+    protected function getDataGraphicIntangibleStateResearchUnitPerAdministrativeUnit(Collection $intangibleAssets, $request, array $dataArray)
+    {
+        $researchUnits = $this->researchUnitRepository->all(['id', 'administrative_unit_id', 'name'])->where('administrative_unit_id', $request->administrative_unit_id);
+
+        $labels = [];
+
+        $data = [];
+
+        foreach ($researchUnits as $researchUnit) {
+            array_push($labels, $researchUnit->name);
+
+            $count = $intangibleAssets->where(function ($asset) use ($researchUnit) {
+                return $asset->project->research_unit_id === $researchUnit->id;
+            })->count();
+
+            array_push($data, $count);
+        }
+
+        $datasets = [
+            [
+                'label' => 'Activos Intangibles',
+                'data' => $data,
+            ],
+        ];
+
+        $data = [
+            'labels' => $labels,
+            'datasets' => $datasets,
+        ];
+
+        $dataArray['graphicData']['with_graphics_assets_research_unit_per_administrative_unit'] = [
+            'type' => 'pie',
+            'data' => $data,
+        ];
+
+        return $dataArray;
+    }
+
+    /**
+     * @param Collection $intangibleAssets
+     * @param array $dataArray
+     */
+    protected function getDataGraphicIntangibleAssetClassificationPerResearchUnit(Collection $intangibleAssets, array $dataArray)
+    {
+        $products = $this->intellectualPropertyRightProductRepository->all(['id', 'name']);
+
+        $productSplitArray = $products->split(8);
+
+        $bodyArray = [];
+        foreach ($productSplitArray as $key => $productItemsArray) {
+            $labels = [];
+            $data = [];
+            $datasets = [];
+            if ($key == 0) {
+                if (($nullIntangibleAssets = $intangibleAssets->whereNull('classification_id')->count()) > 0) {
+                    array_push($labels, 'Sin Clasificación');
+                    array_push($data, $nullIntangibleAssets);
+                }
+            }
+            /** @var Collection $productItemsArray */
+            foreach ($productItemsArray as $productItem) {
+                array_push($labels, $productItem->name);
+                array_push($data, $intangibleAssets->where('classification_id', $productItem->id)->count());
+            }
+            array_push($datasets, ['data' => $data]);
+            array_push($bodyArray, ['type' => 'pie', 'data' => ['labels' => $labels, 'datasets' => $datasets]]);
+        }
+
+        $dataArray['graphicData']['with_graphics_assets_classification_per_research_unit'] = $bodyArray;
 
         return $dataArray;
     }

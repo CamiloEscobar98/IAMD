@@ -39,13 +39,14 @@
             <div class="row justify-content-center">
 
                 <!-- Administrative Unit -->
-                <div class="col-lg-4">
+                <div class="col-xl-4">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.administrative_units') }}</label>
                         </div>
                         <select name="administrative_unit_id" id="administrative_unit_id"
-                            class="form-control select2bs4 administrative_units" onchange="changeAdministrativeUnit()">
+                            class="form-control select2bs4 administrative_units @error('administrative_unit_id') is-invalid @enderror"
+                            onchange="changeAdministrativeUnit()">
                             @foreach ($administrativeUnits as $administrativeUnit => $value)
                                 <option value="{{ $administrativeUnit }}"
                                     {{ optionIsSelected($params, 'administrative_unit_id', $administrativeUnit) }}>
@@ -57,12 +58,13 @@
                 <!-- ./Administrative Unit -->
 
                 <!-- Research Unit -->
-                <div class="col-lg-4">
+                <div class="col-xl-4">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.research_units') }}</label>
                         </div>
-                        <select name="research_unit_id" id="research_unit_id" class="form-control select2bs4 research_units"
+                        <select name="research_unit_id" id="research_unit_id"
+                            class="form-control select2bs4 research_units @error('research_unit_id') is-invalid @enderror"
                             onchange="changeResearchUnit()">
                             @foreach ($researchUnits as $researchUnit => $value)
                                 <option value="{{ $researchUnit }}"
@@ -75,12 +77,13 @@
                 <!-- ./Research Unit -->
 
                 <!-- Project -->
-                <div class="col-lg-4">
+                <div class="col-xl-4">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.projects') }}</label>
                         </div>
-                        <select name="project_id" id="project_id" class="form-control select2bs4 projects">
+                        <select name="project_id" id="project_id"
+                            class="form-control select2bs4 projects @error('project_id') is-invalid @enderror">
                             @foreach ($projects as $project => $value)
                                 <option value="{{ $project }}"
                                     {{ optionIsSelected($params, 'project_id', $project) }}>
@@ -92,6 +95,61 @@
                 <!-- ./Project -->
             </div>
 
+            <div class="row justify-content-start">
+                <div class="col-md-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label
+                                class="input-group-text">{{ __('pages.client.intangible_assets.phases.one.form.level_1') }}</label>
+                        </div>
+                        <select name="intellectual_property_right_category_id" id="intellectual_property_right_category_id"
+                            class="form-control form-control-sm select2bs4 intellectual_property_right_categories"
+                            onchange="changeIntellectualPropertyRightCategory()">
+                            @foreach ($categories as $categoryItem => $value)
+                                <option value="{{ $categoryItem }}" {{ twoOptionsIsEqual($category->id, $categoryItem) }}>
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label
+                                class="input-group-text">{{ __('pages.client.intangible_assets.phases.one.form.level_2') }}</label>
+                        </div>
+                        <select name="intellectual_property_right_subcategory_id"
+                            id="intellectual_property_right_subcategory_id"
+                            class="form-control form-control-sm select2bs4 intellectual_property_right_subcategories"
+                            onchange="changeIntellectualPropertyRightSubcategory()">
+                            @foreach ($subCategories as $subCategoryItem => $value)
+                                <option value="{{ $subCategoryItem }}"
+                                    {{ twoOptionsIsEqual($subCategory->id, $subCategoryItem) }}>
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label
+                                class="input-group-text">{{ __('pages.client.intangible_assets.phases.one.form.level_3') }}</label>
+                        </div>
+                        <select name="intellectual_property_right_product_id" id="intellectual_property_right_product_id"
+                            class="form-control form-control-sm select2bs4 intellectual_property_right_products">
+                            @foreach ($products as $productItem => $value)
+                                <option value="{{ $productItem }}" {{ twoOptionsIsEqual($product->id, $productItem) }}>
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
             <!-- Phases Completed -->
             <div class="row justify-content-center">
                 <div class="col-lg-12">
@@ -99,7 +157,7 @@
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.phases_completed') }}</label>
                         </div>
-                        <select name="phases" class="form-control select2bs4 phases" multiple>
+                        <select name="phases[]" class="form-control select2bs4 phases" multiple>
                             @foreach ($phases as $phase => $value)
                                 <option value="{{ $phase }}" {{ optionInArray($params, 'phases', $phase) }}>
                                     {{ $value }}</option>
@@ -111,8 +169,8 @@
             <!-- ./Phases Completed -->
 
             <!-- Orders -->
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
+            <div class="row justify-content-start">
+                <div class="col-lg-4">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.order_by') }}</label>
@@ -123,6 +181,24 @@
                                     {{ $value }}</option>
                             @endforeach
                         </select>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label class="input-group-text">{{ __('filters.date_from') }}</label>
+                        </div>
+                        <input name="date_from" type="date" class="form-control"
+                            value="{{ getParamValue($params, 'date_from') }}">
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label class="input-group-text">{{ __('filters.date_to') }}</label>
+                        </div>
+                        <input name="date_to" type="date" class="form-control"
+                            value="{{ getParamValue($params, 'date_to') }}">
                     </div>
                 </div>
             </div>
@@ -200,9 +276,22 @@
 
 @section('custom_js')
     <script src="{{ asset('adminlte/dist/js/iamd/projects.js') }}"></script>
+    <script src="{{ asset('adminlte/dist/js/iamd/intangible_asset_levels.js') }}"></script>
 
     <script>
         //Initialize Select2 Elements
+
+        $('.intellectual_property_right_categories').select2({
+            theme: 'bootstrap4',
+        });
+
+        $('.intellectual_property_right_subcategories').select2({
+            theme: 'bootstrap4',
+        });
+
+        $('.intellectual_property_right_products').select2({
+            theme: 'bootstrap4',
+        });
 
         $('.administrative_units').select2({
             theme: 'bootstrap4',

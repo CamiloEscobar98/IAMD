@@ -14,14 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('intangible_asset_protection_actions', function (Blueprint $table) {
-            $table->id();
-
             $table->unsignedBigInteger('intangible_asset_id');
 
             $table->string('reference')->nullable(); // Existe un depósito ante la autoridad competente para el derecho de autor
 
             $table->timestamps();
 
+            $table->primary('intangible_asset_id', 'pk_intangible_asset_protection_actions');
             $table->foreign('intangible_asset_id')->references('id')->on('intangible_assets')->cascadeOnUpdate()->cascadeOnDelete();
         });
     }

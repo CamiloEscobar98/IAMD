@@ -8,9 +8,13 @@ use App\Repositories\Client\AdministrativeUnitRepository;
 use App\Repositories\Client\ResearchUnitRepository;
 use App\Repositories\Client\ProjectRepository;
 use App\Repositories\Admin\IntangibleAssetStateRepository;
+use App\Services\Admin\IntellectualPropertyRightCategoryService;
 
 class CustomReportFilterComposer
 {
+    /** @var IntellectualPropertyRightCategoryService */
+    protected $intellectualPropertyRightCategoryService;
+
     /** @var AdministrativeUnitRepository */
     protected $administrativeUnitRepository;
 
@@ -24,11 +28,15 @@ class CustomReportFilterComposer
     protected $intangibleAssetStateRepository;
 
     public function __construct(
+        IntellectualPropertyRightCategoryService $intellectualPropertyRightCategoryService,
+
         AdministrativeUnitRepository $administrativeUnitRepository,
         ResearchUnitRepository $researchUnitRepository,
         ProjectRepository $projectRepository,
         IntangibleAssetStateRepository $intangibleAssetStateRepository,
     ) {
+        $this->intellectualPropertyRightCategoryService = $intellectualPropertyRightCategoryService;
+
         $this->administrativeUnitRepository = $administrativeUnitRepository;
         $this->researchUnitRepository = $researchUnitRepository;
         $this->projectRepository = $projectRepository;
@@ -71,6 +79,14 @@ class CustomReportFilterComposer
 
         $projects = $projects->pluck('name', 'id')->prepend('Seleccionar Proyecto', -1);
 
+        [$categories, $subCategories, $products, $category, $subCategory, $product] = $this->intellectualPropertyRightCategoryService->getIntellectualPropertyCategorySelect();
+
+        $categories = $categories->pluck('name', 'id')->prepend('Seleccionar Categoría', -1);
+
+        $subCategories = $subCategories->pluck('name', 'id')->prepend('Seleccionar Subategoría', -1);
+
+        $products = $products->pluck('name', 'id')->prepend('Seleccionar Producto', -1);
+
         /** Intangible Asset States */
         $states = $this->intangibleAssetStateRepository->all();
 
@@ -84,7 +100,6 @@ class CustomReportFilterComposer
             7 => 'Fase 7: Plan de Acción y Protección',
             8 => 'Fase 8: Priorización y Decisión',
             9 => 'Fase 9: Uso Comercial',
-            10 => 'Todas las Fases Completadas',
         ]);
 
         $ordersBy = collect([
@@ -161,24 +176,24 @@ class CustomReportFilterComposer
                 'value' =>  'Mostrar/Ocultar Gráfica Clasificación de los Activos Intangibles por Año.'
             ],
             [
-                'name' =>  'with_graphics_default',
+                'name' =>  'with_graphics_assets_state_per_year',
                 'value' =>  'Mostrar/Ocultar Gráfica Estados de Protección de los Tipos de Activos Intangibles por Año.'
             ],
             [
-                'name' =>  'with_graphics_default',
+                'name' =>  'with_graphics_assets_classification_per_administrative_unit',
                 'value' =>  'Mostrar/Ocultar Gráfica Tipos de Activos Intangibles asociados a una Facultad.'
             ],
             [
-                'name' =>  'with_graphics_default',
-                'value' =>  'Mostrar/Ocultar Gráfica Tipos de Activos Intangibles por Estados asociados a una Facultad.'
+                'name' =>  'with_graphics_assets_state_research_unit_per_administrative_unit',
+                'value' =>  'Mostrar/Ocultar Gráfica Tipos de Activos Intangibles por Estados, asociados a una Facultad.'
             ],
             [
-                'name' =>  'with_graphics_default',
+                'name' =>  'with_graphics_assets_research_unit_per_administrative_unit',
                 'value' =>  'Mostrar/Ocultar Gráfica Activos Intangibles por Grupos de Investigación asociados a una Facultad.'
             ],
             [
-                'name' =>  'with_graphics_default',
-                'value' =>  'Mostrar/Ocultar Gráfica Activos Intangibles asociados a un Grupo de Investigación.'
+                'name' =>  'with_graphics_assets_classification_per_research_unit',
+                'value' =>  'Mostrar/Ocultar Gráfica Tipos de Activos Intangibles asociados a un Grupo de Investigación.'
             ],
             [
                 'name' => 'with_graphics_default',
@@ -186,6 +201,21 @@ class CustomReportFilterComposer
             ]
         ]);
 
-        $view->with(compact('administrativeUnits', 'researchUnits', 'projects', 'phases', 'ordersBy', 'intangibleAssetCustomGeneral', 'intangibleAssetCustomContents', 'graphics'));
+        $view->with(compact(
+            'administrativeUnits',
+            'researchUnits',
+            'projects',
+            'phases',
+            'ordersBy',
+            'intangibleAssetCustomGeneral',
+            'intangibleAssetCustomContents',
+            'graphics',
+            'categories',
+            'subCategories',
+            'products',
+            'category',
+            'subCategory',
+            'product'
+        ));
     }
 }

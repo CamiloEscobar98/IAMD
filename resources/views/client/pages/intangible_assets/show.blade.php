@@ -149,12 +149,20 @@
             </div>
         </div>
 
+
         <!-- Intangible Asset Process -->
         <div class="card">
             <div class="card-header bg-gradient-secondary">
                 <h2>{{ __('pages.client.intangible_assets.phases.title') }}</h2>
             </div>
             <div class="card-body">
+                <div class="progress mb-4">
+                    <div class="progress-bar {{ getStatusBarColor($item->progressPhases()) }}" role="progressbar"
+                        aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"
+                        style="width: {{ $item->progressPhases() }}%">
+                        <span class="">{{ round($item->progressPhases()) }}%</span>
+                    </div>
+                </div>
                 @include('client.pages.intangible_assets.components.phases', ['item' => $item])
             </div>
         </div>

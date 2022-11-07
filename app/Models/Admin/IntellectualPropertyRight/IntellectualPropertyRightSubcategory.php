@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+use Illuminate\Support\Str;
+
 use App\Models\Admin\BaseModel;
 
 use App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightCategory;
@@ -20,6 +22,17 @@ class IntellectualPropertyRightSubcategory extends BaseModel
      * @var array
      */
     protected $fillable = ['intellectual_property_right_category_id', 'name'];
+
+    /**
+     * Get the Name
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getUpperNameAttribute()
+    {
+        return Str::upper($this->name);
+    }
 
     /**
      * Get the Intellectual Property Right Category.

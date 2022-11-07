@@ -247,6 +247,18 @@ class IntangibleAsset extends BaseModel
     }
 
     /**
+     * Scope a query to only include Classification
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $classification
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByClassification($query, string $classification)
+    {
+        return $query->where("{$this->getTable()}.classification_id", $classification);
+    }
+
+    /**
      * Scope a query to only include Project
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
@@ -322,7 +334,7 @@ class IntangibleAsset extends BaseModel
      */
     public function scopeSinceDate($query, string $dateFrom)
     {
-        $query->where("{$this->getTable()}.updated_at", '>=', $dateFrom);
+        $query->where("{$this->getTable()}.date", '>=', $dateFrom);
     }
 
     /**
@@ -335,7 +347,30 @@ class IntangibleAsset extends BaseModel
      */
     public function scopeToDate($query, string $dateTo)
     {
-        $query->where("{$this->getTable()}.updated_at", '<=', $dateTo);
+        $query->where("{$this->getTable()}.date", '<=', $dateTo);
+    }
+
+    /**
+     * Scope a query to only include Phases
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param array|string $phase
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByPhases($query, $phase)
+    {
+        $table = $this->getTable();
+        $joinPhases = 'intangible_asset_phases';
+
+        $query->join($joinPhases, "{$table}.id", "{$joinPhases}.intangible_asset_id");
+
+
+        if (is_array($phase) && !empty($phase)) {
+            $phasesQuery = (array) getPhasesByNumber($phase, true);
+            return $query->where($phasesQuery);
+        }
+
+        return $query->where("{$this->getTable()}.phase_id", $phase);
     }
 
     /**

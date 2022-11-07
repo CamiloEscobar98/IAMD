@@ -25,7 +25,7 @@ class CreateFileReportJob implements ShouldQueue
     /**
      * The number of seconds the job can run before timing out.
      */
-    // public $timeout = 3600;
+    public $timeout = 0;
 
     /** @var array */
     protected $data;

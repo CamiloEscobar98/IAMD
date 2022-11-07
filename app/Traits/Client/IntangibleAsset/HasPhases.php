@@ -112,6 +112,10 @@ trait HasPhases
             }
         }
 
-        return $cont / count($phases) * 100;
+        if (($percent = $cont / count($phases) * 100) == 0) {
+            return 1;
+        } else {
+            return $percent;
+        }
     }
 }

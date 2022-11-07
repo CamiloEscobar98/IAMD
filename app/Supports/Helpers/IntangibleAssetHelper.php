@@ -355,3 +355,29 @@ if (!function_exists('getStatusBarColor')) {
         }
     }
 }
+
+if (!function_exists('getPhasesByNumber')) {
+    /**
+     * @param array|string $phases
+     * 
+     * @return array|string
+     */
+    function getPhasesByNumber(array|string $phases, bool $asQuery = false): array|string
+    {
+        $phasesString = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'night'];
+
+        if (is_array($phases)) {
+            $arrayAux = [];
+            foreach ($phases as $key => $phase) {
+                if ($asQuery) {
+                    $arrayAux["intangible_asset_phases.phase_{$phasesString[$phase - 1]}_completed"] = $phase; 
+                } else {
+                    array_push($arrayAux, "phase_{$phasesString[$phase - 1]}_completed");
+                }
+            }
+            return $arrayAux;
+        } else {
+            return "phase_{$phasesString[$phases - 1]}_completed";
+        }
+    }
+}

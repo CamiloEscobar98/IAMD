@@ -253,7 +253,7 @@ return [
                     /** Products */
                     'products' => [
                         [
-                            'name' => 'Patente oncedida',
+                            'name' => 'Patente concedida',
                             'code' => 'PAC'
                         ],
                         [

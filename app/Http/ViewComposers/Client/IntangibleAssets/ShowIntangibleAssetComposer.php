@@ -13,9 +13,13 @@ use App\Repositories\Client\IntangibleAssetRepository;
 use App\Repositories\Client\CreatorRepository;
 use App\Repositories\Client\SecretProtectionMeasureRepository;
 use App\Repositories\Client\PriorityToolRepository;
+use App\Services\Admin\IntellectualPropertyRightCategoryService;
 
 class ShowIntangibleAssetComposer
 {
+    /** @var IntellectualPropertyRightCategoryService */
+    protected $intellectualPropertyRightCategoryService;
+
     /** @var IntellectualPropertyRightCategoryRepository */
     protected $intellectualPropertyRightCategoryRepository;
 
@@ -41,6 +45,8 @@ class ShowIntangibleAssetComposer
     protected $priorityToolRepository;
 
     public function __construct(
+        IntellectualPropertyRightCategoryService $intellectualPropertyRightCategoryService,
+
         IntellectualPropertyRightCategoryRepository $intellectualPropertyRightCategoryRepository,
         IntellectualPropertyRightSubcategoryRepository $intellectualPropertyRightSubcategoryRepository,
         IntellectualPropertyRightProductRepository $intellectualPropertyRightProductRepository,
@@ -52,6 +58,8 @@ class ShowIntangibleAssetComposer
         SecretProtectionMeasureRepository $secretProtectionMeasureRepository,
         PriorityToolRepository $priorityToolRepository,
     ) {
+        $this->intellectualPropertyRightCategoryService = $intellectualPropertyRightCategoryService;
+
         $this->intellectualPropertyRightCategoryRepository = $intellectualPropertyRightCategoryRepository;
         $this->intellectualPropertyRightSubcategoryRepository = $intellectualPropertyRightSubcategoryRepository;
         $this->intellectualPropertyRightProductRepository = $intellectualPropertyRightProductRepository;
@@ -71,42 +79,10 @@ class ShowIntangibleAssetComposer
         /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset */
         $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAssetId);
 
-        /** Categories */
-        $categories = $this->intellectualPropertyRightCategoryRepository->all();
-
         if ($intangibleAsset->hasPhaseOneCompleted()) {
-
-            /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightProduct $product */
-            $product = $this->intellectualPropertyRightProductRepository->getById($intangibleAsset->classification_id);
-
-
-            /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightSubcategory $subCategory */
-            $subCategory = $this->intellectualPropertyRightSubcategoryRepository->getById($product->intellectual_property_right_subcategory_id);
-
-            /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightCategory $category */
-            $category = $this->intellectualPropertyRightCategoryRepository->getById($subCategory->intellectual_property_right_category_id);
-
-            /** SubCategories */
-            $subCategories = $this->intellectualPropertyRightSubcategoryRepository->getByIntellectualPropertyRightCategory($category);
-
-            /** Products */
-            $products = $this->intellectualPropertyRightProductRepository->getByIntellectualPropertyRightSubcategory($subCategory);
+            [$categories, $subCategories, $products, $category, $subCategory, $product] = $this->intellectualPropertyRightCategoryService->getIntellectualPropertyCategorySelect($intangibleAsset->classification_id);
         } else {
-
-            /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightCategory $category */
-            $category = $categories->first();
-
-            /** SubCategories */
-            $subCategories = $this->intellectualPropertyRightSubcategoryRepository->getByIntellectualPropertyRightCategory($category);
-
-            /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightSubcategory $subCategory */
-            $subCategory = $subCategories->first();
-
-            /** Products */
-            $products = $this->intellectualPropertyRightProductRepository->getByIntellectualPropertyRightSubcategory($subCategories->first());
-
-            /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightProduct $product */
-            $product = $products->first();
+            [$categories, $subCategories, $products, $category, $subCategory, $product] = $this->intellectualPropertyRightCategoryService->getIntellectualPropertyCategorySelect();
         }
 
         /** States */

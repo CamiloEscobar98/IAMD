@@ -718,7 +718,7 @@
                         @foreach ($item->dpis as $dpi)
                             <div class="form-group">
                                 <label>{!! __('pages.client.intangible_assets.phases.eight.sub_phases.has_tool.form.tools', [
-                                    'name' => $dpi->dpi->upper_name . ' ' . $dpi->dpi_id,
+                                    'name' => $dpi->dpi->upper_name,
                                 ]) !!}</label>
                                 <select name="tool_id_{{ $dpi->dpi_id }}[]" class="form-control select2bs4"
                                     multiple>
