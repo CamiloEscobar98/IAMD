@@ -97,6 +97,9 @@ class IntellectualPropertyRightCategoryService
      */
     public function getIntellectualPropertyCategorySelect($productId = null): array
     {
+        /** Categories */
+        $categories = $this->intellectualPropertyRightCategoryRepository->all();
+
         if (!is_null($productId)) {
             /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightProduct $product */
             $product = $this->intellectualPropertyRightProductRepository->getById($productId);
@@ -113,8 +116,6 @@ class IntellectualPropertyRightCategoryService
             /** Products */
             $products = $this->intellectualPropertyRightProductRepository->getByIntellectualPropertyRightSubcategory($subCategory);
         } else {
-            /** Categories */
-            $categories = $this->intellectualPropertyRightCategoryRepository->all();
 
             /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightCategory $category */
             $category = $categories->first();

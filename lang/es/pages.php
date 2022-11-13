@@ -418,27 +418,27 @@ return [
 
         /** Intangible Assets */
         'intangible_assets' => [
-            'title' => 'Información de AI',
+            'title' => 'Información del Activo Intangible',
 
             /** Intangible Assets States */
             'states' => [
-                'title' => 'Estados',
-                'subtitle' => 'Estados AI',
+                'title' => 'Estados del Activo Intangible',
+                'subtitle' => 'Estados del Activo Intangible',
 
                 'route-titles' => [
-                    'create' => 'Registrar Estado de AI',
-                    'show' => 'Visualizar Estado de AI',
-                    'edit' => 'Editar Estado de AI',
+                    'create' => 'Registrar Estado del Activo Intangible',
+                    'show' => 'Visualizar Estado del Activo Intangible',
+                    'edit' => 'Editar Estado del Activo Intangible',
                 ],
 
                 'form-titles' => [
-                    'show' => 'Perfil de Visualización del Estado de AI',
-                    'form' => 'Formulario de Registro de Estado de AI',
-                    'update' => 'Actualización del Estado de AI',
+                    'show' => 'Perfil de Visualización del Estado del Activo Intangible',
+                    'form' => 'Formulario de Registro de Estado del Activo Intangible',
+                    'update' => 'Actualización del Estado del Activo Intangible',
                 ],
 
                 'filters' => [
-                    'name' => 'Buscar Estado de AI',
+                    'name' => 'Buscar Estado del Activo Intangible',
                     'total' => 'Total de Estados AI: ',
                 ],
 
@@ -453,16 +453,16 @@ return [
                 ],
 
                 'messages' => [
-                    'confirm' => '¿Estás seguro de que quieres eliminar el Estado de AI?',
+                    'confirm' => '¿Estás seguro de que quieres eliminar el Estado del Activo Intangible?',
 
-                    'save_success' => 'Se ha registrado correctamente el Estado de AI: <b>:state</b>.',
-                    'save_error' => 'No se ha registrado el Estado de AI.',
+                    'save_success' => 'Se ha registrado correctamente el Estado del Activo Intangible: <b>:state</b>.',
+                    'save_error' => 'No se ha registrado el Estado del Activo Intangible.',
 
-                    'update_success' => 'Se ha actualizado correctamente el Estado de AI: <b>:state</b>.',
-                    'update_error' => 'No se ha actualizado el Estado de AI.',
+                    'update_success' => 'Se ha actualizado correctamente el Estado del Activo Intangible: <b>:state</b>.',
+                    'update_error' => 'No se ha actualizado el Estado del Activo Intangible.',
 
-                    'delete_success' => 'Se ha eliminado el Estado de AI: <b>:state</b>.',
-                    'delete_error' => 'No se ha eliminado el Estado de AI.'
+                    'delete_success' => 'Se ha eliminado el Estado del Activo Intangible: <b>:state</b>.',
+                    'delete_error' => 'No se ha eliminado el Estado del Activo Intangible.'
                 ],
 
                 'info' => [

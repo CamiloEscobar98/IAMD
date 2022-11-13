@@ -42,101 +42,207 @@ use App\Http\Controllers\Client\UserFileReportController;
 |
 */
 
-Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('login', [LoginController::class, 'login'])->name('loggin');
-Route::post('logout', [LoginController::class, 'logout'])->name('loggout');
+Route::get('iniciar-sesion', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('iniciar-sesion', [LoginController::class, 'login'])->name('loggin');
+Route::post('cerrar-sesion', [LoginController::class, 'logout'])->name('loggout');
 
-Route::get('profile', [HomeController::class, 'profile'])->name('profile');
+Route::get('perfil', [HomeController::class, 'profile'])->name('profile');
 
-Route::patch('update_information', [AuthController::class, 'update'])->name('auth.update_information');
+Route::patch('actualizar-perfil', [AuthController::class, 'update'])->name('auth.update_information');
 
-Route::patch('update_password', [AuthController::class, 'updatePassword'])->name('auth.update_password');
+Route::patch('actualizar-contraseña', [AuthController::class, 'updatePassword'])->name('auth.update_password');
 
-Route::get('home', [HomeController::class, 'home'])->name('home');
+Route::get('inicio', [HomeController::class, 'home'])->name('home');
 
-Route::resource('administrative_units', AdministrativeUnitController::class);
+Route::name('administrative_units.')->prefix('facultades')->group(function () {
+    Route::get('/', [AdministrativeUnitController::class, 'index'])->name('index');
+    Route::post('/', [AdministrativeUnitController::class, 'store'])->name('store');
+    Route::get('registrar', [AdministrativeUnitController::class, 'create'])->name('create');
+    Route::get('{administrative_unit}', [AdministrativeUnitController::class, 'show'])->name('show');
+    Route::get('{administrative_unit}/editar', [AdministrativeUnitController::class, 'edit'])->name('edit');
+    Route::put('{administrative_unit}', [AdministrativeUnitController::class, 'update'])->name('update');
+    Route::delete('{administrative_unit}', [AdministrativeUnitController::class, 'destroy'])->name('destroy');
+});
 
-Route::resource('research_units', ResearchUnitController::class);
+Route::name('research_units.')->prefix('unidades-investigativas')->group(function () {
+    Route::get('/', [ResearchUnitController::class, 'index'])->name('index');
+    Route::post('/', [ResearchUnitController::class, 'store'])->name('store');
+    Route::get('registrar', [ResearchUnitController::class, 'create'])->name('create');
+    Route::get('{research_unit}', [ResearchUnitController::class, 'show'])->name('show');
+    Route::get('{research_unit}/editar', [ResearchUnitController::class, 'edit'])->name('edit');
+    Route::put('{research_unit}', [ResearchUnitController::class, 'update'])->name('update');
+    Route::delete('{research_unit}', [ResearchUnitController::class, 'destroy'])->name('destroy');
+});
 
-Route::resource('projects', ProjectController::class);
+Route::name('projects.')->prefix('proyectos')->group(function () {
+    Route::get('/', [ProjectController::class, 'index'])->name('index');
+    Route::post('/', [ProjectController::class, 'store'])->name('store');
+    Route::get('registrar', [ProjectController::class, 'create'])->name('create');
+    Route::get('{project}', [ProjectController::class, 'show'])->name('show');
+    Route::get('{project}/editar', [ProjectController::class, 'edit'])->name('edit');
+    Route::put('{project}', [ProjectController::class, 'update'])->name('update');
+    Route::delete('{project}', [ProjectController::class, 'destroy'])->name('destroy');
+});
 
-Route::name('creators.')
-    ->prefix('creators')
-    ->group(function () {
-        Route::resource('internal', CreatorInternalController::class);
-        Route::resource('external', CreatorExternalController::class);
+Route::name('creators.')->prefix('creadores')->group(function () {
+    Route::name('internal.')->prefix('internos')->group(function () {
+        Route::get('/', [CreatorInternalController::class, 'index'])->name('index');
+        Route::post('/', [CreatorInternalController::class, 'store'])->name('store');
+        Route::get('registrar', [CreatorInternalController::class, 'create'])->name('create');
+        Route::get('{internal}', [CreatorInternalController::class, 'show'])->name('show');
+        Route::get('{internal}/editar', [CreatorInternalController::class, 'edit'])->name('edit');
+        Route::put('{internal}', [CreatorInternalController::class, 'update'])->name('update');
+        Route::delete('{internal}', [CreatorInternalController::class, 'destroy'])->name('destroy');
     });
-
-Route::resource('intangible_assets', IntangibleAssetController::class);
-
-Route::get('intangible_assets/{intangible_asset}/generate_code', [IntangibleAssetController::class, 'updateCode'])->name('intangible_assets.generate_code');
-
-Route::prefix('intangible_assets/{intangible_asset}/downloads')
-    ->name('intangible_assets.downloads.')
-    ->group(function () {
-        Route::get('confidenciality_contract', [IntangibleAssetFileController::class, 'downloadConfidencialityContract'])->name('confidenciality_contract');
-        Route::get('session_right_contract', [IntangibleAssetFileController::class, 'downloadSessionRightContract'])->name('session_right_contract');
+    Route::name('external.')->prefix('externos')->group(function () {
+        Route::get('/', [CreatorExternalController::class, 'index'])->name('index');
+        Route::post('/', [CreatorExternalController::class, 'store'])->name('store');
+        Route::get('registrar', [CreatorExternalController::class, 'create'])->name('create');
+        Route::get('{external}', [CreatorExternalController::class, 'show'])->name('show');
+        Route::get('{external}/editar', [CreatorExternalController::class, 'edit'])->name('edit');
+        Route::put('{external}', [CreatorExternalController::class, 'update'])->name('update');
+        Route::delete('{external}', [CreatorExternalController::class, 'destroy'])->name('destroy');
     });
+});
 
-Route::prefix('intangible_assets/reports')
-    ->name('intangible_assets.reports.')
-    ->group(function () {
-        Route::get('custom', [IntangibleAssetReportController::class, 'generateCustomReport'])->name('custom');
-    });
+Route::name('intangible_assets.')->prefix('activos-intangibles')->group(function () {
+    Route::get('/', [IntangibleAssetController::class, 'index'])->name('index');
+    Route::post('/', [IntangibleAssetController::class, 'store'])->name('store');
+    Route::get('registrar', [IntangibleAssetController::class, 'create'])->name('create');
+    Route::get('{intangible_asset}', [IntangibleAssetController::class, 'show'])->name('show');
+    Route::get('{intangible_asset}/editar', [IntangibleAssetController::class, 'edit'])->name('edit');
+    Route::put('{intangible_asset}', [IntangibleAssetController::class, 'update'])->name('update');
+    Route::delete('{intangible_asset}', [IntangibleAssetController::class, 'destroy'])->name('destroy');
 
-Route::prefix('intangible_assets/{intangible_asset}/reports')
-    ->name('intangible_assets.reports.')
-    ->group(function () {
-        Route::get('default', [IntangibleAssetReportController::class, 'generateDefaultReport'])->name('default');
-    });
+    Route::get('{intangible_asset}/generar-codigo', [IntangibleAssetController::class, 'updateCode'])->name('intangible_assets.generate_code');
+});
 
-Route::patch('intangible_assets/{intangible_asset}/has_strategies', [IntangibleAssetStrategyController::class, 'updateHasStrategies'])
+
+Route::prefix('activos-intangibles/{intangible_asset}/descargas')->name('intangible_assets.downloads.')->group(function () {
+    Route::get('contrato-de-confidencialidad', [IntangibleAssetFileController::class, 'downloadConfidencialityContract'])->name('confidenciality_contract');
+    Route::get('contrato-de-sesion-de-derechos', [IntangibleAssetFileController::class, 'downloadSessionRightContract'])->name('session_right_contract');
+});
+
+Route::prefix('intangible_assets/reports')->name('intangible_assets.reports.')->group(function () {
+    Route::get('custom', [IntangibleAssetReportController::class, 'generateCustomReport'])->name('custom');
+});
+
+Route::prefix('activos-intangibles/{intangible_asset}/reportes')->name('intangible_assets.reports.')->group(function () {
+    Route::get('default', [IntangibleAssetReportController::class, 'generateDefaultReport'])->name('default');
+});
+
+Route::patch('activos-intangibles/{intangible_asset}/actualizar-si-tiene-estrategias', [IntangibleAssetStrategyController::class, 'updateHasStrategies'])
     ->name('intangible_assets.has_estrategies');
 
-Route::get('intangible_assets/{intangible_asset}/strategies', [IntangibleAssetStrategyController::class, 'index'])->name('intangible_assets.strategies.index');
+Route::get('activos-intangibles/{intangible_asset}/estrategias-de-gestion', [IntangibleAssetStrategyController::class, 'index'])->name('intangible_assets.strategies.index');
 
-Route::post('intangible_assets/{intangible_asset}/strategies', [IntangibleAssetStrategyController::class, 'store'])->name('intangible_assets.strategies.store');
+Route::post('activos-intangibles/{intangible_asset}/estrategias-de-gestion', [IntangibleAssetStrategyController::class, 'store'])->name('intangible_assets.strategies.store');
 
-Route::delete('intangible_assets/{intangible_asset}/strategies/{intangible_asset_strategy}', [IntangibleAssetStrategyController::class, 'destroy'])->name('intangible_assets.strategies.destroy');
+Route::delete('activos-intangibles/{intangible_asset}/estrategias-de-gestion/{intangible_asset_strategy}', [IntangibleAssetStrategyController::class, 'destroy'])->name('intangible_assets.strategies.destroy');
 
-Route::prefix('intangible_assets/{intangible_asset}/phases')
+Route::prefix('activos-intangibles/{intangible_asset}/fases')
     ->name('intangible_assets.phases.')
     ->group(function () {
-        Route::patch('phase_one', [IntangibleAssetPhaseController::class, 'updatePhaseOne'])->name('one');
-        Route::patch('phase_two', [IntangibleAssetPhaseController::class, 'updatePhaseTwo'])->name('two');
-        Route::patch('phase_three', [IntangibleAssetPhaseController::class, 'updatePhaseThree'])->name('three');
-        Route::patch('phase_four', [IntangibleAssetPhaseController::class, 'updatePhaseFour'])->name('four');
-        Route::patch('phase_five', [IntangibleAssetPhaseController::class, 'updatePhaseFive'])->name('five');
-        Route::patch('phase_six', [IntangibleAssetPhaseController::class, 'updatePhaseSix'])->name('six');
-        Route::patch('phase_seven', [IntangibleAssetPhaseController::class, 'updatePhaseSeven'])->name('seven');
-        Route::patch('phase_ eight', [IntangibleAssetPhaseController::class, 'updatePhaseEight'])->name('eight');
-        Route::patch('phase_ nine', [IntangibleAssetPhaseController::class, 'updatePhaseNine'])->name('nine');
+        Route::patch('primera-fase', [IntangibleAssetPhaseController::class, 'updatePhaseOne'])->name('one');
+        Route::patch('segunda-fase', [IntangibleAssetPhaseController::class, 'updatePhaseTwo'])->name('two');
+        Route::patch('tercera-fase', [IntangibleAssetPhaseController::class, 'updatePhaseThree'])->name('three');
+        Route::patch('cuarta-fase', [IntangibleAssetPhaseController::class, 'updatePhaseFour'])->name('four');
+        Route::patch('quinta-fase', [IntangibleAssetPhaseController::class, 'updatePhaseFive'])->name('five');
+        Route::patch('sexta-fase', [IntangibleAssetPhaseController::class, 'updatePhaseSix'])->name('six');
+        Route::patch('septima-fase', [IntangibleAssetPhaseController::class, 'updatePhaseSeven'])->name('seven');
+        Route::patch('octava-fase', [IntangibleAssetPhaseController::class, 'updatePhaseEight'])->name('eight');
+        Route::patch('novena-fase', [IntangibleAssetPhaseController::class, 'updatePhaseNine'])->name('nine');
     });
 
-Route::prefix('reports')
+Route::prefix('reportes')
     ->name('reports.')
     ->group(function () {
-        Route::get('generated_reports', [UserFileReportController::class, 'index'])->name('generated');
-        Route::get('download_report/{reportId}', [UserFileReportController::class, 'downloadIntangibleAssetReportSingle'])->name('download.report');
+        Route::get('reportes-generados', [UserFileReportController::class, 'index'])->name('generated');
+        Route::get('descargar-reportes/{reportId}', [UserFileReportController::class, 'downloadIntangibleAssetReportSingle'])->name('download.report');
 
         Route::name('custom.')
             ->group(function () {
-                Route::get('custom', [ReportController::class, 'index'])->name('index');
+                Route::get('personalizado', [ReportController::class, 'index'])->name('index');
             });
     });
 
-Route::resource('users', UserController::class);
+Route::name('users.')->prefix('usuarios')->group(function () {
+    Route::get('/', [UserController::class, 'index'])->name('index');
+    Route::post('/', [UserController::class, 'store'])->name('store');
+    Route::get('registrar', [UserController::class, 'create'])->name('create');
+    Route::get('{user}', [UserController::class, 'show'])->name('show');
+    Route::get('{user}/editar', [UserController::class, 'edit'])->name('edit');
+    Route::put('{user}', [UserController::class, 'update'])->name('update');
+    Route::delete('{user}', [UserController::class, 'destroy'])->name('destroy');
+});
 
-Route::resource('roles', RoleController::class);
+Route::name('roles.')->prefix('roles')->group(function () {
+    Route::get('/', [RoleController::class, 'index'])->name('index');
+    Route::post('/', [RoleController::class, 'store'])->name('store');
+    Route::get('registrar', [RoleController::class, 'create'])->name('create');
+    Route::get('{role}', [RoleController::class, 'show'])->name('show');
+    Route::get('{role}/editar', [RoleController::class, 'edit'])->name('edit');
+    Route::put('{role}', [RoleController::class, 'update'])->name('update');
+    Route::delete('{role}', [RoleController::class, 'destroy'])->name('destroy');
+});
 
-Route::resource('priority_tools', PriorityToolController::class);
+Route::name('priority_tools.')->prefix('herramientas-de-priorizacion')->group(function () {
+    Route::get('/', [PriorityToolController::class, 'index'])->name('index');
+    Route::post('/', [PriorityToolController::class, 'store'])->name('store');
+    Route::get('registrar', [PriorityToolController::class, 'create'])->name('create');
+    Route::get('{priority_tool}', [PriorityToolController::class, 'show'])->name('show');
+    Route::get('{priority_tool}/editar', [PriorityToolController::class, 'edit'])->name('edit');
+    Route::put('{priority_tool}', [PriorityToolController::class, 'update'])->name('update');
+    Route::delete('{priority_tool}', [PriorityToolController::class, 'destroy'])->name('destroy');
+});
 
-Route::resource('strategies', StrategyController::class);
+Route::name('strategy_categories.')->prefix('categorias-de-las-estrategias-de-gestion')->group(function () {
+    Route::get('/', [StrategyCategoryController::class, 'index'])->name('index');
+    Route::post('/', [StrategyCategoryController::class, 'store'])->name('store');
+    Route::get('registrar', [StrategyCategoryController::class, 'create'])->name('create');
+    Route::get('{strategy_category}', [StrategyCategoryController::class, 'show'])->name('show');
+    Route::get('{strategy_category}/editar', [StrategyCategoryController::class, 'edit'])->name('edit');
+    Route::put('{strategy_category}', [StrategyCategoryController::class, 'update'])->name('update');
+    Route::delete('{strategy_category}', [StrategyCategoryController::class, 'destroy'])->name('destroy');
+});
 
-Route::resource('strategy_categories', StrategyCategoryController::class);
 
-Route::resource('financing_types', FinancingTypeController::class);
+Route::name('strategies.')->prefix('estrategias-de-gestion')->group(function () {
+    Route::get('/', [StrategyController::class, 'index'])->name('index');
+    Route::post('/', [StrategyController::class, 'store'])->name('store');
+    Route::get('registrar', [StrategyController::class, 'create'])->name('create');
+    Route::get('{strategy}', [StrategyController::class, 'show'])->name('show');
+    Route::get('{strategy}/editar', [StrategyController::class, 'edit'])->name('edit');
+    Route::put('{strategy}', [StrategyController::class, 'update'])->name('update');
+    Route::delete('{strategy}', [StrategyController::class, 'destroy'])->name('destroy');
+});
 
-Route::resource('project_contract_types', ProjectContractTypeController::class);
+Route::name('financing_types.')->prefix('financiacion-de-proyectos')->group(function () {
+    Route::get('/', [FinancingTypeController::class, 'index'])->name('index');
+    Route::post('/', [FinancingTypeController::class, 'store'])->name('store');
+    Route::get('registrar', [FinancingTypeController::class, 'create'])->name('create');
+    Route::get('{financing_type}', [FinancingTypeController::class, 'show'])->name('show');
+    Route::get('{financing_type}/editar', [FinancingTypeController::class, 'edit'])->name('edit');
+    Route::put('{financing_type}', [FinancingTypeController::class, 'update'])->name('update');
+    Route::delete('{financing_type}', [FinancingTypeController::class, 'destroy'])->name('destroy');
+});
 
-Route::resource('secret_protection_measures', SecretProtectionMeasureController::class);
+Route::name('project_contract_types.')->prefix('contratos-para-proyectos')->group(function () {
+    Route::get('/', [ProjectContractTypeController::class, 'index'])->name('index');
+    Route::post('/', [ProjectContractTypeController::class, 'store'])->name('store');
+    Route::get('registrar', [ProjectContractTypeController::class, 'create'])->name('create');
+    Route::get('{project_contract_type}', [ProjectContractTypeController::class, 'show'])->name('show');
+    Route::get('{project_contract_type}/editar', [ProjectContractTypeController::class, 'edit'])->name('edit');
+    Route::put('{project_contract_type}', [ProjectContractTypeController::class, 'update'])->name('update');
+    Route::delete('{project_contract_type}', [ProjectContractTypeController::class, 'destroy'])->name('destroy');
+});
+
+Route::name('secret_protection_measures.')->prefix('medidas-secretas-de-proteccion')->group(function () {
+    Route::get('/', [UserController::class, 'index'])->name('index');
+    Route::post('/', [UserController::class, 'store'])->name('store');
+    Route::get('registrar', [UserController::class, 'create'])->name('create');
+    Route::get('{secret_protection_measure}', [UserController::class, 'show'])->name('show');
+    Route::get('{secret_protection_measure}/editar', [UserController::class, 'edit'])->name('edit');
+    Route::put('{secret_protection_measure}', [UserController::class, 'update'])->name('update');
+    Route::delete('{secret_protection_measure}', [UserController::class, 'destroy'])->name('destroy');
+});

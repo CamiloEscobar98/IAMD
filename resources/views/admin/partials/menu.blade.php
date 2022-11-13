@@ -4,7 +4,7 @@
 
 <!-- Countries -->
 <li class="nav-item">
-    <a href="{{ route('admin.localizations.countries.index') }}" class="nav-link {{ routeIsActived('countries') }}">
+    <a href="{{ route('admin.localizations.countries.index') }}" class="nav-link {{ routeIsActived('paises') }}">
         <i class="far fa-flag nav-icon"></i>
         <p>{{ __('menu.admin.Countries') }}</p>
     </a>
@@ -13,7 +13,7 @@
 
 <!-- States -->
 <li class="nav-item">
-    <a href="{{ route('admin.localizations.states.index') }}" class="nav-link {{ routeIsActived('states') }}">
+    <a href="{{ route('admin.localizations.states.index') }}" class="nav-link {{ routeIsActived('departamentos') }}">
         <i class="fas fa-building nav-icon"></i>
         <p>{{ __('menu.admin.States') }}</p>
     </a>
@@ -22,7 +22,7 @@
 
 <!-- Cities -->
 <li class="nav-item">
-    <a href="{{ route('admin.localizations.cities.index') }}" class="nav-link {{ routeIsActived('cities') }}">
+    <a href="{{ route('admin.localizations.cities.index') }}" class="nav-link {{ routeIsActived('ciudades') }}">
         <i class="fas fa-city nav-icon"></i>
         <p>{{ __('menu.admin.Cities') }}</p>
     </a>
@@ -37,7 +37,7 @@
 <!-- Document Types -->
 <li class="nav-item">
     <a href="{{ route('admin.creators.document_types.index') }}"
-        class="nav-link {{ routeIsActived('document_types') }}">
+        class="nav-link {{ routeIsActived('tipos-de-documentos') }}">
         <i class="far fa-id-card nav-icon"></i>
         <p>{{ __('menu.admin.DocumentTypes') }}</p>
     </a>
@@ -47,7 +47,7 @@
 <!-- External Organizations -->
 <li class="nav-item">
     <a href="{{ route('admin.creators.external_organizations.index') }}"
-        class="nav-link {{ routeIsActived('external_organizations') }}">
+        class="nav-link {{ routeIsActived('organizaciones-externas') }}">
         <i class="fas fa-industry nav-icon"></i>
         <p>{{ __('menu.admin.ExternalOrganizations') }}</p>
     </a>
@@ -57,7 +57,7 @@
 <!-- Assignment Contracts -->
 <li class="nav-item">
     <a href="{{ route('admin.creators.assignment_contracts.index') }}"
-        class="nav-link {{ routeIsActived('assignment_contracts') }}">
+        class="nav-link {{ routeIsActived('tipos-de-contratos') }}">
         <i class="fas fa-user-tie nav-icon"></i>
         <p>{{ __('menu.admin.AssignmentContracts') }}</p>
     </a>
@@ -70,7 +70,7 @@
 <li class="nav-header">{{ __('menu.admin.IntangibleAssets') }}</li>
 
 <li class="nav-item">
-    <a href="{{ route('admin.intangible_assets.status.index') }}" class="nav-link {{ routeIsActived('status') }}">
+    <a href="{{ route('admin.intangible_assets.status.index') }}" class="nav-link {{ routeIsActived('estados') }}">
         <i class="fas fa-battery-half nav-icon"></i>
         <p>{{ __('menu.admin.IntangibleAssetStates') }}</p>
     </a>
@@ -82,7 +82,7 @@
 
 <li class="nav-item">
     <a href="{{ route('admin.intellectual_property_rights.categories.index') }}"
-        class="nav-link {{ routeIsActived('categories') }}">
+        class="nav-link {{ routeIsActived('categorias') }}">
         <i class="fas fa-caret-right nav-icon"></i>
         <p>{{ __('menu.admin.IntellectualPropertyRightsCategories') }}</p>
     </a>
@@ -90,7 +90,7 @@
 
 <li class="nav-item">
     <a href="{{ route('admin.intellectual_property_rights.subcategories.index') }}"
-        class="nav-link {{ routeIsActived('subcategories') }}">
+        class="nav-link {{ routeIsActived('subcategorias') }}">
         <i class="fas fa-caret-right nav-icon"></i>
         <p>{{ __('menu.admin.IntellectualPropertyRightsSubcategories') }}</p>
     </a>
@@ -98,7 +98,7 @@
 
 <li class="nav-item">
     <a href="{{ route('admin.intellectual_property_rights.products.index') }}"
-        class="nav-link {{ routeIsActived('products') }}">
+        class="nav-link {{ routeIsActived('productos') }}">
         <i class="fas fa-caret-right nav-icon"></i>
         <p>{{ __('menu.admin.IntellectualPropertyRightsProducts') }}</p>
     </a>

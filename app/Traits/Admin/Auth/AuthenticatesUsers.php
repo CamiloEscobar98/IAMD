@@ -174,7 +174,7 @@ trait AuthenticatesUsers
 
         return $request->wantsJson()
             ? new JsonResponse([], 204)
-            : redirect('/admin/login');
+            : redirect()->route('admin.login');
     }
 
     /**
