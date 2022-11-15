@@ -34,32 +34,27 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row justify-content-start">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.admin.localizations.cities.form-titles.create') }}</u>
-                        </h3>
-                        @include('admin.pages.localization.cities.components.form', [
-                            'editMode' => false,
-                        ])
-                    </div>
-                </div>
+
+        <h3 class="font-weight-bold">
+            <u>{{ __('pages.default.title-information') }}</u>
+        </h3>
+        <p>{!! __('pages.admin.localizations.cities.info.create') !!}</p>
+
+        <div class="card">
+            <div class="card-header bg-danger">
+                <h4 class="font-weight-bold">{{ __('pages.admin.localizations.cities.form-titles.create') }}</h4>
             </div>
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row justify-content center">
-                            <h3 class="text-center font-italic font-weight-bold">
-                                <u>{{ __('pages.default.title-information') }}</u>
-                            </h3>
-                            <img src="{{ asset('assets/images/countries/country-1.png') }}" class="img-fluid mt-3"
-                                alt="">
-                            <p>{!! __('pages.admin.localizations.cities.info.create') !!}</p>
-                        </div>
+            <div class="card-body">
+
+                <form action="{{ route('admin.localizations.cities.store') }}" method="post">
+                    @csrf
+
+                    @include('admin.pages.localization.cities.components.form')
+
+                    <div class="form-group mt-3">
+                        <button class="btn btn-danger btn-sm">{{ __('buttons.save') }}</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -71,9 +66,10 @@
 @endsection
 
 @section('custom_js')
+    <script src="{{ asset('adminlte/dist/js/iamd/localizations.js') }}"></script>
     <script>
-          //Initialize Select2 Elements
-          $('.select2').select2()
+        //Initialize Select2 Elements
+        $('.select2').select2()
 
         //Initialize Select2 Elements
         $('.select2bs4').select2({

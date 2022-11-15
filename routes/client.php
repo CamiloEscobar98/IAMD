@@ -238,11 +238,11 @@ Route::name('project_contract_types.')->prefix('contratos-para-proyectos')->grou
 });
 
 Route::name('secret_protection_measures.')->prefix('medidas-secretas-de-proteccion')->group(function () {
-    Route::get('/', [UserController::class, 'index'])->name('index');
-    Route::post('/', [UserController::class, 'store'])->name('store');
-    Route::get('registrar', [UserController::class, 'create'])->name('create');
-    Route::get('{secret_protection_measure}', [UserController::class, 'show'])->name('show');
-    Route::get('{secret_protection_measure}/editar', [UserController::class, 'edit'])->name('edit');
-    Route::put('{secret_protection_measure}', [UserController::class, 'update'])->name('update');
-    Route::delete('{secret_protection_measure}', [UserController::class, 'destroy'])->name('destroy');
+    Route::get('/', [SecretProtectionMeasureController::class, 'index'])->name('index');
+    Route::post('/', [SecretProtectionMeasureController::class, 'store'])->name('store');
+    Route::get('registrar', [SecretProtectionMeasureController::class, 'create'])->name('create');
+    Route::get('{secret_protection_measure}', [SecretProtectionMeasureController::class, 'show'])->name('show');
+    Route::get('{secret_protection_measure}/editar', [SecretProtectionMeasureController::class, 'edit'])->name('edit');
+    Route::put('{secret_protection_measure}', [SecretProtectionMeasureController::class, 'update'])->name('update');
+    Route::delete('{secret_protection_measure}', [SecretProtectionMeasureController::class, 'destroy'])->name('destroy');
 });

@@ -68,9 +68,9 @@ return [
                 ],
 
                 'form-titles' => [
-                    'show' => 'Perfil de Visualización del País',
-                    'create' => 'Formulario de Registro de País',
-                    'update' => 'Actualización del País',
+                    'show' => 'Perfil de Visualización de la información del País',
+                    'create' => 'Formulario de registro de la información de un País',
+                    'update' => 'Actualización de la información del País',
                 ],
 
                 'filters' => [
@@ -86,7 +86,10 @@ return [
                         'created_at' => 'Fecha de Creación',
                         'updated_at' => 'Fecha de Actualización'
                     ],
-
+                    'body' => [
+                        'states_count' => "Tiene :count departamentos registrados.",
+                        "cities_count" => "Tiene :count ciudades registradas."
+                    ]
                 ],
 
                 'messages' => [
@@ -111,6 +114,8 @@ return [
 
                     'show' => "En esta sección de la aplicación podrás visualizar el país de <b>:country</b>. \n
                         Este país actualmente tiene una cantidad de :states_count Departamentos y :cities_count ciudades.",
+
+                    'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso país. La información del recurso será: <b>:country</b>",
                 ],
 
 
@@ -125,9 +130,9 @@ return [
                 'subtitle' => 'Departamentos',
 
                 'route-titles' => [
-                    'create' => 'Registrar Departamento',
-                    'show' => 'Visualizar Departamento',
-                    'edit' => 'Editar Departamento',
+                    'create' => 'Registrar un Departamento',
+                    'show' => 'Visualizar la información del Departamento',
+                    'edit' => 'Editar información del Departamento',
                 ],
 
                 'form-titles' => [
@@ -152,6 +157,9 @@ return [
                         'created_at' => 'Fecha de Creación',
                         'updated_at' => 'Fecha de Actualización'
                     ],
+                    'body' => [
+                        'cities_count' => "Tiene :count ciudades registradas."
+                    ]
 
                 ],
 
@@ -174,6 +182,8 @@ return [
 
                     'show' => "En esta sección de la aplicación podrás visualizar el departamento de <b>:state</b>. \n
                     Este departamento actualmente tiene una cantidad de :cities_count ciudades.",
+
+                    'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso departamento. La información del recurso será: <b>:state</b>",
                 ],
 
                 'cities' => [
@@ -193,9 +203,9 @@ return [
                 ],
 
                 'form-titles' => [
-                    'show' => 'Perfil de Visualización del Ciudad',
-                    'create' => 'Formulario de Registro de Ciudad',
-                    'update' => 'Actualización del Ciudad',
+                    'show' => 'Perfil de Visualización de la información de la Ciudad',
+                    'create' => 'Formulario de Registro de una Ciudad',
+                    'update' => 'Actualización de la información de la Ciudad',
                 ],
 
                 'filters' => [
@@ -235,6 +245,8 @@ return [
                     Dicho recurso actualmente está destinado para enriquecer la información de las ciudades dentro de la aplicación. ",
 
                     'show' => "En esta sección de la aplicación podrás visualizar la ciudad de <b>:city</b>.",
+
+                    'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso ciudad/municipio. La información del recurso será: <b>:city</b>",
                 ]
             ]
         ],

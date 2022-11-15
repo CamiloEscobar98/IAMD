@@ -60,7 +60,7 @@ class StateController extends Controller
                 ->nest('filters', 'admin.pages.localization.states.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.localization.states.components.table', compact('items'));
         } catch (\Exception $th) {
-            return $th->getMessage();
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 
@@ -71,7 +71,12 @@ class StateController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.localization.states.create');
+        try {
+            $item = $this->stateRepository->newInstance();
+            return view('admin.pages.localization.states.create', compact('item'));
+        } catch (\Exception $th) {
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        }
     }
 
     /**
@@ -91,7 +96,6 @@ class StateController extends Controller
 
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.states.messages.save_success', ['state' => $item->name])]);
         } catch (\Exception $th) {
-            return $th->getMessage();
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.states.messages.save_error')]);
         }
     }

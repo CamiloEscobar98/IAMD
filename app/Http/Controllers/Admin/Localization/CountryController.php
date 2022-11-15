@@ -78,7 +78,12 @@ class CountryController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.localization.countries.create');
+        try {
+            $item = $this->countryRepository->newInstance();
+            return view('admin.pages.localization.countries.create', compact('item'));
+        } catch (\Exception $th) {
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        }
     }
 
     /**
@@ -118,7 +123,7 @@ class CountryController extends Controller
 
             $query = $this->stateRepository->search($params, ['cities'], ['cities'], $id);
             $total = $query->count();
-            $states = $this->stateService->customPagination($query, $params, 3, $request->get('page'), $total);
+            $states = $this->stateService->customPagination($query, $params, 10, $request->get('page'), $total);
             $links = $states->links('pagination.customized');
 
             return view('admin.pages.localization.countries.show', compact('item', 'total', 'states', 'links'));

@@ -5,21 +5,30 @@ namespace App\Http\ViewComposers\Admin\Localization\Cities;
 use Illuminate\View\View;
 
 use App\Repositories\Admin\CountryRepository;
+use App\Services\Admin\CountryService;
 
 class CityFormComposer
 {
-   /** @var CountryRepository */
-   protected $countryRepository;
+    /** @var CountryService */
+    protected $countryService;
 
-   public function __construct(CountryRepository $countryRepository)
-   {
-       $this->countryRepository = $countryRepository;
-   }
+    /** @var CountryRepository */
+    protected $countryRepository;
 
-   public function compose(View $view)
-   {
-       $countries = $this->countryRepository->search([], ['states'])->get();
+    public function __construct(
+        CountryService $countryService,
+        CountryRepository $countryRepository
+    ) {
+        $this->countryService = $countryService;
+        $this->countryRepository = $countryRepository;
+    }
 
-       $view->with(compact('countries'));
-   }
+    public function compose(View $view)
+    {
+        $cityId = request()->city;
+
+        [$countries, $country, $states, $state, $cities, $city] = $this->countryService->getCountriesSelect($cityId);
+
+        $view->with(compact('countries', 'country', 'states', 'state', 'cities', 'city'));
+    }
 }

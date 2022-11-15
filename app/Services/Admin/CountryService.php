@@ -2,19 +2,32 @@
 
 namespace App\Services\Admin;
 
+use App\Repositories\Admin\CityRepository;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Admin\CountryRepository;
+use App\Repositories\Admin\StateRepository;
 
 class CountryService
 {
     /** @var CountryRepository */
     protected $countryRepository;
 
-    public function __construct(CountryRepository $countryRepository)
-    {
+    /** @var StateRepository */
+    protected $stateRepository;
+
+    /** @var CityRepository */
+    protected $cityRepository;
+
+    public function __construct(
+        CountryRepository $countryRepository,
+        StateRepository $stateRepository,
+        CityRepository $cityRepository
+    ) {
         $this->countryRepository = $countryRepository;
+        $this->stateRepository = $stateRepository;
+        $this->cityRepository = $cityRepository;
     }
 
     /**
@@ -77,5 +90,38 @@ class CountryService
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
+    }
+
+    /**
+     * @param mixed $cityId
+     */
+    public function getCountriesSelect($cityId = null)
+    {
+        $countries = $this->countryRepository->all();
+
+        if (!is_null($cityId)) {
+
+            $city = $this->cityRepository->getById($cityId);
+
+            $state  = $this->stateRepository->getById($city->state_id);
+
+            $country = $this->countryRepository->getById($state->country_id);
+
+            $states = $this->stateRepository->getByCountry($country);
+
+            $cities = $this->cityRepository->getByState($state);
+        } else {
+            $country = $countries->where('id', 11)->first();
+            
+            $states = $this->stateRepository->getByCountry($country);
+
+            $state = $states->first();
+
+            $cities = $this->cityRepository->getByState($state);
+
+            $city = $cities->first();
+        }
+
+        return [$countries, $country, $states, $state, $cities, $city];
     }
 }

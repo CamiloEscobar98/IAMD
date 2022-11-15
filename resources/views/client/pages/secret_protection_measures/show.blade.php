@@ -30,7 +30,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
-                <h3 class="font-italic font-weight-bold">
+                <h3 class="font-weight-bold">
                     <u>{{ __('pages.default.title-information') }}</u>
                 </h3>
                 <p>{!! __('pages.client.secret_protection_measures.info.show', ['strategy' => $item->name]) !!}</p>
@@ -42,27 +42,27 @@
                     <u>{{ __('pages.client.secret_protection_measures.form-titles.show') }}</u>
                 </h3>
                 <!-- Name -->
-                <div class="input-group mt-3">
-                    <input type="text" class="form-control" placeholder="{{ __('inputs.name') }}"
-                        value="{{ $item->name }}" disabled>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-flag"></span>
-                        </div>
-                    </div>
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.name') }}:</label>
+                    <p>{{ $item->name }}</p>
                 </div>
                 <!-- ./Name -->
 
-                <!-- Info -->
-                <div class="input-group mt-3">
-                    <textarea class="form-control" cols="30" rows="10" disabled>{{ $item->info }}</textarea>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-flag"></span>
-                        </div>
-                    </div>
+                <hr>
+
+                <!-- Created At -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.created_at') }}:</label>
+                    <p>{{ transformTimestampToString($item->created_at) }}</p>
                 </div>
-                <!-- ./Info -->
+                <!-- ./Created At -->
+
+                <!-- Updated At -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.updated_at') }}:</label>
+                    <p>{{ transformTimestampToString($item->updated_at) }}</p>
+                </div>
+                <!-- ./Updated At -->
 
                 <!-- Edit Button -->
                 <div class="form-group mt-3">
@@ -70,8 +70,6 @@
                         class="btn btn-warning btn-sm">{{ __('buttons.update_to') }}</a>
                 </div>
                 <!-- Edit Button -->
-
-
             </div>
         </div>
         <div class="row justify-content-start">

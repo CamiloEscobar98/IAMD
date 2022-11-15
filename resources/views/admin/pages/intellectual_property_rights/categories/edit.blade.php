@@ -47,7 +47,7 @@
                             @include('admin.pages.intellectual_property_rights.categories.components.form')
 
                             <div class="form-group mt-3">
-                                <button class="btn btn-secondary btn-sm">{{ __('buttons.update') }}</button>
+                                <button class="btn btn-danger btn-sm">{{ __('buttons.update') }}</button>
                             </div>
                         </form>
                     </div>

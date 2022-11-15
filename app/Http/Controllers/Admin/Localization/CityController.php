@@ -70,9 +70,14 @@ class CityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        return view('admin.pages.localization.cities.create');
+        try {
+            $item = $this->cityRepository->newInstance();
+            return view('admin.pages.localization.cities.create', compact('item'));
+        } catch (\Exception $th) {
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        }
     }
 
     /**

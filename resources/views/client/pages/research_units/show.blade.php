@@ -30,7 +30,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
-                <h3 class="font-italic font-weight-bold">
+                <h3 class="font-weight-bold">
                     <u>{{ __('pages.default.title-information') }}</u>
                 </h3>
                 <p>{!! __('pages.client.research_units.info.show', ['research_unit' => $item->name]) !!}</p>

@@ -18,7 +18,7 @@ class StateFormComposer
 
     public function compose(View $view)
     {
-        $countries = $this->countryRepository->all();
+        $countries = $this->countryRepository->all()->pluck('name', 'id')->prepend('---Seleccionar un país', -1);
 
         $view->with(compact('countries'));
     }

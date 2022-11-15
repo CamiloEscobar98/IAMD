@@ -29,7 +29,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
-                <h3 class="font-italic font-weight-bold">
+                <h3 class="font-weight-bold">
                     <u>{{ __('pages.default.title-information') }}</u>
                 </h3>
                 <p>{!! __('pages.client.secret_protection_measures.info.create') !!}</p>
@@ -37,12 +37,20 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <h3 class="text-center font-weight-bold">
+                <h3 class="font-weight-bold">
                     <u>{{ __('pages.client.secret_protection_measures.form-titles.create') }}</u>
                 </h3>
-                @include('client.pages.secret_protection_measures.components.form', [
-                    'editMode' => false,
-                ])
+
+                <form action="{{ route('client.secret_protection_measures.store', $client->name) }}" method="post">
+                    @csrf
+
+                    @include('client.pages.secret_protection_measures.components.form')
+
+                    <div class="form-group mt-3">
+                        <button class="btn btn-danger btn-sm">{{ __('buttons.save') }}</button>
+                    </div>
+
+                </form>
             </div>
         </div>
     </div>

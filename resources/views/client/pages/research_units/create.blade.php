@@ -58,7 +58,7 @@
                             @include('client.pages.research_units.components.form')
 
                             <div class="form-group mt-4">
-                                <button class="btn btn-secondary btn-sm">{{ __('buttons.save') }}</button>
+                                <button class="btn btn-danger btn-sm">{{ __('buttons.save') }}</button>
                             </div>
 
                         </form>

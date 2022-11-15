@@ -64,6 +64,6 @@ class StateRepository extends AbstractRepository
      */
     public function getByCountry($country): Collection
     {
-        return $this->all()->where('country_id', $country->id);
+        return $this->model->ofCountry($country->id)->get();
     }
 }

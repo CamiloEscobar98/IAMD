@@ -29,7 +29,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
-                <h3 class="font-italic font-weight-bold">
+                <h3 class="font-weight-bold">
                     <u>{{ __('pages.default.title-information') }}</u>
                 </h3>
                 <p>{!! __('pages.client.financing_types.info.create') !!}</p>
@@ -46,7 +46,7 @@
                     @include('client.pages.financing_types.components.form')
 
                     <div class="form-group mt-3">
-                        <button class="btn btn-secondary btn-sm">{{ __('buttons.save') }}</button>
+                        <button class="btn btn-danger btn-sm">{{ __('buttons.save') }}</button>
                     </div>
 
                 </form>

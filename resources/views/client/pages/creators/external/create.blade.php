@@ -61,7 +61,7 @@
                             @include('client.pages.creators.external.components.form')
 
                             <div class="form-group mt-3">
-                                <button class="btn btn-secondary btn-sm">{{ __('buttons.save') }}</button>
+                                <button class="btn btn-danger btn-sm">{{ __('buttons.save') }}</button>
                             </div>
 
                         </form>

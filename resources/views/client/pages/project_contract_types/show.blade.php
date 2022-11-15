@@ -30,7 +30,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
-                <h3 class="font-italic font-weight-bold">
+                <h3 class="font-weight-bold">
                     <u>{{ __('pages.default.title-information') }}</u>
                 </h3>
                 <p>{!! __('pages.client.project_contract_types.info.show', ['project_contract_type' => $item->name]) !!}</p>

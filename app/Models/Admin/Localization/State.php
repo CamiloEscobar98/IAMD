@@ -45,4 +45,18 @@ class State extends BaseModel
     {
         return $this->hasMany(City::class);
     }
+
+    /**
+     * Scope a query to only include Country
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfCountry($query, $countryId)
+    {
+        if (is_array($countryId) && !empty($countryId)) {
+            return $query->whereIn($countryId);
+        }
+        return $query->where('country_id', $countryId);
+    }
 }

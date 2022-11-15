@@ -28,67 +28,40 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row justify-content-start">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.admin.localizations.countries.form-titles.show') }}</u>
-                        </h3>
 
-                        <img src="{{ asset('assets/images/countries/country_flags.png') }}" class="img-fluid"
-                            alt="">
+        <h3 class="font-weight-bold">
+            <u>{{ __('pages.default.title-information') }}</u>
+        </h3>
 
-                        <!-- Name -->
-                        <div class="input-group mt-3">
-                            <input type="text" name="name" class="form-control {{ isInvalidByError($errors, 'name') }}"
-                                placeholder="{{ __('inputs.name') }}" value="{{ $item->name }}" disabled>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-flag"></span>
-                                </div>
-                            </div>
-                        </div>
+        <p>{!! __('pages.admin.localizations.countries.info.show', [
+            'country' => $item->name,
+            'states_count' => $item->states_count,
+            'cities_count' => $item->cities_count,
+        ]) !!}
+        </p>
 
-                        @error('name')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                        <!-- ./Name -->
-
-                        <div class="form-group mt-3">
-                            <a href="{{ route('admin.localizations.countries.edit', $item->id) }}"
-                                class="btn btn-warning btn-sm">{{ __('buttons.update_to') }}</a>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row justify-content center">
-                            <h3 class="text-center font-italic font-weight-bold">
-                                <u>{{ __('pages.default.title-information') }}</u>
-                            </h3>
-                            <img src="{{ asset('assets/images/countries/country-1.png') }}" class="img-fluid mt-4"
-                                width="540em">
-                            <div class="mb-0">
-                                <p>{!! __('pages.admin.localizations.countries.info.show', [
-                                    'country' => $item->name,
-                                    'states_count' => $item->states_count,
-                                    'cities_count' => $item->cities_count,
-                                ]) !!}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="pl-3 py-2 bg-gradient-danger rounded">
+            <h5 class="font-weight-bold">{{ __('pages.admin.localizations.countries.form-titles.show') }} </h5>
         </div>
-        <div class="row mt-2 mb-4 mx-2">
-            <h4 class="mb-4">{{ __('pages.admin.localizations.countries.states.title') }}</h4>
-            @include('admin.pages.localization.countries.components.table_states')
+
+        <!-- Name -->
+        <div class="form-group mt-3">
+            <label>{{ __('inputs.name') }}:</label>
+            <p>{{ $item->name }}</p>
         </div>
+        <!-- ./Name -->
+
+        <div class="form-group mt-3">
+            <a href="{{ route('admin.localizations.countries.edit', $item->id) }}"
+                class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
+        </div>
+
+        <div class="pl-3 py-2 bg-gradient-danger mb-4">
+            <h5 class="font-weight-bold">{{ __('pages.admin.localizations.countries.states.title') }}</h5>
+        </div>
+
+        @include('admin.pages.localization.countries.components.table_states')
+
         {!! $links !!}
     </div>
 @endsection
