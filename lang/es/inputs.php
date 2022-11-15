@@ -26,12 +26,16 @@ return [
     'phone' => 'Teléfono Celular',
 
     'date' => 'Fecha de registro',
+    'created_at' => 'Fecha de Registro',
+    'updated_at' => 'Fecha de Actualización',
 
     'intellectual_property_rights_category' => 'Categoría de los Derechos de Propiedad Intelectual',
     'intellectual_property_rights_subcategory' => 'Subcategorías de los Derechos de Propiedad Intelectual',
     'intellectual_property_rights_product' => 'Producto de los Derechos de Propiedad Intelectual',
 
     'country_id' => 'País',
+    'state_id' => 'Departamento',
+    'city_id' => 'Ciudad',
 
     'administrative_unit_id' => 'Facultad',
 
@@ -39,7 +43,11 @@ return [
     'research_unit_category_id' => 'Categoría Unidad Investigativa',
 
     'intangible_asset_state_id' => 'Estado del Activo Intangible',
-    
+    'intangible_asset_code' => 'Codificación del Activo Intangible',
+    'intangible_asset_date' => 'Fecha de Registro del Activo Intangible',
+    'intangible_asset_localization' => 'Localización del Activo Intangible',
+    'intangible_asset_code_localization' => 'Código de Localización del Activo Intangible',
+
     'dpi_id' => 'Derecho de Propiedad Intelectual',
     'secret_protection_measure_id' => 'Medidas Secretas de Protección',
 
@@ -62,6 +70,7 @@ return [
     'contract' => 'Nombre de Contrato',
     'financing_type_id' => 'Tipo de Financiación',
     'project_contract_type_id' => 'Tipo de Contrato del Proyecto',
+    'contract_date' => 'Fecha de Contrato',
 
 
 ];

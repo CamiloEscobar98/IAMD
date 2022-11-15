@@ -28,132 +28,112 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row justify-content-start">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-
-                        <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.client.projects.form-titles.show') }}</u>
-                        </h3>
-
-                        <!-- Name -->
-                        <div class="input-group mt-3">
-                            <input type="text" class="form-control" value="{{ $item->name }}" disabled>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-file-alt"> {{ __('inputs.project_name') }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ./Name -->
-
-                        <!-- Research Unit -->
-                        <div class="input-group mt-3">
-                            <input type="text" class="form-control" value="{{ $item->research_unit->name }}" disabled>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-microscope nav-icon"> {{ __('inputs.research_unit_id') }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ./Research Unit -->
-
-                        <!-- Directror -->
-                        <div class="input-group mt-3">
-                            <input type="text" class="form-control" value="{{ $item->director->name }}" disabled>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-user-tie nav-icon"> {{ __('inputs.director_id') }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ./Directror -->
-
-                        <!-- Description -->
-                        <div class="input-group mt-3">
-                            <textarea class="form-control" cols="30" rows="5" disabled>{{ $item->description }}</textarea>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-sticky-note"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ./Description -->
-
-                        <hr>
-
-                        <!-- Financing Types -->
-                        <div class="input-group mt-3">
-                            <input type="text" class="form-control"
-                                value="{{ $item->project_financing->financing_type->name }}" disabled>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-user-tie nav-icon"> {{ __('inputs.financing_type_id') }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ./Financing Types -->
-
-                        <!-- Project Contract Types -->
-                        <div class="input-group mt-3">
-                            <input type="text" class="form-control"
-                                value="{{ $item->project_financing->project_contract_type->name }}" disabled>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-briefcase nav-icon"> {{ __('inputs.project_contract_type_id') }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ./Project Contract Types -->
-
-                        <!-- Contract -->
-                        <div class="input-group mt-3">
-                            <input type="text" class="form-control" value="{{ $item->project_financing->contract }}"
-                                disabled>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-user-tie nav-icon"> {{ __('inputs.contract') }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ./Contract -->
-
-                        <!-- Date -->
-                        <div class="input-group mt-3">
-                            <input type="text" class="form-control" value="{{ $item->project_financing->date }}"
-                                disabled>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-calendar nav-icon"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ./Date -->
-
-
-                        <!-- Edit Button -->
-                        <div class="form-group mt-3">
-                            <a href="{{ getClientRoute('client.projects.edit', [$item->id]) }}"
-                                class="btn btn-warning btn-sm">{{ __('buttons.update_to') }}</a>
-                        </div>
-                        <!-- Edit Button -->
-                    </div>
-                </div>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="font-italic font-weight-bold">
+                    <u>{{ __('pages.default.title-information') }}</u>
+                </h3>
+                <p>{!! __('pages.client.projects.info.show', ['project' => $item->name]) !!}</p>
             </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="font-italic font-weight-bold">
-                            <u>{{ __('pages.default.title-information') }}</u>
-                        </h3>
-                        <div class="row justify-content-center">
-                            <img src="{{ asset('assets/images/projects.png') }}" class="img-fluid mt-3" width="400em"
-                                alt="">
-                            <p>{!! __('pages.client.projects.info.show', ['project' => $item->name]) !!}</p>
-                        </div>
-                    </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+
+                <h3 class="font-weight-bold">
+                    <u>{{ __('pages.client.projects.form-titles.show') }}</u>
+                </h3>
+
+                <!-- Name -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.project_name') }}:</label>
+                    <p>{{ $item->name }}</p>
                 </div>
+                <!-- ./Name -->
+
+                <!-- Research Unit -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.research_unit_id') }}:</label>
+                    <p> <a href="{{ getClientRoute('client.research_units.show', [$item->research_unit->id]) }}"
+                            class="btn btn-sm btn-outline-secondary">{{ $item->research_unit->name }}</a></p>
+                </div>
+                <!-- ./Research Unit -->
+
+                <!-- Directror -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.director_id') }}:</label>
+                    <p>
+                        <a href="{{ getClientRoute('client.' . $item->director->creator_type_route . '.show', [$item->director->id]) }}"
+                            class="btn btn-sm btn-outline-secondary">{{ getParamObject($item->director, 'name') }}</a>
+                    </p>
+                </div>
+                <!-- ./Directror -->
+
+                <!-- Description -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.description') }}:</label>
+                    <p>{{ $item->description }}</p>
+                </div>
+                <!-- ./Description -->
+
+                <hr>
+
+                <!-- Financing Types -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.financing_type_id') }}</label>
+                    <p> <a href="{{ getClientRoute('client.financing_types.show', [$item->project_financing->financing_type->id]) }}"
+                            class="btn btn-sm btn-outline-secondary">{{ $item->project_financing->financing_type->name }}</a>
+                    </p>
+                </div>
+                <!-- ./Financing Types -->
+
+                <hr>
+
+                <!-- Project Contract Types -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.project_contract_type_id') }}</label>
+                    <p> <a href="{{ getClientRoute('client.project_contract_types.show', [$item->project_financing->project_contract_type->id]) }}"
+                            class="btn btn-sm btn-outline-secondary">{{ $item->project_financing->project_contract_type->name }}</a>
+                    </p>
+                </div>
+                <!-- ./Project Contract Types -->
+
+                <!-- Contract -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.contract') }}</label>
+                    <p>{{ $item->project_financing->contract }}</p>
+                </div>
+                <!-- ./Contract -->
+
+                <!-- Contract Date -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.contract_date') }}</label>
+                    <p>{{ transformDatetoString($item->project_financing->date) }}</p>
+                </div>
+                <!-- ./Contract Date -->
+
+                <hr>
+
+                <!-- Created At -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.created_at') }}:</label>
+                    <p>{{ transformTimestampToString($item->created_at) }}</p>
+                </div>
+                <!-- ./Created At -->
+
+                <!-- Updated At -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.updated_at') }}:</label>
+                    <p>{{ transformTimestampToString($item->updated_at) }}</p>
+                </div>
+                <!-- ./Updated At -->
+
+
+                <!-- Edit Button -->
+                <div class="form-group mt-3">
+                    <a href="{{ getClientRoute('client.projects.edit', [$item->id]) }}"
+                        class="btn btn-warning btn-sm">{{ __('buttons.update_to') }}</a>
+                </div>
+                <!-- Edit Button -->
             </div>
         </div>
 
@@ -162,5 +142,7 @@
 @endsection
 
 @section('custom_js')
-    @include('messages.delete_item', ['title' => __('pages.client.intangible_assets.messages.confirm')])
+    @include('messages.delete_item', [
+        'title' => __('pages.client.intangible_assets.messages.confirm'),
+    ])
 @endsection

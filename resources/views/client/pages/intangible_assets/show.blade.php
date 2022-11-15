@@ -73,37 +73,68 @@
                         </h3>
 
                         @if ($item->hasCode())
-                            <p class="font-weight-bold">{{ $item->code }}</p>
+                            <div class="form-group mt-3">
+                                <label>{{ __('inputs.intangible_asset_code') }}</label>
+                                <p><i>{{ $item->code }}</i></p>
+                            </div>
                         @endif
 
                         <!-- Name -->
-                        <div class="input-group mt-3">
-                            <input type="text" class="form-control" placeholder="{{ __('inputs.name') }}"
-                                value="{{ $item->name }}" disabled>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-file-alt"></span>
-                                </div>
-                            </div>
+                        <div class="form-group mt-3">
+                            <label>{{ __('inputs.name') }}:</label>
+                            <p>{{ $item->name }}</p>
                         </div>
                         <!-- ./Name -->
 
                         <!-- Project -->
-                        <div class="input-group mt-3">
-                            <input type="text" class="form-control" placeholder="{{ __('inputs.project') }}"
-                                value="{{ $item->project->name }}" disabled>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-microscope nav-icon"></span>
-                                </div>
-                            </div>
+                        <div class="form-group mt-3">
+                            <label>{{ __('inputs.project_id') }}:</label>
+                            <p> <a href="{{ getClientRoute('client.projects.show', [$item->project->id]) }}"
+                                    class="btn btn-sm btn-outline-secondary">{{ $item->project->name }}</a></p>
                         </div>
                         <!-- ./Project -->
 
-                        <br>
+                        <!-- Contract Date -->
+                        <div class="form-group mt-3">
+                            <label>{{ __('inputs.intangible_asset_date') }}</label>
+                            <p>{{ transformDatetoString($item->date) }}</p>
+                        </div>
+                        <!-- ./Contract Date -->
+
+                        <hr>
+
+                        <!-- Localization -->
+                        <div class="form-group mt-3">
+                            <label>{{ __('inputs.intangible_asset_localization') }}:</label>
+                            <p>{{ getParamObject($item->intangible_asset_localization, 'localization') }}</p>
+                        </div>
+                        <!-- ./Localization -->
+
+                        <!-- Localization Code -->
+                        <div class="form-group mt-3">
+                            <label>{{ __('inputs.intangible_asset_code_localization') }}:</label>
+                            <p>{{ getParamObject($item->intangible_asset_localization, 'code', true) }}</p>
+                        </div>
+                        <!-- ./Localization Code -->
+
+                        <hr>
+
+                        <!-- Created At -->
+                        <div class="form-group mt-3">
+                            <label>{{ __('inputs.created_at') }}:</label>
+                            <p>{{ transformTimestampToString($item->created_at) }}</p>
+                        </div>
+                        <!-- ./Created At -->
+
+                        <!-- Updated At -->
+                        <div class="form-group mt-3">
+                            <label>{{ __('inputs.updated_at') }}:</label>
+                            <p>{{ transformTimestampToString($item->updated_at) }}</p>
+                        </div>
+                        <!-- ./Updated At -->
 
                         <!-- Edit Button -->
-                        <div class="form-group mt-3">
+                        <div class="form-group mt-4">
                             <a href="{{ getClientRoute('client.intangible_assets.edit', [$item->id]) }}"
                                 class="btn btn-warning btn-sm">{{ __('buttons.update_to') }}</a>
                         </div>

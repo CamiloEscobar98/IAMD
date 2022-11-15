@@ -26,6 +26,8 @@ class UpdateRequest extends FormRequest
         return [
             'project_id' => ['required', 'exists:tenant.projects,id'],
             'name' => ['required', 'unique:tenant.intangible_assets,name,' . $this->intangible_asset],
+            'localization' => ['required'],
+            'localization_code' => ['nullable', 'unique:tenant.intangible_asset_localizations.code,' . $this->intangible_asset]
         ];
     }
 }

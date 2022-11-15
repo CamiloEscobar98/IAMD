@@ -1,4 +1,4 @@
-<h4 class="mb-4">{{ __('pages.client.projects.intangible_assets.title') }}</h4>
+<h4 class="mb-4 font-weight-bold">{{ __('pages.client.projects.intangible_assets.title') }}</h4>
 
 <div class="table-responsive">
     <table class="table table-sm  table-hover table-bordered">
@@ -16,8 +16,8 @@
                 <tr>
                     <td class="text-center">{{ $loop->iteration }}.</td>
                     <td>{{ $item->name }}</td>
-                    <td>{{ $item->created_at }}</td>
-                    <td>{{ $item->updated_at }}</td>
+                    <td>{{ transformTimestampToString($item->created_at) }}</td>
+                    <td>{{ transformTimestampToString($item->updated_at) }}</td>
                     <td>
                         <div class="row justify-content-center">
                             <a href="{{ route('client.intangible_assets.show', [$client->name, $item->id]) }}"

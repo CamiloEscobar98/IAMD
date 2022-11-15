@@ -76,7 +76,7 @@
         @enderror
         <!-- ./Description -->
 
-        <div class="form-group mt-3 mb-0">
+        <div class="form-group mt-3">
             <button class="btn btn-secondary btn-sm">{{ __('buttons.save') }}</button>
         </div>
 

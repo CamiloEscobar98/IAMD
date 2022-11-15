@@ -33,30 +33,35 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row justify-content-start">
-            <div class="col-md-7">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.client.research_units.form-titles.create') }}</u>
-                        </h3>
-                        @include('client.pages.research_units.components.form', [
-                            'editMode' => false,
-                        ])
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-5">
+        <div class="row">
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
                         <h3 class="font-italic font-weight-bold">
                             <u>{{ __('pages.default.title-information') }}</u>
                         </h3>
-                        <div class="row justify-content-center">
-                            <img src="{{ asset('assets/images/research_units.png') }}" class="img-fluid mt-3"
-                                width="400em" alt="">
-                            <p>{!! __('pages.client.research_units.info.create') !!}</p>
-                        </div>
+                        <p>{!! __('pages.client.research_units.info.create') !!}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-start">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="font-weight-bold">
+                            <u>{{ __('pages.client.research_units.form-titles.create') }}</u>
+                        </h3>
+                        <form action="{{ route('client.research_units.store', $client->name) }}" method="post">
+                            @csrf
+
+                            @include('client.pages.research_units.components.form')
+
+                            <div class="form-group mt-4">
+                                <button class="btn btn-secondary btn-sm">{{ __('buttons.save') }}</button>
+                            </div>
+
+                        </form>
                     </div>
                 </div>
             </div>
@@ -71,8 +76,6 @@
 
 @section('custom_js')
     <script>
-      
-
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'

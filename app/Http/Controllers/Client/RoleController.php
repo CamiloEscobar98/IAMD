@@ -3,19 +3,28 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\Client\RoleRepository;
+
+use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+
+use App\Services\Client\RoleService;
+use App\Repositories\Client\RoleRepository;
 
 class RoleController extends Controller
 {
     /** @var RoleRepository */
     protected $roleRepository;
 
+    /** @var RoleService */
+    protected $roleService;
+
     public function __construct(
+        RoleService $roleService,
         RoleRepository $roleRepository
     ) {
+        $this->roleService = $roleService;
+
         $this->roleRepository = $roleRepository;
     }
 
@@ -24,12 +33,25 @@ class RoleController extends Controller
      *
      * @return View|RedirectResponse
      */
-    public function index(): View|RedirectResponse
+    public function index(Request $request): View|RedirectResponse
     {
         try {
-            return view();
+
+            $params = $this->roleService->transformParams($request->all());
+
+            $query = $this->roleRepository->search($params, [], ['users', 'permissions']);
+
+            $total = $query->count();
+
+            $items = $this->roleService->customPagination($query, $params, $request->get('page'), $total);
+
+            $links = $items->links('pagination.customized');
+
+            return view('client.pages.roles.index')
+                ->nest('filters', 'client.pages.roles.components.filters', compact('params', 'total'))
+                ->nest('table', 'client.pages.roles.components.table', compact('items', 'links'));
         } catch (\Exception $th) {
-            return redirect()->back();
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
 
@@ -38,12 +60,13 @@ class RoleController extends Controller
      *
      * @return View|RedirectResponse
      */
-    public function create(): View|RedirectResponse
+    public function create()
     {
         try {
-            return view();
+            $item = $this->roleRepository->newInstance();
+            return view('client.pages.roles.create', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back();
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 

@@ -56,7 +56,7 @@ class CreateCreatorExternalComposer
         $creatorExternalId = request()->external;
 
         $countries = $this->countryRepository->all();
-        
+
         if (is_null($creatorExternalId)) {
 
             $country = $countries->where('id', old('country_id', 11))->first();
@@ -87,11 +87,11 @@ class CreateCreatorExternalComposer
             $cities = $this->cityRepository->getByState($state);
         }
 
-        $externalOrganizations = $this->externalOrganizationRepository->all();
+        $externalOrganizations = $this->externalOrganizationRepository->all()->pluck('name', 'id')->prepend('---Selecciona una Organización Externa', -1);
 
-        $assignmentContracts = $this->assignmentContractRepository->all()->where('is_internal', false);
+        $assignmentContracts = $this->assignmentContractRepository->all()->where('is_internal', false)->pluck('name', 'id')->prepend('---Selecciona un Tipo de Contratación', -1);
 
-        $documentTypes = $this->documentTypeRepository->all();
+        $documentTypes = $this->documentTypeRepository->all()->pluck('name', 'id')->prepend('---Selecciona un Tipo de Documento', -1);
 
 
         $view->with(compact(

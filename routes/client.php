@@ -114,7 +114,7 @@ Route::name('intangible_assets.')->prefix('activos-intangibles')->group(function
     Route::put('{intangible_asset}', [IntangibleAssetController::class, 'update'])->name('update');
     Route::delete('{intangible_asset}', [IntangibleAssetController::class, 'destroy'])->name('destroy');
 
-    Route::get('{intangible_asset}/generar-codigo', [IntangibleAssetController::class, 'updateCode'])->name('intangible_assets.generate_code');
+    Route::get('{intangible_asset}/generar-codigo', [IntangibleAssetController::class, 'updateCode'])->name('generate_code');
 });
 
 

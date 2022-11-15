@@ -54,9 +54,17 @@
                         <h3 class="text-center font-weight-bold">
                             <u>{{ __('pages.client.creators.external.form-titles.create') }}</u>
                         </h3>
-                        @include('client.pages.creators.external.components.form', [
-                            'editMode' => false,
-                        ])
+
+                        <form action="{{ route('client.creators.external.store', $client->name) }}" method="post">
+                            @csrf
+
+                            @include('client.pages.creators.external.components.form')
+
+                            <div class="form-group mt-3">
+                                <button class="btn btn-secondary btn-sm">{{ __('buttons.save') }}</button>
+                            </div>
+
+                        </form>
                     </div>
                 </div>
             </div>
@@ -73,8 +81,6 @@
     <script src="{{ asset('adminlte/dist/js/iamd/localizations.js') }}"></script>
 
     <script>
-      
-
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'

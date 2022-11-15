@@ -51,9 +51,17 @@
                 <h3 class="text-center font-weight-bold">
                     <u>{{ __('pages.client.creators.internal.form-titles.edit') }}</u>
                 </h3>
-                @include('client.pages.creators.internal.components.form', [
-                    'editMode' => true,
-                ])
+                <form action="{{ getClientRoute('client.creators.internal.update', [$item->creator_id]) }}" method="post">
+                    @csrf
+                    @method('PUT')
+
+                    @include('client.pages.creators.internal.components.form')
+
+                    <div class="form-group mt-3">
+                        <button class="btn btn-secondary btn-sm">{{ __('buttons.update') }}</button>
+                    </div>
+
+                </form>
             </div>
         </div>
     </div>
@@ -69,8 +77,6 @@
     <script src="{{ asset('adminlte/dist/js/iamd/localizations.js') }}"></script>
 
     <script>
-      
-
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'

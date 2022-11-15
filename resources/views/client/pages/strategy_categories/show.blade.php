@@ -38,29 +38,20 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <h3 class="text-center font-weight-bold">
+                <h3 class="font-weight-bold">
                     <u>{{ __('pages.client.strategy_categories.form-titles.show') }}</u>
                 </h3>
                 <!-- Name -->
-                <div class="input-group mt-3">
-                    <input type="text" class="form-control" placeholder="{{ __('inputs.name') }}"
-                        value="{{ $item->name }}" disabled>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-flag"></span>
-                        </div>
-                    </div>
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.name') }}</label>
+                    <p>{{ $item->name }}</p>
                 </div>
                 <!-- ./Name -->
 
                 <!-- Info -->
-                <div class="input-group mt-3">
-                    <textarea class="form-control" cols="30" rows="10" disabled>{{ $item->info }}</textarea>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-flag"></span>
-                        </div>
-                    </div>
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.info') }}</label>
+                    <p>{{ $item->description }}</p>
                 </div>
                 <!-- ./Info -->
 

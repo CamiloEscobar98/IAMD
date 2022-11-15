@@ -35,9 +35,13 @@ use App\Repositories\Client\SecretProtectionMeasureRepository;
 use App\Repositories\Client\StrategyCategoryRepository;
 use App\Repositories\Client\StrategyRepository;
 use App\Repositories\Client\UserRepository;
+use App\Services\Client\IntangibleAssetService;
 
 class IntangibleAssetSeeder extends Seeder
 {
+    /** @var IntangibleAssetService */
+    protected $intangibleAssetService;
+
     /** @var IntangibleAssetRepository */
     protected $intangibleAssetRepository;
 
@@ -116,6 +120,7 @@ class IntangibleAssetSeeder extends Seeder
     protected $strategyRepository;
 
     public function __construct(
+        IntangibleAssetService $intangibleAssetService,
         IntangibleAssetRepository $intangibleAssetRepository,
         IntangibleAssetLocalizationRepository $intangibleAssetLocalizationRepository,
         IntangibleAssetStateRepository $intangibleAssetStateRepository,
@@ -147,6 +152,7 @@ class IntangibleAssetSeeder extends Seeder
         StrategyCategoryRepository $strategyCategoryRepository,
         StrategyRepository $strategyRepository,
     ) {
+        $this->intangibleAssetService = $intangibleAssetService;
         $this->intangibleAssetRepository = $intangibleAssetRepository;
         $this->intangibleAssetLocalizationRepository = $intangibleAssetLocalizationRepository;
         $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
@@ -230,6 +236,8 @@ class IntangibleAssetSeeder extends Seeder
                 $intangibleAsset = $this->intangibleAssetRepository->createOneFactory([
                     'project_id' => $project->id,
                 ]);
+
+                $this->intangibleAssetLocalizationRepository->createOneFactory(['intangible_asset_id' => $intangibleAsset->id]);
 
                 print("Intangible Asset Created. Name: " . $intangibleAsset->name . "\n");
 
@@ -350,6 +358,10 @@ class IntangibleAssetSeeder extends Seeder
         /** ./Phase Nine */
 
         if ($hasStrategies) $this->hasStrategies($intangibleAsset, $strategyCategories, $strategies, $users);
+
+        if ($randomAllCompleted) {
+            $this->intangibleAssetService->generateCodeOfIntangibleAsset($intangibleAsset);
+        }
     }
 
     /**
@@ -411,7 +423,7 @@ class IntangibleAssetSeeder extends Seeder
      */
     private function updateHasComments($intangibleAsset, $users): void
     {
-        $randomNumber = rand(1, 10);
+        $randomNumber = rand(2, 10);
         $randomUsers = $users->random($randomNumber);
 
         $randomUsers->each(function ($user) use ($intangibleAsset) {

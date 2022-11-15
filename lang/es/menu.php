@@ -75,6 +75,9 @@ return [
         /** Level 1 */
         'users' => 'Usuarios',
 
+        /** Level 1 */
+        'roles' => 'Roles',
+
         /** Second Title */
         'first_subtitle' => 'CONFIGURACIÓN',
 

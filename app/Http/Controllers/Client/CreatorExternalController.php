@@ -86,7 +86,8 @@ class CreatorExternalController extends Controller
     public function create(): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
-            return view('client.pages.creators.external.create');
+            $item = $this->creatorExternalRepository->newInstance();
+            return view('client.pages.creators.external.create', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
@@ -170,7 +171,7 @@ class CreatorExternalController extends Controller
         }
     }
 
-     /**
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

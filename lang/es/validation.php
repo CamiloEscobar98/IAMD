@@ -179,10 +179,13 @@ return [
         'country_id' => 'país',
         'state_id' => 'departamento',
 
-        'administrative_unit_id' => 'Facultad',
-        'research_unit_category_id' => 'Unidad de Investigación',
-        'director_id' => 'Director',
-        'inventory_manager_id' => 'Administrador de Inventario',
+        'administrative_unit_id' => 'facultad',
+        'project_id' => 'proyecto',
+        'research_unit_category_id' => 'unidad de investigación',
+        'director_id' => 'director',
+        'inventory_manager_id' => 'administrador de inventario',
+
+        'localization_code' => 'código de localización',
 
         'document' => 'documento',
         'document_type_id' => 'tipo de documento',

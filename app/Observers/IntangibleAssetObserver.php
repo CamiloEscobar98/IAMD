@@ -5,22 +5,16 @@ namespace App\Observers;
 use App\Models\Client\IntangibleAsset\IntangibleAsset;
 
 use App\Repositories\Client\IntangibleAssetPhaseRepository;
-use App\Repositories\Client\IntangibleAssetLocalizationRepository;
 
 class IntangibleAssetObserver
 {
     /** @var IntangibleAssetPhaseRepository */
     protected $intangibleAssetPhaseRepository;
 
-    /** @var IntangibleAssetLocalizationRepository */
-    protected $intangibleAssetLocalizationRepository;
-
     public function __construct(
         IntangibleAssetPhaseRepository $intangibleAssetPhaseRepository,
-        IntangibleAssetLocalizationRepository $intangibleAssetLocalizationRepository
     ) {
         $this->intangibleAssetPhaseRepository = $intangibleAssetPhaseRepository;
-        $this->intangibleAssetLocalizationRepository = $intangibleAssetLocalizationRepository;
     }
 
     /**
@@ -32,7 +26,6 @@ class IntangibleAssetObserver
     public function created(IntangibleAsset $intangibleAsset)
     {
         $this->intangibleAssetPhaseRepository->create(['intangible_asset_id' => $intangibleAsset->id]);
-        $this->intangibleAssetLocalizationRepository->createOneFactory(['intangible_asset_id' => $intangibleAsset->id]);
     }
 
     /**

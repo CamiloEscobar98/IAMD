@@ -5,8 +5,10 @@ namespace App\Services\Client;
 use App\Models\Client\IntangibleAsset\IntangibleAsset;
 use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
 use App\Repositories\Client\FinancingTypeRepository;
+use App\Repositories\Client\IntangibleAssetLocalizationRepository;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 use App\Repositories\Client\IntangibleAssetRepository;
 use App\Repositories\Client\ProjectContractTypeRepository;
@@ -18,6 +20,9 @@ class IntangibleAssetService
 {
     /** @var IntangibleAssetRepository */
     protected $intangibleAssetRepository;
+
+    /** @var IntangibleAssetLocalizationRepository */
+    protected $intangibleAssetLocalizationRepository;
 
     /** @var ProjectFinancingRepository */
     protected $projectFinancingRepository;
@@ -36,6 +41,7 @@ class IntangibleAssetService
 
     public function __construct(
         IntangibleAssetRepository $intangibleAssetRepository,
+        IntangibleAssetLocalizationRepository $intangibleAssetLocalizationRepository,
         ProjectFinancingRepository $projectFinancingRepository,
         ProjectContractTypeRepository $projectContractTypeRepository,
         FinancingTypeRepository $financingTypeRepository,
@@ -43,6 +49,7 @@ class IntangibleAssetService
         IntellectualPropertyRightProductRepository $intellectualPropertyRightProductRepository
     ) {
         $this->intangibleAssetRepository = $intangibleAssetRepository;
+        $this->intangibleAssetLocalizationRepository = $intangibleAssetLocalizationRepository;
         $this->projectFinancingRepository = $projectFinancingRepository;
         $this->projectContractTypeRepository = $projectContractTypeRepository;
         $this->financingTypeRepository = $financingTypeRepository;
@@ -109,6 +116,38 @@ class IntangibleAssetService
             return $items;
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
+        }
+    }
+
+    /**
+     * @param array $data
+     * @param array $localizationData
+     * 
+     * @return array
+     */
+    public function createIntangibleAsset(array $data, array $localizationData)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $item = $this->intangibleAssetRepository->create($data);
+            
+            $arrayDataLocaliztion = [
+                'intangible_asset_id' => $item->id,
+                'localization' => $localizationData['localization'],
+                'code' => $localizationData['localization_code'],
+            ];
+
+            $this->intangibleAssetLocalizationRepository->create($arrayDataLocaliztion);
+
+            DB::commit();
+            return [
+                'title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.save_success', ['intangible_asset' => $item->name])
+            ];
+        } catch (\Exception $th) {
+            DB::rollBack();
+            return ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()];
         }
     }
 

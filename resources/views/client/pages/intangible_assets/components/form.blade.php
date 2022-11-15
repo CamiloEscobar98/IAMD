@@ -1,190 +1,143 @@
-@if ($editMode)
-    <form action="{{ getClientRoute('client.intangible_assets.update', [$item->id]) }}" method="post"
-        data-client="{{ $client->name }}" id="form">
-        @csrf
-        @method('PUT')
+<!-- Administrative Unit -->
+<div class="form-group mt-3">
+    <label>{{ __('inputs.administrative_unit_id') }}:</label>
+    <div class="input-group">
+        <select name="administrative_unit_id" id="administrative_unit_id" class="form-control select2bs4"
+            onchange="changeAdministrativeUnit()">
 
-        <!-- Administrative Unit -->
-        <div class="input-group mt-3">
-            <select name="administrative_unit_id" id="administrative_unit_id" class="form-control select2bs4"
-                onchange="changeAdministrativeUnit()">
-
-                @foreach ($administrativeUnits as $administrativeUnitItem)
-                    <option value="{{ $administrativeUnitItem->id }}"
-                        {{ twoOptionsIsEqual($administrativeUnit->id, $administrativeUnitItem->id) }}>
-                        {{ $administrativeUnitItem->name }}</option>
-                @endforeach
-            </select>
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-university"></span>
-                </div>
+            @foreach ($administrativeUnits as $administrativeUnit)
+                <option value="{{ $administrativeUnit->id }}"
+                    {{ twoOptionsIsEqual(old('administrative_unit_id', $item->administrative_unit_id), $administrativeUnit->id) }}>
+                    {{ $administrativeUnit->name }}</option>
+            @endforeach
+        </select>
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-university"></span>
             </div>
         </div>
-        <!-- ./Administrative Unit -->
+    </div>
+</div>
+<!-- ./Administrative Unit -->
 
-        <!-- Research Unit -->
-        <div class="input-group mt-3">
-            <select name="research_unit_id" id="research_unit_id" class="form-control select2bs4"
-                onchange="changeResearchUnit()">
-
-                @foreach ($researchUnits as $researchUnitItem)
-                    <option value="{{ $researchUnitItem->id }}"
-                        {{ twoOptionsIsEqual($researchUnit->id, $researchUnitItem->id) }}>
-                        {{ $researchUnitItem->name }}</option>
-                @endforeach
-            </select>
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-microscope"></span>
-                </div>
+<!-- Research Unit -->
+<div class="form-group mt-3">
+    <label>{{ __('inputs.research_unit_id') }}:</label>
+    <div class="input-group">
+        <select name="research_unit_id" id="research_unit_id" class="form-control select2bs4"
+            onchange="changeResearchUnit()">
+            @foreach ($researchUnits as $researchUnit)
+                <option value="{{ $researchUnit->id }}"
+                    {{ twoOptionsIsEqual(old('research_unit_id', $item->research_unit_id), $researchUnit->id) }}>
+                    {{ $researchUnit->name }}</option>
+            @endforeach
+        </select>
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-microscope"></span>
             </div>
         </div>
-        <!-- ./Research Unit -->
+    </div>
+</div>
+<!-- ./Research Unit -->
 
-        <!-- Project -->
-        <div class="input-group mt-3">
-            <select name="project_id" id="project_id"
-                class="form-control select2bs4 @error('project_id') is-invalid @enderror">
-
-                @foreach ($projects as $projectItem)
-                    <option value="{{ $projectItem->id }}" {{ twoOptionsIsEqual($project->id, $projectItem->id) }}>
-                        {{ $projectItem->name }}</option>
-                @endforeach
-            </select>
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-chalkboard-teacher"></span>
-                </div>
+<!-- Project -->
+<div class="form-group mt-3">
+    <label>{{ __('inputs.project_id') }}:</label>
+    <div class="input-group">
+        <select name="project_id" id="project_id"
+            class="form-control select2bs4 @error('project_id') is-invalid @enderror">
+            @foreach ($projects as $project)
+                <option value="{{ $project->id }}"
+                    {{ twoOptionsIsEqual(old('project_id', $item->project_id), $project->id) }}>
+                    {{ $project->name }}</option>
+            @endforeach
+        </select>
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-chalkboard-teacher"></span>
             </div>
         </div>
+    </div>
 
-        @error('project_id')
-            <small class="text-danger">{{ $message }}</small>
-        @enderror
-        <!-- ./Project -->
+    @error('project_id')
+        <small class="text-danger">{{ $message }}</small>
+    @enderror
+</div>
+<!-- ./Project -->
 
-
-        <!-- Name -->
-        <div class="input-group mt-3">
-            <input type="text" name="name" class="form-control {{ isInvalidByError($errors, 'name') }}"
-                placeholder="{{ __('inputs.name') }}" value="{{ $item->name }}">
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-flag"></span>
-                </div>
+<!-- Name -->
+<div class="form-group mt-3">
+    <label>{{ __('inputs.name') }}:</label>
+    <div class="input-group">
+        <input type="text" name="name" class="form-control {{ isInvalidByError($errors, 'name') }}"
+            placeholder="{{ __('inputs.name') }}" value="{{ old('name', $item->name) }}">
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-archive"></span>
             </div>
         </div>
+    </div>
 
-        @error('name')
-            <small class="text-danger">{{ $message }}</small>
-        @enderror
-        <!-- ./Name -->
+    @error('name')
+        <small class="text-danger">{{ $message }}</small>
+    @enderror
+</div>
+<!-- ./Name -->
 
-        <!-- Button Save -->
-        <div class="form-group mt-3 mb-0">
-            <button class="btn btn-secondary btn-sm">{{ __('buttons.update') }}</button>
-        </div>
-        <!-- ./Button Save -->
+<!-- Date -->
+<div class="form-group mt-3">
+    <label>{{ __('inputs.intangible_asset_date') }}:</label>
+    <div class="input-group">
+        <input type="date" name="date" class="form-control {{ isInvalidByError($errors, 'date') }}"
+            placeholder="{{ __('inputs.date') }}" value="{{ old('date', $item->date) }}">
+    </div>
 
-    </form>
-@else
-    <form action="{{ route('client.intangible_assets.store', $client->name) }}" method="post"
-        data-client="{{ $client->name }}" id="form">
-        @csrf
+    @error('date')
+        <small class="text-danger">{{ $message }}</small>
+    @enderror
+</div>
+<!-- ./Date -->
 
-        <!-- Administrative Unit -->
-        <div class="input-group mt-3">
-            <select name="administrative_unit_id" id="administrative_unit_id" class="form-control select2bs4"
-                onchange="changeAdministrativeUnit()">
+<hr>
 
-                @foreach ($administrativeUnits as $administrativeUnit)
-                    <option value="{{ $administrativeUnit->id }}"
-                        {{ optionIsSelected(old(), 'administrative_unit_id', $administrativeUnit->id) }}>
-                        {{ $administrativeUnit->name }}</option>
-                @endforeach
-            </select>
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-university"></span>
-                </div>
+<!-- Localization -->
+<div class="form-group mt-3">
+    <label>{{ __('inputs.intangible_asset_localization') }}:</label>
+    <div class="input-group">
+        <input type="text" name="localization" class="form-control {{ isInvalidByError($errors, 'localization') }}"
+            placeholder="{{ __('inputs.intangible_asset_localization') }}"
+            value="{{ old('localization', getParamObject($item->intangible_asset_localization, 'localization')) }}">
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-globe-americas"></span>
             </div>
         </div>
-        <!-- ./Administrative Unit -->
+    </div>
 
-        <!-- Research Unit -->
-        <div class="input-group mt-3">
-            <select name="research_unit_id" id="research_unit_id" class="form-control select2bs4"
-                onchange="changeResearchUnit()">
+    @error('localization')
+        <small class="text-danger">{{ $message }}</small>
+    @enderror
+</div>
+<!-- ./Localization -->
 
-                @foreach ($researchUnits as $researchUnit)
-                    <option value="{{ $researchUnit->id }}"
-                        {{ optionIsSelected(old(), 'research_unit_id', $researchUnit->id) }}>
-                        {{ $researchUnit->name }}</option>
-                @endforeach
-            </select>
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-microscope"></span>
-                </div>
+<!-- Code Localization -->
+<div class="form-group mt-3">
+    <label>{{ __('inputs.intangible_asset_code_localization') }} (Opcional):</label>
+    <div class="input-group">
+        <input type="text" name="localization_code"
+            class="form-control {{ isInvalidByError($errors, 'localization_code') }}"
+            placeholder="{{ __('inputs.intangible_asset_code_localization') }}"
+            value="{{ old('localization_code', getParamObject($item->intangible_asset_localization, 'code')) }}">
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-barcode"></span>
             </div>
         </div>
-        <!-- ./Research Unit -->
+    </div>
 
-        <!-- Project -->
-        <div class="input-group mt-3">
-            <select name="project_id" id="project_id"
-                class="form-control select2bs4 @error('project_id') is-invalid @enderror">
-
-                @foreach ($projects as $project)
-                    <option value="{{ $project->id }}" {{ optionIsSelected(old(), 'project_id', $project->id) }}>
-                        {{ $project->name }}</option>
-                @endforeach
-            </select>
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-chalkboard-teacher"></span>
-                </div>
-            </div>
-        </div>
-
-        @error('project_id')
-            <small class="text-danger">{{ $message }}</small>
-        @enderror
-        <!-- ./Project -->
-
-        <!-- Name -->
-        <div class="input-group mt-3">
-            <input type="text" name="name" class="form-control {{ isInvalidByError($errors, 'name') }}"
-                placeholder="{{ __('inputs.name') }}" value="{{ old('name') }}">
-            <div class="input-group-append">
-                <div class="input-group-text">
-                    <span class="fas fa-archive"></span>
-                </div>
-            </div>
-        </div>
-
-        @error('name')
-            <small class="text-danger">{{ $message }}</small>
-        @enderror
-        <!-- ./Name -->
-
-        <!-- Date -->
-        <div class="input-group mt-3">
-            <input type="date" name="date" class="form-control {{ isInvalidByError($errors, 'date') }}"
-                placeholder="{{ __('inputs.date') }}" value="{{ old('date') }}">
-        </div>
-
-        @error('date')
-            <small class="text-danger">{{ $message }}</small>
-        @enderror
-        <!-- ./Date -->
-
-        <!-- Button Save -->
-        <div class="form-group mt-3 mb-0">
-            <button class="btn btn-secondary btn-sm">{{ __('buttons.save') }}</button>
-        </div>
-        <!-- ./Button Save -->
-
-    </form>
-@endif
+    @error('localization_code')
+        <small class="text-danger">{{ $message }}</small>
+    @enderror
+</div>
+<!-- ./Code Localization -->

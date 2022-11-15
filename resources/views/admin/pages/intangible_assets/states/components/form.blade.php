@@ -3,10 +3,6 @@
         @csrf
         @method('PUT')
 
-        <div class="row justify-content-center">
-            <img src="{{ asset('assets/images/states.png') }}" class="img-fluid" width="350em">
-        </div>
-
         <!-- Name -->
         <div class="input-group">
             <input type="text" name="name" class="form-control {{ isInvalidByError($errors, 'name') }}"
@@ -47,10 +43,6 @@
 @else
     <form action="{{ route('admin.intangible_assets.status.store') }}" method="post">
         @csrf
-
-        <div class="row justify-content-center">
-            <img src="{{ asset('assets/images/states.png') }}" class="img-fluid" alt="">
-        </div>
 
         <!-- Name -->
         <div class="input-group">

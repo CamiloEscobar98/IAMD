@@ -19,19 +19,18 @@
 
 <!-- Info -->
 <div class="form-group mt-3">
-    <label>Descripción:</label>
+    <label>Información:</label>
     <div class="input-group">
-        <textarea class="form-control @error('info') is-invalid @enderror" name="info" id="info" cols="30"
-            rows="4">{{ old('info', $item->info) }}</textarea>
+        <input type="text" name="info" class="form-control {{ isInvalidByError($errors, 'info') }}"
+            placeholder="{{ __('inputs.info') }}" value="{{ old('info', $item->info) }}">
         <div class="input-group-append">
             <div class="input-group-text">
-                <span class="fas fa-info"></span>
+                <i class="fas fa-info"></i>
             </div>
         </div>
     </div>
-</div>
 
+</div>
 @error('info')
     <small class="text-danger">{{ $message }}</small>
 @enderror
-<!-- ./Info -->

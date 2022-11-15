@@ -1,6 +1,6 @@
 @extends('client.layout.app')
 
-@section('title', __('pages.client.users.title'))
+@section('title', __('pages.client.roles.title'))
 
 @section('css')
     <!-- Select2 -->
@@ -13,14 +13,14 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>{{ __('pages.client.users.subtitle') }}</h1>
+                    <h1>{{ __('pages.client.roles.subtitle') }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a
                                 href="{{ route('client.home', $client->name) }}">{{ __('pages.default.home') }}</a>
                         </li>
-                        <li class="breadcrumb-item active">{{ __('pages.client.users.title') }}</li>
+                        <li class="breadcrumb-item active">{{ __('pages.client.roles.title') }}</li>
                     </ol>
                 </div>
             </div>
@@ -43,7 +43,7 @@
 @endsection
 
 @section('custom_js')
-    @include('messages.delete_item', ['title' => __('pages.client.users.messages.confirm')])
+    @include('messages.delete_item', ['title' => __('pages.client.roles.messages.confirm')])
 
     <script>
         //Initialize Select2 Elements

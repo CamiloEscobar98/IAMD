@@ -56,9 +56,21 @@
                         <h3 class="text-center font-weight-bold">
                             <u>{{ __('pages.client.intangible_assets.form-titles.edit') }}</u>
                         </h3>
-                        @include('client.pages.intangible_assets.components.form', [
-                            'editMode' => true,
-                        ])
+
+                        <form action="{{ getClientRoute('client.intangible_assets.update', [$item->id]) }}" method="post"
+                            data-client="{{ $client->name }}" id="form">
+                            @csrf
+                            @method('PUT')
+
+                            @include('client.pages.intangible_assets.components.form')
+
+                            <!-- Button Save -->
+                            <div class="form-group mt-3">
+                                <button class="btn btn-secondary btn-sm">{{ __('buttons.update') }}</button>
+                            </div>
+                            <!-- ./Button Save -->
+
+                        </form>
                     </div>
                 </div>
             </div>
@@ -75,8 +87,6 @@
     <script src="{{ asset('adminlte/dist/js/iamd/projects.js') }}"></script>
 
     <script>
-      
-
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'

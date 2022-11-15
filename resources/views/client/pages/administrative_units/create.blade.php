@@ -11,7 +11,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ getClientRoute('client.home') }}">{{ __('pages.default.home') }}</a>
+                        <li class="breadcrumb-item"><a
+                                href="{{ getClientRoute('client.home') }}">{{ __('pages.default.home') }}</a>
                         </li>
                         <li class="breadcrumb-item">
                             <a href="{{ getClientRoute('client.administrative_units.index') }}">
@@ -27,32 +28,29 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row justify-content-start">
-            <div class="col-md-7">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.client.administrative_units.form-titles.create') }}</u>
-                        </h3>
-                        @include('client.pages.administrative_units.components.form', [
-                            'editMode' => false,
-                        ])
-                    </div>
-                </div>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="font-italic font-weight-bold">
+                    <u>{{ __('pages.default.title-information') }}</u>
+                </h3>
+                <p>{!! __('pages.client.administrative_units.info.create') !!}</p>
             </div>
-            <div class="col-md-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="font-italic font-weight-bold">
-                            <u>{{ __('pages.default.title-information') }}</u>
-                        </h3>
-                        <div class="row justify-content-center">
-                            <img src="{{ asset('assets/images/administrative_units.png') }}" class="img-fluid mt-3"
-                                width="400em" alt="">
-                            <p>{!! __('pages.client.administrative_units.info.create') !!}</p>
-                        </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="font-weight-bold">
+                    <u>{{ __('pages.client.administrative_units.form-titles.create') }}</u>
+                </h3>
+                <form action="{{ route('client.administrative_units.store', $client->name) }}" method="post">
+                    @csrf
+
+                    @include('client.pages.administrative_units.components.form')
+
+                    <div class="form-group mt-3">
+                        <button class="btn btn-secondary btn-sm">{{ __('buttons.save') }}</button>
                     </div>
-                </div>
+
+                </form>
             </div>
         </div>
     </div>

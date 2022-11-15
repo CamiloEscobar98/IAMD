@@ -71,7 +71,8 @@ class StrategyCategoryController extends Controller
     public function create(): View|RedirectResponse
     {
         try {
-            return view('client.pages.strategy_categories.create');
+            $item = $this->strategyCategoryRepository->newInstance();
+            return view('client.pages.strategy_categories.create', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }

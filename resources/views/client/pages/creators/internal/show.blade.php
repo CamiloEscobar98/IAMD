@@ -38,136 +38,84 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <h3 class="text-center font-weight-bold">
+                <h3 class="font-weight-bold">
                     <u>{{ __('pages.client.creators.internal.form-titles.show') }}</u>
                 </h3>
 
-                <!-- Name -->
-                <div class="input-group mt-3">
-                    <input type="text" class="form-control" placeholder="{{ __('inputs.name') }}"
-                        value="{{ $item->creator->name }}" disabled>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-user"></span>
+                <div class="row mt-4">
+                    <div class="col-lg-6">
+                        <!-- Name -->
+                        <div class="form-group">
+                            <label>{{ __('inputs.name') }}</label>
+                            <p>{{ $item->creator->name }}</p>
                         </div>
+                        <!-- ./Name -->
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label>{{ __('inputs.email') }}</label>
+                            <p>{{ $item->creator->email }}</p>
+                        </div>
+                        <!-- ./Email -->
+
+                        <!-- Phone -->
+                        <div class="form-group">
+                            <label>{{ __('inputs.phone') }}</label>
+                            <p>{{ $item->creator->phone }}</p>
+                        </div>
+                        <!-- ./Phone -->
+
+                        <!-- Document Type -->
+                        <div class="form-group">
+                            <label>{{ __('inputs.document_type_id') }}</label>
+                            <p>{{ $item->creator->document->document_type->name }}</p>
+                        </div>
+                        <!-- ./Document Type -->
+
+                        <!-- Document -->
+                        <div class="form-group">
+                            <label>{{ __('inputs.document') }}</label>
+                            <p>{{ $item->creator->document->document }}</p>
+                        </div>
+                        <!-- ./Document -->
+                    </div>
+                    <div class="col-lg-6">
+
+                        <!-- Expedition Place -->
+                        <div class="form-group">
+                            <label>{{ __('inputs.country_id') }}:</label>
+                            <p>{{ $item->creator->document->expedition_place->state->country->name }}</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label>{{ __('inputs.state_id') }}:</label>
+                            <p>{{ $item->creator->document->expedition_place->state->name }}</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label>{{ __('inputs.city_id') }}:</label>
+                            <p>{{ $item->creator->document->expedition_place->name }}</p>
+                        </div>
+                        <!-- ./Expedition Place -->
+
+                        <!-- Linkage Type -->
+                        <div class="form-group">
+                            <label>{{ __('inputs.linkage_type_id') }}:</label>
+                            <p>{{ $item->linkage_type->name }}</p>
+                        </div>
+                        <!-- ./Linkage Type -->
+
+                        <!-- Assignment Contract -->
+                        <div class="form-group">
+                            <label>{{ __('inputs.assignment_contract_id') }}:</label>
+                            <p>{{ $item->assignment_contract->name }}</p>
+                        </div>
+                        <!-- ./Assignment Contract -->
                     </div>
                 </div>
-                <!-- ./Name -->
-
-                <!-- Phone -->
-                <div class="input-group mt-3">
-                    <input type="text" class="form-control" placeholder="{{ __('inputs.phone') }}"
-                        value="{{ $item->creator->phone }}" disabled>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-phone"></span>
-                        </div>
-                    </div>
-                </div>
-                <!-- ./Phone -->
-
-                <!-- Document -->
-                <div class="input-group mt-3">
-                    <input type="text" class="form-control" placeholder="{{ __('inputs.document') }}"
-                        value="{{ $item->creator->document->document }}" disabled>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-id-card"></span>
-                        </div>
-                    </div>
-                </div>
-                <!-- ./Document -->
-
-                <!-- Document Type -->
-                <div class="input-group mt-3">
-                    <input type="text" class="form-control" placeholder="{{ __('inputs.document_type') }}"
-                        value="{{ $item->creator->document->document_type->name }}" disabled>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-address-card"></span>
-                        </div>
-                    </div>
-                </div>
-                <!-- ./Document Type -->
-
-                <!-- Expedition Place -->
-
-                <!-- Countries -->
-                <div class="input-group mt-3">
-                    <input type="text" class="form-control" placeholder="{{ __('inputs.expedition_place') }}"
-                        value="{{ $item->creator->document->expedition_place->state->country->name }}" disabled>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-flag"></span>
-                        </div>
-                    </div>
-                </div>
-                <!-- ./Countries -->
-
-                <!-- State -->
-                <div class="input-group mt-3">
-                    <input type="text" class="form-control" placeholder="{{ __('inputs.expedition_place') }}"
-                        value="{{ $item->creator->document->expedition_place->state->name }}" disabled>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-building"></span>
-                        </div>
-                    </div>
-                </div>
-                <!-- ./States -->
-
-                <!-- Cities -->
-                <div class="input-group mt-3">
-                    <input type="text" class="form-control" placeholder="{{ __('inputs.expedition_place') }}"
-                        value="{{ $item->creator->document->expedition_place->name }}" disabled>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-city"></span>
-                        </div>
-                    </div>
-                </div>
-                <!-- ./Cities -->
-
-                <!-- ./Expedition Place -->
-
-                <!-- Email -->
-                <div class="input-group mt-3">
-                    <input type="email" class="form-control" placeholder="{{ __('inputs.email') }}"
-                        value="{{ $item->creator->email }}" disabled>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-envelope"></span>
-                        </div>
-                    </div>
-                </div>
-                <!-- ./Email -->
-
-                <!-- Linkage Type -->
-                <div class="input-group mt-3">
-                    <input type="text" class="form-control" placeholder="{{ __('inputs.linkage_type') }}"
-                        value="{{ $item->linkage_type->name }}" disabled>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-user-friends"></span>
-                        </div>
-                    </div>
-                </div>
-                <!-- ./Linkage Type -->
-
-                <!-- Assignment Contract -->
-                <div class="input-group mt-3">
-                    <input type="text" class="form-control" placeholder="{{ __('inputs.assignment_contract') }}"
-                        value="{{ $item->assignment_contract->name }}" disabled>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-user-tie"></span>
-                        </div>
-                    </div>
-                </div>
-                <!-- ./Assignment Contract -->
 
                 <!-- Edit Button -->
-                <div class="form-group mt-3">
+                <div class="form-group">
                     <a href="{{ getClientRoute('client.creators.internal.edit', [$item->creator_id]) }}"
                         class="btn btn-warning btn-sm">{{ __('buttons.update_to') }}</a>
                 </div>

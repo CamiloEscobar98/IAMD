@@ -31,10 +31,17 @@ class CreateResearchUnitComposer
 
     public function compose(View $view)
     {
-        $researchUnitCategories = $this->researchUnitCategoryRepository->all();
-        $administrativeUnits = $this->administrativeUnitRepository->all();
+        $researchUnitCategories = $this->researchUnitCategoryRepository->all()->pluck('name', 'id')->prepend('---Selecciona una Categoría para la Unidad Investigativa');
+        $administrativeUnits = $this->administrativeUnitRepository->all()->pluck('name', 'id')->prepend('---Selecciona una facultad', -1);
+        // dd($administrativeUnits->toArray());
         $creators = $this->creatorRepository->getAllCreators();
 
-        $view->with(compact('researchUnitCategories', 'administrativeUnits',  'creators'));
+        $directorsArray = $creators->pluck('name', 'id');
+        $inventoryManagersArray = $creators->pluck('name', 'id');
+
+        $directors = $directorsArray->prepend('---Selecciona un Director', -1);
+        $inventoryManagers = $inventoryManagersArray->prepend('---Selecciona un Director de Inventario', -1);
+
+        $view->with(compact('researchUnitCategories', 'administrativeUnits',  'directors', 'inventoryManagers'));
     }
 }

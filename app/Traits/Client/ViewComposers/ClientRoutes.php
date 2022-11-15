@@ -45,6 +45,7 @@ trait ClientRoutes
             $this->getCreatorRoutes(),
             $this->getIntangibleAssetRoutes(),
             $this->getUserRoutes(),
+            $this->getClientRoutes(),
             $this->getPriorityToolRoutes(),
             $this->getStrategiesRoute(),
             $this->getStrategyCategoriesRoute(),
@@ -219,6 +220,24 @@ trait ClientRoutes
 
             'client.pages.users.components.filters',
             'client.pages.users.components.table',
+        ];
+    }
+
+    /**
+     * get Users Routes
+     * 
+     * @return array
+     */
+    protected function getClientRoutes(): array
+    {
+        return [
+            'client.pages.roles.index',
+            'client.pages.roles.create',
+            'client.pages.roles.show',
+            'client.pages.roles.edit',
+
+            'client.pages.roles.components.filters',
+            'client.pages.roles.components.table',
         ];
     }
 

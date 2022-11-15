@@ -16,7 +16,7 @@ class IntangibleAssetLocalization extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['localization', 'code'];
+    protected $fillable = ['intangible_asset_id', 'localization', 'code'];
 
     /**
      * Get Intangible Asset information.

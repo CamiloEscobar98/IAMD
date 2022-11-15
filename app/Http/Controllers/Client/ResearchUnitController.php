@@ -76,7 +76,8 @@ class ResearchUnitController extends Controller
     public function create(): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
-            return view('client.pages.research_units.create');
+            $item = $this->researchUnitRepository->newInstance();
+            return view('client.pages.research_units.create', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }

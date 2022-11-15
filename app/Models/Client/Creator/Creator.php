@@ -24,11 +24,41 @@ class Creator extends BaseModel
     protected $fillable = ['name', 'phone', 'email'];
 
     /**
+     * Get the Creator Type
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getCreatorTypeAttribute()
+    {
+        if (!is_null($this->internal)) {
+            return 'Interno';
+        } else {
+            return 'Externo';
+        }
+    }
+
+    /**
+     * Get the Creator Type Route
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getCreatorTypeRouteAttribute()
+    {
+        if (!is_null($this->internal)) {
+            return 'creators.internal';
+        } else {
+            return 'creators.external';
+        }
+    }
+
+    /**
      * Get The Document.
      * 
      * @return HasOne
      */
-    public function document() : HasOne
+    public function document(): HasOne
     {
         return $this->hasOne(CreatorDocument::class);
     }
@@ -38,8 +68,24 @@ class Creator extends BaseModel
      * 
      * @return BelongsToMany
      */
-    public function intangibleAssets() : BelongsToMany
+    public function intangibleAssets(): BelongsToMany
     {
         return $this->belongsToMany(IntangibleAsset::class);
+    }
+
+    /**
+     * Get the Internal
+     */
+    public function internal(): HasOne
+    {
+        return $this->hasOne(CreatorInternal::class);
+    }
+
+    /**
+     * Get the Internal
+     */
+    public function external(): HasOne
+    {
+        return $this->hasOne(CreatorInternal::class);
     }
 }

@@ -85,7 +85,8 @@ class CreatorInternalController extends Controller
     public function create(): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
-            return view('client.pages.creators.internal.create');
+            $item = $this->creatorInternalRepository->newInstance();
+            return view('client.pages.creators.internal.create', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
@@ -132,7 +133,7 @@ class CreatorInternalController extends Controller
      * 
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function show($id, $internal, Request $request)#: \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function show($id, $internal, Request $request) #: \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
             $item = $this->creatorInternalRepository->getByIdWithRelations($internal, [
@@ -155,7 +156,7 @@ class CreatorInternalController extends Controller
      * 
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function edit($id, $internal, Request $request) : \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function edit($id, $internal, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
             $item = $this->creatorInternalRepository->getByIdWithRelations($internal, [

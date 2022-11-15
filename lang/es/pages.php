@@ -1409,17 +1409,22 @@ return [
             ],
 
             'filters' => [
-                'email' => 'Buscar Rol del Sistema por Email',
+                'name' => 'Buscar Rol del Sistema por su nombre',
                 'total' => 'Total de Roles: ',
             ],
 
             'table' => [
                 'head' => [
                     'name' => 'Nombre',
-                    'email' => 'Email',
+                    'permissions' => 'Permisos',
+                    'users' => 'Usuarios Asociados',
                     'created_at' => 'Fecha de Creación',
                     'updated_at' => 'Fecha de Actualización'
                 ],
+                'body' => [
+                    'users_count' => ':count Usuarios asociadas con este rol.',
+                    'permissions_count' => ':count permisos registrados para este rol.'
+                ]
             ],
 
             'messages' => [

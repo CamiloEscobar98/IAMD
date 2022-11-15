@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
 
         print("¡¡ CREATING USERS !! \n \n");
 
-        $randomNumber = rand(50, 100);
+        $randomNumber = 10;
 
         $cont = 0;
         

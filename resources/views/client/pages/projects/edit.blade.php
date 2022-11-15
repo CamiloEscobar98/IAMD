@@ -35,32 +35,30 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row justify-content-start">
-            <div class="col-md-7">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.client.projects.form-titles.edit') }}</u>
-                        </h3>
-                        @include('client.pages.projects.components.form', [
-                            'editMode' => true,
-                        ])
-                    </div>
-                </div>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="font-italic font-weight-bold">
+                    <u>{{ __('pages.default.title-information') }}</u>
+                </h3>
+                <p>{!! __('pages.client.projects.info.show', ['project' => $item->name]) !!}</p>
             </div>
-            <div class="col-md-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="font-italic font-weight-bold">
-                            <u>{{ __('pages.default.title-information') }}</u>
-                        </h3>
-                        <div class="row justify-content-center">
-                            <img src="{{ asset('assets/images/projects.png') }}" class="img-fluid mt-3" width="400em"
-                                alt="">
-                            <p>{!! __('pages.client.projects.info.show', ['project' => $item->name]) !!}</p>
-                        </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="font-weight-bold">
+                    <u>{{ __('pages.client.projects.form-titles.edit') }}</u>
+                </h3>
+                <form action="{{ getClientRoute('client.projects.update', [$item->id]) }}" method="post">
+                    @csrf
+                    @method('PUT')
+
+                    @include('client.pages.projects.components.form')
+
+                    <div class="form-group mt-4">
+                        <button class="btn btn-secondary btn-sm">{{ __('buttons.update') }}</button>
                     </div>
-                </div>
+
+                </form>
             </div>
         </div>
     </div>
@@ -75,8 +73,6 @@
     <script src="{{ asset('adminlte/dist/js/iamd/projects.js') }}"></script>
 
     <script>
-      
-
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'

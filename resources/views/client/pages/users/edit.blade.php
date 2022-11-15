@@ -29,32 +29,30 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row justify-content-start">
-            <div class="col-md-7">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.client.users.form-titles.edit') }}</u>
-                        </h3>
-                        @include('client.pages.users.components.form', [
-                            'editMode' => true,
-                        ])
-                    </div>
-                </div>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="font-italic font-weight-bold">
+                    <u>{{ __('pages.default.title-information') }}</u>
+                </h3>
+                <p>{!! __('pages.client.users.info.edit', ['user' => $item->name]) !!}</p>
             </div>
-            <div class="col-md-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="font-italic font-weight-bold">
-                            <u>{{ __('pages.default.title-information') }}</u>
-                        </h3>
-                        <div class="row justify-content-center">
-                            <img src="{{ asset('assets/images/users.webp') }}" class="img-fluid mt-3" width="350em"
-                                alt="">
-                            <p>{!! __('pages.client.users.info.edit', ['user' => $item->name]) !!}</p>
-                        </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="font-weight-bold">
+                    <u>{{ __('pages.client.users.form-titles.edit') }}</u>
+                </h3>
+                <form action="{{ getClientRoute('client.users.update', [$item->id]) }}" method="post">
+                    @csrf
+                    @method('PUT')
+
+                    @include('client.pages.users.components.form')
+
+                    <div class="form-group mt-3">
+                        <button class="btn btn-secondary btn-sm">{{ __('buttons.update') }}</button>
                     </div>
-                </div>
+
+                </form>
             </div>
         </div>
     </div>

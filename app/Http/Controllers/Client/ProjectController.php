@@ -84,7 +84,8 @@ class ProjectController extends Controller
     public function create(): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
-            return view('client.pages.projects.create');
+            $item = $this->projectRepository->newInstance();
+            return view('client.pages.projects.create', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }

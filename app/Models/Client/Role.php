@@ -19,6 +19,58 @@ class Role extends BaseModel implements RoleContract
 
     protected $guarded = [];
 
+    /**
+     * Scope a query to only include Name
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $value
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByName($query, string $value)
+    {
+        return $query->where('name', 'like', "%{$value}%");
+    }
+
+    /**
+     * Scope a query to only include Information Name
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $value
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByInfoName($query, string $value)
+    {
+        return $query->where('info', 'like', "%{$value}%");
+    }
+
+    /**
+     * Scope a query to only include Date From
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $dateFrom
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSinceDate($query, string $dateFrom)
+    {
+        $query->where('created_at', '>=', $dateFrom);
+    }
+
+    /**
+     * Scope a query to only include Date To
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $dateTo
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeToDate($query, string $dateTo)
+    {
+        $query->where('created_at', '<=', $dateTo);
+    }
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -93,7 +145,7 @@ class Role extends BaseModel implements RoleContract
 
         $role = static::findByParam(['name' => $name, 'guard_name' => $guardName]);
 
-        if (! $role) {
+        if (!$role) {
             throw RoleDoesNotExist::named($name);
         }
 
@@ -114,7 +166,7 @@ class Role extends BaseModel implements RoleContract
 
         $role = static::findByParam([(new static())->getKeyName() => $id, 'guard_name' => $guardName]);
 
-        if (! $role) {
+        if (!$role) {
             throw RoleDoesNotExist::withId($id);
         }
 
@@ -135,7 +187,7 @@ class Role extends BaseModel implements RoleContract
 
         $role = static::findByParam(['name' => $name, 'guard_name' => $guardName]);
 
-        if (! $role) {
+        if (!$role) {
             return static::query()->create(['name' => $name, 'guard_name' => $guardName] + (PermissionRegistrar::$teams ? [PermissionRegistrar::$teamsKey => getPermissionsTeamId()] : []));
         }
 
@@ -186,7 +238,7 @@ class Role extends BaseModel implements RoleContract
             $permission = $permissionClass->findById($permission, $this->getDefaultGuardName());
         }
 
-        if (! $this->getGuardNames()->contains($permission->guard_name)) {
+        if (!$this->getGuardNames()->contains($permission->guard_name)) {
             throw GuardDoesNotMatch::create($permission->guard_name, $this->getGuardNames());
         }
 

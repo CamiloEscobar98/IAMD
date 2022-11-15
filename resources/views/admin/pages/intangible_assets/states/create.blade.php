@@ -29,7 +29,21 @@
 @section('content')
     <div class="container-fluid">
         <div class="row justify-content-start">
-            <div class="col-md-4">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row justify-content center">
+                            <h3 class="text-center font-italic font-weight-bold">
+                                <u>{{ __('pages.default.title-information') }}</u>
+                            </h3>
+                            <p>{!! __('pages.admin.intangible_assets.states.info.create') !!}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-start">
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
                         <h3 class="text-center font-weight-bold">
@@ -38,20 +52,6 @@
                         @include('admin.pages.intangible_assets.states.components.form', [
                             'editMode' => false,
                         ])
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row justify-content center">
-                            <h3 class="text-center font-italic font-weight-bold">
-                                <u>{{ __('pages.default.title-information') }}</u>
-                            </h3>
-                            <img src="{{ asset('assets/images/countries/country-1.png') }}" class="img-fluid mt-3"
-                                alt="">
-                            <p>{!! __('pages.admin.intangible_assets.states.info.create') !!}</p>
-                        </div>
                     </div>
                 </div>
             </div>

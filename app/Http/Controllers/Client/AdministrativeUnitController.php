@@ -30,7 +30,7 @@ class AdministrativeUnitController extends Controller
         AdministrativeUnitRepository $administrativeUnitRepository
     ) {
         $this->middleware('auth');
-        
+
         $this->middleware('permission:administrative_units.create')->only('create');
         $this->middleware('permission:administrative_units.index')->only('index');
         $this->middleware('permission:administrative_units.store')->only('store');
@@ -80,7 +80,8 @@ class AdministrativeUnitController extends Controller
     public function create(): View|RedirectResponse
     {
         try {
-            return view('client.pages.administrative_units.create');
+            $item = $this->administrativeUnitRepository->newInstance();
+            return view('client.pages.administrative_units.create', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }

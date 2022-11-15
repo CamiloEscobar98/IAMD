@@ -316,23 +316,6 @@ if (!function_exists('intangibleAssetHasStrategies')) {
     }
 }
 
-
-if (!function_exists('getIdsByCollection')) {
-
-    /**
-     * @param Collection $collection
-     * @param string $key
-     * 
-     * @return array
-     */
-    function getIdsByCollection($collection, $key): array
-    {
-        $newArray = [];
-
-        return $newArray;
-    }
-}
-
 if (!function_exists('getStatusBarColor')) {
     /**
      * @param float $porcent

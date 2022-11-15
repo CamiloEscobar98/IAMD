@@ -55,7 +55,7 @@ class CreateCreatorInternalComposer
         $creatorInternalId = request()->internal;
 
         $countries = $this->countryRepository->all();
-        
+
         if (is_null($creatorInternalId)) {
             $country = $countries->where('id', old('country_id', 11))->first();
             $states = $this->stateRepository->getByCountry($country);
@@ -83,12 +83,11 @@ class CreateCreatorInternalComposer
             $cities = $this->cityRepository->getByState($state);
         }
 
-        $linkageTypes = $this->linkageTypeRepository->all();
+        $linkageTypes = $this->linkageTypeRepository->all()->pluck('name', 'id')->prepend('---Selecciona un Tipo de Vinculación', -1);
 
-        $assignmentContracts = $this->assignmentContractRepository->all()->where('is_internal', true);
+        $assignmentContracts = $this->assignmentContractRepository->all()->where('is_internal', true)->pluck('name', 'id')->prepend('---Selecciona un Tipo de Contratación', -1);
 
-        $documentTypes = $this->documentTypeRepository->all();
-
+        $documentTypes = $this->documentTypeRepository->all()->pluck('name', 'id')->prepend('---Selecciona un Tipo de Documento', -1);
 
         $view->with(compact(
             'linkageTypes',

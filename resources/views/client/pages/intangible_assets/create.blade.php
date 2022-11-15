@@ -52,9 +52,20 @@
                         <h3 class="text-center font-weight-bold">
                             <u>{{ __('pages.client.intangible_assets.form-titles.create') }}</u>
                         </h3>
-                        @include('client.pages.intangible_assets.components.form', [
-                            'editMode' => false,
-                        ])
+
+                        <form action="{{ route('client.intangible_assets.store', $client->name) }}" method="post"
+                            data-client="{{ $client->name }}" id="form">
+                            @csrf
+
+                            @include('client.pages.intangible_assets.components.form')
+
+                            <!-- Button Save -->
+                            <div class="form-group mt-3">
+                                <button class="btn btn-secondary btn-sm">{{ __('buttons.save') }}</button>
+                            </div>
+                            <!-- ./Button Save -->
+
+                        </form>
                     </div>
                 </div>
             </div>
@@ -71,12 +82,6 @@
     <script src="{{ asset('adminlte/dist/js/iamd/projects.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
-            getAdministrativeUnits();
-        });
-
-      
-
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'

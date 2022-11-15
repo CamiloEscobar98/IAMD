@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
+
 if (!function_exists('isSelectedOption')) {
 
     /**
@@ -61,12 +64,32 @@ if (!function_exists('getParamObject')) {
     /**
      * @param mixed $object
      * @param string $key
+     * @param bool $empty
      * 
      * @return string|null
      */
-    function getParamObject($object, $key): string|null
+    function getParamObject($object, $key, $empty = false): string|null
     {
-        return !is_null($object) && $object->$key ? $object->$key : __('pages.default.empty_field');
+        $emptyValue = $empty ? 'No hay registro' : '';
+
+        return !is_null($object) && $object->$key ? $object->$key : $emptyValue;
+    }
+}
+
+if (!function_exists('getParamObjectLevelTwo')) {
+
+    /**
+     * @param mixed $object
+     * @param string $key
+     * @param bool $empty
+     * 
+     * @return string|null
+     */
+    function getParamObjectLevelTwo($object, $level2, $key, $empty = false): string|null
+    {
+        $emptyValue = $empty ? 'No hay registro' : '';
+
+        return !is_null($object) && $object->$level2 && $object->$level2->$key ? $object->$level2->$key : $emptyValue;
     }
 }
 
@@ -82,5 +105,37 @@ if (!function_exists('twoOptionsIsEqualIntoObject')) {
     function twoOptionsIsEqualIntoObject($object, $key, $value): string|null
     {
         return (!is_null($object) && $object->$key) && $object->$key == $value ? 'selected' : null;
+    }
+}
+
+if (!function_exists('transformDatetoString')) {
+
+    /**
+     * @param string $date
+     * 
+     * @return string
+     */
+    function transformDatetoString(string $date)
+    {
+        $format = Carbon::parse($date);
+        $day = Str::ucfirst($format->dayName) . " {$format->day} de";
+        $month = Str::ucfirst($format->monthName);
+        return "{$day} {$month} del {$format->year}";
+    }
+}
+
+if (!function_exists('transformTimestampToString')) {
+
+    /**
+     * @param string $date
+     * 
+     * @return string
+     */
+    function transformTimestampToString(string $date)
+    {
+        $format = Carbon::parse($date);
+        $day = Str::ucfirst($format->dayName) . " {$format->day} de";
+        $month = Str::ucfirst($format->monthName);
+        return "{$day} {$month} del {$format->year}, {$format->format('g:i A')}";
     }
 }

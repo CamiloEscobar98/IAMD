@@ -70,7 +70,8 @@ class IntangibleAssetController extends Controller
     public function create(): RedirectResponse|View
     {
         try {
-            return view('client.pages.intangible_assets.create');
+            $item = $this->intangibleAssetRepository->newInstance();
+            return view('client.pages.intangible_assets.create', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
@@ -84,22 +85,13 @@ class IntangibleAssetController extends Controller
      */
     public function store(StoreRequest $request): RedirectResponse
     {
-        try {
-            $data = $request->all();
+        $data = $request->only(['project_id', 'name', 'date']);
+        
+        $localizationData = $request->only(['localization', 'localization_code']);
 
-            DB::beginTransaction();
+        $response = $this->intangibleAssetService->createIntangibleAsset($data, $localizationData);
 
-            $item = $this->intangibleAssetRepository->create($data);
-
-            DB::commit();
-            return redirect()->back()->with('alert', [
-                'title' => __('messages.success'), 'icon' => 'success',
-                'text' => __('pages.client.intangible_assets.messages.save_success', ['intangible_asset' => $item->name])
-            ]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
-        }
+        return redirect()->back()->with('alert', $response);
     }
 
     /**

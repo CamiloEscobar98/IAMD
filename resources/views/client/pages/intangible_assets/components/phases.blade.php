@@ -64,7 +64,7 @@
                     </div>
 
                     <!-- Button Save -->
-                    <div class="form-group mt-3 mb-0">
+                    <div class="form-group mt-3">
                         <button
                             class="btn {{ phaseIsCompletedButton($item->hasPhaseOneCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
                     </div>
@@ -110,7 +110,7 @@
                     <!-- ./Description -->
 
                     <!-- Button Save -->
-                    <div class="form-group mt-3 mb-0">
+                    <div class="form-group mt-3">
                         <button
                             class="btn {{ phaseIsCompletedButton($item->hasPhaseTwoCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
                     </div>
@@ -152,7 +152,7 @@
                     </div>
 
                     <!-- Button Save -->
-                    <div class="form-group mt-3 mb-0">
+                    <div class="form-group mt-3">
                         <button
                             class="btn {{ phaseIsCompletedButton($item->hasPhaseThreeCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
                     </div>
@@ -193,7 +193,7 @@
                     </div>
 
                     <!-- Button Save -->
-                    <div class="form-group mt-3 mb-0">
+                    <div class="form-group mt-3">
                         <button
                             class="btn {{ phaseIsCompletedButton($item->hasPhaseFourCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
                     </div>
@@ -570,7 +570,7 @@
                     </div>
 
                     <!-- Button Save -->
-                    <div class="form-group mt-3 mb-0">
+                    <div class="form-group mt-3">
                         <button
                             class="btn {{ phaseIsCompletedButton($item->hasPhaseSixCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
                     </div>
@@ -799,7 +799,7 @@
 
 
                     <!-- Button Save -->
-                    <div class="form-group mt-3 mb-0">
+                    <div class="form-group mt-3">
                         <button
                             class="btn {{ phaseIsCompletedButton($item->hasPhaseNineCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
                     </div>

@@ -80,6 +80,17 @@
 @endcan
 <!-- ./Users -->
 
+<!-- Roles -->
+@can('roles.index')
+    <li class="nav-item">
+        <a href="{{ route('client.roles.index', [$client->name]) }}" class="nav-link {{ routeIsActived('roles') }}">
+            <i class="fas fa-user-cog nav-icon"></i>
+            <p>{{ __('menu.client.roles') }}</p>
+        </a>
+    </li>
+@endcan
+<!-- ./Roles -->
+
 <li class="nav-header">{{ __('menu.client.first_subtitle') }}</li>
 
 <!-- Strategy Categories -->
