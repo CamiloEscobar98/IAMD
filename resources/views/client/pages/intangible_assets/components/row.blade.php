@@ -6,13 +6,13 @@
     <td>{{ $item->name }}</td>
     <td>
         <div class="progress">
-            <div class="progress-bar {{ getStatusBarColor($item->progressPhases()) }}" role="progressbar" aria-valuenow="40"
-                aria-valuemin="0" aria-valuemax="100" style="width: {{ $item->progressPhases() }}%">
+            <div class="progress-bar {{ getStatusBarColor($item->progressPhases()) }}" role="progressbar"
+                aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{ $item->progressPhases() }}%">
                 <span class="">{{ round($item->progressPhases()) }}%</span>
             </div>
         </div>
     </td>
-    <td>{{ $item->date }}</td>
+    <td>{{ transformDatetoString($item->date) }}</td>
     <td>
         <div class="row justify-content-center">
             <a href="{{ route('client.intangible_assets.show', [$client->name, $item->id]) }}"

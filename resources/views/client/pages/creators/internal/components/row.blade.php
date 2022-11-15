@@ -9,8 +9,8 @@
     ]) !!}</td>
     <td> {{ $item->linkage_type->name }} </td>
     <td> {{ $item->assignment_contract->name }} </td>
-    <td>{{ $item->created_at }}</td>
-    <td>{{ $item->updated_at }}</td>
+    <td>{{ transformTimestampToString($item->created_at) }}</td>
+    <td>{{ transformTimestampToString($item->updated_at) }}</td>
     <td>
         <div class="row justify-content-center">
             <a href="{{ route('client.creators.internal.show', [$client->name, $item->id]) }}"

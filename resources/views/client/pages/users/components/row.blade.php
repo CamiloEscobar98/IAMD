@@ -2,8 +2,8 @@
     <td class="text-center">{{ $loop->iteration }}.</td>
     <td>{{ $item->name }}</td>
     <td>{{ $item->email }}</td>
-    <td>{{ $item->created_at }}</td>
-    <td>{{ $item->updated_at }}</td>
+    <td>{{ transformTimestampToString($item->created_at) }}</td>
+    <td>{{ transformTimestampToString($item->updated_at) }}</td>
     <td>
         <div class="row justify-content-center">
             <a href="{{ route('client.users.show', [$client->name, $item->id]) }}"

@@ -39,12 +39,22 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <h3 class="text-center font-weight-bold">
+                <h3 class="font-weight-bold">
                     <u>{{ __('pages.client.financing_types.form-titles.edit') }}</u>
                 </h3>
-                @include('client.pages.financing_types.components.form', [
-                    'editMode' => true,
-                ])
+
+                <form action="{{ getClientRoute('client.financing_types.update', [$item->id]) }}" method="post">
+                    @csrf
+                    @method('PUT')
+
+                    @include('client.pages.financing_types.components.form')
+
+                    <div class="form-group mt-3">
+                        <button class="btn btn-secondary btn-sm">{{ __('buttons.update') }}</button>
+                    </div>
+
+                </form>
+
             </div>
         </div>
     </div>

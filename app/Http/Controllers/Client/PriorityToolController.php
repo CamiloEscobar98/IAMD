@@ -72,7 +72,8 @@ class PriorityToolController extends Controller
     public function create(): View|RedirectResponse
     {
         try {
-            return view('client.pages.priority_tools.create');
+            $item = $this->priorityToolRepository->newInstance();
+            return view('client.pages.priority_tools.create', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }

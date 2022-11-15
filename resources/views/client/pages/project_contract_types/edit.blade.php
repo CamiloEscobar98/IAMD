@@ -42,9 +42,17 @@
                 <h3 class="text-center font-weight-bold">
                     <u>{{ __('pages.client.project_contract_types.form-titles.edit') }}</u>
                 </h3>
-                @include('client.pages.project_contract_types.components.form', [
-                    'editMode' => true,
-                ])
+
+                <form action="{{ getClientRoute('client.project_contract_types.update', [$item->id]) }}" method="post">
+                    @csrf
+                    @method('PUT')
+
+                    @include('client.pages.project_contract_types.components.form')
+
+                    <div class="form-group mt-3">
+                        <button class="btn btn-secondary btn-sm">{{ __('buttons.update') }}</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

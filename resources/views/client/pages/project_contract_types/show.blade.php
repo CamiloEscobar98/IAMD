@@ -38,33 +38,39 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <h3 class="text-center font-weight-bold">
+                <h3 class="font-weight-bold">
                     <u>{{ __('pages.client.project_contract_types.form-titles.show') }}</u>
                 </h3>
 
                 <!-- Name -->
-                <div class="input-group mt-3">
-                    <input type="text" class="form-control" placeholder="{{ __('inputs.name') }}"
-                        value="{{ $item->name }}" disabled>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-flag"></span>
-                        </div>
-                    </div>
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.name') }}:</label>
+                    <p>{{ $item->name }}</p>
                 </div>
                 <!-- ./Name -->
 
                 <!-- Code -->
-                <div class="input-group mt-3">
-                    <input type="text" class="form-control" placeholder="{{ __('inputs.code') }}"
-                        value="{{ $item->code }}" disabled>
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-flag"></span>
-                        </div>
-                    </div>
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.code') }}:</label>
+                    <p>{{ $item->code }}</p>
                 </div>
                 <!-- ./Code -->
+
+                <hr>
+
+                <!-- Created At -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.created_at') }}:</label>
+                    <p>{{ transformTimestampToString($item->created_at) }}</p>
+                </div>
+                <!-- ./Created At -->
+
+                <!-- Updated At -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.updated_at') }}:</label>
+                    <p>{{ transformTimestampToString($item->updated_at) }}</p>
+                </div>
+                <!-- ./Updated At -->
 
                 <!-- Edit Button -->
                 <div class="form-group mt-3">

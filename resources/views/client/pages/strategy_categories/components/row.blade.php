@@ -2,8 +2,8 @@
     <td class="text-center">{{ $loop->iteration }}.</td>
     <td>{{ $item->name }}</td>
     <td>{{ $item->description }}</td>
-    <td>{{ $item->created_at }}</td>
-    <td>{{ $item->updated_at }}</td>
+    <td>{{ transformTimestampToString($item->created_at) }}</td>
+    <td>{{ transformTimestampToString($item->updated_at) }}</td>
     <td>
         <div class="row justify-content-center">
             <a href="{{ route('client.strategy_categories.show', [$client->name, $item->id]) }}"

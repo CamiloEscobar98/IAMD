@@ -43,17 +43,33 @@
                 </h3>
                 <!-- Name -->
                 <div class="form-group mt-3">
-                    <label>{{ __('inputs.name') }}</label>
+                    <label>{{ __('inputs.name') }}:</label>
                     <p>{{ $item->name }}</p>
                 </div>
                 <!-- ./Name -->
 
                 <!-- Info -->
                 <div class="form-group mt-3">
-                    <label>{{ __('inputs.info') }}</label>
+                    <label>{{ __('inputs.info') }}:</label>
                     <p>{{ $item->description }}</p>
                 </div>
                 <!-- ./Info -->
+
+                <hr>
+
+                <!-- Created At -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.created_at') }}:</label>
+                    <p>{{ transformTimestampToString($item->created_at) }}</p>
+                </div>
+                <!-- ./Created At -->
+
+                <!-- Updated At -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.updated_at') }}:</label>
+                    <p>{{ transformTimestampToString($item->updated_at) }}</p>
+                </div>
+                <!-- ./Updated At -->
 
                 <!-- Edit Button -->
                 <div class="form-group mt-3">

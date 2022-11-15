@@ -1,8 +1,8 @@
 <tr>
     <td class="text-center">{{ $loop->iteration }}.</td>
     <td>{{ $item->name }}</td>
-    <td>{{ $item->created_at }}</td>
-    <td>{{ $item->updated_at }}</td>
+    <td>{{ transformTimestampToString($item->created_at) }}</td>
+    <td>{{ transformTimestampToString($item->updated_at) }}</td>
     <td>
         <div class="row justify-content-center">
             <a href="{{ route('client.secret_protection_measures.show', [$client->name, $item->id]) }}"

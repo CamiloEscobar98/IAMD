@@ -9,8 +9,8 @@
     <td>
         {{ __('pages.client.research_units.table.body.projects_count', ['projects' => $item->projects_count]) }}
     </td>
-    <td>{{ $item->created_at }}</td>
-    <td>{{ $item->updated_at }}</td>
+    <td>{{ transformTimestampToString($item->created_at) }}</td>
+    <td>{{ transformTimestampToString($item->updated_at) }}</td>
     <td>
         <div class="row justify-content-center">
             <a href="{{ route('client.research_units.show', [$client->name, $item->id]) }}"

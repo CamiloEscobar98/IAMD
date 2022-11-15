@@ -28,62 +28,58 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row justify-content-start">
-            <div class="col-md-7">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.client.users.form-titles.show') }}</u>
-                        </h3>
-
-                        <!-- Name -->
-                        <div class="input-group mt-3">
-                            <input type="text" class="form-control" placeholder="{{ __('inputs.name') }}"
-                                value="{{ $item->name }}" disabled>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-flag"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ./Name -->
-
-                        <!-- Email -->
-                        <div class="input-group mt-3">
-                            <input type="email" class="form-control" placeholder="{{ __('inputs.email') }}"
-                                value="{{ $item->email }}" disabled>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-flag"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ./Email -->
-
-                        <!-- Edit Button -->
-                        <div class="form-group mt-3">
-                            <a href="{{ getClientRoute('client.users.edit', [$item->id]) }}"
-                                class="btn btn-warning btn-sm">{{ __('buttons.update_to') }}</a>
-                        </div>
-                        <!-- Edit Button -->
-
-
-                    </div>
-                </div>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="font-italic font-weight-bold">
+                    <u>{{ __('pages.default.title-information') }}</u>
+                </h3>
+                <p>{!! __('pages.client.users.info.show', ['user' => $item->name]) !!}</p>
             </div>
-            <div class="col-md-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="font-italic font-weight-bold">
-                            <u>{{ __('pages.default.title-information') }}</u>
-                        </h3>
-                        <div class="row justify-content-center">
-                            <img src="{{ asset('assets/images/users.webp') }}" class="img-fluid mt-3" width="350em"
-                                alt="">
-                        </div>
-                        <p>{!! __('pages.client.users.info.show', ['user' => $item->name]) !!}</p>
-                    </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="font-weight-bold">
+                    <u>{{ __('pages.client.users.form-titles.show') }}</u>
+                </h3>
+
+                <!-- Name -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.name') }}:</label>
+                    <p>{{ $item->name }}</p>
                 </div>
+                <!-- ./Name -->
+
+                <!-- Email -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.email') }}:</label>
+                    <p>{{ $item->email }}</p>
+                </div>
+                <!-- ./Email -->
+
+                <hr>
+
+                <!-- Created At -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.created_at') }}:</label>
+                    <p>{{ transformTimestampToString($item->created_at) }}</p>
+                </div>
+                <!-- ./Created At -->
+
+                <!-- Updated At -->
+                <div class="form-group mt-3">
+                    <label>{{ __('inputs.updated_at') }}:</label>
+                    <p>{{ transformTimestampToString($item->updated_at) }}</p>
+                </div>
+                <!-- ./Updated At -->
+
+                <!-- Edit Button -->
+                <div class="form-group mt-3">
+                    <a href="{{ getClientRoute('client.users.edit', [$item->id]) }}"
+                        class="btn btn-warning btn-sm">{{ __('buttons.update_to') }}</a>
+                </div>
+                <!-- Edit Button -->
+
+
             </div>
         </div>
     </div>

@@ -71,7 +71,8 @@ class FinancingTypeController extends Controller
     public function create(): View|RedirectResponse
     {
         try {
-            return view('client.pages.financing_types.create');
+            $item = $this->financingTypeRepository->newInstance();
+            return view('client.pages.financing_types.create', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }

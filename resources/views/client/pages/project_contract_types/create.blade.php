@@ -37,12 +37,19 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <h3 class="text-center font-weight-bold">
+                <h3 class="font-weight-bold">
                     <u>{{ __('pages.client.project_contract_types.form-titles.create') }}</u>
                 </h3>
-                @include('client.pages.project_contract_types.components.form', [
-                    'editMode' => false,
-                ])
+
+                <form action="{{ route('client.project_contract_types.store', $client->name) }}" method="post">
+                    @csrf
+
+                    @include('client.pages.project_contract_types.components.form')
+
+                    <div class="form-group mt-3">
+                        <button class="btn btn-secondary btn-sm">{{ __('buttons.save') }}</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
