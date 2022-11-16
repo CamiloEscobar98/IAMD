@@ -54,6 +54,8 @@ return [
     'project_id' => 'Proyectos',
     'project_name' => 'Nombre del Proyecto',
 
+    'is_internal' => 'Es para Creador Interno o Externo',
+
     'creator_id' => 'Creadores',
     'director_id' => 'Director',
     'inventory_manager_id' => 'Administrador de Inventario',

@@ -60,7 +60,7 @@ class CreatorExternalController extends Controller
             // return $params;
 
             $query = $this->creatorExternalRepository->search($params, [
-                'creator', 'external_organization', 'assignment_contract', 'creator.document',
+                'creator', 'external_organization', 'assigment_contract', 'creator.document',
                 'creator.document.document_type', 'creator.document.expedition_place'
             ], []);
 
@@ -139,7 +139,7 @@ class CreatorExternalController extends Controller
         try {
             $item = $this->creatorExternalRepository->getByIdWithRelations($external, [
                 'creator', 'creator.document', 'creator.document.document_type', 'creator.document.expedition_place.state.country',
-                'external_organization', 'assignment_contract'
+                'external_organization', 'assigment_contract'
             ], 'creator_id');
 
             return view('client.pages.creators.external.show', compact('item'));
@@ -162,7 +162,7 @@ class CreatorExternalController extends Controller
         try {
             $item = $this->creatorExternalRepository->getByIdWithRelations($external, [
                 'creator', 'creator.document', 'creator.document.document_type', 'creator.document.expedition_place',
-                'external_organization', 'assignment_contract'
+                'external_organization', 'assigment_contract'
             ], 'creator_id');
 
             return view('client.pages.creators.external.edit', compact('item'));
@@ -188,7 +188,7 @@ class CreatorExternalController extends Controller
 
             $creatorExternal = $this->creatorExternalRepository->getByIdWithRelations($internal, [
                 'creator', 'creator.document', 'creator.document.document_type', 'creator.document.expedition_place',
-                'external_organization', 'assignment_contract'
+                'external_organization', 'assigment_contract'
             ], 'creator_id');
 
             $creator = $creatorExternal->creator;

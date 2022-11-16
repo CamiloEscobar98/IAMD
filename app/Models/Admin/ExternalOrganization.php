@@ -35,17 +35,6 @@ class ExternalOrganization extends BaseModel
     protected $fillable = ['nit', 'name', 'email', 'telephone', 'address'];
 
     /**
-     * Get the Name
-     *
-     * @param  string  $value
-     * @return string
-     */
-    public function getNameAttribute($value)
-    {
-        return isset($value) ? $value : ' Empty';
-    }
-
-    /**
      * Get Creators
      * 
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

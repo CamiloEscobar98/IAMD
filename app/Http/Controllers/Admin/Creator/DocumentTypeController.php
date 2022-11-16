@@ -67,7 +67,8 @@ class DocumentTypeController extends Controller
     public function create()
     {
         try {
-            return view('admin.pages.creators.document_types.create');
+            $item = $this->documentTypeRepository->newInstance();
+            return view('admin.pages.creators.document_types.create', compact('item'));
         } catch (\Exception $th) {
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }

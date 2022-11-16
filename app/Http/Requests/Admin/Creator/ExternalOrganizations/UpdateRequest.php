@@ -27,8 +27,8 @@ class UpdateRequest extends FormRequest
             'nit' => ['required', 'unique:mysql.external_organizations,nit,' . $this->external_organization],
             'name' => ['required', 'unique:mysql.external_organizations,name,' . $this->external_organization],
             'email' => ['required', 'email'],
-            'telephone' => ['required'],
-            'address' => ['required'],
+            'telephone' => ['nullable', 'unique:mysql.external_organizations,telephone,' . $this->external_organization],
+            'address' => ['nullable', 'unique:mysql.external_organizations,address,' . $this->external_organization],
         ];
     }
 }

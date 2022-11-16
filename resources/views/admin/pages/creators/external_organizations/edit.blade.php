@@ -11,8 +11,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a
-                                href="{{ route('admin.home') }}">{{ __('pages.default.home') }}</a>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">{{ __('pages.default.home') }}</a>
                         </li>
                         <li class="breadcrumb-item">{{ __('pages.admin.creators.title') }}</li>
                         <li class="breadcrumb-item">
@@ -31,21 +30,31 @@
         </div><!-- /.container-fluid -->
     </section>
 @endsection
-
+ 
 @section('content')
     <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-md-10">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.admin.creators.external_organizations.form-titles.update') }}</u>
-                        </h3>
-                        @include('admin.pages.creators.external_organizations.components.form', [
-                            'editMode' => true,
-                        ])
+
+        <h3 class="font-weight-bold">
+            <u>{{ __('pages.default.title-information') }}</u>
+        </h3>
+        <p>{!! __('pages.admin.creators.external_organizations.info.edit', ['external_organization' => $item->name]) !!}</p>
+
+        <div class="card">
+            <div class="card-header bg-danger">
+                <h5 class="font-weight-bold">
+                    {{ __('pages.admin.creators.external_organizations.form-titles.update') }}</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('admin.creators.external_organizations.update', $item->id) }}" method="post">
+                    @csrf
+                    @method('PUT')
+
+                    @include('admin.pages.creators.external_organizations.components.form')
+
+                    <div class="form-group mt-3">
+                        <button class="btn btn-danger btn-sm">{{ __('buttons.update') }}</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

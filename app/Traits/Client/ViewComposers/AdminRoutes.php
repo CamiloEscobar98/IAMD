@@ -2,8 +2,9 @@
 
 namespace App\Traits\Client\ViewComposers;
 
-use App\Http\ViewComposers\Admin\IntellectualPropertyRights\Products\IntellectualPropertyRightProductFilterComposer;
 use Illuminate\Support\Facades\View;
+
+use App\Http\ViewComposers\Admin\IntellectualPropertyRights\Products\IntellectualPropertyRightProductFilterComposer;
 
 use App\Http\ViewComposers\Admin\Localization\States\StateFilterComposer;
 use App\Http\ViewComposers\Admin\Localization\States\StateFormComposer;
@@ -14,6 +15,8 @@ use App\Http\ViewComposers\Admin\Localization\Cities\CityFormComposer;
 
 use App\Http\ViewComposers\Admin\IntellectualPropertyRights\Subcategories\IntellectualPropertyRightSubcategoryFormComposer;
 use App\Http\ViewComposers\Admin\IntellectualPropertyRights\Products\IntellectualPropertyRightProductFormComposer;
+
+use App\Http\ViewComposers\Admin\Creators\AssignmentContracts\FormAssignmentContractComposer;
 
 /**
  * 
@@ -38,7 +41,6 @@ trait AdminRoutes
         View::composer('admin.pages.localization.cities.components.form', CityFormComposer::class);
 
         /** Intellectual Property Rights */
-        // Categories
 
         // Subcategories
         View::composer('admin.pages.intellectual_property_rights.subcategories.components.form', IntellectualPropertyRightSubcategoryFormComposer::class);
@@ -46,5 +48,7 @@ trait AdminRoutes
         // Products
         View::composer('admin.pages.intellectual_property_rights.products.components.filters', IntellectualPropertyRightProductFilterComposer::class);
         View::composer('admin.pages.intellectual_property_rights.products.components.form', IntellectualPropertyRightProductFormComposer::class);
+
+        View::composer('admin.pages.creators.assigment_contracts.components.form', FormAssignmentContractComposer::class);
     }
 }

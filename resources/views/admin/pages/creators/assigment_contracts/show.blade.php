@@ -1,24 +1,24 @@
 @extends('admin.layout.app')
 
-@section('title', __('pages.admin.creators.document_types.route-titles.show'))
+@section('title', __('pages.admin.creators.assigment_contracts.route-titles.show'))
 
 @section('content-header')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>{{ __('pages.admin.creators.document_types.subtitle') }}</h1>
+                    <h1>{{ __('pages.admin.creators.assigment_contracts.subtitle') }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">{{ __('pages.default.home') }}</a>
                         </li>
-                        <li class="breadcrumb-item">{{ __('pages.admin.localizations.title') }}</li>
+                        <li class="breadcrumb-item">{{ __('pages.admin.creators.title') }}</li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.creators.document_types.index') }}">
-                                {{ __('pages.admin.creators.document_types.title') }} </a>
+                            <a href="{{ route('admin.creators.assigment_contracts.index') }}">
+                                {{ __('pages.admin.creators.assigment_contracts.title') }} </a>
                         </li>
-                        <li class="breadcrumb-item active">{{ $item->slug }}</li>
+                        <li class="breadcrumb-item active">{{ $item->name }}</li>
                     </ol>
                 </div>
             </div>
@@ -32,12 +32,18 @@
         <h3 class="font-weight-bold">
             <u>{{ __('pages.default.title-information') }}</u>
         </h3>
-        <p>{!! __('pages.admin.creators.document_types.info.show', ['document_type' => $item->name]) !!}
-        </p>
+        <p>{!! __('pages.admin.creators.assigment_contracts.info.show', ['assigment_contract' => $item->name]) !!}</p>
 
         <div class="bg-danger text-white pl-3 py-2">
-            <h5 class="font-weight-bold">{{ __('pages.admin.creators.document_types.form-titles.show') }}</h5>
+            <h5 class="font-weight-bold">{{ __('pages.admin.creators.assigment_contracts.form-titles.show') }}</h5>
         </div>
+
+        <!-- Is Internal or External -->
+        <div class="form-group mt-3">
+            <label>{{ __('inputs.is_internal') }}:</label>
+            <p>{{ $item->is_internal_name }}</p>
+        </div>
+        <!-- ./Is Internal or External -->
 
         <!-- Name -->
         <div class="form-group mt-3">
@@ -46,22 +52,9 @@
         </div>
         <!-- ./Name -->
 
-        <!-- Slug -->
         <div class="form-group mt-3">
-            <label>{{ __('inputs.slug') }}:</label>
-            <p>{{ $item->slug }}</p>
-        </div>
-        <!-- ./Slug -->
-
-        <div class="form-group mt-3">
-            <a href="{{ route('admin.creators.document_types.edit', $item->id) }}"
+            <a href="{{ route('admin.creators.assigment_contracts.edit', $item->id) }}"
                 class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
         </div>
     </div>
-@endsection
-
-
-
-@section('custom_js')
-    @include('messages.delete_item', ['title' => __('pages.admin.localizations.states.messages.confirm')])
 @endsection

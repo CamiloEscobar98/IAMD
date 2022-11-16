@@ -39,7 +39,7 @@
         </p>
 
         <div class="px-4 py-2 bg-gradient-danger">
-            <h4 class="font-weight-bold">{{ __('pages.admin.localizations.states.form-titles.show') }}</h4>
+            <h5 class="font-weight-bold">{{ __('pages.admin.localizations.states.form-titles.show') }}</h5>
         </div>
 
         <!-- Country -->
@@ -61,10 +61,10 @@
                 class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
         </div>
 
-        <div class="row mt-2 mb-4 mx-2">
-            <h4 class="mb-4">{{ __('pages.admin.localizations.states.cities.title') }}</h4>
-            @include('admin.pages.localization.states.components.table_cities')
+        <div class="px-4 py-2 bg-gradient-danger mb-4">
+            <h5 class="font-weight-bold">{{ __('pages.admin.localizations.states.cities.title') }}</h5>
         </div>
+        @include('admin.pages.localization.states.components.table_cities')
         {!! $links !!}
     </div>
 @endsection

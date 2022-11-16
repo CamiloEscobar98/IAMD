@@ -41,7 +41,7 @@
 
         <div class="card">
             <div class="card-header bg-gradient-danger">
-                <h4 class="font-weight-bold">{{ __('pages.admin.localizations.countries.form-titles.update') }}</h4>
+                <h5 class="font-weight-bold">{{ __('pages.admin.localizations.countries.form-titles.update') }}</h5>
             </div>
             <div class="card-body">
                 <form action="{{ route('admin.localizations.countries.update', $item->id) }}" method="post">

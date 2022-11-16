@@ -24,7 +24,7 @@
                             </button>
                             <div class="dropdown-menu">
                                 <a href="{{ route('admin.localizations.states.show', $item->id) }}"
-                                    class="dropdown-item btn btn-sm btn-info">
+                                    class="dropdown-item">
                                     <i class="fas fa-sm fa-eye"></i> Ver
                                 </a>
                                 <form action="{{ route('admin.localizations.states.destroy', $item->id) }}"

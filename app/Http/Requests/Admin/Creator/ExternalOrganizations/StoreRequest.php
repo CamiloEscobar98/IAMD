@@ -27,8 +27,8 @@ class StoreRequest extends FormRequest
             'nit' => ['required', 'unique:mysql.external_organizations'],
             'name' => ['required', 'unique:mysql.external_organizations'],
             'email' => ['required', 'unique:mysql.external_organizations'],
-            'telephone' => ['required', 'unique:mysql.external_organizations'],
-            'address' => ['required', 'unique:mysql.external_organizations'],
+            'telephone' => ['nullable', 'unique:mysql.external_organizations'],
+            'address' => ['nullable', 'unique:mysql.external_organizations'],
         ];
     }
 }
