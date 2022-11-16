@@ -9,11 +9,11 @@ class IntangibleAssetState extends BaseModel
     use HasFactory;
 
     /**
-     * The connection name for the model.
+     * The number of models to return for pagination.
      *
-     * @var string
+     * @var int
      */
-    protected $connection = 'mysql';
+    protected $perPage = 15;
 
     /**
      * The attributes that are mass assignable.

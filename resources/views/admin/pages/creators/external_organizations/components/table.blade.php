@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table table-sm table-hover table-bordered">
+    <table class="table table-sm table-striped table-hover table-bordered">
         <thead>
             <tr>
                 <th>{{ __('pages.admin.creators.external_organizations.table.head.name') }}</th>

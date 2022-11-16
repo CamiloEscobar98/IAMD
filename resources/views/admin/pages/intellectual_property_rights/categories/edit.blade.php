@@ -33,25 +33,28 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row justify-content-start">
-            <div class="col-md-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.admin.intellectual_property_rights.categories.form-titles.update') }}</u>
-                        </h3>
-                        <form action="{{ route('admin.intellectual_property_rights.categories.update', $item->id) }}"
-                            method="post">
-                            @csrf
-                            @method('PUT')
-                            @include('admin.pages.intellectual_property_rights.categories.components.form')
 
-                            <div class="form-group mt-3">
-                                <button class="btn btn-danger btn-sm">{{ __('buttons.update') }}</button>
-                            </div>
-                        </form>
+        <h3 class="font-weight-bold">
+            <u>{{ __('pages.default.title-information') }}</u>
+        </h3>
+        <p>{!! __('pages.admin.intellectual_property_rights.categories.info.edit', ['category' => $item->name]) !!}</p>
+
+        <div class="card">
+            <div class="card-header bg-danger">
+                <h5 class="font-weight-bold">
+                    {{ __('pages.admin.intellectual_property_rights.categories.form-titles.update') }}</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('admin.intellectual_property_rights.categories.update', $item->id) }}"
+                    method="post">
+                    @csrf
+                    @method('PUT')
+                    @include('admin.pages.intellectual_property_rights.categories.components.form')
+
+                    <div class="form-group mt-3">
+                        <button class="btn btn-danger btn-sm">{{ __('buttons.update') }}</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

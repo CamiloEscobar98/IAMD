@@ -34,32 +34,26 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
-                <div class="row justify-content center">
-                    <h3 class="text-center font-italic font-weight-bold">
-                        <u>{{ __('pages.default.title-information') }}</u>
-                    </h3>
-                    <p>{!! __('pages.admin.intellectual_property_rights.subcategories.info.create') !!}</p>
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-start">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.admin.intellectual_property_rights.subcategories.form-titles.create') }}</u>
-                        </h3>
-                        <form action="{{ route('admin.intellectual_property_rights.subcategories.store') }}" method="post">
-                            @csrf
-                            @include('admin.pages.intellectual_property_rights.subcategories.components.form')
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8">
+        <h3 class="font-weight-bold">
+            <u>{{ __('pages.default.title-information') }}</u>
+        </h3>
+        <p>{!! __('pages.admin.intellectual_property_rights.subcategories.info.create') !!}</p>
 
+        <div class="card">
+            <div class="card-header bg-danger">
+                <h5 class="font-weight-bold">
+                    {{ __('pages.admin.intellectual_property_rights.subcategories.form-titles.create') }}</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('admin.intellectual_property_rights.subcategories.store') }}" method="post">
+                    @csrf
+
+                    @include('admin.pages.intellectual_property_rights.subcategories.components.form')
+
+                    <div class="form-group mt-3">
+                        <button class="btn btn-danger btn-sm">{{ __('buttons.save') }}</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -72,8 +66,6 @@
 
 @section('custom_js')
     <script>
-      
-
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'

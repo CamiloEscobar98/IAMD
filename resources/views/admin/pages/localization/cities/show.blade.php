@@ -60,6 +60,22 @@
         </div>
         <!-- ./Name -->
 
+        <hr>
+
+        <!-- Created At -->
+        <div class="form-group mt-3">
+            <label>{{ __('inputs.created_at') }}:</label>
+            <p>{{ transformTimestampToString($item->created_at) }}</p>
+        </div>
+        <!-- ./Created At -->
+
+        <!-- Updated At -->
+        <div class="form-group mt-3">
+            <label>{{ __('inputs.updated_at') }}:</label>
+            <p>{{ transformTimestampToString($item->updated_at) }}</p>
+        </div>
+        <!-- ./Updated At -->
+
         <!-- Button -->
         <div class="form-group mt-3">
             <a href="{{ route('admin.localizations.cities.edit', $item->id) }}"

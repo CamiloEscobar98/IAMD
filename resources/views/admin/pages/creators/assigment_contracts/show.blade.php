@@ -52,6 +52,22 @@
         </div>
         <!-- ./Name -->
 
+        <hr>
+
+        <!-- Created At -->
+        <div class="form-group mt-3">
+            <label>{{ __('inputs.created_at') }}:</label>
+            <p>{{ transformTimestampToString($item->created_at) }}</p>
+        </div>
+        <!-- ./Created At -->
+
+        <!-- Updated At -->
+        <div class="form-group mt-3">
+            <label>{{ __('inputs.updated_at') }}:</label>
+            <p>{{ transformTimestampToString($item->updated_at) }}</p>
+        </div>
+        <!-- ./Updated At -->
+
         <div class="form-group mt-3">
             <a href="{{ route('admin.creators.assigment_contracts.edit', $item->id) }}"
                 class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>

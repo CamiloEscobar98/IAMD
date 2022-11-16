@@ -68,7 +68,8 @@ class IntangibleAssetStateController extends Controller
     public function create()
     {
         try {
-            return view('admin.pages.intangible_assets.states.create');
+            $item = $this->intangibleAssetStateRepository->newInstance();
+            return view('admin.pages.intangible_assets.states.create', compact('item'));
         } catch (\Exception $th) {
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }

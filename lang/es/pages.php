@@ -458,7 +458,7 @@ return [
 
                 'filters' => [
                     'name' => 'Buscar Estado del Activo Intangible',
-                    'total' => 'Total de Estados AI: ',
+                    'total' => 'Total de los Estados de los Activos Intangibles: ',
                 ],
 
                 'table' => [
@@ -489,6 +489,8 @@ return [
                     Dicho recurso actualmente está destinado para enriquecer la información de los estados de los activos intangibles dentro de la aplicación. ",
 
                     'show' => "En esta sección de la aplicación podrás visualizar el Estado del Activo Intangible de <b>:state</b>",
+
+                    'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso del estado de los activos intangibles. La información del recurso será: <b>:state</b>",
                 ]
             ],
         ],
@@ -527,8 +529,8 @@ return [
                         'updated_at' => 'Fecha de Actualización'
                     ],
                     'body' => [
-                        'intellectual_property_right_subcategories_count' => ':count Subcategorias de los Derechos de Propiedad Intelectual registradas.',
-                        'intellectual_property_right_products_count' => ':count Productos de los Derechos de Propiedad Intelectual.'
+                        'intellectual_property_right_subcategories_count' => "Subcategorias de los Derechos de Propiedad Intelectual, <b>Cantidad:</b> :count",
+                        'intellectual_property_right_products_count' => 'Productos de los Derechos de Propiedad Intelectual, <b>Cantidad:</b> :count'
                     ]
 
                 ],
@@ -552,6 +554,8 @@ return [
 
                     'show' => "En esta sección de la aplicación podrás visualizar la Categoria de Derechos de Propiedad Intelectual <b>:category</b>. \n
                     Este país actualmente tiene una cantidad de :subcategories_count Subcategorias y :products_count Productos de Derechos de Propiedad Intelectual.",
+
+                    'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso de la categoría de los derechos de propiedad intelectual. La información del recurso será: <b>:category</b>",
                 ]
             ],
 
@@ -586,7 +590,7 @@ return [
                         'updated_at' => 'Fecha de Actualización'
                     ],
                     'body' => [
-                        'intellectual_property_right_products_count' => ':count Productos de los Derechos de Propiedad Intelectual.'
+                        'intellectual_property_right_products_count' => 'Productos de los Derechos de Propiedad Intelectual, <b>Cantidad:</b> :count'
                     ]
 
                 ],
@@ -610,6 +614,8 @@ return [
 
                     'show' => "En esta sección de la aplicación podrás visualizar la Subcategoría de Derechos de Propiedad Intelectual <b>:subcategory</b>. \n
                     Este país actualmente tiene una cantidad de :products_count Productos de Derechos de Propiedad Intelectual.",
+
+                    'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso de la subcategoría de los derechos de propiedad intelectual. La información del recurso será: <b>:subcategory</b>",
                 ]
             ],
 
@@ -664,6 +670,8 @@ return [
                     Dicho recurso actualmente está destinado para enriquecer la información de los productos de los derechos de propiedad intelectual dentro de la aplicación. ",
 
                     'show' => "En esta sección de la aplicación podrás visualizar el Producto de Derechos de Propiedad Intelectual <b>:product</b>",
+
+                    'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso del producto de los derechos de propiedad intelectual. La información del recurso será: <b>:product</b>",
                 ]
             ]
         ]

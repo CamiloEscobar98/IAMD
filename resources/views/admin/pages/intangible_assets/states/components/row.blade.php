@@ -1,17 +1,17 @@
 <tr>
     <td>{{ $item->name }}</td>
-    <td>{{ $item->is_internal_name }}</td>
+    <td>{{ $item->description }}</td>
     <td class="text-right">
         <div class="btn-group">
             <button type="button" class="dropdown-toggle btn btn-sm btn-danger btn-block" data-toggle="dropdown">
                 <span class="fas fa-cog"></span>
             </button>
             <div class="dropdown-menu">
-                <a href="{{ route('admin.creators.assigment_contracts.show', $item->id) }}"
+                <a href="{{ route('admin.intangible_assets.status.show', $item->id) }}"
                     class="dropdown-item">
                     <i class="fas fa-sm fa-eye"></i> Ver
                 </a>
-                <form action="{{ route('admin.creators.assigment_contracts.destroy', $item->id) }}"
+                <form action="{{ route('admin.intangible_assets.status.destroy', $item->id) }}"
                     id="form-delete-{{ $item->id }}" method="post">
                     @csrf
                     @method('DELETE')

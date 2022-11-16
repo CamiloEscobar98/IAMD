@@ -28,64 +28,50 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row justify-content-start">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.admin.intangible_assets.states.form-titles.show') }}</u>
-                        </h3>
 
-                        <img src="{{ asset('assets/images/document_type.png') }}" class="img-fluid" alt="">
+        <h3 class="font-weight-bold">
+            <u>{{ __('pages.default.title-information') }}</u>
+        </h3>
+        <p>{!! __('pages.admin.intangible_assets.states.info.show', ['state' => $item->name]) !!}</p>
 
-                        <!-- Name -->
-                        <div class="input-group mt-3">
-                            <input type="text" name="name" class="form-control {{ isInvalidByError($errors, 'name') }}"
-                                placeholder="{{ __('inputs.name') }}" value="{{ $item->name }}" disabled>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-flag"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ./Name -->
 
-                        <!-- Description -->
-                        <div class="input-group mt-3">
-                            <textarea class="form-control" rows="5" disabled>{{ $item->description }}</textarea>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-flag"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- ./Description -->
+        <div class="pl-3 py-2 text-white bg-danger">
+            <h5 class="font-weight-bold">{{ __('pages.admin.intangible_assets.states.form-titles.show') }}</h5>
+        </div>
 
-                        <div class="form-group mt-3">
-                            <a href="{{ route('admin.intangible_assets.status.edit', $item->id) }}"
-                                class="btn btn-warning btn-sm">{{ __('buttons.update_to') }}</a>
-                        </div>
+        <!-- Name -->
+        <div class="form-group mt-3">
+            <label>{{ __('inputs.name') }}:</label>
+            <p>{{ $item->name }}</p>
+        </div>
+        <!-- ./Name -->
 
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row justify-content center">
-                            <h3 class="text-center font-italic font-weight-bold">
-                                <u>{{ __('pages.default.title-information') }}</u>
-                            </h3>
-                            <img src="{{ asset('assets/images/countries/country-1.png') }}" class="img-fluid mt-4"
-                                width="540em">
-                            <div class="mb-0">
-                                <p>{!! __('pages.admin.intangible_assets.states.info.show', ['state' => $item->name]) !!}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Description -->
+        <div class="form-group mt-3">
+            <label>{{ __('inputs.description') }}:</label>
+            <p>{{ $item->description }}</p>
+        </div>
+        <!-- ./Description -->
+
+        <hr>
+
+        <!-- Created At -->
+        <div class="form-group mt-3">
+            <label>{{ __('inputs.created_at') }}:</label>
+            <p>{{ transformTimestampToString($item->created_at) }}</p>
+        </div>
+        <!-- ./Created At -->
+
+        <!-- Updated At -->
+        <div class="form-group mt-3">
+            <label>{{ __('inputs.updated_at') }}:</label>
+            <p>{{ transformTimestampToString($item->updated_at) }}</p>
+        </div>
+        <!-- ./Updated At -->
+
+        <div class="form-group mt-3">
+            <a href="{{ route('admin.intangible_assets.status.edit', $item->id) }}"
+                class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
         </div>
     </div>
 @endsection

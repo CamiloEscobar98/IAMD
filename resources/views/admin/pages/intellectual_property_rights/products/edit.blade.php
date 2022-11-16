@@ -39,27 +39,29 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-md-10">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.admin.intellectual_property_rights.products.form-titles.update') }}</u>
-                        </h3>
-                        <form action="{{ route('admin.intellectual_property_rights.products.update', $item->id) }}"
-                            method="post">
 
-                            @csrf
-                            @method('PUT')
+        <h3 class="font-weight-bold">
+            <u>{{ __('pages.default.title-information') }}</u>
+        </h3>
+        <p>{!! __('pages.admin.intellectual_property_rights.products.info.edit', ['product' => $item->name]) !!}</p>
 
-                            @include('admin.pages.intellectual_property_rights.products.components.form')
+        <div class="card">
+            <div class="card-header bg-danger">
+                <h5 class="font-weight-bold">
+                    {{ __('pages.admin.intellectual_property_rights.products.form-titles.update') }}</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('admin.intellectual_property_rights.products.update', $item->id) }}" method="post">
 
-                            <div class="form-group mt-3">
-                                <button class="btn btn-danger btn-sm">{{ __('buttons.update') }}</button>
-                            </div>
-                        </form>
+                    @csrf
+                    @method('PUT')
+
+                    @include('admin.pages.intellectual_property_rights.products.components.form')
+
+                    <div class="form-group mt-3">
+                        <button class="btn btn-danger btn-sm">{{ __('buttons.update') }}</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -74,8 +76,6 @@
     <script src="{{ asset('adminlte/dist/js/iamd/intangible_asset_levels.js') }}"></script>
 
     <script>
-      
-
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'

@@ -25,7 +25,7 @@ class ExternalOrganization extends BaseModel
      *
      * @var int
      */
-    protected $perPage = 5;
+    protected $perPage = 15;
 
     /**
      * The attributes that are mass assignable.

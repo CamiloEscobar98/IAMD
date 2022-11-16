@@ -29,7 +29,7 @@ class Country extends BaseModel
      *
      * @var int
      */
-    protected $perPage = 10;
+    protected $perPage = 15;
 
     /**
      * WithCount property for the model.

@@ -16,9 +16,15 @@ return [
 
     'empty' => 'No hay registros',
 
-    'order_by' => 'Ordenar por:', 
+    'order_by' => 'Ordenar por:',
 
     'phases_completed' => 'Fases del Activo Intangible Completadas:',
+
+    'intellectual_property_rights_categories' => 'Categorías de la Derechos de Propiedad Intelectual:',
+
+    'intellectual_property_rights_subcategories' => 'Subcategorías de la Derechos de Propiedad Intelectual:',
+
+    'intellectual_property_rights_products' => 'Productos de la Derechos de Propiedad Intelectual:',
 
     'administrative_units' => 'Subdirecciones Técnicas:',
 

@@ -29,7 +29,7 @@ return [
         'AssignmentContracts' => 'Tipos de Contrato',
 
         /** Level 1 */
-        'IntangibleAssets' => 'ACTIVOS INTANGIBLES',
+        'IntangibleAssets' => "INFORMACIÓN ACTIVOS INTANGIBLES",
 
         /** Level 2 */
         'IntangibleAssetStates' => 'Estados del Activo Intangible',

@@ -28,30 +28,27 @@
 
 @section('content')
     <div class="container-fluid">
+        <h3 class="font-weight-bold">
+            <u>{{ __('pages.default.title-information') }}</u>
+        </h3>
+        <p>{!! __('pages.admin.intangible_assets.states.info.create') !!}</p>
+
         <div class="row justify-content-start">
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-body">
-                        <div class="row justify-content center">
-                            <h3 class="text-center font-italic font-weight-bold">
-                                <u>{{ __('pages.default.title-information') }}</u>
-                            </h3>
-                            <p>{!! __('pages.admin.intangible_assets.states.info.create') !!}</p>
-                        </div>
+                    <div class="card-header bg-danger">
+                        <h5 class="font-weight-bold">{{ __('pages.admin.intangible_assets.states.form-titles.form') }}</h5>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-start">
-            <div class="col-lg-12">
-                <div class="card">
                     <div class="card-body">
-                        <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.admin.intangible_assets.states.form-titles.form') }}</u>
-                        </h3>
-                        @include('admin.pages.intangible_assets.states.components.form', [
-                            'editMode' => false,
-                        ])
+                        <form action="{{ route('admin.intangible_assets.status.store') }}" method="post">
+                            @csrf
+
+                            @include('admin.pages.intangible_assets.states.components.form')
+
+                            <div class="form-group mt-3">
+                                <button class="btn btn-danger btn-sm">{{ __('buttons.save') }}</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

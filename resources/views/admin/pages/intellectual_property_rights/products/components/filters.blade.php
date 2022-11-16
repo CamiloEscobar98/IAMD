@@ -46,43 +46,41 @@
                     <div class="col-lg-6">
                         <!-- Intellectual Property Rights Categories -->
                         <div class="input-group">
+                            <div class="input-group-append">
+                                <label class="input-group-text">
+                                    {{ __('filters.intellectual_property_rights_categories') }}
+                                </label>
+                            </div>
                             <select class="form-control select2bs4" name="intellectual_property_right_category_id"
                                 id="intellectual_property_right_category_id"
                                 onchange="changeIntellectualPropertyRightCategory()">
                                 @foreach ($categories as $categoryItem => $value)
                                     <option value="{{ $categoryItem }}"
-                                        {{ twoOptionsIsEqual($category->id, $categoryItem) }}>
+                                        {{ twoOptionsIsEqual(old('intellectual_property_right_category_id'), $categoryItem) }}>
                                         {{ $value }}
                                     </option>
                                 @endforeach
                             </select>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-star">
-                                        {{ __('inputs.intellectual_property_rights_category') }}</span>
-                                </div>
-                            </div>
                         </div>
                         <!-- ./Intellectual Property Rights Categories  -->
                     </div>
                     <div class="col-lg-6">
                         <!-- Intellectual Property Rights Subcategories -->
                         <div class="input-group">
+                            <div class="input-group-append">
+                                <label class="input-group-text">
+                                    {{ __('filters.intellectual_property_rights_subcategories') }}
+                                </label>
+                            </div>
                             <select class="form-control select2bs4" name="intellectual_property_right_subcategory_id"
                                 id="intellectual_property_right_subcategory_id">
                                 @foreach ($subcategories as $subCategoryItem => $value)
                                     <option value="{{ $subCategoryItem }}"
-                                        {{ twoOptionsIsEqual($subcategory->id, $subCategoryItem) }}>
+                                        {{ twoOptionsIsEqual(old('intellectual_property_right_subcategory_id'), $subCategoryItem) }}>
                                         {{ $value }}
                                     </option>
                                 @endforeach
                             </select>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-square">
-                                        {{ __('inputs.intellectual_property_rights_subcategory') }}</span>
-                                </div>
-                            </div>
                         </div>
                         <!-- ./Intellectual Property Rights Subcategories  -->
                     </div>
