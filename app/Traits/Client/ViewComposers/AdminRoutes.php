@@ -17,6 +17,7 @@ use App\Http\ViewComposers\Admin\IntellectualPropertyRights\Subcategories\Intell
 use App\Http\ViewComposers\Admin\IntellectualPropertyRights\Products\IntellectualPropertyRightProductFormComposer;
 
 use App\Http\ViewComposers\Admin\Creators\AssignmentContracts\FormAssignmentContractComposer;
+use App\Http\ViewComposers\Admin\DashboardComposer;
 
 /**
  * 
@@ -30,6 +31,8 @@ trait AdminRoutes
      */
     protected function getAdminViewComposers()
     {
+        /** Dashboard */
+        View::composer('admin.pages.home', DashboardComposer::class);
 
         /** States */
         View::composer('admin.pages.localization.states.components.filters', StateFilterComposer::class);

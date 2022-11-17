@@ -43,6 +43,12 @@ return [
         /** Home Page */
         'home' => [
             'title' => 'Inicio',
+            'subtitle' => 'Dashboard',
+
+            'localizations' => 'Localizaciones Disponibles del Sistema',
+            'creators' => 'Información para los Creadores',
+            'intangible_assets' => 'Información para los Activos Intangibles',
+            'dpis' => 'Información de los Derechos de Propiedad Intelectual',
         ],
 
         /** Profile Page */
@@ -116,6 +122,8 @@ return [
                         Este país actualmente tiene una cantidad de :states_count Departamentos y :cities_count ciudades.",
 
                     'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso país. La información del recurso será: <b>:country</b>",
+
+                    'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> paises registrados.'
                 ],
 
 
@@ -184,6 +192,8 @@ return [
                     Este departamento actualmente tiene una cantidad de :cities_count ciudades.",
 
                     'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso departamento. La información del recurso será: <b>:state</b>",
+
+                    'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> departamentos registrados.'
                 ],
 
                 'cities' => [
@@ -247,6 +257,8 @@ return [
                     'show' => "En esta sección de la aplicación podrás visualizar la ciudad de <b>:city</b>.",
 
                     'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso ciudad/municipio. La información del recurso será: <b>:city</b>",
+
+                    'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> ciudades registradas.'
                 ]
             ]
         ],
@@ -307,6 +319,8 @@ return [
                     'show' => "En esta sección de la aplicación podrás visualizar el tipo de documento de <b>:document_type</b>.",
 
                     'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso tipos de documentos. La información del recurso será: <b>:document_type</b>",
+
+                    'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> tipos de documento registrados.'
                 ]
 
             ],
@@ -367,6 +381,8 @@ return [
                     'show' => "En esta sección de la aplicación podrás visualizar la organización externa de <b>:external_organization</b>.",
 
                     'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso organizaciones externas. La información del recurso será: <b>:external_organization</b>",
+
+                    'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> organizaciones externas registradas.'
                 ]
             ],
 
@@ -431,6 +447,8 @@ return [
                     'show' => "En esta sección de la aplicación podrás visualizar el tipo de contrato de <b>:assignment_contract</b>.",
 
                     'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso tipos de contrato para los creadores. La información del recurso será: <b>:assignment_contract</b>",
+
+                    'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> tipos de contratación para los creadores registrados.'
                 ]
             ],
         ],
@@ -491,6 +509,8 @@ return [
                     'show' => "En esta sección de la aplicación podrás visualizar el Estado del Activo Intangible de <b>:state</b>",
 
                     'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso del estado de los activos intangibles. La información del recurso será: <b>:state</b>",
+
+                    'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> estados de los activos intangibles registrados.'
                 ]
             ],
         ],
@@ -556,6 +576,8 @@ return [
                     Este país actualmente tiene una cantidad de :subcategories_count Subcategorias y :products_count Productos de Derechos de Propiedad Intelectual.",
 
                     'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso de la categoría de los derechos de propiedad intelectual. La información del recurso será: <b>:category</b>",
+
+                    'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> categorias de los derechos de propiedad intelectual registrados.'
                 ]
             ],
 
@@ -616,6 +638,8 @@ return [
                     Este país actualmente tiene una cantidad de :products_count Productos de Derechos de Propiedad Intelectual.",
 
                     'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso de la subcategoría de los derechos de propiedad intelectual. La información del recurso será: <b>:subcategory</b>",
+
+                    'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> sub-categorias de los derechos de propiedad intelectual registrados.'
                 ]
             ],
 
@@ -672,6 +696,8 @@ return [
                     'show' => "En esta sección de la aplicación podrás visualizar el Producto de Derechos de Propiedad Intelectual <b>:product</b>",
 
                     'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso del producto de los derechos de propiedad intelectual. La información del recurso será: <b>:product</b>",
+
+                    'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> productos de los derechos de propiedad intelectual registrados.'
                 ]
             ]
         ]

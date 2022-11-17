@@ -23,7 +23,9 @@
 
     <div class="container-fluid">
 
-        <h3>{{ __('pages.client.home.main') }}</h3>
+        <hr>
+
+        <h5 class="font-weight-bold">{{ __('pages.client.home.main') }}</h5>
 
         <hr>
 
@@ -32,7 +34,7 @@
             <!-- Users Card -->
             <div class="col-lg-4">
                 <div class="card">
-                    <div class="card-header bg-gradient-secondary py-2">
+                    <div class="card-header bg-danger py-2">
                         <div class="row justify-content-between">
                             <i class="fas fa-users"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.users.title') }}</h5>
@@ -50,7 +52,7 @@
             <!-- Internal Creators Card -->
             <div class="col-lg-4">
                 <div class="card">
-                    <div class="card-header bg-gradient-secondary py-2">
+                    <div class="card-header bg-danger py-2">
                         <div class="row justify-content-between">
                             <i class="fas fa-user-friends"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.creators.internal.title') }}</h5>
@@ -69,7 +71,7 @@
             <!-- External Creators Card -->
             <div class="col-lg-4">
                 <div class="card">
-                    <div class="card-header bg-gradient-secondary py-2">
+                    <div class="card-header bg-danger py-2">
                         <div class="row justify-content-between">
                             <i class="fas fa-user-tie"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.creators.external.title') }}</h5>
@@ -90,7 +92,7 @@
             <!-- Administrative Units Card -->
             <div class="col-lg-3">
                 <div class="card">
-                    <div class="card-header bg-gradient-secondary py-2">
+                    <div class="card-header bg-danger py-2">
                         <div class="row justify-content-between">
                             <i class="fas fa-university"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.administrative_units.title') }}</h5>
@@ -108,7 +110,7 @@
             <!-- Research Units Card -->
             <div class="col-lg-3">
                 <div class="card">
-                    <div class="card-header bg-gradient-success py-2">
+                    <div class="card-header bg-danger py-2">
                         <div class="row justify-content-between">
                             <i class="fas fa-microscope"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.research_units.title') }}</h5>
@@ -126,7 +128,7 @@
             <!-- Projects Card -->
             <div class="col-lg-3">
                 <div class="card">
-                    <div class="card-header bg-gradient-primary py-2">
+                    <div class="card-header bg-danger py-2">
                         <div class="row justify-content-between">
                             <i class="fas fa-chalkboard-teacher"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.projects.title') }}</h5>
@@ -144,7 +146,7 @@
             <!-- Intangible Assets Card -->
             <div class="col-lg-3">
                 <div class="card">
-                    <div class="card-header bg-gradient-danger py-2">
+                    <div class="card-header bg-danger py-2">
                         <div class="row justify-content-between">
                             <i class="fas fa-archive"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.intangible_assets.title') }}</h5>
@@ -161,7 +163,9 @@
 
         </div>
 
-        <h3>{{ __('pages.client.home.config') }}</h3>
+        <hr>
+
+        <h5 class="font-weight-bold">{{ __('pages.client.home.config') }}</h5>
 
         <hr>
 
@@ -170,7 +174,7 @@
             <!-- Strategy Categories Card -->
             <div class="col-lg-4">
                 <div class="card">
-                    <div class="card-header bg-gradient-warning py-2">
+                    <div class="card-header bg-danger py-2">
                         <div class="row justify-content-between">
                             <i class="fas fa-star"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.strategy_categories.title') }}</h5>
@@ -188,7 +192,7 @@
             <!-- Strategies Card -->
             <div class="col-lg-4">
                 <div class="card">
-                    <div class="card-header bg-warning py-2">
+                    <div class="card-header bg-danger py-2">
                         <div class="row justify-content-between">
                             <i class="fas fa-toolbox"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.strategies.title') }}</h5>
@@ -206,7 +210,7 @@
             <!-- Financing Projects Card -->
             <div class="col-lg-4">
                 <div class="card">
-                    <div class="card-header bg-gradient-info py-2">
+                    <div class="card-header bg-danger py-2">
                         <div class="row justify-content-between">
                             <i class="fas fa-balance-scale"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.financing_types.title') }}</h5>
@@ -228,7 +232,7 @@
             <!-- Priority Tools Card -->
             <div class="col-lg-4">
                 <div class="card">
-                    <div class="card-header bg-success py-2">
+                    <div class="card-header bg-danger py-2">
                         <div class="row justify-content-between">
                             <i class="fas fa-tools"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.priority_tools.title') }}</h5>
@@ -264,7 +268,7 @@
             <!-- Project Contract Types Card -->
             <div class="col-lg-4">
                 <div class="card">
-                    <div class="card-header bg-info py-2">
+                    <div class="card-header bg-danger py-2">
                         <div class="row justify-content-between">
                             <i class="fas fa-hands-helping"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.project_contract_types.title') }}</h5>
