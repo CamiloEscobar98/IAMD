@@ -11,10 +11,10 @@ class FormAssignmentContractComposer
     {
         $types = collect([
             [
-                'id' => 0, 'name' => __('pages.admin.creators.assigment_contracts.options.external'),
+                'id' => 0, 'name' => __('pages.admin.creators.assignment_contracts.options.external'),
             ],
             [
-                'id' => 1, 'name' => __('pages.admin.creators.assigment_contracts.options.internal')
+                'id' => 1, 'name' => __('pages.admin.creators.assignment_contracts.options.internal')
             ]
         ])->pluck('name', 'id')->prepend('---Selecciona si el tipo de contrato es para un creador interno o externo', -1);
 

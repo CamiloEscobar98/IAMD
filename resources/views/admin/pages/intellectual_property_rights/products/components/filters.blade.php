@@ -88,7 +88,7 @@
                 <div class="btn-group">
                     <button class="btn btn-secondary btn-sm">{{ __('buttons.filter') }}</button>
                     <a href="{{ route('admin.intellectual_property_rights.products.create') }}"
-                        class="btn btn-dark btn-sm ml-2">{{ __('buttons.register') }}</a>
+                        class="btn btn-danger btn-sm ml-2">{{ __('buttons.register') }}</a>
                 </div>
                 <hr>
                 <h6 class="font-weight-bold">

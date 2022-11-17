@@ -1,15 +1,12 @@
 <div class="table-responsive">
-    <table class="table table-sm table-hover table-bordered">
+    <table class="table table-sm table-striped table-hover table-bordered">
         <thead>
             <tr>
-                <th class="text-center">No.</th>
                 <th>{{ __('pages.client.creators.external.table.head.name') }}</th>
                 <th>{{ __('pages.client.creators.external.table.head.phone') }}</th>
                 <th>{{ __('pages.client.creators.external.table.head.document') }}</th>
                 <th>{{ __('pages.client.creators.external.table.head.external_organization') }}</th>
                 <th>{{ __('pages.client.creators.external.table.head.assignment_contract') }}</th>
-                <th>{{ __('pages.client.creators.external.table.head.created_at') }}</th>
-                <th>{{ __('pages.client.creators.external.table.head.updated_at') }}</th>
                 <th class="text-right">#</th>
             </tr>
         </thead>

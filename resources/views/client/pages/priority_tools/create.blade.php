@@ -21,26 +21,22 @@
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="font-weight-bold">
-                    <u>{{ __('pages.default.title-information') }}</u>
-                </h3>
-                <p>{!! __('pages.client.priority_tools.info.create') !!}</p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <h3 class="font-weight-bold">
-                    <u>{{ __('pages.client.priority_tools.form-titles.create') }}</u>
-                </h3>
 
+        <h3 class="font-weight-bold">
+            <u>{{ __('pages.default.title-information') }}</u>
+        </h3>
+        <p>{!! __('pages.client.priority_tools.info.create') !!}</p>
+        <div class="card">
+            <div class="card-header bg-danger">
+                <h5 class="font-weight-bold">{{ __('pages.client.priority_tools.form-titles.create') }}</h5>
+            </div>
+            <div class="card-body">
                 <form action="{{ route('client.priority_tools.store', $client->name) }}" method="post">
                     @csrf
 

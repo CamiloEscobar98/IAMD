@@ -59,7 +59,7 @@ class CreatorInternalController extends Controller
             $params = $this->creatorInternalService->transformParams($request->all());
 
             $query = $this->creatorInternalRepository->search($params, [
-                'creator', 'linkage_type', 'assigment_contract', 'creator.document',
+                'creator', 'linkage_type', 'assignment_contract', 'creator.document',
                 'creator.document.document_type', 'creator.document.expedition_place'
             ], []);
 
@@ -138,7 +138,7 @@ class CreatorInternalController extends Controller
         try {
             $item = $this->creatorInternalRepository->getByIdWithRelations($internal, [
                 'creator', 'creator.document', 'creator.document.document_type', 'creator.document.expedition_place.state.country',
-                'linkage_type', 'assigment_contract'
+                'linkage_type', 'assignment_contract'
             ], 'creator_id');
 
             return view('client.pages.creators.internal.show', compact('item'));
@@ -161,7 +161,7 @@ class CreatorInternalController extends Controller
         try {
             $item = $this->creatorInternalRepository->getByIdWithRelations($internal, [
                 'creator', 'creator.document', 'creator.document.document_type', 'creator.document.expedition_place',
-                'linkage_type', 'assigment_contract'
+                'linkage_type', 'assignment_contract'
             ], 'creator_id');
 
             return view('client.pages.creators.internal.edit', compact('item'));
@@ -187,7 +187,7 @@ class CreatorInternalController extends Controller
 
             $creatorInternal = $this->creatorInternalRepository->getByIdWithRelations($internal, [
                 'creator', 'creator.document', 'creator.document.document_type', 'creator.document.expedition_place',
-                'linkage_type', 'assigment_contract'
+                'linkage_type', 'assignment_contract'
             ], 'creator_id');
 
             $creator = $creatorInternal->creator;

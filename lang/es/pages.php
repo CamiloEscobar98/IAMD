@@ -371,7 +371,7 @@ return [
             ],
 
             /** Assignment Contracts */
-            'assigment_contracts' => [
+            'assignment_contracts' => [
                 'title' => 'Tipos de Contrato',
                 'subtitle' => 'Tipos de Contrato',
 
@@ -414,13 +414,13 @@ return [
                 'messages' => [
                     'confirm' => '¿Estás seguro de que quieres eliminar el Tipo de Contrato?',
 
-                    'save_success' => 'Se ha registrado correctamente el Tipo de Contrato: <b>:assigment_contract</b>.',
+                    'save_success' => 'Se ha registrado correctamente el Tipo de Contrato: <b>:assignment_contract</b>.',
                     'save_error' => 'No se ha registrado el Tipo de Contrato.',
 
-                    'update_success' => 'Se ha actualizado correctamente el Tipo de Contrato: <b>:assigment_contract</b>.',
+                    'update_success' => 'Se ha actualizado correctamente el Tipo de Contrato: <b>:assignment_contract</b>.',
                     'update_error' => 'No se ha actualizado el Tipo de Contrato.',
 
-                    'delete_success' => 'Se ha eliminado el Tipo de Contrato: <b>:assigment_contract</b>.',
+                    'delete_success' => 'Se ha eliminado el Tipo de Contrato: <b>:assignment_contract</b>.',
                     'delete_error' => 'No se ha eliminado el Tipo de Contrato.'
                 ],
 
@@ -428,9 +428,9 @@ return [
                     'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>TIPO DE CONTRATO DEL CREADOR</b>. 
                      Dicho recurso actualmente está destinado para enriquecer la información de los tipos de contrato dentro de la aplicación. ",
 
-                    'show' => "En esta sección de la aplicación podrás visualizar el tipo de contrato de <b>:assigment_contract</b>.",
+                    'show' => "En esta sección de la aplicación podrás visualizar el tipo de contrato de <b>:assignment_contract</b>.",
 
-                    'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso tipos de contrato para los creadores. La información del recurso será: <b>:assigment_contract</b>",
+                    'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso tipos de contrato para los creadores. La información del recurso será: <b>:assignment_contract</b>",
                 ]
             ],
         ],
@@ -954,7 +954,7 @@ return [
                     'document' => 'Buscar por Documento',
 
                     'linkage_types' => 'Tipo de Vinculación',
-                    'assigment_contracts' => 'Tipo de Contratación',
+                    'assignment_contracts' => 'Tipo de Contratación',
 
                     'total' => 'Total de Creadores Internos: ',
                 ],
@@ -965,7 +965,7 @@ return [
                         'document' => 'Documento de Identidad',
                         'phone' => 'Celular',
                         'linkage_type' => 'Vinculación',
-                        'assigment_contract' => 'Contratación',
+                        'assignment_contract' => 'Contratación',
                         'created_at' => 'Fecha de Creación',
                         'updated_at' => 'Fecha de Actualización'
                     ],
@@ -1023,7 +1023,7 @@ return [
                     'document' => 'Buscar por Documento',
 
                     'external_organizations' => 'Organizaciones Externas',
-                    'assigment_contracts' => 'Tipo de Contratación',
+                    'assignment_contracts' => 'Tipo de Contratación',
 
                     'total' => 'Total de Creadores Externos: ',
                 ],
@@ -1034,7 +1034,7 @@ return [
                         'document' => 'Documento de Identidad',
                         'phone' => 'Celular',
                         'external_organization' => 'Organization Externa',
-                        'assigment_contract' => 'Contratación',
+                        'assignment_contract' => 'Contratación',
                         'created_at' => 'Fecha de Creación',
                         'updated_at' => 'Fecha de Actualización'
                     ],
@@ -1654,9 +1654,9 @@ return [
             ],
 
             'form-titles' => [
-                'show' => 'Perfil de Visualización de la Financiación de Proyectos',
-                'create' => 'Formulario de Registro de una Financiación de Proyectos',
-                'edit' => 'Actualización de la Financiación de Proyectos',
+                'show' => 'Perfil de Visualización de la Infomración de un Tipo de Financiación de Proyectos',
+                'create' => 'Formulario de Registro de un Tipo de Financiación de Proyectos',
+                'edit' => 'Actualización de la Información de un Tipo de Financiación de Proyectos',
             ],
 
             'filters' => [

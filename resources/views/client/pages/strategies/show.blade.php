@@ -22,25 +22,21 @@
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 @endsection
 
 @section('content')
     <div class="container-fluid">
+        <h3 class="font-weight-bold">
+            <u>{{ __('pages.default.title-information') }}</u>
+        </h3>
+        <p>{!! __('pages.client.strategies.info.show', ['strategy' => $item->name]) !!}</p>
         <div class="card">
-            <div class="card-body">
-                <h3 class="font-weight-bold">
-                    <u>{{ __('pages.default.title-information') }}</u>
-                </h3>
-                <p>{!! __('pages.client.strategies.info.show', ['strategy' => $item->name]) !!}</p>
+            <div class="card-header bg-danger">
+                <h5 class="font-weight-bold">{{ __('pages.client.strategies.form-titles.show') }}</h5>
             </div>
-        </div>
-        <div class="card">
             <div class="card-body">
-                <h3 class="font-weight-bold">
-                    <u>{{ __('pages.client.strategies.form-titles.show') }}</u>
-                </h3>
                 <!-- Name -->
                 <div class="form-group mt-3">
                     <label>{{ __('inputs.name') }}:</label>
@@ -74,7 +70,7 @@
                 <!-- Edit Button -->
                 <div class="form-group mt-3">
                     <a href="{{ getClientRoute('client.strategies.edit', [$item->id]) }}"
-                        class="btn btn-warning btn-sm">{{ __('buttons.update_to') }}</a>
+                        class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
                 </div>
                 <!-- Edit Button -->
 

@@ -1,16 +1,13 @@
 <div class="table-responsive">
-    <table class="table table-sm table-hover table-bordered">
+    <table class="table table-sm table-striped table-hover table-bordered">
         <thead>
             <tr>
-                <th class="text-center">No.</th>
                 <th>{{ __('pages.client.creators.internal.table.head.name') }}</th>
                 <th>{{ __('pages.client.creators.internal.table.head.phone') }}</th>
                 <th>{{ __('pages.client.creators.internal.table.head.document') }}</th>
                 <th>{{ __('pages.client.creators.internal.table.head.linkage_type') }}</th>
                 <th>{{ __('pages.client.creators.internal.table.head.assignment_contract') }}</th>
-                <th>{{ __('pages.client.creators.internal.table.head.created_at') }}</th>
-                <th>{{ __('pages.client.creators.internal.table.head.updated_at') }}</th>
-                <th class="text-right">#</th>
+                <th class="text-right" style="width: 5em">#</th>
             </tr>
         </thead>
         <tbody>

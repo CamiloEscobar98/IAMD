@@ -1,7 +1,7 @@
 <div data-client="{{ $client->name }}" id="client_id"></div>
 
 <!-- Administrative Unit -->
-<div class="form-group mt-3">
+<div class="form-group">
     <label>Facultad:</label>
     <div class="input-group">
         <select name="administrative_unit_id" id="administrative_unit_id" class="form-control select2bs4"

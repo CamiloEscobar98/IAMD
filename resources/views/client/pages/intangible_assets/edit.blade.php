@@ -31,48 +31,37 @@
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="font-italic font-weight-bold">
-                            <u>{{ __('pages.default.title-information') }}</u>
-                        </h3>
-                        <p>{!! __('pages.client.intangible_assets.info.edit', ['intangible_asset' => $item->name]) !!}</p>
-                    </div>
-                </div>
+
+        <h3 class="font-italic font-weight-bold">
+            <u>{{ __('pages.default.title-information') }}</u>
+        </h3>
+        <p>{!! __('pages.client.intangible_assets.info.edit', ['intangible_asset' => $item->name]) !!}</p>
+
+        <div class="card">
+            <div class="card-header bg-danger">
+                <h5 class="font-weight-bold">{{ __('pages.client.intangible_assets.form-titles.edit') }}</h5>
             </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.client.intangible_assets.form-titles.edit') }}</u>
-                        </h3>
+            <div class="card-body">
+                <form action="{{ getClientRoute('client.intangible_assets.update', [$item->id]) }}" method="post"
+                    data-client="{{ $client->name }}" id="form">
+                    @csrf
+                    @method('PUT')
 
-                        <form action="{{ getClientRoute('client.intangible_assets.update', [$item->id]) }}" method="post"
-                            data-client="{{ $client->name }}" id="form">
-                            @csrf
-                            @method('PUT')
+                    @include('client.pages.intangible_assets.components.form')
 
-                            @include('client.pages.intangible_assets.components.form')
-
-                            <!-- Button Save -->
-                            <div class="form-group mt-3">
-                                <button class="btn btn-danger btn-sm">{{ __('buttons.update') }}</button>
-                            </div>
-                            <!-- ./Button Save -->
-
-                        </form>
+                    <!-- Button Save -->
+                    <div class="form-group mt-3">
+                        <button class="btn btn-danger btn-sm">{{ __('buttons.update') }}</button>
                     </div>
-                </div>
+                    <!-- ./Button Save -->
+
+                </form>
             </div>
         </div>
     </div>

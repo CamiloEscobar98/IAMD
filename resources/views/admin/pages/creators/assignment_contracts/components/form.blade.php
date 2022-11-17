@@ -1,6 +1,6 @@
 <!-- Is Internal or External -->
 <div class="form-group mt-3">
-    <label>{{ __('pages.admin.creators.assigment_contracts.form.is_internal') }}:</label>
+    <label>{{ __('pages.admin.creators.assignment_contracts.form.is_internal') }}:</label>
     <div class="input-group">
         <select class="form-control" name="is_internal">
             @foreach ($types as $type => $value)

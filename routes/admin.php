@@ -89,7 +89,7 @@ Route::name('creators.')->prefix('creadores')->group(function () {
         Route::put('{external_organization}', [ExternalOrganizationController::class, 'update'])->name('update');
         Route::delete('{external_organization}', [ExternalOrganizationController::class, 'destroy'])->name('destroy');
     });
-    Route::name('assigment_contracts.')->prefix('tipos-de-contratos')->group(function () {
+    Route::name('assignment_contracts.')->prefix('tipos-de-contratos')->group(function () {
         Route::get('/', [AssignmentContractController::class, 'index'])->name('index');
         Route::post('/', [AssignmentContractController::class, 'store'])->name('store');
         Route::get('registrar', [AssignmentContractController::class, 'create'])->name('create');

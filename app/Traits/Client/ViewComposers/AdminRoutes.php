@@ -49,6 +49,6 @@ trait AdminRoutes
         View::composer('admin.pages.intellectual_property_rights.products.components.filters', IntellectualPropertyRightProductFilterComposer::class);
         View::composer('admin.pages.intellectual_property_rights.products.components.form', IntellectualPropertyRightProductFormComposer::class);
 
-        View::composer('admin.pages.creators.assigment_contracts.components.form', FormAssignmentContractComposer::class);
+        View::composer('admin.pages.creators.assignment_contracts.components.form', FormAssignmentContractComposer::class);
     }
 }

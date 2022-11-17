@@ -23,26 +23,22 @@
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="font-weight-bold">
-                    <u>{{ __('pages.default.title-information') }}</u>
-                </h3>
-                <p>{!! __('pages.client.project_contract_types.info.edit', ['project_contract_type' => $item->name]) !!}</p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <h3 class="text-center font-weight-bold">
-                    <u>{{ __('pages.client.project_contract_types.form-titles.edit') }}</u>
-                </h3>
 
+        <h3 class="font-weight-bold">
+            <u>{{ __('pages.default.title-information') }}</u>
+        </h3>
+        <p>{!! __('pages.client.project_contract_types.info.edit', ['project_contract_type' => $item->name]) !!}</p>
+        <div class="card">
+            <div class="card-header bg-danger">
+                <h5 class="font-weight-bold">{{ __('pages.client.project_contract_types.form-titles.edit') }}</h5>
+            </div>
+            <div class="card-body">
                 <form action="{{ getClientRoute('client.project_contract_types.update', [$item->id]) }}" method="post">
                     @csrf
                     @method('PUT')

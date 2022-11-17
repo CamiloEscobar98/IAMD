@@ -24,30 +24,27 @@
                             <a href="{{ route('client.projects.index', $client->name) }}">
                                 {{ __('pages.client.projects.title') }} </a>
                         </li>
-                        <li class="breadcrumb-item">{{ $item->name }}</li>
+                        <li class="breadcrumb-item"><a href="{{ getClientRoute('client.projects.show', [$item->id]) }}">{{ $item->name }}</a></li>
                         <li class="breadcrumb-item">{{ __('pages.default.edit') }}</li>
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 @endsection
 
 @section('content')
     <div class="container-fluid">
+
+        <h3 class="font-weight-bold">
+            <u>{{ __('pages.default.title-information') }}</u>
+        </h3>
+        <p>{!! __('pages.client.projects.info.show', ['project' => $item->name]) !!}</p>
         <div class="card">
-            <div class="card-body">
-                <h3 class="font-weight-bold">
-                    <u>{{ __('pages.default.title-information') }}</u>
-                </h3>
-                <p>{!! __('pages.client.projects.info.show', ['project' => $item->name]) !!}</p>
+            <div class="card-header bg-danger">
+                <h5 class="font-weight-bold">{{ __('pages.client.projects.form-titles.edit') }}</h5>
             </div>
-        </div>
-        <div class="card">
             <div class="card-body">
-                <h3 class="font-weight-bold">
-                    <u>{{ __('pages.client.projects.form-titles.edit') }}</u>
-                </h3>
                 <form action="{{ getClientRoute('client.projects.update', [$item->id]) }}" method="post">
                     @csrf
                     @method('PUT')

@@ -1,8 +1,11 @@
 <tr>
-    <td class="text-center">{{ $loop->iteration }}.</td>
-    <td>{{ getParamObject($item->project->research_unit->administrative_unit, 'name') }}</td>
-    <td>{{ getParamObject($item->project->research_unit, 'name') }}</td>
-    <td>{{ getParamObject($item->project, 'name') }}</td>
+    <td><a href="{{ getClientRoute('client.administrative_units.show', [$item->project->research_unit->administrative_unit->id]) }}"
+            class="btn btn-sm btn-outline-secondary">{{ getParamObject($item->project->research_unit->administrative_unit, 'name') }}</a>
+    </td>
+    <td><a href="{{ getClientRoute('client.research_units.show', [$item->project->research_unit->id]) }}"
+            class="btn btn-sm btn-outline-secondary">{{ getParamObject($item->project->research_unit, 'name') }}</a></td>
+    <td><a href="{{ getClientRoute('client.projects.show', [$item->project->id]) }}"
+            class="btn btn-sm btn-outline-secondary">{{ getParamObject($item->project, 'name') }}</a></td>
     <td>{{ $item->name }}</td>
     <td>
         <div class="progress">
@@ -13,22 +16,25 @@
         </div>
     </td>
     <td>{{ transformDatetoString($item->date) }}</td>
-    <td>
-        <div class="row justify-content-center">
-            <a href="{{ route('client.intangible_assets.show', [$client->name, $item->id]) }}"
-                class="btn btn-sm btn-secondary">
-                <i class="fas fa-sm fa-eye"></i>
-            </a>
-            <form action="{{ route('client.intangible_assets.destroy', [$client->name, $item->id]) }}"
-                id="form-delete-{{ $item->id }}" method="post">
-                @csrf
-                @method('DELETE')
+    <td class="text-right">
+        <div class="btn-group">
+            <button type="button" class="dropdown-toggle btn btn-sm btn-danger btn-block" data-toggle="dropdown">
+                <span class="fas fa-cog"></span>
+            </button>
+            <div class="dropdown-menu">
+                <a href="{{ getClientRoute('client.intangible_assets.show', [$item->id]) }}" class="dropdown-item">
+                    <i class="fas fa-sm fa-eye"></i> Ver
+                </a>
+                <form action="{{ getClientRoute('client.intangible_assets.destroy', [$item->id]) }}"
+                    id="form-delete-{{ $item->id }}" method="post">
+                    @csrf
+                    @method('DELETE')
 
-                <button type="submit" class="btn btn-sm btn-danger" onclick="destroy(event, {{ $item->id }})">
-                    <i class="fas fa-sm fa-trash"></i>
-                </button>
-            </form>
-
+                    <button type="submit" class="dropdown-item" onclick="destroy(event, {{ $item->id }})">
+                        <i class="fas fa-sm fa-trash"></i> Borrar
+                    </button>
+                </form>
+            </div>
         </div>
     </td>
 </tr>

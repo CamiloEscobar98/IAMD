@@ -31,7 +31,7 @@ class Project extends BaseModel
      *
      * @var int
      */
-    protected $perPage = 50;
+    protected $perPage = 15;
 
     /**
      * The attributes that are mass assignable.

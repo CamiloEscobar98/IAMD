@@ -24,36 +24,32 @@
                             <a href="{{ route('client.research_units.index', $client->name) }}">
                                 {{ __('pages.client.research_units.title') }} </a>
                         </li>
-                        <li class="breadcrumb-item">{{ $item->name }}</li>
+                        <li class="breadcrumb-item"><a
+                                href="{{ getClientRoute('client.research_units.show', [$item->id]) }}">{{ $item->name }}</a>
+                        </li>
                         <li class="breadcrumb-item">{{ __('pages.default.edit') }}</li>
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="font-italic font-weight-bold">
-                            <u>{{ __('pages.default.title-information') }}</u>
-                        </h3>
-                        <p>{!! __('pages.client.research_units.info.show', ['research_unit' => $item->name]) !!}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+        <h3 class="font-weight-bold">
+            <u>{{ __('pages.default.title-information') }}</u>
+        </h3>
+        <p>{!! __('pages.client.research_units.info.show', ['research_unit' => $item->name]) !!}</p>
+
         <div class="row justify-content-start">
             <div class="col-lg-12">
                 <div class="card">
+                    <div class="card-header bg-danger">
+                        <h5 class="font-weight-bold">{{ __('pages.client.research_units.form-titles.edit') }}</h5>
+                    </div>
                     <div class="card-body">
-                        <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.client.research_units.form-titles.edit') }}</u>
-                        </h3>
                         <form action="{{ getClientRoute('client.research_units.update', [$item->id]) }}" method="post">
                             @csrf
                             @method('PUT')

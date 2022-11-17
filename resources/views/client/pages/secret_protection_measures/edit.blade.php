@@ -15,35 +15,34 @@
                                 href="{{ route('client.home', $client->name) }}">{{ __('pages.default.home') }}</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('client.secret_protection_measures.index', $client->name) }}">
+                            <a href="{{ getClientRoute('client.secret_protection_measures.index') }}">
                                 {{ __('pages.client.secret_protection_measures.title') }} </a>
                         </li>
-                        <li class="breadcrumb-item">{{ $item->name }}</li>
+                        <li class="breadcrumb-item"><a
+                                href="{{ getClientRoute('client.secret_protection_measures.show', [$item->id]) }}">{{ $item->name }}</a>
+                        </li>
                         <li class="breadcrumb-item active">{{ __('pages.default.edit') }}</li>
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="font-weight-bold">
-                    <u>{{ __('pages.default.title-information') }}</u>
-                </h3>
-                <p>{!! __('pages.client.secret_protection_measures.info.edit', ['strategy' => $item->name]) !!}</p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <h3 class="font-weight-bold">
-                    <u>{{ __('pages.client.secret_protection_measures.form-titles.edit') }}</u>
-                </h3>
 
-                <form action="{{ getClientRoute('client.secret_protection_measures.update', [$item->id]) }}" method="post">
+        <h3 class="font-weight-bold">
+            <u>{{ __('pages.default.title-information') }}</u>
+        </h3>
+        <p>{!! __('pages.client.secret_protection_measures.info.edit', ['strategy' => $item->name]) !!}</p>
+        <div class="card">
+            <div class="card-header bg-danger">
+                <h5 class="font-weight-bold">{{ __('pages.client.secret_protection_measures.form-titles.edit') }}</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ getClientRoute('client.secret_protection_measures.update', [$item->id]) }}"
+                    method="post">
                     @csrf
                     @method('PUT')
 

@@ -56,7 +56,7 @@
 
 <!-- Assignment Contracts -->
 <li class="nav-item">
-    <a href="{{ route('admin.creators.assigment_contracts.index') }}"
+    <a href="{{ route('admin.creators.assignment_contracts.index') }}"
         class="nav-link {{ routeIsActived('tipos-de-contratos') }}">
         <i class="fas fa-user-tie nav-icon"></i>
         <p>{{ __('menu.admin.AssignmentContracts') }}</p>

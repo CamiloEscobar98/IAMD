@@ -32,21 +32,18 @@
 
 @section('content')
     <div class="container-fluid">
+
+        <h3 class="font-weight-bold">
+            <u>{{ __('pages.default.title-information') }}</u>
+        </h3>
+        <p>{!! __('pages.client.administrative_units.info.create') !!}</p>
+        
         <div class="card">
-            <div class="card-body">
-                <h3 class="font-weight-bold">
-                    <u>{{ __('pages.default.title-information') }}</u>
-                </h3>
-                <p>{!! __('pages.client.administrative_units.info.create') !!}</p>
+            <div class="card-header bg-danger">
+                <h5 class="font-weight-bold">{{ __('pages.client.administrative_units.form-titles.edit') }}</h5>
             </div>
-        </div>
-        <div class="card">
             <div class="card-body">
-                <h3 class="font-weight-bold">
-                    <u>{{ __('pages.client.administrative_units.form-titles.edit') }}</u>
-                </h3>
-                <form action="{{ getClientRoute('client.administrative_units.update', [$item->id]) }}"
-                    method="post">
+                <form action="{{ getClientRoute('client.administrative_units.update', [$item->id]) }}" method="post">
                     @csrf
                     @method('PUT')
 

@@ -7,11 +7,11 @@
                 <span class="fas fa-cog"></span>
             </button>
             <div class="dropdown-menu">
-                <a href="{{ route('admin.creators.assigment_contracts.show', $item->id) }}"
+                <a href="{{ route('admin.creators.assignment_contracts.show', $item->id) }}"
                     class="dropdown-item">
                     <i class="fas fa-sm fa-eye"></i> Ver
                 </a>
-                <form action="{{ route('admin.creators.assigment_contracts.destroy', $item->id) }}"
+                <form action="{{ route('admin.creators.assignment_contracts.destroy', $item->id) }}"
                     id="form-delete-{{ $item->id }}" method="post">
                     @csrf
                     @method('DELETE')

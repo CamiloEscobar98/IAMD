@@ -27,30 +27,27 @@
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 @endsection
 
 @section('content')
     <div class="container-fluid">
+
+        <h3 class="font-weight-bold">
+            <u>{{ __('pages.default.title-information') }}</u>
+        </h3>
+        <p>{!! __('pages.client.projects.info.create') !!}</p>
         <div class="card">
-            <div class="card-body">
-                <h3 class="font-weight-bold">
-                    <u>{{ __('pages.default.title-information') }}</u>
-                </h3>
-                <p>{!! __('pages.client.projects.info.create') !!}</p>
+            <div class="card-header bg-danger">
+                <h5 class="font-weight-bold">{{ __('pages.client.projects.form-titles.create') }}</h5>
             </div>
-        </div>
-        <div class="card">
             <div class="card-body">
-                <h3 class="font-weight-bold">
-                    <u>{{ __('pages.client.projects.form-titles.create') }}</u>
-                </h3>
                 <form action="{{ route('client.projects.store', $client->name) }}" method="post">
                     @csrf
-                    
+
                     @include('client.pages.projects.components.form')
-                    
+
                     <div class="form-group mt-4">
                         <button class="btn btn-danger btn-sm">{{ __('buttons.save') }}</button>
                     </div>

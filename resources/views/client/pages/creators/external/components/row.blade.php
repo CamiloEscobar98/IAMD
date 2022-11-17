@@ -1,5 +1,4 @@
 <tr>
-    <td class="text-center">{{ $loop->iteration }}.</td>
     <td>{{ $item->name }}</td>
     <td>{{ $item->phone }}</td>
     <td>{!! __('pages.client.creators.external.table.body.document', [
@@ -9,24 +8,26 @@
     ]) !!}</td>
     <td> {{ $item->external_organization->name }} </td>
     <td> {{ $item->assignment_contract->name }} </td>
-    <td>{{ transformTimestampToString($item->created_at) }}</td>
-    <td>{{ transformTimestampToString($item->updated_at) }}</td>
-    <td>
-        <div class="row justify-content-center">
-            <a href="{{ route('client.creators.external.show', [$client->name, $item->id]) }}"
-                class="btn btn-sm btn-secondary">
-                <i class="fas fa-sm fa-eye"></i>
-            </a>
-            <form action="{{ route('client.creators.external.destroy', [$client->name, $item->creator_id]) }}"
-                id="form-delete-{{ $item->creator_id }}" method="post">
-                @csrf
-                @method('DELETE')
+    <td class="text-right">
+        <div class="btn-group">
+            <button type="button" class="dropdown-toggle btn btn-sm btn-danger btn-block" data-toggle="dropdown">
+                <span class="fas fa-cog"></span>
+            </button>
+            <div class="dropdown-menu">
+                <a href="{{ getClientRoute('client.creators.external.show', [$item->creator_id]) }}"
+                    class="dropdown-item">
+                    <i class="fas fa-sm fa-eye"></i> Ver
+                </a>
+                <form action="{{ getClientRoute('client.creators.external.destroy', [$item->creator_id]) }}"
+                    id="form-delete-{{ $item->creator_id }}" method="post">
+                    @csrf
+                    @method('DELETE')
 
-                <button type="submit" class="btn btn-sm btn-danger" onclick='destroy(event, "{{ $item->creator_id }}")'>
-                    <i class="fas fa-sm fa-trash"></i>
-                </button>
-            </form>
-
+                    <button type="submit" class="dropdown-item" onclick="destroy(event, {{ $item->id }})">
+                        <i class="fas fa-sm fa-trash"></i> Borrar
+                    </button>
+                </form>
+            </div>
         </div>
     </td>
 </tr>

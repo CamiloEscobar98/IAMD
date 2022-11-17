@@ -1,5 +1,5 @@
   <!-- Name -->
-  <div class="form-group mt-3">
+  <div class="form-group">
       <label>{{ __('inputs.name') }}:</label>
       <div class="input-group">
           <input type="text" name="name" class="form-control {{ isInvalidByError($errors, 'name') }}"

@@ -30,7 +30,7 @@ class AssignmentContract extends BaseModel
     public function getIsInternalNameAttribute()
     {
         return $this->getAttribute('is_internal') ?
-            __('pages.admin.creators.assigment_contracts.options.internal') :
-            __('pages.admin.creators.assigment_contracts.options.external');
+            __('pages.admin.creators.assignment_contracts.options.internal') :
+            __('pages.admin.creators.assignment_contracts.options.external');
     }
 }

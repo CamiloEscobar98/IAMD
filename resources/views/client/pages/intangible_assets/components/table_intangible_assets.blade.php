@@ -1,4 +1,6 @@
-<h4 class="mb-4 font-weight-bold">{{ __('pages.client.projects.intangible_assets.title') }}</h4>
+<div class="pl-3 py-2 bg-danger text-white">
+    <h5 class="font-weight-bold">{{ __('pages.client.projects.intangible_assets.title') }}</h5>
+</div>
 
 <div class="table-responsive">
     <table class="table table-sm  table-hover table-bordered">

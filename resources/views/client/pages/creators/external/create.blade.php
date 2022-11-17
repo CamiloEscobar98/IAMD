@@ -27,34 +27,24 @@
                     </ol>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="font-italic font-weight-bold">
-                            <u>{{ __('pages.default.title-information') }}</u>
-                        </h3>
-                        <div class="row justify-content-center">
-                            <p>{!! __('pages.client.creators.external.info.create') !!}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="text-center font-weight-bold">
-                            <u>{{ __('pages.client.creators.external.form-titles.create') }}</u>
-                        </h3>
 
+        <h3 class="font-italic font-weight-bold">
+            <u>{{ __('pages.default.title-information') }}</u>
+        </h3>
+        <p>{!! __('pages.client.creators.external.info.create') !!}</p>
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header bg-danger">
+                        <h5 class="font-weight-bold">{{ __('pages.client.creators.external.form-titles.create') }}</h5>
+                    </div>
+                    <div class="card-body">
                         <form action="{{ route('client.creators.external.store', $client->name) }}" method="post">
                             @csrf
 
