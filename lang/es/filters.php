@@ -41,4 +41,6 @@ return [
 
     'directors' => 'Directores:',
     'inventory_managers' => 'Administrador de Inventario:',
+
+    'permission_modules' => 'Módulos de los Permisos',
 ];

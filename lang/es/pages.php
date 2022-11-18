@@ -1523,6 +1523,7 @@ return [
 
             'filters' => [
                 'name' => 'Buscar Permiso del Sistema por su nombre',
+                'permission_modules' => '---Seleccionar Módulo de Permiso',
                 'total' => 'Total de Permisos: ',
             ],
 

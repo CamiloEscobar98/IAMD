@@ -33,6 +33,10 @@ class PermissionRepository  extends AbstractRepository
             $query->sinceDate($params['date_from']);
         }
 
+        if (isset($params['permission_module_id']) && $params['permission_module_id']) {
+            $query->byPermissionModule($params['permission_module_id']);
+        }
+
         if (isset($params['date_to']) && $params['date_to']) {
             $query->toDate($params['date_to']);
         }

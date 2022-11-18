@@ -63,6 +63,22 @@ class Permission extends BaseModel implements PermissionContract
     }
 
     /**
+     * Scope a query to only include Permission Module
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param array|int $permissionModuleId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByPermissionModule($query, $permissionModuleId)
+    {
+       
+        if (is_array($permissionModuleId) && !empty($permissionModuleId)) {
+            return $query->whereIn('permission_module_id', $permissionModuleId);
+        }
+        return $query->where('permission_module_id', $permissionModuleId);
+    }
+
+    /**
      * A permission can be applied to roles.
      */
     public function roles(): BelongsToMany

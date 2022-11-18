@@ -24,6 +24,7 @@ use App\Http\ViewComposers\Client\IntangibleAssets\CreateIntangibleAssetComposer
 use App\Http\ViewComposers\Client\IntangibleAssets\ShowIntangibleAssetComposer;
 use App\Http\ViewComposers\Client\IntangibleAssets\StrategyIntangibleAssetComposer;
 use App\Http\ViewComposers\Client\Permissions\CreatePermissionComposer;
+use App\Http\ViewComposers\Client\Permissions\FilterPermissionComposer;
 use App\Http\ViewComposers\Client\Reports\Custom\CustomReportFilterComposer;
 
 trait ClientRoutes
@@ -90,6 +91,7 @@ trait ClientRoutes
         View::composer('client.pages.intangible_assets.strategies', StrategyIntangibleAssetComposer::class);
 
         /** Permissions */
+        View::composer('client.pages.permissions.components.filters', FilterPermissionComposer::class);
         View::composer('client.pages.permissions.components.form', CreatePermissionComposer::class);
 
         /** Custom Reports */

@@ -47,8 +47,10 @@
 
     <script>
         //Initialize Select2 Elements
-        $('.select2bs4').select2({
-            theme: 'bootstrap4'
+        $('.permission_modules').select2({
+            theme: 'bootstrap4',
+            placeholder: "{{ __('pages.client.permissions.filters.permission_modules') }}",
+            allowClear: true
         })
     </script>
 @endsection
