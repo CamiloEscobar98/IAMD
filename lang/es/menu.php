@@ -77,6 +77,8 @@ return [
 
         /** Level 1 */
         'roles' => 'Roles',
+        
+        'permissions' => 'Permisos',
 
         /** Second Title */
         'first_subtitle' => 'CONFIGURACIÓN',

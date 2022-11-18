@@ -179,6 +179,8 @@ return [
         'country_id' => 'país',
         'state_id' => 'departamento',
 
+        'permission_module_id' => 'categoria del permiso',
+
         'administrative_unit_id' => 'facultad',
         'project_id' => 'proyecto',
         'research_unit_category_id' => 'unidad de investigación',

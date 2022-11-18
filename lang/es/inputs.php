@@ -74,5 +74,7 @@ return [
     'project_contract_type_id' => 'Tipo de Contrato del Proyecto',
     'contract_date' => 'Fecha de Contrato',
 
+    'permission_module_id' => 'Módulo de Permiso'
+
 
 ];

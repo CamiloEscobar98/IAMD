@@ -23,6 +23,7 @@ use App\Http\ViewComposers\Client\IntangibleAssets\IntangibleAssetFilterComposer
 use App\Http\ViewComposers\Client\IntangibleAssets\CreateIntangibleAssetComposer;
 use App\Http\ViewComposers\Client\IntangibleAssets\ShowIntangibleAssetComposer;
 use App\Http\ViewComposers\Client\IntangibleAssets\StrategyIntangibleAssetComposer;
+use App\Http\ViewComposers\Client\Permissions\CreatePermissionComposer;
 use App\Http\ViewComposers\Client\Reports\Custom\CustomReportFilterComposer;
 
 trait ClientRoutes
@@ -45,7 +46,8 @@ trait ClientRoutes
             $this->getCreatorRoutes(),
             $this->getIntangibleAssetRoutes(),
             $this->getUserRoutes(),
-            $this->getClientRoutes(),
+            $this->getRoleRoutes(),
+            $this->getPermissionRoutes(),
             $this->getPriorityToolRoutes(),
             $this->getStrategiesRoute(),
             $this->getStrategyCategoriesRoute(),
@@ -86,6 +88,9 @@ trait ClientRoutes
         View::composer('client.pages.intangible_assets.components.form', CreateIntangibleAssetComposer::class);
         View::composer('client.pages.intangible_assets.components.phases', ShowIntangibleAssetComposer::class);
         View::composer('client.pages.intangible_assets.strategies', StrategyIntangibleAssetComposer::class);
+
+        /** Permissions */
+        View::composer('client.pages.permissions.components.form', CreatePermissionComposer::class);
 
         /** Custom Reports */
         View::composer('client.pages.reports.custom.index', CustomReportFilterComposer::class);
@@ -224,11 +229,11 @@ trait ClientRoutes
     }
 
     /**
-     * get Users Routes
+     * get Roles Routes
      * 
      * @return array
      */
-    protected function getClientRoutes(): array
+    protected function getRoleRoutes(): array
     {
         return [
             'client.pages.roles.index',
@@ -238,6 +243,25 @@ trait ClientRoutes
 
             'client.pages.roles.components.filters',
             'client.pages.roles.components.table',
+        ];
+    }
+
+
+    /**
+     * get Roles Routes
+     * 
+     * @return array
+     */
+    protected function getPermissionRoutes(): array
+    {
+        return [
+            'client.pages.permissions.index',
+            'client.pages.permissions.create',
+            'client.pages.permissions.show',
+            'client.pages.permissions.edit',
+
+            'client.pages.permissions.components.filters',
+            'client.pages.permissions.components.table',
         ];
     }
 

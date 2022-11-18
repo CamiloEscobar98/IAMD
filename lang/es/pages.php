@@ -1505,6 +1505,62 @@ return [
             ],
         ],
 
+        'permissions' => [
+            'title' => 'Permisos del Sistema',
+            'subtitle' => 'Permisos',
+
+            'route-titles' => [
+                'create' => 'Registrar Permiso del Sistema',
+                'show' => 'Visualizar Permiso del Sistema',
+                'edit' => 'Editar Permiso del Sistema',
+            ],
+
+            'form-titles' => [
+                'show' => 'Perfil de Visualización del Permiso del Sistema',
+                'create' => 'Formulario de Registro de un Permiso del Sistema',
+                'edit' => 'Actualización del Permiso del Sistema',
+            ],
+
+            'filters' => [
+                'name' => 'Buscar Permiso del Sistema por su nombre',
+                'total' => 'Total de Permisos: ',
+            ],
+
+            'table' => [
+                'head' => [
+                    'permission_module' => 'Módulo',
+                    'name' => 'Nombre',
+                    'users' => 'Usuarios Asociados',
+                    'created_at' => 'Fecha de Creación',
+                    'updated_at' => 'Fecha de Actualización'
+                ],
+            ],
+
+            'messages' => [
+                'confirm' => '¿Estás seguro de que quieres eliminar el Permiso del Sistema?',
+
+                'save_success' => 'Se ha registrado correctamente el Permiso del Sistema: <b>:permission</b>',
+                'save_error' => 'No se ha registrado el Permiso del Sistema.',
+
+                'update_success' => 'Se ha actualizado correctamente el Permiso del Sistema: <b>:permission</b>',
+                'update_error' => 'No se ha actualizado el Permiso del Sistema.',
+
+                'delete_success' => 'Se ha eliminado el Permiso del Sistema: <b>:permission</b>',
+                'delete_error' => 'No se ha eliminado el Permiso del Sistema.',
+            ],
+
+            'info' => [
+                'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>ROLES DEL SISTEMA</b>. 
+                Dicho recurso actualmente está destinado para enriquecer la información de los usuarios dentro de la aplicación.",
+
+                'show' => "En esta sección de la aplicación podrás visualizar toda la información del Permiso del Sistema <b>:permission</b> ",
+
+                'edit' => "En esta sección de la aplicación podrás actualizar toda la información del rescurso Permisos del Sistema. La información del recurso será: <b>:user</b>",
+
+                'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Permisos del Sistema registrados.'
+            ],
+        ],
+
         'priority_tools' => [
             'title' => 'Herramientas de Priorización',
             'subtitle' => 'Herramientas de Priorización',

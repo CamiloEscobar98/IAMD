@@ -2,15 +2,14 @@
     <table class="table table-sm table-striped table-hover table-bordered">
         <thead>
             <tr>
-                <th>{{ __('pages.client.roles.table.head.name') }}</th>
-                <th>{{ __('pages.client.roles.table.head.permissions') }}</th>
-                <th>{{ __('pages.client.roles.table.head.users') }}</th>
+                <th>{{ __('pages.client.permissions.table.head.permission_module') }}</th>
+                <th>{{ __('pages.client.permissions.table.head.name') }}</th>
                 <th class="text-right">#</th>
             </tr>
         </thead>
         <tbody>
             @forelse ($items as $item)
-                @include('client.pages.roles.components.row')
+                @include('client.pages.permissions.components.row')
             @empty
                 <td colspan="12">{{ __('pages.default.empty_table') }}</td>
             @endforelse

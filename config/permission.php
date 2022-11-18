@@ -173,35 +173,35 @@ return [
          */
         'permission_modules' => [
             [
-                'name' => 'Subdirecciones Técnicas',
+                'name' => 'Facultades',
                 'permissions' => [
                     [
                         'name' => 'administrative_units.create',
-                        'info' => 'Visualizar Formulario de Registro de Subdirecciones Técnicas',
+                        'info' => 'Visualizar Formulario de Registro de Facultades',
                     ],
                     [
                         'name' => 'administrative_units.index',
-                        'info' => 'Visualizar Listado de Subdirecciones Técnicas',
+                        'info' => 'Visualizar Listado de Facultades',
                     ],
                     [
                         'name' => 'administrative_units.store',
-                        'info' => 'Registro de Subdirecciones Técnicas',
+                        'info' => 'Registro de Facultades',
                     ],
                     [
                         'name' => 'administrative_units.show',
-                        'info' => 'Visualizar Formulario de Visualización de Subdirecciones Técnicas',
+                        'info' => 'Visualizar Formulario de Visualización de Facultades',
                     ],
                     [
                         'name' => 'administrative_units.edit',
-                        'info' => 'Visualizar Formulario de Edición de Subdirecciones Técnicas',
+                        'info' => 'Visualizar Formulario de Edición de Facultades',
                     ],
                     [
                         'name' => 'administrative_units.update',
-                        'info' => 'Actualización de Subdirecciones Técnicas',
+                        'info' => 'Actualización de Facultades',
                     ],
                     [
                         'name' => 'administrative_units.destroy',
-                        'info' => 'Eliminación de Subdirecciones Técnicas',
+                        'info' => 'Eliminación de Facultades',
                     ],
                 ]
             ],

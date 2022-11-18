@@ -5,15 +5,16 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Client\Auth\LoginController;
 
 use App\Http\Controllers\Client\HomeController;
+use App\Http\Controllers\Client\Auth\AuthController;
 
 use App\Http\Controllers\Client\AdministrativeUnitController;
-use App\Http\Controllers\Client\Auth\AuthController;
 use App\Http\Controllers\Client\ResearchUnitController;
 use App\Http\Controllers\Client\ProjectController;
 
 use App\Http\Controllers\Client\CreatorInternalController;
 use App\Http\Controllers\Client\CreatorExternalController;
 use App\Http\Controllers\Client\FinancingTypeController;
+
 use App\Http\Controllers\Client\IntangibleAssetController;
 use App\Http\Controllers\Client\IntangibleAssetFileController;
 use App\Http\Controllers\Client\IntangibleAssetPhaseController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\Client\IntangibleAssetStrategyController;
 
 use App\Http\Controllers\Client\UserController;
 use App\Http\Controllers\Client\RoleController;
+use App\Http\Controllers\Client\PermissionController;
 
 use App\Http\Controllers\Client\PriorityToolController;
 use App\Http\Controllers\Client\ProjectContractTypeController;
@@ -176,7 +178,7 @@ Route::name('users.')->prefix('usuarios')->group(function () {
     Route::delete('{user}', [UserController::class, 'destroy'])->name('destroy');
 });
 
-Route::name('roles.')->prefix('roles')->group(function () {
+Route::name('roles.')->prefix('roles-del-sistema')->group(function () {
     Route::get('/', [RoleController::class, 'index'])->name('index');
     Route::post('/', [RoleController::class, 'store'])->name('store');
     Route::get('registrar', [RoleController::class, 'create'])->name('create');
@@ -184,6 +186,16 @@ Route::name('roles.')->prefix('roles')->group(function () {
     Route::get('{role}/editar', [RoleController::class, 'edit'])->name('edit');
     Route::put('{role}', [RoleController::class, 'update'])->name('update');
     Route::delete('{role}', [RoleController::class, 'destroy'])->name('destroy');
+});
+
+Route::name('permissions.')->prefix('permisos-del-sistema')->group(function () {
+    Route::get('/', [PermissionController::class, 'index'])->name('index');
+    Route::post('/', [PermissionController::class, 'store'])->name('store');
+    Route::get('registrar', [PermissionController::class, 'create'])->name('create');
+    Route::get('{role}', [PermissionController::class, 'show'])->name('show');
+    Route::get('{role}/editar', [PermissionController::class, 'edit'])->name('edit');
+    Route::put('{role}', [PermissionController::class, 'update'])->name('update');
+    Route::delete('{role}', [PermissionController::class, 'destroy'])->name('destroy');
 });
 
 Route::name('priority_tools.')->prefix('herramientas-de-priorizacion')->group(function () {

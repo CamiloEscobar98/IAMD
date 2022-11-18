@@ -5,56 +5,55 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\Client\Permissions\StoreRequest;
+use App\Http\Requests\Client\Permissions\UpdateRequest;
 
-use App\Http\Requests\Client\Roles\StoreRequest;
-use App\Http\Requests\Client\Roles\UpdateRequest;
+use App\Services\Client\PermissionService;
 
-use App\Services\Client\RoleService;
-use App\Repositories\Client\RoleRepository;
+use App\Repositories\Client\PermissionRepository;
 
-class RoleController extends Controller
+class PermissionController extends Controller
 {
-    /** @var RoleRepository */
-    protected $roleRepository;
+    /** @var PermissionService */
+    protected $permissionService;
 
-    /** @var RoleService */
-    protected $roleService;
+    /** @var PermissionRepository */
+    protected $permissionRepository;
 
     public function __construct(
-        RoleService $roleService,
-        RoleRepository $roleRepository
+        PermissionService $permissionService,
+        PermissionRepository $permissionRepository
     ) {
-        $this->roleService = $roleService;
-
-        $this->roleRepository = $roleRepository;
+        $this->permissionService = $permissionService;
+        $this->permissionRepository = $permissionRepository;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return View|RedirectResponse
+     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request): View|RedirectResponse
+    public function index(Request $request)
     {
         try {
 
-            $params = $this->roleService->transformParams($request->all());
+            $params = $this->permissionService->transformParams($request->all());
 
-            $query = $this->roleRepository->search($params, [], ['users', 'permissions']);
+            $query = $this->permissionRepository->search($params, ['permission_module:id,name'], []);
 
             $total = $query->count();
 
-            $items = $this->roleService->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->permissionService->customPagination($query, $params, $request->get('page'), $total);
 
             $links = $items->links('pagination.customized');
 
-            return view('client.pages.roles.index')
-                ->nest('filters', 'client.pages.roles.components.filters', compact('params', 'total'))
-                ->nest('table', 'client.pages.roles.components.table', compact('items', 'links'));
+            return view('client.pages.permissions.index')
+                ->nest('filters', 'client.pages.permissions.components.filters', compact('params', 'total'))
+                ->nest('table', 'client.pages.permissions.components.table', compact('items', 'links'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
@@ -68,8 +67,8 @@ class RoleController extends Controller
     public function create()
     {
         try {
-            $item = $this->roleRepository->newInstance();
-            return view('client.pages.roles.create', compact('item'));
+            $item = $this->permissionRepository->newInstance();
+            return view('client.pages.permissions.create', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
@@ -78,7 +77,7 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  StoreRequest $request
+     * @param StoreRequest $request
      * 
      * @return RedirectResponse
      */
@@ -90,11 +89,11 @@ class RoleController extends Controller
 
             DB::beginTransaction();
 
-            $item = $this->roleRepository->create($data);
+            $item = $this->permissionRepository->create($data);
 
             DB::commit();
 
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.roles.messages.save_success', ['role' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.permissions.messages.save_success', ['permission' => $item->info])]);
         } catch (\Exception $th) {
             DB::rollBack();
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
@@ -112,9 +111,9 @@ class RoleController extends Controller
     public function show($id, $role)
     {
         try {
-            $item = $this->roleRepository->getById($role);
+            $item = $this->permissionRepository->getById($role);
 
-            return view('client.pages.roles.show', compact('item'));
+            return view('client.pages.permissions.show', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
@@ -131,9 +130,9 @@ class RoleController extends Controller
     public function edit($id, $role)
     {
         try {
-            $item = $this->roleRepository->getById($role);
+            $item = $this->permissionRepository->getById($role);
 
-            return view('client.pages.roles.edit', compact('item'));
+            return view('client.pages.permissions.edit', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
@@ -142,7 +141,7 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param    $request
+     * @param UpdateRequest  $request
      * @param  int  $id
      * @param int $role
      * @return View|RedirectResponse
@@ -155,13 +154,13 @@ class RoleController extends Controller
 
             DB::beginTransaction();
 
-            $item = $this->roleRepository->getById($role);
+            $item = $this->permissionRepository->getById($role);
 
-            $this->roleRepository->update($item, $data);
+            $this->permissionRepository->update($item, $data);
 
             DB::commit();
 
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.roles.messages.update_success', ['role' => $item->info])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.permissions.messages.update_success', ['permission' => $item->info])]);
         } catch (\Exception $th) {
             DB::rollBack();
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
@@ -179,15 +178,15 @@ class RoleController extends Controller
     public function destroy($id, $role): RedirectResponse
     {
         try {
-            $item = $this->roleRepository->getById($role);
+            $item = $this->permissionRepository->getById($role);
 
             DB::beginTransaction();
 
-            $this->roleRepository->delete($item);
+            $this->permissionRepository->delete($item);
 
             DB::commit();
 
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.roles.messages.delete_success', ['strategy' => $item->info])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.permissions.messages.delete_success', ['permission' => $item->info])]);
         } catch (\Exception $th) {
             DB::rollBack();
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);

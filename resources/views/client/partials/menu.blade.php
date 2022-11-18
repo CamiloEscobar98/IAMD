@@ -83,13 +83,24 @@
 <!-- Roles -->
 @can('roles.index')
     <li class="nav-item">
-        <a href="{{ route('client.roles.index', [$client->name]) }}" class="nav-link {{ routeIsActived('roles') }}">
+        <a href="{{ route('client.roles.index', [$client->name]) }}" class="nav-link {{ routeIsActived('roles-del-sistema') }}">
             <i class="fas fa-user-cog nav-icon"></i>
             <p>{{ __('menu.client.roles') }}</p>
         </a>
     </li>
 @endcan
 <!-- ./Roles -->
+
+<!-- Permissions -->
+@can('permissions.index')
+    <li class="nav-item">
+        <a href="{{ route('client.permissions.index', [$client->name]) }}" class="nav-link {{ routeIsActived('permisos-del-sistema') }}">
+            <i class="fas fa-clipboard-list nav-icon"></i>
+            <p>{{ __('menu.client.permissions') }}</p>
+        </a>
+    </li>
+@endcan
+<!-- ./Permissions -->
 
 <li class="nav-header">{{ __('menu.client.first_subtitle') }}</li>
 

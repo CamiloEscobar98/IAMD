@@ -4,7 +4,7 @@ namespace App\Repositories\Client;
 
 use App\Repositories\AbstractRepository;
 
-use Spatie\Permission\Models\Permission;
+use App\Models\Client\Permission;
 
 class PermissionRepository  extends AbstractRepository
 {

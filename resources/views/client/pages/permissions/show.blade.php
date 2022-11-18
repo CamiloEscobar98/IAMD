@@ -1,13 +1,13 @@
 @extends('client.layout.app')
 
-@section('title', __('pages.client.roles.route-titles.show'))
+@section('title', __('pages.client.permissions.route-titles.show'))
 
 @section('content-header')
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>{{ __('pages.client.roles.subtitle') }}</h1>
+                    <h1>{{ __('pages.client.permissions.subtitle') }}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -15,8 +15,8 @@
                                 href="{{ route('client.home', $client->name) }}">{{ __('pages.default.home') }}</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="{{ route('client.roles.index', $client->name) }}">
-                                {{ __('pages.client.roles.title') }} </a>
+                            <a href="{{ route('client.permissions.index', $client->name) }}">
+                                {{ __('pages.client.permissions.title') }} </a>
                         </li>
                         <li class="breadcrumb-item active">{{ $item->info }}</li>
                     </ol>
@@ -31,11 +31,18 @@
         <h3 class="font-weight-bold">
             <u>{{ __('pages.default.title-information') }}</u>
         </h3>
-        <p>{!! __('pages.client.roles.info.show', ['role' => $item->info]) !!}</p>
+        <p>{!! __('pages.client.permissions.info.show', ['role' => $item->info]) !!}</p>
 
         <div class="pl-3 py-2 bg-danger text-white">
-            <h5 class="font-weight-bold">{{ __('pages.client.roles.form-titles.show') }}</h5>
+            <h5 class="font-weight-bold">{{ __('pages.client.permissions.form-titles.show') }}</h5>
         </div>
+
+        <!-- Slug -->
+        <div class="form-group mt-3">
+            <label>{{ __('inputs.permission_module_id') }}:</label>
+            <p>{{ $item->permission_module->name }}</p>
+        </div>
+        <!-- ./Slug -->
 
         <!-- Slug -->
         <div class="form-group mt-3">
@@ -69,7 +76,7 @@
 
         <!-- Edit Button -->
         <div class="form-group mt-3">
-            <a href="{{ getClientRoute('client.roles.edit', [$item->id]) }}"
+            <a href="{{ getClientRoute('client.permissions.edit', [$item->id]) }}"
                 class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
         </div>
         <!-- Edit Button -->

@@ -26,6 +26,11 @@ class Permission extends BaseModel implements PermissionContract
         $this->guarded[] = $this->primaryKey;
     }
 
+    public function permission_module()
+    {
+        return $this->belongsTo(PermissionModule::class);
+    }
+
     public function getTable()
     {
         return config('permission.table_names.permissions', parent::getTable());

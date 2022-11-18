@@ -26,7 +26,7 @@ class RoleRepository  extends AbstractRepository
             ->select();
 
         if (isset($params['name']) && $params['name']) {
-            $query->byInfo($params['name']);
+            $query->byInfoName($params['name']);
         }
 
         if (isset($params['date_from']) && $params['date_from']) {
