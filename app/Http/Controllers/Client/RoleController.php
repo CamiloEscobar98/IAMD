@@ -28,6 +28,7 @@ class RoleController extends Controller
         RoleService $roleService,
         RoleRepository $roleRepository
     ) {
+        $this->middleware('auth');
         $this->roleService = $roleService;
 
         $this->roleRepository = $roleRepository;

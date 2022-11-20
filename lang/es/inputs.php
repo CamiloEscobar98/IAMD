@@ -15,6 +15,8 @@ return [
     'repeat_password' => 'Repetir Contraseña',
     'remember_me' => 'Recuérdame',
 
+    'role_id' => 'Rol del Sistema',
+
     'nit' => 'Identificación',
     'name' => 'Nombre completo',
     'code' => 'Código',

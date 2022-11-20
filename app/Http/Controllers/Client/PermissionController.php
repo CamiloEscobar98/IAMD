@@ -28,6 +28,7 @@ class PermissionController extends Controller
         PermissionService $permissionService,
         PermissionRepository $permissionRepository
     ) {
+        $this->middleware('auth');
         $this->permissionService = $permissionService;
         $this->permissionRepository = $permissionRepository;
     }

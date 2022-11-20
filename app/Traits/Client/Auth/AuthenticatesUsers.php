@@ -2,6 +2,8 @@
 
 namespace App\Traits\Client\Auth;
 
+use App\Repositories\Client\RoleRepository;
+use App\Repositories\Client\UserRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +20,9 @@ trait AuthenticatesUsers
      */
     public function showLoginForm()
     {
-        return view('client.pages.auth.login');
+        $roleRepository = app(RoleRepository::class);
+        $roles = $roleRepository->all()->pluck('info', 'id')->prepend('---Selecciona un rol del sistema', -1);
+        return view('client.pages.auth.login', compact('roles'));
     }
 
     /**
@@ -45,10 +49,23 @@ trait AuthenticatesUsers
             return $this->sendLockoutResponse($request);
         }
 
-        if ($this->attemptLogin($request)) {
+        /** @var UserRepository $userRepository */
+        $userRepository = app(UserRepository::class);
+
+        /** @var RoleRepository $roleRepository */
+        $roleRepository = app(RoleRepository::class);
+
+        /** @var \App\Models\Client\User $userTemp */
+        $userTemp = $userRepository->getByAttribute('email', $request->get('email'));
+        $roleTemp = $roleRepository->getById($request->get('role_id'));
+
+        if ($userTemp->hasRole($roleTemp) && $this->attemptLogin($request)) {
             if ($request->hasSession()) {
                 $request->session()->put('auth.password_confirmed_at', time());
             }
+
+            $this->setCurrentRoleSession($request);
+
 
             return $this->sendLoginResponse($request);
         }
@@ -74,6 +91,7 @@ trait AuthenticatesUsers
         $request->validate([
             $this->username() => 'required|email',
             'password' => 'required|string',
+            'role_id' => 'required|exists:tenant.roles,id'
         ]);
     }
 
@@ -168,6 +186,8 @@ trait AuthenticatesUsers
     {
         $this->guard()->logout();
 
+        $request->session()->forget(['current_role']);
+
         if ($response = $this->loggedOut($request)) {
             return $response;
         }
@@ -196,5 +216,15 @@ trait AuthenticatesUsers
     protected function guard()
     {
         return Auth::guard('web');
+    }
+
+    /** @param Request $request */
+    protected function setCurrentRoleSession($request)
+    {
+        $roleRepository = app(RoleRepository::class);
+
+        $role = $roleRepository->getById($request->get('role_id'));
+
+        session(['current_role' => $role]);
     }
 }

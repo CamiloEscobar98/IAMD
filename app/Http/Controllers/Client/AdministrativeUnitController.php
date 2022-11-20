@@ -31,12 +31,10 @@ class AdministrativeUnitController extends Controller
     ) {
         $this->middleware('auth');
 
-        $this->middleware('permission:administrative_units.create')->only('create');
         $this->middleware('permission:administrative_units.index')->only('index');
-        $this->middleware('permission:administrative_units.store')->only('store');
         $this->middleware('permission:administrative_units.show')->only('show');
-        $this->middleware('permission:administrative_units.edit')->only('edit');
-        $this->middleware('permission:administrative_units.update')->only('update');
+        $this->middleware('permission:administrative_units.store')->only(['create', 'store']);
+        $this->middleware('permission:administrative_units.update')->only(['edit', 'update']);
         $this->middleware('permission:administrative_units.destroy')->only('destroy');
 
         $this->administrativeUnitService = $administrativeUnitService;
@@ -52,7 +50,6 @@ class AdministrativeUnitController extends Controller
      */
     public function index(Request $request): View|RedirectResponse
     {
-
         try {
             $params = $this->administrativeUnitService->transformParams($request->all());
 

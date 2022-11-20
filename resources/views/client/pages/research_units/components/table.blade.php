@@ -9,12 +9,15 @@
                 <th>{{ __('pages.client.research_units.table.head.director') }}</th>
                 <th>{{ __('pages.client.research_units.table.head.inventory_manager') }}</th>
                 <th>{{ __('pages.client.research_units.table.head.projects') }}</th>
-                <th class="text-right" style="width: 5em">#</th>
+                @canany(['research_units.show', 'research_units.destroy'])
+                    <th class="text-right" style="width: 5em">#</th>
+                @endcanany
+
             </tr>
         </thead>
         <tbody>
             @forelse ($items as $item)
-               @include('client.pages.research_units.components.row')
+                @include('client.pages.research_units.components.row')
             @empty
                 <td colspan="12">{{ __('pages.default.empty_table') }}</td>
             @endforelse

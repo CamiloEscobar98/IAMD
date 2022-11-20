@@ -5,12 +5,14 @@
                 <th>{{ __('pages.client.administrative_units.table.head.name') }}</th>
                 <th>{{ __('pages.client.administrative_units.table.head.description') }}</th>
                 <th>{{ __('pages.client.administrative_units.table.head.research_units') }}</th>
-                <th class="text-right" style="width: 5em">#</th>
+                @canany(['administrative_units.show', 'administrative_units.destroy'])
+                    <th class="text-right" style="width: 5em">#</th>
+                @endcanany
             </tr>
         </thead>
         <tbody>
             @forelse ($items as $item)
-               @include('client.pages.administrative_units.components.row')
+                @include('client.pages.administrative_units.components.row')
             @empty
                 <td colspan="12">{{ __('pages.default.empty_table') }}</td>
             @endforelse

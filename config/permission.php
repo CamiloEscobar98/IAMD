@@ -178,38 +178,28 @@ return [
                 'can_deleted' => false,
                 'permissions' => [
                     [
-                        'name' => 'administrative_units.create',
-                        'info' => 'Visualizar Formulario de Registro de Facultades',
-                        'can_deleted' => false,
-                    ],
-                    [
                         'name' => 'administrative_units.index',
-                        'info' => 'Visualizar Listado de Facultades',
+                        'info' => 'Visualizar las Facultades.',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'administrative_units.store',
-                        'info' => 'Registro de Facultades',
+                        'info' => 'Visualizar el formulario y registrar las Facultades.',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'administrative_units.show',
-                        'info' => 'Visualizar Formulario de Visualización de Facultades',
-                        'can_deleted' => false,
-                    ],
-                    [
-                        'name' => 'administrative_units.edit',
-                        'info' => 'Visualizar Formulario de Edición de Facultades',
+                        'info' => 'Visualizar la información detallada de las Facultades.',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'administrative_units.update',
-                        'info' => 'Actualización de Facultades',
+                        'info' => 'Actualizar la información de las Facultades.',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'administrative_units.destroy',
-                        'info' => 'Eliminación de Facultades',
+                        'info' => 'Eliminar las Facultades.',
                         'can_deleted' => false,
                     ],
                 ]
@@ -219,38 +209,28 @@ return [
                 'can_deleted' => false,
                 'permissions' => [
                     [
-                        'name' => 'research_units.create',
-                        'info' => 'Visualizar Formulario de Registro de Unidades de Investigación',
-                        'can_deleted' => false,
-                    ],
-                    [
                         'name' => 'research_units.index',
-                        'info' => 'Visualizar Listado de Unidades de Investigación',
+                        'info' => 'Visualizar las Unidades de Investigación',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'research_units.store',
-                        'info' => 'Registro de Unidades de Investigación',
+                        'info' => 'Visualizar el formulario y registrar las Unidades de Investigación',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'research_units.show',
-                        'info' => 'Visualizar Formulario de Visualización de Unidades de Investigación',
-                        'can_deleted' => false,
-                    ],
-                    [
-                        'name' => 'research_units.edit',
-                        'info' => 'Visualizar Formulario de Edición de Unidades de Investigación',
+                        'info' => 'Visualizar la información detallada de las Unidades de Investigación',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'research_units.update',
-                        'info' => 'Actualización de Unidades de Investigación',
+                        'info' => 'Actualización la información de Unidades de Investigación',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'research_units.destroy',
-                        'info' => 'Eliminación de Unidades de Investigación',
+                        'info' => 'Eliminar las Unidades de Investigación',
                         'can_deleted' => false,
                     ],
                 ]
@@ -260,38 +240,28 @@ return [
                 'can_deleted' => false,
                 'permissions' => [
                     [
-                        'name' => 'projects.create',
-                        'info' => 'Visualizar Formulario de Registro de Proyectos',
-                        'can_deleted' => false,
-                    ],
-                    [
                         'name' => 'projects.index',
-                        'info' => 'Visualizar Listado de Proyectos',
+                        'info' => 'Visualizar los Proyectos',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'projects.store',
-                        'info' => 'Registro de Proyectos',
+                        'info' => 'Visualizar el formulario y registrar los Proyectos',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'projects.show',
-                        'info' => 'Visualizar Formulario de Visualización de Proyectos',
-                        'can_deleted' => false,
-                    ],
-                    [
-                        'name' => 'projects.edit',
-                        'info' => 'Visualizar Formulario de Edición de Proyectos',
+                        'info' => 'Visualizar la información detallada de los Proyectos',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'projects.update',
-                        'info' => 'Actualización de Proyectos',
+                        'info' => 'Actualizar la información de los Proyectos',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'projects.destroy',
-                        'info' => 'Eliminación de Proyectos',
+                        'info' => 'Eliminar los Proyectos',
                         'can_deleted' => false,
                     ],
                 ]
@@ -301,38 +271,28 @@ return [
                 'can_deleted' => false,
                 'permissions' => [
                     [
-                        'name' => 'intangible_assets.create',
-                        'info' => 'Visualizar Formulario de Registro de Activos Intangibles',
-                        'can_deleted' => false,
-                    ],
-                    [
                         'name' => 'intangible_assets.index',
-                        'info' => 'Visualizar Listado de Activos Intangibles',
+                        'info' => 'Visualizar los Activos Intangibles',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'intangible_assets.store',
-                        'info' => 'Registro de Activos Intangibles',
+                        'info' => 'Visualizar el formulario y registrar los Activos Intangibles',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'intangible_assets.show',
-                        'info' => 'Visualizar Formulario de Visualización de Activos Intangibles',
-                        'can_deleted' => false,
-                    ],
-                    [
-                        'name' => 'intangible_assets.edit',
-                        'info' => 'Visualizar Formulario de Edición de Activos Intangibles',
+                        'info' => 'Visualizar la información detallada de los Activos Intangibles',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'intangible_assets.update',
-                        'info' => 'Actualización de Activos Intangibles',
+                        'info' => 'Actualizar la información de los Activos Intangibles',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'intangible_assets.destroy',
-                        'info' => 'Eliminación de Activos Intangibles',
+                        'info' => 'Eliminar los Activos Intangibles',
                         'can_deleted' => false,
                     ],
                 ]
@@ -342,38 +302,28 @@ return [
                 'can_deleted' => false,
                 'permissions' => [
                     [
-                        'name' => 'creators.internal.create',
-                        'info' => 'Visualizar Formulario de Registro de Creadores Internos',
-                        'can_deleted' => false,
-                    ],
-                    [
                         'name' => 'creators.internal.index',
-                        'info' => 'Visualizar Listado de Creadores Internos',
+                        'info' => 'Visualizar los Creadores Internos',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'creators.internal.store',
-                        'info' => 'Registro de Creadores Internos',
+                        'info' => 'Visualizar el formulario y registrar los Creadores Internos',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'creators.internal.show',
-                        'info' => 'Visualizar Formulario de Visualización de Creadores Internos',
-                        'can_deleted' => false,
-                    ],
-                    [
-                        'name' => 'creators.internal.edit',
-                        'info' => 'Visualizar Formulario de Edición de Creadores Internos',
+                        'info' => 'Visualizar la información detallada de los Creadores Internos',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'creators.internal.update',
-                        'info' => 'Actualización de Creadores Internos',
+                        'info' => 'Actualizar la información de los Creadores Internos',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'creators.internal.destroy',
-                        'info' => 'Eliminación de Creadores Internos',
+                        'info' => 'Eliminar los Creadores Internos',
                         'can_deleted' => false,
                     ],
                 ]
@@ -383,38 +333,28 @@ return [
                 'can_deleted' => false,
                 'permissions' => [
                     [
-                        'name' => 'creators.external.create',
-                        'info' => 'Visualizar Formulario de Registro de Creadores Externos',
-                        'can_deleted' => false,
-                    ],
-                    [
                         'name' => 'creators.external.index',
-                        'info' => 'Visualizar Listado de Creadores Externos',
+                        'info' => 'Visualizar los Creadores Externos',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'creators.external.store',
-                        'info' => 'Registro de Creadores Externos',
+                        'info' => 'Visualizar el formulario y registrar los Creadores Externos',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'creators.external.show',
-                        'info' => 'Visualizar Formulario de Visualización de Creadores Externos',
-                        'can_deleted' => false,
-                    ],
-                    [
-                        'name' => 'creators.external.edit',
-                        'info' => 'Visualizar Formulario de Edición de Creadores Externos',
+                        'info' => 'Visualizar la información detallada de los Creadores Externos',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'creators.external.update',
-                        'info' => 'Actualización de Creadores Externos',
+                        'info' => 'Actualizar la información de los Creadores Externos',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'creators.external.destroy',
-                        'info' => 'Eliminación de Creadores Externos',
+                        'info' => 'Eliminar los Creadores Externos',
                         'can_deleted' => false,
                     ],
                 ]
@@ -424,38 +364,28 @@ return [
                 'can_deleted' => false,
                 'permissions' => [
                     [
-                        'name' => 'users.create',
-                        'info' => 'Visualizar Formulario de Registro de Usuarios',
-                        'can_deleted' => false,
-                    ],
-                    [
                         'name' => 'users.index',
-                        'info' => 'Visualizar Listado de Usuarios',
+                        'info' => 'Visualizar los Usuarios',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'users.store',
-                        'info' => 'Registro de Usuarios',
+                        'info' => 'Visualizar el formulario y registrar los Usuarios',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'users.show',
-                        'info' => 'Visualizar Formulario de Visualización de Usuarios',
-                        'can_deleted' => false,
-                    ],
-                    [
-                        'name' => 'users.edit',
-                        'info' => 'Visualizar Formulario de Edición de Usuarios',
+                        'info' => 'Visualizar la información detallada de los Usuarios',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'users.update',
-                        'info' => 'Actualización de Usuarios',
+                        'info' => 'Actualizar la información de los Usuarios',
                         'can_deleted' => false,
                     ],
                     [
                         'name' => 'users.destroy',
-                        'info' => 'Eliminación de Usuarios',
+                        'info' => 'Eliminar los Usuarios',
                         'can_deleted' => false,
                     ],
                 ]

@@ -34,34 +34,71 @@
 
                 <form action="{{ route('client.loggin', $client->name) }}" method="post">
                     @csrf
-                    <div class="input-group">
-                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                            placeholder="{{ __('inputs.email') }}" value="{{ old('email') }}">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label>{{ __('inputs.email') }}:</label>
+                        <div class="input-group">
+                            <input type="email" name="email"
+                                class="form-control @error('email') is-invalid @enderror"
+                                placeholder="{{ __('inputs.email') }}" value="{{ old('email') }}">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
                             </div>
                         </div>
+
+                        @error('email')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
+                    <!-- Email -->
 
-                    @error('email')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-
-                    <div class="input-group mt-3">
-                        <input type="password" name="password"
-                            class="form-control @error('password') is-invalid @enderror"
-                            placeholder="{{ __('inputs.password') }}">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
+                    <!-- Password -->
+                    <div class="form-group mt-3">
+                        <label>{{ __('inputs.password') }}:</label>
+                        <div class="input-group">
+                            <input type="password" name="password"
+                                class="form-control @error('password') is-invalid @enderror"
+                                placeholder="{{ __('inputs.password') }}">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    @error('password')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
+                        @error('password')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <!-- ./Password -->
+
+                    <!-- Role -->
+                    <div class="form-group mt-3">
+                        <label>{{ __('inputs.role_id') }}:</label>
+                        <div class="input-group">
+                            <select name="role_id"
+                                class="form-control select2bs4 @error('role_id') is-invalid @enderror">
+                                @foreach ($roles as $role => $value)
+                                    <option value="{{ $role }}"
+                                        {{ twoOptionsIsEqual(old('role_id'), $role) }}>
+                                        {{ $value }}</option>
+                                @endforeach
+                            </select>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-box"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        @error('role_id')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <!-- ./Role -->
 
                     <div class="row mt-3">
                         <div class="col-7">

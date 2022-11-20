@@ -23,6 +23,7 @@
               </div>
               <div class="info">
                   <a href="{{ getClientRoute('client.profile') }}" class="d-block">{{ current_user()->name }}</a>
+                  <small class="font-weight-bold">{{ current_role()->info }}</small>
               </div>
           </div>
 
