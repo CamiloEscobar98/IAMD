@@ -112,10 +112,13 @@ class RoleController extends Controller
     public function show($id, $role)
     {
         try {
-            $item = $this->roleRepository->getById($role);
+            $params['id'] = $role;
+
+            $item = $this->roleRepository->search($params, ['permissions'])->get()->first();
 
             return view('client.pages.roles.show', compact('item'));
         } catch (\Exception $th) {
+            dd($th);
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
@@ -174,7 +177,7 @@ class RoleController extends Controller
      * @param  int  $id
      * @param int $role
      * 
-     * @return View|RedirectResponse
+     * @return RedirectResponse
      */
     public function destroy($id, $role): RedirectResponse
     {
@@ -188,6 +191,32 @@ class RoleController extends Controller
             DB::commit();
 
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.roles.messages.delete_success', ['strategy' => $item->info])]);
+        } catch (\Exception $th) {
+            DB::rollBack();
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        }
+    }
+
+    /**
+     * Update the permissions of role.
+     * 
+     * @param int $id
+     * @param int $role
+     * @param Request $request
+     * 
+     * @return RedirectResponse
+     */
+    public function updatePermissions($id, $role, Request $request)
+    {
+        try {
+            /** @var \App\Models\Client\Role $item */
+            $item = $this->roleRepository->getById($role);
+
+            $permissions = $request->get('permissions');
+
+            $item->syncPermissions($permissions);
+
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.roles.messages.update_success', ['role' => $item->info])]);
         } catch (\Exception $th) {
             DB::rollBack();
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);

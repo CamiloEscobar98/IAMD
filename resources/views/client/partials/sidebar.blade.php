@@ -22,7 +22,7 @@
                       alt="User Image">
               </div>
               <div class="info">
-                  <a href="{{ getClientRoute('client.profile') }}" class="d-block">{{ auth()->user()->name }}</a>
+                  <a href="{{ getClientRoute('client.profile') }}" class="d-block">{{ current_user()->name }}</a>
               </div>
           </div>
 

@@ -25,7 +25,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:admins,email,' . auth('admin')->user()->id]
+            'email' => ['required', 'email', 'unique:admins,email,' . current_admin()->id]
         ];
     }
 }

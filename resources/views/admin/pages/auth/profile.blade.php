@@ -33,7 +33,7 @@
                                 src="{{ asset('adminlte/dist/img/user4-128x128.jpg') }}" alt="User profile picture">
                         </div>
 
-                        <h3 class="profile-username text-center">{{ auth('admin')->user()->name }}</h3>
+                        <h3 class="profile-username text-center">{{ current_admin()->name }}</h3>
 
                         <p class="text-muted text-center">Administrador</p>
 
@@ -45,7 +45,7 @@
                             <div class="input-group mb-3">
                                 <input type="text" name="name"
                                     class="form-control {{ isInvalidByError($errors, 'name') }}"
-                                    placeholder="{{ __('inputs.name') }}" value="{{ auth('admin')->user()->name }}">
+                                    placeholder="{{ __('inputs.name') }}" value="{{ current_admin()->name }}">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-user"></span>
@@ -62,7 +62,7 @@
                             <div class="input-group mb-3">
                                 <input type="email" name="email"
                                     class="form-control @error('email') is-invalid @enderror"
-                                    placeholder="{{ __('inputs.email') }}" value="{{ auth('admin')->user()->email }}">
+                                    placeholder="{{ __('inputs.email') }}" value="{{ current_admin()->email }}">
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-envelope"></span>

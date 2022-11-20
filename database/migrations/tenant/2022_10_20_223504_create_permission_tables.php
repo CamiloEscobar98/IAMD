@@ -28,6 +28,7 @@ class CreatePermissionTables extends Migration
         Schema::create($tableNames['permission_modules'], function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->unique();
+            $table->boolean('can_deleted')->default(true);
             $table->timestamps();
         });
 
@@ -37,6 +38,7 @@ class CreatePermissionTables extends Migration
             $table->string('info');
             $table->string('guard_name')->default('web'); // For MySQL 8.0 use string('guard_name', 125);
             $table->unsignedBigInteger($columnNames['permission_module']);
+            $table->boolean('can_deleted')->default(true);
             $table->timestamps();
 
             $table->unique(['name', 'guard_name', $columnNames['permission_module']]);
@@ -56,6 +58,7 @@ class CreatePermissionTables extends Migration
             $table->string('name');       // For MySQL 8.0 use string('name', 125);
             $table->string('info');
             $table->string('guard_name')->default('web'); // For MySQL 8.0 use string('guard_name', 125);
+            $table->boolean('can_deleted')->default(true);
 
             $table->timestamps();
             if ($teams || config('permission.testing')) {

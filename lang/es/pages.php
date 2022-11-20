@@ -1459,6 +1459,7 @@ return [
                 'show' => 'Perfil de Visualización del Rol del Sistema',
                 'create' => 'Formulario de Registro de un Rol del Sistema',
                 'edit' => 'Actualización del Rol del Sistema',
+                'permissions' => 'Configuración de los Permisos del Rol'
             ],
 
             'filters' => [

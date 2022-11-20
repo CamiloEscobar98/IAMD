@@ -19,8 +19,19 @@ class PermissionModule extends BaseModel
      * 
      * @return HasMany
      */
-    public function permissions() : HasMany
+    public function permissions(): HasMany
     {
         return $this->hasMany(Permission::class);
+    }
+
+    /**
+     * Scope a query to only include Name
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scope($query, $name)
+    {
+        return $query->where('name', 'like', "%{$name}%");
     }
 }

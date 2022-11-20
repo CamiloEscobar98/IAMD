@@ -41,7 +41,7 @@ class HomeController extends Controller
     public function profile(): View|RedirectResponse
     {
         try {
-            $item = auth()->user();
+            $item = current_user();
 
             return view('client.pages.profile', compact('item'));
         } catch (\Throwable $th) {

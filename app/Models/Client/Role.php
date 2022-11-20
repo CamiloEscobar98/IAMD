@@ -20,6 +20,21 @@ class Role extends BaseModel implements RoleContract
     protected $guarded = [];
 
     /**
+     * Scope a query to only include Id
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeById($query, $value)
+    {
+        if (is_array($value) && $value) {
+            return $query->whereIn('id', $value);
+        } else {
+            return $query->where('id', $value);
+        }
+    }
+
+    /**
      * Scope a query to only include Name
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query

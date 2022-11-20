@@ -537,7 +537,7 @@
                         <div class="card-header bg-gradient-info">
                             <span><i class="fas fa-user mr-2"></i>{{ $message->name }}</span>
                             <span class="float-right">{{ $message->pivot->updated_at }}</span>
-                            {{-- @if ($message->id == auth()->user()->id)
+                            {{-- @if ($message->id == current_user()->id)
                                 <span><i class="fas fa-user mr-2"></i>{{ $message->name }}</span>
                             @endif --}}
                         </div>

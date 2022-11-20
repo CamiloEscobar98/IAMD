@@ -218,7 +218,7 @@ class IntangibleAssetPhaseController extends Controller
                     'message' => ['required', 'string']
                 ];
                 $data = $request->only(['message']);
-                $data['user_id'] = auth()->user()->id;
+                $data['user_id'] = current_user()->id;
                 $data['intangible_asset_id'] = $intangibleAsset;
                 break;
 

@@ -73,5 +73,38 @@
                 class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
         </div>
         <!-- Edit Button -->
+
+        <div class="pl-3 py-2 bg-danger text-white">
+            <h5 class="font-weight-bold">{{ __('pages.client.roles.form-titles.permissions') }}</h5>
+        </div>
+
+        <form action="{{ getClientRoute('client.roles.update_permissions', [$item->id]) }}" method="post">
+            @csrf
+            @method('PUT')
+
+            <div class="row">
+                @foreach ($permissionModules as $permissionModule)
+                    <div class="col-lg-3">
+                        <div class="form-group mt-3">
+                            <label>{{ $permissionModule->name }}:</label>
+                            @foreach ($permissionModule->permissions as $permission)
+                                <div class="custom-control custom-checkbox my-1">
+                                    <input type="checkbox" class="custom-control-input"
+                                        id="permission_{{ $permission->id }}" name="permissions[]"
+                                        value="{{ $permission->id }}"
+                                        {{ optionInArrayIsChecked($item->permissions, $permission->id) }}>
+                                    <label class="custom-control-label font-weight-normal"
+                                        for="permission_{{ $permission->id }}">{{ $permission->info }}</label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-danger btn-sm">{{ __('buttons.update') }}</button>
+            </div>
+        </form>
     </div>
 @endsection

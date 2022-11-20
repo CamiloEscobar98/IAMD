@@ -21,7 +21,7 @@ class NotificationComposer
 
     public function compose(View $view)
     {
-        $notifications = $this->notificationRepository->getByUserId(auth()->user()->id);
+        $notifications = $this->notificationRepository->getByUserId(current_user()->id);
         
 
         $view->with(compact('notifications'));

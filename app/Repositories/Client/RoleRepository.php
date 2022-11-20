@@ -25,6 +25,10 @@ class RoleRepository  extends AbstractRepository
         $query = $this->model
             ->select();
 
+        if (isset($params['id']) && $params['id']) {
+            $query->byId($params['id']);
+        }
+
         if (isset($params['name']) && $params['name']) {
             $query->byInfoName($params['name']);
         }

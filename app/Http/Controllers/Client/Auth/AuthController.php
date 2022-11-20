@@ -34,7 +34,7 @@ class AuthController extends Controller
         $data = $request->all();
 
         try {
-            $item = $this->userRepository->getById(auth()->user()->id);
+            $item = $this->userRepository->getById(current_user()->id);
 
             DB::beginTransaction();
 
@@ -53,7 +53,7 @@ class AuthController extends Controller
         $data = $request->all();
 
         try {
-            $item = $this->userRepository->getById(auth()->user()->id);
+            $item = $this->userRepository->getById(current_user()->id);
 
             DB::beginTransaction();
 

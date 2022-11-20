@@ -34,7 +34,7 @@ class UserFileReportController extends  Controller
     public function index() #: View|RedirectResponse
     {
         try {
-            $reports = $this->userFileReportRepository->getByUserId(auth()->user()->id);
+            $reports = $this->userFileReportRepository->getByUserId(current_user()->id);
 
             return view('client.pages.users.reports.index', compact('reports'));
         } catch (\Exception $th) {

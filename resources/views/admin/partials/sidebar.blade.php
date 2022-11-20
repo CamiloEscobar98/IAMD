@@ -17,7 +17,7 @@
                       alt="User Image">
               </div>
               <div class="info">
-                  <a href="{{ route('admin.profile') }}" class="d-block">{{ auth('admin')->user()->name }}</a>
+                  <a href="{{ route('admin.profile') }}" class="d-block">{{ current_admin()->name }}</a>
               </div>
           </div>
 
