@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/dist/css/alt/adminlte.light.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/report.css') }}">
     @yield('css')
 

@@ -170,7 +170,7 @@ class IntangibleAssetReportController extends Controller
 
             /** Testing the View Custom PDF */
 
-            $dataCompact = compact('generalConfiguration', 'contentConfiguration', 'graphicConfiguration', 'count', 'client');
+            // $dataCompact = compact('generalConfiguration', 'contentConfiguration', 'graphicConfiguration', 'count', 'client');
 
             if (isset($dataCompact) && $dataCompact) {
 
@@ -218,7 +218,7 @@ class IntangibleAssetReportController extends Controller
                     $dataCompact = $response;
                 }
 
-                // return $dataCompact;
+                return $dataCompact;
 
                 return view('reports.intangible_assets.custom', $dataCompact);
             }
@@ -267,7 +267,7 @@ class IntangibleAssetReportController extends Controller
                 }
             }
 
-            if (!empty($graphicConfiguration) || !empty($generalConfiguration)) {
+            if (!empty($graphicConfiguration) && !empty($generalConfiguration)) {
                 Log::notice('One report file will be created!');
                 if (!empty($contentConfiguration) || !empty($generalConfiguration)) $data['intangibleAssets'] = $intangibleAssets;
                 if (hasContent($generalConfiguration, 'with_general_phase_status')) $data['phasesCompleted'] = $this->getPhasesCompletedArray($intangibleAssets);

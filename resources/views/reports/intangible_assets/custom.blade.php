@@ -1,11 +1,5 @@
 @extends('reports.app')
 
-@section('css')
-    @if (hasGraphics($graphicConfiguration))
-        <link rel="stylesheet" href="{{ asset('adminlte/plugins/chart.js/Chart.min.css') }}">
-    @endif
-@endsection
-
 @section('content')
     @if (!empty($generalConfiguration))
         <table class="table table-sm table-bordered border-1">

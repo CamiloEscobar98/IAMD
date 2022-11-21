@@ -81,4 +81,12 @@ class AdministrativeUnit extends BaseModel
     {
         $query->where('updated_at', '<=', $dateTo);
     }
+
+    /**
+     * @return bool
+     */
+    public function hasResearchUnits()
+    {
+        return $this->research_units->count() > 0;
+    }
 }

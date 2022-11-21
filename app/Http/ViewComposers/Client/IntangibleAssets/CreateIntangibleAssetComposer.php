@@ -11,9 +11,13 @@ use App\Repositories\Client\ResearchUnitRepository;
 use App\Repositories\Client\ProjectRepository;
 
 use App\Repositories\Client\IntangibleAssetRepository;
+use App\Services\Client\AdministrativeUnitService;
 
 class CreateIntangibleAssetComposer
 {
+    /** @var AdministrativeUnitService */
+    protected $administrativeUnitService;
+
     /** @var AdministrativeUnitRepository */
     protected $administrativeUnitRepository;
 
@@ -32,6 +36,7 @@ class CreateIntangibleAssetComposer
     public function __construct(
         IntangibleAssetStateRepository $intangibleAssetStateRepository,
 
+        AdministrativeUnitService $administrativeUnitService,
         AdministrativeUnitRepository $administrativeUnitRepository,
         ResearchUnitRepository $researchUnitRepository,
         ProjectRepository $projectRepository,
@@ -40,6 +45,7 @@ class CreateIntangibleAssetComposer
     ) {
         $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
 
+        $this->administrativeUnitService = $administrativeUnitService;
         $this->administrativeUnitRepository = $administrativeUnitRepository;
         $this->researchUnitRepository = $researchUnitRepository;
         $this->projectRepository = $projectRepository;
@@ -52,55 +58,9 @@ class CreateIntangibleAssetComposer
     {
         $intangibleAssetId = request()->intangible_asset;
 
-        /** Administratvie Units */
-        $administrativeUnits =  $this->administrativeUnitRepository->all();
+        [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project] = $this->administrativeUnitService->getAdministrativeUnitsSelectByIntangibleAssetForm($intangibleAssetId);
 
-        /** Research Units */
-        $researchUnits = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnits->first());
-
-        /** Projects */
-        $projects = $this->projectRepository->getByResearchUnit($researchUnits->first());
-
-        if ($intangibleAssetId) {
-
-            /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset */
-            $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAssetId);
-
-            if ($intangibleAsset->hasProject()) {
-
-                /** @var \App\Models\Client\Project\Project */
-                $project = $this->projectRepository->getById($intangibleAsset->project_id);
-
-                /** @var \App\Models\Client\ResearchUnit $researchUnit */
-                $researchUnit = $this->researchUnitRepository->getById($project->research_unit_id);
-
-                /** @var \App\Models\Client\AdministrativeUnit $administrativeUnit */
-                $administrativeUnit = $this->administrativeUnitRepository->getById($researchUnit->administrative_unit->id);
-
-                /** Research Units */
-                $researchUnits = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnit);
-
-                /** Projects */
-                $projects = $this->projectRepository->getByResearchUnit($researchUnit);
-            }
-        } else {
-
-            /** @var \App\Models\Client\AdministrativeUnit $administrativeUnit */
-            $administrativeUnit = $administrativeUnits->first();
-
-            /** Research Units */
-            $researchUnits = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnit);
-
-            /** @var \App\Models\Client\ResearchUnit $researchUnit */
-            $researchUnit = $researchUnits->first();
-
-            /** Projects */
-            $projects = $this->projectRepository->getByResearchUnit($researchUnit);
-
-            /** @var \App\Models\Client\Project\Project */
-            $project = $projects->first();
-        }
-
+        // dd([$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project]);
         /** Intangible Asset States */
         $states = $this->intangibleAssetStateRepository->all();
 

@@ -8,9 +8,13 @@ use App\Repositories\Client\AdministrativeUnitRepository;
 use App\Repositories\Client\ResearchUnitRepository;
 use App\Repositories\Client\ProjectRepository;
 use App\Repositories\Admin\IntangibleAssetStateRepository;
+use App\Services\Client\AdministrativeUnitService;
 
 class IntangibleAssetFilterComposer
 {
+    /** @var AdministrativeUnitService */
+    protected $administrativeUnitService;
+
     /** @var AdministrativeUnitRepository */
     protected $administrativeUnitRepository;
 
@@ -24,11 +28,13 @@ class IntangibleAssetFilterComposer
     protected $intangibleAssetStateRepository;
 
     public function __construct(
+        AdministrativeUnitService $administrativeUnitService,
         AdministrativeUnitRepository $administrativeUnitRepository,
         ResearchUnitRepository $researchUnitRepository,
         ProjectRepository $projectRepository,
         IntangibleAssetStateRepository $intangibleAssetStateRepository,
     ) {
+        $this->administrativeUnitService = $administrativeUnitService;
         $this->administrativeUnitRepository = $administrativeUnitRepository;
         $this->researchUnitRepository = $researchUnitRepository;
         $this->projectRepository = $projectRepository;
@@ -39,41 +45,11 @@ class IntangibleAssetFilterComposer
     {
         $params = request()->all();
 
-        /** Administratvie Units */
-        $administrativeUnits =  $this->administrativeUnitRepository->all();
-
-        if (isset($params['project_id']) && $params['project_id']) {
-
-            /** @var \App\Models\Client\Project\Project $project */
-            $project = $this->projectRepository->getById($params['project_id']);
-
-            /** @var \App\Models\Client\ResearchUnit $researchUnit */
-            $researchUnit = $this->researchUnitRepository->getById($project->research_unit_id);
-
-            /** @var \App\Models\Client\AdministrativeUnit $administrativeUnit */
-            $administrativeUnit = $this->administrativeUnitRepository->getById($researchUnit->administrative_unit_id);
-
-            $researchUnits = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnit);
-
-            $projects = $this->projectRepository->getByResearchUnit($researchUnit);
-        } else {
-
-            /** Research Units */
-            $researchUnits = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnits->first());
-
-            /** Projects */
-            $projects = $this->projectRepository->getByResearchUnit($researchUnits->first());
-        }
-
-        $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('Seleccionar Facultad', 0);
-
-        $researchUnits = $researchUnits->pluck('name', 'id')->prepend('Seleccionar Unidad Investigativa', 0);
-
-        $projects = $projects->pluck('name', 'id')->prepend('Seleccionar Proyecto', 0);
+        [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project] = $this->administrativeUnitService->getAdministrativeUnitsSelectByParams($params);
 
         /** Intangible Asset States */
         $states = $this->intangibleAssetStateRepository->all();
 
-        $view->with(compact('administrativeUnits', 'researchUnits', 'projects', 'states'));
+        $view->with(compact('administrativeUnits', 'administrativeUnit', 'researchUnits', 'researchUnit', 'projects', 'project', 'states'));
     }
 }

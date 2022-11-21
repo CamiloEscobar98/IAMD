@@ -5,11 +5,13 @@ function getAdministrativeUnits() {
         type: 'GET',
         url: "/api/" + client + "/administrative_units"
     }).done(function (res) {
-        putAdministrativeUnits(res);
+        if (Array.isArray(res) && res.length > 0) {
+            putAdministrativeUnits(res);
 
-        if ($('#research_unit_id')) {
-            let administrative_unit_id = res[0]['id'];
-            getResearchUnits(administrative_unit_id);
+            if ($('#research_unit_id')) {
+                let administrative_unit_id = res[0]['id'];
+                getResearchUnits(administrative_unit_id);
+            }
         }
     });
 }
@@ -22,7 +24,7 @@ function getResearchUnits(administrative_unit_id) {
         url: "/api/" + client + "/administrative_units/" + administrative_unit_id + '/research_units'
     }).done(function (res) {
 
-        if (Array.isArray(res)) {
+        if (Array.isArray(res) && res.length > 0) {
             putResearchUnits(res);
 
             let research_unit_id = res[0]['id'];
@@ -42,7 +44,7 @@ function getProjects(research_unit_id) {
         url: "/api/" + client + "/research_units/" + research_unit_id + '/projects'
     }).done(function (res) {
 
-        if (Array.isArray(res)) {
+        if (Array.isArray(res) && res.length > 0) {
             putProjects(res);
         } else {
             putProjects([]);
@@ -83,7 +85,7 @@ function putResearchUnits(items) {
 
     selectResearchUnit.empty();
 
-    selectResearchUnit.append(`<option value="0">Seleccionar Unidad Investigativa</option>`);
+    selectResearchUnit.append(`<option value="0">---Seleccionar Unidad Investigativa</option>`);
 
     let isSelected = '';
 
@@ -101,7 +103,7 @@ function putProjects(items) {
 
     selectProject.empty();
 
-    selectProject.append(`<option value="0">Seleccionar Proyecto</option>`);
+    selectProject.append(`<option value="0">---Seleccionar Proyecto</option>`);
 
     let isSelected = '';
 

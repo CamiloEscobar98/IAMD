@@ -5,10 +5,10 @@
         <select name="administrative_unit_id" id="administrative_unit_id" class="form-control select2bs4"
             onchange="changeAdministrativeUnit()">
 
-            @foreach ($administrativeUnits as $administrativeUnit)
-                <option value="{{ $administrativeUnit->id }}"
-                    {{ twoOptionsIsEqual(old('administrative_unit_id', $item->administrative_unit_id), $administrativeUnit->id) }}>
-                    {{ $administrativeUnit->name }}</option>
+            @foreach ($administrativeUnits as $administrativeUnitId => $value)
+                <option value="{{ $administrativeUnitId }}"
+                    {{ twoOptionsIsEqual(old('administrative_unit_id', $item->administrative_unit_id), $administrativeUnitId) }}>
+                    {{ $value }}</option>
             @endforeach
         </select>
         <div class="input-group-append">
@@ -26,10 +26,10 @@
     <div class="input-group">
         <select name="research_unit_id" id="research_unit_id" class="form-control select2bs4"
             onchange="changeResearchUnit()">
-            @foreach ($researchUnits as $researchUnit)
-                <option value="{{ $researchUnit->id }}"
-                    {{ twoOptionsIsEqual(old('research_unit_id', $item->research_unit_id), $researchUnit->id) }}>
-                    {{ $researchUnit->name }}</option>
+            @foreach ($researchUnits as $researchUnitId => $value)
+                <option value="{{ $researchUnitId }}"
+                    {{ twoOptionsIsEqual(old('research_unit_id', $item->research_unit_id), $researchUnitId) }}>
+                    {{ $value }}</option>
             @endforeach
         </select>
         <div class="input-group-append">
@@ -47,10 +47,10 @@
     <div class="input-group">
         <select name="project_id" id="project_id"
             class="form-control select2bs4 @error('project_id') is-invalid @enderror">
-            @foreach ($projects as $project)
-                <option value="{{ $project->id }}"
-                    {{ twoOptionsIsEqual(old('project_id', $item->project_id), $project->id) }}>
-                    {{ $project->name }}</option>
+            @foreach ($projects as $projectId => $value)
+                <option value="{{ $projectId }}"
+                    {{ twoOptionsIsEqual(old('project_id', $item->project_id), $projectId) }}>
+                    {{ $value }}</option>
             @endforeach
         </select>
         <div class="input-group-append">

@@ -221,38 +221,39 @@ class IntangibleAssetSeeder extends Seeder
 
         print("¡¡ CREATING INTANGIBLE ASSETS !! \n \n");
 
+        $randomNumberIntangibleAssets = rand(500, 1000);
 
-        $projects->each(function ($project) use ($states, $creators, $users, $dpis, $secretProtectionMeasures, $priorityTools, $strategyCategories, $strategies) {
-            $randomNumber = rand(10, 25);
 
-            print("PROJECT: " . $project->name .  "\n \n");
 
-            $cont = 0;
-            do {
-                $current = $cont + 1;
+        $cont = 0;
+        do {
+            $randomProject = $projects->random(1)->first();
 
-                print("Creating Intangible Asset: $current. \n");
+            print("PROJECT: " . $randomProject->name .  "\n \n");
 
-                $intangibleAsset = $this->intangibleAssetRepository->createOneFactory([
-                    'project_id' => $project->id,
-                ]);
+            $current = $cont + 1;
 
-                $this->intangibleAssetLocalizationRepository->createOneFactory(['intangible_asset_id' => $intangibleAsset->id]);
+            print("Creating Intangible Asset: $current. \n");
 
-                print("Intangible Asset Created. Name: " . $intangibleAsset->name . "\n");
+            $intangibleAsset = $this->intangibleAssetRepository->createOneFactory([
+                'project_id' => $randomProject->id,
+            ]);
 
-                $randomAllCompleted = (bool) rand(0, 1);
+            $this->intangibleAssetLocalizationRepository->createOneFactory(['intangible_asset_id' => $intangibleAsset->id]);
 
-                $this->randomPhases($randomAllCompleted, $intangibleAsset, $states, $dpis, $creators, $users, $secretProtectionMeasures, $strategyCategories, $strategies, $priorityTools);
+            print("Intangible Asset Created. Name: " . $intangibleAsset->name . "\n");
 
-                print("\n \n");
+            $randomAllCompleted = (bool) rand(0, 1);
 
-                $cont++;
-                $randomNumber--;
-            } while ($randomNumber > 0);
+            $this->randomPhases($randomAllCompleted, $intangibleAsset, $states, $dpis, $creators, $users, $secretProtectionMeasures, $strategyCategories, $strategies, $priorityTools);
 
-            print("INTANGIBLE ASSET FINISHED. \n \n");
-        });
+            print("\n \n");
+
+            $cont++;
+            $randomNumberIntangibleAssets--;
+        } while ($randomNumberIntangibleAssets > 0);
+
+        print("INTANGIBLE ASSET FINISHED. \n \n");
     }
 
     /**

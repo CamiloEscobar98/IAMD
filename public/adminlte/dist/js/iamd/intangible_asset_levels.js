@@ -16,12 +16,14 @@ function getIntellectualPropertyRightCategories() {
         url: "/api/intellectual_property_rights/categories/"
     }).done(function (res) {
 
-        if (Array.isArray(res)) {
+        if (Array.isArray(res) && res.length > 0) {
             putIntellectualPropertyRightCategories(res);
 
             let category = res[0]['id'];
 
             getIntellectualPropertyRightSubcategories(category);
+        } else {
+            putIntellectualPropertyRightCategories([]);
         }
     });
 }
@@ -33,7 +35,7 @@ function getIntellectualPropertyRightSubcategories(category) {
         url: "/api/intellectual_property_rights/categories/" + category + "/subcategories"
     }).done(function (res) {
 
-        if (Array.isArray(res)) {
+        if (Array.isArray(res) && res.length > 0) {
             putIntellectualPropertyRightSubcategories(res);
 
             let subcategory = res[0]['id'];
@@ -53,9 +55,9 @@ function getIntellectualPropertyRightProducts(subcategory) {
         type: 'GET',
         url: "/api/intellectual_property_rights/subcategories/" + subcategory + "/products"
     }).done(function (res) {
-        if (Array.isArray(res)) {
+        if (Array.isArray(res) && res.length > 0) {
             putIntellectualPropertyRightProducts(res);
-        }else{
+        } else {
             putIntellectualPropertyRightProducts([]);
         }
     });
@@ -67,7 +69,7 @@ function putIntellectualPropertyRightCategories(items) {
 
     selectCategory.empty();
 
-    selectCategory.append(`<option value="-1">Seleccionar Categoría</option>`);
+    selectCategory.append(`<option value="-1">---Seleccionar Categoría</option>`);
 
     items.forEach(category => {
         var id = category['id'];
@@ -83,7 +85,7 @@ function putIntellectualPropertyRightSubcategories(items) {
 
     selectSubcategory.empty();
 
-    selectSubcategory.append(`<option value="-1">Seleccionar Subcategoría</option>`);
+    selectSubcategory.append(`<option value="-1">---Seleccionar Subcategoría</option>`);
 
     items.forEach(category => {
         var id = category['id'];
@@ -99,7 +101,7 @@ function putIntellectualPropertyRightProducts(items) {
 
     selectProduct.empty();
 
-    selectProduct.append(`<option value="-1">Seleccionar Producto</option>`);
+    selectProduct.append(`<option value="-1">---Seleccionar Producto</option>`);
 
     items.forEach(category => {
         var id = category['id'];

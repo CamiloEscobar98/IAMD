@@ -16,6 +16,7 @@
     @enderror
 </div>
 <!-- ./Name -->
+
 <!-- Email -->
 <div class="form-group">
     <label>{{ __('inputs.email') }}:</label>
@@ -105,56 +106,6 @@
         <!-- ./Document -->
     </div>
 </div>
-
- <div class="row">
-     <div class="col-lg-6">
-         <!-- Document Type -->
-         <div class="form-group">
-             <label>{{ __('inputs.document_type_id') }}:</label>
-             <div class="input-group">
-                 <select name="document_type_id"
-                     class="form-control select2bs4 @error('document_type_id') is-invalid @enderror">
-                     @foreach ($documentTypes as $documentType => $value)
-                         <option value="{{ $documentType }}"
-                             {{ twoOptionsIsEqual(old('document_type_id', getParamObjectLevelTwo($item->creator, 'document', 'document_type_id')), $documentType) }}>
-                             {{ $value }}</option>
-                     @endforeach
-                 </select>
-                 <div class="input-group-append">
-                     <div class="input-group-text">
-                         <span class="fas fa-address-card"></span>
-                     </div>
-                 </div>
-             </div>
-
-             @error('document_type_id')
-                 <small class="text-danger">{{ $message }}</small>
-             @enderror
-         </div>
-         <!-- ./Document Type -->
-     </div>
-     <div class="col-lg-6">
-         <!-- Document -->
-         <div class="form-group">
-             <label>{{ __('inputs.document') }}:</label>
-             <div class="input-group">
-                 <input type="text" name="document" class="form-control @error('document') is-invalid @enderror"
-                     placeholder="{{ __('inputs.document') }}"
-                     value="{{ old('document', getParamObjectLevelTwo($item->creator, 'document', 'document')) }}">
-                 <div class="input-group-append">
-                     <div class="input-group-text">
-                         <span class="fas fa-id-card	"></span>
-                     </div>
-                 </div>
-             </div>
-
-             @error('document')
-                 <small class="text-danger">{{ $message }}</small>
-             @enderror
-         </div>
-         <!-- ./Document -->
-     </div>
- </div>
 
  <!--Expedition Place -->
  <div class="row">

@@ -688,6 +688,24 @@ return [
                     ],
                 ]
             ],
+
+            /** Reports */
+            [
+                'name' => 'Generación de Reportes',
+                'can_deleted' => false,
+                'permissions' => [
+                    [
+                        'name' => 'reports.generate_report',
+                        'info' => 'Generar Reporte Personalizado',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'reports.generate_graphic',
+                        'info' => 'Generar Gráfica',
+                        'can_deleted' => false,
+                    ],
+                ]
+            ]
         ],
 
         /**

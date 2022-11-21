@@ -49,37 +49,36 @@ class ResearchUnitSeeder extends Seeder
         $researchUnitCategories = $this->researchUnitCategoryRepository->all();
         $creators = $this->creatorRepository->all();
 
+        $randomNumberResearchUnits = rand(15, 30);
 
-        $administrativeUnits->each(function ($administrativeUnit) use ($researchUnitCategories, $creators) {
-            $randomNumber = rand(2, 5);
-            $cont = 0;
+        $cont = 0;
 
-            print("Research Units for Administrative Unit: " . $administrativeUnit->name . "\n \n");
+        do {
+            $randomAdministrativeUnit = $administrativeUnits->random(1)->first();
+            print("Research Units for Administrative Unit: " . $randomAdministrativeUnit->name . "\n \n");
 
-            do {
-                $current = $cont + 1;
+            $current = $cont + 1;
 
-                print("Creating Research Unit: $current. \n");
-                $researchUnitCategory = $researchUnitCategories->random(1)->first();
-                $director = $creators->random(1)->first();
-                $inventoryManager = $creators->random(1)->first();
+            print("Creating Research Unit: $current. \n");
+            $researchUnitCategory = $researchUnitCategories->random(1)->first();
+            $director = $creators->random(1)->first();
+            $inventoryManager = $creators->random(1)->first();
 
-                $researchUnit = $this->researchUnitRepository->createOneFactory([
-                    'administrative_unit_id' => $administrativeUnit->id,
-                    'research_unit_category_id' => $researchUnitCategory->id,
-                    'director_id' => $director->id,
-                    'inventory_manager_id' => $inventoryManager->id
-                ]);
-                print("Research Unit Created. Name: " . $researchUnit->name .  "\n");
-                print("Research Unit Category Name: " . $researchUnitCategory->name .  "\n");
-                print("Director Name: " . $director->name .  "\n");
-                print("Inventory Manager Name: " . $inventoryManager->name .  "\n \n");
+            $researchUnit = $this->researchUnitRepository->createOneFactory([
+                'administrative_unit_id' => $randomAdministrativeUnit->id,
+                'research_unit_category_id' => $researchUnitCategory->id,
+                'director_id' => $director->id,
+                'inventory_manager_id' => $inventoryManager->id
+            ]);
+            print("Research Unit Created. Name: " . $researchUnit->name .  "\n");
+            print("Research Unit Category Name: " . $researchUnitCategory->name .  "\n");
+            print("Director Name: " . $director->name .  "\n");
+            print("Inventory Manager Name: " . $inventoryManager->name .  "\n \n");
 
 
-                $cont++;
-                $randomNumber--;
-            } while ($randomNumber > 0);
-        });
+            $cont++;
+            $randomNumberResearchUnits--;
+        } while ($randomNumberResearchUnits > 0);
 
         print("¡¡ RESEARCH UNITS CREATED !! \n \n");
     }

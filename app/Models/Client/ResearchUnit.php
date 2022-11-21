@@ -245,4 +245,12 @@ class ResearchUnit extends BaseModel
     {
         $query->where('updated_at', '<=', $dateTo);
     }
+
+    /**
+     * @return bool
+     */
+    public function hasProjects()
+    {
+        return $this->projects->count() > 0;
+    }
 }

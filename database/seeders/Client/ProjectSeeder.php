@@ -70,46 +70,50 @@ class ProjectSeeder extends Seeder
 
         print("¡¡ CREATING PROJECTS !! \n \n");
 
+        $randomNumberProjects = rand(100, 500);
+
+        $cont = 0;
+
+        do {
+            $randomResearchUnit = $researchUnits->random(1)->first();
+
+            print("RESEARCH UNIT: " . $randomResearchUnit->name .  "\n \n");
+
+            $current = $cont + 1;
+
+            /** Searching random Creator for Director role */
+            $director = $creators->random(1)->first();
+
+            print("Creating Project: $current. \n");
+
+            $project = $this->projectRepository->createOneFactory([
+                'research_unit_id' => $randomResearchUnit->id,
+                'director_id' => $director->id
+            ]);
+
+            print("Project Created. Name: " . $project->name . "\n");
+
+            /** Creating Project Financing Information */
+            print("Creating Project Financing Information. \n");
+
+            $financingType = $financingTypes->random(1)->first();
+
+            $projectContractType = $projectContractTypes->random(1)->first();
+
+            $this->projectFinancingRepository->createOneFactory([
+                'project_id' => $project->id,
+                'financing_type_id' => $financingType->id,
+                'project_contract_type_id' => $projectContractType->id,
+            ]);
+
+            print("Project Financing Information created! \n");
+
+            $cont++;
+            $randomNumberProjects--;
+        } while ($randomNumberProjects > 0);
+
         $researchUnits->each(function ($researchUnit) use ($creators, $financingTypes, $projectContractTypes) {
-            $randomNumber = rand(3, 6);
 
-            print("RESEARCH UNIT: " . $researchUnit->name .  "\n \n");
-
-            $cont = 0;
-
-            do {
-                $current = $cont + 1;
-
-                /** Searching random Creator for Director role */
-                $director = $creators->random(1)->first();
-
-                print("Creating Project: $current. \n");
-
-                $project = $this->projectRepository->createOneFactory([
-                    'research_unit_id' => $researchUnit->id,
-                    'director_id' => $director->id
-                ]);
-
-                print("Project Created. Name: " . $project->name . "\n");
-
-                /** Creating Project Financing Information */
-                print("Creating Project Financing Information. \n");
-
-                $financingType = $financingTypes->random(1)->first();
-
-                $projectContractType = $projectContractTypes->random(1)->first();
-
-                $this->projectFinancingRepository->createOneFactory([
-                    'project_id' => $project->id,
-                    'financing_type_id' => $financingType->id,
-                    'project_contract_type_id' => $projectContractType->id,
-                ]);
-
-                print("Project Financing Information created! \n");
-
-                $cont++;
-                $randomNumber--;
-            } while ($randomNumber > 0);
 
             print("PROJECTS FINISHED. \n \n");
         });
