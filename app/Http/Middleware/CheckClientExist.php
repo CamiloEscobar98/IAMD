@@ -31,7 +31,19 @@ class CheckClientExist
     {
         $client = $this->initClient($request->client);
 
+
         if (!is_null($client)) {
+            $currentClient = session('current_client');
+            if (!is_null($currentClient)) {
+                if ($client->name == $currentClient) {
+                    Config::set('database.connections.tenant', $this->tenantRepository->getArrayConfigurationDatabase($client));
+                    return $next($request);
+                } else {
+                    $client = $this->initClient($currentClient);
+                    Config::set('database.connections.tenant', $this->tenantRepository->getArrayConfigurationDatabase($client));
+                    return redirect(route('client.home', ['client' => $client->name]));
+                }
+            }
             Config::set('database.connections.tenant', $this->tenantRepository->getArrayConfigurationDatabase($client));
             return $next($request);
         } else {

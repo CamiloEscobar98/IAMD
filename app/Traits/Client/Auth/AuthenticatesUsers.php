@@ -66,6 +66,8 @@ trait AuthenticatesUsers
 
             $this->setCurrentRoleSession($request);
 
+            $this->setCurrentClientSession($request);
+
 
             return $this->sendLoginResponse($request);
         }
@@ -188,6 +190,8 @@ trait AuthenticatesUsers
 
         $request->session()->forget(['current_role']);
 
+        $request->session()->forget(['current_client']);
+
         if ($response = $this->loggedOut($request)) {
             return $response;
         }
@@ -218,7 +222,11 @@ trait AuthenticatesUsers
         return Auth::guard('web');
     }
 
-    /** @param Request $request */
+    /** 
+     * @param Request $request
+     * 
+     * @return void
+     */
     protected function setCurrentRoleSession($request)
     {
         $roleRepository = app(RoleRepository::class);
@@ -226,5 +234,15 @@ trait AuthenticatesUsers
         $role = $roleRepository->getById($request->get('role_id'));
 
         session(['current_role' => $role]);
+    }
+
+    /**
+     * @param Request $request
+     * 
+     * @return void
+     */
+    protected function setCurrentClientSession($request)
+    {
+        session(['current_client' => $request->client]);
     }
 }
