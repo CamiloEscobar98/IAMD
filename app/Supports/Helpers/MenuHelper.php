@@ -61,3 +61,32 @@ if (!function_exists('getClientRoute')) {
         return route($route, $params);
     }
 }
+
+if (!function_exists('getMainClientPermissions')) {
+
+    /**
+     * @return array
+     */
+    function getMainClientPermissions(): array
+    {
+        return [
+            'administrative_units.index',  'research_units.index', 'projects.index',
+            'intangible_assets.index',  'creators.internal.index',  'creators.external.index',
+            'users.index',  'roles.index', 'permissions.index',
+        ];
+    }
+}
+
+if (!function_exists('getConfigClientPermissions')) {
+
+    /**
+     * @return array
+     */
+    function getConfigClientPermissions(): array
+    {
+        return [
+            'strategy_categories.index',  'strategies.index', 'financing_types.index',
+            'project_contract_types.index',  'priority_tools.index',  'secret_protection_measures.index',
+        ];
+    }
+}

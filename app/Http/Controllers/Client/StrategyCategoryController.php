@@ -30,7 +30,13 @@ class StrategyCategoryController extends Controller
         StrategyCategoryRepository $strategyCategoryRepository
     ) {
         $this->middleware('auth');
-        
+
+        $this->middleware('permission:strategy_categories.index')->only('index');
+        $this->middleware('permission:strategy_categories.show')->only('show');
+        $this->middleware('permission:strategy_categories.store')->only(['create', 'store']);
+        $this->middleware('permission:strategy_categories.update')->only(['edit', 'update']);
+        $this->middleware('permission:strategy_categories.destroy')->only('destroy');
+
         $this->strategyCategoryService = $strategyCategoryService;
         $this->strategyCategoryRepository = $strategyCategoryRepository;
     }

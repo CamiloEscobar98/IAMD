@@ -79,8 +79,10 @@
 
             <div class="btn-group">
                 <button class="btn btn-secondary btn-sm">{{ __('buttons.filter') }}</button>
-                <a href="{{ route('client.projects.create', $client->name) }}"
-                    class="btn btn-danger btn-sm ml-2">{{ __('buttons.register') }}</a>
+                @can('projects.store')
+                    <a href="{{ route('client.projects.create', $client->name) }}"
+                        class="btn btn-danger btn-sm ml-2">{{ __('buttons.register') }}</a>
+                @endcan
             </div>
             <hr>
             <h6 class="font-weight-bold">{{ __('pages.client.projects.filters.total') }}<a

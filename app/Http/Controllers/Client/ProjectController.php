@@ -36,14 +36,12 @@ class ProjectController extends Controller
     ) {
         $this->middleware('auth');
 
-        $this->middleware('permission:projects.create')->only('create');
         $this->middleware('permission:projects.index')->only('index');
-        $this->middleware('permission:projects.store')->only('store');
         $this->middleware('permission:projects.show')->only('show');
-        $this->middleware('permission:projects.edit')->only('edit');
-        $this->middleware('permission:projects.update')->only('update');
+        $this->middleware('permission:projects.store')->only(['create', 'store']);
+        $this->middleware('permission:projects.update')->only(['edit', 'update']);
         $this->middleware('permission:projects.destroy')->only('destroy');
-
+        
         $this->projectService = $projectService;
 
         $this->projectRepository = $projectRepository;

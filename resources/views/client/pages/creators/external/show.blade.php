@@ -110,11 +110,13 @@
             </div>
         </div>
 
-        <!-- Edit Button -->
-        <div class="form-group mt-3">
-            <a href="{{ getClientRoute('client.creators.external.edit', [$item->creator_id]) }}"
-                class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
-        </div>
-        <!-- Edit Button -->
+        @can('creators.external.update')
+            <!-- Edit Button -->
+            <div class="form-group mt-3">
+                <a href="{{ getClientRoute('client.creators.external.edit', [$item->creator_id]) }}"
+                    class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
+            </div>
+            <!-- Edit Button -->
+        @endcan
     </div>
 @endsection

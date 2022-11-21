@@ -113,11 +113,13 @@
         </div>
         <!-- ./Updated At -->
 
-        <!-- Edit Button -->
-        <div class="form-group mt-4">
-            <a href="{{ getClientRoute('client.research_units.edit', [$item->id]) }}"
-                class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
-        </div>
-        <!-- Edit Button -->
+        @can('research_units.update')
+            <!-- Edit Button -->
+            <div class="form-group mt-4">
+                <a href="{{ getClientRoute('client.research_units.edit', [$item->id]) }}"
+                    class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
+            </div>
+            <!-- Edit Button -->
+        @endcan
     </div>
 @endsection

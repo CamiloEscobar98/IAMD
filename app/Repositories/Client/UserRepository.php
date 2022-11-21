@@ -41,6 +41,10 @@ class UserRepository extends  AbstractRepository
             $query->where('updated_at', '<=', $params['date_to']);
         }
 
+        if (isset($params['except_auth_user']) && $params['except_auth_user']) {
+            $query->where('id', '!=', current_user()->id);
+        }
+
         if (isset($with) && $with) {
             $query->with($with);
         }

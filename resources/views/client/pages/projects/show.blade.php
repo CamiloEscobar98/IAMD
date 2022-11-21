@@ -123,14 +123,16 @@
         <!-- ./Updated At -->
 
 
-        <!-- Edit Button -->
-        <div class="form-group mt-3">
-            <a href="{{ getClientRoute('client.projects.edit', [$item->id]) }}"
-                class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
-        </div>
-        <!-- Edit Button -->
+        @can('projects.update')
+            <!-- Edit Button -->
+            <div class="form-group mt-3">
+                <a href="{{ getClientRoute('client.projects.edit', [$item->id]) }}"
+                    class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
+            </div>
+            <!-- Edit Button -->
+        @endcan
 
-        @include('client.pages.intangible_assets.components.table_intangible_assets')
+        @include('client.pages.projects.components.table_intangible_assets')
     </div>
 @endsection
 

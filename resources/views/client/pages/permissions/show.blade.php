@@ -74,11 +74,13 @@
         </div>
         <!-- ./Updated At -->
 
-        <!-- Edit Button -->
-        <div class="form-group mt-3">
-            <a href="{{ getClientRoute('client.permissions.edit', [$item->id]) }}"
-                class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
-        </div>
-        <!-- Edit Button -->
+        @can('permissions.update')
+            <!-- Edit Button -->
+            <div class="form-group mt-3">
+                <a href="{{ getClientRoute('client.permissions.edit', [$item->id]) }}"
+                    class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
+            </div>
+            <!-- Edit Button -->
+        @endcan
     </div>
 @endsection

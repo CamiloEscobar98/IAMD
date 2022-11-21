@@ -66,11 +66,13 @@
         </div>
         <!-- ./Updated At -->
 
-        <!-- Edit Button -->
-        <div class="form-group mt-3">
-            <a href="{{ getClientRoute('client.priority_tools.edit', [$item->id]) }}"
-                class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
-        </div>
-        <!-- Edit Button -->
+        @can('priority_tools.update')
+            <!-- Edit Button -->
+            <div class="form-group mt-3">
+                <a href="{{ getClientRoute('client.priority_tools.edit', [$item->id]) }}"
+                    class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
+            </div>
+            <!-- Edit Button -->
+        @endcan
     </div>
 @endsection

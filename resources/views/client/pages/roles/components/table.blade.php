@@ -5,7 +5,9 @@
                 <th>{{ __('pages.client.roles.table.head.name') }}</th>
                 <th>{{ __('pages.client.roles.table.head.permissions') }}</th>
                 <th>{{ __('pages.client.roles.table.head.users') }}</th>
-                <th class="text-right">#</th>
+                @canany(['roles.show', 'roles.destroy'])
+                    <th class="text-right">#</th>
+                @endcanany
             </tr>
         </thead>
         <tbody>

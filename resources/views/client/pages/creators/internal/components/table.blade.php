@@ -7,12 +7,14 @@
                 <th>{{ __('pages.client.creators.internal.table.head.document') }}</th>
                 <th>{{ __('pages.client.creators.internal.table.head.linkage_type') }}</th>
                 <th>{{ __('pages.client.creators.internal.table.head.assignment_contract') }}</th>
-                <th class="text-right" style="width: 5em">#</th>
+                @canany(['creators.internal.show', 'creators.internal.destroy'])
+                    <th class="text-right" style="width: 5em">#</th>
+                @endcanany
             </tr>
         </thead>
         <tbody>
             @forelse ($items as $item)
-               @include('client.pages.creators.internal.components.row')
+                @include('client.pages.creators.internal.components.row')
             @empty
                 <td colspan="12">{{ __('pages.default.empty_table') }}</td>
             @endforelse

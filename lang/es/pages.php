@@ -1399,6 +1399,7 @@ return [
             ],
 
             'filters' => [
+                'name' => 'Buscar Usuario por Nombre',
                 'email' => 'Buscar Usuario por Email',
                 'total' => 'Total de Usuarios: ',
             ],
@@ -1407,6 +1408,7 @@ return [
                 'head' => [
                     'name' => 'Nombre',
                     'email' => 'Email',
+                    'role' => 'Rol Asignado',
                     'created_at' => 'Fecha de Creación',
                     'updated_at' => 'Fecha de Actualización'
                 ],

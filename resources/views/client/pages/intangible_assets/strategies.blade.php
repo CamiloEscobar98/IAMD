@@ -46,41 +46,43 @@
                 <div class="card-body">
 
                     <!-- Create Intangible Asset Strategy -->
-                    <form action="{{ route('client.intangible_assets.strategies.store', [$client->name, $item->id]) }}"
-                        method="post">
-                        @csrf
+                    @can('intangible_assets.strategies.store')
+                        <form action="{{ route('client.intangible_assets.strategies.store', [$client->name, $item->id]) }}"
+                            method="post">
+                            @csrf
 
-                        <input type="hidden" name="strategy_category_id" value="{{ $strategyCategory->id }}">
+                            <input type="hidden" name="strategy_category_id" value="{{ $strategyCategory->id }}">
 
-                        <!-- Strategies -->
-                        <div class="form-group">
-                            <label>{{ __('pages.client.intangible_assets.strategies.form.strategies') }}</label>
-                            <select name="strategy_id" class="form-control form-control-sm select2bs4">
-                                @foreach ($strategies as $strategy)
-                                    <option value="{{ $strategy->id }}">{{ $strategy->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <!-- Strategies -->
+                            <!-- Strategies -->
+                            <div class="form-group">
+                                <label>{{ __('pages.client.intangible_assets.strategies.form.strategies') }}</label>
+                                <select name="strategy_id" class="form-control form-control-sm select2bs4">
+                                    @foreach ($strategies as $strategy)
+                                        <option value="{{ $strategy->id }}">{{ $strategy->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <!-- Strategies -->
 
-                        <!-- Users -->
-                        <div class="form-group">
-                            <label>{{ __('pages.client.intangible_assets.strategies.form.users') }}</label>
-                            <select name="user_id" class="form-control form-control-sm select2bs4">
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <!-- Users -->
+                            <!-- Users -->
+                            <div class="form-group">
+                                <label>{{ __('pages.client.intangible_assets.strategies.form.users') }}</label>
+                                <select name="user_id" class="form-control form-control-sm select2bs4">
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <!-- Users -->
 
-                        <!-- Button Save -->
-                        <div class="form-group">
-                            <button class="btn btn-danger btn-sm">{{ __('buttons.add') }}</button>
-                        </div>
-                        <!-- ./Button Save -->
+                            <!-- Button Save -->
+                            <div class="form-group">
+                                <button class="btn btn-danger btn-sm">{{ __('buttons.add') }}</button>
+                            </div>
+                            <!-- ./Button Save -->
 
-                    </form>
+                        </form>
+                    @endcan
                     <!-- ./Create Intangible Asset Strategy -->
 
                     @if (intangibleAssetHasStrategyByStrategyCategory($item, $strategyCategory->id))
@@ -124,6 +126,8 @@
                             </ul>
                         </div>
                         <!-- Intangible Asset  Strategies List -->
+                    @else
+                        <p>No tiene Estrategias de Gestión asociadas...</p>
                     @endif
                 </div>
             </div>
@@ -145,8 +149,6 @@
     ])
 
     <script>
-      
-
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'

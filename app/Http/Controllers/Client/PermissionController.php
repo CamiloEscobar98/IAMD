@@ -29,6 +29,13 @@ class PermissionController extends Controller
         PermissionRepository $permissionRepository
     ) {
         $this->middleware('auth');
+
+        $this->middleware('permission:permissions.index')->only('index');
+        $this->middleware('permission:permissions.show')->only('show');
+        $this->middleware('permission:permissions.store')->only(['create', 'store']);
+        $this->middleware('permission:permissions.update')->only(['edit', 'update']);
+        $this->middleware('permission:permissions.destroy')->only('destroy');
+
         $this->permissionService = $permissionService;
         $this->permissionRepository = $permissionRepository;
     }

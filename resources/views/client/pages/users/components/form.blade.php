@@ -15,7 +15,6 @@
            <small class="text-danger">{{ $message }}</small>
        @enderror
    </div>
-
    <!-- ./Name -->
 
    <!-- Email -->
@@ -75,3 +74,28 @@
        @enderror
    </div>
    <!-- ./Repeat Password -->
+
+   <!-- Role -->
+   <div class="form-group">
+       <label>{{ __('inputs.role_id') }}:</label>
+       <div class="input-group">
+           <select name="role_id" class="form-control select2bs4 @error('role_id') is-invalid @enderror">
+               @foreach ($roles as $role => $value)
+                   <option value="{{ $role }}"
+                       {{ twoOptionsIsEqual(old('role_id', getParamObject($item->roles->first(), 'id')), $role) }}>
+                       {{ $value }}</option>
+               @endforeach
+           </select>
+           <div class="input-group-append">
+               <div class="input-group-text">
+                   <span class="fas fa-user"></span>
+               </div>
+           </div>
+       </div>
+
+       @error('role_id')
+           <small class="text-danger">{{ $message }}</small>
+       @enderror
+   </div>
+
+   <!-- ./Role -->

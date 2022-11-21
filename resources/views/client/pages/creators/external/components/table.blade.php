@@ -7,12 +7,14 @@
                 <th>{{ __('pages.client.creators.external.table.head.document') }}</th>
                 <th>{{ __('pages.client.creators.external.table.head.external_organization') }}</th>
                 <th>{{ __('pages.client.creators.external.table.head.assignment_contract') }}</th>
-                <th class="text-right">#</th>
+                @canany(['creators.external.show', 'creators.external.destroy'])
+                    <th class="text-right">#</th>
+                @endcanany
             </tr>
         </thead>
         <tbody>
             @forelse ($items as $item)
-               @include('client.pages.creators.external.components.row')
+                @include('client.pages.creators.external.components.row')
             @empty
                 <td colspan="12">{{ __('pages.default.empty_table') }}</td>
             @endforelse

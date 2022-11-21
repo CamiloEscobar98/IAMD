@@ -38,6 +38,12 @@ class CreatorExternalController extends Controller
     ) {
         $this->middleware('auth');
 
+        $this->middleware('permission:creators.external.index')->only('index');
+        $this->middleware('permission:creators.external.show')->only('show');
+        $this->middleware('permission:creators.external.store')->only(['create', 'store']);
+        $this->middleware('permission:creators.external.update')->only(['edit', 'update']);
+        $this->middleware('permission:creators.external.destroy')->only('destroy');
+
         $this->creatorExternalService = $creatorExternalService;
 
         $this->creatorExternalRepository = $creatorExternalRepository;
@@ -56,8 +62,6 @@ class CreatorExternalController extends Controller
     {
         try {
             $params = $this->creatorExternalService->transformParams($request->all());
-
-            // return $params;
 
             $query = $this->creatorExternalRepository->search($params, [
                 'creator', 'external_organization', 'assignment_contract', 'creator.document',

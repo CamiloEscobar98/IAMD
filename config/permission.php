@@ -173,6 +173,8 @@ return [
          * Default permission modules for seeders.
          */
         'permission_modules' => [
+
+            /** Administrative Units */
             [
                 'name' => 'Facultades',
                 'can_deleted' => false,
@@ -204,6 +206,8 @@ return [
                     ],
                 ]
             ],
+
+            /** Research Units */
             [
                 'name' => 'Unidades de Investigación',
                 'can_deleted' => false,
@@ -235,6 +239,8 @@ return [
                     ],
                 ]
             ],
+
+            /** Projects */
             [
                 'name' => 'Proyectos',
                 'can_deleted' => false,
@@ -266,6 +272,8 @@ return [
                     ],
                 ]
             ],
+
+            /** Intangible Assets */
             [
                 'name' => 'Activos Intangibles',
                 'can_deleted' => false,
@@ -291,12 +299,34 @@ return [
                         'can_deleted' => false,
                     ],
                     [
+                        'name' => 'intangible_assets.phases.update',
+                        'info' => 'Visualizar y actualizar las fases del Activo Intangible',
+                        'can_deleted' => false,
+                    ],
+                    [
                         'name' => 'intangible_assets.destroy',
                         'info' => 'Eliminar los Activos Intangibles',
                         'can_deleted' => false,
                     ],
+                    [
+                        'name' => 'intangible_assets.generate_report',
+                        'info' => 'Generar Reporte Individual del Activo Intangible',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'intangible_assets.generate_code',
+                        'info' => 'Generar Código del Activo Intangible',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'intangible_assets.strategies.index',
+                        'info' => 'Visualizar las Estrategias de Gestión asociadas a un Activo Intangible',
+                        'can_deleted' => false,
+                    ],
                 ]
             ],
+
+            /** Creators Internal */
             [
                 'name' => 'Creadores Internos',
                 'can_deleted' => false,
@@ -328,6 +358,8 @@ return [
                     ],
                 ]
             ],
+
+            /** Creators External */
             [
                 'name' => 'Creadores Externos',
                 'can_deleted' => false,
@@ -359,6 +391,8 @@ return [
                     ],
                 ]
             ],
+
+            /** Users */
             [
                 'name' => 'Usuarios',
                 'can_deleted' => false,
@@ -386,6 +420,270 @@ return [
                     [
                         'name' => 'users.destroy',
                         'info' => 'Eliminar los Usuarios',
+                        'can_deleted' => false,
+                    ],
+                ]
+            ],
+
+            /** Roles */
+            [
+                'name' => 'Roles del Sistema',
+                'can_deleted' => false,
+                'permissions' => [
+                    [
+                        'name' => 'roles.index',
+                        'info' => 'Visualizar los Roles.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'roles.store',
+                        'info' => 'Visualizar el formulario y registrar los Roles.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'roles.show',
+                        'info' => 'Visualizar la información detallada de los Roles.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'roles.update',
+                        'info' => 'Actualizar la información de los Roles.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'roles.destroy',
+                        'info' => 'Eliminar los Roles.',
+                        'can_deleted' => false,
+                    ],
+                ]
+            ],
+
+            /** Permissions */
+            [
+                'name' => 'Permisos del Sistema',
+                'can_deleted' => false,
+                'permissions' => [
+                    [
+                        'name' => 'permissions.index',
+                        'info' => 'Visualizar los Permisos.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'permissions.store',
+                        'info' => 'Visualizar el formulario y registrar los Permisos.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'permissions.show',
+                        'info' => 'Visualizar la información detallada de los Permisos.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'permissions.update',
+                        'info' => 'Actualizar la información de los Permisos.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'permissions.destroy',
+                        'info' => 'Eliminar los Permisos.',
+                        'can_deleted' => false,
+                    ],
+                ]
+            ],
+
+            /** Strategy Categories */
+            [
+                'name' => 'Categorias de las Estrategias de Gestión',
+                'can_deleted' => false,
+                'permissions' => [
+                    [
+                        'name' => 'strategy_categories.index',
+                        'info' => 'Visualizar las Categorias de las Estrategias de Gestión.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'strategy_categories.store',
+                        'info' => 'Visualizar el formulario y registrar las Categorias de las Estrategias de Gestión.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'strategy_categories.show',
+                        'info' => 'Visualizar la información detallada de las Categorias de las Estrategias de Gestión.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'strategy_categories.update',
+                        'info' => 'Actualizar la información de las Categorias de las Estrategias de Gestión.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'strategy_categories.destroy',
+                        'info' => 'Eliminar las Categorias de las Estrategias de Gestión.',
+                        'can_deleted' => false,
+                    ],
+                ]
+            ],
+
+            /** Strategies */
+            [
+                'name' => 'Estrategias de Gestión',
+                'can_deleted' => false,
+                'permissions' => [
+                    [
+                        'name' => 'strategies.index',
+                        'info' => 'Visualizar las Estrategias de Gestión.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'strategies.store',
+                        'info' => 'Visualizar el formulario y registrar las Estrategias de Gestión.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'strategies.show',
+                        'info' => 'Visualizar la información detallada de las Estrategias de Gestión.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'strategies.update',
+                        'info' => 'Actualizar la información de las Estrategias de Gestión.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'strategies.destroy',
+                        'info' => 'Eliminar las Estrategias de Gestión.',
+                        'can_deleted' => false,
+                    ],
+                ]
+            ],
+
+            /** Financing Types */
+            [
+                'name' => 'Financiación de Proyectos',
+                'can_deleted' => false,
+                'permissions' => [
+                    [
+                        'name' => 'financing_types.index',
+                        'info' => 'Visualizar las Financiaciones para los Proyectos.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'financing_types.store',
+                        'info' => 'Visualizar el formulario y registrar las Financiaciones para los Proyectos.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'financing_types.show',
+                        'info' => 'Visualizar la información detallada de las Financiaciones para los Proyectos.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'financing_types.update',
+                        'info' => 'Actualizar la información de las Financiaciones para los Proyectos.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'financing_types.destroy',
+                        'info' => 'Eliminar las Financiaciones para los Proyectos.',
+                        'can_deleted' => false,
+                    ],
+                ]
+            ],
+
+            /** Project Contract Types */
+            [
+                'name' => 'Contratación para Proyectos',
+                'can_deleted' => false,
+                'permissions' => [
+                    [
+                        'name' => 'project_contract_types.index',
+                        'info' => 'Visualizar los Tipos de Contratación para los Proyectos.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'project_contract_types.store',
+                        'info' => 'Visualizar el formulario y registrar los Tipos de Contratación para los Proyectos.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'project_contract_types.show',
+                        'info' => 'Visualizar la información detallada de los Tipos de Contratación para los Proyectos.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'project_contract_types.update',
+                        'info' => 'Actualizar la información de los Tipos de Contratación para los Proyectos.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'project_contract_types.destroy',
+                        'info' => 'Eliminar los Tipos de Contratación para los Proyectos.',
+                        'can_deleted' => false,
+                    ],
+                ]
+            ],
+
+            /** Priority Tools */
+            [
+                'name' => 'Herramientas de Priorización',
+                'can_deleted' => false,
+                'permissions' => [
+                    [
+                        'name' => 'priority_tools.index',
+                        'info' => 'Visualizar las Herramientas de Priorización.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'priority_tools.store',
+                        'info' => 'Visualizar el formulario y registrar las Herramientas de Priorización.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'priority_tools.show',
+                        'info' => 'Visualizar la información detallada de las Herramientas de Priorización.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'priority_tools.update',
+                        'info' => 'Actualizar la información de las Herramientas de Priorización.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'priority_tools.destroy',
+                        'info' => 'Eliminar las Herramientas de Priorización.',
+                        'can_deleted' => false,
+                    ],
+                ]
+            ],
+
+            /** Secret Protection Measures */
+            [
+                'name' => 'Medidas Secretas de Protección',
+                'can_deleted' => false,
+                'permissions' => [
+                    [
+                        'name' => 'secret_protection_measures.index',
+                        'info' => 'Visualizar las Medidas Secretas de Protección.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'secret_protection_measures.store',
+                        'info' => 'Visualizar el formulario y registrar las Medidas Secretas de Protección.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'secret_protection_measures.show',
+                        'info' => 'Visualizar la información detallada de las Medidas Secretas de Protección.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'secret_protection_measures.update',
+                        'info' => 'Actualizar la información de las Medidas Secretas de Protección.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'secret_protection_measures.destroy',
+                        'info' => 'Eliminar las Medidas Secretas de Protección.',
                         'can_deleted' => false,
                     ],
                 ]

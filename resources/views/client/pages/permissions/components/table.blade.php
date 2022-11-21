@@ -4,7 +4,9 @@
             <tr>
                 <th>{{ __('pages.client.permissions.table.head.permission_module') }}</th>
                 <th>{{ __('pages.client.permissions.table.head.name') }}</th>
-                <th class="text-right">#</th>
+                @canany(['permissions.show', 'permissions.destroy'])
+                    <th class="text-right">#</th>
+                @endcanany
             </tr>
         </thead>
         <tbody>

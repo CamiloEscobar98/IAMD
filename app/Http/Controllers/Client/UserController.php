@@ -34,6 +34,12 @@ class UserController extends Controller
     ) {
         $this->middleware('auth');
 
+        $this->middleware('permission:users.index')->only('index');
+        $this->middleware('permission:users.show')->only('show');
+        $this->middleware('permission:users.store')->only(['create', 'store']);
+        $this->middleware('permission:users.update')->only(['edit', 'update']);
+        $this->middleware('permission:users.destroy')->only('destroy');
+
         $this->userService = $userService;
         $this->userRepository = $userRepository;
     }
@@ -50,8 +56,9 @@ class UserController extends Controller
         try {
 
             $params = $this->userService->transformParams($request->all());
+            $params['except_auth_user'] = true;
 
-            $query = $this->userRepository->search($params, [], []);
+            $query = $this->userRepository->search($params, ['roles:id,info'], []);
 
             $total = $query->count();
 
@@ -92,11 +99,16 @@ class UserController extends Controller
     public function store(StoreRequest $request): RedirectResponse
     {
         try {
-            $data = $request->all();
+            $data = $request->only('name', 'email', 'password');
 
             DB::beginTransaction();
 
+            /** @var \App\Models\Client\User $item */
             $item = $this->userRepository->create($data);
+
+            $role = $request->get('role_id');
+
+            $item->assignRole($role);
 
             DB::commit();
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.users.messages.save_success', ['user' => $item->name])]);
@@ -155,13 +167,22 @@ class UserController extends Controller
     public function update(UpdateRequest $request, $id, $user)
     {
         try {
-            $data = $request->all();
+            $data = [];
+
+            $attributesRequest = is_null($request->get('password')) ? ['name', 'email', 'role_id'] : ['name', 'email', 'role_id', 'password'];
+
+            $data = $request->only($attributesRequest);
 
             $item = $this->userRepository->getById($user);
 
             DB::beginTransaction();
 
             $this->userRepository->update($item, $data);
+
+            $role = $request->get('role_id');
+
+            /** @var \App\Models\Client\User $item */
+            $item->syncRoles($role);
 
             DB::commit();
 

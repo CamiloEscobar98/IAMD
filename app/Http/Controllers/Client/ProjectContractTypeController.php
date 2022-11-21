@@ -31,6 +31,12 @@ class ProjectContractTypeController extends Controller
     ) {
         $this->middleware('auth');
 
+        $this->middleware('permission:project_contract_types.index')->only('index');
+        $this->middleware('permission:project_contract_types.show')->only('show');
+        $this->middleware('permission:project_contract_types.store')->only(['create', 'store']);
+        $this->middleware('permission:project_contract_types.update')->only(['edit', 'update']);
+        $this->middleware('permission:project_contract_types.destroy')->only('destroy');
+
         $this->projectContractTypeService = $projectContractTypeService;
         $this->projectContractTypeRepository = $projectContractTypeRepository;
     }

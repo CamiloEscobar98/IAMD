@@ -4,6 +4,8 @@ namespace App\Traits\Client\ViewComposers;
 
 use Illuminate\Support\Facades\View;
 
+use App\Http\ViewComposers\Client\DashboardComposer;
+
 use App\Http\ViewComposers\ClientComposer;
 use App\Http\ViewComposers\Client\NotificationComposer;
 
@@ -18,7 +20,6 @@ use App\Http\ViewComposers\Client\Creators\Internal\CreateCreatorInternalCompose
 
 use App\Http\ViewComposers\Client\Creators\External\CreatorExternalFilterComposer;
 use App\Http\ViewComposers\Client\Creators\External\CreateCreatorExternalComposer;
-use App\Http\ViewComposers\Client\DashboardComposer;
 use App\Http\ViewComposers\Client\IntangibleAssets\IntangibleAssetFilterComposer;
 use App\Http\ViewComposers\Client\IntangibleAssets\CreateIntangibleAssetComposer;
 use App\Http\ViewComposers\Client\IntangibleAssets\ShowIntangibleAssetComposer;
@@ -26,7 +27,12 @@ use App\Http\ViewComposers\Client\IntangibleAssets\StrategyIntangibleAssetCompos
 use App\Http\ViewComposers\Client\Permissions\CreatePermissionComposer;
 use App\Http\ViewComposers\Client\Permissions\FilterPermissionComposer;
 use App\Http\ViewComposers\Client\Reports\Custom\CustomReportFilterComposer;
+
+use App\Http\ViewComposers\Client\Roles\FormRoleComposer;
 use App\Http\ViewComposers\Client\Roles\ShowRoleComposer;
+
+use App\Http\ViewComposers\Client\Users\UserFormComposer;
+
 
 trait ClientRoutes
 {
@@ -91,7 +97,11 @@ trait ClientRoutes
         View::composer('client.pages.intangible_assets.components.phases', ShowIntangibleAssetComposer::class);
         View::composer('client.pages.intangible_assets.strategies', StrategyIntangibleAssetComposer::class);
 
+        /** Users */
+        View::composer('client.pages.users.components.form', UserFormComposer::class);
+
         /** Roles */
+        View::composer('client.pages.roles.components.form', FormRoleComposer::class);
         View::composer('client.pages.roles.show', ShowRoleComposer::class);
 
         /** Permissions */

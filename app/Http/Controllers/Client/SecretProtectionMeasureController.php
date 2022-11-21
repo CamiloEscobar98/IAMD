@@ -30,6 +30,12 @@ class SecretProtectionMeasureController extends Controller
     ) {
         $this->middleware('auth');
 
+        $this->middleware('permission:secret_protection_measures.index')->only('index');
+        $this->middleware('permission:secret_protection_measures.show')->only('show');
+        $this->middleware('permission:secret_protection_measures.store')->only(['create', 'store']);
+        $this->middleware('permission:secret_protection_measures.update')->only(['edit', 'update']);
+        $this->middleware('permission:secret_protection_measures.destroy')->only('destroy');
+
         $this->secretProtectionMeasureService = $secretProtectionMeasureService;
         $this->secretProtectionMeasureRepository = $secretProtectionMeasureRepository;
     }

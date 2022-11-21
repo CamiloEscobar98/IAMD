@@ -30,6 +30,12 @@ class IntangibleAssetController extends Controller
     ) {
         $this->middleware('auth');
 
+        $this->middleware('permission:intangible_assets.index')->only('index');
+        $this->middleware('permission:intangible_assets.show')->only('show');
+        $this->middleware('permission:intangible_assets.store')->only(['create', 'store']);
+        $this->middleware('permission:intangible_assets.update')->only(['edit', 'update']);
+        $this->middleware('permission:intangible_assets.destroy')->only('destroy');
+
         $this->intangibleAssetService = $intangibleAssetService;
 
         $this->intangibleAssetRepository = $intangibleAssetRepository;
@@ -86,7 +92,7 @@ class IntangibleAssetController extends Controller
     public function store(StoreRequest $request): RedirectResponse
     {
         $data = $request->only(['project_id', 'name', 'date']);
-        
+
         $localizationData = $request->only(['localization', 'localization_code']);
 
         $response = $this->intangibleAssetService->createIntangibleAsset($data, $localizationData);

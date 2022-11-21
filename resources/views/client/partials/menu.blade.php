@@ -1,4 +1,6 @@
-<li class="nav-header">{{ __('menu.client.title') }}</li>
+@canany(getMainClientPermissions())
+    <li class="nav-header">{{ __('menu.client.title') }}</li>
+@endcanany
 
 <!-- Administrative Units -->
 @can('administrative_units.index')
@@ -83,7 +85,8 @@
 <!-- Roles -->
 @can('roles.index')
     <li class="nav-item">
-        <a href="{{ route('client.roles.index', [$client->name]) }}" class="nav-link {{ routeIsActived('roles-del-sistema') }}">
+        <a href="{{ route('client.roles.index', [$client->name]) }}"
+            class="nav-link {{ routeIsActived('roles-del-sistema') }}">
             <i class="fas fa-user-cog nav-icon"></i>
             <p>{{ __('menu.client.roles') }}</p>
         </a>
@@ -94,7 +97,8 @@
 <!-- Permissions -->
 @can('permissions.index')
     <li class="nav-item">
-        <a href="{{ route('client.permissions.index', [$client->name]) }}" class="nav-link {{ routeIsActived('permisos-del-sistema') }}">
+        <a href="{{ route('client.permissions.index', [$client->name]) }}"
+            class="nav-link {{ routeIsActived('permisos-del-sistema') }}">
             <i class="fas fa-clipboard-list nav-icon"></i>
             <p>{{ __('menu.client.permissions') }}</p>
         </a>
@@ -102,66 +106,80 @@
 @endcan
 <!-- ./Permissions -->
 
-<li class="nav-header">{{ __('menu.client.first_subtitle') }}</li>
+@canany(getConfigClientPermissions())
+    <li class="nav-header">{{ __('menu.client.first_subtitle') }}</li>
+@endcanany
 
 <!-- Strategy Categories -->
-<li class="nav-item">
-    <a href="{{ route('client.strategy_categories.index', [$client->name]) }}"
-        class="nav-link {{ routeIsActived('categorias-de-las-estrategias-de-gestion') }}">
-        <i class="fas fa-star nav-icon"></i>
-        <p>{{ __('menu.client.strategy_categories') }}</p>
-    </a>
-</li>
+@can('strategy_categories.index')
+    <li class="nav-item">
+        <a href="{{ route('client.strategy_categories.index', [$client->name]) }}"
+            class="nav-link {{ routeIsActived('categorias-de-las-estrategias-de-gestion') }}">
+            <i class="fas fa-star nav-icon"></i>
+            <p>{{ __('menu.client.strategy_categories') }}</p>
+        </a>
+    </li>
+@endcan
 <!-- ./Strategy Categories -->
 
 <!-- Strategies -->
-<li class="nav-item">
-    <a href="{{ route('client.strategies.index', [$client->name]) }}"
-        class="nav-link {{ routeIsActived('estrategias-de-gestion') }}">
-        <i class="fas fa-toolbox nav-icon"></i>
-        <p>{{ __('menu.client.strategies') }}</p>
-    </a>
-</li>
+@can('strategies.index')
+    <li class="nav-item">
+        <a href="{{ route('client.strategies.index', [$client->name]) }}"
+            class="nav-link {{ routeIsActived('estrategias-de-gestion') }}">
+            <i class="fas fa-toolbox nav-icon"></i>
+            <p>{{ __('menu.client.strategies') }}</p>
+        </a>
+    </li>
+@endcan
 <!-- ./Strategies -->
 
 <!-- Financing Types -->
-<li class="nav-item">
-    <a href="{{ route('client.financing_types.index', [$client->name]) }}"
-        class="nav-link {{ routeIsActived('financiacion-de-proyectos') }}">
-        <i class="fas fa-balance-scale-right nav-icon"></i>
-        <p>{{ __('menu.client.financing_types') }}</p>
-    </a>
-</li>
+@can('financing_types.index')
+    <li class="nav-item">
+        <a href="{{ route('client.financing_types.index', [$client->name]) }}"
+            class="nav-link {{ routeIsActived('financiacion-de-proyectos') }}">
+            <i class="fas fa-balance-scale-right nav-icon"></i>
+            <p>{{ __('menu.client.financing_types') }}</p>
+        </a>
+    </li>
+@endcan
 <!-- ./Financing Types -->
 
 <!-- Project Contract Types -->
-<li class="nav-item">
-    <a href="{{ route('client.project_contract_types.index', [$client->name]) }}"
-        class="nav-link {{ routeIsActived('contratos-para-proyectos') }}">
-        <i class="fas fa-hands-helping	 nav-icon"></i>
-        <p>{{ __('menu.client.project_contract_types') }}</p>
-    </a>
-</li>
+@can('project_contract_types.index')
+    <li class="nav-item">
+        <a href="{{ route('client.project_contract_types.index', [$client->name]) }}"
+            class="nav-link {{ routeIsActived('contratos-para-proyectos') }}">
+            <i class="fas fa-hands-helping	 nav-icon"></i>
+            <p>{{ __('menu.client.project_contract_types') }}</p>
+        </a>
+    </li>
+@endcan
 <!-- ./Project Contract Types -->
 
 <!-- Priority Tools -->
-<li class="nav-item">
-    <a href="{{ route('client.priority_tools.index', [$client->name]) }}"
-        class="nav-link {{ routeIsActived('herramientas-de-priorizacion') }}">
-        <i class="fas fa-tools nav-icon"></i>
-        <p>{{ __('menu.client.priority_tools') }}</p>
-    </a>
-</li>
+@can('priority_tools.index')
+    <li class="nav-item">
+        <a href="{{ route('client.priority_tools.index', [$client->name]) }}"
+            class="nav-link {{ routeIsActived('herramientas-de-priorizacion') }}">
+            <i class="fas fa-tools nav-icon"></i>
+            <p>{{ __('menu.client.priority_tools') }}</p>
+        </a>
+    </li>
+@endcan
 <!-- ./Priority Tools -->
 
 <!-- Secret Protection Measures -->
-<li class="nav-item">
-    <a href="{{ route('client.secret_protection_measures.index', [$client->name]) }}"
-        class="nav-link {{ routeIsActived('medidas-secretas-de-proteccion') }}">
-        <i class="fas fa-user-secret nav-icon"></i>
-        <p>{{ __('menu.client.secret_protection_measures') }}</p>
-    </a>
-</li>
+@can('secret_protection_measures.index')
+    <li class="nav-item">
+        <a href="{{ route('client.secret_protection_measures.index', [$client->name]) }}"
+            class="nav-link {{ routeIsActived('medidas-secretas-de-proteccion') }}">
+            <i class="fas fa-user-secret nav-icon"></i>
+            <p>{{ __('menu.client.secret_protection_measures') }}</p>
+        </a>
+    </li>
+@endcan
 <!-- ./Secret Protection Measures -->
 
 <li class="nav-header">{{ __('menu.client.second_subtitle') }}</li>

@@ -8,7 +8,9 @@
                 <th>{{ __('pages.client.projects.table.head.name') }}</th>
                 <th>{{ __('pages.client.projects.table.head.project_financing') }}</th>
                 <th>{{ __('pages.client.projects.table.head.intangible_assets') }}</th>
-                <th class="text-right" style="width: 5em">#</th>
+                @canany(['projects.show', 'projects.destroy'])
+                    <th class="text-right" style="width: 5em">#</th>
+                @endcanany
             </tr>
         </thead>
         <tbody>

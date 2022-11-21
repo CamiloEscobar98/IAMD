@@ -4,7 +4,10 @@
             <tr>
                 <th>{{ __('pages.client.users.table.head.name') }}</th>
                 <th>{{ __('pages.client.users.table.head.email') }}</th>
-                <th class="text-right" style="width: 5em">#</th>
+                <th>{{ __('pages.client.users.table.head.role') }}</th>
+                @canany(['users.show', 'users.destroy'])
+                    <th class="text-right" style="width: 5em">#</th>
+                @endcanany
             </tr>
         </thead>
         <tbody>

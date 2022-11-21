@@ -51,7 +51,8 @@
                             <label class="input-group-text">{{ __('filters.external_organizations') }}</label>
                         </div>
                         <select name="external_organization_id[]" class="form-control select2bs4" multiple>
-                            <option value="">{{ __('pages.client.creators.external.filters.external_organizations') }}
+                            <option value="">
+                                {{ __('pages.client.creators.external.filters.external_organizations') }}
                             </option>
                             @foreach ($externalOrganizations as $externalOrganization)
                                 <option value="{{ $externalOrganization->id }}"
@@ -99,8 +100,10 @@
             </div>
             <div class="btn-group">
                 <button class="btn btn-secondary btn-sm">{{ __('buttons.filter') }}</button>
-                <a href="{{ route('client.creators.external.create', $client->name) }}"
-                    class="btn btn-danger btn-sm ml-2">{{ __('buttons.register') }}</a>
+                @can('creators.external.store')
+                    <a href="{{ route('client.creators.external.create', $client->name) }}"
+                        class="btn btn-danger btn-sm ml-2">{{ __('buttons.register') }}</a>
+                @endcan
             </div>
             <hr>
             <h6 class="font-weight-bold">{{ __('pages.client.creators.external.filters.total') }}<a

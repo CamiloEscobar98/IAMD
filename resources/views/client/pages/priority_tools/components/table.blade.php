@@ -4,7 +4,9 @@
             <tr>
                 <th>{{ __('pages.client.priority_tools.table.head.name') }}</th>
                 <th>{{ __('pages.client.priority_tools.table.head.description') }}</th>
-                <th class="text-right" style="width: 5em">#</th>
+                @canany(['priority_tools.show', 'priority_tools.destroy'])
+                    <th class="text-right" style="width: 5em">#</th>
+                @endcanany
             </tr>
         </thead>
         <tbody>

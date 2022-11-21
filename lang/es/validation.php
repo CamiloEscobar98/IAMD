@@ -170,6 +170,8 @@ return [
 
         /** Custom Attributes */
 
+        'role_id' => 'rol',
+
         'code' => 'código',
 
         'intellectual_property_right_category_id' =>  'categoría de los derechos de propiedad intelectual',

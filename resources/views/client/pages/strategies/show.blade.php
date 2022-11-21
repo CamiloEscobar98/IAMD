@@ -67,22 +67,14 @@
                 </div>
                 <!-- ./Updated At -->
 
-                <!-- Edit Button -->
-                <div class="form-group mt-3">
-                    <a href="{{ getClientRoute('client.strategies.edit', [$item->id]) }}"
-                        class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
-                </div>
-                <!-- Edit Button -->
-
-
-            </div>
-        </div>
-        <div class="row justify-content-start">
-            <div class="col-md-7">
-
-            </div>
-            <div class="col-md-5">
-
+                @can('strategies.update')
+                    <!-- Edit Button -->
+                    <div class="form-group mt-3">
+                        <a href="{{ getClientRoute('client.strategies.edit', [$item->id]) }}"
+                            class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
+                    </div>
+                    <!-- Edit Button -->
+                @endcan
             </div>
         </div>
     </div>

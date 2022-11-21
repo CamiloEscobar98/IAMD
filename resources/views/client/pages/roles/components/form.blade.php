@@ -34,3 +34,23 @@
 @error('info')
     <small class="text-danger">{{ $message }}</small>
 @enderror
+<!-- ./Info -->
+
+<div class="row">
+    @foreach ($permissionModules as $permissionModule)
+        <div class="col-lg-3">
+            <div class="form-group mt-3">
+                <label>{{ $permissionModule->name }}:</label>
+                @foreach ($permissionModule->permissions as $permission)
+                    <div class="custom-control custom-checkbox my-1">
+                        <input type="checkbox" class="custom-control-input" id="permission_{{ $permission->id }}"
+                            name="permissions[]" value="{{ $permission->id }}"
+                            {{ optionInArrayIsChecked(old('permissions', $item->permissions), $permission->id) }}>
+                        <label class="custom-control-label font-weight-normal"
+                            for="permission_{{ $permission->id }}">{{ $permission->info }}</label>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endforeach
+</div>

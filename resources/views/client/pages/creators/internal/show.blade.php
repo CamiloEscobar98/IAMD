@@ -37,7 +37,7 @@
         <div class="pl-3 py-2 bg-danger text-white">
             <h5 class="font-weight-bold">{{ __('pages.client.creators.internal.form-titles.show') }}</h5>
         </div>
-        
+
         <div class="row mt-2">
             <div class="col-lg-6">
                 <!-- Name -->
@@ -110,11 +110,13 @@
             </div>
         </div>
 
-        <!-- Edit Button -->
-        <div class="form-group">
-            <a href="{{ getClientRoute('client.creators.internal.edit', [$item->creator_id]) }}"
-                class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
-        </div>
-        <!-- Edit Button -->
+        @can('creators.internal.update')
+            <!-- Edit Button -->
+            <div class="form-group">
+                <a href="{{ getClientRoute('client.creators.internal.edit', [$item->creator_id]) }}"
+                    class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
+            </div>
+            <!-- Edit Button -->
+        @endcan
     </div>
 @endsection

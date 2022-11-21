@@ -31,6 +31,12 @@ class PriorityToolController extends Controller
     ) {
         $this->middleware('auth');
 
+        $this->middleware('permission:priority_tools.index')->only('index');
+        $this->middleware('permission:priority_tools.show')->only('show');
+        $this->middleware('permission:priority_tools.store')->only(['create', 'store']);
+        $this->middleware('permission:priority_tools.update')->only(['edit', 'update']);
+        $this->middleware('permission:priority_tools.destroy')->only('destroy');
+
         $this->priorityToolService = $priorityToolService;
         $this->priorityToolRepository = $priorityToolRepository;
     }

@@ -4,12 +4,14 @@
             <tr>
                 <th>{{ __('pages.client.strategies.table.head.name') }}</th>
                 <th>{{ __('pages.client.strategies.table.head.description') }}</th>
-                <th class="text-right" style="width: 5em">#</th>
+                @canany(['strategies.show', 'strategies.destroy'])
+                    <th class="text-right" style="width: 5em">#</th>
+                @endcanany
             </tr>
         </thead>
         <tbody>
             @forelse ($items as $item)
-               @include('client.pages.strategies.components.row')
+                @include('client.pages.strategies.components.row')
             @empty
                 <td colspan="12">{{ __('pages.default.empty_table') }}</td>
             @endforelse

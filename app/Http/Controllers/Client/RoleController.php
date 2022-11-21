@@ -29,6 +29,13 @@ class RoleController extends Controller
         RoleRepository $roleRepository
     ) {
         $this->middleware('auth');
+
+        $this->middleware('permission:roles.index')->only('index');
+        $this->middleware('permission:roles.show')->only('show');
+        $this->middleware('permission:roles.store')->only(['create', 'store']);
+        $this->middleware('permission:roles.update')->only(['edit', 'update']);
+        $this->middleware('permission:roles.destroy')->only('destroy');
+
         $this->roleService = $roleService;
 
         $this->roleRepository = $roleRepository;
@@ -91,7 +98,12 @@ class RoleController extends Controller
 
             DB::beginTransaction();
 
+            /** @var \App\Models\Client\Role $item */
             $item = $this->roleRepository->create($data);
+
+            $permissions = $request->get('permissions');
+
+            $item->syncPermissions($permissions);
 
             DB::commit();
 

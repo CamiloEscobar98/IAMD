@@ -44,8 +44,10 @@
             </div>
             <div class="btn-group">
                 <button class="btn btn-secondary btn-sm">{{ __('buttons.filter') }}</button>
-                <a href="{{ route('client.strategy_categories.create', $client->name) }}"
-                    class="btn btn-danger btn-sm ml-2">{{ __('buttons.register') }}</a>
+                @can('strategy_categories.store')
+                    <a href="{{ route('client.strategy_categories.create', $client->name) }}"
+                        class="btn btn-danger btn-sm ml-2">{{ __('buttons.register') }}</a>
+                @endcan
             </div>
             <hr>
             <h6 class="font-weight-bold">{{ __('pages.client.strategy_categories.filters.total') }}<a

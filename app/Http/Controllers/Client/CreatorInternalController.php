@@ -39,6 +39,12 @@ class CreatorInternalController extends Controller
     ) {
         $this->middleware('auth');
 
+        $this->middleware('permission:creators.internal.index')->only('index');
+        $this->middleware('permission:creators.internal.show')->only('show');
+        $this->middleware('permission:creators.internal.store')->only(['create', 'store']);
+        $this->middleware('permission:creators.internal.update')->only(['edit', 'update']);
+        $this->middleware('permission:creators.internal.destroy')->only('destroy');
+
         $this->creatorInternalService = $creatorInternalService;
 
         $this->creatorInternalRepository = $creatorInternalRepository;

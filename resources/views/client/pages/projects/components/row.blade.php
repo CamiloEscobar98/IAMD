@@ -14,25 +14,31 @@
     <td>
         {{ __('pages.client.projects.table.body.intangible_assets_count', ['intangible_assets' => $item->intangible_assets_count]) }}
     </td>
-    <td class="text-right">
-        <div class="btn-group">
-            <button type="button" class="dropdown-toggle btn btn-sm btn-danger btn-block" data-toggle="dropdown">
-                <span class="fas fa-cog"></span>
-            </button>
-            <div class="dropdown-menu">
-                <a href="{{ getClientRoute('client.projects.show', [$item->id]) }}" class="dropdown-item">
-                    <i class="fas fa-sm fa-eye"></i> Ver
-                </a>
-                <form action="{{ getClientRoute('client.projects.destroy', [$item->id]) }}"
-                    id="form-delete-{{ $item->id }}" method="post">
-                    @csrf
-                    @method('DELETE')
+    @canany(['projects.show', 'projects.destroy'])
+        <td class="text-right">
+            <div class="btn-group">
+                <button type="button" class="dropdown-toggle btn btn-sm btn-danger btn-block" data-toggle="dropdown">
+                    <span class="fas fa-cog"></span>
+                </button>
+                <div class="dropdown-menu">
+                    @can('projects.show')
+                        <a href="{{ getClientRoute('client.projects.show', [$item->id]) }}" class="dropdown-item">
+                            <i class="fas fa-sm fa-eye"></i> Ver
+                        </a>
+                    @endcan
+                    @can('projects.destroy')
+                        <form action="{{ getClientRoute('client.projects.destroy', [$item->id]) }}"
+                            id="form-delete-{{ $item->id }}" method="post">
+                            @csrf
+                            @method('DELETE')
 
-                    <button type="submit" class="dropdown-item" onclick="destroy(event, {{ $item->id }})">
-                        <i class="fas fa-sm fa-trash"></i> Borrar
-                    </button>
-                </form>
+                            <button type="submit" class="dropdown-item" onclick="destroy(event, {{ $item->id }})">
+                                <i class="fas fa-sm fa-trash"></i> Borrar
+                            </button>
+                        </form>
+                    @endcan
+                </div>
             </div>
-        </div>
-    </td>
+        </td>
+    @endcanany
 </tr>

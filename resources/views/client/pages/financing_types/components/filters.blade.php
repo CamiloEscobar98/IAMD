@@ -44,8 +44,10 @@
             </div>
             <div class="btn-group">
                 <button class="btn btn-secondary btn-sm">{{ __('buttons.filter') }}</button>
-                <a href="{{ route('client.financing_types.create', $client->name) }}"
-                    class="btn btn-danger btn-sm ml-2">{{ __('buttons.register') }}</a>
+                @can('financing_types.store')
+                    <a href="{{ route('client.financing_types.create', $client->name) }}"
+                        class="btn btn-danger btn-sm ml-2">{{ __('buttons.register') }}</a>
+                @endcan
             </div>
             <hr>
             <h6 class="font-weight-bold">{{ __('pages.client.financing_types.filters.total') }}<a

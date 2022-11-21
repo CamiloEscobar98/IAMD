@@ -31,6 +31,12 @@ class StrategyController extends Controller
     ) {
         $this->middleware('auth');
 
+        $this->middleware('permission:strategies.index')->only('index');
+        $this->middleware('permission:strategies.show')->only('show');
+        $this->middleware('permission:strategies.store')->only(['create', 'store']);
+        $this->middleware('permission:strategies.update')->only(['edit', 'update']);
+        $this->middleware('permission:strategies.destroy')->only('destroy');
+
         $this->strategyService = $strategyService;
         $this->strategyRepository = $strategyRepository;
     }

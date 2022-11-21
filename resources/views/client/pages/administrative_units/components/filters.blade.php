@@ -44,7 +44,7 @@
             </div>
             <div class="btn-group">
                 <button class="btn btn-secondary btn-sm">{{ __('buttons.filter') }}</button>
-                @can('permission:administrative_units.store')
+                @can('administrative_units.store')
                     <a href="{{ route('client.administrative_units.create', $client->name) }}"
                         class="btn btn-danger btn-sm ml-2">{{ __('buttons.register') }}</a>
                 @endcan

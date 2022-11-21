@@ -51,6 +51,13 @@
         </div>
         <!-- ./Email -->
 
+        <!-- Current Role -->
+        <div class="form-group mt-3">
+            <label>{{ __('inputs.role_id') }}:</label>
+            <p>{{ getParamObject($item->roles->first(), 'info') }}</p>
+        </div>
+        <!-- ./Current Role -->
+
         <hr>
 
         <!-- Created At -->
@@ -67,11 +74,13 @@
         </div>
         <!-- ./Updated At -->
 
-        <!-- Edit Button -->
-        <div class="form-group mt-3">
-            <a href="{{ getClientRoute('client.users.edit', [$item->id]) }}"
-                class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
-        </div>
-        <!-- Edit Button -->
+        @can('users.update')
+            <!-- Edit Button -->
+            <div class="form-group mt-3">
+                <a href="{{ getClientRoute('client.users.edit', [$item->id]) }}"
+                    class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
+            </div>
+            <!-- Edit Button -->
+        @endcan
     </div>
 @endsection
