@@ -19,6 +19,32 @@ if (!function_exists('phaseIsCompletedColor')) {
     }
 }
 
+if (!function_exists('phaseIsCompletedBorder')) {
+
+    /**
+     * @param bool|null $phaseState
+     * 
+     * @return string|null
+     */
+    function phaseIsCompletedBorder($phaseState): string|null
+    {
+        return $phaseState ? "border-success" : "border-danger";
+    }
+}
+
+if (!function_exists('phaseIsCompletedTextColor')) {
+
+    /**
+     * @param bool|null $phaseState
+
+     * @return string|null
+     */
+    function phaseIsCompletedTextColor($phaseState, $gradient = false): string|null
+    {
+        return $phaseState ? "text-success" : "text-danger";
+    }
+}
+
 
 if (!function_exists('phaseIsCompletedButton')) {
 
@@ -54,7 +80,7 @@ if (!function_exists('phaseIsCompletedIcon')) {
      */
     function phaseIsCompletedIcon($phaseState)
     {
-        return $phaseState ? 'fas fa-check' : 'fas fa-exclamation-circle';
+        return $phaseState ? 'fas fa-check' : 'fas fa-ban';
     }
 }
 
@@ -353,7 +379,7 @@ if (!function_exists('getPhasesByNumber')) {
             $arrayAux = [];
             foreach ($phases as $key => $phase) {
                 if ($asQuery) {
-                    $arrayAux["intangible_asset_phases.phase_{$phasesString[$phase - 1]}_completed"] = $phase; 
+                    $arrayAux["intangible_asset_phases.phase_{$phasesString[$phase - 1]}_completed"] = $phase;
                 } else {
                     array_push($arrayAux, "phase_{$phasesString[$phase - 1]}_completed");
                 }

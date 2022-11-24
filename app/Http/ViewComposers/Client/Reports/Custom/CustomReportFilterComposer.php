@@ -4,25 +4,17 @@ namespace App\Http\ViewComposers\Client\Reports\Custom;
 
 use Illuminate\View\View;
 
-use App\Repositories\Client\AdministrativeUnitRepository;
-use App\Repositories\Client\ResearchUnitRepository;
-use App\Repositories\Client\ProjectRepository;
 use App\Repositories\Admin\IntangibleAssetStateRepository;
 use App\Services\Admin\IntellectualPropertyRightCategoryService;
+use App\Services\Client\AdministrativeUnitService;
 
 class CustomReportFilterComposer
 {
     /** @var IntellectualPropertyRightCategoryService */
     protected $intellectualPropertyRightCategoryService;
 
-    /** @var AdministrativeUnitRepository */
-    protected $administrativeUnitRepository;
-
-    /** @var ResearchUnitRepository */
-    protected $researchUnitRepository;
-
-    /** @var ProjectRepository */
-    protected $projectRepository;
+    /** @var AdministrativeUnitService */
+    protected $administrativeUnitService;
 
     /** @var IntangibleAssetStateRepository */
     protected $intangibleAssetStateRepository;
@@ -30,16 +22,12 @@ class CustomReportFilterComposer
     public function __construct(
         IntellectualPropertyRightCategoryService $intellectualPropertyRightCategoryService,
 
-        AdministrativeUnitRepository $administrativeUnitRepository,
-        ResearchUnitRepository $researchUnitRepository,
-        ProjectRepository $projectRepository,
+        AdministrativeUnitService $administrativeUnitService,
         IntangibleAssetStateRepository $intangibleAssetStateRepository,
     ) {
         $this->intellectualPropertyRightCategoryService = $intellectualPropertyRightCategoryService;
 
-        $this->administrativeUnitRepository = $administrativeUnitRepository;
-        $this->researchUnitRepository = $researchUnitRepository;
-        $this->projectRepository = $projectRepository;
+        $this->administrativeUnitService = $administrativeUnitService;
         $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
     }
 
@@ -47,45 +35,9 @@ class CustomReportFilterComposer
     {
         $params = request()->all();
 
-        /** Administratvie Units */
-        $administrativeUnits =  $this->administrativeUnitRepository->all();
-
-        if (isset($params['project_id']) && $params['project_id']) {
-
-            /** @var \App\Models\Client\Project\Project $project */
-            $project = $this->projectRepository->getById($params['project_id']);
-
-            /** @var \App\Models\Client\ResearchUnit $researchUnit */
-            $researchUnit = $this->researchUnitRepository->getById($project->research_unit_id);
-
-            /** @var \App\Models\Client\AdministrativeUnit $administrativeUnit */
-            $administrativeUnit = $this->administrativeUnitRepository->getById($researchUnit->administrative_unit_id);
-
-            $researchUnits = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnit);
-
-            $projects = $this->projectRepository->getByResearchUnit($researchUnit);
-        } else {
-
-            /** Research Units */
-            $researchUnits = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnits->first());
-
-            /** Projects */
-            $projects = $this->projectRepository->getByResearchUnit($researchUnits->first());
-        }
-
-        $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('Seleccionar Facultad', -1);
-
-        $researchUnits = $researchUnits->pluck('name', 'id')->prepend('Seleccionar Unidad Investigativa', -1);
-
-        $projects = $projects->pluck('name', 'id')->prepend('Seleccionar Proyecto', -1);
+        [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project] = $this->administrativeUnitService->getAdministrativeUnitsSelectByParams($params);
 
         [$categories, $subCategories, $products, $category, $subCategory, $product] = $this->intellectualPropertyRightCategoryService->getIntellectualPropertyCategorySelect();
-
-        $categories = $categories->pluck('name', 'id')->prepend('Seleccionar Categoría', -1);
-
-        $subCategories = $subCategories->pluck('name', 'id')->prepend('Seleccionar Subategoría', -1);
-
-        $products = $products->pluck('name', 'id')->prepend('Seleccionar Producto', -1);
 
         /** Intangible Asset States */
         $states = $this->intangibleAssetStateRepository->all();

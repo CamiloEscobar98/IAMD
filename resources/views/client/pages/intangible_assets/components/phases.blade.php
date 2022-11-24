@@ -2,8 +2,9 @@
 
     <!-- PHASE ONE: INTANGIBLE ASSET CLASSIFICATION -->
     <div class="card">
-        <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseOneCompleted()) }}">
-            <a class="card-link" data-toggle="collapse" href="#collapseOne">
+        <div class="card-header border {{ phaseIsCompletedBorder($item->hasPhaseOneCompleted()) }}">
+            <a class="card-link {{ phaseIsCompletedTextColor($item->hasPhaseOneCompleted()) }}" data-toggle="collapse"
+                href="#collapseOne">
                 <span class="{{ phaseIsCompletedIcon($item->hasPhaseOneCompleted()) }} mr-1"></span>
                 {{ __('pages.client.intangible_assets.phases.one.title') }}
             </a>
@@ -78,8 +79,9 @@
 
     <!-- PHASE TWO: INTANGIBLE ASSET DESCRIPTION -->
     <div class="card">
-        <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseTwoCompleted()) }}">
-            <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
+        <div class="card-header border {{ phaseIsCompletedBorder($item->hasPhaseTwoCompleted()) }}">
+            <a class="card-link {{ phaseIsCompletedTextColor($item->hasPhaseTwoCompleted()) }}" data-toggle="collapse"
+                href="#collapseTwo">
                 <span class="{{ phaseIsCompletedIcon($item->hasPhaseTwoCompleted()) }} mr-1"></span>
                 {{ __('pages.client.intangible_assets.phases.two.title') }}
             </a>
@@ -123,8 +125,9 @@
 
     <!-- PHASE THREE: INTANGIBLE ASSET STATE -->
     <div class="card">
-        <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseThreeCompleted()) }}">
-            <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
+        <div class="card-header border {{ phaseIsCompletedBorder($item->hasPhaseThreeCompleted()) }}">
+            <a class="card-link {{ phaseIsCompletedTextColor($item->hasPhaseThreeCompleted()) }}"
+                data-toggle="collapse" href="#collapseThree">
                 <span class="{{ phaseIsCompletedIcon($item->hasPhaseThreeCompleted()) }} mr-1"></span>
                 {{ __('pages.client.intangible_assets.phases.three.title') }}
             </a>
@@ -165,8 +168,9 @@
 
     <!-- PHASE FOUR: INTANGIBLE ASSETS RELATIONED WITH DPIS -->
     <div class="card">
-        <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseFourCompleted()) }}">
-            <a class="collapsed card-link" data-toggle="collapse" href="#collapseFour">
+        <div class="card-header border {{ phaseIsCompletedBorder($item->hasPhaseFourCompleted()) }}">
+            <a class="card-link {{ phaseIsCompletedTextColor($item->hasPhaseFourCompleted()) }}" data-toggle="collapse"
+                href="#collapseFour">
                 <span class="{{ phaseIsCompletedIcon($item->hasPhaseFourCompleted()) }} mr-1"></span>
                 {{ __('pages.client.intangible_assets.phases.four.title') }}
             </a>
@@ -206,8 +210,8 @@
 
     <!-- PHASE FIVE: INTANGIBLE ASSET CURRENT STATE -->
     <div class="card">
-        <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseFiveCompleted()) }}">
-            <a class="collapsed card-link" data-toggle="collapse" href="#collapseFive">
+        <div class="card-header border {{ phaseIsCompletedBorder($item->hasPhaseFiveCompleted()) }}">
+            <a class="card-link {{ phaseIsCompletedTextColor($item->hasPhaseFiveCompleted()) }}" data-toggle="collapse" href="#collapseFive">
                 <span class="{{ phaseIsCompletedIcon($item->hasPhaseFiveCompleted()) }} mr-1"></span>
                 {{ __('pages.client.intangible_assets.phases.five.title') }}
             </a>
@@ -523,8 +527,8 @@
 
     <!-- PHASE SIX: INTANGIBLE ASSET USER MESSAGES -->
     <div class="card">
-        <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseSixCompleted()) }}">
-            <a class="collapsed card-link" data-toggle="collapse" href="#collapseSix">
+        <div class="card-header border {{ phaseIsCompletedBorder($item->hasPhaseSixCompleted()) }}">
+            <a class="card-link {{ phaseIsCompletedTextColor($item->hasPhaseSixCompleted()) }}" data-toggle="collapse" href="#collapseSix">
                 <span class="{{ phaseIsCompletedIcon($item->hasPhaseSixCompleted()) }} mr-1"></span>
                 {{ __('pages.client.intangible_assets.phases.six.title') }}
             </a>
@@ -583,8 +587,8 @@
 
     <!-- PHASE SEVEN: INTANGIBLE ASSET HAS PROTECTION ACTION -->
     <div class="card">
-        <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseSevenCompleted()) }}">
-            <a class="collapsed card-link" data-toggle="collapse" href="#collapseSeven">
+        <div class="card-header border {{ phaseIsCompletedBorder($item->hasPhaseSevenCompleted()) }}">
+            <a class="card-link {{ phaseIsCompletedTextColor($item->hasPhaseSevenCompleted()) }}" data-toggle="collapse" href="#collapseSeven">
                 <span class="{{ phaseIsCompletedIcon($item->hasPhaseSevenCompleted()) }} mr-1"></span>
                 {{ __('pages.client.intangible_assets.phases.seven.title') }}
             </a>
@@ -688,8 +692,8 @@
 
     <!-- PHASE EIGHT: INTANGIBLE ASSET HAS PRIORITY TOOLS -->
     <div class="card">
-        <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseEightCompleted()) }}">
-            <a class="collapsed card-link" data-toggle="collapse" href="#collapseEight">
+        <div class="card-header border {{ phaseIsCompletedBorder($item->hasPhaseEightCompleted()) }}">
+            <a class="card-link {{ phaseIsCompletedTextColor($item->hasPhaseEightCompleted()) }}" data-toggle="collapse" href="#collapseEight">
                 <span class="{{ phaseIsCompletedIcon($item->hasPhaseEightCompleted()) }} mr-1"></span>
                 {{ __('pages.client.intangible_assets.phases.eight.title') }}
             </a>
@@ -749,8 +753,8 @@
 
     <!-- PHASE NINE: INTANGIBLE ASSET IS COMMERCIAL -->
     <div class="card">
-        <div class="card-header {{ phaseIsCompletedColor($item->hasPhaseNineCompleted()) }}">
-            <a class="collapsed card-link" data-toggle="collapse" href="#collapseNine">
+        <div class="card-header border {{ phaseIsCompletedBorder($item->hasPhaseNineCompleted()) }}">
+            <a class="card-link {{ phaseIsCompletedTextColor($item->hasPhaseNineCompleted()) }}" data-toggle="collapse" href="#collapseNine">
                 <span class="{{ phaseIsCompletedIcon($item->hasPhaseNineCompleted()) }} mr-1"></span>
                 {{ __('pages.client.intangible_assets.phases.nine.title') }}
             </a>

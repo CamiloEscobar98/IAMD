@@ -4,30 +4,22 @@ namespace App\Http\ViewComposers\Client\IntangibleAssets;
 
 use Illuminate\View\View;
 
+use App\Services\Admin\IntellectualPropertyRightCategoryService;
 use App\Repositories\Admin\IntangibleAssetStateRepository;
-use App\Repositories\Admin\IntellectualPropertyRightCategoryRepository;
 use App\Repositories\Admin\IntellectualPropertyRightSubcategoryRepository;
-use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
 
 use App\Repositories\Client\IntangibleAssetRepository;
 use App\Repositories\Client\CreatorRepository;
 use App\Repositories\Client\SecretProtectionMeasureRepository;
 use App\Repositories\Client\PriorityToolRepository;
-use App\Services\Admin\IntellectualPropertyRightCategoryService;
 
 class ShowIntangibleAssetComposer
 {
     /** @var IntellectualPropertyRightCategoryService */
     protected $intellectualPropertyRightCategoryService;
 
-    /** @var IntellectualPropertyRightCategoryRepository */
-    protected $intellectualPropertyRightCategoryRepository;
-
     /** @var IntellectualPropertyRightSubcategoryRepository */
     protected $intellectualPropertyRightSubcategoryRepository;
-
-    /** @var IntellectualPropertyRightProductRepository */
-    protected $intellectualPropertyRightProductRepository;
 
     /** @var IntangibleAssetRepository */
     protected $intangibleAssetRepository;
@@ -47,9 +39,7 @@ class ShowIntangibleAssetComposer
     public function __construct(
         IntellectualPropertyRightCategoryService $intellectualPropertyRightCategoryService,
 
-        IntellectualPropertyRightCategoryRepository $intellectualPropertyRightCategoryRepository,
         IntellectualPropertyRightSubcategoryRepository $intellectualPropertyRightSubcategoryRepository,
-        IntellectualPropertyRightProductRepository $intellectualPropertyRightProductRepository,
 
         IntangibleAssetRepository $intangibleAssetRepository,
         IntangibleAssetStateRepository $intangibleAssetStateRepository,
@@ -60,9 +50,7 @@ class ShowIntangibleAssetComposer
     ) {
         $this->intellectualPropertyRightCategoryService = $intellectualPropertyRightCategoryService;
 
-        $this->intellectualPropertyRightCategoryRepository = $intellectualPropertyRightCategoryRepository;
         $this->intellectualPropertyRightSubcategoryRepository = $intellectualPropertyRightSubcategoryRepository;
-        $this->intellectualPropertyRightProductRepository = $intellectualPropertyRightProductRepository;
 
         $this->intangibleAssetRepository = $intangibleAssetRepository;
         $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
@@ -98,12 +86,6 @@ class ShowIntangibleAssetComposer
         $secretProtectionMeasures = $this->secretProtectionMeasureRepository->all();
 
         $priorityTools = $this->priorityToolRepository->all();
-
-        $categories = $categories->pluck('name', 'id')->prepend('Seleccionar Categoría', -1);
-
-        $subCategories = $subCategories->pluck('name', 'id')->prepend('Seleccionar Subategoría', -1);
-
-        $products = $products->pluck('name', 'id')->prepend('Seleccionar Producto', -1);
 
         $view->with(compact(
             'categories',
