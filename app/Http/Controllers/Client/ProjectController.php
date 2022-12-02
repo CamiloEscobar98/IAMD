@@ -41,7 +41,7 @@ class ProjectController extends Controller
         $this->middleware('permission:projects.store')->only(['create', 'store']);
         $this->middleware('permission:projects.update')->only(['edit', 'update']);
         $this->middleware('permission:projects.destroy')->only('destroy');
-        
+
         $this->projectService = $projectService;
 
         $this->projectRepository = $projectRepository;
@@ -58,9 +58,7 @@ class ProjectController extends Controller
         try {
             $params = $this->projectService->transformParams($request->all());
 
-            $query = $this->projectRepository->search($params, ['director', 'project_financings'], ['intangible_assets']);
-
-            dd($query->get());
+            $query = $this->projectRepository->search($params, ['project_financings:id,name,code', 'director:id,name', 'contract_type:id,name,code'], ['intangible_assets']);
 
             $total = $query->count();
 

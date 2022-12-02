@@ -4,6 +4,7 @@
             <tr>
                 <th>{{ __('pages.client.projects.table.head.director') }}</th>
                 <th>{{ __('pages.client.projects.table.head.name') }}</th>
+                <th>{{ __('pages.client.projects.table.head.project_contract') }}</th>
                 <th>{{ __('pages.client.projects.table.head.project_financing') }}</th>
                 <th>{{ __('pages.client.projects.table.head.intangible_assets') }}</th>
                 @canany(['projects.show', 'projects.destroy'])

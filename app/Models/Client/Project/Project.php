@@ -77,11 +77,19 @@ class Project extends BaseModel
     }
 
     /**
+     * @return BelongsTo
+     */
+    public function contract_type(): BelongsTo
+    {
+        return $this->belongsTo(\App\Models\Client\Project\ProjectContractType::class, 'project_contract_type_id');
+    }
+
+    /**
      * @return BelongsToMany
      */
     public function project_financings(): BelongsToMany
     {
-        return $this->belongsToMany(\App\Models\Client\Project\ProjectFinancing::class, 'project_financing', null, 'financing_type_id');
+        return $this->belongsToMany(\App\Models\Client\FinancingType::class, 'project_financing', null, 'financing_type_id');
     }
 
     /**

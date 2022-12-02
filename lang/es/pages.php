@@ -911,9 +911,10 @@ return [
             'table' => [
                 'head' => [
                     'director' => 'Director',
-                    'project_financing' => 'Financiación',
                     'name' => 'Nombre',
                     'description' => 'Descripción',
+                    'project_contract' => 'Contratación',
+                    'project_financing' => 'Financiación',
 
                     'intangible_assets' => 'Activos',
 
