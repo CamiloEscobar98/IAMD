@@ -72,8 +72,8 @@ return [
     'assignment_contract_id' => 'Tipo de Contratación',
 
     'contract' => 'Nombre de Contrato',
-    'financing_type_id' => 'Tipo de Financiación',
-    'project_contract_type_id' => 'Tipo de Contrato del Proyecto',
+    'financing_type_id' => 'Financiación del proyecto',
+    'project_contract_type_id' => 'Acto Administrativo del Proyecto',
     'contract_date' => 'Fecha de Contrato',
 
     'permission_module_id' => 'Módulo de Permiso'

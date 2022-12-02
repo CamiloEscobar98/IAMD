@@ -9,7 +9,7 @@ use App\Models\Client\AdministrativeUnit;
 use App\Models\Client\ResearchUnitCategory;
 use App\Models\Client\Creator\Creator;
 use App\Models\Client\Project\Project;
-
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class ResearchUnit extends BaseModel
 {
@@ -84,11 +84,11 @@ class ResearchUnit extends BaseModel
     /**
      * Get projects.
      * 
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function projects()
+    public function projects(): BelongsToMany
     {
-        return $this->hasMany(Project::class);
+        return $this->belongsToMany(Project::class);
     }
 
     /**
@@ -209,15 +209,15 @@ class ResearchUnit extends BaseModel
     public function scopeByProject($query, $project)
     {
         $table = $this->getTable();
-        $joinProjects = 'projects';
+        $joinProjects = 'project_research_unit';
 
         $query->join($joinProjects, "{$table}.id", "{$joinProjects}.research_unit_id");
 
         if (is_array($project) && !empty($project)) {
-            return $query->whereIn("{$joinProjects}.id", $project);
+            return $query->whereIn("{$joinProjects}.project_id", $project);
         }
 
-        return $query->where("{$joinProjects}.id", $project);
+        return $query->where("{$joinProjects}.project_id", $project);
     }
 
     /**

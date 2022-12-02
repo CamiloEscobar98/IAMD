@@ -1,5 +1,7 @@
 function getAdministrativeUnits() {
     let client = $('#form').data('client');
+    
+     alert(client)
 
     $.ajax({
         type: 'GET',

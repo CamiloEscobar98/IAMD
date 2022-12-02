@@ -1,6 +1,6 @@
 <tr>
     <td><a href="{{ route('admin.intellectual_property_rights.categories.show', $item->intellectual_property_right_category->id) }}"
-            class="btn btn-sm btn-danger">{{ $item->intellectual_property_right_category->name }}</a></td>
+            class="btn btn-sm btn-outline-secondary">{{ $item->intellectual_property_right_category->name }}</a></td>
     <td>{{ $item->name }}</td>
     <td>{!! __(
         'pages.admin.intellectual_property_rights.subcategories.table.body.intellectual_property_right_products_count',

@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 
-@section('title', __('pages.admin.localizations.cities.titles.show'))
+@section('title', __('pages.admin.localizations.cities.route-titles.show'))
 
 @section('content-header')
     <section class="content-header">

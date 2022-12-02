@@ -70,14 +70,12 @@ class ProjectSeeder extends Seeder
 
         print("¡¡ CREATING PROJECTS !! \n \n");
 
-        $randomNumberProjects = rand(100, 500);
+        $randomNumberProjects = rand(1, 50);
 
         $cont = 0;
 
         do {
-            $randomResearchUnit = $researchUnits->random(1)->first();
-
-            print("RESEARCH UNIT: " . $randomResearchUnit->name .  "\n \n");
+            $randomResearchUnits = $researchUnits->random(rand(1, 6));
 
             $current = $cont + 1;
 
@@ -86,36 +84,30 @@ class ProjectSeeder extends Seeder
 
             print("Creating Project: $current. \n");
 
+            $projectContractType = $projectContractTypes->random(1)->first();
+
             $project = $this->projectRepository->createOneFactory([
-                'research_unit_id' => $randomResearchUnit->id,
-                'director_id' => $director->id
+                'director_id' => $director->id,
+                'project_contract_type_id' => $projectContractType->id,
             ]);
+
+            /** @var \App\Models\Client\Project\Project $project */
+
+            $project->research_units()->sync($randomResearchUnits);
 
             print("Project Created. Name: " . $project->name . "\n");
 
             /** Creating Project Financing Information */
             print("Creating Project Financing Information. \n");
 
-            $financingType = $financingTypes->random(1)->first();
+            $randomfinancingType = $financingTypes->random(rand(1, $financingTypes->count()));
 
-            $projectContractType = $projectContractTypes->random(1)->first();
-
-            $this->projectFinancingRepository->createOneFactory([
-                'project_id' => $project->id,
-                'financing_type_id' => $financingType->id,
-                'project_contract_type_id' => $projectContractType->id,
-            ]);
+            $project->project_financings()->sync($randomfinancingType);
 
             print("Project Financing Information created! \n");
 
             $cont++;
             $randomNumberProjects--;
         } while ($randomNumberProjects > 0);
-
-        $researchUnits->each(function ($researchUnit) use ($creators, $financingTypes, $projectContractTypes) {
-
-
-            print("PROJECTS FINISHED. \n \n");
-        });
     }
 }

@@ -38,7 +38,7 @@
                         <div class="row justify-content-between">
                             <i class="fas fa-flag"></i>
                             <h5 class="font-weight-bold">{{ __('pages.admin.localizations.countries.title') }}</h5>
-                            <a class="text-dark fas fa-angle-double-right"
+                            <a class="text-white fas fa-angle-double-right"
                                 href="{{ route('admin.localizations.countries.index') }}"></a>
                         </div>
                     </div>

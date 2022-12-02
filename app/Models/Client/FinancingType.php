@@ -24,7 +24,7 @@ class FinancingType extends BaseModel
     public function scopeByProject($query, $project)
     {
         $table = $this->getTable();
-        $joinProjectFinancing = 'project_financings';
+        $joinProjectFinancing = 'project_financing';
 
         $query->join($joinProjectFinancing, "{$table}.id", "{$joinProjectFinancing}.financing_type_id");
 

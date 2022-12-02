@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services\FileSystem\IntangibleAsset;
+namespace App\Services\FileSystem\IntangibleAssets;
 
 use App\Services\FileSystem\AbstractFileSystemService;
 
-class ReportFileCustomReportService extends AbstractFileSystemService
+class FileConfidencialityContractService extends AbstractFileSystemService
 {
     /** @var string */
-    protected $basePath = 'reports/custom/';
+    protected $basePath = 'confidenciality_contracts/';
 
     public function __construct()
     {
@@ -21,9 +21,9 @@ class ReportFileCustomReportService extends AbstractFileSystemService
      * 
      * @return bool
      */
-    public function storeFileReport($path, $file, $options)
+    public function storeConfidencialityContractFile($path = '', $file, $options = [])
     {
-        return $this->storeGeneratedFile($this->basePath . $path, $file, $options);
+        return $this->storeFile($this->basePath . $path, $file, $options);
     }
 
     /**
@@ -31,7 +31,7 @@ class ReportFileCustomReportService extends AbstractFileSystemService
      * 
      * @return mixed
      */
-    public function getFileReport($path = '')
+    public function getConfidencialityContractFile($path = '')
     {
         return $this->getFile($this->basePath . $path);
     }
@@ -41,7 +41,7 @@ class ReportFileCustomReportService extends AbstractFileSystemService
      * 
      * @return string|null
      */
-    public function getFileReportPath($path = ''): string|null
+    public function getConfidencialityContractFilePath($path = ''): string|null
     {
         return $this->getFilePath($this->basePath . $path);
     }
@@ -51,7 +51,7 @@ class ReportFileCustomReportService extends AbstractFileSystemService
      * 
      * @return bool
      */
-    public function deleteFileReport($intangibleAsset)
+    public function deleteConfidencialityContractFile($intangibleAsset)
     {
         if ($intangibleAsset->hasFileOfConfidencialityContract()) {
             /** @var \App\Models\Client\IntangibleAsset\IntangibleAssetConfidentialityContract */

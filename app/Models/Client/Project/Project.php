@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Database\Factories\Client\ProjectFactory;
 
 use App\Models\Client\BaseModel;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Project extends BaseModel
 {
@@ -39,20 +40,20 @@ class Project extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'research_unit_id',
         'director_id',
         'name',
         'description',
+        'project_contract_type_id', 'contract', 'date'
     ];
 
     /**
-     * Get the research unit.
+     * Get the research units.
      * 
-     * @return BelongsTo
+     * @return BelongsToMany
      */
-    public function research_unit(): BelongsTo
+    public function research_units(): BelongsToMany
     {
-        return $this->belongsTo(\App\Models\Client\ResearchUnit::class, 'research_unit_id');
+        return $this->belongsToMany(\App\Models\Client\ResearchUnit::class, 'project_research_unit');
     }
 
     /**
@@ -76,11 +77,11 @@ class Project extends BaseModel
     }
 
     /**
-     * @return HasOne
+     * @return BelongsToMany
      */
-    public function project_financing(): HasOne
+    public function project_financings(): BelongsToMany
     {
-        return $this->hasOne(\App\Models\Client\Project\ProjectFinancing::class);
+        return $this->belongsToMany(\App\Models\Client\Project\ProjectFinancing::class, 'project_financing', null, 'financing_type_id');
     }
 
     /**

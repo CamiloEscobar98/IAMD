@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services\FileSystem\IntangibleAsset;
+namespace App\Services\FileSystem\IntangibleAssets;
 
 use App\Services\FileSystem\AbstractFileSystemService;
 
-class FileConfidencialityContractService extends AbstractFileSystemService
+class FileSessionRightContractService extends AbstractFileSystemService
 {
     /** @var string */
-    protected $basePath = 'confidenciality_contracts/';
+    protected $basePath = 'session_right_contracts/';
 
     public function __construct()
     {
@@ -21,7 +21,7 @@ class FileConfidencialityContractService extends AbstractFileSystemService
      * 
      * @return bool
      */
-    public function storeConfidencialityContractFile($path = '', $file, $options = [])
+    public function storeSessionRightContractFile($path = '', $file, $options = [])
     {
         return $this->storeFile($this->basePath . $path, $file, $options);
     }
@@ -31,7 +31,7 @@ class FileConfidencialityContractService extends AbstractFileSystemService
      * 
      * @return mixed
      */
-    public function getConfidencialityContractFile($path = '')
+    public function getSessionRightContractFile($path = '')
     {
         return $this->getFile($this->basePath . $path);
     }
@@ -41,7 +41,7 @@ class FileConfidencialityContractService extends AbstractFileSystemService
      * 
      * @return string|null
      */
-    public function getConfidencialityContractFilePath($path = ''): string|null
+    public function getSessionRightContractFilePath($path = ''): string|null
     {
         return $this->getFilePath($this->basePath . $path);
     }
@@ -51,16 +51,16 @@ class FileConfidencialityContractService extends AbstractFileSystemService
      * 
      * @return bool
      */
-    public function deleteConfidencialityContractFile($intangibleAsset)
+    public function deleteSessionRightContractFile($intangibleAsset)
     {
-        if ($intangibleAsset->hasFileOfConfidencialityContract()) {
+        if ($intangibleAsset->hasFileOfSessionRightContract()) {
             /** @var \App\Models\Client\IntangibleAsset\IntangibleAssetConfidentialityContract */
-            $confidencialityContract = $intangibleAsset->intangible_asset_confidenciality_contract;
-
+            $sessionRightContract = $intangibleAsset->intangible_asset_session_right_contract;
+            
             /** @var string */
-            $fullPath = $confidencialityContract->full_path;
+            $fullPath = $sessionRightContract->full_path;
 
-            if (!$intangibleAsset->hasDummyFileOfConfidencialityContract()) {
+            if (!$intangibleAsset->hasDummyFileOfSessionRightContract()) {
                 return $this->deleteFile($this->basePath . $fullPath);
             }
         }

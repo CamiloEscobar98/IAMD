@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Services\FileSystem\IntangibleAsset;
+namespace App\Services\FileSystem\Projects;
 
 use App\Services\FileSystem\AbstractFileSystemService;
 
-class ReportFileSingleReportService extends AbstractFileSystemService
+class FileProjectContractTypeService extends AbstractFileSystemService
 {
     /** @var string */
-    protected $basePath = 'reports/single/';
+    protected $basePath = '';
 
     public function __construct()
     {
-        $this->setDisk('intangible_assets');
+        $this->setDisk('projects');
     }
 
     /**
@@ -21,9 +21,9 @@ class ReportFileSingleReportService extends AbstractFileSystemService
      * 
      * @return bool
      */
-    public function storeFileReport($path, $file, $options)
+    public function storeProjectContractTypeFile($path = '', $file, $options = [])
     {
-        return $this->storeGeneratedFile($this->basePath . $path, $file, $options);
+        return $this->storeFile($this->basePath . $path, $file, $options);
     }
 
     /**
@@ -31,7 +31,7 @@ class ReportFileSingleReportService extends AbstractFileSystemService
      * 
      * @return mixed
      */
-    public function getFileReport($path = '')
+    public function getProjectContractTypeFile($path = '')
     {
         return $this->getFile($this->basePath . $path);
     }
@@ -41,26 +41,26 @@ class ReportFileSingleReportService extends AbstractFileSystemService
      * 
      * @return string|null
      */
-    public function getFileReportPath($path = ''): string|null
+    public function getProjectContractTypeFilePath($path = ''): string|null
     {
         return $this->getFilePath($this->basePath . $path);
     }
 
     /**
-     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $projectContract
      * 
      * @return bool
      */
-    public function deleteFileReport($intangibleAsset)
+    public function deleteProjectContractTypeFile($projectContract)
     {
-        if ($intangibleAsset->hasFileOfConfidencialityContract()) {
+        if ($projectContract->hasFileOfConfidencialityContract()) {
             /** @var \App\Models\Client\IntangibleAsset\IntangibleAssetConfidentialityContract */
-            $confidencialityContract = $intangibleAsset->intangible_asset_confidenciality_contract;
+            $confidencialityContract = $projectContract->intangible_asset_confidenciality_contract;
 
             /** @var string */
             $fullPath = $confidencialityContract->full_path;
 
-            if (!$intangibleAsset->hasDummyFileOfConfidencialityContract()) {
+            if (!$projectContract->hasDummyFileOfConfidencialityContract()) {
                 return $this->deleteFile($this->basePath . $fullPath);
             }
         }

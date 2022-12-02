@@ -16,16 +16,18 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedMediumInteger('research_unit_id');
             $table->uuid('director_id')->nullable();
+            $table->unsignedTinyInteger('project_contract_type_id');
 
             $table->string('name')->unique();
             $table->tinyText('description')->nullable();
+            $table->string('contract');
+            $table->date('date');
 
             $table->timestamps();
 
-            $table->foreign('research_unit_id')->references('id')->on('research_units')->cascadeOnUpdate()->restrictOnDelete();
             $table->foreign('director_id')->references('id')->on('creators')->cascadeOnUpdate()->nullOnDelete();
+            $table->foreign('project_contract_type_id')->references('id')->on('project_contract_types')->cascadeOnUpdate()->restrictOnDelete();
         });
     }
 

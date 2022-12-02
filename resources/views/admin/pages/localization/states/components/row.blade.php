@@ -1,5 +1,5 @@
 <tr>
-    <td><a class="btn btn-sm btn-danger" href="{{ route('admin.localizations.countries.show', $item->country->id) }}">{{ $item->country->name }}</a>
+    <td><a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.localizations.countries.show', $item->country->id) }}">{{ $item->country->name }}</a>
     </td>
     <td>{{ $item->name }}</td>
     <td>{!! __('pages.admin.localizations.states.table.body.cities_count', ['count' => $item->cities_count]) !!}</td>

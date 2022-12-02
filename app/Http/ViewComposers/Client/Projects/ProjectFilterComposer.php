@@ -45,7 +45,6 @@ class ProjectFilterComposer
         /** Administrative Units */
         $administrativeUnits = $this->administrativeUnitRepository->all();
 
-
         if (isset($params['administrative_unit_id']) && $params['administrative_unit_id']) {
 
             /** @var \App\Models\Client\AdministrativeUnit */
@@ -59,15 +58,14 @@ class ProjectFilterComposer
             $researchUnits = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnits->first());
         }
 
-        $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('Seleccionar Facultad', 0);
+        $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('---Seleccionar Facultad', -1);
 
-        $researchUnits = $researchUnits->pluck('name', 'id')->prepend('Seleccionar Unidad Investigativa', 0);
+        $researchUnits = $researchUnits->pluck('name', 'id')->prepend('---Seleccionar Unidad Investigativa', -1);
 
-        // dd($researchUnits);
 
         /** Creators */
-        $creators = $this->creatorRepository->getAllCreators();
+        $directors = $this->creatorRepository->all(['id', 'name'])->pluck('name', 'id');
 
-        $view->with(compact('administrativeUnits', 'researchUnits', 'creators'));
+        $view->with(compact('administrativeUnits', 'researchUnits', 'directors'));
     }
 }

@@ -1,5 +1,3 @@
-<div data-client="{{ $client->name }}" id="client_id"></div>
-
 <!-- Administrative Unit -->
 <div class="form-group">
     <label>Facultad:</label>
@@ -7,10 +5,10 @@
         <select name="administrative_unit_id" id="administrative_unit_id" class="form-control select2bs4"
             onchange="changeAdministrativeUnit()">
 
-            @foreach ($administrativeUnits as $administrativeUnitItem)
-                <option value="{{ $administrativeUnitItem->id }}"
-                    {{ twoOptionsIsEqual($administrativeUnit->id, $administrativeUnitItem->id) }}>
-                    {{ $administrativeUnitItem->name }}</option>
+            @foreach ($administrativeUnits as $administrativeUnitItemId => $value)
+                <option value="{{ $administrativeUnitItemId }}"
+                    {{ twoOptionsIsEqual(getParamObject($administrativeUnit, 'id'), $administrativeUnitItemId) }}>
+                    {{ $value }}</option>
             @endforeach
         </select>
         <div class="input-group-append">
@@ -28,10 +26,10 @@
     <div class="input-group">
         <select name="research_unit_id" id="research_unit_id" class="form-control select2bs4">
 
-            @foreach ($researchUnits as $researchUnitItem)
-                <option value="{{ $researchUnitItem->id }}"
-                    {{ twoOptionsIsEqual($researchUnit->id, $researchUnitItem->id) }}>
-                    {{ $researchUnitItem->name }}</option>
+            @foreach ($researchUnits as $researchUnitItemId => $value)
+                <option value="{{ $researchUnitItemId }}"
+                    {{ twoOptionsIsEqual(getParamObject($researchUnit, 'id'), $researchUnitItemId) }}>
+                    {{ $value }}</option>
             @endforeach
         </select>
         <div class="input-group-append">
@@ -52,12 +50,10 @@
     <label>Director:</label>
     <div class="input-group">
         <select name="director_id" class="form-control select2bs4 {{ isInvalidByError($errors, 'director_id') }}">
-            <option value="-1">{{ __('inputs.director_id') }}
-            </option>
-            @foreach ($creators as $director)
-                <option value="{{ $director->id }}"
-                    {{ twoOptionsIsEqual(old('director_id', $item->director_id), $director->id) }}>
-                    {{ $director->name }}</option>
+            @foreach ($directors as $directorId => $value)
+                <option value="{{ $directorId }}"
+                    {{ twoOptionsIsEqual(old('director_id', $item->director_id), $directorId) }}>
+                    {{ $value }}</option>
             @endforeach
         </select>
         <div class="input-group-append">
@@ -115,16 +111,14 @@
 
 <!-- Financing Types -->
 <div class="form-group mt-3">
-    <label>Tipo de Finaciación:</label>
+    <label>{{ __('inputs.financing_type_id') }}:</label>
     <div class="input-group">
         <select name="financing_type_id"
             class="form-control select2bs4 {{ isInvalidByError($errors, 'financing_type_id') }}">
-            <option value="-1">{{ __('inputs.financing_type_id') }}
-            </option>
-            @foreach ($financingTypes as $financingType)
-                <option value="{{ $financingType->id }}"
-                    {{ twoOptionsIsEqual(old('financing_type_id', getParamObject($item->project_financing, 'financing_type_id')), $financingType->id) }}>
-                    {{ $financingType->name }}</option>
+            @foreach ($financingTypes as $financingTypeId => $value)
+                <option value="{{ $financingTypeId }}"
+                    {{ twoOptionsIsEqual(old('financing_type_id', getParamObject($item->project_financing, 'financing_type_id')), $financingTypeId) }}>
+                    {{ $value }}</option>
             @endforeach
         </select>
         <div class="input-group-append">
@@ -142,16 +136,14 @@
 
 <!-- Project Contract Types -->
 <div class="form-group mt-3">
-    <label>Tipo de Contrato para el Proyecto:</label>
+    <label>{{ __('inputs.project_contract_type_id') }}:</label>
     <div class="input-group">
         <select name="project_contract_type_id"
             class="form-control select2bs4 {{ isInvalidByError($errors, 'project_contract_type_id') }}">
-            <option value="-1">{{ __('inputs.project_contract_type_id') }}
-            </option>
-            @foreach ($projectContractTypes as $projectContractType)
-                <option value="{{ $projectContractType->id }}"
-                    {{ twoOptionsIsEqual(old('project_contract_type_id', getParamObject($item->project_financing, 'project_contract_type_id')), $projectContractType->id) }}>
-                    {{ $projectContractType->name }}</option>
+            @foreach ($projectContractTypes as $projectContractTypeId => $value)
+                <option value="{{ $projectContractTypeId }}"
+                    {{ twoOptionsIsEqual(old('project_contract_type_id', getParamObject($item->project_financing, 'project_contract_type_id')), $projectContractTypeId) }}>
+                    {{ $value }}</option>
             @endforeach
         </select>
         <div class="input-group-append">

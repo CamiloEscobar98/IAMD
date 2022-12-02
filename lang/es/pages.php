@@ -76,7 +76,7 @@ return [
                 'form-titles' => [
                     'show' => 'Perfil de Visualización de la información del País',
                     'create' => 'Formulario de registro de la información de un País',
-                    'update' => 'Actualización de la información del País',
+                    'update' => 'Formulario Actualización de la información del País',
                 ],
 
                 'filters' => [
@@ -146,7 +146,7 @@ return [
                 'form-titles' => [
                     'show' => 'Perfil de Visualización del Departamento',
                     'create' => 'Formulario de Registro de Departamento',
-                    'update' => 'Actualización del Departamento',
+                    'update' => 'Formulario de Actualización del Departamento',
                 ],
 
                 'filters' => [
@@ -903,14 +903,13 @@ return [
 
                 'administrative_units' => 'Buscar por Facultad',
                 'research_units' => 'Buscar por Unidad Investigativa',
+                'directors' => 'Buscar por Director',
 
                 'total' => 'Total de Proyectos: ',
             ],
 
             'table' => [
                 'head' => [
-                    'administrative_unit' => 'Facultad',
-                    'research_unit' => 'Unidad Investigativa',
                     'director' => 'Director',
                     'project_financing' => 'Financiación',
                     'name' => 'Nombre',

@@ -177,7 +177,7 @@ class IntangibleAssetService
         $year = (new Carbon($projectFinancing->date))->year;
 
         /** CodePart IV */
-        $projectContractType = $this->projectContractTypeRepository->getById($projectFinancing->project_contract_type_id);
+        $projectContractType = $this->projectContractTypeRepository->getById($intangibleAsset ->project->project_contract_type_id);
         $projectContractTypeCode = $projectContractType->code ?? '';
 
         /** CodePart V */

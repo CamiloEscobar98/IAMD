@@ -1,9 +1,4 @@
 <tr>
-    <td><a href="{{ getClientRoute('client.administrative_units.show', [$item->research_unit->administrative_unit->id]) }}"
-            class="btn btn-sm btn-outline-secondary">{{ getParamObject($item->research_unit->administrative_unit, 'name') }}</a>
-    </td>
-    <td><a href="{{ getClientRoute('client.research_units.show', [$item->research_unit->id]) }}"
-            class="btn btn-sm btn-outline-secondary">{{ getParamObject($item->research_unit, 'name') }}</a></td>
     <td>{{ getParamObject($item->director, 'name') }}</td>
     <td>{{ $item->name }}</td>
     <td>

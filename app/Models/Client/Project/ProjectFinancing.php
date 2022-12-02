@@ -17,31 +17,19 @@ use App\Models\Client\Project\ProjectContractType;
 
 class ProjectFinancing extends BaseModel
 {
-    use HasFactory;
-
     /**
-     * Create a new factory instance for the model.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory<static>
-     */
-    protected static function newFactory()
-    {
-        return ProjectFinancingFactory::new();
-    }
-
-    /**
-     * The primary key associated with the table.
+     * The table associated with the model.
      *
      * @var string
      */
-    protected $primaryKey = 'project_id';
+    protected $table = 'project_financing';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['project_id', 'financing_type_id', 'project_contract_type_id', 'contract', 'date'];
+    protected $fillable = ['project_id', 'financing_type_id'];
 
     /**
      * Indicates if the model should be timestamped.
@@ -64,16 +52,6 @@ class ProjectFinancing extends BaseModel
     public function project_contract_type()
     {
         return $this->belongsTo(ProjectContractType::class);
-    }
-
-    /**
-     * Get Project.
-     * 
-     * @return BelongsTo
-     */
-    public function project(): BelongsTo
-    {
-        return $this->belongsTo(Project::class);
     }
 
     /**

@@ -177,6 +177,7 @@ trait ClientRoutes
 
             'client.pages.projects.components.filters',
             'client.pages.projects.components.table',
+            'client.pages.projects.components.form'
         ];
     }
 

@@ -58,7 +58,9 @@ class ProjectController extends Controller
         try {
             $params = $this->projectService->transformParams($request->all());
 
-            $query = $this->projectRepository->search($params, ['director','research_unit.administrative_unit', 'project_financing.financing_type'], ['intangible_assets']);
+            $query = $this->projectRepository->search($params, ['director', 'project_financings'], ['intangible_assets']);
+
+            dd($query->get());
 
             $total = $query->count();
 

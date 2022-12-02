@@ -57,13 +57,16 @@
         // Administrative Units
         $('.administrative_units').select2({
             theme: 'bootstrap4',
-            placeholder: "{{ __('pages.client.projects.filters.administrative_units') }}"
         });
 
         // Research Units
         $('.research_units').select2({
             theme: 'bootstrap4',
-            placeholder: "{{ __('pages.client.projects.filters.research_units') }}",
+        })
+
+        $('.directors').select2({
+            theme: 'bootstrap4',
+            placeholder: "{{ __('pages.client.projects.filters.directors') }}",
             allowClear: true
         })
     </script>

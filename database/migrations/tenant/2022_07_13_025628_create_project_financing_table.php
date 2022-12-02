@@ -13,18 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('project_financings', function (Blueprint $table) {
-            $table->unsignedBigInteger('project_id')->primary();
-
+        Schema::create('project_financing', function (Blueprint $table) {
+            $table->id();
+            
+            $table->unsignedBigInteger('project_id');
             $table->unsignedTinyInteger('financing_type_id');
-            $table->unsignedTinyInteger('project_contract_type_id');
-
-            $table->string('contract');
-            $table->date('date');
+           
             
             $table->foreign('project_id')->references('id')->on('projects')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('financing_type_id')->references('id')->on('financing_types')->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreign('project_contract_type_id')->references('id')->on('project_contract_types')->cascadeOnUpdate()->restrictOnDelete();
+          
         });
     }
 

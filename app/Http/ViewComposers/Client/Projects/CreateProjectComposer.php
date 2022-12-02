@@ -10,9 +10,13 @@ use App\Repositories\Client\CreatorRepository;
 use App\Repositories\Client\FinancingTypeRepository;
 use App\Repositories\Client\ProjectContractTypeRepository;
 use App\Repositories\Client\ProjectRepository;
+use App\Services\Client\AdministrativeUnitService;
 
 class CreateProjectComposer
 {
+    /** @var AdministrativeUnitService */
+    protected $administrativeUnitService;
+
     /** @var AdministrativeUnitRepository */
     protected $administrativeUnitRepository;
 
@@ -32,6 +36,7 @@ class CreateProjectComposer
     protected $projectContractTypeRepository;
 
     public function __construct(
+        AdministrativeUnitService $administrativeUnitService,
         AdministrativeUnitRepository $administrativeUnitRepository,
         ResearchUnitRepository $researchUnitRepository,
         ProjectRepository $projectRepository,
@@ -40,6 +45,7 @@ class CreateProjectComposer
         FinancingTypeRepository $financingTypeRepository,
         ProjectContractTypeRepository $projectContractTypeRepository
     ) {
+        $this->administrativeUnitService = $administrativeUnitService;
         $this->administrativeUnitRepository = $administrativeUnitRepository;
         $this->researchUnitRepository = $researchUnitRepository;
         $this->projectRepository = $projectRepository;
@@ -53,48 +59,23 @@ class CreateProjectComposer
     {
         $projectId = request()->project;
 
-        /** Administratvie Units */
-        $administrativeUnits = $this->administrativeUnitRepository->all();
-
-        if ($projectId) {
-
-            /** @var \App\Models\Client\Project\Project $project */
-            $project = $this->projectRepository->getById($projectId);
-
-            /** @var \App\Models\Client\ResearchUnit $researchUnit */
-            $researchUnit = $this->researchUnitRepository->getById($project->research_unit_id);
-
-            /** @var \App\Models\Client\AdministrativeUnit $administrativeUnit */
-            $administrativeUnit = $this->administrativeUnitRepository->getById($researchUnit->administrative_unit_id);
-
-            /** Research Units */
-            $researchUnits = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnit);
-        } else {
-
-            /** @var \App\Models\Client\AdministrativeUnit $administrativeUnit */
-            $administrativeUnit = $administrativeUnits->first();
-
-            $researchUnits = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnit);
-
-            /** @var \App\Models\Client\ResearchUnit $researchUnit */
-            $researchUnit = $researchUnits->first();
-        }
+        [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project] = $this->administrativeUnitService->getAdministrativeUnitsSelectByProjectForm($projectId);
 
         /** Creators */
-        $creators = $this->creatorRepository->getAllCreators();
+        $directors = $this->creatorRepository->all(['id', 'name'])->pluck('name', 'id')->prepend('---Seleccionar un director para el proyecto', -1);
 
         /** Financing Types */
-        $financingTypes = $this->financingTypeRepository->all();
+        $financingTypes = $this->financingTypeRepository->all(['id', 'name'])->pluck('name', 'id')->prepend('---Seleccionar la financiación del proyecto', -1);
 
         /** Project Contract Types */
-        $projectContractTypes = $this->projectContractTypeRepository->all();
+        $projectContractTypes = $this->projectContractTypeRepository->all(['id', 'name'])->pluck('name', 'id')->prepend('---Seleccionar un acto administrativo', -1);
 
         $view->with(compact(
             'researchUnits',
             'administrativeUnits',
             'administrativeUnit',
             'researchUnit',
-            'creators',
+            'directors',
             'financingTypes',
             'projectContractTypes'
         ));

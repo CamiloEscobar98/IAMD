@@ -29,7 +29,7 @@
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <h2 class="text-right font-weight-bold">{{ $client->name_upper }}</h2>
+                <h5 class="text-right font-weight-bold">{{ $client->info }}</h5>
                 <p class="login-box-msg">{{ __('messages.login-title') }}</p>
 
                 <form action="{{ route('client.loggin', $client->name) }}" method="post">

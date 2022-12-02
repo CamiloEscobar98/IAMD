@@ -43,7 +43,8 @@
                 <h5 class="font-weight-bold">{{ __('pages.client.projects.form-titles.create') }}</h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('client.projects.store', $client->name) }}" method="post">
+                <form action="{{ route('client.projects.store', $client->name) }}" method="post" id="form"
+                    data-client="{{ $client->name }}">
                     @csrf
 
                     @include('client.pages.projects.components.form')
