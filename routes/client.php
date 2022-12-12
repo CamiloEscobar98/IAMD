@@ -8,6 +8,7 @@ use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\Auth\AuthController;
 
 use App\Http\Controllers\Client\AdministrativeUnitController;
+use App\Http\Controllers\Client\AcademicDepartmentController;
 use App\Http\Controllers\Client\ResearchUnitController;
 use App\Http\Controllers\Client\ProjectController;
 
@@ -64,6 +65,16 @@ Route::name('administrative_units.')->prefix('facultades')->group(function () {
     Route::get('{administrative_unit}/editar', [AdministrativeUnitController::class, 'edit'])->name('edit');
     Route::put('{administrative_unit}', [AdministrativeUnitController::class, 'update'])->name('update');
     Route::delete('{administrative_unit}', [AdministrativeUnitController::class, 'destroy'])->name('destroy');
+});
+
+Route::name('academic_departments.')->prefix('departamentos-academicos')->group(function () {
+    Route::get('/', [AcademicDepartmentController::class, 'index'])->name('index');
+    Route::post('/', [AcademicDepartmentController::class, 'store'])->name('store');
+    Route::get('registrar', [AcademicDepartmentController::class, 'create'])->name('create');
+    Route::get('{academic_department}', [AcademicDepartmentController::class, 'show'])->name('show');
+    Route::get('{academic_department}/editar', [AcademicDepartmentController::class, 'edit'])->name('edit');
+    Route::put('{academic_department}', [AcademicDepartmentController::class, 'update'])->name('update');
+    Route::delete('{academic_department}', [AcademicDepartmentController::class, 'destroy'])->name('destroy');
 });
 
 Route::name('research_units.')->prefix('unidades-investigativas')->group(function () {

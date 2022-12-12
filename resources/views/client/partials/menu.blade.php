@@ -13,6 +13,17 @@
     </li>
 @endcan
 
+<!-- Academic Departments -->
+@can('academic_departments.index')
+    <li class="nav-item">
+        <a href="{{ route('client.academic_departments.index', [$client->name]) }}"
+            class="nav-link {{ routeIsActived('departamentos') }}">
+            <i class="fas fa-globe nav-icon"></i>
+            <p>{{ __('menu.client.AcademicDepartments') }}</p>
+        </a>
+    </li>
+@endcan
+
 <!-- Research Units -->
 @can('research_units.index')
     <li class="nav-item">
@@ -28,7 +39,8 @@
 <!-- Projects -->
 @can('projects.index')
     <li class="nav-item">
-        <a href="{{ route('client.projects.index', [$client->name]) }}" class="nav-link {{ routeIsActived('proyectos') }}">
+        <a href="{{ route('client.projects.index', [$client->name]) }}"
+            class="nav-link {{ routeIsActived('proyectos') }}">
             <i class="fas fa-chalkboard-teacher nav-icon"></i>
             <p>{{ __('menu.client.Projects') }}</p>
         </a>

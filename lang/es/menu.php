@@ -59,6 +59,9 @@ return [
         'AdministrativeUnits' => 'Facultades',
 
         /** Level 1 */
+        'AcademicDepartments' => 'Departamentos Académicos',
+
+        /** Level 1 */
         'ResearchUnits' => "Unidades Investigativas",
 
         /** Level 1 */

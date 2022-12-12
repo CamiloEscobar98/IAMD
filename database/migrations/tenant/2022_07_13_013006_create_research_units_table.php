@@ -18,6 +18,7 @@ return new class extends Migration
 
             $table->unsignedSmallInteger('administrative_unit_id'); // Unidad Administrativa a la que pertenece
             $table->unsignedTinyInteger('research_unit_category_id'); // Grupo de Investigación, OPS
+            $table->unsignedMediumInteger('academic_department_id')->nullable();
 
             $table->uuid('director_id')->nullable(); // Director de la Unidad de Investigación (Creador)
             $table->uuid('inventory_manager_id')->nullable(); // Responsable de Inventario de la Unidad de Investigación (Creador)
@@ -30,6 +31,7 @@ return new class extends Migration
 
             $table->foreign('administrative_unit_id')->references('id')->on('administrative_units')->cascadeOnUpdate()->restrictOnDelete();
             $table->foreign('research_unit_category_id')->references('id')->on('research_unit_categories')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreign('academic_department_id')->references('id')->on('academic_departments')->cascadeOnUpdate()->restrictOnDelete();
             $table->foreign('director_id')->references('id')->on('creators')->cascadeOnUpdate()->nullOnDelete();
             $table->foreign('inventory_manager_id')->references('id')->on('creators')->cascadeOnUpdate()->nullOnDelete();
         });

@@ -9,6 +9,7 @@ use App\Repositories\Client\CreatorExternalRepository;
 use App\Repositories\Client\CreatorInternalRepository;
 
 use App\Repositories\Client\AdministrativeUnitRepository;
+use App\Repositories\Client\AcademicDepartmentRepository;
 use App\Repositories\Client\ResearchUnitRepository;
 use App\Repositories\Client\ProjectRepository;
 use App\Repositories\Client\IntangibleAssetRepository;
@@ -32,6 +33,9 @@ class DashboardComposer
 
     /** @var AdministrativeUnitRepository */
     protected $administrativeUnitRepository;
+
+    /** @var AcademicDepartmentRepository */
+    protected $academicDepartmentRepository;
 
     /** @var ResearchUnitRepository */
     protected $researchUnitRepository;
@@ -71,6 +75,7 @@ class DashboardComposer
         CreatorExternalRepository $creatorExternalRepository,
 
         AdministrativeUnitRepository $administrativeUnitRepository,
+        AcademicDepartmentRepository $academicDepartmentRepository,
         ResearchUnitRepository $researchUnitRepository,
         ProjectRepository $projectRepository,
         IntangibleAssetRepository $intangibleAssetRepository,
@@ -87,6 +92,7 @@ class DashboardComposer
         $this->creatorExternalRepository = $creatorExternalRepository;
 
         $this->administrativeUnitRepository = $administrativeUnitRepository;
+        $this->academicDepartmentRepository = $academicDepartmentRepository;
         $this->researchUnitRepository = $researchUnitRepository;
         $this->projectRepository = $projectRepository;
         $this->intangibleAssetRepository = $intangibleAssetRepository;
@@ -100,20 +106,22 @@ class DashboardComposer
 
     public function compose(View $view)
     {
-        $userCount = $this->userRepository->all()->count();
-        $creatorInternalCount = $this->creatorInternalRepository->all()->count();
-        $creatorExternalCount = $this->creatorExternalRepository->all()->count();
+        $userCount = $this->userRepository->count();
+        $creatorInternalCount = $this->creatorInternalRepository->count();
+        $creatorExternalCount = $this->creatorExternalRepository->count();
 
-        $administrativeUnitCount = $this->administrativeUnitRepository->all()->count();
-        $researchUnitCount = $this->researchUnitRepository->all()->count();
-        $projectCount = $this->projectRepository->all()->count();
-        $intangibleAssetCount = $this->intangibleAssetRepository->all()->count();
+        $administrativeUnitCount = $this->administrativeUnitRepository->count();
+        $academicDepartmentCount = $this->academicDepartmentRepository->count();
+        
+        $researchUnitCount = $this->researchUnitRepository->count();
+        $projectCount = $this->projectRepository->count();
+        $intangibleAssetCount = $this->intangibleAssetRepository->count();
 
-        $strategyCategoryCount = $this->strategyCategoryRepository->all()->count();
-        $strategyCount = $this->strategyRepository->all()->count();
-        $financingTypeCount = $this->financingTypeRepository->all()->count();
-        $priorityToolCount = $this->priorityToolRepository->all()->count();
-        $secretProtectionMeasureCount = $this->secretProtectionMeasureRepository->all()->count();
+        $strategyCategoryCount = $this->strategyCategoryRepository->count();
+        $strategyCount = $this->strategyRepository->count();
+        $financingTypeCount = $this->financingTypeRepository->count();
+        $priorityToolCount = $this->priorityToolRepository->count();
+        $secretProtectionMeasureCount = $this->secretProtectionMeasureRepository->count();
 
         $view->with(compact(
             'userCount',
@@ -121,6 +129,7 @@ class DashboardComposer
             'creatorExternalCount',
 
             'administrativeUnitCount',
+            'academicDepartmentCount',
             'researchUnitCount',
             'projectCount',
             'intangibleAssetCount',

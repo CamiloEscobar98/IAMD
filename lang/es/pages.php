@@ -771,7 +771,6 @@ return [
                     'name' => 'Nombre',
                     'description' => 'Descripción',
                     'research_units' => 'Unidades de Investigación',
-                    'cities' => 'Ciudades',
                     'created_at' => 'Fecha de Creación',
                     'updated_at' => 'Fecha de Actualización'
                 ],
@@ -801,6 +800,65 @@ return [
                 'show' => "En esta sección de la aplicación podrás visualizar la facultad <b>:administrative_unit</b> ",
 
                 'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Facultades registradas.'
+            ],
+        ],
+
+        /** Administrative Units */
+        'academic_departments' => [
+            'title' => 'Departamentos Académicos',
+            'subtitle' => 'Departamentos Académicos',
+
+            'route-titles' => [
+                'create' => 'Registrar Departamento Académico',
+                'show' => 'Visualizar Departamento Académico',
+                'edit' => 'Editar Departamento Académico',
+            ],
+
+            'form-titles' => [
+                'show' => 'Perfil de Visualización del Departamento Académico',
+                'create' => 'Formulario de Registro de un Departamento Académico',
+                'edit' => 'Actualización del Departamento Académico',
+            ],
+
+            'filters' => [
+                'name' => 'Buscar Departamento Académico',
+                'total' => 'Total de Departamentos Académicos: ',
+            ],
+
+            'table' => [
+                'head' => [
+                    'name' => 'Nombre',
+                    'description' => 'Descripción',
+                    'research_units' => 'Unidades de Investigación',
+                    'created_at' => 'Fecha de Creación',
+                    'updated_at' => 'Fecha de Actualización'
+                ],
+                'body' => [
+                    'research_units_count' => ':research_units_count Unidades de Investigación registradas.'
+                ]
+
+            ],
+
+            'messages' => [
+                'confirm' => '¿Estás seguro de que quieres eliminar el Departamento Académico?',
+
+                'save_success' => 'Se ha registrado correctamente el Departamento Académico: <b>:academic_department</b>',
+                'save_error' => 'No se ha registrado el Departamento Académico.',
+
+                'update_success' => 'Se ha actualizado correctamente el Departamento Académico: <b>:academic_department</b>',
+                'update_error' => 'No se ha actualizado el Departamento Académico.',
+
+                'delete_success' => 'Se ha eliminado el Departamento Académico: <b>:academic_department</b>',
+                'delete_error' => 'No se ha eliminado el Departamento Académico.'
+            ],
+
+            'info' => [
+                'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>DEPARTAMENTO ACADÉMICO</b>. 
+                Dicho recurso actualmente está destinado para enriquecer la información de los departamentos academicos dentro de la aplicación.",
+
+                'show' => "En esta sección de la aplicación podrás visualizar el Departamento Académico <b>:academic_department</b> ",
+
+                'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Departamentos Académicos registrados.'
             ],
         ],
 

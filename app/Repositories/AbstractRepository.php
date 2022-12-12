@@ -283,6 +283,14 @@ class AbstractRepository
     }
 
     /**
+     * @return int
+     */
+    public function count()
+    {
+        return $this->all()->count();
+    }
+
+    /**
      * @param int $count
      * @param array $params
      *

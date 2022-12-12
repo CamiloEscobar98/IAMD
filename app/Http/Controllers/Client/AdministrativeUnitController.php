@@ -48,7 +48,7 @@ class AdministrativeUnitController extends Controller
      *
      * @return View|RedirectResponse
      */
-    public function index(Request $request): View|RedirectResponse
+    public function index(Request $request)#: View|RedirectResponse
     {
         try {
             $params = $this->administrativeUnitService->transformParams($request->all());
@@ -186,7 +186,7 @@ class AdministrativeUnitController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.administrative_units.messages.delete_success', ['country' => $item->name])]);
+            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.administrative_units.messages.delete_success', ['administrative_unit' => $item->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.administrative_units.messages.delete_error')]);

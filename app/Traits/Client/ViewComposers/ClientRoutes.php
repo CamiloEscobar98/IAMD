@@ -49,6 +49,7 @@ trait ClientRoutes
             $views,
             $this->getMainRoutes(),
             $this->getAdministrativeUnitRoutes(),
+            $this->getAcademicDepartmentRoutes(),
             $this->getResearchUnitRoutes(),
             $this->getProjectRoutes(),
             $this->getCreatorRoutes(),
@@ -141,6 +142,24 @@ trait ClientRoutes
 
             'client.pages.administrative_units.components.filters',
             'client.pages.administrative_units.components.table',
+        ];
+    }
+
+      /**
+     * get Administrative Unit Routes
+     * 
+     * @return array
+     */
+    protected function getAcademicDepartmentRoutes(): array
+    {
+        return [
+            'client.pages.academic_departments.index',
+            'client.pages.academic_departments.create',
+            'client.pages.academic_departments.show',
+            'client.pages.academic_departments.edit',
+
+            'client.pages.academic_departments.components.filters',
+            'client.pages.academic_departments.components.table',
         ];
     }
 
