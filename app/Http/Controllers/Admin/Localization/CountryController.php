@@ -45,7 +45,7 @@ class CountryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View|RedirectResponse
      */
     public function index(Request $request): View|RedirectResponse
     {
@@ -62,7 +62,7 @@ class CountryController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View|RedirectResponse
      */
     public function create(): View|RedirectResponse
     {
@@ -74,7 +74,7 @@ class CountryController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  StoreRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function store(StoreRequest $request): RedirectResponse
     {
@@ -86,7 +86,7 @@ class CountryController extends Controller
      *
      * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return View|RedirectResponse
      */
     public function show(Request $request, $id): View|RedirectResponse
     {
@@ -103,9 +103,9 @@ class CountryController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return View|RedirectResponse
      */
-    public function edit(Request $request, $id)
+    public function edit(Request $request, $id): View|RedirectResponse
     {
         try {
             $item = $this->countryRepository->getById($id);
@@ -120,7 +120,7 @@ class CountryController extends Controller
      *
      * @param  UpdateRequest  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function update(UpdateRequest $request, $id): RedirectResponse
     {
@@ -131,9 +131,9 @@ class CountryController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy($id): RedirectResponse
     {
         return redirect()->route('admin.localizations.countries.index')->with('alert', $this->countryService->delete($id));
     }

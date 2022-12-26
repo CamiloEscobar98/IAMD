@@ -23,7 +23,7 @@ class StateRepository extends AbstractRepository
      * 
      * @return mixed
      */
-    public function search(array $params = [], array $with = [], array $withCount = [], int|null $countryId)
+    public function search(array $params = [], array $with = [], array $withCount = [], int|null $countryId = null)
     {
         $query = $this->model
             ->select();

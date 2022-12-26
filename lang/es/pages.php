@@ -100,7 +100,7 @@ return [
 
                 'messages' => [
                     'confirm' => '¿Estás seguro de que quieres eliminar el país?',
-                    'not_found' => 'No se ha encontrado el país.',
+                    'not_found' => 'No se ha podido encontrar ningún país con este identificador.',
 
                     'save_success' => "Se ha registrado correctamente el país de <b>:country</b>",
                     'save_error' => 'No se ha registrado el país.',
@@ -167,21 +167,22 @@ return [
                         'updated_at' => 'Fecha de Actualización'
                     ],
                     'body' => [
-                        'cities_count' => "Tiene :count ciudades registradas."
+                        'cities_count' => ":count ciudades registradas."
                     ]
 
                 ],
 
                 'messages' => [
                     'confirm' => '¿Estás seguro de que quieres eliminar el departamento?',
+                    'not_found' => 'No se ha podido encontrar ningún departamento con este identificador.',
 
-                    'save_success' => "Se ha registrado correctamente el departamento: <b>:state</b>.",
+                    'save_success' => "Se ha registrado correctamente el departamento de <b>:state</b>.",
                     'save_error' => 'No se ha registrado el departamento.',
 
-                    'update_success' => "Se ha actualizado correctamente el departamento: <b>:state</b>.",
+                    'update_success' => "Se ha actualizado correctamente el departamento de <b>:state</b>.",
                     'update_error' => 'No se ha actualizado el departamento.',
 
-                    'delete_success' => "Se ha eliminado el departamento: <b>:state</b>.",
+                    'delete_success' => "Se ha eliminado correctamente el departamento de <b>:state</b>.",
                     'delete_error' => 'No se ha eliminado el departamento.'
                 ],
 
