@@ -85,4 +85,22 @@ class StateService
             throw new \Exception($exception->getMessage());
         }
     }
+
+    /**
+     * @param array $data
+     * @param int $page
+     * @param array $with
+     * @param array $withCount
+     * @param int|null $countryId
+     */
+    public function searchWithPagination(array $data, int $page, array $with = [], $withCount = [], int|null $countryId): array
+    {
+        $params = $this->transformParams($data);
+        $query = $this->stateRepository->search($params, $with, $withCount, $countryId);
+        $total = $query->count();
+        $items = $this->customPagination($query, $params, 10, $page, $total);
+        $links = $items->links('pagination.customized');
+
+        return [$total, $items, $links];
+    }
 }

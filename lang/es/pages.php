@@ -93,21 +93,22 @@ return [
                         'updated_at' => 'Fecha de Actualización'
                     ],
                     'body' => [
-                        'states_count' => "Tiene :count departamentos registrados.",
-                        "cities_count" => "Tiene :count ciudades registradas."
+                        'states_count' => ":count departamentos registrados.",
+                        "cities_count" => ":count ciudades registradas."
                     ]
                 ],
 
                 'messages' => [
                     'confirm' => '¿Estás seguro de que quieres eliminar el país?',
+                    'not_found' => 'No se ha encontrado el país.',
 
-                    'save_success' => "Se ha registrado correctamente el país: <b>:country</b>",
+                    'save_success' => "Se ha registrado correctamente el país de <b>:country</b>",
                     'save_error' => 'No se ha registrado el país.',
 
-                    'update_success' => "Se ha actualizado correctamente el país: <b>:country</b>.",
+                    'update_success' => "Se ha actualizado correctamente el país de <b>:country</b>.",
                     'update_error' => 'No se ha actualizado el país.',
 
-                    'delete_success' => 'Se ha eliminado el país: <b>:country</b>.',
+                    'delete_success' => 'Se ha eliminado correctamente el país de <b>:country</b>.',
                     'delete_error' => 'No se ha eliminado el país.'
                 ],
 

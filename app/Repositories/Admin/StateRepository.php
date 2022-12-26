@@ -4,8 +4,9 @@ namespace App\Repositories\Admin;
 
 use App\Repositories\AbstractRepository;
 
-use App\Models\Admin\Localization\State;
 use Illuminate\Database\Eloquent\Collection;
+
+use App\Models\Admin\Localization\State;
 
 class StateRepository extends AbstractRepository
 {
@@ -18,16 +19,17 @@ class StateRepository extends AbstractRepository
      * @param array $params
      * @param array $with
      * @param array $withCount
+     * @param int|null $countryId
      * 
      * @return mixed
      */
-    public function search(array $params = [], array $with = [], array $withCount = [], int $country_id = null)
+    public function search(array $params = [], array $with = [], array $withCount = [], int|null $countryId)
     {
         $query = $this->model
             ->select();
 
-        if (isset($country_id) && $country_id) {
-            $query->where('country_id', $country_id);
+        if (isset($countryId) && $countryId) {
+            $query->where('country_id', $countryId);
         }
 
         if (isset($params['name']) && $params['name']) {

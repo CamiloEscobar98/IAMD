@@ -3,39 +3,37 @@
 namespace App\Http\Controllers\Admin\Localization;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 use App\Http\Requests\Admin\Localizations\Countries\StoreRequest;
 use App\Http\Requests\Admin\Localizations\Countries\UpdateRequest;
 
 use App\Services\Admin\CountryService;
+use App\Services\Admin\StateService;
 
 use App\Repositories\Admin\CountryRepository;
-use App\Repositories\Admin\StateRepository;
-use App\Services\Admin\StateService;
+
+use Exception;
 
 class CountryController extends Controller
 {
     /** @var CountryService */
     protected $countryService;
 
-    /** @var CountryRepository */
-    protected $countryRepository;
-
     /** @var StateService */
     protected $stateService;
 
-    /** @var StateRepository */
-    protected $stateRepository;
+    /** @var CountryRepository */
+    protected $countryRepository;
 
     public function __construct(
         CountryService $countryService,
         StateService $stateService,
 
         CountryRepository $countryRepository,
-        StateRepository $stateRepository
     ) {
         $this->middleware('auth:admin');
 
@@ -43,7 +41,6 @@ class CountryController extends Controller
         $this->stateService = $stateService;
 
         $this->countryRepository = $countryRepository;
-        $this->stateRepository = $stateRepository;
     }
 
     /**
@@ -51,18 +48,10 @@ class CountryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): View|RedirectResponse
     {
         try {
-            $params = $this->countryService->transformParams($request->all());
-
-            $query = $this->countryRepository->search($params, [], ['states', 'cities']);
-
-            $total = $query->count();
-            $items = $this->countryService->customPagination($query, $params, $request->get('page'), $total);
-
-            $links = $items->links('pagination.customized');
-
+            [$params, $total, $items, $links] = $this->countryService->searchWithPagination($request->all(), $request->get('page'), [], ['states', 'cities']);
             return view('admin.pages.localization.countries.index', compact('links'))
                 ->nest('filters', 'admin.pages.localization.countries.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.localization.countries.components.table', compact('items'));
@@ -76,14 +65,10 @@ class CountryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): View|RedirectResponse
     {
-        try {
-            $item = $this->countryRepository->newInstance();
-            return view('admin.pages.localization.countries.create', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
-        }
+        $item = $this->countryRepository->newInstance();
+        return view('admin.pages.localization.countries.create', compact('item'));
     }
 
     /**
@@ -92,19 +77,9 @@ class CountryController extends Controller
      * @param  StoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): RedirectResponse
     {
-        try {
-            $data = $request->all();
-
-            $item = DB::transaction(function () use ($data) {
-                return $this->countryRepository->create($data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.countries.messages.save_success', ['country' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.countries.messages.save_error')]);
-        }
+        return redirect()->route('admin.localizations.countries.create')->with('alert', $this->countryService->save($request->only('name')));
     }
 
     /**
@@ -114,22 +89,14 @@ class CountryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show(Request $request, $id): View|RedirectResponse
     {
         try {
             $item = $this->countryRepository->getById($id);
-
-            $params = $this->stateService->transformParams($request->all());
-
-            $query = $this->stateRepository->search($params, ['cities'], ['cities'], $id);
-            $total = $query->count();
-            $states = $this->stateService->customPagination($query, $params, 10, $request->get('page'), $total);
-            $links = $states->links('pagination.customized');
-
-            return view('admin.pages.localization.countries.show', compact('item', 'total', 'states', 'links'));
-        } catch (\Exception $th) {
-            return $th->getMessage();
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            [$total, $items, $links] = $this->stateService->searchWithPagination($request->all(), $request->get('page', 1), ['cities'], ['cities'], $id);
+            return view('admin.pages.localization.countries.show', compact('item', 'total', 'items', 'links'));
+        } catch (Exception $th) {
+            return redirect()->route('admin.localizations.countries.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.countries.messages.not_found')]);
         }
     }
 
@@ -143,10 +110,9 @@ class CountryController extends Controller
     {
         try {
             $item = $this->countryRepository->getById($id);
-
             return view('admin.pages.localization.countries.edit', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.countries.messages.not_found')]);
         }
     }
 
@@ -157,21 +123,9 @@ class CountryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, $id)
+    public function update(UpdateRequest $request, $id): RedirectResponse
     {
-        try {
-            $data = $request->all();
-
-            $item = $this->countryRepository->getById($id);
-
-            DB::transaction(function () use ($item, $data) {
-                $this->countryRepository->update($item, $data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.countries.messages.update_success', ['country' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.countries.messages.update_error')]);
-        }
+        return redirect()->route('admin.localizations.countries.edit', $id)->with('alert', $this->countryService->update($request->only('name'), $id));
     }
 
     /**
@@ -182,16 +136,6 @@ class CountryController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $item = $this->countryRepository->getById($id);
-
-            DB::transaction(function () use ($item) {
-                $this->countryRepository->delete($item);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.countries.messages.delete_success', ['country' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.countries.messages.delete_error')]);
-        }
+        return redirect()->route('admin.localizations.countries.index')->with('alert', $this->countryService->delete($id));
     }
 }

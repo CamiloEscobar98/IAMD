@@ -19,8 +19,8 @@ use App\Repositories\Client\IntangibleAssetPhaseRepository;
 use App\Repositories\Client\IntangibleAssetSecretProtectionMeasureRepository;
 use App\Repositories\Client\IntangibleAssetSessionRightContractRepository;
 
-use App\Services\FileSystem\IntangibleAsset\FileConfidencialityContractService;
-use App\Services\FileSystem\IntangibleAsset\FileSessionRightContractService;
+use App\Services\FileSystem\IntangibleAssets\FileConfidencialityContractService;
+use App\Services\FileSystem\IntangibleAssets\FileSessionRightContractService;
 use Illuminate\Http\Request;
 
 class IntangibleAssetPhaseService
