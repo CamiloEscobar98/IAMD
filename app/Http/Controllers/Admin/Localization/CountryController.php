@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin\Localization;
 
 use App\Http\Controllers\Controller;
-use Illuminate\View\View;
 
+use Illuminate\View\View;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 
@@ -15,8 +16,6 @@ use App\Services\Admin\CountryService;
 use App\Services\Admin\StateService;
 
 use App\Repositories\Admin\CountryRepository;
-
-use Exception;
 
 class CountryController extends Controller
 {
@@ -95,7 +94,7 @@ class CountryController extends Controller
             $item = $this->countryRepository->getById($id);
             [$total, $items, $links] = $this->stateService->searchWithPagination($request->all(), $request->get('page', 1), ['cities'], ['cities'], $id);
             return view('admin.pages.localization.countries.show', compact('item', 'total', 'items', 'links'));
-        } catch (Exception $th) {
+        } catch (ModelNotFoundException $th) {
             return redirect()->route('admin.localizations.countries.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.countries.messages.not_found')]);
         }
     }
@@ -111,7 +110,7 @@ class CountryController extends Controller
         try {
             $item = $this->countryRepository->getById($id);
             return view('admin.pages.localization.countries.edit', compact('item'));
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $th) {
+        } catch (ModelNotFoundException $th) {
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.countries.messages.not_found')]);
         }
     }
