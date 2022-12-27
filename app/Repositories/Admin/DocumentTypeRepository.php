@@ -15,6 +15,8 @@ class DocumentTypeRepository extends  AbstractRepository
 
     /**
      * @param array $params
+     * @param array $with
+     * @param array $withCount
      * 
      * @return mixed
      */

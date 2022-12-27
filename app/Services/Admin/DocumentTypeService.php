@@ -44,15 +44,15 @@ class DocumentTypeService
      * Update a Document Type.
      * 
      * @param array $data
-     * @param int $cityId
+     * @param int $documentTypeId
      * @return array
      */
-    public function update(array $data, int $cityId): array
+    public function update(array $data, int $documentTypeId): array
     {
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.update_error')];
         try {
             DB::beginTransaction();
-            $item = $this->documentTypeRepository->getById($cityId);
+            $item = $this->documentTypeRepository->getById($documentTypeId);
             $this->documentTypeRepository->update($item, $data);
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.update_success', ['document_type' => $item->name])];
             DB::commit();
@@ -64,16 +64,16 @@ class DocumentTypeService
 
     /**
      * Delete a Document Type.
-     * @param int $cityId
+     * @param int $documentTypeId
      * @return array
      */
-    public function delete(int $cityId): array
+    public function delete(int $documentTypeId): array
     {
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.delete_error')];
 
         try {
             DB::beginTransaction();
-            $item = $this->documentTypeRepository->getById($cityId);
+            $item = $this->documentTypeRepository->getById($documentTypeId);
             $this->documentTypeRepository->delete($item);
             DB::commit();
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.delete_success', ['document_type' => $item->name])];

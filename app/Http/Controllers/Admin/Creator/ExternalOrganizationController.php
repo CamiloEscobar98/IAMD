@@ -41,21 +41,13 @@ class ExternalOrganizationController extends Controller
     public function index(Request $request)
     {
         try {
-            $params = $this->externalOrganizationService->transformParams($request->all());
 
-            $query = $this->externalOrganizationRepository->search($params);
-
-            $total = $query->count();
-
-            $items = $this->externalOrganizationService->customPagination($query, $params, $request->get('page'), $total);
-
-            $links = $items->links('pagination.customized');
-
+            [$params, $total, $items, $links] = $this->externalOrganizationService->searchWithPagination($request->all(), $request->get('page'));
             return view('admin.pages.creators.external_organizations.index', compact('links'))
                 ->nest('filters', 'admin.pages.creators.external_organizations.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.creators.external_organizations.components.table', compact('items'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.creators.external_organizations.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -70,7 +62,7 @@ class ExternalOrganizationController extends Controller
             $item = $this->externalOrganizationRepository->newInstance();
             return view('admin.pages.creators.external_organizations.create', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -82,17 +74,7 @@ class ExternalOrganizationController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        try {
-            $data = $request->all();
-
-            $item = DB::transaction(function () use ($data) {
-                return $this->externalOrganizationRepository->create($data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.external_organizations.messages.save_success', ['external_organization' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.external_organizations.messages.save_error')]);
-        }
+        return redirect()->route('admin.creators.external_organizations.create')->with('alert', $this->externalOrganizationService->save($request->all()));
     }
 
     /**
@@ -105,10 +87,9 @@ class ExternalOrganizationController extends Controller
     {
         try {
             $item = $this->externalOrganizationRepository->getById($id);
-
             return view('admin.pages.creators.external_organizations.show', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -122,11 +103,10 @@ class ExternalOrganizationController extends Controller
     {
         try {
             $item = $this->externalOrganizationRepository->getById($id);
-
             return view('admin.pages.creators.external_organizations.edit', compact('item'));
         } catch (\Exception $th) {
             return $th->getMessage();
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -139,19 +119,7 @@ class ExternalOrganizationController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
-        try {
-            $data = $request->all();
-
-            $item = $this->externalOrganizationRepository->getById($id);
-
-            DB::transaction(function () use ($item, $data) {
-                $this->externalOrganizationRepository->update($item, $data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.external_organizations.messages.update_success', ['external_organization' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.external_organizations.messages.update_error')]);
-        }
+        return redirect()->route('admin.creators.external_organizations.edit', $id)->with('alert', $this->externalOrganizationService->update($request->all(), $id));
     }
 
     /**
@@ -162,16 +130,6 @@ class ExternalOrganizationController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $item = $this->externalOrganizationRepository->getById($id);
-
-            DB::transaction(function () use ($item) {
-                $this->externalOrganizationRepository->delete($item);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.external_organizations.messages.delete_success', ['external_organization' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.external_organizations.messages.delete_error')]);
-        }
+        return redirect()->route('admin.creators.external_organizations.index')->with('alert', $this->externalOrganizationService->delete($id));
     }
 }
