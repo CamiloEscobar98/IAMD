@@ -27,7 +27,6 @@ class StateController extends Controller
 
     public function __construct(
         StateService $stateService,
-
         StateRepository $stateRepository,
     ) {
         $this->middleware('auth:admin');
@@ -51,7 +50,7 @@ class StateController extends Controller
                 ->nest('filters', 'admin.pages.localization.states.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.localization.states.components.table', compact('items'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.localizations.states.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.localizations.states.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -62,8 +61,12 @@ class StateController extends Controller
      */
     public function create(): View
     {
-        $item = $this->stateRepository->newInstance();
-        return view('admin.pages.localization.states.create', compact('item'));
+        try {
+            $item = $this->stateRepository->newInstance();
+            return view('admin.pages.localization.states.create', compact('item'));
+        } catch (\Exception $th) {
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        }
     }
 
     /**

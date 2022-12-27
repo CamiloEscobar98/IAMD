@@ -44,24 +44,13 @@ class CityController extends Controller
     public function index(Request $request)
     {
         try {
-            $oldParams = $request->all();
 
-            $params = $this->cityService->transformParams($request->all());
-
-            $query = $this->cityRepository->search($params, ['country', 'state']);
-
-            $total = $query->count();
-            $items = $this->cityService->customPagination($query, $params, null, $request->get('page'), $total);
-
-            $links = $items->links('pagination.customized');
-
-            $params = $oldParams;
-
+            [$params, $total, $items, $links] = $this->cityService->searchWithPagination($request->all(), $request->get('page'), ['country', 'state']);
             return view('admin.pages.localization.cities.index', compact('links'))
                 ->nest('filters', 'admin.pages.localization.cities.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.localization.cities.components.table', compact('items'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.localizations.cities.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -76,7 +65,7 @@ class CityController extends Controller
             $item = $this->cityRepository->newInstance();
             return view('admin.pages.localization.cities.create', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -88,17 +77,7 @@ class CityController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        try {
-            $data = $request->all();
-
-            $item = DB::transaction(function () use ($data) {
-                return $this->cityRepository->create($data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.cities.messages.save_success', ['city' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.save_error')]);
-        }
+        return redirect()->route('admin.localizations.cities.create')->with('alert', $this->cityService->save($request->all()));
     }
 
     /**
@@ -111,12 +90,11 @@ class CityController extends Controller
     public function show($id)
     {
         try {
-            $item = $this->cityRepository->search(['id' => $id], ['country', 'state'])->get()->first();
-
+            $item = $this->cityRepository->getById($id);
             return view('admin.pages.localization.cities.show', compact('item'));
         } catch (\Exception $th) {
             return $th->getMessage();
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.not_found')]);
         }
     }
 
@@ -130,13 +108,9 @@ class CityController extends Controller
     {
         try {
             $item = $this->cityRepository->search(['id' => $id], ['country', 'state'])->get()->first();
-
             return view('admin.pages.localization.cities.edit', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with(
-                'alert',
-                ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]
-            );
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.not_found')]);
         }
     }
 
@@ -149,18 +123,7 @@ class CityController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
-        try {
-            $data = $request->all();
-            $item = $this->cityRepository->getById($id);
-
-            DB::transaction(function () use ($data, $item) {
-                $this->cityRepository->update($item, $data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.cities.messages.update_success', ['city' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.update_error')]);
-        }
+        return redirect()->route('admin.localizations.cities.edit', $id)->with('alert', $this->cityService->update($request->all(), $id));
     }
 
     /**
@@ -171,16 +134,6 @@ class CityController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $item = $this->cityRepository->getById($id);
-
-            DB::transaction(function () use ($item) {
-                $this->cityRepository->delete($item);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.cities.messages.delete_success', ['city' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.delete_error')]);
-        }
+        return redirect()->route('admin.localizations.cities.index')->with('alert', $this->cityService->delete($id));
     }
 }

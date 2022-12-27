@@ -241,14 +241,15 @@ return [
 
                 'messages' => [
                     'confirm' => '¿Estás seguro de que quieres eliminar la ciudad?',
+                    'not_found' => 'No se ha podido encontrar ninguna ciudad o municipio con este identificador.',
 
-                    'save_success' => "Se ha registrado correctamente la ciudad: <b>:city</b>.",
+                    'save_success' => "Se ha registrado correctamente la ciudad de <b>:city</b>.",
                     'save_error' => 'No se ha registrado la ciudad.',
 
-                    'update_success' => "Se ha actualizado correctamente la ciudad: <b>:city</b>.",
+                    'update_success' => "Se ha actualizado correctamente la ciudad de <b>:city</b>.",
                     'update_error' => 'No se ha actualizado la ciudad.',
 
-                    'delete_success' => "Se ha eliminado la ciudad: <b>:city</b>.",
+                    'delete_success' => "Se ha eliminado correctamente la ciudad de <b>:city</b>.",
                     'delete_error' => 'No se ha eliminado la ciudad.'
                 ],
 

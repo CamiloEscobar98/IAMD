@@ -19,17 +19,17 @@ class CityRepository extends AbstractRepository
      * @param array $params
      * @param array $with
      * @param array $withCount
-     * @param int $state_id
+     * @param int $stateId
      * 
      * @return mixed
      */
-    public function search(array $params = [], array $with = [], $state_id = null)
+    public function search(array $params = [], array $with = [],  array $withCount = [], $stateId = null)
     {
         $query = $this->model
             ->select();
 
-        if (isset($state_id) && $state_id) {
-            $query->where('state_id', $state_id);
+        if (isset($stateId) && $stateId) {
+            $query->where('state_id', $stateId);
         }
 
         if (isset($params['id']) && $params['id']) {
@@ -54,6 +54,10 @@ class CityRepository extends AbstractRepository
 
         if (isset($with) && $with) {
             $query->with($with);
+        }
+
+        if (isset($withCount) && $withCount) {
+            $query->withCount($withCount);
         }
 
         return $query;

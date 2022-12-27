@@ -2,6 +2,8 @@
 
 namespace App\Services\Admin;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -15,6 +17,69 @@ class CityService
     public function __construct(CityRepository $cityRepository)
     {
         $this->cityRepository = $cityRepository;
+    }
+
+    /**
+     * Store a new City.
+     * 
+     * @param array $data
+     * @return array
+     */
+    public function save(array $data): array
+    {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.save_error')];
+        try {
+            DB::beginTransaction();
+            $item = $this->cityRepository->create($data);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.cities.messages.save_success', ['city' => $item->name])];
+        } catch (QueryException $th) {
+            DB::rollBack();
+        }
+        return $response;
+    }
+
+    /**
+     * Update a City.
+     * 
+     * @param array $data
+     * @param int $cityId
+     * @return array
+     */
+    public function update(array $data, int $cityId): array
+    {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.update_error')];
+        try {
+            DB::beginTransaction();
+            $item = $this->cityRepository->getById($cityId);
+            $this->cityRepository->update($item, $data);
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.cities.messages.update_success', ['city' => $item->name])];
+            DB::commit();
+        } catch (QueryException $th) {
+            DB::rollBack();
+        }
+        return $response;
+    }
+
+    /**
+     * Delete a City.
+     * @param int $cityId
+     * @return array
+     */
+    public function delete(int $cityId): array
+    {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.delete_error')];
+
+        try {
+            DB::beginTransaction();
+            $item = $this->cityRepository->getById($cityId);
+            $this->cityRepository->delete($item);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.cities.messages.delete_success', ['city' => $item->name])];
+        } catch (QueryException $th) {
+            DB::rollBack();
+        }
+        return $response;
     }
 
     /**
@@ -84,5 +149,23 @@ class CityService
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
+    }
+
+    /**
+     * @param array $data
+     * @param int $page
+     * @param array $with
+     * @param array $withCount
+     * @param int|null $cityId
+     */
+    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = [], int|null $cityId = null): array
+    {
+        $params = $this->transformParams($data);
+        $query = $this->cityRepository->search($params, $with, $withCount, $cityId);
+        $total = $query->count();
+        $items = $this->customPagination($query, $params, 10, $page, $total);
+        $links = $items->links('pagination.customized');
+
+        return [$params, $total, $items, $links];
     }
 }

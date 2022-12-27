@@ -55,7 +55,7 @@ class CountryController extends Controller
                 ->nest('filters', 'admin.pages.localization.countries.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.localization.countries.components.table', compact('items'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -66,8 +66,12 @@ class CountryController extends Controller
      */
     public function create(): View|RedirectResponse
     {
-        $item = $this->countryRepository->newInstance();
+        try {
+            $item = $this->countryRepository->newInstance();
         return view('admin.pages.localization.countries.create', compact('item'));
+        } catch (\Exception $th) {
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        }
     }
 
     /**
