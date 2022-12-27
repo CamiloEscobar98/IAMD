@@ -171,6 +171,7 @@ return [
         /** Custom Attributes */
 
         'role_id' => 'rol',
+        'slug' => 'abreviatura',
 
         'code' => 'código',
 

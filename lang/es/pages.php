@@ -304,14 +304,15 @@ return [
 
                 'messages' => [
                     'confirm' => '¿Estás seguro de que quieres eliminar el Tipo de Documento?',
+                    'not_found' => 'No se ha podido encontrar ningún tipo de documento con este identificador.',
 
-                    'save_success' => 'Se ha registrado correctamente el Tipo de Documento: :document_type.',
+                    'save_success' => 'Se ha registrado correctamente el Tipo de Documento de <b>:document_type</b>.',
                     'save_error' => 'No se ha registrado el Tipo de Documento.',
 
-                    'update_success' => 'Se ha actualizado correctamente el Tipo de Documento: :document_type.',
+                    'update_success' => 'Se ha actualizado correctamente el Tipo de Documento de <b>:document_type</b>.',
                     'update_error' => 'No se ha actualizado el Tipo de Documento.',
 
-                    'delete_success' => 'Se ha eliminado el Tipo de Documento: :document_type.',
+                    'delete_success' => 'Se ha eliminado el Tipo de Documento de <b>:document_type</b>.',
                     'delete_error' => 'No se ha eliminado el Tipo de Documento.'
                 ],
 

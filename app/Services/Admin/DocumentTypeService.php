@@ -2,6 +2,8 @@
 
 namespace App\Services\Admin;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -15,6 +17,70 @@ class DocumentTypeService
     public function __construct(DocumentTypeRepository $documentTypeRepository)
     {
         $this->documentTypeRepository = $documentTypeRepository;
+    }
+
+    /**
+     * Store a new Document Type.
+     * 
+     * @param array $data
+     * @return array
+     */
+    public function save(array $data): array
+    {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.save_error')];
+        try {
+            DB::beginTransaction();
+            $item = $this->documentTypeRepository->create($data);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.save_success', ['document_type' => $item->name])];
+        } catch (QueryException $th) {
+            dd($th->getMessage());
+            DB::rollBack();
+        }
+        return $response;
+    }
+
+    /**
+     * Update a Document Type.
+     * 
+     * @param array $data
+     * @param int $cityId
+     * @return array
+     */
+    public function update(array $data, int $cityId): array
+    {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.update_error')];
+        try {
+            DB::beginTransaction();
+            $item = $this->documentTypeRepository->getById($cityId);
+            $this->documentTypeRepository->update($item, $data);
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.update_success', ['document_type' => $item->name])];
+            DB::commit();
+        } catch (QueryException $th) {
+            DB::rollBack();
+        }
+        return $response;
+    }
+
+    /**
+     * Delete a Document Type.
+     * @param int $cityId
+     * @return array
+     */
+    public function delete(int $cityId): array
+    {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.delete_error')];
+
+        try {
+            DB::beginTransaction();
+            $item = $this->documentTypeRepository->getById($cityId);
+            $this->documentTypeRepository->delete($item);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.delete_success', ['document_type' => $item->name])];
+        } catch (QueryException $th) {
+            DB::rollBack();
+        }
+        return $response;
     }
 
     /**
@@ -77,5 +143,23 @@ class DocumentTypeService
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
+    }
+
+    /**
+     * @param array $data
+     * @param int $page
+     * @param array $with
+     * @param array $withCount
+     * @param int|null $documentTypeId
+     */
+    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
+    {
+        $params = $this->transformParams($data);
+        $query = $this->documentTypeRepository->search($params, $with, $withCount);
+        $total = $query->count();
+        $items = $this->customPagination($query, $params, $page, $total);
+        $links = $items->links('pagination.customized');
+
+        return [$params, $total, $items, $links];
     }
 }
