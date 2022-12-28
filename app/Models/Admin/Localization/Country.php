@@ -62,4 +62,47 @@ class Country extends BaseModel
     {
         return $this->hasManyThrough(City::class, State::class);
     }
+
+    /**
+     * Here there's all Scopes of the model Country.
+     */
+
+    /**
+     * Scope a query to only include Name
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $name
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByName($query, string $name)
+    {
+        $query->where('name', 'like', "%{$name}%");
+    }
+
+    /**
+     * Scope a query to only include Date From
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $dateFrom
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSinceDate($query, string $dateFrom)
+    {
+        $query->where('updated_at', '>=', $dateFrom);
+    }
+
+    /**
+     * Scope a query to only include Date To
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $dateTo
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeToDate($query, string $dateTo)
+    {
+        $query->where('updated_at', '<=', $dateTo);
+    }
 }

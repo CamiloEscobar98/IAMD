@@ -37,12 +37,12 @@
                                 <label
                                     class="input-group-text">{{ __('pages.admin.localizations.states.filters.country') }}</label>
                             </div>
-                            <select class="form-control select2bs4" name="country">
+                            <select class="form-control select2bs4" name="country_id">
                                 <option value="">
                                     {{ __('pages.admin.localizations.states.filters.country_option') }}</option>
                                 @foreach ($countries as $country)
                                     <option value="{{ $country->id }}"
-                                        {{ optionIsSelected($params, 'country', $country->id) }}>
+                                        {{ optionIsSelected($params, 'country_id', $country->id) }}>
                                         {{ $country->name }}
                                     </option>
                                 @endforeach

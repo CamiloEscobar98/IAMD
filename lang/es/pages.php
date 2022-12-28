@@ -224,6 +224,9 @@ return [
                     'name' => 'Buscar Ciudad',
                     'total' => 'Total de Ciudades: ',
 
+                    'country' => 'País',
+                    'country_option' => 'Buscar por País',
+
                     'state' => 'Departamento',
                     'state_option' => 'Buscar por Departamento',
                 ],

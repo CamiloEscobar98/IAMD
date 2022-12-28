@@ -29,23 +29,23 @@ class StateRepository extends AbstractRepository
             ->select();
 
         if (isset($countryId) && $countryId) {
-            $query->where('country_id', $countryId);
+            $query->ofCountry($countryId);
         }
 
         if (isset($params['name']) && $params['name']) {
-            $query->where('name', 'like', '%' . $params['name'] . '%');
+            $query->byName($params['name']);
         }
 
         if (isset($params['date_from']) && $params['date_from']) {
-            $query->where('updated_at', '>=', $params['date_from']);
+            $query->sinceDate($params['date_from']);
         }
 
         if (isset($params['date_to']) && $params['date_to']) {
-            $query->where('updated_at', '<=', $params['date_to']);
+            $query->toDate($params['date_to']);
         }
 
         if (isset($params['country_id']) && $params['country_id']) {
-            $query->where('country_id', $params['country_id']);
+            $query->ofCountry($params['country_id']);
         }
 
         if (isset($with) && $with) {
