@@ -89,7 +89,7 @@ class DocumentTypeController extends Controller
             $item = $this->documentTypeRepository->getById($id);
             return view('admin.pages.creators.document_types.show', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.not_found')]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.not_found')]);
         }
     }
 

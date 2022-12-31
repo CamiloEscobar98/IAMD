@@ -68,7 +68,7 @@ class CountryController extends Controller
     {
         try {
             $item = $this->countryRepository->newInstance();
-        return view('admin.pages.localization.countries.create', compact('item'));
+            return view('admin.pages.localization.countries.create', compact('item'));
         } catch (\Exception $th) {
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
@@ -96,7 +96,7 @@ class CountryController extends Controller
     {
         try {
             $item = $this->countryRepository->getById($id);
-            [$total, $items, $links] = $this->stateService->searchWithPagination($request->all(), $request->get('page', 1), ['cities'], ['cities'], $id);
+            [$params, $total, $items, $links] = $this->stateService->searchWithPagination($request->all(), $request->get('page', 1), ['cities'], ['cities'], $id);
             return view('admin.pages.localization.countries.show', compact('item', 'total', 'items', 'links'));
         } catch (ModelNotFoundException $th) {
             return redirect()->route('admin.localizations.countries.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.countries.messages.not_found')]);

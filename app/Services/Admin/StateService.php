@@ -2,84 +2,22 @@
 
 namespace App\Services\Admin;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\QueryException;
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Admin\StateRepository;
 
-class StateService
+class StateService extends AbstractServiceModel
 {
+
     /** @var StateRepository */
-    protected $stateRepository;
+    protected $repository;
 
-    public function __construct(StateRepository $stateRepository)
+    public function __construct(StateRepository $repository)
     {
-        $this->stateRepository = $stateRepository;
-    }
-
-    /**
-     * Store a new State.
-     * 
-     * @param array $data
-     * @return array
-     */
-    public function save(array $data): array
-    {
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.states.messages.save_error')];
-        try {
-            DB::beginTransaction();
-            $item = $this->stateRepository->create($data);
-            DB::commit();
-            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.states.messages.save_success', ['state' => $item->name])];
-        } catch (QueryException $th) {
-            DB::rollBack();
-        }
-        return $response;
-    }
-
-    /**
-     * Update a State.
-     * 
-     * @param array $data
-     * @param int $stateId
-     * @return array
-     */
-    public function update(array $data, int $stateId): array
-    {
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.states.messages.update_error')];
-        try {
-            DB::beginTransaction();
-            $item = $this->stateRepository->getById($stateId);
-            $this->stateRepository->update($item, $data);
-            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.states.messages.update_success', ['state' => $item->name])];
-            DB::commit();
-        } catch (QueryException $th) {
-            DB::rollBack();
-        }
-        return $response;
-    }
-
-    /**
-     * Delete a State.
-     * @param int $stateId
-     * @return array
-     */
-    public function delete(int $stateId): array
-    {
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.states.messages.delete_error')];
-
-        try {
-            DB::beginTransaction();
-            $item = $this->stateRepository->getById($stateId);
-            $this->stateRepository->delete($item);
-            DB::commit();
-            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.states.messages.delete_success', ['state' => $item->name])];
-        } catch (QueryException $th) {
-            DB::rollBack();
-        }
-        return $response;
+        $this->repository = $repository;
     }
 
     /**
@@ -111,7 +49,7 @@ class StateService
     {
         try {
 
-            $perPage = isset($perPage) && $perPage ? $perPage : $this->stateRepository->getPerPage();
+            $perPage = isset($perPage) && $perPage ? $perPage : $this->repository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
@@ -155,7 +93,7 @@ class StateService
     public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = [], int|null $countryId = null): array
     {
         $params = $this->transformParams($data);
-        $query = $this->stateRepository->search($params, $with, $withCount, $countryId);
+        $query = $this->repository->search($params, $with, $withCount, $countryId);
         $total = $query->count();
         $items = $this->customPagination($query, $params, 10, $page, $total);
         $links = $items->links('pagination.customized');

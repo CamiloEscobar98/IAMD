@@ -2,85 +2,21 @@
 
 namespace App\Services\Admin;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\QueryException;
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Admin\DocumentTypeRepository;
 
-class DocumentTypeService
+class DocumentTypeService extends AbstractServiceModel
 {
     /** @var DocumentTypeRepository */
-    protected $documentTypeRepository;
+    protected $repository;
 
     public function __construct(DocumentTypeRepository $documentTypeRepository)
     {
-        $this->documentTypeRepository = $documentTypeRepository;
-    }
-
-    /**
-     * Store a new Document Type.
-     * 
-     * @param array $data
-     * @return array
-     */
-    public function save(array $data): array
-    {
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.save_error')];
-        try {
-            DB::beginTransaction();
-            $item = $this->documentTypeRepository->create($data);
-            DB::commit();
-            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.save_success', ['document_type' => $item->name])];
-        } catch (QueryException $th) {
-            dd($th->getMessage());
-            DB::rollBack();
-        }
-        return $response;
-    }
-
-    /**
-     * Update a Document Type.
-     * 
-     * @param array $data
-     * @param int $documentTypeId
-     * @return array
-     */
-    public function update(array $data, int $documentTypeId): array
-    {
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.update_error')];
-        try {
-            DB::beginTransaction();
-            $item = $this->documentTypeRepository->getById($documentTypeId);
-            $this->documentTypeRepository->update($item, $data);
-            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.update_success', ['document_type' => $item->name])];
-            DB::commit();
-        } catch (QueryException $th) {
-            DB::rollBack();
-        }
-        return $response;
-    }
-
-    /**
-     * Delete a Document Type.
-     * @param int $documentTypeId
-     * @return array
-     */
-    public function delete(int $documentTypeId): array
-    {
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.delete_error')];
-
-        try {
-            DB::beginTransaction();
-            $item = $this->documentTypeRepository->getById($documentTypeId);
-            $this->documentTypeRepository->delete($item);
-            DB::commit();
-            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.delete_success', ['document_type' => $item->name])];
-        } catch (QueryException $th) {
-            DB::rollBack();
-        }
-        return $response;
+        $this->repository = $documentTypeRepository;
     }
 
     /**
@@ -112,7 +48,7 @@ class DocumentTypeService
     {
         try {
 
-            $perPage = $this->documentTypeRepository->getPerPage();
+            $perPage = $this->repository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
@@ -155,7 +91,7 @@ class DocumentTypeService
     public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
     {
         $params = $this->transformParams($data);
-        $query = $this->documentTypeRepository->search($params, $with, $withCount);
+        $query = $this->repository->search($params, $with, $withCount);
         $total = $query->count();
         $items = $this->customPagination($query, $params, $page, $total);
         $links = $items->links('pagination.customized');

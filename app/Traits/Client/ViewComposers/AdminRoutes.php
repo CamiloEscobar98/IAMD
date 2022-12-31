@@ -17,6 +17,8 @@ use App\Http\ViewComposers\Admin\IntellectualPropertyRights\Subcategories\Intell
 use App\Http\ViewComposers\Admin\IntellectualPropertyRights\Products\IntellectualPropertyRightProductFormComposer;
 
 use App\Http\ViewComposers\Admin\Creators\AssignmentContracts\FormAssignmentContractComposer;
+use App\Http\ViewComposers\Admin\Creators\AssignmentContracts\AssignmentContractFilterComposer;
+
 use App\Http\ViewComposers\Admin\DashboardComposer;
 
 /**
@@ -52,6 +54,7 @@ trait AdminRoutes
         View::composer('admin.pages.intellectual_property_rights.products.components.filters', IntellectualPropertyRightProductFilterComposer::class);
         View::composer('admin.pages.intellectual_property_rights.products.components.form', IntellectualPropertyRightProductFormComposer::class);
 
+        View::composer('admin.pages.creators.assignment_contracts.components.filters', AssignmentContractFilterComposer::class);
         View::composer('admin.pages.creators.assignment_contracts.components.form', FormAssignmentContractComposer::class);
     }
 }

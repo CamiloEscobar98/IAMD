@@ -20,7 +20,7 @@
                         </li>
                         <li class="breadcrumb-item">
                             <a href="{{ route('admin.creators.assignment_contracts.show', $item->id) }}">
-                                {{ $item->slug }}
+                                {{ $item->name }}
                             </a>
                         </li>
                         <li class="breadcrumb-item active">Editar</li>
@@ -41,9 +41,9 @@
                 <h5 class="font-weight-bold">{{ __('pages.admin.creators.assignment_contracts.form-titles.create') }}</h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('admin.creators.assignment_contracts.store') }}" method="post">
+                <form action="{{ route('admin.creators.assignment_contracts.update', $item->id) }}" method="post">
                     @csrf
-
+                    @method('PUT')
                     @include('admin.pages.creators.assignment_contracts.components.form')
 
                     <div class="form-group mt-3">

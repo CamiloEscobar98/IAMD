@@ -41,23 +41,13 @@ class AssignmentContractController extends Controller
     public function index(Request $request)
     {
         try {
-            $params = $this->assignmentContractService->transformParams($request->all());
-
-            $query = $this->assignmentContractRepository->search($params);
-
-            $total = $query->count();
-
-            $items = $this->assignmentContractService->customPagination($query, $params, $request->get('page'), $total);
-
-            $links = $items->links('pagination.customized');
-
-            $types = [['id' => 2, 'name' => __('pages.admin.creators.assignment_contracts.options.external')], ['id' => 1, 'name' => __('pages.admin.creators.assignment_contracts.options.internal')]];
-
+            [$params, $total, $items, $links] = $this->assignmentContractService->searchWithPagination($request->all(), $request->get('page'));
             return view('admin.pages.creators.assignment_contracts.index', compact('links'))
-                ->nest('filters', 'admin.pages.creators.assignment_contracts.components.filters', compact('params', 'total', 'types'))
+                ->nest('filters', 'admin.pages.creators.assignment_contracts.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.creators.assignment_contracts.components.table', compact('items'));
-        } catch (\Throwable $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (\Exception $th) {
+            dd($th->getMessage());
+            return redirect()->route('admin.creators.assignment_contracts.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -84,17 +74,7 @@ class AssignmentContractController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        try {
-            $data = $request->all();
-
-            $item = DB::transaction(function () use ($data) {
-                return $this->assignmentContractRepository->create($data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.assignment_contracts.messages.save_success', ['assignment_contract' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.assignment_contracts.messages.save_error')]);
-        }
+        return redirect()->route('admin.creators.assignment_contracts.create')->with('alert', $this->assignmentContractService->save($request->all()));
     }
 
     /**
@@ -107,10 +87,9 @@ class AssignmentContractController extends Controller
     {
         try {
             $item = $this->assignmentContractRepository->getById($id);
-
             return view('admin.pages.creators.assignment_contracts.show', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.not_found')]);
         }
     }
 
@@ -124,12 +103,8 @@ class AssignmentContractController extends Controller
     {
         try {
             $item = $this->assignmentContractRepository->getById($id);
-
-            $types = [['id' => 0, 'name' => __('pages.admin.creators.assignment_contracts.options.external')], ['id' => 1, 'name' => __('pages.admin.creators.assignment_contracts.options.internal')]];
-            $editMode = true;
-
             return view('admin.pages.creators.assignment_contracts.edit', compact('item'))
-                ->nest('form', 'admin.pages.creators.assignment_contracts.components.form', compact('editMode', 'types', 'item'));
+                ->nest('form', 'admin.pages.creators.assignment_contracts.components.form', compact('item'));
         } catch (\Exception $th) {
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
@@ -144,19 +119,7 @@ class AssignmentContractController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
-        try {
-            $data = $request->all();
-
-            $item = $this->assignmentContractRepository->getById($id);
-
-            DB::transaction(function () use ($item, $data) {
-                $this->assignmentContractRepository->update($item, $data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.assignment_contracts.messages.update_success', ['assignment_contract' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.assignment_contracts.messages.update_error')]);
-        }
+        return redirect()->route('admin.creators.assignment_contracts.edit', $id)->with('alert', $this->assignmentContractService->update($request->all(), $id));
     }
 
     /**
@@ -167,16 +130,6 @@ class AssignmentContractController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $item = $this->assignmentContractRepository->getById($id);
-
-            DB::transaction(function () use ($item) {
-                $this->assignmentContractRepository->delete($item);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.assignment_contracts.messages.delete_success', ['assignment_contract' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.assignment_contracts.messages.delete_error')]);
-        }
+        return redirect()->route('admin.creators.assignment_contracts.index')->with('alert', $this->assignmentContractService->delete($id));
     }
 }

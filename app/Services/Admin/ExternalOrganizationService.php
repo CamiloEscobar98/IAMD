@@ -2,85 +2,21 @@
 
 namespace App\Services\Admin;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\QueryException;
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Admin\ExternalOrganizationRepository;
 
-class ExternalOrganizationService
+class ExternalOrganizationService extends AbstractServiceModel
 {
     /** @var ExternalOrganizationRepository */
-    protected $externalOrganizationRepository;
+    protected $repository;
 
-    public function __construct(ExternalOrganizationRepository $externalOrganizationRepository)
+    public function __construct(ExternalOrganizationRepository $repository)
     {
-        $this->externalOrganizationRepository = $externalOrganizationRepository;
-    }
-
-    /**
-     * Store a new External Organization.
-     * 
-     * @param array $data
-     * @return array
-     */
-    public function save(array $data): array
-    {
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.save_error')];
-        try {
-            DB::beginTransaction();
-            $item = $this->externalOrganizationRepository->create($data);
-            DB::commit();
-            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.save_success', ['document_type' => $item->name])];
-        } catch (QueryException $th) {
-            dd($th->getMessage());
-            DB::rollBack();
-        }
-        return $response;
-    }
-
-    /**
-     * Update a External Organization.
-     * 
-     * @param array $data
-     * @param int $externalOrganization
-     * @return array
-     */
-    public function update(array $data, int $externalOrganization): array
-    {
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.update_error')];
-        try {
-            DB::beginTransaction();
-            $item = $this->externalOrganizationRepository->getById($externalOrganization);
-            $this->externalOrganizationRepository->update($item, $data);
-            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.update_success', ['document_type' => $item->name])];
-            DB::commit();
-        } catch (QueryException $th) {
-            DB::rollBack();
-        }
-        return $response;
-    }
-
-    /**
-     * Delete a External Organization.
-     * @param int $externalOrganization
-     * @return array
-     */
-    public function delete(int $externalOrganization): array
-    {
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.delete_error')];
-
-        try {
-            DB::beginTransaction();
-            $item = $this->externalOrganizationRepository->getById($externalOrganization);
-            $this->externalOrganizationRepository->delete($item);
-            DB::commit();
-            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.delete_success', ['document_type' => $item->name])];
-        } catch (QueryException $th) {
-            DB::rollBack();
-        }
-        return $response;
+        $this->repository = $repository;
     }
 
     /**
@@ -112,7 +48,7 @@ class ExternalOrganizationService
     {
         try {
 
-            $perPage = $this->externalOrganizationRepository->getPerPage();
+            $perPage = $this->repository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
@@ -155,7 +91,7 @@ class ExternalOrganizationService
     public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
     {
         $params = $this->transformParams($data);
-        $query = $this->externalOrganizationRepository->search($params, $with, $withCount);
+        $query = $this->repository->search($params, $with, $withCount);
         $total = $query->count();
         $items = $this->customPagination($query, $params, $page, $total);
         $links = $items->links('pagination.customized');
