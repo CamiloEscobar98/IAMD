@@ -2,19 +2,21 @@
 
 namespace App\Services\Admin;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Admin\IntangibleAssetStateRepository;
 
-class IntangibleAssetStateService
+class IntangibleAssetStateService extends AbstractServiceModel
 {
     /** @var IntangibleAssetStateRepository */
-    protected $intangibleAssetStateRepository;
+    protected $repository;
 
-    public function __construct(IntangibleAssetStateRepository $intangibleAssetStateRepository)
+    public function __construct(IntangibleAssetStateRepository $repository)
     {
-        $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
+        $this->repository = $repository;
     }
 
     /**
@@ -46,7 +48,7 @@ class IntangibleAssetStateService
     {
         try {
 
-            $perPage = $this->intangibleAssetStateRepository->getPerPage();
+            $perPage = $this->repository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
@@ -77,5 +79,22 @@ class IntangibleAssetStateService
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
+    }
+
+    /**
+     * @param array $data
+     * @param int $page
+     * @param array $with
+     * @param array $withCount
+     */
+    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
+    {
+        $params = $this->transformParams($data);
+        $query = $this->repository->search($params, $with, $withCount);
+        $total = $query->count();
+        $items = $this->customPagination($query, $params, $page, $total);
+        $links = $items->links('pagination.customized');
+
+        return [$params, $total, $items, $links];
     }
 }

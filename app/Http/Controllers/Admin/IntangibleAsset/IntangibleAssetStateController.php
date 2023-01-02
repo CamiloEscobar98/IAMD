@@ -42,21 +42,13 @@ class IntangibleAssetStateController extends Controller
     public function index(Request $request)
     {
         try {
-            $params = $this->intangibleAssetStateService->transformParams($request->all());
-
-            $query = $this->intangibleAssetStateRepository->search($params);
-
-            $total = $query->count();
-
-            $items = $this->intangibleAssetStateService->customPagination($query, $params, $request->get('page'), $total);
-
-            $links = $items->links('pagination.customized');
-
+            [$params, $total, $items, $links] = $this->intangibleAssetStateService->searchWithPagination($request->all(), $request->get('page'));
             return view('admin.pages.intangible_assets.states.index', compact('links'))
                 ->nest('filters', 'admin.pages.intangible_assets.states.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.intangible_assets.states.components.table', compact('items'));
-        } catch (\Throwable $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (\Exception $th) {
+            dd($th->getMessage());
+            return redirect()->route('admin.intangible_assets.status.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -83,17 +75,7 @@ class IntangibleAssetStateController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        try {
-            $data = $request->all();
-
-            $item = DB::transaction(function () use ($data) {
-                return $this->intangibleAssetStateRepository->create($data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.intangible_assets.states.messages.save_success', ['state' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.intangible_assets.states.messages.save_error')]);
-        }
+        return redirect()->route('admin.intangible_assets.status.create')->with('alert', $this->intangibleAssetStateService->save($request->all()));
     }
 
     /**
@@ -106,7 +88,6 @@ class IntangibleAssetStateController extends Controller
     {
         try {
             $item = $this->intangibleAssetStateRepository->getById($id);
-
             return view('admin.pages.intangible_assets.states.show', compact('item'));
         } catch (\Exception $th) {
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
@@ -123,7 +104,6 @@ class IntangibleAssetStateController extends Controller
     {
         try {
             $item = $this->intangibleAssetStateRepository->getById($id);
-
             return view('admin.pages.intangible_assets.states.edit', compact('item'));
         } catch (\Exception $th) {
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
@@ -139,19 +119,7 @@ class IntangibleAssetStateController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
-        try {
-            $data = $request->all();
-
-            $item = $this->intangibleAssetStateRepository->getById($id);
-
-            DB::transaction(function () use ($item, $data) {
-                $this->intangibleAssetStateRepository->update($item, $data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.intangible_assets.states.messages.update_success', ['state' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.intangible_assets.states.messages.update_error')]);
-        }
+       return redirect()->route('admin.intangible_assets.status.edit', $id)->with('alert', $this->intangibleAssetStateService->update($request->all(), $id));
     }
 
     /**
@@ -162,16 +130,6 @@ class IntangibleAssetStateController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $item = $this->intangibleAssetStateRepository->getById($id);
-
-            DB::transaction(function () use ($item) {
-                $this->intangibleAssetStateRepository->delete($item);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.intangible_assets.states.messages.delete_success', ['state' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.intangible_assets.states.messages.delete_error')]);
-        }
+        return redirect()->route('admin.intangible_assets.status.index')->with('alert', $this->intangibleAssetStateService->delete($id));
     }
 }

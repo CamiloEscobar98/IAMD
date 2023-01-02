@@ -86,7 +86,6 @@ class AssignmentContractService extends AbstractServiceModel
      * @param int $page
      * @param array $with
      * @param array $withCount
-     * @param int|null $documentTypeId
      */
     public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
     {
