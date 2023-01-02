@@ -2,6 +2,8 @@
 
 namespace App\Services\Admin;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -9,10 +11,10 @@ use App\Repositories\Admin\IntellectualPropertyRightCategoryRepository;
 use App\Repositories\Admin\IntellectualPropertyRightSubcategoryRepository;
 use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
 
-class IntellectualPropertyRightCategoryService
+class IntellectualPropertyRightCategoryService extends AbstractServiceModel
 {
     /** @var IntellectualPropertyRightCategoryRepository */
-    protected $intellectualPropertyRightCategoryRepository;
+    protected $repository;
 
     /** @var IntellectualPropertyRightSubcategoryRepository */
     protected $intellectualPropertyRightSubcategoryRepository;
@@ -25,7 +27,8 @@ class IntellectualPropertyRightCategoryService
         IntellectualPropertyRightSubcategoryRepository $intellectualPropertyRightSubcategoryRepository,
         IntellectualPropertyRightProductRepository $intellectualPropertyRightProductRepository,
     ) {
-        $this->intellectualPropertyRightCategoryRepository = $intellectualPropertyRightCategoryRepository;
+
+        $this->repository = $intellectualPropertyRightCategoryRepository;
         $this->intellectualPropertyRightSubcategoryRepository = $intellectualPropertyRightSubcategoryRepository;
         $this->intellectualPropertyRightProductRepository = $intellectualPropertyRightProductRepository;
     }
@@ -59,7 +62,7 @@ class IntellectualPropertyRightCategoryService
     {
         try {
 
-            $perPage = $this->intellectualPropertyRightCategoryRepository->getPerPage();
+            $perPage = $this->repository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
@@ -93,12 +96,29 @@ class IntellectualPropertyRightCategoryService
     }
 
     /**
+     * @param array $data
+     * @param int $page
+     * @param array $with
+     * @param array $withCount
+     */
+    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
+    {
+        $params = $this->transformParams($data);
+        $query = $this->repository->search($params, $with, $withCount);
+        $total = $query->count();
+        $items = $this->customPagination($query, $params, $page, $total);
+        $links = $items->links('pagination.customized');
+
+        return [$params, $total, $items, $links];
+    }
+
+    /**
      * @param mixed $productId
      */
     public function getIntellectualPropertyCategorySelect($productId = null): array
     {
         /** Categories */
-        $categories = $this->intellectualPropertyRightCategoryRepository->all();
+        $categories = $this->repository->all();
 
         if (!is_null($productId)) {
             /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightProduct $product */
@@ -108,7 +128,7 @@ class IntellectualPropertyRightCategoryService
             $subCategory = $this->intellectualPropertyRightSubcategoryRepository->getById($product->intellectual_property_right_subcategory_id);
 
             /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightCategory $category */
-            $category = $this->intellectualPropertyRightCategoryRepository->getById($subCategory->intellectual_property_right_category_id);
+            $category = $this->repository->getById($subCategory->intellectual_property_right_category_id);
 
             /** SubCategories */
             $subCategories = $this->intellectualPropertyRightSubcategoryRepository->getByIntellectualPropertyRightCategory($category);
@@ -138,7 +158,7 @@ class IntellectualPropertyRightCategoryService
         $subCategories = $subCategories->pluck('name', 'id')->prepend('Seleccionar Subategoría', -1);
 
         $products = $products->pluck('name', 'id')->prepend('Seleccionar Producto', -1);
-        
+
         return [$categories, $subCategories, $products, $category, $subCategory, $product];
     }
 }
