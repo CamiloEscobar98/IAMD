@@ -2,6 +2,8 @@
 
 namespace App\Services\Client;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -10,7 +12,7 @@ use App\Repositories\Client\IntangibleAssetRepository;
 use App\Repositories\Client\ProjectRepository;
 use App\Repositories\Client\ResearchUnitRepository;
 
-class AdministrativeUnitService
+class AdministrativeUnitService extends AbstractServiceModel
 {
     /** @var AdministrativeUnitRepository */
     protected $administrativeUnitRepository;

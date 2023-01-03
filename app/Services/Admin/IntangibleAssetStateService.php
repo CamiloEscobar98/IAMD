@@ -12,11 +12,11 @@ use App\Repositories\Admin\IntangibleAssetStateRepository;
 class IntangibleAssetStateService extends AbstractServiceModel
 {
     /** @var IntangibleAssetStateRepository */
-    protected $repository;
+    protected $intangibleAssetStateRepository;
 
-    public function __construct(IntangibleAssetStateRepository $repository)
+    public function __construct(IntangibleAssetStateRepository $intangibleAssetStateRepository)
     {
-        $this->repository = $repository;
+        $this->repository = $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
     }
 
     /**
@@ -48,7 +48,7 @@ class IntangibleAssetStateService extends AbstractServiceModel
     {
         try {
 
-            $perPage = $this->repository->getPerPage();
+            $perPage = $this->intangibleAssetStateRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
@@ -90,7 +90,7 @@ class IntangibleAssetStateService extends AbstractServiceModel
     public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
     {
         $params = $this->transformParams($data);
-        $query = $this->repository->search($params, $with, $withCount);
+        $query = $this->intangibleAssetStateRepository->search($params, $with, $withCount);
         $total = $query->count();
         $items = $this->customPagination($query, $params, $page, $total);
         $links = $items->links('pagination.customized');

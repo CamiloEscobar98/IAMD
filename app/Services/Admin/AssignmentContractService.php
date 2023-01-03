@@ -12,11 +12,11 @@ use App\Repositories\Admin\AssignmentContractRepository;
 class AssignmentContractService extends AbstractServiceModel
 {
     /** @var AssignmentContractRepository */
-    protected $repository;
+    protected $assignmentContractRepository;
 
     public function __construct(AssignmentContractRepository $assignmentContractRepository)
     {
-        $this->repository = $assignmentContractRepository;
+        $this->repository = $this->assignmentContractRepository = $assignmentContractRepository;
     }
 
     /**
@@ -48,7 +48,7 @@ class AssignmentContractService extends AbstractServiceModel
     {
         try {
 
-            $perPage = $this->repository->getPerPage();
+            $perPage = $this->assignmentContractRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
@@ -90,7 +90,7 @@ class AssignmentContractService extends AbstractServiceModel
     public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
     {
         $params = $this->transformParams($data);
-        $query = $this->repository->search($params, $with, $withCount);
+        $query = $this->assignmentContractRepository->search($params, $with, $withCount);
         $total = $query->count();
         $items = $this->customPagination($query, $params, $page, $total);
         $links = $items->links('pagination.customized');

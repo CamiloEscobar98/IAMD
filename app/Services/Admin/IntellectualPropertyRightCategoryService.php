@@ -14,7 +14,7 @@ use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
 class IntellectualPropertyRightCategoryService extends AbstractServiceModel
 {
     /** @var IntellectualPropertyRightCategoryRepository */
-    protected $repository;
+    protected $intellectualPropertyRightCategoryRepository;
 
     /** @var IntellectualPropertyRightSubcategoryRepository */
     protected $intellectualPropertyRightSubcategoryRepository;
@@ -28,7 +28,7 @@ class IntellectualPropertyRightCategoryService extends AbstractServiceModel
         IntellectualPropertyRightProductRepository $intellectualPropertyRightProductRepository,
     ) {
 
-        $this->repository = $intellectualPropertyRightCategoryRepository;
+        $this->repository = $this->intellectualPropertyRightCategoryRepository = $intellectualPropertyRightCategoryRepository;
         $this->intellectualPropertyRightSubcategoryRepository = $intellectualPropertyRightSubcategoryRepository;
         $this->intellectualPropertyRightProductRepository = $intellectualPropertyRightProductRepository;
     }
@@ -62,7 +62,7 @@ class IntellectualPropertyRightCategoryService extends AbstractServiceModel
     {
         try {
 
-            $perPage = $this->repository->getPerPage();
+            $perPage = $this->intellectualPropertyRightCategoryRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
@@ -104,7 +104,7 @@ class IntellectualPropertyRightCategoryService extends AbstractServiceModel
     public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
     {
         $params = $this->transformParams($data);
-        $query = $this->repository->search($params, $with, $withCount);
+        $query = $this->intellectualPropertyRightCategoryRepository->search($params, $with, $withCount);
         $total = $query->count();
         $items = $this->customPagination($query, $params, $page, $total);
         $links = $items->links('pagination.customized');

@@ -12,11 +12,11 @@ use App\Repositories\Admin\ExternalOrganizationRepository;
 class ExternalOrganizationService extends AbstractServiceModel
 {
     /** @var ExternalOrganizationRepository */
-    protected $repository;
+    protected $externalOrganizationRepository;
 
-    public function __construct(ExternalOrganizationRepository $repository)
+    public function __construct(ExternalOrganizationRepository $externalOrganizationRepository)
     {
-        $this->repository = $repository;
+        $this->repository = $this->externalOrganizationRepository = $externalOrganizationRepository;
     }
 
     /**
@@ -48,7 +48,7 @@ class ExternalOrganizationService extends AbstractServiceModel
     {
         try {
 
-            $perPage = $this->repository->getPerPage();
+            $perPage = $this->externalOrganizationRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
@@ -91,7 +91,7 @@ class ExternalOrganizationService extends AbstractServiceModel
     public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
     {
         $params = $this->transformParams($data);
-        $query = $this->repository->search($params, $with, $withCount);
+        $query = $this->externalOrganizationRepository->search($params, $with, $withCount);
         $total = $query->count();
         $items = $this->customPagination($query, $params, $page, $total);
         $links = $items->links('pagination.customized');

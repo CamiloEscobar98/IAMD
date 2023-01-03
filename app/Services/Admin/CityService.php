@@ -12,11 +12,11 @@ use App\Repositories\Admin\CityRepository;
 class CityService extends AbstractServiceModel
 {
     /** @var CityRepository */
-    protected $repository;
+    protected $cityRepository;
 
-    public function __construct(CityRepository $repository)
+    public function __construct(CityRepository $cityRepository)
     {
-        $this->repository = $repository;
+        $this->repository = $this->cityRepository = $cityRepository;
     }
 
     /**
@@ -54,7 +54,7 @@ class CityService extends AbstractServiceModel
     {
         try {
 
-            $perPage = isset($perPage) && $perPage ? $perPage : $this->repository->getPerPage();
+            $perPage = isset($perPage) && $perPage ? $perPage : $this->cityRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
@@ -98,7 +98,7 @@ class CityService extends AbstractServiceModel
     public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = [], int|null $cityId = null): array
     {
         $params = $this->transformParams($data);
-        $query = $this->repository->search($params, $with, $withCount, $cityId);
+        $query = $this->cityRepository->search($params, $with, $withCount, $cityId);
         $total = $query->count();
         $items = $this->customPagination($query, $params, 10, $page, $total);
         $links = $items->links('pagination.customized');

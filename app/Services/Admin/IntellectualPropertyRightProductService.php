@@ -12,11 +12,11 @@ use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
 class IntellectualPropertyRightProductService extends AbstractServiceModel
 {
     /** @var IntellectualPropertyRightProductRepository */
-    protected $repository;
+    protected $intellectualPropertyRightProductRepository;
 
     public function __construct(IntellectualPropertyRightProductRepository $intellectualPropertyRightProductRepository)
     {
-        $this->repository = $intellectualPropertyRightProductRepository;
+        $this->repository = $this->intellectualPropertyRightProductRepository = $intellectualPropertyRightProductRepository;
     }
 
     /**
@@ -48,7 +48,7 @@ class IntellectualPropertyRightProductService extends AbstractServiceModel
     {
         try {
 
-            $perPage = $this->repository->getPerPage();
+            $perPage = $this->intellectualPropertyRightProductRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
@@ -90,7 +90,7 @@ class IntellectualPropertyRightProductService extends AbstractServiceModel
     public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
     {
         $params = $this->transformParams($data);
-        $query = $this->repository->search($params, $with, $withCount);
+        $query = $this->intellectualPropertyRightProductRepository->search($params, $with, $withCount);
         $total = $query->count();
         $items = $this->customPagination($query, $params, $page, $total);
         $links = $items->links('pagination.customized');

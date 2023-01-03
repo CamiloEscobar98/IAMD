@@ -13,11 +13,11 @@ class StateService extends AbstractServiceModel
 {
 
     /** @var StateRepository */
-    protected $repository;
+    protected $stateRepository;
 
-    public function __construct(StateRepository $repository)
+    public function __construct(StateRepository $stateRepository)
     {
-        $this->repository = $repository;
+        $this->repository = $this->stateRepository = $stateRepository;
     }
 
     /**
@@ -49,7 +49,7 @@ class StateService extends AbstractServiceModel
     {
         try {
 
-            $perPage = isset($perPage) && $perPage ? $perPage : $this->repository->getPerPage();
+            $perPage = isset($perPage) && $perPage ? $perPage : $this->stateRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
@@ -93,7 +93,7 @@ class StateService extends AbstractServiceModel
     public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = [], int|null $countryId = null): array
     {
         $params = $this->transformParams($data);
-        $query = $this->repository->search($params, $with, $withCount, $countryId);
+        $query = $this->stateRepository->search($params, $with, $withCount, $countryId);
         $total = $query->count();
         $items = $this->customPagination($query, $params, 10, $page, $total);
         $links = $items->links('pagination.customized');

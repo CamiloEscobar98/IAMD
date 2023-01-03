@@ -4,8 +4,6 @@ namespace App\Services\Admin;
 
 use App\Services\AbstractServiceModel;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\QueryException;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -16,7 +14,7 @@ use App\Repositories\Admin\CityRepository;
 class CountryService extends AbstractServiceModel
 {
     /** @var CountryRepository */
-    protected $repository;
+    protected $countryRepository;
 
     /** @var StateService */
     protected $stateService;
@@ -28,14 +26,13 @@ class CountryService extends AbstractServiceModel
     protected $cityRepository;
 
     public function __construct(
-        CountryRepository $repository,
+        CountryRepository $countryRepository,
         StateRepository $stateRepository,
         CityRepository $cityRepository
     ) {
+        $this->repository = $this->countryRepository = $countryRepository;
         $this->stateRepository = $stateRepository;
         $this->cityRepository = $cityRepository;
-
-        $this->repository = $repository;
     }
 
     /**
@@ -67,7 +64,7 @@ class CountryService extends AbstractServiceModel
     {
         try {
 
-            $perPage = $this->repository->getPerPage();
+            $perPage = $this->countryRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
@@ -111,7 +108,7 @@ class CountryService extends AbstractServiceModel
     public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
     {
         $params = $this->transformParams($data);
-        $query = $this->repository->search($params, $with, $withCount);
+        $query = $this->countryRepository->search($params, $with, $withCount);
         $total = $query->count();
         $items = $this->customPagination($query, $params, $page, $total);
         $links = $items->links('pagination.customized');
@@ -125,7 +122,7 @@ class CountryService extends AbstractServiceModel
      */
     public function getCountriesSelect($cityId = null)
     {
-        $countries = $this->repository->all();
+        $countries = $this->countryRepository->all();
 
         if (!is_null($cityId)) {
 
@@ -133,7 +130,7 @@ class CountryService extends AbstractServiceModel
 
             $state  = $this->stateRepository->getById($city->state_id);
 
-            $country = $this->repository->getById($state->country_id);
+            $country = $this->countryRepository->getById($state->country_id);
 
             $states = $this->stateRepository->getByCountry($country);
 

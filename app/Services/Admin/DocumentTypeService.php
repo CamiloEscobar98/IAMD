@@ -12,11 +12,11 @@ use App\Repositories\Admin\DocumentTypeRepository;
 class DocumentTypeService extends AbstractServiceModel
 {
     /** @var DocumentTypeRepository */
-    protected $repository;
+    protected $documentTypeRepository;
 
     public function __construct(DocumentTypeRepository $documentTypeRepository)
     {
-        $this->repository = $documentTypeRepository;
+        $this->repository = $this->documentTypeRepository = $documentTypeRepository;
     }
 
     /**
@@ -48,7 +48,7 @@ class DocumentTypeService extends AbstractServiceModel
     {
         try {
 
-            $perPage = $this->repository->getPerPage();
+            $perPage = $this->documentTypeRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
@@ -91,7 +91,7 @@ class DocumentTypeService extends AbstractServiceModel
     public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
     {
         $params = $this->transformParams($data);
-        $query = $this->repository->search($params, $with, $withCount);
+        $query = $this->documentTypeRepository->search($params, $with, $withCount);
         $total = $query->count();
         $items = $this->customPagination($query, $params, $page, $total);
         $links = $items->links('pagination.customized');

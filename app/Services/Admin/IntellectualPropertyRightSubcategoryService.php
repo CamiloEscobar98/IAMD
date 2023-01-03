@@ -12,11 +12,11 @@ use App\Repositories\Admin\IntellectualPropertyRightSubcategoryRepository;
 class IntellectualPropertyRightSubcategoryService extends AbstractServiceModel
 {
     /** @var IntellectualPropertyRightSubcategoryRepository */
-    protected $repository;
+    protected $intellectualPropertyRightSubcategoryRepository;
 
     public function __construct(IntellectualPropertyRightSubcategoryRepository $intellectualPropertyRightSubcategoryRepository)
     {
-        $this->repository = $intellectualPropertyRightSubcategoryRepository;
+        $this->repository = $this->intellectualPropertyRightSubcategoryRepository = $intellectualPropertyRightSubcategoryRepository;
     }
 
     /**
@@ -48,7 +48,7 @@ class IntellectualPropertyRightSubcategoryService extends AbstractServiceModel
     {
         try {
 
-            $perPage = $this->repository->getPerPage();
+            $perPage = $this->intellectualPropertyRightSubcategoryRepository->getPerPage();
             $pageName = 'page';
             $offset = ($pageNumber -  1) * $perPage;
 
@@ -83,7 +83,7 @@ class IntellectualPropertyRightSubcategoryService extends AbstractServiceModel
     public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
     {
         $params = $this->transformParams($data);
-        $query = $this->repository->search($params, $with, $withCount);
+        $query = $this->intellectualPropertyRightSubcategoryRepository->search($params, $with, $withCount);
         $total = $query->count();
         $items = $this->customPagination($query, $params, $page, $total);
         $links = $items->links('pagination.customized');
