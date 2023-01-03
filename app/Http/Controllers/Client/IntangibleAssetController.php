@@ -63,7 +63,7 @@ class IntangibleAssetController extends Controller
                 ->nest('filters', 'client.pages.intangible_assets.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.intangible_assets.components.table', compact('items', 'links'));
         } catch (\Exception $th) {
-            return $th->getMessage();
+            
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
@@ -188,7 +188,7 @@ class IntangibleAssetController extends Controller
 
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.update_success', ['intangible_asset' => $item->name])]);
         } catch (\Exception $th) {
-            return $th->getMessage();
+            
             DB::rollBack();
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.messages.update_error')]);
         }

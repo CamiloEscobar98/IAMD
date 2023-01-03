@@ -39,7 +39,7 @@ class ResearchUnitController extends Controller
 
             return response()->json('hola');
         } catch (\Exception $th) {
-            return $th->getMessage();
+            
         }
     }
 
@@ -59,7 +59,7 @@ class ResearchUnitController extends Controller
 
             return response()->json($items);
         } catch (\Exception $th) {
-            return $th->getMessage();
+            
         }
     }
 }

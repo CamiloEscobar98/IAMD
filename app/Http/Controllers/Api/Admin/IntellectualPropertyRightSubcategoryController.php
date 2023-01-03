@@ -38,7 +38,7 @@ class IntellectualPropertyRightSubcategoryController extends Controller
 
             return response()->json($items);
         } catch (\Exception $th) {
-            return $th->getMessage();
+            
         }
     }
 
@@ -57,7 +57,7 @@ class IntellectualPropertyRightSubcategoryController extends Controller
 
             return response()->json($items);
         } catch (\Exception $th) {
-            return $th->getMessage();
+            
         }
     }
 }

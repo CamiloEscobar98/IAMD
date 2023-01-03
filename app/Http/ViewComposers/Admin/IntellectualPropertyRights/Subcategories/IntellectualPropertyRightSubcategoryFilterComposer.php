@@ -6,7 +6,7 @@ use Illuminate\View\View;
 
 use App\Repositories\Admin\IntellectualPropertyRightCategoryRepository;
 
-class IntellectualPropertyRightSubcategoryFormComposer
+class IntellectualPropertyRightSubcategoryFilterComposer
 {
     /** @var IntellectualPropertyRightCategoryRepository */
     protected $intellectualPropertyRightCategoryRepository;

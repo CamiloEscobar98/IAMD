@@ -93,7 +93,7 @@ class CityController extends Controller
             $item = $this->cityRepository->getById($id);
             return view('admin.pages.localization.cities.show', compact('item'));
         } catch (\Exception $th) {
-            return $th->getMessage();
+            
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.not_found')]);
         }
     }

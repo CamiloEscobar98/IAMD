@@ -25,7 +25,7 @@ class IntellectualPropertyRightProduct extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['intellectual_property_right_subcategory_id', 'name'];
+    protected $fillable = ['intellectual_property_right_subcategory_id', 'name', 'code'];
 
     /**
      * Get the Intellectual Property Right Subcategory.

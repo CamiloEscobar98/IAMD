@@ -59,9 +59,9 @@ class IntellectualPropertyRightProductFormComposer
             $subcategory = $subcategories->first();
         }
 
-        $categories = $categories->pluck('name', 'id')->prepend('Seleccionar Categoría', -1);
+        $categories = $categories->pluck('name', 'id')->prepend('---Seleccionar Categoría', -1);
 
-        $subcategories = $subcategories->pluck('name', 'id')->prepend('Seleccionar Subategoría', -1);
+        $subcategories = $subcategories->pluck('name', 'id')->prepend('---Seleccionar Subategoría', -1);
 
         $view->with(compact('categories', 'subcategories', 'category', 'subcategory'));
     }

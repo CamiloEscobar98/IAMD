@@ -66,6 +66,13 @@
         </div>
         <!-- ./Name -->
 
+        <!-- Code -->
+        <div class="form-group mt-3">
+            <label>{{ __('inputs.code') }}:</label>
+            <p>{{ $item->code }}</p>
+        </div>
+        <!-- ./Code -->
+
         <hr>
 
         <!-- Created At -->

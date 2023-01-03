@@ -65,7 +65,7 @@ class PriorityToolController extends Controller
                 ->nest('filters', 'client.pages.priority_tools.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.priority_tools.components.table', compact('items', 'links'));
         } catch (\Exception $th) {
-            return $th->getMessage();
+            
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }

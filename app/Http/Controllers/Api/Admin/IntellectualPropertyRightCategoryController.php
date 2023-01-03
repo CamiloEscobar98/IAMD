@@ -40,7 +40,7 @@ class IntellectualPropertyRightCategoryController extends Controller
 
             return response()->json($items);
         } catch (\Exception $th) {
-            return $th->getMessage();
+            
         }
     }
 
@@ -59,7 +59,7 @@ class IntellectualPropertyRightCategoryController extends Controller
 
             return response()->json($items);
         } catch (\Exception $th) {
-            return $th->getMessage();
+            
         }
     }
 }

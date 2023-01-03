@@ -27,6 +27,7 @@ class ExternalOrganizationController extends Controller
         ExternalOrganizationService $externalOrganizationService,
         ExternalOrganizationRepository $externalOrganizationRepository
     ) {
+        $this->middleware('auth:admin');
         $this->externalOrganizationService = $externalOrganizationService;
         $this->externalOrganizationRepository = $externalOrganizationRepository;
     }
@@ -105,7 +106,6 @@ class ExternalOrganizationController extends Controller
             $item = $this->externalOrganizationRepository->getById($id);
             return view('admin.pages.creators.external_organizations.edit', compact('item'));
         } catch (\Exception $th) {
-            return $th->getMessage();
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }

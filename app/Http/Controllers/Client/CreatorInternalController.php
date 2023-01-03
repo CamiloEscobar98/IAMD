@@ -149,7 +149,7 @@ class CreatorInternalController extends Controller
 
             return view('client.pages.creators.internal.show', compact('item'));
         } catch (\Exception $th) {
-            return $th->getMessage();
+            
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
@@ -241,7 +241,7 @@ class CreatorInternalController extends Controller
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.internal.messages.delete_success', ['creator_internal' => $item->creator->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
-            return $th->getMessage();
+            
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.creators.internal.messages.delete_error')]);
         }
     }

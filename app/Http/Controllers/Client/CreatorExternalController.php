@@ -148,7 +148,7 @@ class CreatorExternalController extends Controller
 
             return view('client.pages.creators.external.show', compact('item'));
         } catch (\Exception $th) {
-            return $th->getMessage();
+            
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
         }
     }
@@ -240,7 +240,7 @@ class CreatorExternalController extends Controller
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.external.messages.delete_success', ['creator_external' => $item->creator->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
-            return $th->getMessage();
+            
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.creators.external.messages.delete_error')]);
         }
     }

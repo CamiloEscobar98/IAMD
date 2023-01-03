@@ -6,6 +6,7 @@
             class="btn btn-sm btn-outline-secondary">{{ $item->intellectual_property_right_subcategory->name }}</a>
     </td>
     <td>{{ $item->name }}</td>
+    <td>{{ $item->code }}</td>
     <td class="text-right">
         <div class="btn-group">
             <button type="button" class="dropdown-toggle btn btn-sm btn-danger btn-block" data-toggle="dropdown">

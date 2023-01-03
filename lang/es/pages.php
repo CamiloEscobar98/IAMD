@@ -21,22 +21,6 @@ return [
 
     /**
      * Administrator Pages
-     * 
-     * Home Page
-     * 
-     * Resources:
-     * 1. Localizations
-     *  1.1. Countries
-     *  1.2. States
-     *  1.3. Cities
-     * 
-     * 2. Creators Information
-     *  2.1. Document Types
-     *  2.2. External Organizations
-     *  2.3. Assignment Contract Types
-     * 
-     * 3. Intangible Assets
-     *  3.1. States for Intangible Assets
      */
     'admin' => [
 
@@ -607,6 +591,7 @@ return [
 
                 'filters' => [
                     'name' => 'Buscar Subcategoría de Derecho de Propiedad Intelectual',
+                    'category' => 'Categoría: ',
                     'total' => 'Total de Subcategorías: ',
                 ],
 
@@ -677,6 +662,7 @@ return [
                         'name' => 'Nombre',
                         'category' => 'Categoria',
                         'subcategory'  => 'Subcategoria',
+                        'code' => 'Código',
                         'products' => 'Productos',
                         'created_at' => 'Fecha de Creación',
                         'updated_at' => 'Fecha de Actualización'

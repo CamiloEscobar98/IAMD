@@ -50,8 +50,6 @@
 
     <script src="{{ asset('adminlte/dist/js/iamd/localizations.js') }}"></script>
     <script>
-      
-
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'

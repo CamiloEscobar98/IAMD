@@ -7,7 +7,7 @@ use Illuminate\Database\QueryException;
 
 use App\Repositories\AbstractRepository;
 
-class AbstractServiceModel
+abstract class AbstractServiceModel
 {
     /** @var AbstractRepository */
     protected $repository;
@@ -27,6 +27,7 @@ class AbstractServiceModel
             DB::commit();
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
         } catch (QueryException $th) {
+            dd($th->getMessage());
             DB::rollBack();
         }
         return $response;

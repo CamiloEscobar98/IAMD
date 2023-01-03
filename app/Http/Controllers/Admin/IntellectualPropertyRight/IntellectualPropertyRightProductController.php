@@ -46,24 +46,12 @@ class IntellectualPropertyRightProductController extends Controller
     public function index(Request $request) #: RedirectResponse|View
     {
         try {
-            $params = $this->intellectualPropertyRightProductService->transformParams($request->all());
-
-            $query = $this->intellectualPropertyRightProductRepository->search($params, [ 'intellectual_property_right_subcategory.intellectual_property_right_category']);
-
-            $total = $query->count();
-
-            $items = $this->intellectualPropertyRightProductService->customPagination($query, $params, $request->get('page'), $total);
-
-            // return $items;
-
-            $links = $items->links('pagination.customized');
-
+            [$params, $total, $items, $links] = $this->intellectualPropertyRightProductService->searchWithPagination($request->all(), $request->get('page'), ['intellectual_property_right_subcategory.intellectual_property_right_category']);
             return view('admin.pages.intellectual_property_rights.products.index', compact('links'))
                 ->nest('filters', 'admin.pages.intellectual_property_rights.products.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.intellectual_property_rights.products.components.table', compact('items'));
         } catch (\Exception $th) {
-            dd($th->getMessage());
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.intellectual_property_rights.products.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -78,7 +66,7 @@ class IntellectualPropertyRightProductController extends Controller
             $item = $this->intellectualPropertyRightProductRepository->newInstance();
             return view('admin.pages.intellectual_property_rights.products.create', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -87,24 +75,11 @@ class IntellectualPropertyRightProductController extends Controller
      *
      * @param  StoreRequest  $request
      * 
-     * @return RedirectResponse|View
+     * @return RedirectResponse
      */
     public function store(StoreRequest $request): RedirectResponse
     {
-        try {
-            $data = $request->all();
-
-            DB::beginTransaction();
-
-            $item = $this->intellectualPropertyRightProductRepository->create($data);
-
-            DB::commit();
-
-            return redirect()->route('admin.intellectual_property_rights.products.index')->with('alert', ['title' => '', 'icon' => 'success', 'text' => __('pages.admin.intellectual_property_rights.products.messages.save_success', ['product' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
-        }
+        return redirect()->route('admin.intellectual_property_rights.products.create')->with('alert', $this->intellectualPropertyRightProductService->save($request->all()));
     }
 
     /**
@@ -113,16 +88,13 @@ class IntellectualPropertyRightProductController extends Controller
      * @param  int  $id
      * @return RedirectResponse|View
      */
-    public function show($id)#: RedirectResponse|View
+    public function show($id) #: RedirectResponse|View
     {
         try {
-            $data['id'] = $id;
-
-            $item = $this->intellectualPropertyRightProductRepository->search($data, ['intellectual_property_right_subcategory.intellectual_property_right_category'], )->first();
-
+            $item = $this->intellectualPropertyRightProductRepository->search(['id' => $id], ['intellectual_property_right_subcategory.intellectual_property_right_category'],)->first();
             return view('admin.pages.intellectual_property_rights.products.show', compact('item'));
-        } catch (\Throwable $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (\Exception $th) {
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -138,8 +110,8 @@ class IntellectualPropertyRightProductController extends Controller
             $item = $this->intellectualPropertyRightProductRepository->getById($id);
 
             return view('admin.pages.intellectual_property_rights.products.edit', compact('item'));
-        } catch (\Throwable $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (\Exception $th) {
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -153,22 +125,7 @@ class IntellectualPropertyRightProductController extends Controller
      */
     public function update(UpdateRequest $request, $id): RedirectResponse
     {
-        try {
-            $data = $request->all();
-
-            $item = $this->intellectualPropertyRightProductRepository->getById($id);
-
-            DB::beginTransaction();
-
-            $this->intellectualPropertyRightProductRepository->update($item, $data);
-
-            DB::commit();
-
-            return redirect()->route('admin.intellectual_property_rights.products.index')->with('alert', ['title' => '', 'icon' => 'success', 'text' => __('pages.admin.intellectual_property_rights.products.messages.update_success', ['product' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
-        }
+        return redirect()->route('admin.intellectual_property_rights.products.edit', $id)->with('alert', $this->intellectualPropertyRightProductService->update($request->all(), $id));
     }
 
     /**
@@ -179,16 +136,6 @@ class IntellectualPropertyRightProductController extends Controller
      */
     public function destroy($id): RedirectResponse
     {
-        try {
-            $item = $this->intellectualPropertyRightProductRepository->getById($id);
-            DB::beginTransaction();
-            $this->intellectualPropertyRightProductRepository->delete($item);
-            DB::commit();
-
-            return redirect()->route('admin.intellectual_property_rights.products.index')->with('alert', ['title' => '', 'icon' => 'success', 'text' => __('pages.admin.intellectual_property_rights.products.messages.delete_success', ['category' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
-        }
+        return redirect()->route('admin.intellectual_property_rights.products.index')->with('alert', $this->intellectualPropertyRightProductService->delete($id));
     }
 }

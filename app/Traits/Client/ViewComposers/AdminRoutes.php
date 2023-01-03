@@ -4,8 +4,6 @@ namespace App\Traits\Client\ViewComposers;
 
 use Illuminate\Support\Facades\View;
 
-use App\Http\ViewComposers\Admin\IntellectualPropertyRights\Products\IntellectualPropertyRightProductFilterComposer;
-
 use App\Http\ViewComposers\Admin\Localization\States\StateFilterComposer;
 use App\Http\ViewComposers\Admin\Localization\States\StateFormComposer;
 use App\Http\ViewComposers\Admin\Localization\States\StateShowComposer;
@@ -13,7 +11,9 @@ use App\Http\ViewComposers\Admin\Localization\States\StateShowComposer;
 use App\Http\ViewComposers\Admin\Localization\Cities\CityFilterComposer;
 use App\Http\ViewComposers\Admin\Localization\Cities\CityFormComposer;
 
+use App\Http\ViewComposers\Admin\IntellectualPropertyRights\Products\IntellectualPropertyRightProductFilterComposer;
 use App\Http\ViewComposers\Admin\IntellectualPropertyRights\Subcategories\IntellectualPropertyRightSubcategoryFormComposer;
+use App\Http\ViewComposers\Admin\IntellectualPropertyRights\Subcategories\IntellectualPropertyRightSubcategoryFilterComposer;
 use App\Http\ViewComposers\Admin\IntellectualPropertyRights\Products\IntellectualPropertyRightProductFormComposer;
 
 use App\Http\ViewComposers\Admin\Creators\AssignmentContracts\FormAssignmentContractComposer;
@@ -21,9 +21,6 @@ use App\Http\ViewComposers\Admin\Creators\AssignmentContracts\AssignmentContract
 
 use App\Http\ViewComposers\Admin\DashboardComposer;
 
-/**
- * 
- */
 trait AdminRoutes
 {
     /**
@@ -49,6 +46,7 @@ trait AdminRoutes
 
         // Subcategories
         View::composer('admin.pages.intellectual_property_rights.subcategories.components.form', IntellectualPropertyRightSubcategoryFormComposer::class);
+        View::composer('admin.pages.intellectual_property_rights.subcategories.components.filters', IntellectualPropertyRightSubcategoryFilterComposer::class);
 
         // Products
         View::composer('admin.pages.intellectual_property_rights.products.components.filters', IntellectualPropertyRightProductFilterComposer::class);

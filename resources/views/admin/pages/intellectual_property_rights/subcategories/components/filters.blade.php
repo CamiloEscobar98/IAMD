@@ -2,7 +2,7 @@
         <div class="col-12">
             <form method="get">
                 <div class="row justify-content-between">
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <label class="input-group-text">{{ __('filters.order_by') }}</label>
@@ -13,7 +13,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <label class="input-group-text">{{ __('filters.date_from') }}</label>
@@ -22,13 +22,29 @@
                                 value="{{ getParamValue($params, 'date_from') }}">
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <div class="input-group mb-3">
                             <div class="input-group-append">
                                 <label class="input-group-text">{{ __('filters.date_to') }}</label>
                             </div>
                             <input name="date_to" type="date" class="form-control"
                                 value="{{ getParamValue($params, 'date_to') }}">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <label
+                                    class="input-group-text">{{ __('pages.admin.intellectual_property_rights.subcategories.filters.category') }}</label>
+                            </div>
+                            <select class="form-control select2bs4" name="category_id">
+                                @foreach ($categories as $categoryId => $value)
+                                    <option value="{{ $categoryId }}"
+                                        {{ optionIsSelected($params, 'category_id', $categoryId) }}>
+                                        {{ $value }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="col-lg-3">
@@ -48,7 +64,8 @@
                         class="btn btn-danger btn-sm ml-2">{{ __('buttons.register') }}</a>
                 </div>
                 <hr>
-                <h6 class="font-weight-bold">{{ __('pages.admin.intellectual_property_rights.subcategories.filters.total') }}<a
+                <h6 class="font-weight-bold">
+                    {{ __('pages.admin.intellectual_property_rights.subcategories.filters.total') }}<a
                         class="text-secondary">{{ $total }}</a></h6>
             </form>
         </div>
