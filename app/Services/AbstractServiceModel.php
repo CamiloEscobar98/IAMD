@@ -37,15 +37,15 @@ abstract class AbstractServiceModel
      * Update a resource.
      * 
      * @param array $data
-     * @param int $documentTypeId
+     * @param int $id
      * @return array
      */
-    public function update(array $data, int $documentTypeId): array
+    public function update(array $data, int $id): array
     {
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
         try {
             DB::beginTransaction();
-            $item = $this->repository->getById($documentTypeId);
+            $item = $this->repository->getById($id);
             $this->repository->update($item, $data);
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
             DB::commit();

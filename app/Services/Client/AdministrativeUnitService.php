@@ -32,7 +32,7 @@ class AdministrativeUnitService extends AbstractServiceModel
         ProjectRepository $projectRepository,
         IntangibleAssetRepository $intangibleAssetRepository,
     ) {
-        $this->administrativeUnitRepository = $administrativeUnitRepository;
+        $this->repository = $this->administrativeUnitRepository = $administrativeUnitRepository;
         $this->researchUnitRepository = $researchUnitRepository;
         $this->projectRepository = $projectRepository;
         $this->intangibleAssetRepository = $intangibleAssetRepository;
@@ -98,6 +98,25 @@ class AdministrativeUnitService extends AbstractServiceModel
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
+    }
+
+    /**
+     * Search Administrative Units with a Pagination.
+     * @param array $data
+     * @param int $page
+     * @param array $with
+     * @param array $withCount
+     * @param int|null $countryId
+     */
+    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
+    {
+        $params = $this->transformParams($data);
+        $query = $this->administrativeUnitRepository->search($params, $with, $withCount);
+        $total = $query->count();
+        $items = $this->customPagination($query, $params, $page, $total);
+        $links = $items->links('pagination.customized');
+
+        return [$params, $total, $items, $links];
     }
 
     public function getAdministrativeUnitsSelectByParams(array $params)
