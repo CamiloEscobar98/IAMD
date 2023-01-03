@@ -48,7 +48,7 @@ class AdministrativeUnitController extends Controller
      *
      * @return View|RedirectResponse
      */
-    public function index(Request $request) #: View|RedirectResponse
+    public function index(Request $request, $client) #: View|RedirectResponse
     {
         try {
             [$params, $total, $items, $links] = $this->administrativeUnitService->searchWithPagination($request->all(), $request->get('page'), [], ['research_units']);

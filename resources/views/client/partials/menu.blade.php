@@ -17,7 +17,7 @@
 @can('academic_departments.index')
     <li class="nav-item">
         <a href="{{ route('client.academic_departments.index', [$client->name]) }}"
-            class="nav-link {{ routeIsActived('departamentos') }}">
+            class="nav-link {{ routeIsActived('departamentos-academicos') }}">
             <i class="fas fa-globe nav-icon"></i>
             <p>{{ __('menu.client.AcademicDepartments') }}</p>
         </a>

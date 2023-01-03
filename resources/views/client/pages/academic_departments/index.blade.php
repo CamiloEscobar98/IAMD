@@ -34,6 +34,8 @@
         {!! $filters !!}
 
         {!! $table !!}
+
+        {!! $links !!}
     </div>
 @endsection
 
