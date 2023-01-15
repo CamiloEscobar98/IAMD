@@ -18,7 +18,7 @@
      </div>
 
      @error('permission_module_id')
-         <small class="text-danger">{{ $message }}</small>
+         <small class="text-danger">{!! $message !!}</small>
      @enderror
  </div>
  <!-- ./Modules -->
@@ -37,7 +37,7 @@
  </div>
 
  @error('name')
-     <small class="text-danger">{{ $message }}</small>
+     <small class="text-danger">{!! $message !!}</small>
  @enderror
  <!-- ./Name -->
 
@@ -56,5 +56,5 @@
 
  </div>
  @error('info')
-     <small class="text-danger">{{ $message }}</small>
+     <small class="text-danger">{!! $message !!}</small>
  @enderror

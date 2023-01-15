@@ -53,7 +53,7 @@
                         </div>
 
                         @error('email')
-                            <small class="text-danger">{{ $message }}</small>
+                            <small class="text-danger">{!! $message !!}</small>
                         @enderror
                     </div>
                     <!-- Email -->
@@ -73,7 +73,7 @@
                         </div>
 
                         @error('password')
-                            <small class="text-danger">{{ $message }}</small>
+                            <small class="text-danger">{!! $message !!}</small>
                         @enderror
                     </div>
                     <!-- ./Password -->
@@ -98,7 +98,7 @@
                         </div>
 
                         @error('role_id')
-                            <small class="text-danger">{{ $message }}</small>
+                            <small class="text-danger">{!! $message !!}</small>
                         @enderror
                     </div>
                     <!-- ./Role -->

@@ -18,7 +18,7 @@
        </div>
 
        @error('intellectual_property_right_category_id')
-           <small class="text-danger">{{ $message }}</small>
+           <small class="text-danger">{!! $message !!}</small>
        @enderror
    </div>
    <!-- ./Intellectual Property Rights Categories  -->
@@ -43,7 +43,7 @@
        </div>
 
        @error('intellectual_property_right_subcategory_id')
-           <small class="text-danger">{{ $message }}</small>
+           <small class="text-danger">{!! $message !!}</small>
        @enderror
    </div>
    <!-- ./Intellectual Property Rights Subcategories  -->
@@ -62,7 +62,7 @@
        </div>
 
        @error('name')
-           <small class="text-danger">{{ $message }}</small>
+           <small class="text-danger">{!! $message !!}</small>
        @enderror
    </div>
    <!-- ./Name -->
@@ -81,7 +81,7 @@
        </div>
 
        @error('code')
-           <small class="text-danger">{{ $message }}</small>
+           <small class="text-danger">{!! $message !!}</small>
        @enderror
    </div>
    <!-- ./Code -->

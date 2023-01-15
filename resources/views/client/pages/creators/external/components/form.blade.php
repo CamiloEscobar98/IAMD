@@ -12,7 +12,7 @@
       </div>
 
       @error('name')
-          <small class="text-danger">{{ $message }}</small>
+          <small class="text-danger">{!! $message !!}</small>
       @enderror
   </div>
   <!-- ./Name -->
@@ -31,7 +31,7 @@
       </div>
 
       @error('email')
-          <small class="text-danger">{{ $message }}</small>
+          <small class="text-danger">{!! $message !!}</small>
       @enderror
   </div>
   <!-- ./Email -->
@@ -53,7 +53,7 @@
               </div>
 
               @error('phone')
-                  <small class="text-danger">{{ $message }}</small>
+                  <small class="text-danger">{!! $message !!}</small>
               @enderror
           </div>
           <!-- ./Phone -->
@@ -79,7 +79,7 @@
               </div>
 
               @error('document_type_id')
-                  <small class="text-danger">{{ $message }}</small>
+                  <small class="text-danger">{!! $message !!}</small>
               @enderror
           </div>
           <!-- ./Document Type -->
@@ -100,7 +100,7 @@
               </div>
 
               @error('document')
-                  <small class="text-danger">{{ $message }}</small>
+                  <small class="text-danger">{!! $message !!}</small>
               @enderror
           </div>
           <!-- ./Document -->
@@ -171,7 +171,7 @@
               </div>
 
               @error('expedition_place_id')
-                  <small class="text-danger">{{ $message }}</small>
+                  <small class="text-danger">{!! $message !!}</small>
               @enderror
           </div>
           <!-- ./Cities -->
@@ -201,7 +201,7 @@
               </div>
 
               @error('external_organization_id')
-                  <small class="text-danger">{{ $message }}</small>
+                  <small class="text-danger">{!! $message !!}</small>
               @enderror
           </div>
           <!-- ./External Organization -->
@@ -227,7 +227,7 @@
               </div>
 
               @error('assignment_contract_id')
-                  <small class="text-danger">{{ $message }}</small>
+                  <small class="text-danger">{!! $message !!}</small>
               @enderror
           </div>
           <!-- ./Assignment Contract -->

@@ -40,7 +40,7 @@
     </div>
 
     @error('research_unit_id')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Research Unit -->
@@ -64,7 +64,7 @@
     </div>
 
     @error('director_id')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Director -->
@@ -83,7 +83,7 @@
     </div>
 
     @error('name')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Name -->
@@ -102,7 +102,7 @@
     </div>
 
     @error('description')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Description -->
@@ -129,7 +129,7 @@
     </div>
 
     @error('financing_type_id')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Financing Types -->
@@ -154,7 +154,7 @@
     </div>
 
     @error('project_contract_type_id')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Project Contract Types -->
@@ -174,7 +174,7 @@
     </div>
 
     @error('contract')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Contract -->
@@ -190,7 +190,7 @@
     </div>
 
     @error('date')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Date -->

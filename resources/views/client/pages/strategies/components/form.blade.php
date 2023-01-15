@@ -12,7 +12,7 @@
       </div>
 
       @error('name')
-          <small class="text-danger">{{ $message }}</small>
+          <small class="text-danger">{!! $message !!}</small>
       @enderror
   </div>
   <!-- ./Name -->
@@ -31,7 +31,7 @@
       </div>
 
       @error('description')
-          <small class="text-danger">{{ $message }}</small>
+          <small class="text-danger">{!! $message !!}</small>
       @enderror
   </div>
   <!-- ./Description -->

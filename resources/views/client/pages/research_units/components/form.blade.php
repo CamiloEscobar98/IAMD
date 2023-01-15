@@ -12,7 +12,7 @@
     </div>
 
     @error('name')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Name -->
@@ -22,7 +22,7 @@
     <label>Código:</label>
     <div class="input-group">
         <input type="text" name="code" class="form-control @error('code') is-invalid @enderror"
-            placeholder="{{ __('inputs.code') }}" value="{{ old('code', $item->code) }}">
+            placeholder="{{ __('inputs.code') }}" value="{{ old('code', $item->code) }}" maxlength="4" minlength="2">
         <div class="input-group-append">
             <div class="input-group-text">
                 <i class="fas fa-barcode"></i>
@@ -31,7 +31,7 @@
     </div>
 
     @error('code')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Code -->
@@ -56,7 +56,7 @@
     </div>
 
     @error('administrative_unit_id')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Administrative Unit -->
@@ -81,10 +81,35 @@
     </div>
 
     @error('research_unit_category_id')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Research Unit Category -->
+
+<!-- Academic Repository -->
+<div class="form-group mt-3">
+    <label>(Opcional) Departamento Académico:</label>
+    <div class="input-group">
+        <select name="academic_department_id"
+            class="form-control select2bs4 @error('academic_department_id') is-invalid @enderror">
+            @foreach ($academicDepartments as $academicDepartment => $value)
+                <option value="{{ $academicDepartment }}"
+                    {{ twoOptionsIsEqual(old('academic_department_id', $item->academic_department_id), $academicDepartment) }}>
+                    {{ $value }}</option>
+            @endforeach
+        </select>
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <i class="fas fa-user-tie"></i>
+            </div>
+        </div>
+    </div>
+
+    @error('academic_department_id')
+        <small class="text-danger">{!! $message !!}</small>
+    @enderror
+</div>
+<!-- ./Academic Repository -->
 
 <!-- Director -->
 <div class="form-group mt-3">
@@ -105,7 +130,7 @@
     </div>
 
     @error('director_id')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Director -->
@@ -130,7 +155,7 @@
     </div>
 
     @error('inventory_manager_id')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Inventory Manager -->
@@ -149,7 +174,7 @@
     </div>
 
     @error('description')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Description -->

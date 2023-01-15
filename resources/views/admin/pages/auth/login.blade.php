@@ -46,7 +46,7 @@
                     </div>
 
                     @error('email')
-                        <small class="text-danger">{{ $message }}</small>
+                        <small class="text-danger">{!! $message !!}</small>
                     @enderror
 
                     <div class="input-group mt-3">
@@ -61,7 +61,7 @@
                     </div>
 
                     @error('password')
-                        <small class="text-danger">{{ $message }}</small>
+                        <small class="text-danger">{!! $message !!}</small>
                     @enderror
 
                     <div class="row mt-3">

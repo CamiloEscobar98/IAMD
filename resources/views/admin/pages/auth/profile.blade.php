@@ -54,7 +54,7 @@
                             </div>
 
                             @error('name')
-                                <small class="text-danger">{{ $message }}</small>
+                                <small class="text-danger">{!! $message !!}</small>
                             @enderror
                             <!-- ./Name -->
 
@@ -71,7 +71,7 @@
                             </div>
 
                             @error('email')
-                                <small class="text-danger">{{ $message }}</small>
+                                <small class="text-danger">{!! $message !!}</small>
                             @enderror
                             <!-- ./Email -->
 
@@ -107,7 +107,7 @@
                             </div>
 
                             @error('password')
-                                <small class="text-danger">{{ $message }}</small>
+                                <small class="text-danger">{!! $message !!}</small>
                             @enderror
                             <!-- ./Password -->
 
@@ -124,7 +124,7 @@
                             </div>
 
                             @error('repeat_password')
-                                <small class="text-danger">{{ $message }}</small>
+                                <small class="text-danger">{!! $message !!}</small>
                             @enderror
                             <!-- ./Repeat Password -->
 

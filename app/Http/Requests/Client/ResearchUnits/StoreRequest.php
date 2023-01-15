@@ -23,15 +23,14 @@ class StoreRequest extends FormRequest
      */
     public function rules()
     {
-
-        // dd($this->all());
         return [
             'administrative_unit_id' => ['required', 'exists:tenant.administrative_units,id'],
+            'academic_department_id' => ['required', 'exists:tenant.academic_departments,id'],
             'research_unit_category_id' => ['required', 'exists:tenant.research_unit_categories,id'],
             'director_id' => ['required', 'exists:tenant.creators,id'],
             'inventory_manager_id' => ['required', 'exists:tenant.creators,id'],
             'name' => ['required', 'unique:tenant.research_units'],
-            'code' => ['required', 'unique:tenant.research_units'],
+            'code' => ['required', 'unique:tenant.research_units', 'min:2', 'max:4'],
             'description' => ['nullable']
         ];
     }

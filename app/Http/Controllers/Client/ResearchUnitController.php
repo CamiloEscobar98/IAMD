@@ -42,27 +42,24 @@ class ResearchUnitController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
+     * @param Request $request
+     * @param string $client     
      * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function index(Request $request): \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+    public function index(Request $request, $client): \Illuminate\View\View|\Illuminate\Http\RedirectResponse
     {
         try {
-            $params = $this->researchUnitService->transformParams($request->all());
-
-            $query = $this->researchUnitRepository->search($params, ['administrative_unit', 'research_unit_category', 'director', 'inventory_manager'], ['projects']);
-
-            $total = $query->count();
-
-            $items = $this->researchUnitService->customPagination($query, $params, $request->get('page'), $total);
-
-            $links = $items->links('pagination.customized');
-
+            [$params, $total, $items, $links] = $this->researchUnitService->searchWithPagination(
+                $request->all(),
+                $request->get('page'),
+                ['administrative_unit', 'research_unit_category', 'director', 'inventory_manager'],
+                ['projects']
+            );
             return view('client.pages.research_units.index')
                 ->nest('filters', 'client.pages.research_units.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.research_units.components.table', compact('items', 'links'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -85,36 +82,24 @@ class ResearchUnitController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param string $client
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function store(StoreRequest $request, $client): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
-        try {
-            $data = $request->all();
-
-            DB::beginTransaction();
-
-            $item = $this->researchUnitRepository->create($data);
-
-            DB::commit();
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.research_units.messages.save_success', ['research_unit' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
-        }
+        return redirect()->route('client.research_units.create', $client)->with('alert', $this->researchUnitService->save($request->all()));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $client
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function show($id, $research_unit, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function show($client, $research_unit, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
             $item = $this->researchUnitRepository->getByIdWithRelations($research_unit, ['administrative_unit', 'research_unit_category', 'director', 'inventory_manager']);
-
             return view('client.pages.research_units.show', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
@@ -124,15 +109,13 @@ class ResearchUnitController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $client
      * @return \Illuminate\Http\Response
      */
-    public function edit($id, $research_unit, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function edit($client, $research_unit, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
             $item = $this->researchUnitRepository->getById($research_unit);
-
-
             return view('client.pages.research_units.edit', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
@@ -143,51 +126,23 @@ class ResearchUnitController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $client
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, $id, $research_unit): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function update(UpdateRequest $request, $client, $research_unit): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
-        try {
-            $data = $request->all();
-
-            $item = $this->researchUnitRepository->getById($research_unit);
-
-            DB::beginTransaction();
-
-            $this->researchUnitRepository->update($item, $data);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.research_units.messages.update_success', ['research_unit' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.research_units.messages.update_error')]);
-        }
+        return redirect()->route('client.research_units.edit', ['research_unit' => $research_unit, 'client' => $client])->with('alert', $this->researchUnitService->update($request->all(), $research_unit));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $client
      * @param int $research_unit
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, $research_unit)
+    public function destroy($client, $research_unit)
     {
-        try {
-            $item = $this->researchUnitRepository->getById($research_unit);
-
-            DB::beginTransaction();
-
-            $this->researchUnitRepository->delete($item);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.research_units.messages.delete_success', ['research_unit' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.research_units.messages.delete_error')]);
-        }
+        return redirect()->route('client.research_units.index', $client)->with('alert', $this->researchUnitService->delete($research_unit));
     }
 }

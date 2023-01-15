@@ -2,19 +2,21 @@
 
 namespace App\Services\Client;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Client\ResearchUnitRepository;
 
-class ResearchUnitService
+class ResearchUnitService extends AbstractServiceModel
 {
     /** @var ResearchUnitRepository */
     protected $researchUnitRepository;
 
     public function __construct(ResearchUnitRepository $researchUnitRepository)
     {
-        $this->researchUnitRepository = $researchUnitRepository;
+        $this->repository = $this->researchUnitRepository = $researchUnitRepository;
     }
 
     /**
@@ -77,5 +79,23 @@ class ResearchUnitService
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
+    }
+
+      /**
+     * Search Administrative Units with a Pagination.
+     * @param array $data
+     * @param int $page
+     * @param array $with
+     * @param array $withCount
+     */
+    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
+    {
+        $params = $this->transformParams($data);
+        $query = $this->researchUnitRepository->search($params, $with, $withCount);
+        $total = $query->count();
+        $items = $this->customPagination($query, $params, $page, $total);
+        $links = $items->links('pagination.customized');
+
+        return [$params, $total, $items, $links];
     }
 }
