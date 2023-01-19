@@ -72,5 +72,17 @@
         $('.select2bs4').select2({
             theme: 'bootstrap4'
         })
+
+        $('#research_unit_id').select2({
+            theme: 'bootstrap4',
+            placeholder: '--Seleccionar las unidades de investigación',
+            allowClear: true
+        })
+
+        $('#financing_type_id').select2({
+            theme: 'bootstrap4',
+            placeholder: '--Seleccionar las unidades de investigación',
+            allowClear: true
+        })
     </script>
 @endsection

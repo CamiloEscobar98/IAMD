@@ -11,6 +11,7 @@ use App\Repositories\Client\FinancingTypeRepository;
 use App\Repositories\Client\ProjectContractTypeRepository;
 use App\Repositories\Client\ProjectRepository;
 use App\Services\Client\AdministrativeUnitService;
+use Illuminate\Database\Eloquent\Collection;
 
 class CreateProjectComposer
 {
@@ -59,7 +60,11 @@ class CreateProjectComposer
     {
         $projectId = request()->project;
 
-        [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project] = $this->administrativeUnitService->getAdministrativeUnitsSelectByProjectForm($projectId);
+        /** @var \Illuminate\Database\Eloquent\Collection $researchUnits */
+        $administrativeUnits = $this->administrativeUnitRepository->search([], ['research_units'], [], ['research_units'])->get();
+
+
+        // [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project] = $this->administrativeUnitService->getAdministrativeUnitsSelectByProjectForm($projectId);
 
         /** Creators */
         $directors = $this->creatorRepository->all(['id', 'name'])->pluck('name', 'id')->prepend('---Seleccionar un director para el proyecto', -1);
@@ -71,10 +76,7 @@ class CreateProjectComposer
         $projectContractTypes = $this->projectContractTypeRepository->all(['id', 'name'])->pluck('name', 'id')->prepend('---Seleccionar un acto administrativo', -1);
 
         $view->with(compact(
-            'researchUnits',
             'administrativeUnits',
-            'administrativeUnit',
-            'researchUnit',
             'directors',
             'financingTypes',
             'projectContractTypes'

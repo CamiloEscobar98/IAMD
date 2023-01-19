@@ -32,19 +32,18 @@ class CityFilterComposer
     public function compose(View $view)
     {
         $countries = $this->countryRepository->all();
-        
-        $countryId = request()->get('country_id');
+        $states = collect();
+
+        $countryId = request('country_id');
 
         if ($countryId) {
             /** @var \App\MOdels\Admin\Localization\Country $country */
             $country = $this->countryRepository->getById($countryId);
-        } else {
-            $country = $countries->where('name', 'Colombia')->first();
+            $states = $this->stateRepository->getByCountry($country);
         }
-        /** @var \App\MOdels\Admin\Localization\State $state */
-        $states = $this->stateRepository->getByCountry($country);
 
-        $state = $states->first();
+        $countries = $countries->pluck('name', 'id')->prepend('---Seleccionar país', -1);
+        $states = $states->pluck('name', 'id')->prepend('---Seleccionar Departamento', -1);
 
         $view->with(compact('countries', 'states'));
     }

@@ -87,7 +87,7 @@ function putResearchUnits(items) {
 
     selectResearchUnit.empty();
 
-    selectResearchUnit.append(`<option value="0">---Seleccionar Unidad Investigativa</option>`);
+    selectResearchUnit.append(`<option value="">---Seleccionar Unidad Investigativa</option>`);
 
     let isSelected = '';
 
@@ -105,7 +105,7 @@ function putProjects(items) {
 
     selectProject.empty();
 
-    selectProject.append(`<option value="0">---Seleccionar Proyecto</option>`);
+    selectProject.append(`<option value="">---Seleccionar Proyecto</option>`);
 
     let isSelected = '';
 

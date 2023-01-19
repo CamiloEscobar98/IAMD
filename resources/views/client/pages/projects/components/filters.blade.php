@@ -59,13 +59,14 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <!-- Research Units -->
+                <div class="col-lg-5">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.research_units') }}</label>
                         </div>
                         <select name="research_unit_id[]" id="research_unit_id"
-                            class="form-control select2bs4 research_units">
+                            class="form-control select2bs4 research_units" multiple>
                             @foreach ($researchUnits as $researchUnit => $value)
                                 <option value="{{ $researchUnit }}"
                                     {{ optionInArray($params, 'research_unit_id', $researchUnit) }}>
@@ -75,14 +76,15 @@
                         </select>
                     </div>
                 </div>
+                <!-- ./Research Units -->
 
                 <!-- Directors Creator -->
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.directors') }}</label>
                         </div>
-                        <select name="director_id[]" class="form-control directors" multiple>
+                        <select name="director_id[]" id="director_id" class="form-control directors" multiple>
                             @foreach ($directors as $directorId => $value)
                                 <option value="{{ $directorId }}"
                                     {{ optionInArray($params, 'director_id', $directorId) }}>

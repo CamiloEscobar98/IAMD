@@ -10,6 +10,9 @@ use App\Models\Admin\Localization\City;
 
 class CityRepository extends AbstractRepository
 {
+    /** @var City */
+    protected $model;
+
     public function __construct(City $model)
     {
         $this->model = $model;
@@ -25,6 +28,8 @@ class CityRepository extends AbstractRepository
      */
     public function search(array $params = [], array $with = [],  array $withCount = [], $stateId = null)
     {
+        $joinState = 'states';
+
         $query = $this->model
             ->select();
 
@@ -48,6 +53,11 @@ class CityRepository extends AbstractRepository
             $query->toDate($params['date_to']);
         }
 
+        if (isset($params['country_id']) && $params['country_id']) {
+            $query->join('states', "{$joinState}.id", "{$this->model->getTable()}.state_id");
+            $query->ofCountry($params['country_id']);
+        }
+
         if (isset($params['state_id']) && $params['state_id']) {
             $query->ofState($params['state_id']);
         }
@@ -55,6 +65,17 @@ class CityRepository extends AbstractRepository
         if (isset($with) && $with) {
             $query->with($with);
         }
+
+        if (isset($params['order_by'])) {
+            if ($params['order_by'] == 1) {
+                $query->orderBy("{$this->model->getTable()}.name", 'ASC');
+            } else {
+                $query->orderBy("{$this->model->getTable()}.name", 'DESC');
+            }
+        } else {
+            $query->orderBy("{$this->model->getTable()}.name", 'ASC');
+        }
+        $query->orderBy("{$this->model->getTable()}.state_id", 'ASC');
 
         if (isset($withCount) && $withCount) {
             $query->withCount($withCount);

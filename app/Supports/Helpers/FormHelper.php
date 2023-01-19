@@ -71,7 +71,6 @@ if (!function_exists('getParamObject')) {
     function getParamObject($object, $key, $empty = false): string|null
     {
         $emptyValue = $empty ? 'No hay registro' : '';
-
         return !is_null($object) && $object->$key ? $object->$key : $emptyValue;
     }
 }

@@ -42,13 +42,10 @@
                         </div>
                         <select name="country_id" id="country_id" class="form-control select2bs4"
                             onchange="changeCountry()">
-                            <option value="">
-                                {{ __('pages.admin.localizations.cities.filters.country_option') }}
-                            </option>
-                            @foreach ($countries as $countryItem)
-                                <option value="{{ $countryItem->id }}"
-                                    {{ optionIsSelected($params, 'country_id', $countryItem->id) }}>
-                                    {{ $countryItem->name }}</option>
+                            @foreach ($countries as $countryItem => $value)
+                                <option value="{{ $countryItem }}"
+                                    {{ optionIsSelected($params, 'country_id', $countryItem) }}>
+                                    {{ $value }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -63,13 +60,10 @@
                                 class="input-group-text">{{ __('pages.admin.localizations.cities.filters.state') }}</label>
                         </div>
                         <select name="state_id" id="state_id" class="form-control select2bs4">
-                            <option value="">
-                                {{ __('pages.admin.localizations.cities.filters.state_option') }}
-                            </option>
-                            @foreach ($states as $stateItem)
-                                <option value="{{ $stateItem->id }}"
-                                    {{ optionIsSelected($params, 'state_id', $stateItem->id) }}>
-                                    {{ $stateItem->name }}</option>
+                            @foreach ($states as $stateItem => $value)
+                                <option value="{{ $stateItem }}"
+                                    {{ optionIsSelected($params, 'state_id', $stateItem) }}>
+                                    {{ $value }}</option>
                             @endforeach
                         </select>
                     </div>

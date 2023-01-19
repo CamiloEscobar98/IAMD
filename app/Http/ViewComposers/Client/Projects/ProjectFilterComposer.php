@@ -40,20 +40,16 @@ class ProjectFilterComposer
 
     public function compose(View $view)
     {
-        $params = request()->all();
+        $administrativeUnitId = request('administrative_unit_id');
 
         /** Administrative Units */
         $administrativeUnits = $this->administrativeUnitRepository->all();
 
-        if (isset($params['administrative_unit_id']) && $params['administrative_unit_id']) {
+        $researchUnits = collect();
 
+        if ($administrativeUnitId) {
             /** @var \App\Models\Client\AdministrativeUnit */
-            $administrativeUnit = $this->administrativeUnitRepository->getById($params['administrative_unit_id']);
-
-            /** Research Units */
-            $researchUnits = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnit);
-        } else {
-
+            $administrativeUnit = $this->administrativeUnitRepository->getById($administrativeUnitId);
             /** Research Units */
             $researchUnits = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnits->first());
         }

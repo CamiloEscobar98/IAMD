@@ -102,7 +102,8 @@ class Project extends BaseModel
      */
     public function scopeById($query, int $id)
     {
-        return $query->where('id', $id);
+        $table = $this->getTable();
+        return $query->where("{$table}.id", $id);
     }
 
     /**
@@ -115,7 +116,8 @@ class Project extends BaseModel
      */
     public function scopeByName($query, string $name)
     {
-        $query->where('name', 'like', "%{$name}%");
+        $table = $this->getTable();
+        $query->where("{$table}.name", 'like', "%{$name}%");
     }
 
     /**
@@ -128,32 +130,27 @@ class Project extends BaseModel
      */
     public function scopeByResearchUnit($query, $researchUnit)
     {
-        if (is_array($researchUnit) && !empty($researchUnit)) {
-            return $query->whereIn('research_unit_id', $researchUnit);
-        }
+        $joinResearchUnitProject = 'project_research_unit';
 
-        return $query->where('research_unit_id', $researchUnit);
+        if (is_array($researchUnit) && !empty($researchUnit)) {
+            return $query->whereIn("{$joinResearchUnitProject}.research_unit_id", $researchUnit);
+        }
+        return $query->where("{$joinResearchUnitProject}.research_unit_id", $researchUnit);
     }
 
     /**
-     * Scope a query to only include Research Unit
+     * Scope a query to only include Administrative Unit
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @param array|string $administrativeUnit
-     * 
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeByAdministrativeUnit($query, $administrativeUnit)
     {
-        $table = $this->getTable();
         $joinResearchUnit = 'research_units';
-
-        $query->join($joinResearchUnit, "{$table}.research_unit_id", "{$joinResearchUnit}.id");
 
         if (is_array($administrativeUnit) && !empty($administrativeUnit)) {
             return $query->whereIn("{$joinResearchUnit}.administrative_unit_id", $administrativeUnit);
         }
-
         return $query->where("{$joinResearchUnit}.administrative_unit_id", $administrativeUnit);
     }
 
@@ -168,10 +165,10 @@ class Project extends BaseModel
     public function scopeByDirector($query, $director)
     {
         if (is_array($director) && !empty($director)) {
-            return $query->whereIn('director_id', $director);
+            return $query->whereIn("{$this->getTable()}.director_id", $director);
         }
 
-        return $query->where('director_id', $director);
+        return $query->where("{$this->getTable()}.director_id", $director);
     }
 
     /**

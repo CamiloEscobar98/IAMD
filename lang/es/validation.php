@@ -186,6 +186,7 @@ return [
 
         'administrative_unit_id' => 'facultad',
         'academic_department_id' => 'departamento académico',
+        'research_unit_id' => 'unidad investigativa ',
         'project_id' => 'proyecto',
         'research_unit_category_id' => 'unidad de investigación',
         'director_id' => 'director',
