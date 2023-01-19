@@ -32,7 +32,7 @@ class UpdateRequest extends FormRequest
 
             'financing_type_id' => ['required', 'exists:tenant.financing_types,id'],
             'project_contract_type_id' => ['required', 'exists:tenant.project_contract_types,id'],
-            'contract' => ['required', 'string', Rule::unique('tenant.project_financings')->ignore($this->project, 'project_id')],
+            'contract' => ['required', 'string', 'unique:tenant.projects,contract,' . $this->project],
             'date' => ['required', 'date']
         ];
     }

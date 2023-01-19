@@ -27,18 +27,18 @@ class ProjectRepository extends  AbstractRepository
         $table = $this->model->getTable();
         $joinResearchUnitProject = 'project_research_unit';
         $joinResearchUnit = 'research_units';
-
+        
         $query = $this->model
-            ->select("{$table}.*");
-
+        ->select("{$table}.*");
+        
         if (isset($params['id']) && $params['id']) {
             $query->byId($params['id']);
         }
-
+        
         if (isset($params['name']) && $params['name']) {
             $query->byName($params['name']);
         }
-
+        
         if (isset($params['administrative_unit_id']) && $params['administrative_unit_id']) {
             $this->addJoin($joins, $joinResearchUnitProject, "{$table}.id", "{$joinResearchUnitProject}.project_id");
             $this->addJoin($joins, $joinResearchUnit, "{$joinResearchUnitProject}.research_unit_id", "{$joinResearchUnit}.id");

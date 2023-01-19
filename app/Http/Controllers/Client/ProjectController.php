@@ -109,7 +109,7 @@ class ProjectController extends Controller
     public function show($id, $project, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
-            $item = $this->projectRepository->getByIdWithRelations($project, ['director', 'intangible_assets', 'project_financing.financing_type', 'project_financing.project_contract_type']);
+            $item = $this->projectRepository->getByIdWithRelations($project, ['director', 'research_units', 'intangible_assets', 'project_financings', 'contract_type']);
             return view('client.pages.projects.show', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
@@ -127,8 +127,7 @@ class ProjectController extends Controller
     public function edit($id, $project, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
-            $item = $this->projectRepository->getByIdWithRelations($project, ['project_financing']);
-
+            $item = $this->projectRepository->getByIdWithRelations($project, ['director', 'research_units', 'intangible_assets', 'project_financings', 'contract_type']);
             return view('client.pages.projects.edit', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
@@ -139,36 +138,14 @@ class ProjectController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $client
      * @param int $project
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, $id, $project): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function update(UpdateRequest $request, $client, $project): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
-        try {
-
-            $dataProject = $request->only(['research_unit_id', 'director_id', 'name', 'description']);
-
-            $item = $this->projectRepository->getById($project);
-
-            DB::beginTransaction();
-
-            $this->projectRepository->update($item, $dataProject);
-
-            $dataProjectFinancing = $request->only(['financing_type_id', 'project_contract_type_id', 'contract', 'date']);
-
-            $projectFinancing = $this->projectFinancingRepository->getById($project);
-
-            $this->projectFinancingRepository->update($projectFinancing, $dataProjectFinancing);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.projects.messages.update_success', ['project' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.projects.messages.update_error')]);
-        }
+        return redirect()->route('client.projects.edit', ['project' => $project, 'client' => $client])->with('alert', $this->projectService->update($request->all(), $project));
     }
 
     /**

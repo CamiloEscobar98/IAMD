@@ -54,9 +54,9 @@ class ProjectFilterComposer
             $researchUnits = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnits->first());
         }
 
-        $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('---Seleccionar Facultad', -1);
+        $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('---Seleccionar Facultad');
 
-        $researchUnits = $researchUnits->pluck('name', 'id')->prepend('---Seleccionar Unidad Investigativa', -1);
+        $researchUnits = $researchUnits->pluck('name', 'id')->prepend('---Seleccionar Unidad Investigativa');
 
 
         /** Creators */

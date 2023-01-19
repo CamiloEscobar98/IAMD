@@ -101,7 +101,6 @@ class ProjectService extends AbstractServiceModel
     public function save(array $data): array
     {
         $data = collect($data);
-
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
         try {
             $dataProject = $data->only(['project_contract_type_id', 'director_id', 'name', 'description', 'contract', 'date'])->toArray();
@@ -136,7 +135,7 @@ class ProjectService extends AbstractServiceModel
         $data = collect($data);
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
         try {
-            $dataProject = $data->only(['project_contract_type_id', 'director_id', 'name', 'description', 'contract', 'date']);
+            $dataProject = $data->only(['project_contract_type_id', 'director_id', 'name', 'description', 'contract', 'date'])->toArray();
 
             /** @var \App\Models\Client\Project\Project $item */
             $item = $this->projectRepository->getById($id);
@@ -150,6 +149,7 @@ class ProjectService extends AbstractServiceModel
             $item->project_financings()->sync($data->get('financing_type_id'));
 
             DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
         } catch (QueryException $th) {
             DB::rollBack();
         }

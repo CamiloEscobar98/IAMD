@@ -80,7 +80,7 @@ trait ClientRoutes
 
         /** Projects */
         View::composer('client.pages.projects.components.filters', ProjectFilterComposer::class);
-        View::composer('client.pages.projects.components.form', CreateProjectComposer::class);
+        View::composer(['client.pages.projects.components.form', 'client.pages.projects.edit'], CreateProjectComposer::class);
 
         /** Creators */
 

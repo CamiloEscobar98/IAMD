@@ -7,7 +7,7 @@
                 <optgroup label="{{ $administrativeUnitItem->name }}">
                     @foreach ($administrativeUnitItem->research_units->pluck('name', 'id') as $researchUnitItemId => $value)
                         <option value="{{ $researchUnitItemId }}"
-                            {{ optionInArray(old('research_unit_id', $item->research_units), 'research_unit_id', $researchUnitItemId) }}>
+                            {{ optionInArray(old() ?: $item->research_units, 'research_unit_id', $researchUnitItemId) }}>
                             {{ $value }}</option>
                     @endforeach
                 </optgroup>
@@ -98,7 +98,7 @@
             class="form-control select2bs4 {{ isInvalidByError($errors, 'financing_type_id') }}" multiple>
             @foreach ($financingTypes as $financingTypeId => $value)
                 <option value="{{ $financingTypeId }}"
-                    {{ optionInArray(old('financing_type_id', $item->project_financing), 'financing_type_id', $financingTypeId) }}>
+                    {{ optionInArray(old() ?: $item->project_financings, 'financing_type_id', $financingTypeId) }}>
                     {{ $value }}</option>
             @endforeach
         </select>
@@ -123,7 +123,7 @@
             class="form-control select2bs4 {{ isInvalidByError($errors, 'project_contract_type_id') }}">
             @foreach ($projectContractTypes as $projectContractTypeId => $value)
                 <option value="{{ $projectContractTypeId }}"
-                    {{ twoOptionsIsEqual(old('project_contract_type_id', getParamObject($item->project_financing, 'project_contract_type_id')), $projectContractTypeId) }}>
+                    {{ twoOptionsIsEqual(old('project_contract_type_id', getParamObject($item, 'project_contract_type_id')), $projectContractTypeId) }}>
                     {{ $value }}</option>
             @endforeach
         </select>
@@ -146,7 +146,7 @@
     <div class="input-group">
         <input type="text" name="contract" class="form-control {{ isInvalidByError($errors, 'contract') }}"
             placeholder="{{ __('inputs.contract') }}"
-            value="{{ old('contract', getParamObject($item->project_financing, 'contract')) }}">
+            value="{{ old('contract', getParamObject($item, 'contract')) }}">
         <div class="input-group-append">
             <div class="input-group-text">
                 <span class="fas fa-book"></span>
@@ -167,7 +167,7 @@
     <div class="input-group">
         <input type="date" name="date" class="form-control {{ isInvalidByError($errors, 'date') }}"
             placeholder="{{ __('inputs.date') }}"
-            value="{{ old('date', getParamObject($item->project_financing, 'date')) }}">
+            value="{{ old('date', getParamObject($item, 'date')) }}">
     </div>
 
     @error('date')

@@ -58,13 +58,8 @@ class CreateProjectComposer
 
     public function compose(View $view)
     {
-        $projectId = request()->project;
-
         /** @var \Illuminate\Database\Eloquent\Collection $researchUnits */
         $administrativeUnits = $this->administrativeUnitRepository->search([], ['research_units'], [], ['research_units'])->get();
-
-
-        // [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project] = $this->administrativeUnitService->getAdministrativeUnitsSelectByProjectForm($projectId);
 
         /** Creators */
         $directors = $this->creatorRepository->all(['id', 'name'])->pluck('name', 'id')->prepend('---Seleccionar un director para el proyecto', -1);

@@ -42,8 +42,8 @@ class CityFilterComposer
             $states = $this->stateRepository->getByCountry($country);
         }
 
-        $countries = $countries->pluck('name', 'id')->prepend('---Seleccionar país', -1);
-        $states = $states->pluck('name', 'id')->prepend('---Seleccionar Departamento', -1);
+        $countries = $countries->pluck('name', 'id')->prepend('---Seleccionar país');
+        $states = $states->pluck('name', 'id')->prepend('---Seleccionar Departamento');
 
         $view->with(compact('countries', 'states'));
     }
