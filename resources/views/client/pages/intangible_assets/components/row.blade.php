@@ -1,12 +1,17 @@
 <tr>
-    <td><a href="{{ getClientRoute('client.administrative_units.show', [$item->project->research_unit->administrative_unit->id]) }}"
-            class="btn btn-sm btn-outline-secondary">{{ getParamObject($item->project->research_unit->administrative_unit, 'name') }}</a>
+    <td>
+        <a href="{{ getClientRoute('client.projects.show', [$item->project->id]) }}"
+            class="btn btn-sm btn-outline-secondary">{{ getParamObject($item->project, 'name') }}</a>
     </td>
-    <td><a href="{{ getClientRoute('client.research_units.show', [$item->project->research_unit->id]) }}"
-            class="btn btn-sm btn-outline-secondary">{{ getParamObject($item->project->research_unit, 'name') }}</a></td>
-    <td><a href="{{ getClientRoute('client.projects.show', [$item->project->id]) }}"
-            class="btn btn-sm btn-outline-secondary">{{ getParamObject($item->project, 'name') }}</a></td>
+    <td>
+        @forelse ($item->project->research_units as $research_unit)
+            <a href="{{ getClientRoute('client.research_units.show', [$research_unit->id]) }}"
+                class="btn btn-sm btn-outline-secondary">{{ getParamObject($research_unit, 'name') }}</a>
+        @empty
+        @endforelse
+    </td>
     <td>{{ $item->name }}</td>
+    <td>{{ $item->intangible_asset_state->name }}</td>
     <td>
         <div class="progress">
             <div class="progress-bar {{ getStatusBarColor($item->progressPhases()) }}" role="progressbar"

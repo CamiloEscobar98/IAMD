@@ -22,7 +22,6 @@ class IntangibleAssetRepository extends AbstractRepository
      */
     public function search(array $params = [], array $with = [], array $withCount = [])
     {
-
         $table = $this->model->getTable();
 
         $query = $this->model->select("{$table}.*");
@@ -39,24 +38,12 @@ class IntangibleAssetRepository extends AbstractRepository
             $query->byCode($params['code']);
         }
 
-        if (isset($params['administrative_unit_id']) && $params['administrative_unit_id'] && isset($params['research_unit_id']) && $params['research_unit_id'] == 0) {
-            $query->byAdministrativeUnit($params['administrative_unit_id']);
-        }
-
-        if (isset($params['research_unit_id']) && $params['research_unit_id']  && isset($params['project_id']) && $params['project_id'] == 0) {
-            $query->byResearchUnit($params['research_unit_id']);
-        }
-
-        if (isset($params['project_id']) && $params['project_id'] > 0) {
+        if (isset($params['project_id']) && $params['project_id']) {
             $query->byProject($params['project_id']);
         }
 
         if (isset($params['intangible_asset_state_id']) && $params['intangible_asset_state_id']) {
-            if (is_array($params['intangible_asset_state_id'])) {
-                $query->wherenIn('intangible_asset_state_id', $params['intangible_asset_state_id']);
-            } else {
-                $query->where('intangible_asset_state_id', $params['intangible_asset_state_id']);
-            }
+            $query->byState($params['intangible_asset_state_id']);
         }
 
         if (isset($params['date_from']) && $params['date_from']) {
@@ -74,10 +61,8 @@ class IntangibleAssetRepository extends AbstractRepository
         if (isset($withCount) && $withCount) {
             $query->withCount($withCount);
         }
-
+        
         $query->orderBy('date');
-
-        // dd($query->get()->toArray());
 
         return $query;
     }

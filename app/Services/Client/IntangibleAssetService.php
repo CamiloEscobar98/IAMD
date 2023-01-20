@@ -2,21 +2,25 @@
 
 namespace App\Services\Client;
 
-use App\Models\Client\IntangibleAsset\IntangibleAsset;
-use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
-use App\Repositories\Client\FinancingTypeRepository;
-use App\Repositories\Client\IntangibleAssetLocalizationRepository;
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
-use App\Repositories\Client\IntangibleAssetRepository;
+
+use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
 use App\Repositories\Client\ProjectContractTypeRepository;
 use App\Repositories\Client\ProjectFinancingRepository;
 use App\Repositories\Client\ResearchUnitRepository;
-use Illuminate\Support\Carbon;
+use App\Repositories\Client\FinancingTypeRepository;
+use App\Repositories\Client\IntangibleAssetLocalizationRepository;
+use App\Repositories\Client\IntangibleAssetRepository;
 
-class IntangibleAssetService
+use App\Models\Client\IntangibleAsset\IntangibleAsset;
+
+class IntangibleAssetService extends AbstractServiceModel
 {
     /** @var IntangibleAssetRepository */
     protected $intangibleAssetRepository;
@@ -132,7 +136,7 @@ class IntangibleAssetService
             DB::beginTransaction();
 
             $item = $this->intangibleAssetRepository->create($data);
-            
+
             $arrayDataLocaliztion = [
                 'intangible_asset_id' => $item->id,
                 'localization' => $localizationData['localization'],
@@ -177,7 +181,7 @@ class IntangibleAssetService
         $year = (new Carbon($projectFinancing->date))->year;
 
         /** CodePart IV */
-        $projectContractType = $this->projectContractTypeRepository->getById($intangibleAsset ->project->project_contract_type_id);
+        $projectContractType = $this->projectContractTypeRepository->getById($intangibleAsset->project->project_contract_type_id);
         $projectContractTypeCode = $projectContractType->code ?? '';
 
         /** CodePart V */
@@ -187,5 +191,23 @@ class IntangibleAssetService
         $code = "{$financingTypeCode}{$researchUnitCode}{$year}{$projectContractTypeCode}{$intellectualPropertyRightProductCode}";
 
         $this->intangibleAssetRepository->update($intangibleAsset, ['code' => $code]);
+    }
+
+    /**
+     * Search Intangible Asset with a Pagination.
+     * @param array $data
+     * @param int $page
+     * @param array $with
+     * @param array $withCount
+     */
+    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
+    {
+        $params = $this->transformParams($data);
+        $query = $this->intangibleAssetRepository->search($params, $with, $withCount);
+        $total = $query->count();
+        $items = $this->customPagination($query, $params, $page, $total);
+        $links = $items->links('pagination.customized');
+
+        return [$params, $total, $items, $links];
     }
 }

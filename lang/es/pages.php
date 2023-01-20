@@ -1204,9 +1204,9 @@ return [
 
             'table' => [
                 'head' => [
-                    'administrative_unit' => 'Facultad',
-                    'research_unit' => 'Unidad Investigativa',
                     'project' => 'Proyecto',
+                    'research_units' => 'Unidades Investigativas',
+                    'state' => 'Estado del Activo',
 
                     'name' => 'Nombre',
                     'status' => 'Estado de las Fases',

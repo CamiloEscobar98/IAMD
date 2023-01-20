@@ -262,66 +262,34 @@ class IntangibleAsset extends BaseModel
      * Scope a query to only include Project
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @param array|string $administrativeUnit
-     * 
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-
-    public function scopeByAdministrativeUnit($query, $administrativeUnit)
-    {
-        $table = $this->getTable();
-        $joinResearchUnit = 'research_units';
-        $joinProject = 'projects';
-
-        $query->join($joinProject, "{$table}.project_id", "{$joinProject}.id");
-        $query->join($joinResearchUnit, "{$joinProject}.research_unit_id", "{$joinResearchUnit}.id");
-
-        if (is_array($administrativeUnit) && !empty($administrativeUnit)) {
-            return $query->whereIn("{$joinResearchUnit}.administrative_unit_id", $administrativeUnit);
-        }
-
-        return $query->where("{$joinResearchUnit}.administrative_unit_id", $administrativeUnit);
-    }
-
-    /**
-     * Scope a query to only include Project
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @param array|string $researchUnit
-     * 
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-
-    public function scopeByResearchUnit($query, $researchUnit)
-    {
-        $table = $this->getTable();
-        $joinProject = 'projects';
-
-        $query->join($joinProject, "{$table}.project_id", "{$joinProject}.id");
-
-        if (is_array($researchUnit) && !empty($researchUnit)) {
-            return $query->whereIn("{$joinProject}.research_unit_id", $researchUnit);
-        }
-
-        return $query->where("{$joinProject}.research_unit_id", $researchUnit);
-    }
-
-    /**
-     * Scope a query to only include Project
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder $query
      * @param array|string $project
      * 
      * @return \Illuminate\Database\Eloquent\Builder
      */
 
-    public function scopeByProject($query, $project)
+    public function scopeByProject($query, $projectId)
     {
-        if (is_array($project) && !empty($project)) {
-            return $query->whereIn("{$this->getTable()}.project_id", $project);
+        if (is_array($projectId) && !empty($projectId)) {
+            return $query->whereIn("{$this->getTable()}.project_id", $projectId);
         }
 
-        return $query->where("{$this->getTable()}.project_id", $project);
+        return $query->where("{$this->getTable()}.project_id", $projectId);
+    }
+
+    /**
+     * Scope a query to only include Intangible Asset State
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param array|string $stateId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByState($query, $stateId)
+    {
+        if (is_array($stateId) && !empty($projectId)) {
+            return $query->wherenIn("{$this->getTable()}.intangible_asset_state_id", $stateId);
+        } else {
+            return $query->where("{$this->getTable()}.intangible_asset_state_id", $stateId);
+        }
     }
 
     /**

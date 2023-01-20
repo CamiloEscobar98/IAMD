@@ -32,6 +32,8 @@ return [
     'research_units' => 'Unidades Investigativas:',
 
     'projects' => 'Proyectos:',
+    
+    'intangible_assets_state' => 'Estados',
 
     'external_organizations' => 'Organizaciones Externas:',
 

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 use App\Http\Requests\Client\IntangibleAssets\StoreRequest;
 use App\Http\Requests\Client\IntangibleAssets\UpdateRequest;
@@ -13,8 +15,6 @@ use App\Http\Requests\Client\IntangibleAssets\UpdateRequest;
 use App\Services\Client\IntangibleAssetService;
 
 use App\Repositories\Client\IntangibleAssetRepository;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 
 class IntangibleAssetController extends Controller
 {
@@ -43,28 +43,21 @@ class IntangibleAssetController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
+     * 
+     * @param Request $request
+     * 
      * @return View|RedirectResponse
      */
-    public function index(Request $request) #: View|RedirectResponse
+    public function index(Request $request, $client) #: View|RedirectResponse
     {
         try {
-            $params = $this->intangibleAssetService->transformParams($request->all());
-
-            $query = $this->intangibleAssetRepository->search($params, ['project.research_unit.administrative_unit'], []);
-
-            $total = $query->count();
-
-            $items = $this->intangibleAssetService->customPagination($query, $params, $request->get('page'), $total);
-
-            $links = $items->links('pagination.customized');
-
-            return view('client.pages.intangible_assets.index')
+            [$params, $total, $items, $links] = $this->intangibleAssetService->searchWithPagination($request->all(), $request->get('page'), ['intangible_asset_state', 'project.research_units']);
+            return view('client.pages.intangible_assets.index', compact('links'))
                 ->nest('filters', 'client.pages.intangible_assets.components.filters', compact('params', 'total'))
-                ->nest('table', 'client.pages.intangible_assets.components.table', compact('items', 'links'));
+                ->nest('table', 'client.pages.intangible_assets.components.table', compact('items'));
         } catch (\Exception $th) {
-            
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            dd($th->getMessage());
+            return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -188,7 +181,7 @@ class IntangibleAssetController extends Controller
 
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.update_success', ['intangible_asset' => $item->name])]);
         } catch (\Exception $th) {
-            
+
             DB::rollBack();
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.messages.update_error')]);
         }
