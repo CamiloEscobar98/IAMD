@@ -33,7 +33,7 @@ return [
 
     'projects' => 'Proyectos:',
     
-    'intangible_assets_state' => 'Estados',
+    'intangible_assets_state' => 'Estados del Activo:',
 
     'external_organizations' => 'Organizaciones Externas:',
 

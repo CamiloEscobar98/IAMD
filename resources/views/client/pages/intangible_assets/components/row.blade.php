@@ -11,7 +11,7 @@
         @endforelse
     </td>
     <td>{{ $item->name }}</td>
-    <td>{{ $item->intangible_asset_state->name }}</td>
+    <td>{{ getParamObject($item->intangible_asset_state, 'name', true) }}</td>
     <td>
         <div class="progress">
             <div class="progress-bar {{ getStatusBarColor($item->progressPhases()) }}" role="progressbar"

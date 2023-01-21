@@ -208,16 +208,13 @@ class ResearchUnit extends BaseModel
      */
     public function scopeByProject($query, $project)
     {
-        $table = $this->getTable();
-        $joinProjects = 'project_research_unit';
-
-        $query->join($joinProjects, "{$table}.id", "{$joinProjects}.research_unit_id");
+        $joinResearchUnitProject = 'project_research_unit';
 
         if (is_array($project) && !empty($project)) {
-            return $query->whereIn("{$joinProjects}.project_id", $project);
+            return $query->whereIn("{$joinResearchUnitProject}.project_id", $project);
         }
 
-        return $query->where("{$joinProjects}.project_id", $project);
+        return $query->where("{$joinResearchUnitProject}.project_id", $project);
     }
 
     /**

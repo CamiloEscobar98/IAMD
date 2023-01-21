@@ -124,27 +124,27 @@ class IntangibleAssetService extends AbstractServiceModel
     }
 
     /**
-     * @param array $data
-     * @param array $localizationData
+     * Store a new IntangibleAsset.
      * 
+     * @param array $data
      * @return array
      */
-    public function createIntangibleAsset(array $data, array $localizationData)
+    public function save(array $data): array
     {
+        $dataCollection = collect($data);
+        $data = $dataCollection->only(['project_id', 'name', 'date']);
+        $localizationData = $dataCollection->only(['localization', 'localization_code']);
+
         try {
-
             DB::beginTransaction();
-
+            /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $item */
             $item = $this->intangibleAssetRepository->create($data);
-
             $arrayDataLocaliztion = [
                 'intangible_asset_id' => $item->id,
                 'localization' => $localizationData['localization'],
                 'code' => $localizationData['localization_code'],
             ];
-
             $this->intangibleAssetLocalizationRepository->create($arrayDataLocaliztion);
-
             DB::commit();
             return [
                 'title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.save_success', ['intangible_asset' => $item->name])

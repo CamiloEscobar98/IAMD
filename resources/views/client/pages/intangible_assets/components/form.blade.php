@@ -1,52 +1,9 @@
-<!-- Administrative Unit -->
-<div class="form-group mt-3">
-    <label>{{ __('inputs.administrative_unit_id') }}:</label>
-    <div class="input-group">
-        <select name="administrative_unit_id" id="administrative_unit_id" class="form-control select2bs4"
-            onchange="changeAdministrativeUnit()">
-
-            @foreach ($administrativeUnits as $administrativeUnitId => $value)
-                <option value="{{ $administrativeUnitId }}"
-                    {{ twoOptionsIsEqual(old('administrative_unit_id', $item->administrative_unit_id), $administrativeUnitId) }}>
-                    {{ $value }}</option>
-            @endforeach
-        </select>
-        <div class="input-group-append">
-            <div class="input-group-text">
-                <span class="fas fa-university"></span>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- ./Administrative Unit -->
-
-<!-- Research Unit -->
-<div class="form-group mt-3">
-    <label>{{ __('inputs.research_unit_id') }}:</label>
-    <div class="input-group">
-        <select name="research_unit_id" id="research_unit_id" class="form-control select2bs4"
-            onchange="changeResearchUnit()">
-            @foreach ($researchUnits as $researchUnitId => $value)
-                <option value="{{ $researchUnitId }}"
-                    {{ twoOptionsIsEqual(old('research_unit_id', $item->research_unit_id), $researchUnitId) }}>
-                    {{ $value }}</option>
-            @endforeach
-        </select>
-        <div class="input-group-append">
-            <div class="input-group-text">
-                <span class="fas fa-microscope"></span>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- ./Research Unit -->
-
 <!-- Project -->
 <div class="form-group mt-3">
-    <label>{{ __('inputs.project_id') }}:</label>
+    <label>Proyecto:</label>
     <div class="input-group">
-        <select name="project_id" id="project_id"
-            class="form-control select2bs4 @error('project_id') is-invalid @enderror">
+        <select name="project_id" id="project_id" class="form-control select2bs4 @error('project_id') is-invalid @enderror"
+            onchange="changeProjectSelect()">
             @foreach ($projects as $projectId => $value)
                 <option value="{{ $projectId }}"
                     {{ twoOptionsIsEqual(old('project_id', $item->project_id), $projectId) }}>
@@ -65,6 +22,32 @@
     @enderror
 </div>
 <!-- ./Project -->
+
+<!-- Research Units -->
+<div class="form-group mt-3">
+    <label>Unidades Investigativas:</label>
+    <div class="input-group">
+        <select name="research_unit_id[]" id="research_unit_id"
+            class="form-control select2bs4 @error('research_unit_id') is-invalid @enderror" multiple>
+            @foreach ($researchUnits as $researchUnitId => $value)
+                <option value="{{ $researchUnitId }}"
+                    {{ optionInArray(old() ?: $item->research_units, 'research_unit_id', $researchUnitId) }}
+                    {{-- {{ twoOptionsIsEqual(old('project_id', $item->project_id), $researchUnitId) }} --}}>
+                    {{ $value }}</option>
+            @endforeach
+        </select>
+        <div class="input-group-append">
+            <div class="input-group-text">
+                <span class="fas fa-chalkboard-teacher"></span>
+            </div>
+        </div>
+    </div>
+
+    @error('research_unit_id')
+        <small class="text-danger">{!! $message !!}</small>
+    @enderror
+</div>
+<!-- ./Research Units -->
 
 <!-- Name -->
 <div class="form-group mt-3">

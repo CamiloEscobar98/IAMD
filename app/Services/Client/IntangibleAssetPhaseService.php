@@ -617,7 +617,7 @@ class IntangibleAssetPhaseService
                 DB::commit();
             } catch (\Exception $th) {
                 DB::rollBack();
-                $message = __('messages.syntax_error')
+                $message = __('messages.syntax_error');
                 $this->fileSessionRightContractService->deleteSessionRightContractFile($intangibleAsset);
 
                 // $message = __('pages.client.intangible_assets.phases.five.sub_phases.session_right_contract.messages.save_error');

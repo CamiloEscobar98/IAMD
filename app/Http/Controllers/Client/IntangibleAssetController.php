@@ -80,17 +80,12 @@ class IntangibleAssetController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  StoreRequest $request
+     * @param string $client
      * @return RedirectResponse
      */
-    public function store(StoreRequest $request): RedirectResponse
+    public function store(StoreRequest $request, $client): RedirectResponse
     {
-        $data = $request->only(['project_id', 'name', 'date']);
-
-        $localizationData = $request->only(['localization', 'localization_code']);
-
-        $response = $this->intangibleAssetService->createIntangibleAsset($data, $localizationData);
-
-        return redirect()->back()->with('alert', $response);
+        return redirect()->route('client.intangible_assets.create', $client)->with('alert', $this->intangibleAssetService->save($request->all()));
     }
 
     /**

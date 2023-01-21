@@ -53,7 +53,7 @@ return [
     'dpi_id' => 'Derecho de Propiedad Intelectual',
     'secret_protection_measure_id' => 'Medidas Secretas de Protección',
 
-    'project_id' => 'Proyectos',
+    'project_id' => 'Proyecto',
     'project_name' => 'Nombre del Proyecto',
 
     'is_internal' => 'Es para Creador Interno o Externo',

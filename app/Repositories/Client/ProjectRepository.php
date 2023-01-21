@@ -69,9 +69,7 @@ class ProjectRepository extends  AbstractRepository
         if (isset($withCount) && $withCount) {
             $query->withCount($withCount);
         }
-
-        // dd($query->toSql());
-
+        
         $joins->each(function ($item, $key) use ($query) {
             $item = json_decode($item, false);
             $query->join($key, $item->first, '=', $item->second, $item->join_type);
