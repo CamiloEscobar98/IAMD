@@ -21,7 +21,7 @@ class CreateIntangibleAssetComposer
     protected $projectRepository;
 
     /** @var ResearchUnitRepository */
-     protected $researchUnitRepository;
+    protected $researchUnitRepository;
 
     /** @var IntangibleAssetStateRepository */
     protected $intangibleAssetStateRepository;
@@ -49,18 +49,26 @@ class CreateIntangibleAssetComposer
     public function compose(View $view)
     {
         $projectId =  old('project_id');
+        $intangibleAssetId = (int)request('intangible_asset');
 
         $projects = $this->projectRepository->all();
 
-        if (!$projectId) {
-            $researchUnitsItems = collect();
+        if ($intangibleAssetId) {
+            $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAssetId);
+            $researchUnitsItems = $this->researchUnitRepository->search(['project_id' => $intangibleAsset->project_id])->get();
+            // dd($researchUnitsItems->toArray());
+            // dd($intangibleAsset->research_units->toArray());
         } else {
-            $researchUnitsItems = $this->researchUnitRepository->search(['project_id' => $projectId])->get();
+            if (!$projectId) {
+                $researchUnitsItems = collect();
+            } else {
+                $researchUnitsItems = $this->researchUnitRepository->search(['project_id' => $projectId])->get();
+            }
         }
 
         // dd($projectId);
 
-        $researchUnits = $researchUnitsItems->pluck('name', 'id')->prepend('---Seleccionar Unidades Investigativas');;
+        $researchUnits = $researchUnitsItems->pluck('name', 'id')->prepend('---Seleccionar Unidades Investigativas');
 
         $projects = $projects->pluck('name', 'id')->prepend('---Seleccionar Proyecto');
 

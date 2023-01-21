@@ -7,6 +7,7 @@ use App\Services\AbstractServiceModel;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Carbon;
 
 
@@ -132,13 +133,16 @@ class IntangibleAssetService extends AbstractServiceModel
     public function save(array $data): array
     {
         $dataCollection = collect($data);
-        $data = $dataCollection->only(['project_id', 'name', 'date']);
-        $localizationData = $dataCollection->only(['localization', 'localization_code']);
+        $data = $dataCollection->only(['project_id', 'name', 'date'])->toArray();
+        $localizationData = $dataCollection->only(['localization', 'localization_code'])->toArray();
+        $researchUnitIds = $dataCollection->get('research_unit_id');
 
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
         try {
             DB::beginTransaction();
             /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $item */
             $item = $this->intangibleAssetRepository->create($data);
+            $item->research_units()->sync($researchUnitIds);
             $arrayDataLocaliztion = [
                 'intangible_asset_id' => $item->id,
                 'localization' => $localizationData['localization'],
@@ -146,13 +150,49 @@ class IntangibleAssetService extends AbstractServiceModel
             ];
             $this->intangibleAssetLocalizationRepository->create($arrayDataLocaliztion);
             DB::commit();
-            return [
-                'title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.save_success', ['intangible_asset' => $item->name])
-            ];
-        } catch (\Exception $th) {
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+        } catch (QueryException $th) {
+            dd($th->getMessage());
             DB::rollBack();
-            return ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()];
         }
+        return $response;
+    }
+
+    /**
+     * Update an Intangible Asset.
+     * 
+     * @param array $data
+     * @param int $id
+     * @return array
+     */
+    public function update(array $data, int $id): array
+    {
+        $dataCollection = collect($data);
+        $data = $dataCollection->only(['project_id', 'name', 'date'])->toArray();
+        $localizationData = $dataCollection->only(['localization', 'localization_code'])->toArray();
+        $researchUnitIds = $dataCollection->get('research_unit_id');
+
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
+        try {
+            DB::beginTransaction();
+            /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $item */
+            $item = $this->intangibleAssetRepository->getById($id);
+            $this->intangibleAssetRepository->update($item, $data);
+            $item->research_units()->sync($researchUnitIds);
+            $arrayDataLocaliztion = [
+                'intangible_asset_id' => $item->id,
+                'localization' => $localizationData['localization'],
+                'code' => $localizationData['localization_code'],
+            ];
+            $intangibleAssetLocaliation = $this->intangibleAssetLocalizationRepository->getById($item->intangible_asset_localization->id);
+            $this->intangibleAssetLocalizationRepository->update($intangibleAssetLocaliation, $arrayDataLocaliztion);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+        } catch (QueryException $th) {
+            dd($th->getMessage());
+            DB::rollBack();
+        }
+        return $response;
     }
 
     /**

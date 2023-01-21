@@ -31,8 +31,7 @@
             class="form-control select2bs4 @error('research_unit_id') is-invalid @enderror" multiple>
             @foreach ($researchUnits as $researchUnitId => $value)
                 <option value="{{ $researchUnitId }}"
-                    {{ optionInArray(old() ?: $item->research_units, 'research_unit_id', $researchUnitId) }}
-                    {{-- {{ twoOptionsIsEqual(old('project_id', $item->project_id), $researchUnitId) }} --}}>
+                    {{ optionInArray(old() ?: $item->research_units, 'research_unit_id', $researchUnitId) }}>
                     {{ $value }}</option>
             @endforeach
         </select>

@@ -104,7 +104,6 @@ class IntangibleAssetController extends Controller
                 'intangible_asset_confidenciality_contract', 'creators', 'intangible_asset_session_right_contract', 'user_messages',
                 'secret_protection_measures', 'priority_tools'
             ]);
-
             return view('client.pages.intangible_assets.show', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
@@ -123,7 +122,6 @@ class IntangibleAssetController extends Controller
     {
         try {
             $item = $this->intangibleAssetRepository->getById($intangibleAsset);
-
             return view('client.pages.intangible_assets.edit', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
@@ -139,24 +137,9 @@ class IntangibleAssetController extends Controller
      * 
      * @return RedirectResponse
      */
-    public function update(UpdateRequest $request, $id, $intangibleAsset): RedirectResponse
+    public function update(UpdateRequest $request, $client, $intangibleAsset): RedirectResponse
     {
-        try {
-            $data = $request->only(['project_id', 'name']);
-
-            $item = $this->intangibleAssetRepository->getById($intangibleAsset);
-
-            DB::beginTransaction();
-
-            $this->intangibleAssetRepository->update($item, $data);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.update_success', ['intangible_asset' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.messages.update_error')]);
-        }
+        return redirect()->route('client.intangible_assets.edit', ['intangible_asset' => $intangibleAsset, 'client' => $client])->with('alert', $this->intangibleAssetService->update($request->all(), $intangibleAsset));
     }
 
     /**

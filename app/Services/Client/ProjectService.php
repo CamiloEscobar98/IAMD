@@ -117,7 +117,6 @@ class ProjectService extends AbstractServiceModel
             DB::commit();
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
         } catch (QueryException $th) {
-            dd($th->getMessage());
             DB::rollBack();
         }
         return $response;
