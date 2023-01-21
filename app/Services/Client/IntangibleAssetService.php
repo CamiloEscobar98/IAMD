@@ -169,7 +169,7 @@ class IntangibleAssetService extends AbstractServiceModel
         $projectFinancing = $this->projectFinancingRepository->getByProject($intangibleAsset->project_id)->first();
 
         /** @var \App\Models\Client\ResearchUnit $researchUnit */
-        $researchUnit = $this->researchUnitRepository->getByProject($intangibleAsset->project_id)->first();
+        $researchUnit = $this->researchUnitRepository->search(['project_id' => $intangibleAsset->project_id])->first();
 
         /** CodePart I */
         $financingTypeCode = $financingType->code;

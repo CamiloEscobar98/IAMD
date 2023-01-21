@@ -70,6 +70,16 @@ class IntangibleAsset extends BaseModel
     }
 
     /**
+     * Get the research units.
+     * 
+     * @return BelongsToMany
+     */
+    public function research_units(): BelongsToMany
+    {
+        return $this->belongsToMany(\App\Models\Client\ResearchUnit::class, 'intangible_asset_research_unit');
+    }
+
+    /**
      * @return BelongsTo
      */
     public function classification(): BelongsTo
