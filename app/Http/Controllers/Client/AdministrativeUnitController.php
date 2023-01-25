@@ -103,7 +103,7 @@ class AdministrativeUnitController extends Controller
             $item = $this->administrativeUnitRepository->getById($administrative_unit);
             return view('client.pages.administrative_units.show', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('client.administrative_units.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('client.administrative_units.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -120,7 +120,7 @@ class AdministrativeUnitController extends Controller
             $item = $this->administrativeUnitRepository->getById($administrative_unit);
             return view('client.pages.administrative_units.edit', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('client.administrative_units.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('client.administrative_units.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 

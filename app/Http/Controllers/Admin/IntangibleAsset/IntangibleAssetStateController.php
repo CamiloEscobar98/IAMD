@@ -63,7 +63,7 @@ class IntangibleAssetStateController extends Controller
             $item = $this->intangibleAssetStateRepository->newInstance();
             return view('admin.pages.intangible_assets.states.create', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -90,7 +90,7 @@ class IntangibleAssetStateController extends Controller
             $item = $this->intangibleAssetStateRepository->getById($id);
             return view('admin.pages.intangible_assets.states.show', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -106,7 +106,7 @@ class IntangibleAssetStateController extends Controller
             $item = $this->intangibleAssetStateRepository->getById($id);
             return view('admin.pages.intangible_assets.states.edit', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 

@@ -62,7 +62,7 @@ class AssignmentContractController extends Controller
             $item = $this->assignmentContractRepository->newInstance();
             return view('admin.pages.creators.assignment_contracts.create', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -106,7 +106,7 @@ class AssignmentContractController extends Controller
             return view('admin.pages.creators.assignment_contracts.edit', compact('item'))
                 ->nest('form', 'admin.pages.creators.assignment_contracts.components.form', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 

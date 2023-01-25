@@ -63,7 +63,7 @@ class PermissionController extends Controller
                 ->nest('filters', 'client.pages.permissions.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.permissions.components.table', compact('items', 'links'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 

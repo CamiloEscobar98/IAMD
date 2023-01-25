@@ -66,7 +66,7 @@ class IntellectualPropertyRightCategoryController extends Controller
             $item = $this->intellectualPropertyRightCategoryRepository->newInstance();
             return view('admin.pages.intellectual_property_rights.categories.create', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('admin.intellectual_property_rights.categories.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.intellectual_property_rights.categories.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -94,7 +94,7 @@ class IntellectualPropertyRightCategoryController extends Controller
             $item = $this->intellectualPropertyRightCategoryRepository->search(['id' => $id], [], ['intellectual_property_right_subcategories', 'intellectual_property_right_products'])->first();
             return view('admin.pages.intellectual_property_rights.categories.show', compact('item'));
         } catch (\Throwable $th) {
-            return redirect()->route('admin.intellectual_property_rights.categories.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.intellectual_property_rights.categories.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -110,7 +110,7 @@ class IntellectualPropertyRightCategoryController extends Controller
             $item = $this->intellectualPropertyRightCategoryRepository->getById($id);
             return view('admin.pages.intellectual_property_rights.categories.edit', compact('item'));
         } catch (\Throwable $th) {
-            return redirect()->route('admin.intellectual_property_rights.categories.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('admin.intellectual_property_rights.categories.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 

@@ -29,7 +29,7 @@ class ResearchUnitRepository extends  AbstractRepository
         $joinResearchUnitProject = 'project_research_unit';
 
         $query = $this->model
-            ->select();
+            ->select("{$table}.*");
 
         if (isset($params['id']) && $params['id']) {
             $query->byId($params['id']);

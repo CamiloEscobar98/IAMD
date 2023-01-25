@@ -55,19 +55,16 @@ class CreateIntangibleAssetComposer
 
         if ($intangibleAssetId) {
             $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAssetId);
-            $researchUnitsItems = $this->researchUnitRepository->search(['project_id' => $intangibleAsset->project_id])->get();
-            // dd($researchUnitsItems->toArray());
-            // dd($intangibleAsset->research_units->toArray());
+            $researchUnitsItems = $this->researchUnitRepository->search(['project_id' => $intangibleAsset->project_id])->get(['id', 'name']);
         } else {
             if (!$projectId) {
                 $researchUnitsItems = collect();
             } else {
-                $researchUnitsItems = $this->researchUnitRepository->search(['project_id' => $projectId])->get();
+                $researchUnitsItems = $this->researchUnitRepository->search(['project_id' => $projectId])->get(['id', 'name']);
             }
         }
 
-        // dd($projectId);
-
+        /** @var \Illuminate\Database\Eloquent\Collection $researchUnits */
         $researchUnits = $researchUnitsItems->pluck('name', 'id')->prepend('---Seleccionar Unidades Investigativas');
 
         $projects = $projects->pluck('name', 'id')->prepend('---Seleccionar Proyecto');

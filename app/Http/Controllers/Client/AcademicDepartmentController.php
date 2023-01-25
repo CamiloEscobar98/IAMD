@@ -100,7 +100,7 @@ class AcademicDepartmentController extends Controller
             $item = $this->academicDepartmentRepository->getById($academic_department);
             return view('client.pages.academic_departments.show', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('client.academic_departments.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('client.academic_departments.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -116,7 +116,7 @@ class AcademicDepartmentController extends Controller
             $item = $this->academicDepartmentRepository->getById($academic_department);
             return view('client.pages.academic_departments.edit', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('client.academic_departments.show', ['academic_department' => $academic_department, 'client' => $client])->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('client.academic_departments.show', ['academic_department' => $academic_department, 'client' => $client])->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 

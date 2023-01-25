@@ -78,7 +78,7 @@ class CreatorExternalController extends Controller
                 ->nest('filters', 'client.pages.creators.external.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.creators.external.components.table', compact('items', 'links'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -93,7 +93,7 @@ class CreatorExternalController extends Controller
             $item = $this->creatorExternalRepository->newInstance();
             return view('client.pages.creators.external.create', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -126,7 +126,7 @@ class CreatorExternalController extends Controller
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.external.messages.save_success', ['creator_external' => $creator->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -149,7 +149,7 @@ class CreatorExternalController extends Controller
             return view('client.pages.creators.external.show', compact('item'));
         } catch (\Exception $th) {
             
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -171,7 +171,7 @@ class CreatorExternalController extends Controller
 
             return view('client.pages.creators.external.edit', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -215,7 +215,7 @@ class CreatorExternalController extends Controller
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.creators.external.messages.update_success', ['creator_external' => $creator->name])]);
         } catch (\Exception $th) {
             DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 

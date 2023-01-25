@@ -82,7 +82,7 @@ class ProjectController extends Controller
             $item = $this->projectRepository->newInstance();
             return view('client.pages.projects.create', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -112,7 +112,7 @@ class ProjectController extends Controller
             $item = $this->projectRepository->getByIdWithRelations($project, ['director', 'research_units', 'intangible_assets', 'project_financings', 'contract_type']);
             return view('client.pages.projects.show', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -130,7 +130,7 @@ class ProjectController extends Controller
             $item = $this->projectRepository->getByIdWithRelations($project, ['director', 'research_units', 'intangible_assets', 'project_financings', 'contract_type']);
             return view('client.pages.projects.edit', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 

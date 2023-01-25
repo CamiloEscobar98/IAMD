@@ -196,6 +196,25 @@ class IntangibleAssetService extends AbstractServiceModel
     }
 
     /**
+     * @param int $id
+     * @return array
+     */
+    public function updateCode(int $id): array
+    {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.messages.update_error')];
+        try {
+            $item = $this->intangibleAssetRepository->getById($id);
+
+            $this->generateCodeOfIntangibleAsset($item);
+
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.update_success', ['intangible_asset' => $item->name])];
+        } catch (\Exception $th) {
+            DB::rollBack();
+        }
+        return $response;
+    }
+
+    /**
      * @param IntangibleAsset $intangibleAsset
      * 
      * @return void
