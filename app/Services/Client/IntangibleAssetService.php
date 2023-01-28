@@ -184,7 +184,7 @@ class IntangibleAssetService extends AbstractServiceModel
                 'localization' => $localizationData['localization'],
                 'code' => $localizationData['localization_code'],
             ];
-            $intangibleAssetLocaliation = $this->intangibleAssetLocalizationRepository->getById($item->intangible_asset_localization->id);
+            $intangibleAssetLocaliation = $item->intangible_asset_localization;
             $this->intangibleAssetLocalizationRepository->update($intangibleAssetLocaliation, $arrayDataLocaliztion);
             DB::commit();
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];

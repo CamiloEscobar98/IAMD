@@ -87,6 +87,18 @@
                 </div>
                 <!-- ./Project -->
 
+                <!-- Research Units -->
+                <div class="form-group mt-3">
+                    <label>Unidades Investigantivas:</label>
+                    <p>
+                        @foreach ($item->research_units as $researchUnit)
+                            <a href="{{ getClientRoute('client.projects.show', [$researchUnit->id]) }}"
+                                class="btn btn-sm btn-outline-secondary">{{ $researchUnit->name }}</a>
+                        @endforeach
+                    </p>
+                </div>
+                <!-- ./Research Units -->
+
                 <!-- Contract Date -->
                 <div class="form-group mt-3">
                     <label>{{ __('inputs.intangible_asset_date') }}</label>

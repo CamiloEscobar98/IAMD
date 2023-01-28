@@ -102,7 +102,7 @@ class IntangibleAssetController extends Controller
             $item = $this->intangibleAssetRepository->getByIdWithRelations($intangibleAsset, [
                 'intangible_asset_phases', 'dpis.dpi', 'intangible_asset_published', 'intangible_asset_localization',
                 'intangible_asset_confidenciality_contract', 'creators', 'intangible_asset_session_right_contract', 'user_messages',
-                'secret_protection_measures', 'priority_tools'
+                'secret_protection_measures:id,name', 'priority_tools', 'research_units:id,name'
             ]);
             return view('client.pages.intangible_assets.show', compact('item'));
         } catch (\Exception $th) {
@@ -119,10 +119,10 @@ class IntangibleAssetController extends Controller
      * 
      * @return RedirectResponse|View
      */
-    public function edit($client, $intangibleAsset, Request $request): RedirectResponse|View
+    public function edit($client, $intangibleAsset, Request $request)#: RedirectResponse|View
     {
         try {
-            $item = $this->intangibleAssetRepository->getById($intangibleAsset);
+            $item = $this->intangibleAssetRepository->getByIdWithRelations($intangibleAsset, ['research_units:id,name']);
             return view('client.pages.intangible_assets.edit', compact('item'));
         } catch (\Exception $th) {
             return redirect()->route('client.intangible_assets.index')
