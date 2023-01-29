@@ -28,8 +28,9 @@ class CityRepository extends AbstractRepository
      */
     public function search(array $params = [], array $with = [],  array $withCount = [], $stateId = null)
     {
+        $joins = collect();
+        $table = $this->model->getTable();
         $joinState = 'states';
-
         $query = $this->model
             ->select();
 
@@ -54,7 +55,7 @@ class CityRepository extends AbstractRepository
         }
 
         if (isset($params['country_id']) && $params['country_id']) {
-            $query->join('states', "{$joinState}.id", "{$this->model->getTable()}.state_id");
+            $this->addJoin($joins, $joinState, "{$joinState}.id", "{$table}.state_id");
             $query->ofCountry($params['country_id']);
         }
 
@@ -81,6 +82,11 @@ class CityRepository extends AbstractRepository
             $query->withCount($withCount);
         }
 
+        $joins->each(function ($item, $key) use ($query) {
+            $item = json_decode($item, false);
+            $query->join($key, $item->first, '=', $item->second, $item->join_type);
+        });
+
         return $query;
     }
 
@@ -99,6 +105,14 @@ class CityRepository extends AbstractRepository
      */
     public function getByCreator($creatorId)
     {
-        return $this->model->ofCreator($creatorId);
+        $client = request('client');
+        $joinCreatorDocument = "{$client}.creator_documents";
+        $table =  $this->model->getTable();
+        $query = $this->model
+            ->select();
+
+        $query->join($joinCreatorDocument, "{$joinCreatorDocument}.expedition_place_id", "{$table}.id");
+        $query->ofCreator($creatorId);
+        return $query;
     }
 }

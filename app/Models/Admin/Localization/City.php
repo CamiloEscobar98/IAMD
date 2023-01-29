@@ -95,7 +95,7 @@ class City extends BaseModel
     {
         $joinState = "states";
         if (is_array($countryId) && !empty($countryId)) {
-            return $query->whereIn("{$joinState}.country_id",$countryId);
+            return $query->whereIn("{$joinState}.country_id", $countryId);
         }
         return $query->where("{$joinState}.country_id", $countryId);
     }
@@ -114,5 +114,21 @@ class City extends BaseModel
             return $query->whereIn($stateId);
         }
         return $query->where("{$this->getTable()}.state_id", $stateId);
+    }
+
+    /**
+     * Scope a query to only include Creator
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $creatorId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfCreator($query, $creatorId)
+    {
+        $joinCreatorDocument = "creator_documents";
+        if (is_array($creatorId) && !empty($creatorId)) {
+            return $query->whereIn("{$joinCreatorDocument}.creator_id", $creatorId);
+        }
+        return $query->where("{$joinCreatorDocument}.creator_id", $creatorId);
     }
 }

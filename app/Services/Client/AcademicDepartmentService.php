@@ -2,12 +2,12 @@
 
 namespace App\Services\Client;
 
-use App\Repositories\Client\AcademicDepartmentRepository;
+use App\Services\AbstractServiceModel;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-use App\Services\AbstractServiceModel;
+use App\Repositories\Client\AcademicDepartmentRepository;
 
 class AcademicDepartmentService extends AbstractServiceModel
 {
@@ -82,7 +82,7 @@ class AcademicDepartmentService extends AbstractServiceModel
     }
 
     /**
-     * Search Administrative Units with a Pagination.
+     * Search Academic Departaments with a Pagination.
      * @param array $data
      * @param int $page
      * @param array $with
