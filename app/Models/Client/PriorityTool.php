@@ -18,11 +18,10 @@ class PriorityTool extends BaseModel
     /**
      * Get the Description Table
      *
-     * @param  string  $value
      * @return string
      */
-    public function getDescriptionTableAttribute($value)
+    public function getDescriptionTableAttribute()
     {
-        return $this->description ?? __('inputs.empty');
+        return $this->getAttribute('description') ?? __('inputs.empty');
     }
 }

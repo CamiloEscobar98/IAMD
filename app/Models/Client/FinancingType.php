@@ -16,6 +16,19 @@ class FinancingType extends BaseModel
     protected $fillable = ['name', 'code'];
 
     /**
+     * Scope a query to only include Name
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $name
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByName($query, string $name)
+    {
+        $query->where("{$this->getTable()}.name", 'like', "%{$name}%");
+    }
+
+    /**
      * Scope a query to only include Project
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
@@ -23,15 +36,40 @@ class FinancingType extends BaseModel
      */
     public function scopeByProject($query, $project)
     {
-        $table = $this->getTable();
         $joinProjectFinancing = 'project_financing';
 
-        $query->join($joinProjectFinancing, "{$table}.id", "{$joinProjectFinancing}.financing_type_id");
+        $query->join($joinProjectFinancing, "{$this->getTable()}.id", "{$joinProjectFinancing}.financing_type_id");
 
         if (is_array($project) && !empty($project)) {
             return $query->whereIn("{$joinProjectFinancing}.project_id", $project);
         }
 
         return $query->where("{$joinProjectFinancing}.project_id", $project);
+    }
+
+    /**
+     * Scope a query to only include Date From
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $dateFrom
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSinceDate($query, string $dateFrom)
+    {
+        $query->where("{$this->getTable()}.updated_at", '>=', $dateFrom);
+    }
+
+    /**
+     * Scope a query to only include Date To
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $dateTo
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeToDate($query, string $dateTo)
+    {
+        $query->where("{$this->getTable()}.updated_at", '<=', $dateTo);
     }
 }

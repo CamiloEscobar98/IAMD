@@ -162,10 +162,10 @@ class IntangibleAssetService extends AbstractServiceModel
      * Update an Intangible Asset.
      * 
      * @param array $data
-     * @param int $id
+     * @param mixed $id
      * @return array
      */
-    public function update(array $data, int $id): array
+    public function update(array $data, $id): array
     {
         $dataCollection = collect($data);
         $data = $dataCollection->only(['project_id', 'name', 'date'])->toArray();
@@ -222,7 +222,7 @@ class IntangibleAssetService extends AbstractServiceModel
     public function generateCodeOfIntangibleAsset($intangibleAsset)
     {
         /** @var \App\Models\Client\FinancingType $financingType */
-        $financingType = $this->financingTypeRepository->getByProject($intangibleAsset->project_id)->first();
+        $financingType = $this->financingTypeRepository->search(['project_id' => $intangibleAsset->project_id])->first();
 
         /** @var \App\Models\Client\Project\ProjectFinancing $projectFinancing */
         $projectFinancing = $this->projectFinancingRepository->getByProject($intangibleAsset->project_id)->first();

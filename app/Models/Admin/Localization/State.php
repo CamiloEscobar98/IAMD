@@ -56,7 +56,7 @@ class State extends BaseModel
      */
     public function scopeByName($query, string $name)
     {
-        $query->where('name', 'like', "%{$name}%");
+        $query->where("{$this->getTable()}.name", 'like', "%{$name}%");
     }
 
     /**
@@ -69,7 +69,7 @@ class State extends BaseModel
      */
     public function scopeSinceDate($query, string $dateFrom)
     {
-        $query->where('updated_at', '>=', $dateFrom);
+        $query->where("{$this->getTable()}.updated_at", '>=', $dateFrom);
     }
 
     /**
@@ -82,7 +82,7 @@ class State extends BaseModel
      */
     public function scopeToDate($query, string $dateTo)
     {
-        $query->where('updated_at', '<=', $dateTo);
+        $query->where("{$this->getTable()}.updated_at", '<=', $dateTo);
     }
 
     /**
@@ -96,6 +96,6 @@ class State extends BaseModel
         if (is_array($countryId) && !empty($countryId)) {
             return $query->whereIn($countryId);
         }
-        return $query->where('country_id', $countryId);
+        return $query->where("{$this->getTable()}.country_id", $countryId);
     }
 }

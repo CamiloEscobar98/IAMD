@@ -38,7 +38,7 @@ class ResearchUnit extends BaseModel
      */
     public function setCodeAttribute($value)
     {
-        return $this->attributes['code'] = Str::upper($value);
+        return $this->setAttribute('code', Str::upper($value));
     }
 
     /**
@@ -101,7 +101,7 @@ class ResearchUnit extends BaseModel
      */
     public function scopeById($query, int $id)
     {
-        return $query->where('id', $id);
+        return $query->where("{$this->getTable()}.id", $id);
     }
 
     /**
@@ -114,7 +114,7 @@ class ResearchUnit extends BaseModel
      */
     public function scopeByName($query, string $name)
     {
-        $query->where('name', 'like', "%{$name}%");
+        $query->where("{$this->getTable()}.name", 'like', "%{$name}%");
     }
 
     /**
@@ -127,7 +127,7 @@ class ResearchUnit extends BaseModel
      */
     public function scopeByCode($query, string $code)
     {
-        return $query->where('code', $code);
+        return $query->where("{$this->getTable()}.code", $code);
     }
 
     /**
@@ -141,10 +141,10 @@ class ResearchUnit extends BaseModel
     public function scopeByAdministrativeUnit($query, array|string $administrativeUnit)
     {
         if (is_array($administrativeUnit) && !empty($administrativeUnit)) {
-            return $query->whereIn('administrative_unit_id', $administrativeUnit);
+            return $query->whereIn("{$this->getTable()}.administrative_unit_id", $administrativeUnit);
         }
 
-        return $query->where('administrative_unit_id', $administrativeUnit);
+        return $query->where("{$this->getTable()}.administrative_unit_id", $administrativeUnit);
     }
 
     /**
@@ -158,10 +158,10 @@ class ResearchUnit extends BaseModel
     public function scopeByResearchUnitCategory($query, array|string $researchUnitCategory)
     {
         if (is_array($researchUnitCategory) && !empty($researchUnitCategory)) {
-            return $query->whereIn('research_unit_category_id', $researchUnitCategory);
+            return $query->whereIn("{$this->getTable()}.research_unit_category_id", $researchUnitCategory);
         }
 
-        return $query->where('research_unit_category_id', $researchUnitCategory);
+        return $query->where("{$this->getTable()}.research_unit_category_id", $researchUnitCategory);
     }
 
     /**
@@ -175,10 +175,10 @@ class ResearchUnit extends BaseModel
     public function scopeByDirector($query, $director)
     {
         if (is_array($director) && !empty($director)) {
-            return $query->whereIn('director_id', $director);
+            return $query->whereIn("{$this->getTable()}.director_id", $director);
         }
 
-        return $query->where('director_id', $director);
+        return $query->where("{$this->getTable()}.director_id", $director);
     }
 
     /**
@@ -192,10 +192,10 @@ class ResearchUnit extends BaseModel
     public function scopeByInventoryManager($query, $inventoryManager)
     {
         if (is_array($inventoryManager) && !empty($inventoryManager)) {
-            return $query->whereIn('inventory_manager_id', $inventoryManager);
+            return $query->whereIn("{$this->getTable()}.inventory_manager_id", $inventoryManager);
         }
 
-        return $query->where('inventory_manager_id', $inventoryManager);
+        return $query->where("{$this->getTable()}.inventory_manager_id", $inventoryManager);
     }
 
     /**
@@ -209,7 +209,6 @@ class ResearchUnit extends BaseModel
     public function scopeByProject($query, $project)
     {
         $joinResearchUnitProject = 'project_research_unit';
-
         if (is_array($project) && !empty($project)) {
             return $query->whereIn("{$joinResearchUnitProject}.project_id", $project);
         }
@@ -227,7 +226,7 @@ class ResearchUnit extends BaseModel
      */
     public function scopeSinceDate($query, string $dateFrom)
     {
-        $query->where('updated_at', '>=', $dateFrom);
+        $query->where("{$this->getTable()}.updated_at", '>=', $dateFrom);
     }
 
     /**
@@ -240,7 +239,7 @@ class ResearchUnit extends BaseModel
      */
     public function scopeToDate($query, string $dateTo)
     {
-        $query->where('updated_at', '<=', $dateTo);
+        $query->where("{$this->getTable()}.updated_at", '<=', $dateTo);
     }
 
     /**

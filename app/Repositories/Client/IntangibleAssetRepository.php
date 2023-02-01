@@ -61,7 +61,7 @@ class IntangibleAssetRepository extends AbstractRepository
         if (isset($withCount) && $withCount) {
             $query->withCount($withCount);
         }
-        
+
         $query->orderBy('date');
 
         return $query;
@@ -69,7 +69,10 @@ class IntangibleAssetRepository extends AbstractRepository
 
     public function searchForReport(array $params = [], array $with = [], array $withCount = [], array $select = [])
     {
-        $query = $this->model->select($select);
+        $joins = collect();
+
+        $query = $this->model
+            ->select($select);
 
         if (isset($params['id']) && $params['id']) {
             $query->byId($params['id']);
@@ -82,10 +85,6 @@ class IntangibleAssetRepository extends AbstractRepository
         if (isset($params['code']) && $params['code']) {
             $query->byCode($params['code']);
         }
-
-        // if (isset($params['intellectual_property_right_product_id']) && $params['intellectual_property_right_product_id'] > 0) {
-        //     $query->byClassification($params['intellectual_property_right_product_id']);
-        // }   
 
         if (isset($params['administrative_unit_id']) && $params['administrative_unit_id'] && isset($params['research_unit_id']) && $params['research_unit_id'] == 0) {
             $query->byAdministrativeUnit($params['administrative_unit_id']);
@@ -108,6 +107,8 @@ class IntangibleAssetRepository extends AbstractRepository
         }
 
         if (isset($params['phases']) && $params['phases']) {
+            $joinPhases = 'intangible_asset_phases';
+            $this->addJoin($joins, $joinPhases, "{$this->model->getTable()}.id", "{$joinPhases}.intangible_asset_id");
             $query->byPhases($params['phases']);
         }
 
@@ -129,7 +130,10 @@ class IntangibleAssetRepository extends AbstractRepository
 
         $query->orderBy('date');
 
-        // dd($query->toSql());
+        $joins->each(function ($item, $key) use ($query) {
+            $item = json_decode($item, false);
+            $query->join($key, $item->first, '=', $item->second, $item->join_type);
+        });
 
         return $query;
     }

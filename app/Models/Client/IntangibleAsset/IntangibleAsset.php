@@ -14,14 +14,16 @@ use Illuminate\Support\Str;
 
 use App\Traits\Client\IntangibleAsset\HasPhases;
 
+use App\Observers\IntangibleAssetObserver;
+
 use App\Models\Admin\IntangibleAssetState;
 use App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightProduct;
+
+use App\Models\Client\User;
 use App\Models\Client\Creator\Creator;
 use App\Models\Client\Project\Project;
-use App\Models\Client\User;
 use App\Models\Client\SecretProtectionMeasure;
 use App\Models\Client\IntangibleAsset\IntangibleAssetDPI;
-use App\Observers\IntangibleAssetObserver;
 
 class IntangibleAsset extends BaseModel
 {
@@ -35,7 +37,6 @@ class IntangibleAsset extends BaseModel
     protected static function boot()
     {
         parent::boot();
-
         IntangibleAsset::observe(IntangibleAssetObserver::class);
     }
 
@@ -337,17 +338,11 @@ class IntangibleAsset extends BaseModel
      */
     public function scopeByPhases($query, $phase)
     {
-        $table = $this->getTable();
-        $joinPhases = 'intangible_asset_phases';
-
-        $query->join($joinPhases, "{$table}.id", "{$joinPhases}.intangible_asset_id");
-
-
         if (is_array($phase) && !empty($phase)) {
             $phasesQuery = (array) getPhasesByNumber($phase, true);
             return $query->where($phasesQuery);
         }
-
+        
         return $query->where("{$this->getTable()}.phase_id", $phase);
     }
 

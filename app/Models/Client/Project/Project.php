@@ -102,8 +102,7 @@ class Project extends BaseModel
      */
     public function scopeById($query, int $id)
     {
-        $table = $this->getTable();
-        return $query->where("{$table}.id", $id);
+        return $query->where("{$this->getTable()}.id", $id);
     }
 
     /**
@@ -116,8 +115,7 @@ class Project extends BaseModel
      */
     public function scopeByName($query, string $name)
     {
-        $table = $this->getTable();
-        $query->where("{$table}.name", 'like', "%{$name}%");
+        $query->where("{$this->getTable()}.name", 'like', "%{$name}%");
     }
 
     /**
@@ -131,7 +129,6 @@ class Project extends BaseModel
     public function scopeByResearchUnit($query, $researchUnit)
     {
         $joinResearchUnitProject = 'project_research_unit';
-
         if (is_array($researchUnit) && !empty($researchUnit)) {
             return $query->whereIn("{$joinResearchUnitProject}.research_unit_id", $researchUnit);
         }
@@ -147,7 +144,6 @@ class Project extends BaseModel
     public function scopeByAdministrativeUnit($query, $administrativeUnit)
     {
         $joinResearchUnit = 'research_units';
-
         if (is_array($administrativeUnit) && !empty($administrativeUnit)) {
             return $query->whereIn("{$joinResearchUnit}.administrative_unit_id", $administrativeUnit);
         }
@@ -181,7 +177,7 @@ class Project extends BaseModel
      */
     public function scopeSinceDate($query, string $dateFrom)
     {
-        $query->where('updated_at', '>=', $dateFrom);
+        $query->where("{$this->getTable()}.updated_at", '>=', $dateFrom);
     }
 
     /**
@@ -194,6 +190,6 @@ class Project extends BaseModel
      */
     public function scopeToDate($query, string $dateTo)
     {
-        $query->where('updated_at', '<=', $dateTo);
+        $query->where("{$this->getTable()}.updated_at", '<=', $dateTo);
     }
 }

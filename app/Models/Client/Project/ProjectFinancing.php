@@ -64,6 +64,6 @@ class ProjectFinancing extends BaseModel
      */
     public function scopeByProject($query, $projectId)
     {
-        return $query->where('project_id', $projectId);
+        return $query->where("{$this->getTable()}.project_id", $projectId);
     }
 }
