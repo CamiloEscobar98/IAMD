@@ -63,7 +63,6 @@ abstract class AbstractServiceModel
     public function delete(mixed $id): array
     {
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
-
         try {
             DB::beginTransaction();
             $item = $this->repository->getById($id);
@@ -71,7 +70,6 @@ abstract class AbstractServiceModel
             DB::commit();
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
         } catch (QueryException $th) {
-            dd($th->getMessage());
             DB::rollBack();
         }
         return $response;
