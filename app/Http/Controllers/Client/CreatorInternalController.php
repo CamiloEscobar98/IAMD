@@ -107,8 +107,7 @@ class CreatorInternalController extends Controller
             ], 'creator_id');
             return view('client.pages.creators.internal.show', compact('item'));
         } catch (\Exception $th) {
-
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('client.creators.internal.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -130,7 +129,7 @@ class CreatorInternalController extends Controller
 
             return view('client.pages.creators.internal.edit', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('client.creators.internal.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 

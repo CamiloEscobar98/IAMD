@@ -57,20 +57,21 @@ abstract class AbstractServiceModel
 
     /**
      * Delete a resource.
-     * @param int $documentTypeId
+     * @param mixed $id
      * @return array
      */
-    public function delete(int $documentTypeId): array
+    public function delete(mixed $id): array
     {
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
 
         try {
             DB::beginTransaction();
-            $item = $this->repository->getById($documentTypeId);
+            $item = $this->repository->getById($id);
             $this->repository->delete($item);
             DB::commit();
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
         } catch (QueryException $th) {
+            dd($th->getMessage());
             DB::rollBack();
         }
         return $response;

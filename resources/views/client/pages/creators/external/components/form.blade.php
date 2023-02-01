@@ -16,6 +16,7 @@
       @enderror
   </div>
   <!-- ./Name -->
+
   <!-- Email -->
   <div class="form-group">
       <label>{{ __('inputs.email') }}:</label>
@@ -107,7 +108,6 @@
       </div>
   </div>
 
-
   <!--Expedition Place -->
   <div class="row">
       <div class="col-lg-4">
@@ -189,7 +189,7 @@
                       class="form-control select2bs4 @error('external_organization_id') is-invalid @enderror">
                       @foreach ($externalOrganizations as $externalOrganization => $value)
                           <option value="{{ $externalOrganization }}"
-                              {{ twoOptionsIsEqual(old('external_organization_id'), $externalOrganization) }}>
+                              {{ twoOptionsIsEqual(old('external_organization_id', $item->external_organization_id), $externalOrganization) }}>
                               {{ $value }}</option>
                       @endforeach
                   </select>
