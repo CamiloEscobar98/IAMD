@@ -126,10 +126,10 @@ class ProjectService extends AbstractServiceModel
      * Update a resource.
      * 
      * @param array $data
-     * @param int $id
+     * @param mixed $id
      * @return array
      */
-    public function update(array $data, int $id): array
+    public function update(array $data, mixed $id): array
     {
         $data = collect($data);
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
