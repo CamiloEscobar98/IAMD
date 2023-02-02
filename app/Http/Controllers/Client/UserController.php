@@ -14,7 +14,6 @@ use App\Http\Requests\Client\Users\UpdateRequest;
 use App\Services\Client\UserService;
 
 use App\Repositories\Client\UserRepository;
-use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -48,29 +47,18 @@ class UserController extends Controller
      * Display a listing of the resource.
      * 
      * @param Request $request
-     *
+     * @param string $client
      * @return View|RedirectResponse
      */
-    public function index(Request $request): View|RedirectResponse
+    public function index(Request $request, $client): View|RedirectResponse
     {
         try {
-
-            $params = $this->userService->transformParams($request->all());
-            $params['except_auth_user'] = true;
-
-            $query = $this->userRepository->search($params, ['roles:id,info'], []);
-
-            $total = $query->count();
-
-            $items = $this->userService->customPagination($query, $params, $request->get('page'), $total);
-
-            $links = $items->links('pagination.customized');
-
-            return view('client.pages.users.index')
+            [$params, $total, $items, $links] = $this->userService->searchWithPagination($request->all(), $request->get('page'), ['roles:id,info'], []);
+            return view('client.pages.users.index', compact('links'))
                 ->nest('filters', 'client.pages.users.components.filters', compact('params', 'total'))
-                ->nest('table', 'client.pages.users.components.table', compact('items', 'links'));
+                ->nest('table', 'client.pages.users.components.table', compact('items'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -93,44 +81,26 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  StoreRequest
-     * 
+     * @param string $client
      * @return RedirectResponse
      */
-    public function store(StoreRequest $request): RedirectResponse
+    public function store(StoreRequest $request, $client): RedirectResponse
     {
-        try {
-            $data = $request->only('name', 'email', 'password');
-
-            DB::beginTransaction();
-
-            /** @var \App\Models\Client\User $item */
-            $item = $this->userRepository->create($data);
-
-            $role = $request->get('role_id');
-
-            $item->assignRole($role);
-
-            DB::commit();
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.users.messages.save_success', ['user' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.users.messages.save_error')]);
-        }
+        return redirect()->route('client.users.create', $client)->with('alert', $this->userService->save($request->all()));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $client
      * @param int $user
      * 
      * @return View|RedirectResponse
      */
-    public function show($id, $user)
+    public function show($client, $user)
     {
         try {
             $item = $this->userRepository->getById($user);
-
             return view('client.pages.users.show', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
@@ -140,16 +110,15 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $client
      * @param int $user
      * 
      * @return View|RedirectResponse
      */
-    public function edit($id, $user)
+    public function edit($client, $user)
     {
         try {
             $item = $this->userRepository->getById($user);
-
             return view('client.pages.users.edit', compact('item'));
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
@@ -160,71 +129,25 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  UpdateRequest $request
-     * @param  int  $id
-     * 
+     * @param string $client
      * @return View|RedirectResponse
      */
-    public function update(UpdateRequest $request, $id, $user)
+    public function update(UpdateRequest $request, $client, $user)
     {
-        try {
-            $data = [];
-
-            $attributesRequest = is_null($request->get('password')) ? ['name', 'email', 'role_id'] : ['name', 'email', 'role_id', 'password'];
-
-            $data = $request->only($attributesRequest);
-
-            $item = $this->userRepository->getById($user);
-
-            DB::beginTransaction();
-
-            $this->userRepository->update($item, $data);
-
-            $role = $request->get('role_id');
-
-            /** @var \App\Models\Client\User $item */
-            $item->syncRoles($role);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.users.messages.update_success', ['user' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.users.messages.update_error')]);
-        }
+        return redirect()->route('client.users.edit', ['user' => $user, 'client' => $client])
+            ->with('alert', $this->userService->update($request->all(), $user));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  string  $client
      * @param int $user
      * 
      * @return RedirectResponse
      */
-    public function destroy($id, $user) #: RedirectResponse
+    public function destroy($client, $user) #: RedirectResponse
     {
-        try {
-            $item = $this->userRepository->getById($user);
-
-            DB::beginTransaction();
-
-            $this->userRepository->delete($item);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.users.messages.delete_success')]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            $message = '';
-            switch ($th->getCode()) {
-                case 23000:
-                    $message = __('messages.status_code.23000');
-                    break;
-
-                default:
-                    $message = __('messages.delete_error');
-                    break;
-            }
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
-        }
+        return redirect()->route('client.users.index', $client)->with('alert', $this->userService->delete($user));
     }
 }

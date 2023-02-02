@@ -27,7 +27,7 @@ class FinancingTypeRepository  extends AbstractRepository
         $joinProjectFinancing = 'project_financing';
 
         $query = $this->model
-            ->select();
+            ->select("{$this->model->getTable()}.*");
 
         if (isset($params['name']) && $params['name']) {
             $query->byName($params['name']);

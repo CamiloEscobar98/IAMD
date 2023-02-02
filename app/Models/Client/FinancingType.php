@@ -38,8 +38,6 @@ class FinancingType extends BaseModel
     {
         $joinProjectFinancing = 'project_financing';
 
-        $query->join($joinProjectFinancing, "{$this->getTable()}.id", "{$joinProjectFinancing}.financing_type_id");
-
         if (is_array($project) && !empty($project)) {
             return $query->whereIn("{$joinProjectFinancing}.project_id", $project);
         }

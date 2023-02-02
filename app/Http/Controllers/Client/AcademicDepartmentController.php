@@ -107,7 +107,7 @@ class AcademicDepartmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $client
+     * @param  string  $client
      * @return View|RedirectResponse
      */
     public function edit($client, $academic_department, Request $request): View|RedirectResponse
@@ -124,7 +124,7 @@ class AcademicDepartmentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $client
+     * @param  string  $client
      * @return RedirectResponse
      */
     public function update(UpdateRequest $request, $client, $academic_department): RedirectResponse
@@ -135,7 +135,7 @@ class AcademicDepartmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $client
+     * @param  string  $client
      * @return RedirectResponse
      */
     public function destroy($client, $academic_department): RedirectResponse

@@ -223,10 +223,7 @@ class IntangibleAssetService extends AbstractServiceModel
     {
         /** @var \App\Models\Client\FinancingType $financingType */
         $financingType = $this->financingTypeRepository->search(['project_id' => $intangibleAsset->project_id])->first();
-
-        /** @var \App\Models\Client\Project\ProjectFinancing $projectFinancing */
-        $projectFinancing = $this->projectFinancingRepository->getByProject($intangibleAsset->project_id)->first();
-
+        
         /** @var \App\Models\Client\ResearchUnit $researchUnit */
         $researchUnit = $this->researchUnitRepository->search(['project_id' => $intangibleAsset->project_id])->first();
 
@@ -237,7 +234,7 @@ class IntangibleAssetService extends AbstractServiceModel
         $researchUnitCode = $researchUnit->code;
 
         /** CodePart III */
-        $year = (new Carbon($projectFinancing->date))->year;
+        $year = (new Carbon($intangibleAsset->project->date))->year;
 
         /** CodePart IV */
         $projectContractType = $this->projectContractTypeRepository->getById($intangibleAsset->project->project_contract_type_id);

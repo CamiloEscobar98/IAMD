@@ -38,7 +38,7 @@ class ResearchUnit extends BaseModel
      */
     public function setCodeAttribute($value)
     {
-        return $this->setAttribute('code', Str::upper($value));
+        return $this->attributes['code'] = Str::upper($value);
     }
 
     /**
