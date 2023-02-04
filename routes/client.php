@@ -197,8 +197,6 @@ Route::name('roles.')->prefix('roles-del-sistema')->group(function () {
     Route::get('{role}/editar', [RoleController::class, 'edit'])->name('edit');
     Route::put('{role}', [RoleController::class, 'update'])->name('update');
     Route::delete('{role}', [RoleController::class, 'destroy'])->name('destroy');
-
-    Route::put('{role}/actualizar-permisos', [RoleController::class, 'updatePermissions'])->name('update_permissions');
 });
 
 Route::name('permissions.')->prefix('permisos-del-sistema')->group(function () {

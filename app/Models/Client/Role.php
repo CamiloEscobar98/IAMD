@@ -28,9 +28,9 @@ class Role extends BaseModel implements RoleContract
     public function scopeById($query, $value)
     {
         if (is_array($value) && $value) {
-            return $query->whereIn('id', $value);
+            return $query->whereIn("{$this->getTable()}.id", $value);
         } else {
-            return $query->where('id', $value);
+            return $query->where("{$this->getTable()}.id", $value);
         }
     }
 
@@ -44,7 +44,7 @@ class Role extends BaseModel implements RoleContract
      */
     public function scopeByName($query, string $value)
     {
-        return $query->where('name', 'like', "%{$value}%");
+        return $query->where("{$this->getTable()}.name", 'like', "%{$value}%");
     }
 
     /**
@@ -57,7 +57,7 @@ class Role extends BaseModel implements RoleContract
      */
     public function scopeByInfoName($query, string $value)
     {
-        return $query->where('info', 'like', "%{$value}%");
+        return $query->where("{$this->getTable()}.info", 'like', "%{$value}%");
     }
 
     /**
@@ -70,7 +70,7 @@ class Role extends BaseModel implements RoleContract
      */
     public function scopeSinceDate($query, string $dateFrom)
     {
-        $query->where('created_at', '>=', $dateFrom);
+        $query->where("{$this->getTable()}.created_at", '>=', $dateFrom);
     }
 
     /**
@@ -83,7 +83,7 @@ class Role extends BaseModel implements RoleContract
      */
     public function scopeToDate($query, string $dateTo)
     {
-        $query->where('created_at', '<=', $dateTo);
+        $query->where("{$this->getTable()}.created_at", '<=', $dateTo);
     }
 
     public function __construct(array $attributes = [])

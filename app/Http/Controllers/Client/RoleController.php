@@ -44,27 +44,20 @@ class RoleController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
+     * @param string $client
      * @return View|RedirectResponse
      */
-    public function index(Request $request): View|RedirectResponse
+    public function index(Request $request, $client): View|RedirectResponse
     {
+
         try {
-
-            $params = $this->roleService->transformParams($request->all());
-
-            $query = $this->roleRepository->search($params, [], ['users', 'permissions']);
-
-            $total = $query->count();
-
-            $items = $this->roleService->customPagination($query, $params, $request->get('page'), $total);
-
-            $links = $items->links('pagination.customized');
-
+            [$params, $total, $items, $links] = $this->roleService->searchWithPagination($request->all(), $request->get('page'), [], ['users', 'permissions']);
             return view('client.pages.roles.index')
                 ->nest('filters', 'client.pages.roles.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.roles.components.table', compact('items', 'links'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -87,152 +80,75 @@ class RoleController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  StoreRequest $request
-     * 
+     * @param string $client
      * @return RedirectResponse
      */
-    public function store(StoreRequest $request): RedirectResponse
+    public function store(StoreRequest $request, $client): RedirectResponse
     {
-        try {
-
-            $data = $request->all();
-
-            DB::beginTransaction();
-
-            /** @var \App\Models\Client\Role $item */
-            $item = $this->roleRepository->create($data);
-
-            $permissions = $request->get('permissions');
-
-            $item->syncPermissions($permissions);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.roles.messages.save_success', ['role' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
-        }
+        return redirect()->route('client.roles.create', $client)->with('alert', $this->roleService->save($request->all()));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $client
      * @param int $role
      * 
      * @return View|RedirectResponse
      */
-    public function show($id, $role)
+    public function show($client, $role)
     {
         try {
-            $params['id'] = $role;
-
-            $item = $this->roleRepository->search($params, ['permissions'])->get()->first();
-
+            $item = $this->roleRepository->search(['id' => $role], ['permissions'])->get()->first();
             return view('client.pages.roles.show', compact('item'));
         } catch (\Exception $th) {
-            dd($th);
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('client.roles.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $client
      * @param int $role
      * 
      * @return View|RedirectResponse
      */
-    public function edit($id, $role)
+    public function edit($client, $role)
     {
         try {
             $item = $this->roleRepository->getById($role);
-
             return view('client.pages.roles.edit', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('client.roles.show', ['role' => $role, 'client' => $client])->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param    $request
-     * @param  int  $id
+     * @param UpdateRequest $request
+     * @param  string  $client
      * @param int $role
      * @return View|RedirectResponse
      */
-    public function update(UpdateRequest $request, $id, $role): RedirectResponse
+    public function update(UpdateRequest $request, $client, $role): RedirectResponse
     {
-        try {
-
-            $data = $request->all();
-
-            DB::beginTransaction();
-
-            $item = $this->roleRepository->getById($role);
-
-            $this->roleRepository->update($item, $data);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.roles.messages.update_success', ['role' => $item->info])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
-        }
+        return redirect()->route('client.roles.edit', ['role' => $role, 'client' => $client])
+            ->with('alert', $this->roleService->update($request->all(), $role));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  string  $client
      * @param int $role
      * 
      * @return RedirectResponse
      */
-    public function destroy($id, $role): RedirectResponse
+    public function destroy($client, $role): RedirectResponse
     {
-        try {
-            $item = $this->roleRepository->getById($role);
-
-            DB::beginTransaction();
-
-            $this->roleRepository->delete($item);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.roles.messages.delete_success', ['strategy' => $item->info])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
-        }
-    }
-
-    /**
-     * Update the permissions of role.
-     * 
-     * @param int $id
-     * @param int $role
-     * @param Request $request
-     * 
-     * @return RedirectResponse
-     */
-    public function updatePermissions($id, $role, Request $request)
-    {
-        try {
-            /** @var \App\Models\Client\Role $item */
-            $item = $this->roleRepository->getById($role);
-
-            $permissions = $request->get('permissions');
-
-            $item->syncPermissions($permissions);
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.roles.messages.update_success', ['role' => $item->info])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
-        }
+        return redirect()->route('client.roles.index', $client)->with('alert', $this->roleService->delete($role));
+        
     }
 }

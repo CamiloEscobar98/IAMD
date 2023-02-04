@@ -129,7 +129,8 @@ class AcademicDepartmentController extends Controller
      */
     public function update(UpdateRequest $request, $client, $academic_department): RedirectResponse
     {
-        return redirect()->route('client.academic_departments.edit', ['academic_department' => $academic_department, 'client' => $client])->with('alert', $this->academicDepartmentService->update($request->all(), $academic_department));
+        return redirect()->route('client.academic_departments.edit', ['academic_department' => $academic_department, 'client' => $client])
+            ->with('alert', $this->academicDepartmentService->update($request->all(), $academic_department));
     }
 
     /**
