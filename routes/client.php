@@ -203,10 +203,10 @@ Route::name('permissions.')->prefix('permisos-del-sistema')->group(function () {
     Route::get('/', [PermissionController::class, 'index'])->name('index');
     Route::post('/', [PermissionController::class, 'store'])->name('store');
     Route::get('registrar', [PermissionController::class, 'create'])->name('create');
-    Route::get('{role}', [PermissionController::class, 'show'])->name('show');
-    Route::get('{role}/editar', [PermissionController::class, 'edit'])->name('edit');
-    Route::put('{role}', [PermissionController::class, 'update'])->name('update');
-    Route::delete('{role}', [PermissionController::class, 'destroy'])->name('destroy');
+    Route::get('{permission}', [PermissionController::class, 'show'])->name('show');
+    Route::get('{permission}/editar', [PermissionController::class, 'edit'])->name('edit');
+    Route::put('{permission}', [PermissionController::class, 'update'])->name('update');
+    Route::delete('{permission}', [PermissionController::class, 'destroy'])->name('destroy');
 });
 
 Route::name('priority_tools.')->prefix('herramientas-de-priorizacion')->group(function () {

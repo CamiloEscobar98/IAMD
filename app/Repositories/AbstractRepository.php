@@ -44,6 +44,16 @@ class AbstractRepository
     protected $model;
 
     /**
+     * Get Model
+     * 
+     * @return Model
+     */
+    public function getModel(): Model
+    {
+        return $this->model;
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function all($columns = [])

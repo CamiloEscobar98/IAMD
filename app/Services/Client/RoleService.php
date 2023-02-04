@@ -133,7 +133,7 @@ class RoleService extends AbstractServiceModel
     }
 
     /**
-     * Search Academic Departaments with a Pagination.
+     * Search Roles with a Pagination.
      * @param array $data
      * @param int $page
      * @param array $with
