@@ -18,7 +18,10 @@
                             <a href="{{ route('client.strategy_categories.index', $client->name) }}">
                                 {{ __('pages.client.strategy_categories.title') }} </a>
                         </li>
-                        <li class="breadcrumb-item">{{ $item->name }}</li>
+                        <li class="breadcrumb-item">
+                            <a
+                                href="{{ route('client.strategy_categories.show', [$client->name, $item->id]) }}">{{ $item->name }}</a>
+                        </li>
                         <li class="breadcrumb-item active">{{ __('pages.default.edit') }}</li>
                     </ol>
                 </div>
