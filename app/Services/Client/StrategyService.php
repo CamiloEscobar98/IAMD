@@ -82,7 +82,7 @@ class StrategyService extends AbstractServiceModel
     }
 
     /**
-     * Search Academic Departaments with a Pagination.
+     * Search Strategy with a Pagination.
      * @param array $data
      * @param int $page
      * @param array $with

@@ -45,43 +45,34 @@ class PriorityToolController extends Controller
      * Display a listing of the resource.
      * 
      * @param Request $request
-     *
+     * @param string $client
      * @return View|RedirectResponse
      */
-    public function index(Request $request): View|RedirectResponse
+    public function index(Request $request, $client): View|RedirectResponse
     {
         try {
-            $params = $this->priorityToolService->transformParams($request->all());
-
-            $query = $this->priorityToolRepository->search($params, [], []);
-
-            $total = $query->count();
-
-            $items = $this->priorityToolService->customPagination($query, $params, $request->get('page'), $total);
-
-            $links = $items->links('pagination.customized');
-
+            [$params, $total, $items, $links] = $this->priorityToolService->searchWithPagination($request->all(), $request->get('page'));
             return view('client.pages.priority_tools.index')
                 ->nest('filters', 'client.pages.priority_tools.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.priority_tools.components.table', compact('items', 'links'));
-        } catch (\Exception $th) {
-            
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (\Exception $e) {
+            return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param string $client
      * @return View|RedirectResponse
      */
-    public function create(): View|RedirectResponse
+    public function create($client): View|RedirectResponse
     {
         try {
             $item = $this->priorityToolRepository->newInstance();
             return view('client.pages.priority_tools.create', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('client.priority_tools.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -89,62 +80,47 @@ class PriorityToolController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  StoreRequest $request
-     * 
+     * @param string $client
      * @return RedirectResponse
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request, $client)
     {
-        try {
-            $data = $request->all();
-
-            DB::beginTransaction();
-
-            $item = $this->priorityToolRepository->create($data);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.priority_tools.messages.save_success', ['priority_tool' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.priority_tools.messages.save_error')]);
-        }
+        return redirect()->route('client.priority_tools.create', $client)->with('alert', $this->priorityToolService->save($request->all()));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $client
      * @param int $priorityTool
      * 
      * @return View|RedirectResponse
      */
-    public function show($id, $priorityTool): View|RedirectResponse
+    public function show($client, $priorityTool): View|RedirectResponse
     {
         try {
             $item = $this->priorityToolRepository->getById($priorityTool);
-
             return view('client.pages.priority_tools.show', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('client.priority_tools.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @param int $priorityTool
+     * @param int $client
+     * @param int $priority_tool
      * 
      * @return View|RedirectResponse
      */
-    public function edit($id, $priorityTool): View|RedirectResponse
+    public function edit($client, $priority_tool): View|RedirectResponse
     {
         try {
-            $item = $this->priorityToolRepository->getById($priorityTool);
-
+            $item = $this->priorityToolRepository->getById($priority_tool);
             return view('client.pages.priority_tools.edit', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('client.priority_tools.show', ['priority_tool' => $priority_tool, 'client' => $client])->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -152,53 +128,27 @@ class PriorityToolController extends Controller
      * Update the specified resource in storage.
      *
      * @param  UpdateRequest $request
-     * @param  int  $id
-     * @param int $priorityTool
+     * @param int $client
+     * @param int $priority_tool
      * 
      * @return RedirectResponse
      */
-    public function update(Request $request, $id, $priorityTool): RedirectResponse
+    public function update(Request $request, $client, $priority_tool): RedirectResponse
     {
-        try {
-            $data = $request->all();
-
-            DB::beginTransaction();
-
-            $item = $this->priorityToolRepository->getById($priorityTool);
-
-            $this->priorityToolRepository->update($item, $data);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.priority_tools.messages.update_success', ['priority_tool' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.priority_tools.messages.update_error')]);
-        }
+        return redirect()->route('client.priority_tools.edit', ['priority_tool' => $priority_tool, 'client' => $client])
+            ->with('alert', $this->priorityToolService->update($request->all(), $priority_tool));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @param int $priorityTool
+     * @param int $client
+     * @param int $priority_tool
      * 
      * @return RedirectResponse
      */
-    public function destroy($id, $priorityTool): RedirectResponse
+    public function destroy($client, $priority_tool): RedirectResponse
     {
-        try {
-            $item = $this->priorityToolRepository->getById($priorityTool);
-
-            DB::beginTransaction();
-
-            $this->priorityToolRepository->delete($item);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.priority_tools.messages.delete_success', ['priority_tool' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.priority_tools.messages.delete_error')]);
-        }
+        return redirect()->route('client.priority_tools.index', $client)->with('alert', $this->priorityToolService->delete($priority_tool));
     }
 }
