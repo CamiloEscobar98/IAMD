@@ -209,7 +209,7 @@
             <!-- Contents -->
             <h5 class="font-weight-bold">{{ __('pages.client.reports.custom.sections.contents.title') }}</h5>
 
-            <!-- General Information -->
+            {{-- <!-- General Information -->
             <h6 class="font-weight-bold">{{ __('pages.client.reports.custom.sections.contents.general') }} </h6>
 
             <div class="row mx-2 mt-2">
@@ -242,7 +242,7 @@
                 @endforeach
 
             </div>
-            <!-- ./Intangible Asset Information -->
+            <!-- ./Intangible Asset Information --> --}}
 
             <!-- Graphics -->
             <h6 class="font-weight-bold mt-4">{{ __('pages.client.reports.custom.sections.contents.graphics') }} </h6>

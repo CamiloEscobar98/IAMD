@@ -71,52 +71,52 @@ class CustomReportFilterComposer
             ],
         ]);
 
-        $intangibleAssetCustomContents = collect([
-            [
-                'name' =>  'with_basic_information',
-                'value' =>  'Mostrar/Ocultar Informaciíon Básica.'
-            ],
-            [
-                'name' => 'with_dpis',
-                'value' => 'Mostrar/Ocultar Derechos de Propiedad Intelectual Asociados.'
-            ],
-            [
-                'name' =>  'with_published',
-                'value' =>  'Mostrar/Ocultar si ha sido Publicado o Divulgado.'
-            ],
-            [
-                'name' =>  'with_confidenciality_contract',
-                'value' =>  'Mostrar/Ocultar si tiene Contrato de Confidencialidad.'
-            ],
-            [
-                'name' =>  'with_creators',
-                'value' =>  'Mostrar/Ocultar si tiene Creadores asociados.'
-            ],
-            [
-                'name' =>  'with_right_session',
-                'value' =>  'Mostrar/Ocultar si tiene Contrato de Sesión de Derechos Patrimoniales.'
-            ],
-            [
-                'name' =>  'with_contability',
-                'value' =>  'Mostrar/Ocultar si está incorporado a la Contabilidad.'
-            ],
-            [
-                'name' =>  'with_comments',
-                'value' =>  'Mostrar/Ocultar historial de comentarios.'
-            ],
-            [
-                'name' =>  'with_protection_action',
-                'value' =>  'Mostrar/Ocultar si tiene un Plan de Acción y Protección.'
-            ],
-            [
-                'name' =>  'with_priority_tools',
-                'value' =>  'Mostrar/Ocultar si cuenta con Herramientas de Priorización para el Derecho de Propiedad Intelectual.'
-            ],
-            [
-                'name' =>  'with_commercial',
-                'value' =>  'Mostrar/Ocultar si los Derechos de Propiedad Intelectual tiene un Uso Comercial.'
-            ],
-        ]);
+        // $intangibleAssetCustomContents = collect([
+        //     [
+        //         'name' =>  'with_basic_information',
+        //         'value' =>  'Mostrar/Ocultar Informaciíon Básica.'
+        //     ],
+        //     [
+        //         'name' => 'with_dpis',
+        //         'value' => 'Mostrar/Ocultar Derechos de Propiedad Intelectual Asociados.'
+        //     ],
+        //     [
+        //         'name' =>  'with_published',
+        //         'value' =>  'Mostrar/Ocultar si ha sido Publicado o Divulgado.'
+        //     ],
+        //     [
+        //         'name' =>  'with_confidenciality_contract',
+        //         'value' =>  'Mostrar/Ocultar si tiene Contrato de Confidencialidad.'
+        //     ],
+        //     [
+        //         'name' =>  'with_creators',
+        //         'value' =>  'Mostrar/Ocultar si tiene Creadores asociados.'
+        //     ],
+        //     [
+        //         'name' =>  'with_right_session',
+        //         'value' =>  'Mostrar/Ocultar si tiene Contrato de Sesión de Derechos Patrimoniales.'
+        //     ],
+        //     [
+        //         'name' =>  'with_contability',
+        //         'value' =>  'Mostrar/Ocultar si está incorporado a la Contabilidad.'
+        //     ],
+        //     [
+        //         'name' =>  'with_comments',
+        //         'value' =>  'Mostrar/Ocultar historial de comentarios.'
+        //     ],
+        //     [
+        //         'name' =>  'with_protection_action',
+        //         'value' =>  'Mostrar/Ocultar si tiene un Plan de Acción y Protección.'
+        //     ],
+        //     [
+        //         'name' =>  'with_priority_tools',
+        //         'value' =>  'Mostrar/Ocultar si cuenta con Herramientas de Priorización para el Derecho de Propiedad Intelectual.'
+        //     ],
+        //     [
+        //         'name' =>  'with_commercial',
+        //         'value' =>  'Mostrar/Ocultar si los Derechos de Propiedad Intelectual tiene un Uso Comercial.'
+        //     ],
+        // ]);
 
         $graphics = collect([
             [
@@ -160,7 +160,7 @@ class CustomReportFilterComposer
             'phases',
             'ordersBy',
             'intangibleAssetCustomGeneral',
-            'intangibleAssetCustomContents',
+            // 'intangibleAssetCustomContents',
             'graphics',
             'categories',
             'subCategories',
