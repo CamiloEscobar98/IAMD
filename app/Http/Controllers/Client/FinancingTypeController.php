@@ -39,42 +39,34 @@ class FinancingTypeController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * 
+     * @param string $client
      * @return View|RedirectResponse
      */
-    public function index(Request $request): View|RedirectResponse
+    public function index(Request $request, $client): View|RedirectResponse
     {
         try {
-            $params = $this->financingTypeService->transformParams($request->all());
-
-            $query = $this->financingTypeRepository->search($params, [], []);
-
-            $total = $query->count();
-
-            $items = $this->financingTypeService->customPagination($query, $params, $request->get('page'), $total);
-
-            $links = $items->links('pagination.customized');
-
+            [$params, $total, $items, $links] = $this->financingTypeService->searchWithPagination($request->all(), $request->get('page'));
             return view('client.pages.financing_types.index')
                 ->nest('filters', 'client.pages.financing_types.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.financing_types.components.table', compact('items', 'links'));
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (\Exception $e) {
+            return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param string $client
      * @return View|RedirectResponse
      */
-    public function create(): View|RedirectResponse
+    public function create($client): View|RedirectResponse
     {
         try {
             $item = $this->financingTypeRepository->newInstance();
             return view('client.pages.financing_types.create', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('client.financing_types.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -82,63 +74,48 @@ class FinancingTypeController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  StoreRequest $request
-     * 
+     * @param string $client
      * @return RedirectResponse
      */
-    public function store(StoreRequest $request): RedirectResponse
+    public function store(StoreRequest $request, $client): RedirectResponse
     {
-        try {
-
-            $data = $request->all();
-
-            DB::beginTransaction();
-
-            $item = $this->financingTypeRepository->create($data);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.financing_types.messages.save_success', ['financing_type' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
-        }
+        return redirect()->route('client.financing_types.create', $client)->with('alert', $this->financingTypeService->save($request->all()));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $client
      * @param int $financingType
      * 
      * @return View|RedirectResponse
      */
-    public function show($id, $financingType): View|RedirectResponse
+    public function show($client, $financingType): View|RedirectResponse
     {
         try {
             $item = $this->financingTypeRepository->getById($financingType);
 
             return view('client.pages.financing_types.show', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('client.financing_types.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $client
      * @param int $financingType
      * 
      * @return View|RedirectResponse
      */
-    public function edit($id, $financingType): View|RedirectResponse
+    public function edit($client, $financingType): View|RedirectResponse
     {
         try {
             $item = $this->financingTypeRepository->getById($financingType);
-
             return view('client.pages.financing_types.edit', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('client.financing_types.show', ['financing_type' => $financingType, 'client' => $client])->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -146,54 +123,26 @@ class FinancingTypeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  UpdateRequest  $request
-     * @param  int  $id
+     * @param int $client
      * 
      * @return RedirectResponse
      */
-    public function update(Request $request, $id, $financingType): RedirectResponse
+    public function update(Request $request, $client, $financingType): RedirectResponse
     {
-        try {
-
-            $data = $request->all();
-
-            DB::beginTransaction();
-
-            $item = $this->financingTypeRepository->getById($financingType);
-
-            $this->financingTypeRepository->update($item, $data);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.financing_types.messages.update_success', ['financing_type' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
-        }
+        return redirect()->route('client.financing_types.edit', ['financing_type' => $financingType, 'client' => $client])
+            ->with('alert', $this->financingTypeService->update($request->all(), $financingType));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $client
      * @param int $financingType
      * 
      * @return View|RedirectResponse
      */
-    public function destroy($id, $financingType): RedirectResponse
+    public function destroy($client, $financingType): RedirectResponse
     {
-        try {
-            $item = $this->financingTypeRepository->getById($financingType);
-
-            DB::beginTransaction();
-
-            $this->financingTypeRepository->delete($item);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.financing_types.messages.delete_success', ['financing_type' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
-        }
+        return redirect()->route('client.financing_types.index', $client)->with('alert', $this->financingTypeService->delete($financingType));
     }
 }

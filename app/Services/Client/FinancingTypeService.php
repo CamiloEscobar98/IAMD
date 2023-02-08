@@ -2,19 +2,21 @@
 
 namespace App\Services\Client;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Client\FinancingTypeRepository;
 
-class FinancingTypeService
+class FinancingTypeService extends AbstractServiceModel
 {
     /** @var FinancingTypeRepository */
     protected $financingTypeRepository;
 
     public function __construct(FinancingTypeRepository $financingTypeRepository)
     {
-        $this->financingTypeRepository = $financingTypeRepository;
+        $this->repository = $this->financingTypeRepository = $financingTypeRepository;
     }
 
     /**
@@ -77,5 +79,23 @@ class FinancingTypeService
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
+    }
+
+    /**
+     * Search Academic Departaments with a Pagination.
+     * @param array $data
+     * @param int $page
+     * @param array $with
+     * @param array $withCount
+     */
+    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
+    {
+        $params = $this->transformParams($data);
+        $query = $this->financingTypeRepository->search($params, $with, $withCount);
+        $total = $query->count();
+        $items = $this->customPagination($query, $params, $page, $total);
+        $links = $items->links('pagination.customized');
+
+        return [$params, $total, $items, $links];
     }
 }
