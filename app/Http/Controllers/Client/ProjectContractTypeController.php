@@ -45,42 +45,34 @@ class ProjectContractTypeController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * 
+     * @param strign $client
      * @return View|RedirectResponse
      */
-    public function index(Request $request): View|RedirectResponse
+    public function index(Request $request, $client): View|RedirectResponse
     {
         try {
-            $params = $this->projectContractTypeService->transformParams($request->all());
-
-            $query = $this->projectContractTypeRepository->search($params, [], []);
-
-            $total = $query->count();
-
-            $items = $this->projectContractTypeService->customPagination($query, $params, $request->get('page'), $total);
-
-            $links = $items->links('pagination.customized');
-
+            [$params, $total, $items, $links] = $this->projectContractTypeService->searchWithPagination($request->all(), $request->get('page'));
             return view('client.pages.project_contract_types.index')
                 ->nest('filters', 'client.pages.project_contract_types.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.project_contract_types.components.table', compact('items', 'links'));
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (\Exception $e) {
+            return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param string $client
      * @return View|RedirectResponse
      */
-    public function create(): View|RedirectResponse
+    public function create($client): View|RedirectResponse
     {
         try {
             $item = $this->projectContractTypeRepository->newInstance();
             return view('client.pages.project_contract_types.create', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('client.project_contract_types.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -88,63 +80,47 @@ class ProjectContractTypeController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  StoreRequest $request
-     * 
+     * @param string $client
      * @return RedirectResponse
      */
-    public function store(StoreRequest $request): RedirectResponse
+    public function store(StoreRequest $request, $client): RedirectResponse
     {
-        try {
-
-            $data = $request->all();
-
-            DB::beginTransaction();
-
-            $item = $this->projectContractTypeRepository->create($data);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.project_contract_types.messages.save_success', ['project_contract_type' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
-        }
+        return redirect()->route('client.project_contract_types.create', $client)->with('alert', $this->projectContractTypeService->save($request->all()));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @param int $projectContractType
+     * @param int $client
+     * @param int $project_contract_type
      * 
      * @return View|RedirectResponse
      */
-    public function show($id, $projectContractType): View|RedirectResponse
+    public function show($client, $project_contract_type): View|RedirectResponse
     {
         try {
-            $item = $this->projectContractTypeRepository->getById($projectContractType);
-
+            $item = $this->projectContractTypeRepository->getById($project_contract_type);
             return view('client.pages.project_contract_types.show', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('client.project_contract_types.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @param int $projectContractType
+     * @param int $client
+     * @param int $project_contract_type
      * 
      * @return View|RedirectResponse
      */
-    public function edit($id, $projectContractType): View|RedirectResponse
+    public function edit($client, $project_contract_type): View|RedirectResponse
     {
         try {
-            $item = $this->projectContractTypeRepository->getById($projectContractType);
-
+            $item = $this->projectContractTypeRepository->getById($project_contract_type);
             return view('client.pages.project_contract_types.edit', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('client.project_contract_types.show', ['project_contract_type' => $project_contract_type, 'client' => $client])->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -152,54 +128,27 @@ class ProjectContractTypeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  UpdateRequest  $request
-     * @param  int  $id
+     * @param int $client
+     * @param int $project_contract_type
      * 
      * @return RedirectResponse
      */
-    public function update(Request $request, $id, $projectContractType): RedirectResponse
+    public function update(Request $request, $client, $project_contract_type): RedirectResponse
     {
-        try {
-
-            $data = $request->all();
-
-            DB::beginTransaction();
-
-            $item = $this->projectContractTypeRepository->getById($projectContractType);
-
-            $this->projectContractTypeRepository->update($item, $data);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.project_contract_types.messages.update_success', ['project_contract_type' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
-        }
+        return redirect()->route('client.project_contract_types.edit', ['project_contract_type' => $project_contract_type, 'client' => $client])
+            ->with('alert', $this->projectContractTypeService->update($request->all(), $project_contract_type));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @param int $projectContractType
+     * @param int $client
+     * @param int $project_contract_type
      * 
      * @return View|RedirectResponse
      */
-    public function destroy($id, $projectContractType): RedirectResponse
+    public function destroy($client, $project_contract_type): RedirectResponse
     {
-        try {
-            $item = $this->projectContractTypeRepository->getById($projectContractType);
-
-            DB::beginTransaction();
-
-            $this->projectContractTypeRepository->delete($item);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.project_contract_types.messages.delete_success', ['project_contract_type' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
-        }
+        return redirect()->route('client.project_contract_types.index', $client)->with('alert', $this->projectContractTypeService->delete($project_contract_type));
     }
 }
