@@ -45,6 +45,8 @@ use App\Http\Controllers\Client\UserFileReportController;
 |
 */
 
+Route::redirect('/', 'inicio');
+
 Route::get('iniciar-sesion', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('iniciar-sesion', [LoginController::class, 'login'])->name('loggin');
 Route::post('cerrar-sesion', [LoginController::class, 'logout'])->name('loggout');
