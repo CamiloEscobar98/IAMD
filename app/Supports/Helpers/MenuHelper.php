@@ -72,7 +72,7 @@ if (!function_exists('getMainClientPermissions')) {
         return [
             'administrative_units.index',  'research_units.index', 'projects.index',
             'intangible_assets.index',  'creators.internal.index',  'creators.external.index',
-            'users.index',  'roles.index', 'permissions.index',
+            'users.index',  'roles.index',
         ];
     }
 }
@@ -86,7 +86,7 @@ if (!function_exists('getConfigClientPermissions')) {
     {
         return [
             'strategy_categories.index',  'strategies.index', 'financing_types.index',
-            'project_contract_types.index',  'priority_tools.index',  'secret_protection_measures.index',
+            'project_contract_types.index',  'priority_tools.index',  'secret_protection_measures.index', 'roles.index'
         ];
     }
 }
