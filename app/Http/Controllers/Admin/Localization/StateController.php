@@ -56,9 +56,9 @@ class StateController extends Controller
                 ->nest('filters', 'admin.pages.localization.states.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.localization.states.components.table', compact('items'));
         } catch (QueryException $qe) {
-            Log::error("@Web/Controllers/StateController:Index/QueryException: {$qe->getMessage()}");
+            Log::error("@Web/Controllers/Admin/Localizations/StateController:Index/QueryException: {$qe->getMessage()}");
         } catch (Exception $e) {
-            Log::error("@Web/Controllers/StateController:Index/Exception: {$e->getMessage()}");
+            Log::error("@Web/Controllers/Admin/Localizations/StateController:Index/Exception: {$e->getMessage()}");
         }
         return redirect()->route('admin.localizations.states.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
@@ -74,7 +74,7 @@ class StateController extends Controller
             $item = $this->stateRepository->newInstance();
             return view('admin.pages.localization.states.create', compact('item'));
         } catch (Exception $e) {
-            Log::error("@Web/Controllers/StateController:Create/Exception: {$e->getMessage()}");
+            Log::error("@Web/Controllers/Admin/Localizations/StateController:Create/Exception: {$e->getMessage()}");
             return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
@@ -94,10 +94,10 @@ class StateController extends Controller
             DB::commit();
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
         } catch (QueryException $qe) {
-            Log::error("@Web/Controllers/StateController:Store/QueryException: {$qe->getMessage()}");
+            Log::error("@Web/Controllers/Admin/Localizations/StateController:Store/QueryException: {$qe->getMessage()}");
             DB::rollBack();
         } catch (Exception $e) {
-            Log::error("@Web/Controllers/StateController:Store/Exception: {$e->getMessage()}");
+            Log::error("@Web/Controllers/Admin/Localizations/StateController:Store/Exception: {$e->getMessage()}");
             DB::rollBack();
         }
         return redirect()->route('admin.localizations.states.create')->with('alert', $response);
@@ -116,9 +116,9 @@ class StateController extends Controller
             $item = $this->stateRepository->getById($id);
             return view('admin.pages.localization.states.show', compact('item'));
         } catch (ModelNotFoundException $me) {
-            Log::error("@Web/Controllers/StateController:Show/ModelNotFoundException: {$me->getMessage()}");
+            Log::error("@Web/Controllers/Admin/Localizations/StateController:Show/ModelNotFoundException: {$me->getMessage()}");
         } catch (Exception $e) {
-            Log::error("@Web/Controllers/StateController:Show/Exception: {$e->getMessage()}");
+            Log::error("@Web/Controllers/Admin/Localizations/StateController:Show/Exception: {$e->getMessage()}");
         }
         return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.states.messages.not_found')]);
     }
@@ -135,9 +135,9 @@ class StateController extends Controller
             $item = $this->stateRepository->getById($id);
             return view('admin.pages.localization.states.edit', compact('item'));
         } catch (ModelNotFoundException $me) {
-            Log::error("@Web/Controllers/StateController:Edit/ModelNotFoundException: {$me->getMessage()}");
+            Log::error("@Web/Controllers/Admin/Localizations/StateController:Edit/ModelNotFoundException: {$me->getMessage()}");
         } catch (Exception $e) {
-            Log::error("@Web/Controllers/StateController:Edit/Exception: {$e->getMessage()}");
+            Log::error("@Web/Controllers/Admin/Localizations/StateController:Edit/Exception: {$e->getMessage()}");
         }
         return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.states.messages.not_found')]);
     }
@@ -158,12 +158,12 @@ class StateController extends Controller
             DB::commit();
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
         } catch (ModelNotFoundException $me) {
-            Log::error("@Web/Controllers/StateController:Update/ModelNotFoundException: {$me->getMessage()}");
+            Log::error("@Web/Controllers/Admin/Localizations/StateController:Update/ModelNotFoundException: {$me->getMessage()}");
         } catch (QueryException $qe) {
-            Log::error("@Web/Controllers/StateController:Update/QueryException: {$qe->getMessage()}");
+            Log::error("@Web/Controllers/Admin/Localizations/StateController:Update/QueryException: {$qe->getMessage()}");
             DB::rollBack();
         } catch (Exception $e) {
-            Log::error("@Web/Controllers/StateController:Update/Exception: {$e->getMessage()}");
+            Log::error("@Web/Controllers/Admin/Localizations/StateController:Update/Exception: {$e->getMessage()}");
             DB::rollBack();
         }
         return redirect()->route('admin.localizations.states.edit', $id)->with('alert', $response);
@@ -184,14 +184,14 @@ class StateController extends Controller
             $this->stateService->delete($id);
             DB::commit();
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
-            // Log::info("@Web/Controllers/StateController:Delete/Success", $item->toArray());
+            // Log::info("@Web/Controllers/Admin/Localizations/StateController:Delete/Success, Item: {$item->name}");
         } catch (ModelNotFoundException $me) {
-            Log::error("@Web/Controllers/StateController:Delete/ModelNotFoundException: {$me->getMessage()}");
+            Log::error("@Web/Controllers/Admin/Localizations/StateController:Delete/ModelNotFoundException: {$me->getMessage()}");
         } catch (QueryException $qe) {
-            Log::error("@Web/Controllers/StateController:Delete/QueryException: {$qe->getMessage()}");
+            Log::error("@Web/Controllers/Admin/Localizations/StateController:Delete/QueryException: {$qe->getMessage()}");
             DB::rollBack();
         } catch (Exception $e) {
-            Log::error("@Web/Controllers/StateController:Delete/Exception: {$e->getMessage()}");
+            Log::error("@Web/Controllers/Admin/Localizations/StateController:Delete/Exception: {$e->getMessage()}");
             DB::rollBack();
         }
         return redirect()->route('admin.localizations.states.index')->with('alert', $response);

@@ -80,22 +80,4 @@ class DocumentTypeService extends AbstractServiceModel
             throw new \Exception($exception->getMessage());
         }
     }
-
-    /**
-     * @param array $data
-     * @param int $page
-     * @param array $with
-     * @param array $withCount
-     * @param int|null $documentTypeId
-     */
-    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
-    {
-        $params = $this->transformParams($data);
-        $query = $this->documentTypeRepository->search($params, $with, $withCount);
-        $total = $query->count();
-        $items = $this->customPagination($query, $params, $page, $total);
-        $links = $items->links('pagination.customized');
-
-        return [$params, $total, $items, $links];
-    }
 }

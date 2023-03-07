@@ -14,6 +14,10 @@ use App\Http\Requests\Admin\Creator\ExternalOrganizations\UpdateRequest;
 use App\Repositories\Admin\ExternalOrganizationRepository;
 
 use App\Services\Admin\ExternalOrganizationService;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 class ExternalOrganizationController extends Controller
 {
@@ -42,14 +46,20 @@ class ExternalOrganizationController extends Controller
     public function index(Request $request)
     {
         try {
-
-            [$params, $total, $items, $links] = $this->externalOrganizationService->searchWithPagination($request->all(), $request->get('page'));
+            $params = $this->externalOrganizationService->transformParams($request->all());
+            $query = $this->externalOrganizationRepository->search($params);
+            $total = $query->count();
+            $items = $this->externalOrganizationService->customPagination($query, $params, $request->get('page'), $total);
+            $links = $items->links('pagination.customized');
             return view('admin.pages.creators.external_organizations.index', compact('links'))
                 ->nest('filters', 'admin.pages.creators.external_organizations.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.creators.external_organizations.components.table', compact('items'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.creators.external_organizations.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Index/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Index/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.creators.external_organizations.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -62,9 +72,10 @@ class ExternalOrganizationController extends Controller
         try {
             $item = $this->externalOrganizationRepository->newInstance();
             return view('admin.pages.creators.external_organizations.create', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Create/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -75,7 +86,20 @@ class ExternalOrganizationController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        return redirect()->route('admin.creators.external_organizations.create')->with('alert', $this->externalOrganizationService->save($request->all()));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
+        try {
+            DB::beginTransaction();
+            $this->externalOrganizationService->save($request->all());
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Store/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Store/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('admin.creators.external_organizations.create')->with('alert', $response);
     }
 
     /**
@@ -89,9 +113,12 @@ class ExternalOrganizationController extends Controller
         try {
             $item = $this->externalOrganizationRepository->getById($id);
             return view('admin.pages.creators.external_organizations.show', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Show/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Show/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -105,9 +132,12 @@ class ExternalOrganizationController extends Controller
         try {
             $item = $this->externalOrganizationRepository->getById($id);
             return view('admin.pages.creators.external_organizations.edit', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Edit/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Edit/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -119,7 +149,22 @@ class ExternalOrganizationController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
-        return redirect()->route('admin.creators.external_organizations.edit', $id)->with('alert', $this->externalOrganizationService->update($request->all(), $id));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
+        try {
+            DB::beginTransaction();
+            $this->externalOrganizationService->update($request->all(), $id);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Update/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Update/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Update/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('admin.creators.external_organizations.edit', $id)->with('alert', $response);
     }
 
     /**
@@ -130,6 +175,23 @@ class ExternalOrganizationController extends Controller
      */
     public function destroy($id)
     {
-        return redirect()->route('admin.creators.external_organizations.index')->with('alert', $this->externalOrganizationService->delete($id));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
+        try {
+            $item = $this->externalOrganizationRepository->getById($id);
+            DB::beginTransaction();
+            $this->externalOrganizationService->delete($id);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
+            Log::info("@Web/Controllers/Admin/Creators/DocumentTypeController:Delete/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Delete/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Delete/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Delete/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('admin.creators.external_organizations.index')->with('alert', $response);
     }
 }
