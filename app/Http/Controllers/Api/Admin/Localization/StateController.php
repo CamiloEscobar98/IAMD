@@ -10,6 +10,9 @@ use App\Repositories\Admin\CityRepository;
 use App\Repositories\Admin\StateRepository;
 
 use App\Models\Admin\Localization\State;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
 
 class StateController extends Controller
 {
@@ -35,11 +38,11 @@ class StateController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $items = $this->stateRepository->all();
-
-            return response()->json($items);
-        } catch (\Exception $th) {
-            return response()->json($th->getMessage(), 500);
+            $states = $this->stateRepository->all();
+            return response()->json($states);
+        } catch (Exception $e) {
+            Log::error("@Api/Controllers/StateController:Index/Exception: {$e->getMessage()}");
+            return response()->json([], $e->getCode());
         }
     }
 
@@ -56,8 +59,12 @@ class StateController extends Controller
             $items = $this->cityRepository->getByState($state);
 
             return response()->json($items);
-        } catch (\Exception $th) {
-            return response()->json($th->getMessage(), 500);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Api/Controllers/StateController:GetCities/ModelNotFoundException: {$me->getMessage()}");
+            return response()->json([], $me->getCode());
+        } catch (Exception $e) {
+            Log::error("@Api/Controllers/StateController:GetCities/Exception: {$e->getMessage()}");
+            return response()->json([], $e->getCode());
         }
     }
 }

@@ -35,15 +35,15 @@ class CityFilterComposer
         $states = collect();
 
         $countryId = request('country_id');
-
+        
         if ($countryId) {
             /** @var \App\MOdels\Admin\Localization\Country $country */
             $country = $this->countryRepository->getById($countryId);
             $states = $this->stateRepository->getByCountry($country);
         }
-
-        $countries = $countries->pluck('name', 'id')->prepend('---Seleccionar país');
-        $states = $states->pluck('name', 'id')->prepend('---Seleccionar Departamento');
+        
+        $countries = $countries->pluck('name', 'id')->prepend('---Seleccionar país', -1);
+        $states = $states->pluck('name', 'id')->prepend('---Seleccionar Departamento', -1);
 
         $view->with(compact('countries', 'states'));
     }

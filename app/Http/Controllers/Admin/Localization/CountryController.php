@@ -8,14 +8,19 @@ use Illuminate\View\View;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Requests\Admin\Localizations\Countries\StoreRequest;
 use App\Http\Requests\Admin\Localizations\Countries\UpdateRequest;
 
 use App\Services\Admin\CountryService;
-use App\Services\Admin\StateService;
 
 use App\Repositories\Admin\CountryRepository;
+use App\Repositories\Admin\StateRepository;
+use App\Services\Admin\StateService;
+use Exception;
 
 class CountryController extends Controller
 {
@@ -25,20 +30,23 @@ class CountryController extends Controller
     /** @var StateService */
     protected $stateService;
 
+    /** @var StateRepository */
+    protected $stateRepository;
+
     /** @var CountryRepository */
     protected $countryRepository;
 
     public function __construct(
         CountryService $countryService,
         StateService $stateService,
-
+        StateRepository $stateRepository,
         CountryRepository $countryRepository,
     ) {
         $this->middleware('auth:admin');
 
         $this->countryService = $countryService;
         $this->stateService = $stateService;
-
+        $this->stateRepository = $stateRepository;
         $this->countryRepository = $countryRepository;
     }
 
@@ -50,13 +58,20 @@ class CountryController extends Controller
     public function index(Request $request): View|RedirectResponse
     {
         try {
-            [$params, $total, $items, $links] = $this->countryService->searchWithPagination($request->all(), $request->get('page'), [], ['states', 'cities']);
+            $params = $this->countryService->transformParams($request->all());
+            $query = $this->countryRepository->search($params, [], ['states', 'cities']);
+            $total = $query->count();
+            $items = $this->countryService->customPagination($query, $params, $request->get('page'), $total);
+            $links = $items->links('pagination.customized');
             return view('admin.pages.localization.countries.index', compact('links'))
                 ->nest('filters', 'admin.pages.localization.countries.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.localization.countries.components.table', compact('items'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/CountryController:Index/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/CountryController:Index/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -69,9 +84,10 @@ class CountryController extends Controller
         try {
             $item = $this->countryRepository->newInstance();
             return view('admin.pages.localization.countries.create', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/CountryController:Create/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -82,7 +98,20 @@ class CountryController extends Controller
      */
     public function store(StoreRequest $request): RedirectResponse
     {
-        return redirect()->route('admin.localizations.countries.create')->with('alert', $this->countryService->save($request->only('name')));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
+        try {
+            DB::beginTransaction();
+            $this->countryService->save($request->only('name'));
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/CountryController:Store/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/CountryController:Store/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('admin.localizations.countries.create')->with('alert', $response);
     }
 
     /**
@@ -96,11 +125,20 @@ class CountryController extends Controller
     {
         try {
             $item = $this->countryRepository->getById($id);
-            [$params, $total, $items, $links] = $this->stateService->searchWithPagination($request->all(), $request->get('page', 1), ['cities'], ['cities'], $id);
+
+            $params = $this->stateService->transformParams($request->all());
+            $params['id'] = $id;
+            $query = $this->stateRepository->search($params, ['cities'], ['cities']);
+            $total = $query->count();
+            $items = $this->stateService->customPagination($query, $params, 10, $request->get('page'), $total);
+            $links = $items->links('pagination.customized');
             return view('admin.pages.localization.countries.show', compact('item', 'total', 'items', 'links'));
-        } catch (ModelNotFoundException $th) {
-            return redirect()->route('admin.localizations.countries.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.countries.messages.not_found')]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/CountryController:Show/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/CountryController:Show/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.localizations.countries.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.countries.messages.not_found')]);
     }
 
     /**
@@ -114,9 +152,10 @@ class CountryController extends Controller
         try {
             $item = $this->countryRepository->getById($id);
             return view('admin.pages.localization.countries.edit', compact('item'));
-        } catch (ModelNotFoundException $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.countries.messages.not_found')]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/CountryController:Show/ModelNotFoundException: {$me->getMessage()}");
         }
+        return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.countries.messages.not_found')]);
     }
 
     /**
@@ -128,7 +167,22 @@ class CountryController extends Controller
      */
     public function update(UpdateRequest $request, $id): RedirectResponse
     {
-        return redirect()->route('admin.localizations.countries.edit', $id)->with('alert', $this->countryService->update($request->only('name'), $id));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
+        try {
+            DB::beginTransaction();
+            $this->countryService->update($request->only('name'), $id);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/CountryController:Update/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/CountryController:Update/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/CountryController:Update/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('admin.localizations.countries.edit', $id)->with('alert', $response);
     }
 
     /**
@@ -139,6 +193,23 @@ class CountryController extends Controller
      */
     public function destroy($id): RedirectResponse
     {
-        return redirect()->route('admin.localizations.countries.index')->with('alert', $this->countryService->delete($id));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
+        try {
+            $item = $this->countryRepository->getById($id);
+            DB::beginTransaction();
+            $this->countryService->delete($id);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
+            Log::info("@Web/Controllers/CountryController:Delete/Success", $item->toArray());
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/CountryController:Delete/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/CountryController:Delete/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/CountryController:Delete/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('admin.localizations.countries.index')->with('alert', $response);
     }
 }

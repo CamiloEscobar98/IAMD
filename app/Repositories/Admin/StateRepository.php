@@ -19,17 +19,16 @@ class StateRepository extends AbstractRepository
      * @param array $params
      * @param array $with
      * @param array $withCount
-     * @param int|null $countryId
      * 
      * @return mixed
      */
-    public function search(array $params = [], array $with = [], array $withCount = [], int|null $countryId = null)
+    public function search(array $params = [], array $with = [], array $withCount = [])
     {
         $query = $this->model
-            ->select();
+            ->select("{$this->model->getTable()}.*");
 
-        if (isset($countryId) && $countryId) {
-            $query->ofCountry($countryId);
+        if (isset($params['id']) && $params['id']) {
+            $query->ofCountry($params['id']);
         }
 
         if (isset($params['name']) && $params['name']) {
