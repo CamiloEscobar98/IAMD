@@ -21,7 +21,3 @@
         </tbody>
     </table>
 </div>
-
-<div class="mt-4">
-    {!! $links !!}
-</div>

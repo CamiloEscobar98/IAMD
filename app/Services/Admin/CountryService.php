@@ -2,17 +2,22 @@
 
 namespace App\Services\Admin;
 
-use App\Repositories\Admin\CityRepository;
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Admin\CountryRepository;
 use App\Repositories\Admin\StateRepository;
+use App\Repositories\Admin\CityRepository;
 
-class CountryService
+class CountryService extends AbstractServiceModel
 {
     /** @var CountryRepository */
     protected $countryRepository;
+
+    /** @var StateService */
+    protected $stateService;
 
     /** @var StateRepository */
     protected $stateRepository;
@@ -25,7 +30,7 @@ class CountryService
         StateRepository $stateRepository,
         CityRepository $cityRepository
     ) {
-        $this->countryRepository = $countryRepository;
+        $this->repository = $this->countryRepository = $countryRepository;
         $this->stateRepository = $stateRepository;
         $this->cityRepository = $cityRepository;
     }
@@ -93,7 +98,8 @@ class CountryService
     }
 
     /**
-     * @param mixed $cityId
+     * @param null|int $cityId
+     * @return array
      */
     public function getCountriesSelect($cityId = null)
     {
@@ -112,7 +118,7 @@ class CountryService
             $cities = $this->cityRepository->getByState($state);
         } else {
             $country = $countries->where('id', 11)->first();
-            
+
             $states = $this->stateRepository->getByCountry($country);
 
             $state = $states->first();

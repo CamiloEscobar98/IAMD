@@ -43,7 +43,8 @@
                 <h5 class="font-weight-bold">{{ __('pages.client.projects.form-titles.create') }}</h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('client.projects.store', $client->name) }}" method="post">
+                <form action="{{ route('client.projects.store', $client->name) }}" method="post" id="form"
+                    data-client="{{ $client->name }}">
                     @csrf
 
                     @include('client.pages.projects.components.form')
@@ -70,6 +71,18 @@
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'
+        })
+
+        $('#research_unit_id').select2({
+            theme: 'bootstrap4',
+            placeholder: '--Seleccionar las unidades de investigación',
+            allowClear: true
+        })
+
+        $('#financing_type_id').select2({
+            theme: 'bootstrap4',
+            placeholder: '--Seleccionar las unidades de investigación',
+            allowClear: true
         })
     </script>
 @endsection

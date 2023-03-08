@@ -49,6 +49,7 @@ trait ClientRoutes
             $views,
             $this->getMainRoutes(),
             $this->getAdministrativeUnitRoutes(),
+            $this->getAcademicDepartmentRoutes(),
             $this->getResearchUnitRoutes(),
             $this->getProjectRoutes(),
             $this->getCreatorRoutes(),
@@ -79,7 +80,7 @@ trait ClientRoutes
 
         /** Projects */
         View::composer('client.pages.projects.components.filters', ProjectFilterComposer::class);
-        View::composer('client.pages.projects.components.form', CreateProjectComposer::class);
+        View::composer(['client.pages.projects.components.form', 'client.pages.projects.edit'], CreateProjectComposer::class);
 
         /** Creators */
 
@@ -144,6 +145,24 @@ trait ClientRoutes
         ];
     }
 
+      /**
+     * get Administrative Unit Routes
+     * 
+     * @return array
+     */
+    protected function getAcademicDepartmentRoutes(): array
+    {
+        return [
+            'client.pages.academic_departments.index',
+            'client.pages.academic_departments.create',
+            'client.pages.academic_departments.show',
+            'client.pages.academic_departments.edit',
+
+            'client.pages.academic_departments.components.filters',
+            'client.pages.academic_departments.components.table',
+        ];
+    }
+
     /**
      * get Research Unit Routes
      * 
@@ -177,6 +196,7 @@ trait ClientRoutes
 
             'client.pages.projects.components.filters',
             'client.pages.projects.components.table',
+            'client.pages.projects.components.form'
         ];
     }
 

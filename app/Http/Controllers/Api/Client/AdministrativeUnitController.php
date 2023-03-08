@@ -38,7 +38,7 @@ class AdministrativeUnitController extends Controller
 
             return response()->json($items);
         } catch (\Exception $th) {
-            return $th->getMessage();
+            
         }
     }
 
@@ -59,7 +59,7 @@ class AdministrativeUnitController extends Controller
 
             return response()->json($items);
         } catch (\Exception $th) {
-            return $th->getMessage();
+            
         }
     }
 }

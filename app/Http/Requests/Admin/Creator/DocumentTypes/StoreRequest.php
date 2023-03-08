@@ -25,7 +25,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'unique:mysql.document_types'],
-            'slug' => ['required', 'unique:mysql.document_types']
+            'slug' => ['required', 'unique:mysql.document_types', 'string', 'max:3']
         ];
     }
 }

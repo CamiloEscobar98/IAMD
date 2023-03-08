@@ -34,6 +34,11 @@
         {!! $filters !!}
 
         {!! $table !!}
+
+        <div class="mt-4">
+            {!! $links !!}
+        </div>
+
     </div>
 @endsection
 
@@ -47,12 +52,20 @@
     <script src="{{ asset('adminlte/dist/js/iamd/projects.js') }}"></script>
 
     <script>
-
-      
-
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'
+        })
+
+        $('#project_id').select2({
+            theme: 'bootstrap4',
+            placeholder: "---Seleccionar proyectos",
+        })
+
+        $('#intangible_asset_state_id').select2({
+            theme: 'bootstrap4',
+            placeholder: "---Seleccionar estados del activo",
+            allowClear: true
         })
     </script>
 @endsection

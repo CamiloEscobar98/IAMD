@@ -2,10 +2,9 @@
     <table class="table table-sm table-striped table-hover table-bordered">
         <thead>
             <tr>
-                <th style="width: 15em">{{ __('pages.client.projects.table.head.administrative_unit') }}</th>
-                <th style="width: 20em">{{ __('pages.client.projects.table.head.research_unit') }}</th>
                 <th>{{ __('pages.client.projects.table.head.director') }}</th>
                 <th>{{ __('pages.client.projects.table.head.name') }}</th>
+                <th>{{ __('pages.client.projects.table.head.project_contract') }}</th>
                 <th>{{ __('pages.client.projects.table.head.project_financing') }}</th>
                 <th>{{ __('pages.client.projects.table.head.intangible_assets') }}</th>
                 @canany(['projects.show', 'projects.destroy'])

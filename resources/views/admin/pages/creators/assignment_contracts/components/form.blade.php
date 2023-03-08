@@ -17,7 +17,7 @@
     </div>
 
     @error('is_internal')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 
@@ -37,7 +37,7 @@
     </div>
 
     @error('name')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Address -->

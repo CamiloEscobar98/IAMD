@@ -47,9 +47,13 @@
 
         <!-- Research Unit -->
         <div class="form-group mt-3">
-            <label>{{ __('inputs.research_unit_id') }}:</label>
-            <p> <a href="{{ getClientRoute('client.research_units.show', [$item->research_unit->id]) }}"
-                    class="btn btn-sm btn-outline-secondary">{{ $item->research_unit->name }}</a></p>
+            <label>Unidades de Investigación:</label>
+            <p>
+                @foreach ($item->research_units as $researchUnitItem)
+                    <a href="{{ getClientRoute('client.research_units.show', [$researchUnitItem->id]) }}"
+                        class="btn btn-sm btn-outline-secondary">{{ $researchUnitItem->name }}</a>
+                @endforeach
+            </p>
         </div>
         <!-- ./Research Unit -->
 
@@ -73,10 +77,14 @@
         <hr>
 
         <!-- Financing Types -->
+
         <div class="form-group mt-3">
             <label>{{ __('inputs.financing_type_id') }}</label>
-            <p> <a href="{{ getClientRoute('client.financing_types.show', [$item->project_financing->financing_type->id]) }}"
-                    class="btn btn-sm btn-outline-secondary">{{ $item->project_financing->financing_type->name }}</a>
+            <p>
+                @foreach ($item->project_financings as $projectFinancingItem)
+                    <a href="{{ getClientRoute('client.financing_types.show', [$projectFinancingItem->id]) }}"
+                        class="btn btn-sm btn-outline-secondary">{{ $projectFinancingItem->name }}</a>
+                @endforeach
             </p>
         </div>
         <!-- ./Financing Types -->
@@ -86,8 +94,8 @@
         <!-- Project Contract Types -->
         <div class="form-group mt-3">
             <label>{{ __('inputs.project_contract_type_id') }}</label>
-            <p> <a href="{{ getClientRoute('client.project_contract_types.show', [$item->project_financing->project_contract_type->id]) }}"
-                    class="btn btn-sm btn-outline-secondary">{{ $item->project_financing->project_contract_type->name }}</a>
+            <p> <a href="{{ getClientRoute('client.project_contract_types.show', [$item->contract_type->id]) }}"
+                    class="btn btn-sm btn-outline-secondary">{{ $item->contract_type->name }}</a>
             </p>
         </div>
         <!-- ./Project Contract Types -->
@@ -95,14 +103,14 @@
         <!-- Contract -->
         <div class="form-group mt-3">
             <label>{{ __('inputs.contract') }}</label>
-            <p>{{ $item->project_financing->contract }}</p>
+            <p>{{ $item->contract }}</p>
         </div>
         <!-- ./Contract -->
 
         <!-- Contract Date -->
         <div class="form-group mt-3">
             <label>{{ __('inputs.contract_date') }}</label>
-            <p>{{ transformDatetoString($item->project_financing->date) }}</p>
+            <p>{{ transformDatetoString($item->date) }}</p>
         </div>
         <!-- ./Contract Date -->
 
@@ -140,4 +148,18 @@
     @include('messages.delete_item', [
         'title' => __('pages.client.intangible_assets.messages.confirm'),
     ])
+
+    <script>
+        $('#research_unit_id').select2({
+            theme: 'bootstrap4',
+            placeholder: '--Seleccionar las unidades de investigación',
+            allowClear: true
+        })
+
+        $('#financing_type_id').select2({
+            theme: 'bootstrap4',
+            placeholder: '--Seleccionar las unidades de investigación',
+            allowClear: true
+        })
+    </script>
 @endsection

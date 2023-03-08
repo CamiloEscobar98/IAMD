@@ -2,19 +2,21 @@
 
 namespace App\Services\Client;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Client\PriorityToolRepository;
 
-class PriorityToolService
+class PriorityToolService extends AbstractServiceModel
 {
     /** @var PriorityToolRepository */
     protected $priorityToolRepository;
 
     public function __construct(PriorityToolRepository $priorityToolRepository)
     {
-        $this->priorityToolRepository = $priorityToolRepository;
+        $this->repository = $this->priorityToolRepository = $priorityToolRepository;
     }
 
     /**
@@ -77,5 +79,23 @@ class PriorityToolService
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
+    }
+
+    /**
+     * Search Priority Tool with a Pagination.
+     * @param array $data
+     * @param int $page
+     * @param array $with
+     * @param array $withCount
+     */
+    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
+    {
+        $params = $this->transformParams($data);
+        $query = $this->priorityToolRepository->search($params, $with, $withCount);
+        $total = $query->count();
+        $items = $this->customPagination($query, $params, $page, $total);
+        $links = $items->links('pagination.customized');
+
+        return [$params, $total, $items, $links];
     }
 }

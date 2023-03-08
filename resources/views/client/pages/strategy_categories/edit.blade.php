@@ -18,7 +18,10 @@
                             <a href="{{ route('client.strategy_categories.index', $client->name) }}">
                                 {{ __('pages.client.strategy_categories.title') }} </a>
                         </li>
-                        <li class="breadcrumb-item">{{ $item->name }}</li>
+                        <li class="breadcrumb-item">
+                            <a
+                                href="{{ route('client.strategy_categories.show', [$client->name, $item->id]) }}">{{ $item->name }}</a>
+                        </li>
                         <li class="breadcrumb-item active">{{ __('pages.default.edit') }}</li>
                     </ol>
                 </div>
@@ -45,7 +48,7 @@
                     @include('client.pages.strategy_categories.components.form')
 
                     <div class="form-group mt-3">
-                        <button class="btn btn-danger btn-sm">{{ __('buttons.save') }}</button>
+                        <button class="btn btn-danger btn-sm">{{ __('buttons.update') }}</button>
                     </div>
 
                 </form>

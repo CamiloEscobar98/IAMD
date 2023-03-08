@@ -23,6 +23,11 @@ class IntellectualPropertyRightProductRepository extends AbstractRepository
      */
     public function search(array $params = [], array $with = [], array $withCount = [])
     {
+        $joins = collect();
+
+        $joinIntellectualPropertyRightCategory = 'intellectual_property_right_categories';
+        $joinIntellectualPropertyRightSubcategory = 'intellectual_property_right_subcategories';
+
         $query = $this->model
             ->select("{$this->model->getTable()}.*");
 
@@ -31,6 +36,8 @@ class IntellectualPropertyRightProductRepository extends AbstractRepository
         }
 
         if (isset($params['intellectual_property_right_category_id']) && $params['intellectual_property_right_category_id'] > 0) {
+            $this->addJoin($joins, $joinIntellectualPropertyRightSubcategory, "{$joinIntellectualPropertyRightSubcategory}.id", "{$this->model->getTable()}.intellectual_property_right_subcategory_id");
+            $this->addJoin($joins, $joinIntellectualPropertyRightCategory, "{$joinIntellectualPropertyRightCategory}.id", "{$joinIntellectualPropertyRightSubcategory}.intellectual_property_right_category_id");
             $query->ofCategory($params['intellectual_property_right_category_id']);
         }
 
@@ -58,6 +65,11 @@ class IntellectualPropertyRightProductRepository extends AbstractRepository
         if (isset($withCount) && $withCount) {
             $query->withCount($withCount);
         }
+
+        $joins->each(function ($item, $key) use ($query) {
+            $item = json_decode($item, false);
+            $query->join($key, $item->first, '=', $item->second, $item->join_type);
+        });
 
         return $query;
     }

@@ -39,15 +39,15 @@ Route::prefix('intellectual_property_rights')->group(function () {
 /** ./Intellectual Property Rights */
 
 /** Localizations */
-Route::prefix('localizations')->group(function () {
-    Route::prefix('countries')->group(function () {
+Route::prefix('localizaciones')->group(function () {
+    Route::prefix('paises')->group(function () {
         Route::get('/', [CountryController::class,  'index']);
-        Route::get('{country}/states', [CountryController::class, 'states']);
+        Route::get('{country}/departamentos', [CountryController::class, 'states']);
     });
 
-    Route::prefix('states')->group(function () {
+    Route::prefix('departamentos')->group(function () {
         Route::get('/', [StateController::class,  'index']);
-        Route::get('{state}/cities', [StateController::class, 'cities']);
+        Route::get('{state}/ciudades', [StateController::class, 'cities']);
     });
 });
 /** ./Localizations */
@@ -61,7 +61,7 @@ Route::middleware(['check-client'])
             Route::get('{administrative_unit}/research_units', [AdministrativeUnitController::class, 'research_units']);
         });
 
-        Route::prefix('research_units')->group(function () {
+        Route::prefix('unidades-investigativas')->group(function () {
             Route::get('/', [ResearchUnitController::class, 'index']);
             Route::get('{research_unit}/projects', [ResearchUnitController::class, 'projects']);
         });

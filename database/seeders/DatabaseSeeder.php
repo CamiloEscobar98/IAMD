@@ -10,8 +10,7 @@ use Database\Seeders\Admin\TenantSeeder;
 use Database\Seeders\Admin\DocumentTypeSeeder;
 use Database\Seeders\Admin\ExternalOrganizationSeeder;
 
-use Database\Seeders\Localization\CountrySeeder;
-use Database\Seeders\Localization\StateAndCitySeeder;
+use Database\Seeders\Localization\LocalizationSeeder;
 
 use Database\Seeders\Admin\AssignmentContractSeeder;
 use Database\Seeders\Admin\LinkageTypeSeeder;
@@ -36,8 +35,7 @@ class DatabaseSeeder extends Seeder
             DocumentTypeSeeder::class,
             ExternalOrganizationSeeder::class,
 
-            CountrySeeder::class,
-            StateAndCitySeeder::class,
+            LocalizationSeeder::class,
 
             AssignmentContractSeeder::class,
             LinkageTypeSeeder::class,

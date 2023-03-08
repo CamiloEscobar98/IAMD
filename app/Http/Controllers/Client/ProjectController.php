@@ -18,7 +18,6 @@ use App\Repositories\Client\ProjectFinancingRepository;
 
 class ProjectController extends Controller
 {
-
     /** @var ProjectService */
     protected $projectService;
 
@@ -41,7 +40,7 @@ class ProjectController extends Controller
         $this->middleware('permission:projects.store')->only(['create', 'store']);
         $this->middleware('permission:projects.update')->only(['edit', 'update']);
         $this->middleware('permission:projects.destroy')->only('destroy');
-        
+
         $this->projectService = $projectService;
 
         $this->projectRepository = $projectRepository;
@@ -51,26 +50,24 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param string $client
      * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function index(Request $request) #: \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+    public function index(Request $request, $client) #: \Illuminate\View\View|\Illuminate\Http\RedirectResponse
     {
         try {
-            $params = $this->projectService->transformParams($request->all());
-
-            $query = $this->projectRepository->search($params, ['director','research_unit.administrative_unit', 'project_financing.financing_type'], ['intangible_assets']);
-
-            $total = $query->count();
-
-            $items = $this->projectService->customPagination($query, $params, $request->get('page'), $total);
-
-            $links = $items->links('pagination.customized');
-
+            [$params, $total, $items, $links] = $this->projectService->searchWithPagination(
+                $request->all(),
+                $request->get('page'),
+                ['project_financings:id,name,code', 'director:id,name', 'contract_type:id,name,code'],
+                ['intangible_assets']
+            );
             return view('client.pages.projects.index', compact('links'))
                 ->nest('filters', 'client.pages.projects.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.projects.components.table', compact('items'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return $th->getMessage();
+            return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -85,7 +82,7 @@ class ProjectController extends Controller
             $item = $this->projectRepository->newInstance();
             return view('client.pages.projects.create', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -93,29 +90,12 @@ class ProjectController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param string $client
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function store(StoreRequest $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function store(StoreRequest $request, $client): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
-        try {
-
-            $dataProject = $request->only(['research_unit_id', 'director_id', 'name', 'description']);
-
-            DB::beginTransaction();
-
-            $item = $this->projectRepository->create($dataProject);
-
-            $dataProjectFinancing = $request->only(['financing_type_id', 'project_contract_type_id', 'contract', 'date']);
-            $dataProjectFinancing['project_id'] = $item->id;
-
-            $this->projectFinancingRepository->create($dataProjectFinancing);
-
-            DB::commit();
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.projects.messages.save_success', ['project' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
-        }
+        return redirect()->route('client.projects.create', $client)->with('alert', $this->projectService->save($request->all()));
     }
 
     /**
@@ -129,11 +109,10 @@ class ProjectController extends Controller
     public function show($id, $project, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
-            $item = $this->projectRepository->getByIdWithRelations($project, ['research_unit', 'director', 'intangible_assets', 'project_financing.financing_type', 'project_financing.project_contract_type']);
-
+            $item = $this->projectRepository->getByIdWithRelations($project, ['director', 'research_units', 'intangible_assets', 'project_financings', 'contract_type']);
             return view('client.pages.projects.show', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -148,11 +127,10 @@ class ProjectController extends Controller
     public function edit($id, $project, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
-            $item = $this->projectRepository->getByIdWithRelations($project, ['project_financing']);
-
+            $item = $this->projectRepository->getByIdWithRelations($project, ['director', 'research_units', 'intangible_assets', 'project_financings', 'contract_type']);
             return view('client.pages.projects.edit', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -160,36 +138,14 @@ class ProjectController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $client
      * @param int $project
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, $id, $project): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function update(UpdateRequest $request, $client, $project): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
-        try {
-
-            $dataProject = $request->only(['research_unit_id', 'director_id', 'name', 'description']);
-
-            $item = $this->projectRepository->getById($project);
-
-            DB::beginTransaction();
-
-            $this->projectRepository->update($item, $dataProject);
-
-            $dataProjectFinancing = $request->only(['financing_type_id', 'project_contract_type_id', 'contract', 'date']);
-
-            $projectFinancing = $this->projectFinancingRepository->getById($project);
-
-            $this->projectFinancingRepository->update($projectFinancing, $dataProjectFinancing);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.projects.messages.update_success', ['project' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.projects.messages.update_error')]);
-        }
+        return redirect()->route('client.projects.edit', ['project' => $project, 'client' => $client])->with('alert', $this->projectService->update($request->all(), $project));
     }
 
     /**

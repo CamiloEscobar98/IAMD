@@ -26,7 +26,7 @@ class ClientComposer
     public function compose(View $view)
     {
         $client = $this->tenantRepository->getByAttribute('name', $this->request->client);
-        
+                
         $view->with(compact('client'));
     }
 }

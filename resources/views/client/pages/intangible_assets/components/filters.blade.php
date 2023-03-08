@@ -43,59 +43,40 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-
-                <!-- Administrative Unit -->
-                <div class="col-lg-4">
-                    <div class="input-group mb-3">
-                        <div class="input-group-append">
-                            <label class="input-group-text">{{ __('filters.administrative_units') }}</label>
-                        </div>
-                        <select name="administrative_unit_id" id="administrative_unit_id"
-                            class="form-control select2bs4" onchange="changeAdministrativeUnit()">
-                            @foreach ($administrativeUnits as $administrativeUnitId => $value)
-                                <option value="{{ $administrativeUnitId }}"
-                                    {{ twoOptionsIsEqual(getParamObject($administrativeUnit, 'id'), $administrativeUnitId) }}>
-                                    {{ $value }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <!-- ./Administrative Unit -->
-
-                <!-- Research Unit -->
-                <div class="col-lg-4">
-                    <div class="input-group mb-3">
-                        <div class="input-group-append">
-                            <label class="input-group-text">{{ __('filters.research_units') }}</label>
-                        </div>
-                        <select name="research_unit_id" id="research_unit_id" class="form-control select2bs4"
-                            onchange="changeResearchUnit()">
-                            @foreach ($researchUnits as $researchUnitId => $value)
-                                <option value="{{ $researchUnitId }}"
-                                    {{ twoOptionsIsEqual(getParamObject($researchUnit, 'id'), $researchUnitId) }}>
-                                    {{ $value }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <!-- ./Research Unit -->
-
                 <!-- Projects -->
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.projects') }}</label>
                         </div>
-                        <select name="project_id" id="project_id" class="form-control select2bs4">
+                        <select name="project_id[]" id="project_id" class="form-control select2bs4" multiple>
                             @foreach ($projects as $projectId => $value)
                                 <option value="{{ $projectId }}"
-                                    {{ twoOptionsIsEqual(getParamObject($project, 'id'), $projectId) }}>
+                                    {{ optionInArray($params, 'project_id', $projectId) }}>
                                     {{ $value }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
                 <!-- ./Projects -->
+
+                <!-- States -->
+                <div class="col-lg-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label class="input-group-text">{{ __('filters.intangible_assets_state') }}</label>
+                        </div>
+                        <select name="intangible_asset_state_id[]" id="intangible_asset_state_id"
+                            class="form-control select2bs4" multiple>
+                            @foreach ($states as $stateId => $value)
+                                <option value="{{ $stateId }}"
+                                    {{ optionInArray($params, 'intangible_asset_state_id', $stateId) }}>
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <!-- ./States -->
             </div>
 
             <div class="btn-group">

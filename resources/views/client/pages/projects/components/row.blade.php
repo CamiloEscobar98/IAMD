@@ -1,15 +1,18 @@
 <tr>
-    <td><a href="{{ getClientRoute('client.administrative_units.show', [$item->research_unit->administrative_unit->id]) }}"
-            class="btn btn-sm btn-outline-secondary">{{ getParamObject($item->research_unit->administrative_unit, 'name') }}</a>
-    </td>
-    <td><a href="{{ getClientRoute('client.research_units.show', [$item->research_unit->id]) }}"
-            class="btn btn-sm btn-outline-secondary">{{ getParamObject($item->research_unit, 'name') }}</a></td>
     <td>{{ getParamObject($item->director, 'name') }}</td>
     <td>{{ $item->name }}</td>
     <td>
-        <b>{{ getParamObject($item->project_financing->financing_type, 'name') }}</b>
-        <p>{{ getParamObject($item->project_financing, 'contract') }}</p>
-        <p>{{ getParamObject($item->project_financing, 'date') }}</p>
+        <b>{{ getParamObject($item, 'contract') }}</b>
+        <p>{{ getParamObject($item, 'date') }} <br>
+            {{ getParamObject($item->contract_type, 'name') }}-
+            {{ getParamObject($item->contract_type, 'code', true) }}</p>
+    </td>
+    <td>
+        @forelse ($item->project_financings as $projectFinancing)
+            <b>{{ getParamObject($projectFinancing, 'name') }}</b>
+            <p>{{ getParamObject($projectFinancing, 'code', true) }}</p>
+        @empty
+        @endforelse
     </td>
     <td>
         {{ __('pages.client.projects.table.body.intangible_assets_count', ['intangible_assets' => $item->intangible_assets_count]) }}

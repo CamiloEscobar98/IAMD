@@ -2,14 +2,17 @@
 
 namespace App\Services\Client;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Client\AdministrativeUnitRepository;
+use App\Repositories\Client\IntangibleAssetRepository;
 use App\Repositories\Client\ProjectRepository;
 use App\Repositories\Client\ResearchUnitRepository;
 
-class AdministrativeUnitService
+class AdministrativeUnitService extends AbstractServiceModel
 {
     /** @var AdministrativeUnitRepository */
     protected $administrativeUnitRepository;
@@ -20,14 +23,19 @@ class AdministrativeUnitService
     /** @var ProjectRepository */
     protected $projectRepository;
 
+    /** @var IntangibleAssetRepository */
+    protected $intangibleAssetRepository;
+
     public function __construct(
         AdministrativeUnitRepository $administrativeUnitRepository,
         ResearchUnitRepository $researchUnitRepository,
-        ProjectRepository $projectRepository
+        ProjectRepository $projectRepository,
+        IntangibleAssetRepository $intangibleAssetRepository,
     ) {
-        $this->administrativeUnitRepository = $administrativeUnitRepository;
+        $this->repository = $this->administrativeUnitRepository = $administrativeUnitRepository;
         $this->researchUnitRepository = $researchUnitRepository;
         $this->projectRepository = $projectRepository;
+        $this->intangibleAssetRepository = $intangibleAssetRepository;
     }
 
     /**
@@ -92,50 +100,23 @@ class AdministrativeUnitService
         }
     }
 
-    public function getAdministrativeUnitsSelectByIntangibleAssetForm(int|null $intangibleAssetId)
+    /**
+     * Search Administrative Units with a Pagination.
+     * @param array $data
+     * @param int $page
+     * @param array $with
+     * @param array $withCount
+     * @param int|null $countryId
+     */
+    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
     {
+        $params = $this->transformParams($data);
+        $query = $this->administrativeUnitRepository->search($params, $with, $withCount);
+        $total = $query->count();
+        $items = $this->customPagination($query, $params, $page, $total);
+        $links = $items->links('pagination.customized');
 
-        /** Administratvie Units */
-        $administrativeUnits =  $this->administrativeUnitRepository->all();
-
-        if ($intangibleAssetId) {
-
-            /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset */
-            $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAssetId);
-
-            if ($intangibleAsset->hasProject()) {
-
-                /** @var \App\Models\Client\Project\Project */
-                $project = $this->projectRepository->getById($intangibleAsset->project_id);
-
-                /** @var \App\Models\Client\ResearchUnit $researchUnit */
-                $researchUnit = $this->researchUnitRepository->getById($project->research_unit_id);
-
-                /** @var \App\Models\Client\AdministrativeUnit $administrativeUnit */
-                $administrativeUnit = $this->administrativeUnitRepository->getById($researchUnit->administrative_unit->id);
-
-                /** Research Units */
-                $researchUnits = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnit);
-
-                /** Projects */
-                $projects = $this->projectRepository->getByResearchUnit($researchUnit);
-            }
-        } else {
-
-            $params = collect(old())->only(['administrative_unit_id', 'research_unit_id', 'project_id']);
-
-            [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project] = $this->getAdministrativeUnitsSelectByParams($params->toArray());
-
-            return [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project];
-        }
-
-        $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('---Seleccionar Facultad', 0);
-
-        $researchUnits = $researchUnits->pluck('name', 'id')->prepend('---Seleccionar Unidad Investigativa', 0);
-
-        $projects = $projects->pluck('name', 'id')->prepend('---Seleccionar Proyecto', 0);
-
-        return [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project];
+        return [$params, $total, $items, $links];
     }
 
     public function getAdministrativeUnitsSelectByParams(array $params)
@@ -144,11 +125,11 @@ class AdministrativeUnitService
         $administrativeUnits =  $this->administrativeUnitRepository->all();
 
         if (empty($params) || (isset($params['administrative_unit_id']) && $params['administrative_unit_id'] == 0)) {
-            $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('---Seleccionar Facultad', 0);
+            $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('---Seleccionar facultad administrativa', 0);
 
-            $researchUnits = collect()->pluck('name', 'id')->prepend('---Seleccionar Unidad Investigativa', 0);
+            $researchUnits = collect()->pluck('name', 'id')->prepend('---Seleccionar unidad de investigación', 0);
 
-            $projects = collect()->pluck('name', 'id')->prepend('---Seleccionar Proyecto', 0);
+            $projects = collect()->pluck('name', 'id')->prepend('---Seleccionar proyecto', 0);
 
             return [$administrativeUnits, $researchUnits, $projects, null, null, null];
         } else {
@@ -194,12 +175,98 @@ class AdministrativeUnitService
                 $project = null;
             }
 
-            $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('---Seleccionar Facultad', 0);
+            $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('---Seleccionar facultad administrativa', 0);
 
-            $researchUnits = $researchUnits->pluck('name', 'id')->prepend('---Seleccionar Unidad Investigativa', 0);
+            $researchUnits = $researchUnits->pluck('name', 'id')->prepend('---Seleccionar unidad de investigación', 0);
 
-            $projects = $projects->pluck('name', 'id')->prepend('---Seleccionar Proyecto', 0);
+            $projects = $projects->pluck('name', 'id')->prepend('---Seleccionar proyecto', 0);
         }
+
+        return [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project];
+    }
+
+    public function getAdministrativeUnitsSelectByIntangibleAssetForm(int|null $intangibleAssetId)
+    {
+
+        /** Administratvie Units */
+        $administrativeUnits =  $this->administrativeUnitRepository->all();
+
+        if ($intangibleAssetId) {
+
+            /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset */
+            $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAssetId);
+
+            if ($intangibleAsset->hasProject()) {
+
+                /** @var \App\Models\Client\Project\Project */
+                $project = $this->projectRepository->getById($intangibleAsset->project_id);
+
+                /** @var \App\Models\Client\ResearchUnit $researchUnit */
+                $researchUnit = $this->researchUnitRepository->getById($project->research_unit_id);
+
+                /** @var \App\Models\Client\AdministrativeUnit $administrativeUnit */
+                $administrativeUnit = $this->administrativeUnitRepository->getById($researchUnit->administrative_unit->id);
+
+                /** Research Units */
+                $researchUnits = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnit);
+
+                /** Projects */
+                $projects = $this->projectRepository->getByResearchUnit($researchUnit);
+            }
+        } else {
+
+            $params = collect(old())->only(['administrative_unit_id', 'research_unit_id', 'project_id']);
+
+            [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project] = $this->getAdministrativeUnitsSelectByParams($params->toArray());
+
+            return [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project];
+        }
+
+        $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('---Seleccionar facultad administrativa', 0);
+
+        $researchUnits = $researchUnits->pluck('name', 'id')->prepend('---Seleccionar unidad de investigación', 0);
+
+        $projects = $projects->pluck('name', 'id')->prepend('---Seleccionar proyecto', 0);
+
+        return [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project];
+    }
+
+    public function getAdministrativeUnitsSelectByProjectForm(int|null $projectId)
+    {
+
+        /** Administratvie Units */
+        $administrativeUnits =  $this->administrativeUnitRepository->all();
+
+        if ($projectId) {
+
+            /** @var \App\Models\Client\Project\Project */
+            $project = $this->projectRepository->getById($projectId);
+
+            /** @var \App\Models\Client\ResearchUnit $researchUnit */
+            $researchUnit = $this->researchUnitRepository->getById($project->research_unit_id);
+
+            /** @var \App\Models\Client\AdministrativeUnit $administrativeUnit */
+            $administrativeUnit = $this->administrativeUnitRepository->getById($researchUnit->administrative_unit->id);
+
+            /** Research Units */
+            $researchUnits = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnit);
+
+            /** Projects */
+            $projects = $this->projectRepository->getByResearchUnit($researchUnit);
+        } else {
+
+            $params = collect(old())->only(['administrative_unit_id', 'research_unit_id', 'project_id']);
+
+            [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project] = $this->getAdministrativeUnitsSelectByParams($params->toArray());
+
+            return [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project];
+        }
+
+        $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('---Seleccionar facultad administrativa', 0);
+
+        $researchUnits = $researchUnits->pluck('name', 'id')->prepend('---Seleccionar unidad de investigación', 0);
+
+        $projects = $projects->pluck('name', 'id')->prepend('---Seleccionar proyecto', 0);
 
         return [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project];
     }

@@ -13,6 +13,10 @@ use App\Http\Requests\Admin\Localizations\Cities\UpdateRequest;
 use App\Services\Admin\CityService;
 
 use App\Repositories\Admin\CityRepository;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 class CityController extends Controller
 {
@@ -44,25 +48,20 @@ class CityController extends Controller
     public function index(Request $request)
     {
         try {
-            $oldParams = $request->all();
-
             $params = $this->cityService->transformParams($request->all());
-
             $query = $this->cityRepository->search($params, ['country', 'state']);
-
             $total = $query->count();
-            $items = $this->cityService->customPagination($query, $params, null, $request->get('page'), $total);
-
+            $items = $this->cityService->customPagination($query, $params, 10, $request->get('page'), $total);
             $links = $items->links('pagination.customized');
-
-            $params = $oldParams;
-
             return view('admin.pages.localization.cities.index', compact('links'))
                 ->nest('filters', 'admin.pages.localization.cities.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.localization.cities.components.table', compact('items'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/Localizations/CityController:Index/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Localizations/CityController:Index/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.localizations.cities.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -75,9 +74,10 @@ class CityController extends Controller
         try {
             $item = $this->cityRepository->newInstance();
             return view('admin.pages.localization.cities.create', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Localizations/CityController:Create/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -88,17 +88,21 @@ class CityController extends Controller
      */
     public function store(StoreRequest $request)
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
         try {
-            $data = $request->all();
-
-            $item = DB::transaction(function () use ($data) {
-                return $this->cityRepository->create($data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.cities.messages.save_success', ['city' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.save_error')]);
+            DB::beginTransaction();
+            $item = $this->cityService->save($request->only('name', 'state_id'));
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+            Log::info("@Web/Controllers/Admin/Localizations/CityController:Store/Success, Item: {$item->name}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/Localizations/CityController:Store/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Localizations/CityController:Store/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('admin.localizations.cities.create')->with('alert', $response);
     }
 
     /**
@@ -111,13 +115,14 @@ class CityController extends Controller
     public function show($id)
     {
         try {
-            $item = $this->cityRepository->search(['id' => $id], ['country', 'state'])->get()->first();
-
+            $item = $this->cityRepository->getById($id);
             return view('admin.pages.localization.cities.show', compact('item'));
-        } catch (\Exception $th) {
-            return $th->getMessage();
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/Localizations/CityController:Show/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Localizations/CityController:Show/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.not_found')]);
     }
 
     /**
@@ -130,14 +135,13 @@ class CityController extends Controller
     {
         try {
             $item = $this->cityRepository->search(['id' => $id], ['country', 'state'])->get()->first();
-
             return view('admin.pages.localization.cities.edit', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with(
-                'alert',
-                ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]
-            );
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/Localizations/CityController:Edit/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Localizations/CityController:Edit/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.not_found')]);
     }
 
     /**
@@ -149,18 +153,23 @@ class CityController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
         try {
-            $data = $request->all();
-            $item = $this->cityRepository->getById($id);
-
-            DB::transaction(function () use ($data, $item) {
-                $this->cityRepository->update($item, $data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.cities.messages.update_success', ['city' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.update_error')]);
+            DB::beginTransaction();
+            $item = $this->cityService->update($request->only('name', 'state_id'), $id);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+            Log::info("@Web/Controllers/Admin/Localizations/CountryController:Update/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/Localizations/CityController:Update/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/Localizations/CityController:Update/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Localizations/CityController:Update/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('admin.localizations.cities.edit', $id)->with('alert', $response);
     }
 
     /**
@@ -171,16 +180,23 @@ class CityController extends Controller
      */
     public function destroy($id)
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
         try {
             $item = $this->cityRepository->getById($id);
-
-            DB::transaction(function () use ($item) {
-                $this->cityRepository->delete($item);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.localizations.cities.messages.delete_success', ['city' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.localizations.cities.messages.delete_error')]);
+            DB::beginTransaction();
+            $this->cityService->delete($id);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
+            Log::info("@Web/Controllers/Admin/Localizations/CityController:Delete/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/Localizations/CityController:Delete/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/Localizations/CityController:Delete/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Localizations/CityController:Delete/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('admin.localizations.cities.index')->with('alert', $response);
     }
 }

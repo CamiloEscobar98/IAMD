@@ -2,21 +2,26 @@
 
 namespace App\Services\Client;
 
-use App\Models\Client\IntangibleAsset\IntangibleAsset;
-use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
-use App\Repositories\Client\FinancingTypeRepository;
-use App\Repositories\Client\IntangibleAssetLocalizationRepository;
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Carbon;
 
-use App\Repositories\Client\IntangibleAssetRepository;
+
+use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
 use App\Repositories\Client\ProjectContractTypeRepository;
 use App\Repositories\Client\ProjectFinancingRepository;
 use App\Repositories\Client\ResearchUnitRepository;
-use Illuminate\Support\Carbon;
+use App\Repositories\Client\FinancingTypeRepository;
+use App\Repositories\Client\IntangibleAssetLocalizationRepository;
+use App\Repositories\Client\IntangibleAssetRepository;
 
-class IntangibleAssetService
+use App\Models\Client\IntangibleAsset\IntangibleAsset;
+
+class IntangibleAssetService extends AbstractServiceModel
 {
     /** @var IntangibleAssetRepository */
     protected $intangibleAssetRepository;
@@ -120,35 +125,93 @@ class IntangibleAssetService
     }
 
     /**
-     * @param array $data
-     * @param array $localizationData
+     * Store a new IntangibleAsset.
      * 
+     * @param array $data
      * @return array
      */
-    public function createIntangibleAsset(array $data, array $localizationData)
+    public function save(array $data): array
     {
+        $dataCollection = collect($data);
+        $data = $dataCollection->only(['project_id', 'name', 'date'])->toArray();
+        $localizationData = $dataCollection->only(['localization', 'localization_code'])->toArray();
+        $researchUnitIds = $dataCollection->get('research_unit_id');
+
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
         try {
-
             DB::beginTransaction();
-
+            /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $item */
             $item = $this->intangibleAssetRepository->create($data);
-            
+            $item->research_units()->sync($researchUnitIds);
             $arrayDataLocaliztion = [
                 'intangible_asset_id' => $item->id,
                 'localization' => $localizationData['localization'],
                 'code' => $localizationData['localization_code'],
             ];
-
             $this->intangibleAssetLocalizationRepository->create($arrayDataLocaliztion);
-
             DB::commit();
-            return [
-                'title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.save_success', ['intangible_asset' => $item->name])
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+        } catch (QueryException $th) {
+            dd($th->getMessage());
+            DB::rollBack();
+        }
+        return $response;
+    }
+
+    /**
+     * Update an Intangible Asset.
+     * 
+     * @param array $data
+     * @param mixed $id
+     * @return array
+     */
+    public function update(array $data, $id): array
+    {
+        $dataCollection = collect($data);
+        $data = $dataCollection->only(['project_id', 'name', 'date'])->toArray();
+        $localizationData = $dataCollection->only(['localization', 'localization_code'])->toArray();
+        $researchUnitIds = $dataCollection->get('research_unit_id');
+
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
+        try {
+            DB::beginTransaction();
+            /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $item */
+            $item = $this->intangibleAssetRepository->getById($id);
+            $this->intangibleAssetRepository->update($item, $data);
+            $item->research_units()->sync($researchUnitIds);
+            $arrayDataLocaliztion = [
+                'intangible_asset_id' => $item->id,
+                'localization' => $localizationData['localization'],
+                'code' => $localizationData['localization_code'],
             ];
+            $intangibleAssetLocaliation = $item->intangible_asset_localization;
+            $this->intangibleAssetLocalizationRepository->update($intangibleAssetLocaliation, $arrayDataLocaliztion);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+        } catch (QueryException $th) {
+            dd($th->getMessage());
+            DB::rollBack();
+        }
+        return $response;
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function updateCode(int $id): array
+    {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.messages.update_error')];
+        try {
+            $item = $this->intangibleAssetRepository->getById($id);
+
+            $this->generateCodeOfIntangibleAsset($item);
+
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.update_success', ['intangible_asset' => $item->name])];
         } catch (\Exception $th) {
             DB::rollBack();
-            return ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()];
         }
+        return $response;
     }
 
     /**
@@ -159,13 +222,10 @@ class IntangibleAssetService
     public function generateCodeOfIntangibleAsset($intangibleAsset)
     {
         /** @var \App\Models\Client\FinancingType $financingType */
-        $financingType = $this->financingTypeRepository->getByProject($intangibleAsset->project_id)->first();
-
-        /** @var \App\Models\Client\Project\ProjectFinancing $projectFinancing */
-        $projectFinancing = $this->projectFinancingRepository->getByProject($intangibleAsset->project_id)->first();
-
+        $financingType = $this->financingTypeRepository->search(['project_id' => $intangibleAsset->project_id])->first();
+        
         /** @var \App\Models\Client\ResearchUnit $researchUnit */
-        $researchUnit = $this->researchUnitRepository->getByProject($intangibleAsset->project_id)->first();
+        $researchUnit = $this->researchUnitRepository->search(['project_id' => $intangibleAsset->project_id])->first();
 
         /** CodePart I */
         $financingTypeCode = $financingType->code;
@@ -174,10 +234,10 @@ class IntangibleAssetService
         $researchUnitCode = $researchUnit->code;
 
         /** CodePart III */
-        $year = (new Carbon($projectFinancing->date))->year;
+        $year = (new Carbon($intangibleAsset->project->date))->year;
 
         /** CodePart IV */
-        $projectContractType = $this->projectContractTypeRepository->getById($projectFinancing->project_contract_type_id);
+        $projectContractType = $this->projectContractTypeRepository->getById($intangibleAsset->project->project_contract_type_id);
         $projectContractTypeCode = $projectContractType->code ?? '';
 
         /** CodePart V */
@@ -187,5 +247,23 @@ class IntangibleAssetService
         $code = "{$financingTypeCode}{$researchUnitCode}{$year}{$projectContractTypeCode}{$intellectualPropertyRightProductCode}";
 
         $this->intangibleAssetRepository->update($intangibleAsset, ['code' => $code]);
+    }
+
+    /**
+     * Search Intangible Asset with a Pagination.
+     * @param array $data
+     * @param int $page
+     * @param array $with
+     * @param array $withCount
+     */
+    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
+    {
+        $params = $this->transformParams($data);
+        $query = $this->intangibleAssetRepository->search($params, $with, $withCount);
+        $total = $query->count();
+        $items = $this->customPagination($query, $params, $page, $total);
+        $links = $items->links('pagination.customized');
+
+        return [$params, $total, $items, $links];
     }
 }

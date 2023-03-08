@@ -14,6 +14,10 @@ use App\Http\Requests\Admin\Creator\AssignmentContracts\UpdateRequest;
 use App\Repositories\Admin\AssignmentContractRepository;
 
 use App\Services\Admin\AssignmentContractService;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 class AssignmentContractController extends Controller
 {
@@ -42,23 +46,19 @@ class AssignmentContractController extends Controller
     {
         try {
             $params = $this->assignmentContractService->transformParams($request->all());
-
             $query = $this->assignmentContractRepository->search($params);
-
             $total = $query->count();
-
             $items = $this->assignmentContractService->customPagination($query, $params, $request->get('page'), $total);
-
             $links = $items->links('pagination.customized');
-
-            $types = [['id' => 2, 'name' => __('pages.admin.creators.assignment_contracts.options.external')], ['id' => 1, 'name' => __('pages.admin.creators.assignment_contracts.options.internal')]];
-
             return view('admin.pages.creators.assignment_contracts.index', compact('links'))
-                ->nest('filters', 'admin.pages.creators.assignment_contracts.components.filters', compact('params', 'total', 'types'))
+                ->nest('filters', 'admin.pages.creators.assignment_contracts.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.creators.assignment_contracts.components.table', compact('items'));
-        } catch (\Throwable $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/Creators/AssignmentContractController:Index/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/AssignmentContractController:Index/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.creators.assignment_contracts.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -71,9 +71,10 @@ class AssignmentContractController extends Controller
         try {
             $item = $this->assignmentContractRepository->newInstance();
             return view('admin.pages.creators.assignment_contracts.create', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/AssignmentContractController:Create/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -84,17 +85,20 @@ class AssignmentContractController extends Controller
      */
     public function store(StoreRequest $request)
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
         try {
-            $data = $request->all();
-
-            $item = DB::transaction(function () use ($data) {
-                return $this->assignmentContractRepository->create($data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.assignment_contracts.messages.save_success', ['assignment_contract' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.assignment_contracts.messages.save_error')]);
+            DB::beginTransaction();
+            $this->assignmentContractService->save($request->all());
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/Creators/AssignmentContractController:Store/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/AssignmentContractController:Store/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('admin.creators.assignment_contracts.create')->with('alert', $response);
     }
 
     /**
@@ -107,11 +111,13 @@ class AssignmentContractController extends Controller
     {
         try {
             $item = $this->assignmentContractRepository->getById($id);
-
             return view('admin.pages.creators.assignment_contracts.show', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/Creators/AssignmentContractController:Show/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/AssignmentContractController:Show/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.not_found')]);
     }
 
     /**
@@ -124,15 +130,14 @@ class AssignmentContractController extends Controller
     {
         try {
             $item = $this->assignmentContractRepository->getById($id);
-
-            $types = [['id' => 0, 'name' => __('pages.admin.creators.assignment_contracts.options.external')], ['id' => 1, 'name' => __('pages.admin.creators.assignment_contracts.options.internal')]];
-            $editMode = true;
-
             return view('admin.pages.creators.assignment_contracts.edit', compact('item'))
-                ->nest('form', 'admin.pages.creators.assignment_contracts.components.form', compact('editMode', 'types', 'item'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+                ->nest('form', 'admin.pages.creators.assignment_contracts.components.form', compact('item'));
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/Creators/AssignmentContractController:Edit/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/AssignmentContractController:Edit/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -144,19 +149,22 @@ class AssignmentContractController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
         try {
-            $data = $request->all();
-
-            $item = $this->assignmentContractRepository->getById($id);
-
-            DB::transaction(function () use ($item, $data) {
-                $this->assignmentContractRepository->update($item, $data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.assignment_contracts.messages.update_success', ['assignment_contract' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.assignment_contracts.messages.update_error')]);
+            DB::beginTransaction();
+            $this->assignmentContractService->update($request->all(), $id);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/Creators/AssignmentContractController:Update/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/Creators/AssignmentContractController:Update/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/AssignmentContractController:Update/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('admin.creators.assignment_contracts.edit', $id)->with('alert', $response);
     }
 
     /**
@@ -167,16 +175,23 @@ class AssignmentContractController extends Controller
      */
     public function destroy($id)
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
         try {
             $item = $this->assignmentContractRepository->getById($id);
-
-            DB::transaction(function () use ($item) {
-                $this->assignmentContractRepository->delete($item);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.assignment_contracts.messages.delete_success', ['assignment_contract' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.assignment_contracts.messages.delete_error')]);
+            DB::beginTransaction();
+            $this->assignmentContractService->delete($id);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
+            Log::info("@Web/Controllers/Admin/Creators/AssignmentContractController:Delete/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/Creators/AssignmentContractController:Delete/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/Creators/AssignmentContractController:Delete/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/AssignmentContractController:Delete/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('admin.creators.assignment_contracts.index')->with('alert', $response);
     }
 }

@@ -2,19 +2,21 @@
 
 namespace App\Services\Admin;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Admin\CityRepository;
 
-class CityService
+class CityService extends AbstractServiceModel
 {
     /** @var CityRepository */
     protected $cityRepository;
 
     public function __construct(CityRepository $cityRepository)
     {
-        $this->cityRepository = $cityRepository;
+        $this->repository = $this->cityRepository = $cityRepository;
     }
 
     /**
@@ -61,16 +63,6 @@ class CityService
             $query->skip($offset)
                 ->take($perPage);
 
-            if (isset($params['order_by'])) {
-                if ($params['order_by'] == 1) {
-                    $query->orderBy('name', 'ASC');
-                } else {
-                    $query->orderBy('name', 'DESC');
-                }
-            } else {
-                $query->orderBy('name', 'ASC');
-            }
-            $query->orderBy('state_id', 'ASC');
             $items = $query->get();
 
             $items = new LengthAwarePaginator($items, $total, $perPage, $page, [
@@ -84,5 +76,23 @@ class CityService
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
+    }
+
+    /**
+     * @param array $data
+     * @param int $page
+     * @param array $with
+     * @param array $withCount
+     * @param int|null $cityId
+     */
+    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = [], int|null $cityId = null): array
+    {
+        $params = $this->transformParams($data);
+        $query = $this->cityRepository->search($params, $with, $withCount, $cityId);
+        $total = $query->count();
+        $items = $this->customPagination($query, $params, 10, $page, $total);
+        $links = $items->links('pagination.customized');
+
+        return [$params, $total, $items, $links];
     }
 }

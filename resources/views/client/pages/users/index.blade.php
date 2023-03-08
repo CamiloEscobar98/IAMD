@@ -34,6 +34,10 @@
             {!! $filters !!}
 
             {!! $table !!}
+
+            <div class="mt-4">
+                {!! $links !!}
+            </div>
         </div>
     @endsection
 

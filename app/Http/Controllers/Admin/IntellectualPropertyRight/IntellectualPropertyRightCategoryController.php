@@ -16,6 +16,10 @@ use App\Http\Requests\Admin\IntellectualPropertyRights\Categories\UpdateRequest;
 use App\Services\Admin\IntellectualPropertyRightCategoryService;
 
 use App\Repositories\Admin\IntellectualPropertyRightCategoryRepository;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 class IntellectualPropertyRightCategoryController extends Controller
 {
@@ -47,21 +51,19 @@ class IntellectualPropertyRightCategoryController extends Controller
     {
         try {
             $params = $this->intellectualPropertyRightCategoryService->transformParams($request->all());
-
             $query = $this->intellectualPropertyRightCategoryRepository->search($params, [], ['intellectual_property_right_subcategories', 'intellectual_property_right_products']);
-
             $total = $query->count();
-
             $items = $this->intellectualPropertyRightCategoryService->customPagination($query, $params, $request->get('page'), $total);
-
             $links = $items->links('pagination.customized');
-
             return view('admin.pages.intellectual_property_rights.categories.index', compact('links'))
                 ->nest('filters', 'admin.pages.intellectual_property_rights.categories.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.intellectual_property_rights.categories.components.table', compact('items'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/IntellectualPropertyRight/IntellectualPropertyRightCategoryController:Index/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/IntellectualPropertyRight/IntellectualPropertyRightCategoryController:Index/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.intellectual_property_rights.categories.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -74,9 +76,10 @@ class IntellectualPropertyRightCategoryController extends Controller
         try {
             $item = $this->intellectualPropertyRightCategoryRepository->newInstance();
             return view('admin.pages.intellectual_property_rights.categories.create', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/IntellectualPropertyRight/IntellectualPropertyRightCategoryController:Create/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.intellectual_property_rights.categories.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -88,20 +91,21 @@ class IntellectualPropertyRightCategoryController extends Controller
      */
     public function store(StoreRequest $request): RedirectResponse
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
         try {
-            $data = $request->all();
-
             DB::beginTransaction();
-
-            $item = $this->intellectualPropertyRightCategoryRepository->create($data);
-
+            $item = $this->intellectualPropertyRightCategoryService->save($request->all());
             DB::commit();
-
-            return redirect()->route('admin.intellectual_property_rights.categories.index')->with('alert', ['title' => '', 'icon' => 'success', 'text' => __('pages.admin.intellectual_property_rights.categories.messages.save_success', ['category' => $item->name])]);
-        } catch (\Exception $th) {
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+            Log::info("@Web/Controllers/Admin/IntellectualPropertyRight/IntellectualPropertyRightCategoryController:Store/Success, Item: {$item->name}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/IntellectualPropertyRight/IntellectualPropertyRightCategoryController:Store/QueryException: {$qe->getMessage()}");
             DB::rollBack();
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/IntellectualPropertyRight/IntellectualPropertyRightCategoryController:Store/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('admin.intellectual_property_rights.categories.create')->with('alert', $response);
     }
 
     /**
@@ -113,14 +117,14 @@ class IntellectualPropertyRightCategoryController extends Controller
     public function show($id): RedirectResponse|View
     {
         try {
-            $data['id'] = $id;
-
-            $item = $this->intellectualPropertyRightCategoryRepository->search($data, [], ['intellectual_property_right_subcategories', 'intellectual_property_right_products'])->first();
-
+            $item = $this->intellectualPropertyRightCategoryRepository->search(['id' => $id], [], ['intellectual_property_right_subcategories', 'intellectual_property_right_products'])->first();
             return view('admin.pages.intellectual_property_rights.categories.show', compact('item'));
-        } catch (\Throwable $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/IntellectualPropertyRight/IntellectualPropertyRightCategoryController:Show/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/IntellectualPropertyRight/IntellectualPropertyRightCategoryController:Show/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.intellectual_property_rights.categories.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -133,11 +137,13 @@ class IntellectualPropertyRightCategoryController extends Controller
     {
         try {
             $item = $this->intellectualPropertyRightCategoryRepository->getById($id);
-
             return view('admin.pages.intellectual_property_rights.categories.edit', compact('item'));
-        } catch (\Throwable $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/IntellectualPropertyRight/IntellectualPropertyRightCategoryController:Edit/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/IntellectualPropertyRight/IntellectualPropertyRightCategoryController:Edit/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.intellectual_property_rights.categories.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -150,22 +156,23 @@ class IntellectualPropertyRightCategoryController extends Controller
      */
     public function update(UpdateRequest $request, $id): RedirectResponse
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
         try {
-            $data = $request->all();
-            
-            $item = $this->intellectualPropertyRightCategoryRepository->getById($id);
-            
             DB::beginTransaction();
-
-            $this->intellectualPropertyRightCategoryRepository->update($item, $data);
-
+            $item = $this->intellectualPropertyRightCategoryService->update($request->all(), $id);
             DB::commit();
-
-            return redirect()->route('admin.intellectual_property_rights.categories.index')->with('alert', ['title' => '', 'icon' => 'success', 'text' => __('pages.admin.intellectual_property_rights.categories.messages.update_success', ['category' => $item->name])]);
-        } catch (\Exception $th) {
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+            Log::info("@Web/Controllers/Admin/IntellectualPropertyRight/IntellectualPropertyRightCategoryController:Update/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/IntellectualPropertyRight/IntellectualPropertyRightCategoryController:Update/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/IntellectualPropertyRight/IntellectualPropertyRightCategoryController:Update/QueryException: {$qe->getMessage()}");
             DB::rollBack();
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/IntellectualPropertyRight/IntellectualPropertyRightCategoryController:Update/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('admin.intellectual_property_rights.categories.edit', $id)->with('alert', $response);
     }
 
     /**
@@ -176,16 +183,23 @@ class IntellectualPropertyRightCategoryController extends Controller
      */
     public function destroy($id): RedirectResponse
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
         try {
             $item = $this->intellectualPropertyRightCategoryRepository->getById($id);
             DB::beginTransaction();
-            $this->intellectualPropertyRightCategoryRepository->delete($item);
+            $this->intellectualPropertyRightCategoryService->delete($id);
             DB::commit();
-
-            return redirect()->route('admin.intellectual_property_rights.categories.index')->with('alert', ['title' => '', 'icon' => 'success', 'text' => __('pages.admin.intellectual_property_rights.categories.messages.delete_success', ['category' => $item->name])]);
-        } catch (\Exception $th) {
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
+            Log::info("@Web/Controllers/Admin/IntellectualPropertyRight/IntellectualPropertyRightCategoryController:Delete/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/IntellectualPropertyRight/IntellectualPropertyRightCategoryController:Delete/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/IntellectualPropertyRight/IntellectualPropertyRightCategoryController:Delete/QueryException: {$qe->getMessage()}");
             DB::rollBack();
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/IntellectualPropertyRight/IntellectualPropertyRightCategoryController:Delete/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('admin.intellectual_property_rights.categories.index')->with('alert', $response);
     }
 }

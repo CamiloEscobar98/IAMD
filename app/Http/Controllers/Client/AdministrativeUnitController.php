@@ -48,39 +48,31 @@ class AdministrativeUnitController extends Controller
      *
      * @return View|RedirectResponse
      */
-    public function index(Request $request): View|RedirectResponse
+    public function index(Request $request, $client) #: View|RedirectResponse
     {
         try {
-            $params = $this->administrativeUnitService->transformParams($request->all());
-
-            $query = $this->administrativeUnitRepository->search($params, [], ['research_units']);
-
-            $total = $query->count();
-
-            $items = $this->administrativeUnitService->customPagination($query, $params, $request->get('page'), $total);
-
-            $links = $items->links('pagination.customized');
-
-            return view('client.pages.administrative_units.index')
+            [$params, $total, $items, $links] = $this->administrativeUnitService->searchWithPagination($request->all(), $request->get('page'), [], ['research_units']);
+            return view('client.pages.administrative_units.index', compact('links'))
                 ->nest('filters', 'client.pages.administrative_units.components.filters', compact('params', 'total'))
-                ->nest('table', 'client.pages.administrative_units.components.table', compact('items', 'links'));
+                ->nest('table', 'client.pages.administrative_units.components.table', compact('items'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
     /**
      * Show the form for creating a new resource.
-     *
+     * 
+     *@param string $client
      * @return View|RedirectResponse
      */
-    public function create(): View|RedirectResponse
+    public function create($client): View|RedirectResponse
     {
         try {
             $item = $this->administrativeUnitRepository->newInstance();
             return view('client.pages.administrative_units.create', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+            return redirect()->route('client.administrative_units.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -88,59 +80,47 @@ class AdministrativeUnitController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * 
+     * @param string $client
      * @return RedirectResponse
      */
-    public function store(StoreRequest $request): RedirectResponse
+    public function store(StoreRequest $request, $client): RedirectResponse
     {
-        try {
-            $data = $request->all();
-
-            $item = DB::transaction(function () use ($data) {
-                return $this->administrativeUnitRepository->create($data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.administrative_units.messages.save_success', ['administrative_unit' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.administrative_units.messages.save_error')]);
-        }
+        return redirect()->route('client.administrative_units.create', $client)->with('alert', $this->administrativeUnitService->save($request->all()));
     }
 
     /**
      * Display the specified resource.
      *
+     * @param string $client
      * @param  int  $administrative_unit
      * @param Request $request
      * 
      * @return View|RedirectResponse
      */
-    public function show($id, $administrative_unit, Request $request): View|RedirectResponse
+    public function show($client, $administrative_unit, Request $request): View|RedirectResponse
     {
         try {
             $item = $this->administrativeUnitRepository->getById($administrative_unit);
-
-
             return view('client.pages.administrative_units.show', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('client.home', $request->client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('client.administrative_units.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param string $client
+     * @param  int  $administrative_unit
      * @return View|RedirectResponse
      */
-    public function edit($id, $administrative_unit, Request $request): View|RedirectResponse
+    public function edit($client, $administrative_unit, Request $request): View|RedirectResponse
     {
         try {
             $item = $this->administrativeUnitRepository->getById($administrative_unit);
-
-
             return view('client.pages.administrative_units.edit', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->route('client.home', $request->client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('client.administrative_units.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -148,48 +128,23 @@ class AdministrativeUnitController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $client
      * @return RedirectResponse
      */
-    public function update(UpdateRequest $request, $id, $administrative_unit): RedirectResponse
+    public function update(UpdateRequest $request, $client, $administrative_unit): RedirectResponse
     {
-        try {
-            $data = $request->all();
-
-            $item = $this->administrativeUnitRepository->getById($administrative_unit);
-
-            DB::transaction(function () use ($data, $item) {
-                return $this->administrativeUnitRepository->update($item, $data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.administrative_units.messages.update_success', ['administrative_unit' => $item->name])]);
-        } catch (\Exception $th) {
-            dd($th->getMessage());
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.administrative_units.messages.update_error')]);
-        }
+        return redirect()->route('client.administrative_units.edit', ['administrative_unit' => $administrative_unit, 'client' => $client])->with('alert', $this->administrativeUnitService->update($request->all(), $administrative_unit));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  string  $client
+     * @param int $administrative_unit
      * @return RedirectResponse
      */
-    public function destroy($id, $administrative_unit): RedirectResponse
+    public function destroy($client, $administrative_unit): RedirectResponse
     {
-        try {
-            $item = $this->administrativeUnitRepository->getById($administrative_unit);
-
-            DB::beginTransaction();
-
-            $this->administrativeUnitRepository->delete($item);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.administrative_units.messages.delete_success', ['country' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.administrative_units.messages.delete_error')]);
-        }
+        return redirect()->route('client.administrative_units.index', $client)->with('alert', $this->administrativeUnitService->delete($administrative_unit));
     }
 }

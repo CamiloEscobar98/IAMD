@@ -7,6 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Administrador/Login</title>
 
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/logo.ico') }}">
+
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -44,7 +46,7 @@
                     </div>
 
                     @error('email')
-                        <small class="text-danger">{{ $message }}</small>
+                        <small class="text-danger">{!! $message !!}</small>
                     @enderror
 
                     <div class="input-group mt-3">
@@ -59,7 +61,7 @@
                     </div>
 
                     @error('password')
-                        <small class="text-danger">{{ $message }}</small>
+                        <small class="text-danger">{!! $message !!}</small>
                     @enderror
 
                     <div class="row mt-3">

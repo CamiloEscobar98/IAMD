@@ -2,19 +2,21 @@
 
 namespace App\Services\Admin;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Admin\IntangibleAssetStateRepository;
 
-class IntangibleAssetStateService
+class IntangibleAssetStateService extends AbstractServiceModel
 {
     /** @var IntangibleAssetStateRepository */
     protected $intangibleAssetStateRepository;
 
     public function __construct(IntangibleAssetStateRepository $intangibleAssetStateRepository)
     {
-        $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
+        $this->repository = $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
     }
 
     /**

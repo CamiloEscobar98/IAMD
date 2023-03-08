@@ -14,6 +14,10 @@ use App\Http\Requests\Admin\Creator\DocumentTypes\UpdateRequest;
 use App\Repositories\Admin\DocumentTypeRepository;
 
 use App\Services\Admin\DocumentTypeService;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 class DocumentTypeController extends Controller
 {
@@ -42,21 +46,19 @@ class DocumentTypeController extends Controller
     {
         try {
             $params = $this->documentTypeService->transformParams($request->all());
-
             $query = $this->documentTypeRepository->search($params);
-
             $total = $query->count();
-
             $items = $this->documentTypeService->customPagination($query, $params, $request->get('page'), $total);
-
             $links = $items->links('pagination.customized');
-
             return view('admin.pages.creators.document_types.index', compact('links'))
                 ->nest('filters', 'admin.pages.creators.document_types.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.creators.document_types.components.table', compact('items'));
-        } catch (\Throwable $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Index/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Index/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.creators.document_types.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -69,9 +71,10 @@ class DocumentTypeController extends Controller
         try {
             $item = $this->documentTypeRepository->newInstance();
             return view('admin.pages.creators.document_types.create', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Create/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -82,17 +85,20 @@ class DocumentTypeController extends Controller
      */
     public function store(StoreRequest $request)
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
         try {
-            $data = $request->all();
-
-            $item = DB::transaction(function () use ($data) {
-                return $this->documentTypeRepository->create($data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.save_success', ['document_type' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.save_error')]);
+            DB::beginTransaction();
+            $this->documentTypeService->save($request->all());
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Store/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Store/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('admin.creators.document_types.create')->with('alert', $response);
     }
 
     /**
@@ -105,11 +111,13 @@ class DocumentTypeController extends Controller
     {
         try {
             $item = $this->documentTypeRepository->getById($id);
-
             return view('admin.pages.creators.document_types.show', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Show/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Show/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.not_found')]);
     }
 
     /**
@@ -122,11 +130,13 @@ class DocumentTypeController extends Controller
     {
         try {
             $item = $this->documentTypeRepository->getById($id);
-
             return view('admin.pages.creators.document_types.edit', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Edit/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Edit/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.not_found')]);
     }
 
     /**
@@ -138,19 +148,22 @@ class DocumentTypeController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
         try {
-            $data = $request->all();
-
-            $item = $this->documentTypeRepository->getById($id);
-
-            DB::transaction(function () use ($item, $data) {
-                $this->documentTypeRepository->update($item, $data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.update_success', ['document_type' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.update_error')]);
+            DB::beginTransaction();
+            $this->documentTypeService->update($request->all(), $id);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Update/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Update/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Update/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('admin.creators.document_types.edit', $id)->with('alert', $response);
     }
 
     /**
@@ -161,16 +174,23 @@ class DocumentTypeController extends Controller
      */
     public function destroy($id)
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
         try {
             $item = $this->documentTypeRepository->getById($id);
-
-            DB::transaction(function () use ($item) {
-                $this->documentTypeRepository->delete($item);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.creators.document_types.messages.delete_success', ['document_type' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.creators.document_types.messages.delete_error')]);
+            DB::beginTransaction();
+            $this->documentTypeService->delete($id);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
+            Log::info("@Web/Controllers/Admin/Creators/DocumentTypeController:Delete/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Delete/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Delete/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/Creators/DocumentTypeController:Delete/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('admin.creators.document_types.index')->with('alert', $response);
     }
 }

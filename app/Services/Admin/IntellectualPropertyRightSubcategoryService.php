@@ -2,19 +2,21 @@
 
 namespace App\Services\Admin;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Admin\IntellectualPropertyRightSubcategoryRepository;
 
-class IntellectualPropertyRightSubcategoryService
+class IntellectualPropertyRightSubcategoryService extends AbstractServiceModel
 {
     /** @var IntellectualPropertyRightSubcategoryRepository */
     protected $intellectualPropertyRightSubcategoryRepository;
 
     public function __construct(IntellectualPropertyRightSubcategoryRepository $intellectualPropertyRightSubcategoryRepository)
     {
-        $this->intellectualPropertyRightSubcategoryRepository = $intellectualPropertyRightSubcategoryRepository;
+        $this->repository = $this->intellectualPropertyRightSubcategoryRepository = $intellectualPropertyRightSubcategoryRepository;
     }
 
     /**

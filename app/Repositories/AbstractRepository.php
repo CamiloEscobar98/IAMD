@@ -44,6 +44,16 @@ class AbstractRepository
     protected $model;
 
     /**
+     * Get Model
+     * 
+     * @return Model
+     */
+    public function getModel(): Model
+    {
+        return $this->model;
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function all($columns = [])
@@ -173,7 +183,7 @@ class AbstractRepository
      * @throws Exception
      * @throws \Exception
      */
-    function create(array $input)
+    function create($input)
     {
         try {
             return $this->model->create($input);
@@ -222,7 +232,7 @@ class AbstractRepository
      * @param array $attributes
      * @return bool
      */
-    public function update(Model $model, array $attributes)
+    public function update(Model $model, $attributes)
     {
         return $model->update($attributes);
     }
@@ -283,6 +293,14 @@ class AbstractRepository
     }
 
     /**
+     * @return int
+     */
+    public function count()
+    {
+        return $this->all()->count();
+    }
+
+    /**
      * @param int $count
      * @param array $params
      *
@@ -291,5 +309,25 @@ class AbstractRepository
     public function createFactory(int $count = 5, array $params = [])
     {
         return $this->model->factory()->count($count)->create($params);
+    }
+
+    /**
+     * @param  \Illuminate\Support\Collection  $joins
+     * @param  string  $table
+     * @param  string  $first
+     * @param  string  $second
+     * @param  string  $join_type
+     * @return void
+     */
+    public function addJoin(
+        \Illuminate\Support\Collection $joins,
+        string $table,
+        string $first,
+        string $second,
+        $join_type = 'inner'
+    ): void {
+        if (!$joins->has($table)) {
+            $joins->put($table, json_encode(compact('first', 'second', 'join_type')));
+        }
     }
 }

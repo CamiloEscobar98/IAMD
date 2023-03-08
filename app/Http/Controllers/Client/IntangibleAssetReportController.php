@@ -80,7 +80,7 @@ class IntangibleAssetReportController extends Controller
 
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.reports.single.messages.generate_success')]);
         } catch (\Exception $th) {
-            return $th->getMessage();
+            
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.reports.single.messages.generate_success')]);
         }
     }
@@ -98,12 +98,6 @@ class IntangibleAssetReportController extends Controller
             'with_general_total', 'with_general_phase_status'
         ]);
 
-        $contentConfiguration = $request->only([
-            'with_basic_information', 'with_dpis', 'with_published',
-            'with_confidenciality_contract', 'with_creators', 'with_right_session',
-            'with_contability', 'with_comments', 'with_protection_action', 'with_priority_tools', 'with_commercial'
-        ]);
-
         $graphicConfiguration = $request->only([
             'with_graphics_assets_per_year', 'with_graphics_assets_classification_per_year', 'with_graphics_assets_state_per_year',
             'with_graphics_assets_classification_per_administrative_unit', 'with_graphics_assets_state_research_unit_per_administrative_unit', 'with_graphics_assets_research_unit_per_administrative_unit',
@@ -116,9 +110,6 @@ class IntangibleAssetReportController extends Controller
 
         $params = $request->all();
 
-        // return $params;
-
-
         try {
             Log::alert('GENERATING CUSTOM REPORT');
 
@@ -130,10 +121,6 @@ class IntangibleAssetReportController extends Controller
             $selectData = [
                 "intangible_assets.id",
             ];
-
-            /** Relations per Content Configuration */
-            [$withRelations, $selectData] = $this->getRelationsArrayPerContentConfiguration($withRelations, $selectData, $contentConfiguration);
-            /** ./Relations per Content Configuration */
 
             /** Relations per Graphic Configuration */
             [$withRelations, $selectData] = $this->getRelationsArrayPerGraphicConfiguration($withRelations, $selectData, $graphicConfiguration);
@@ -162,7 +149,7 @@ class IntangibleAssetReportController extends Controller
 
             $data = [
                 'generalConfiguration' => $generalConfiguration,
-                'contentConfiguration' => $contentConfiguration,
+                // 'contentConfiguration' => $contentConfiguration,
                 'graphicConfiguration' => $graphicConfiguration,
                 'count' => $count,
                 'client' => $client,
@@ -316,7 +303,7 @@ class IntangibleAssetReportController extends Controller
 
             return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.reports.single.messages.generate_success')]);
         } catch (\Exception $th) {
-            return $th->getMessage();
+            
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.reports.single.messages.generate_success')]);
         }
     }

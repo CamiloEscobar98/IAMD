@@ -32,6 +32,6 @@ class PermissionModule extends BaseModel
      */
     public function scope($query, $name)
     {
-        return $query->where('name', 'like', "%{$name}%");
+        return $query->where("{$this->getTable()}.name", 'like', "%{$name}%");
     }
 }

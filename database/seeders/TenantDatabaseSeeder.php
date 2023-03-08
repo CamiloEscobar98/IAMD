@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\Client\AcademicDepartmentSeeder;
 use Illuminate\Database\Seeder;
 
 use Database\Seeders\Client\UserSeeder;
@@ -43,6 +44,7 @@ class TenantDatabaseSeeder extends Seeder
 
             CreatorSeeder::class,
             AdministrativeUnitSeeder::class,
+            AcademicDepartmentSeeder::class,
 
             ResearchUnitSeeder::class,
 

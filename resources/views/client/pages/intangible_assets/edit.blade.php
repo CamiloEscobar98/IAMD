@@ -73,12 +73,59 @@
 @endsection
 
 @section('custom_js')
-    <script src="{{ asset('adminlte/dist/js/iamd/projects.js') }}"></script>
+    {{-- <script src="{{ asset('adminlte/dist/js/iamd/projects.js') }}"></script> --}}
 
     <script>
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'
         })
+
+        $('#research_unit_id').select2({
+            theme: 'bootstrap4',
+            placeholder: '---Seleccionar Unidades Investigativas'
+        })
+    </script>
+
+    <script>
+        function changeProjectSelect() {
+            let projectId = $('#project_id').val();
+
+            getResearchUnits(projectId)
+        }
+
+        function getResearchUnits(projectId) {
+            let client = $('#form').data('client');
+
+            $.ajax({
+                type: 'GET',
+                url: "/api/" + client + "/unidades-investigativas/",
+                data: 'project_id=' + projectId
+            }).done(function(res) {
+                if (Array.isArray(res) && res.length > 0) {
+                    putResearchUnits(res);
+                } else {
+                    putResearchUnits([]);
+                }
+            });
+        }
+
+        function putResearchUnits(items) {
+            let selectResearchUnit = $('#research_unit_id');
+
+            selectResearchUnit.empty();
+
+            selectResearchUnit.append(`<option value="">---Seleccionar Unidad Investigativa</option>`);
+
+            let isSelected = '';
+
+            items.forEach((item, index) => {
+                var id = item['id'];
+                var name = item['name'];
+
+                selectResearchUnit.append(`<option value="${id}" ${isSelected}>${name}</option>`);
+
+            });
+        }
     </script>
 @endsection

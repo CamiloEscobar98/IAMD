@@ -2,6 +2,8 @@
 
 namespace App\Services\Admin;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -9,7 +11,7 @@ use App\Repositories\Admin\IntellectualPropertyRightCategoryRepository;
 use App\Repositories\Admin\IntellectualPropertyRightSubcategoryRepository;
 use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
 
-class IntellectualPropertyRightCategoryService
+class IntellectualPropertyRightCategoryService extends AbstractServiceModel
 {
     /** @var IntellectualPropertyRightCategoryRepository */
     protected $intellectualPropertyRightCategoryRepository;
@@ -25,7 +27,8 @@ class IntellectualPropertyRightCategoryService
         IntellectualPropertyRightSubcategoryRepository $intellectualPropertyRightSubcategoryRepository,
         IntellectualPropertyRightProductRepository $intellectualPropertyRightProductRepository,
     ) {
-        $this->intellectualPropertyRightCategoryRepository = $intellectualPropertyRightCategoryRepository;
+
+        $this->repository = $this->intellectualPropertyRightCategoryRepository = $intellectualPropertyRightCategoryRepository;
         $this->intellectualPropertyRightSubcategoryRepository = $intellectualPropertyRightSubcategoryRepository;
         $this->intellectualPropertyRightProductRepository = $intellectualPropertyRightProductRepository;
     }
@@ -98,7 +101,7 @@ class IntellectualPropertyRightCategoryService
     public function getIntellectualPropertyCategorySelect($productId = null): array
     {
         /** Categories */
-        $categories = $this->intellectualPropertyRightCategoryRepository->all();
+        $categories = $this->repository->all();
 
         if (!is_null($productId)) {
             /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightProduct $product */
@@ -108,7 +111,7 @@ class IntellectualPropertyRightCategoryService
             $subCategory = $this->intellectualPropertyRightSubcategoryRepository->getById($product->intellectual_property_right_subcategory_id);
 
             /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightCategory $category */
-            $category = $this->intellectualPropertyRightCategoryRepository->getById($subCategory->intellectual_property_right_category_id);
+            $category = $this->repository->getById($subCategory->intellectual_property_right_category_id);
 
             /** SubCategories */
             $subCategories = $this->intellectualPropertyRightSubcategoryRepository->getByIntellectualPropertyRightCategory($category);
@@ -138,7 +141,7 @@ class IntellectualPropertyRightCategoryService
         $subCategories = $subCategories->pluck('name', 'id')->prepend('Seleccionar Subategoría', -1);
 
         $products = $products->pluck('name', 'id')->prepend('Seleccionar Producto', -1);
-        
+
         return [$categories, $subCategories, $products, $category, $subCategory, $product];
     }
 }

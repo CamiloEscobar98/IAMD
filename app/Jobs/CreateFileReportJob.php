@@ -7,16 +7,17 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
         
 use Barryvdh\DomPDF\Facade\Pdf;
+
+use App\Services\FileSystem\IntangibleAssets\ReportFileCustomReportService;
+use App\Services\FileSystem\IntangibleAssets\ReportFileSingleReportService;
 
 use App\Repositories\Admin\NotificationTypeRepository;
 use App\Repositories\Admin\TenantRepository;
 use App\Repositories\Client\NotificationRepository;
 use App\Repositories\Client\UserFileReportRepository;
-use App\Services\FileSystem\IntangibleAsset\ReportFileCustomReportService;
-use App\Services\FileSystem\IntangibleAsset\ReportFileSingleReportService;
-use Illuminate\Support\Facades\Log;
 
 class CreateFileReportJob implements ShouldQueue
 {

@@ -2,19 +2,21 @@
 
 namespace App\Services\Admin;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Admin\ExternalOrganizationRepository;
 
-class ExternalOrganizationService
+class ExternalOrganizationService extends AbstractServiceModel
 {
     /** @var ExternalOrganizationRepository */
-    protected $countryRepository;
+    protected $externalOrganizationRepository;
 
     public function __construct(ExternalOrganizationRepository $externalOrganizationRepository)
     {
-        $this->externalOrganizationRepository = $externalOrganizationRepository;
+        $this->repository = $this->externalOrganizationRepository = $externalOrganizationRepository;
     }
 
     /**

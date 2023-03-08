@@ -2,19 +2,21 @@
 
 namespace App\Services\Admin;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Admin\AssignmentContractRepository;
 
-class AssignmentContractService
+class AssignmentContractService extends AbstractServiceModel
 {
     /** @var AssignmentContractRepository */
     protected $assignmentContractRepository;
 
     public function __construct(AssignmentContractRepository $assignmentContractRepository)
     {
-        $this->assignmentContractRepository = $assignmentContractRepository;
+        $this->repository = $this->assignmentContractRepository = $assignmentContractRepository;
     }
 
     /**

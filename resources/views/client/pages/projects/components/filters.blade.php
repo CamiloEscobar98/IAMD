@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-lg-6">
+                <div class="col-lg-4">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.administrative_units') }}</label>
@@ -59,7 +59,8 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <!-- Research Units -->
+                <div class="col-lg-5">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.research_units') }}</label>
@@ -75,6 +76,24 @@
                         </select>
                     </div>
                 </div>
+                <!-- ./Research Units -->
+
+                <!-- Directors Creator -->
+                <div class="col-lg-3">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label class="input-group-text">{{ __('filters.directors') }}</label>
+                        </div>
+                        <select name="director_id[]" id="director_id" class="form-control directors" multiple>
+                            @foreach ($directors as $directorId => $value)
+                                <option value="{{ $directorId }}"
+                                    {{ optionInArray($params, 'director_id', $directorId) }}>
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <!-- ./Directors Creator -->
             </div>
 
             <div class="btn-group">

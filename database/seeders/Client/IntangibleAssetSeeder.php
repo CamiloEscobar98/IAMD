@@ -227,6 +227,7 @@ class IntangibleAssetSeeder extends Seeder
 
         $cont = 0;
         do {
+            /** @var \App\Models\Client\Project\Project $randomProject */
             $randomProject = $projects->random(1)->first();
 
             print("PROJECT: " . $randomProject->name .  "\n \n");
@@ -235,9 +236,16 @@ class IntangibleAssetSeeder extends Seeder
 
             print("Creating Intangible Asset: $current. \n");
 
+            /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset */
             $intangibleAsset = $this->intangibleAssetRepository->createOneFactory([
                 'project_id' => $randomProject->id,
             ]);
+
+            /** @var \Illuminate\Database\Eloquent\Collection $researchUnits */
+            $researchUnits = $randomProject->research_units;
+            $randomResarchUnits = $researchUnits->random(rand(1, $researchUnits->count() - 1));
+
+            $intangibleAsset->research_units()->sync($randomResarchUnits);
 
             $this->intangibleAssetLocalizationRepository->createOneFactory(['intangible_asset_id' => $intangibleAsset->id]);
 

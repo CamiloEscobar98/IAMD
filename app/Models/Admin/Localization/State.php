@@ -47,6 +47,45 @@ class State extends BaseModel
     }
 
     /**
+     * Scope a query to only include Name
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $name
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByName($query, string $name)
+    {
+        $query->where("{$this->getTable()}.name", 'like', "%{$name}%");
+    }
+
+    /**
+     * Scope a query to only include Date From
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $dateFrom
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSinceDate($query, string $dateFrom)
+    {
+        $query->where("{$this->getTable()}.updated_at", '>=', $dateFrom);
+    }
+
+    /**
+     * Scope a query to only include Date To
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $dateTo
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeToDate($query, string $dateTo)
+    {
+        $query->where("{$this->getTable()}.updated_at", '<=', $dateTo);
+    }
+
+    /**
      * Scope a query to only include Country
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
@@ -57,6 +96,6 @@ class State extends BaseModel
         if (is_array($countryId) && !empty($countryId)) {
             return $query->whereIn($countryId);
         }
-        return $query->where('country_id', $countryId);
+        return $query->where("{$this->getTable()}.country_id", $countryId);
     }
 }

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 
-use App\Services\FileSystem\IntangibleAsset\FileConfidencialityContractService;
-use App\Services\FileSystem\IntangibleAsset\FileSessionRightContractService;
+use App\Services\FileSystem\IntangibleAssets\FileConfidencialityContractService;
+use App\Services\FileSystem\IntangibleAssets\FileSessionRightContractService;
 
 use App\Repositories\Client\IntangibleAssetConfidentialityContractRepository;
 use App\Repositories\Client\IntangibleAssetRepository;

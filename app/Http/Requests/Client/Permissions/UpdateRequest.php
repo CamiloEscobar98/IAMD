@@ -25,8 +25,8 @@ class UpdateRequest extends FormRequest
     {
         return [
             'permission_module_id' => ['required', 'exists:tenant.permission_modules,id'],
-            'name' => ['required', 'string', 'unique:tenant.permissions,name,' . $this->role],
-            'info' => ['required', 'string', 'unique:tenant.permissions,info,' . $this->role],
+            'name' => ['required', 'string', 'unique:tenant.permissions,name,' . $this->permission],
+            'info' => ['required', 'string', 'unique:tenant.permissions,info,' . $this->permission],
         ];
     }
 }

@@ -40,34 +40,28 @@ class ProjectFilterComposer
 
     public function compose(View $view)
     {
-        $params = request()->all();
+        $administrativeUnitId = request('administrative_unit_id');
 
         /** Administrative Units */
         $administrativeUnits = $this->administrativeUnitRepository->all();
 
+        $researchUnits = collect();
 
-        if (isset($params['administrative_unit_id']) && $params['administrative_unit_id']) {
-
+        if ($administrativeUnitId) {
             /** @var \App\Models\Client\AdministrativeUnit */
-            $administrativeUnit = $this->administrativeUnitRepository->getById($params['administrative_unit_id']);
-
-            /** Research Units */
-            $researchUnits = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnit);
-        } else {
-
+            $administrativeUnit = $this->administrativeUnitRepository->getById($administrativeUnitId);
             /** Research Units */
             $researchUnits = $this->researchUnitRepository->getByAdministrativeUnit($administrativeUnits->first());
         }
 
-        $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('Seleccionar Facultad', 0);
+        $administrativeUnits = $administrativeUnits->pluck('name', 'id')->prepend('---Seleccionar Facultad');
 
-        $researchUnits = $researchUnits->pluck('name', 'id')->prepend('Seleccionar Unidad Investigativa', 0);
+        $researchUnits = $researchUnits->pluck('name', 'id')->prepend('---Seleccionar Unidad Investigativa');
 
-        // dd($researchUnits);
 
         /** Creators */
-        $creators = $this->creatorRepository->getAllCreators();
+        $directors = $this->creatorRepository->all(['id', 'name'])->pluck('name', 'id');
 
-        $view->with(compact('administrativeUnits', 'researchUnits', 'creators'));
+        $view->with(compact('administrativeUnits', 'researchUnits', 'directors'));
     }
 }

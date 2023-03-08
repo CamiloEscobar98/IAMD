@@ -11,19 +11,13 @@ class Tenant extends BaseModel
     use HasFactory;
 
     /**
-     * The connection name for the model.
-     *
-     * @var string
-     */
-    protected $connection = 'mysql';
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
         'name',
+        'info',
 
         'driver',
         'url',

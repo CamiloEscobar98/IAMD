@@ -107,7 +107,7 @@
                     </div>
 
                     @error('description')
-                        <small class="text-danger">{{ $message }}</small>
+                        <small class="text-danger">{!! $message !!}</small>
                     @enderror
                     <!-- ./Description -->
 
@@ -248,7 +248,7 @@
                                         class="form-control form-control-sm {{ isInvalidByError($errors, 'published_in') }}"
                                         value="{{ getParamObject($item->intangible_asset_published, 'published_in') }}">
                                     @error('published_in')
-                                        <small class="text-danger">{{ $message }}</small>
+                                        <small class="text-danger">{!! $message !!}</small>
                                     @enderror
                                 </div>
 
@@ -264,7 +264,7 @@
                                         @endforeach
                                     </select>
                                     @error('information_scope')
-                                        <small class="text-danger">{{ $message }}</small>
+                                        <small class="text-danger">{!! $message !!}</small>
                                     @enderror
                                 </div>
 
@@ -276,7 +276,7 @@
                                         class="form-control form-control-sm {{ isInvalidByError($errors, 'published_at') }}"
                                         value="{{ getParamObject($item->intangible_asset_published, 'published_at') }}">
                                     @error('published_at')
-                                        <small class="text-danger">{{ $message }}</small>
+                                        <small class="text-danger">{!! $message !!}</small>
                                     @enderror
                                 </div>
                             </div>
@@ -322,7 +322,7 @@
                                         class="form-control form-control-sm {{ isInvalidByError($errors, 'organization_confidenciality') }}"
                                         value="{{ getParamObject($item->intangible_asset_confidenciality_contract, 'organization_confidenciality') }}">
                                     @error('organization_confidenciality')
-                                        <small class="text-danger">{{ $message }}</small>
+                                        <small class="text-danger">{!! $message !!}</small>
                                     @enderror
                                 </div>
 
@@ -342,7 +342,7 @@
                                         </div>
                                     </div>
                                     @error('confidenciality_contract_file')
-                                        <small class="text-danger">{{ $message }}</small>
+                                        <small class="text-danger">{!! $message !!}</small>
                                     @enderror
                                 </div>
 
@@ -426,7 +426,7 @@
                                         class="form-control form-control-sm {{ isInvalidByError($errors, 'owner') }}"
                                         value="{{ getParamObject($item->intangible_asset_session_right_contract, 'owner') }}">
                                     @error('owner')
-                                        <small class="text-danger">{{ $message }}</small>
+                                        <small class="text-danger">{!! $message !!}</small>
                                     @enderror
                                 </div>
 
@@ -446,7 +446,7 @@
                                         </div>
                                     </div>
                                     @error('session_right_contract_file')
-                                        <small class="text-danger">{{ $message }}</small>
+                                        <small class="text-danger">{!! $message !!}</small>
                                     @enderror
                                 </div>
 
@@ -498,7 +498,7 @@
                                 class="form-control form-control-sm {{ isInvalidByError($errors, 'price') }}"
                                 value="{{ getParamObject($item->intangible_asset_contability, 'price') }}">
                             @error('price')
-                                <small class="text-danger">{{ $message }}</small>
+                                <small class="text-danger">{!! $message !!}</small>
                             @enderror
                         </div>
                         <div class="form-group">
@@ -506,7 +506,7 @@
                             <textarea name="comments" class="form-control {{ isInvalidByError($errors, 'comments') }}" rows="3"
                                 cols="30">{{ getParamObject($item->intangible_asset_contability, 'comments') }}</textarea>
                             @error('comments')
-                                <small class="text-danger">{{ $message }}</small>
+                                <small class="text-danger">{!! $message !!}</small>
                             @enderror
                         </div>
                     </div>
@@ -569,7 +569,7 @@
                             class="form-control {{ isInvalidByError($errors, 'message') }}"></textarea>
 
                         @error('message')
-                            <small class="text-danger">{{ $message }}</small>
+                            <small class="text-danger">{!! $message !!}</small>
                         @enderror
                     </div>
 
@@ -623,7 +623,7 @@
                                 class="form-control form-control-sm {{ isInvalidByError($errors, 'reference') }}"
                                 value="{{ getParamObject($item->intangible_asset_protection_action, 'reference') }}">
                             @error('published_in')
-                                <small class="text-danger">{{ $message }}</small>
+                                <small class="text-danger">{!! $message !!}</small>
                             @enderror
                         </div>
                     </div>
@@ -733,7 +733,7 @@
                                     @endforeach
                                 </select>
                                 @error('published_in')
-                                    <small class="text-danger">{{ $message }}</small>
+                                    <small class="text-danger">{!! $message !!}</small>
                                 @enderror
                             </div>
                         @endforeach
@@ -794,7 +794,7 @@
                             </div>
 
                             @error('reason')
-                                <small class="text-danger">{{ $message }}</small>
+                                <small class="text-danger">{!! $message !!}</small>
                             @enderror
                         </div>
                         <!-- ./Reason -->

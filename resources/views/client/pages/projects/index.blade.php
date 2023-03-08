@@ -55,15 +55,20 @@
 
     <script>
         // Administrative Units
-        $('.administrative_units').select2({
+        $('#administrative_unit_id').select2({
             theme: 'bootstrap4',
-            placeholder: "{{ __('pages.client.projects.filters.administrative_units') }}"
+            placeholder: "---Seleccionar directores",
         });
 
         // Research Units
-        $('.research_units').select2({
+        $('#research_unit_id').select2({
             theme: 'bootstrap4',
-            placeholder: "{{ __('pages.client.projects.filters.research_units') }}",
+            placeholder: "---Seleccionar unidades investigativas",
+        })
+
+        $('#director_id').select2({
+            theme: 'bootstrap4',
+            placeholder: "---Seleccionar directores",
             allowClear: true
         })
     </script>

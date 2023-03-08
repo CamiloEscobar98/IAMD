@@ -31,7 +31,7 @@ class StoreRequest extends FormRequest
 
             'financing_type_id' => ['required', 'exists:tenant.financing_types,id'],
             'project_contract_type_id' => ['required', 'exists:tenant.project_contract_types,id'],
-            'contract' => ['required', 'string'],
+            'contract' => ['required', 'string', 'unique:tenant.projects'],
             'date' => ['required', 'date']
         ];
     }

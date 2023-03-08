@@ -15,6 +15,10 @@ use App\Http\Requests\Admin\IntangibleAssets\States\UpdateRequest;
 use App\Services\Admin\IntangibleAssetStateService;
 
 use App\Repositories\Admin\IntangibleAssetStateRepository;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 class IntangibleAssetStateController extends Controller
 {
@@ -43,21 +47,19 @@ class IntangibleAssetStateController extends Controller
     {
         try {
             $params = $this->intangibleAssetStateService->transformParams($request->all());
-
             $query = $this->intangibleAssetStateRepository->search($params);
-
             $total = $query->count();
-
             $items = $this->intangibleAssetStateService->customPagination($query, $params, $request->get('page'), $total);
-
             $links = $items->links('pagination.customized');
-
             return view('admin.pages.intangible_assets.states.index', compact('links'))
                 ->nest('filters', 'admin.pages.intangible_assets.states.components.filters', compact('params', 'total'))
                 ->nest('table', 'admin.pages.intangible_assets.states.components.table', compact('items'));
-        } catch (\Throwable $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/IntangibleAssets/IntangibleAssetState:Index/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/IntangibleAssets/IntangibleAssetState:Index/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.intangible_assets.status.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -70,9 +72,10 @@ class IntangibleAssetStateController extends Controller
         try {
             $item = $this->intangibleAssetStateRepository->newInstance();
             return view('admin.pages.intangible_assets.states.create', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/IntangibleAssets/IntangibleAssetState:Create/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -83,17 +86,20 @@ class IntangibleAssetStateController extends Controller
      */
     public function store(StoreRequest $request)
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
         try {
-            $data = $request->all();
-
-            $item = DB::transaction(function () use ($data) {
-                return $this->intangibleAssetStateRepository->create($data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.intangible_assets.states.messages.save_success', ['state' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.intangible_assets.states.messages.save_error')]);
+            DB::beginTransaction();
+            $this->intangibleAssetStateService->save($request->all());
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/IntangibleAssets/IntangibleAssetState:Store/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/IntangibleAssets/IntangibleAssetState:Store/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('admin.intangible_assets.status.create')->with('alert', $response);
     }
 
     /**
@@ -106,11 +112,13 @@ class IntangibleAssetStateController extends Controller
     {
         try {
             $item = $this->intangibleAssetStateRepository->getById($id);
-
             return view('admin.pages.intangible_assets.states.show', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/IntangibleAssets/IntangibleAssetState:Show/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/IntangibleAssets/IntangibleAssetState:Show/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -123,11 +131,13 @@ class IntangibleAssetStateController extends Controller
     {
         try {
             $item = $this->intangibleAssetStateRepository->getById($id);
-
             return view('admin.pages.intangible_assets.states.edit', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/IntangibleAssets/IntangibleAssetState:Edit/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/IntangibleAssets/IntangibleAssetState:Edit/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('admin.home')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -139,19 +149,22 @@ class IntangibleAssetStateController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
         try {
-            $data = $request->all();
-
-            $item = $this->intangibleAssetStateRepository->getById($id);
-
-            DB::transaction(function () use ($item, $data) {
-                $this->intangibleAssetStateRepository->update($item, $data);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.intangible_assets.states.messages.update_success', ['state' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.intangible_assets.states.messages.update_error')]);
+            DB::beginTransaction();
+            $this->intangibleAssetStateService->update($request->all(), $id);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/IntangibleAssets/IntangibleAssetState:Update/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/IntangibleAssets/IntangibleAssetState:Update/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/IntangibleAssets/IntangibleAssetState:Update/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('admin.intangible_assets.status.edit', $id)->with('alert', $response);
     }
 
     /**
@@ -162,16 +175,23 @@ class IntangibleAssetStateController extends Controller
      */
     public function destroy($id)
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
         try {
             $item = $this->intangibleAssetStateRepository->getById($id);
-
-            DB::transaction(function () use ($item) {
-                $this->intangibleAssetStateRepository->delete($item);
-            });
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.admin.intangible_assets.states.messages.delete_success', ['state' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.admin.intangible_assets.states.messages.delete_error')]);
+            DB::beginTransaction();
+            $this->intangibleAssetStateService->delete($id);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
+            Log::info("@Web/Controllers/Admin/IntangibleAssets/IntangibleAssetState:Delete/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Admin/IntangibleAssets/IntangibleAssetState:Delete/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Admin/IntangibleAssets/IntangibleAssetState:Delete/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Admin/IntangibleAssets/IntangibleAssetState:Delete/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('admin.intangible_assets.status.index')->with('alert', $response);
     }
 }

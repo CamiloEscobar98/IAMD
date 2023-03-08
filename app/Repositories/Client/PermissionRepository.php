@@ -8,6 +8,9 @@ use App\Models\Client\Permission;
 
 class PermissionRepository  extends AbstractRepository
 {
+    /** @var Permission */
+    protected $model;
+
     public function __construct(Permission $model)
     {
         $this->model = $model;

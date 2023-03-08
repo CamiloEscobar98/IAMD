@@ -10,6 +10,9 @@ use App\Repositories\Admin\CountryRepository;
 use App\Repositories\Admin\StateRepository;
 
 use App\Models\Admin\Localization\Country;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
 
 class CountryController extends Controller
 {
@@ -35,11 +38,11 @@ class CountryController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $items = $this->countryRepository->all();
-
-            return response()->json($items);
-        } catch (\Exception $th) {
-            return response()->json($th->getMessage(), 500);
+            $countries = $this->countryRepository->all()->pluck('name', 'id')->prepend('---Seleccionar país', -1);
+            return response()->json($countries);
+        } catch (Exception $e) {
+            Log::error("@Api/Controllers/CountryController:Index/Exception: {$e->getMessage()}");
+            return response()->json($e->getMessage(), $e->getCode());
         }
     }
 
@@ -53,11 +56,14 @@ class CountryController extends Controller
     public function states(Country $country): JsonResponse|String
     {
         try {
-            $item = $this->stateRepository->getByCountry($country);
-
-            return response()->json($item);
-        } catch (\Exception $th) {
-            return response()->json($th->getMessage(), 500);
+            $states = $this->stateRepository->getByCountry($country)->pluck('name', 'id')->prepend('---Seleccionar departamento', -1);
+            return response()->json($states);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Api/Controllers/CountryController:GetStates/ModelNotFoundException: {$me->getMessage()}");
+            return response()->json([], $me->getCode());
+        } catch (Exception $e) {
+            Log::error("@Api/Controllers/CountryController:GetStates/Exception: {$e->getMessage()}");
+            return response()->json([], $e->getCode());
         }
     }
 }

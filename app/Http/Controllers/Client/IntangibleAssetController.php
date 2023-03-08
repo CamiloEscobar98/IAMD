@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 use App\Http\Requests\Client\IntangibleAssets\StoreRequest;
 use App\Http\Requests\Client\IntangibleAssets\UpdateRequest;
@@ -13,8 +15,6 @@ use App\Http\Requests\Client\IntangibleAssets\UpdateRequest;
 use App\Services\Client\IntangibleAssetService;
 
 use App\Repositories\Client\IntangibleAssetRepository;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 
 class IntangibleAssetController extends Controller
 {
@@ -43,28 +43,21 @@ class IntangibleAssetController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
+     * 
+     * @param Request $request
+     * 
      * @return View|RedirectResponse
      */
-    public function index(Request $request) #: View|RedirectResponse
+    public function index(Request $request, $client) #: View|RedirectResponse
     {
         try {
-            $params = $this->intangibleAssetService->transformParams($request->all());
-
-            $query = $this->intangibleAssetRepository->search($params, ['project.research_unit.administrative_unit'], []);
-
-            $total = $query->count();
-
-            $items = $this->intangibleAssetService->customPagination($query, $params, $request->get('page'), $total);
-
-            $links = $items->links('pagination.customized');
-
-            return view('client.pages.intangible_assets.index')
+            [$params, $total, $items, $links] = $this->intangibleAssetService->searchWithPagination($request->all(), $request->get('page'), ['intangible_asset_state', 'project.research_units']);
+            return view('client.pages.intangible_assets.index', compact('links'))
                 ->nest('filters', 'client.pages.intangible_assets.components.filters', compact('params', 'total'))
-                ->nest('table', 'client.pages.intangible_assets.components.table', compact('items', 'links'));
+                ->nest('table', 'client.pages.intangible_assets.components.table', compact('items'));
         } catch (\Exception $th) {
-            return $th->getMessage();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            dd($th->getMessage());
+            return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -79,7 +72,7 @@ class IntangibleAssetController extends Controller
             $item = $this->intangibleAssetRepository->newInstance();
             return view('client.pages.intangible_assets.create', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -87,58 +80,53 @@ class IntangibleAssetController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  StoreRequest $request
+     * @param string $client
      * @return RedirectResponse
      */
-    public function store(StoreRequest $request): RedirectResponse
+    public function store(StoreRequest $request, $client): RedirectResponse
     {
-        $data = $request->only(['project_id', 'name', 'date']);
-
-        $localizationData = $request->only(['localization', 'localization_code']);
-
-        $response = $this->intangibleAssetService->createIntangibleAsset($data, $localizationData);
-
-        return redirect()->back()->with('alert', $response);
+        return redirect()->route('client.intangible_assets.create', $client)->with('alert', $this->intangibleAssetService->save($request->all()));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $client
      * @param int $intangibleAsset
      * 
      * @return RedirectResponse|View
      */
-    public function show($id, $intangibleAsset) #: RedirectResponse|View
+    public function show($client, $intangibleAsset) #: RedirectResponse|View
     {
         try {
             $item = $this->intangibleAssetRepository->getByIdWithRelations($intangibleAsset, [
                 'intangible_asset_phases', 'dpis.dpi', 'intangible_asset_published', 'intangible_asset_localization',
                 'intangible_asset_confidenciality_contract', 'creators', 'intangible_asset_session_right_contract', 'user_messages',
-                'secret_protection_measures', 'priority_tools'
+                'secret_protection_measures:id,name', 'priority_tools', 'research_units:id,name'
             ]);
-
             return view('client.pages.intangible_assets.show', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('client.intangible_assets.index')
+                ->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $client
      * @param int $intangibleAsset
      * 
      * @return RedirectResponse|View
      */
-    public function edit($id, $intangibleAsset, Request $request): RedirectResponse|View
+    public function edit($client, $intangibleAsset, Request $request)#: RedirectResponse|View
     {
         try {
-            $item = $this->intangibleAssetRepository->getById($intangibleAsset);
-
+            $item = $this->intangibleAssetRepository->getByIdWithRelations($intangibleAsset, ['research_units:id,name']);
             return view('client.pages.intangible_assets.edit', compact('item'));
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+            return redirect()->route('client.intangible_assets.index')
+                ->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
         }
     }
 
@@ -146,77 +134,38 @@ class IntangibleAssetController extends Controller
      * Update the specified resource in storage.
      *
      * @param  UpdateRequest  $request
-     * @param  int  $id
+     * @param  int  $client
      * @param int $intangibleAsset
      * 
      * @return RedirectResponse
      */
-    public function update(UpdateRequest $request, $id, $intangibleAsset): RedirectResponse
+    public function update(UpdateRequest $request, $client, $intangibleAsset): RedirectResponse
     {
-        try {
-            $data = $request->only(['project_id', 'name']);
-
-            $item = $this->intangibleAssetRepository->getById($intangibleAsset);
-
-            DB::beginTransaction();
-
-            $this->intangibleAssetRepository->update($item, $data);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.update_success', ['intangible_asset' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.messages.update_error')]);
-        }
+        return redirect()->route('client.intangible_assets.edit', ['intangible_asset' => $intangibleAsset, 'client' => $client])->with('alert', $this->intangibleAssetService->update($request->all(), $intangibleAsset));
     }
 
     /**
      * Generate Code
      * 
-     * @param int $id
+     * @param int $client
      * @param int $intangibleAsset
      * 
      * @return RedirectResponse
      */
-    public function updateCode($id, $intangibleAsset) #: RedirectResponse
+    public function updateCode($client, $intangibleAsset) #: RedirectResponse
     {
-        try {
-            $item = $this->intangibleAssetRepository->getById($intangibleAsset);
-
-            $this->intangibleAssetService->generateCodeOfIntangibleAsset($item);
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.update_success', ['intangible_asset' => $item->name])]);
-        } catch (\Exception $th) {
-            return $th->getMessage();
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.messages.update_error')]);
-        }
+        return redirect()->route('client.intangible_assets.show', ['intangible_asset' => $intangibleAsset, 'client' => $client])->with('alert', $this->intangibleAssetService->updateCode($intangibleAsset));
     }
-
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $client
      * @param int $intangibleAsset
      * @return View|RedirectResponse
      */
-    public function destroy($id, $intangibleAsset)
+    public function destroy($client, $intangibleAsset)
     {
-        try {
-            $item = $this->intangibleAssetRepository->getById($intangibleAsset);
-
-            DB::beginTransaction();
-
-            $this->intangibleAssetRepository->delete($item);
-
-            DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.delete_success', ['intangible_asset' => $item->name])]);
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.messages.delete_error')]);
-        }
+        return redirect()->route('client.intangible_assets.index', $client)->with('alert', $this->intangibleAssetService->delete($intangibleAsset));
     }
 }

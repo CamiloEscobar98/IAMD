@@ -19,8 +19,8 @@ use App\Repositories\Client\IntangibleAssetPhaseRepository;
 use App\Repositories\Client\IntangibleAssetSecretProtectionMeasureRepository;
 use App\Repositories\Client\IntangibleAssetSessionRightContractRepository;
 
-use App\Services\FileSystem\IntangibleAsset\FileConfidencialityContractService;
-use App\Services\FileSystem\IntangibleAsset\FileSessionRightContractService;
+use App\Services\FileSystem\IntangibleAssets\FileConfidencialityContractService;
+use App\Services\FileSystem\IntangibleAssets\FileSessionRightContractService;
 use Illuminate\Http\Request;
 
 class IntangibleAssetPhaseService
@@ -260,7 +260,6 @@ class IntangibleAssetPhaseService
 
             return $message;
         } catch (\Exception $th) {
-
             DB::rollBack();
             return __('pages.client.intangible_assets.phases.five.messages.save_error');
         }
@@ -618,7 +617,7 @@ class IntangibleAssetPhaseService
                 DB::commit();
             } catch (\Exception $th) {
                 DB::rollBack();
-                $message = $th->getMessage();
+                $message = __('messages.syntax_error');
                 $this->fileSessionRightContractService->deleteSessionRightContractFile($intangibleAsset);
 
                 // $message = __('pages.client.intangible_assets.phases.five.sub_phases.session_right_contract.messages.save_error');

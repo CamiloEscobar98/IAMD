@@ -31,11 +31,7 @@ class Creator extends BaseModel
      */
     public function getCreatorTypeAttribute()
     {
-        if (!is_null($this->internal)) {
-            return 'Interno';
-        } else {
-            return 'Externo';
-        }
+        return !is_null($this->getAttribute('internal')) ? 'Interno' : 'Externo';
     }
 
     /**
@@ -46,11 +42,7 @@ class Creator extends BaseModel
      */
     public function getCreatorTypeRouteAttribute()
     {
-        if (!is_null($this->internal)) {
-            return 'creators.internal';
-        } else {
-            return 'creators.external';
-        }
+        return !is_null($this->getAttribute('internal')) ? 'creators.internal' : 'creators.external';
     }
 
     /**

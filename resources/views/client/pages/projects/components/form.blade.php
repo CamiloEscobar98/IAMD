@@ -1,37 +1,16 @@
-<div data-client="{{ $client->name }}" id="client_id"></div>
-
-<!-- Administrative Unit -->
-<div class="form-group">
-    <label>Facultad:</label>
-    <div class="input-group">
-        <select name="administrative_unit_id" id="administrative_unit_id" class="form-control select2bs4"
-            onchange="changeAdministrativeUnit()">
-
-            @foreach ($administrativeUnits as $administrativeUnitItem)
-                <option value="{{ $administrativeUnitItem->id }}"
-                    {{ twoOptionsIsEqual($administrativeUnit->id, $administrativeUnitItem->id) }}>
-                    {{ $administrativeUnitItem->name }}</option>
-            @endforeach
-        </select>
-        <div class="input-group-append">
-            <div class="input-group-text">
-                <span class="fas fa-university"></span>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- ./Administrative Unit -->
-
 <!-- Research Unit -->
 <div class="form-group mt-3">
-    <label>Unidad de Investigación:</label>
+    <label>Unidades de Investigación:</label>
     <div class="input-group">
-        <select name="research_unit_id" id="research_unit_id" class="form-control select2bs4">
-
-            @foreach ($researchUnits as $researchUnitItem)
-                <option value="{{ $researchUnitItem->id }}"
-                    {{ twoOptionsIsEqual($researchUnit->id, $researchUnitItem->id) }}>
-                    {{ $researchUnitItem->name }}</option>
+        <select name="research_unit_id[]" id="research_unit_id" class="form-control select2bs4" multiple>
+            @foreach ($administrativeUnits as $administrativeUnitItem)
+                <optgroup label="{{ $administrativeUnitItem->name }}">
+                    @foreach ($administrativeUnitItem->research_units->pluck('name', 'id') as $researchUnitItemId => $value)
+                        <option value="{{ $researchUnitItemId }}"
+                            {{ optionInArray(old() ?: $item->research_units, 'research_unit_id', $researchUnitItemId) }}>
+                            {{ $value }}</option>
+                    @endforeach
+                </optgroup>
             @endforeach
         </select>
         <div class="input-group-append">
@@ -42,7 +21,7 @@
     </div>
 
     @error('research_unit_id')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Research Unit -->
@@ -52,12 +31,10 @@
     <label>Director:</label>
     <div class="input-group">
         <select name="director_id" class="form-control select2bs4 {{ isInvalidByError($errors, 'director_id') }}">
-            <option value="-1">{{ __('inputs.director_id') }}
-            </option>
-            @foreach ($creators as $director)
-                <option value="{{ $director->id }}"
-                    {{ twoOptionsIsEqual(old('director_id', $item->director_id), $director->id) }}>
-                    {{ $director->name }}</option>
+            @foreach ($directors as $directorId => $value)
+                <option value="{{ $directorId }}"
+                    {{ twoOptionsIsEqual(old('director_id', $item->director_id), $directorId) }}>
+                    {{ $value }}</option>
             @endforeach
         </select>
         <div class="input-group-append">
@@ -68,7 +45,7 @@
     </div>
 
     @error('director_id')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Director -->
@@ -87,7 +64,7 @@
     </div>
 
     @error('name')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Name -->
@@ -106,7 +83,7 @@
     </div>
 
     @error('description')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Description -->
@@ -115,16 +92,14 @@
 
 <!-- Financing Types -->
 <div class="form-group mt-3">
-    <label>Tipo de Finaciación:</label>
+    <label>{{ __('inputs.financing_type_id') }}:</label>
     <div class="input-group">
-        <select name="financing_type_id"
-            class="form-control select2bs4 {{ isInvalidByError($errors, 'financing_type_id') }}">
-            <option value="-1">{{ __('inputs.financing_type_id') }}
-            </option>
-            @foreach ($financingTypes as $financingType)
-                <option value="{{ $financingType->id }}"
-                    {{ twoOptionsIsEqual(old('financing_type_id', getParamObject($item->project_financing, 'financing_type_id')), $financingType->id) }}>
-                    {{ $financingType->name }}</option>
+        <select name="financing_type_id[]" id="financing_type_id"
+            class="form-control select2bs4 {{ isInvalidByError($errors, 'financing_type_id') }}" multiple>
+            @foreach ($financingTypes as $financingTypeId => $value)
+                <option value="{{ $financingTypeId }}"
+                    {{ optionInArray(old() ?: $item->project_financings, 'financing_type_id', $financingTypeId) }}>
+                    {{ $value }}</option>
             @endforeach
         </select>
         <div class="input-group-append">
@@ -135,23 +110,21 @@
     </div>
 
     @error('financing_type_id')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Financing Types -->
 
 <!-- Project Contract Types -->
 <div class="form-group mt-3">
-    <label>Tipo de Contrato para el Proyecto:</label>
+    <label>{{ __('inputs.project_contract_type_id') }}:</label>
     <div class="input-group">
-        <select name="project_contract_type_id"
+        <select name="project_contract_type_id" id="project_contract_type_id"
             class="form-control select2bs4 {{ isInvalidByError($errors, 'project_contract_type_id') }}">
-            <option value="-1">{{ __('inputs.project_contract_type_id') }}
-            </option>
-            @foreach ($projectContractTypes as $projectContractType)
-                <option value="{{ $projectContractType->id }}"
-                    {{ twoOptionsIsEqual(old('project_contract_type_id', getParamObject($item->project_financing, 'project_contract_type_id')), $projectContractType->id) }}>
-                    {{ $projectContractType->name }}</option>
+            @foreach ($projectContractTypes as $projectContractTypeId => $value)
+                <option value="{{ $projectContractTypeId }}"
+                    {{ twoOptionsIsEqual(old('project_contract_type_id', getParamObject($item, 'project_contract_type_id')), $projectContractTypeId) }}>
+                    {{ $value }}</option>
             @endforeach
         </select>
         <div class="input-group-append">
@@ -162,7 +135,7 @@
     </div>
 
     @error('project_contract_type_id')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Project Contract Types -->
@@ -173,7 +146,7 @@
     <div class="input-group">
         <input type="text" name="contract" class="form-control {{ isInvalidByError($errors, 'contract') }}"
             placeholder="{{ __('inputs.contract') }}"
-            value="{{ old('contract', getParamObject($item->project_financing, 'contract')) }}">
+            value="{{ old('contract', getParamObject($item, 'contract')) }}">
         <div class="input-group-append">
             <div class="input-group-text">
                 <span class="fas fa-book"></span>
@@ -182,7 +155,7 @@
     </div>
 
     @error('contract')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Contract -->
@@ -194,11 +167,11 @@
     <div class="input-group">
         <input type="date" name="date" class="form-control {{ isInvalidByError($errors, 'date') }}"
             placeholder="{{ __('inputs.date') }}"
-            value="{{ old('date', getParamObject($item->project_financing, 'date')) }}">
+            value="{{ old('date', getParamObject($item, 'date')) }}">
     </div>
 
     @error('date')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Date -->

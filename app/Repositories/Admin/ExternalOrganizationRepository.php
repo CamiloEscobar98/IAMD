@@ -15,10 +15,12 @@ class ExternalOrganizationRepository extends  AbstractRepository
 
     /**
      * @param array $params
+     * @param array $with
+     * @param array $withCount
      * 
      * @return mixed
      */
-    public function search($params)
+    public function search(array $params = [], array $with = [], array $withCount = [])
     {
         $query = $this->model
             ->select();
@@ -37,6 +39,14 @@ class ExternalOrganizationRepository extends  AbstractRepository
 
         if (isset($params['date_to']) && $params['date_to']) {
             $query->where('updated_at', '<=', $params['date_to']);
+        }
+
+        if (isset($with) && $with) {
+            $query->with($with);
+        }
+
+        if (isset($withCount) && $withCount) {
+            $query->withCount($withCount);
         }
 
         return $query;

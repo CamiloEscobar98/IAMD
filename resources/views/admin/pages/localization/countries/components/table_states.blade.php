@@ -7,8 +7,8 @@
                 <th class="text-right">#</th>
             </tr>
         </thead>
-        <tbody class="text-center">
-            @forelse ($states as $item)
+        <tbody>
+            @forelse ($items as $item)
                 <tr>
                     <td>{{ $item->name }}</td>
                     <td>

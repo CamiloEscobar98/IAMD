@@ -27,6 +27,7 @@ class StoreRequest extends FormRequest
             'intellectual_property_right_category_id' => ['required', 'exists:intellectual_property_right_categories,id'],
             'intellectual_property_right_subcategory_id' => ['required', 'exists:intellectual_property_right_subcategories,id'],
             'name' => ['required', 'unique:mysql.intellectual_property_right_products'],
+            'code' => ['required', 'unique:mysql.intellectual_property_right_products'],
         ];
     }
 }
