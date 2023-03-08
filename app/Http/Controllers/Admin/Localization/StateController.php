@@ -90,9 +90,10 @@ class StateController extends Controller
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
         try {
             DB::beginTransaction();
-            $this->stateService->save($request->only('name', 'country_id'));
+            $item = $this->stateService->save($request->only('name', 'country_id'));
             DB::commit();
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+            Log::info("@Web/Controllers/Admin/Localizations/StateController:Store/Success, Item: {$item->name}");
         } catch (QueryException $qe) {
             Log::error("@Web/Controllers/Admin/Localizations/StateController:Store/QueryException: {$qe->getMessage()}");
             DB::rollBack();
@@ -154,9 +155,10 @@ class StateController extends Controller
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
         try {
             DB::beginTransaction();
-            $this->stateService->update($request->only('name'), $id);
+            $item = $this->stateService->update($request->all(), $id);
             DB::commit();
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+            Log::info("@Web/Controllers/Admin/Localizations/StateController:Update/Success, Item: {$item->name}");
         } catch (ModelNotFoundException $me) {
             Log::error("@Web/Controllers/Admin/Localizations/StateController:Update/ModelNotFoundException: {$me->getMessage()}");
         } catch (QueryException $qe) {
@@ -184,7 +186,7 @@ class StateController extends Controller
             $this->stateService->delete($id);
             DB::commit();
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
-            // Log::info("@Web/Controllers/Admin/Localizations/StateController:Delete/Success, Item: {$item->name}");
+            Log::info("@Web/Controllers/Admin/Localizations/StateController:Delete/Success, Item: {$item->name}");
         } catch (ModelNotFoundException $me) {
             Log::error("@Web/Controllers/Admin/Localizations/StateController:Delete/ModelNotFoundException: {$me->getMessage()}");
         } catch (QueryException $qe) {

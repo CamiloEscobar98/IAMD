@@ -91,9 +91,10 @@ class CityController extends Controller
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
         try {
             DB::beginTransaction();
-            $this->cityService->save($request->only('name', 'state_id'));
+            $item = $this->cityService->save($request->only('name', 'state_id'));
             DB::commit();
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+            Log::info("@Web/Controllers/Admin/Localizations/CityController:Store/Success, Item: {$item->name}");
         } catch (QueryException $qe) {
             Log::error("@Web/Controllers/Admin/Localizations/CityController:Store/QueryException: {$qe->getMessage()}");
             DB::rollBack();
@@ -155,9 +156,10 @@ class CityController extends Controller
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
         try {
             DB::beginTransaction();
-            $this->cityService->update($request->only('name', 'state_id'), $id);
+            $item = $this->cityService->update($request->only('name', 'state_id'), $id);
             DB::commit();
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+            Log::info("@Web/Controllers/Admin/Localizations/CountryController:Update/Success, Item: {$item->name}");
         } catch (ModelNotFoundException $me) {
             Log::error("@Web/Controllers/Admin/Localizations/CityController:Update/ModelNotFoundException: {$me->getMessage()}");
         } catch (QueryException $qe) {

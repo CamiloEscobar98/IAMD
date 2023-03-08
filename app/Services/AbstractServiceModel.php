@@ -16,10 +16,11 @@ abstract class AbstractServiceModel
      * Store a new resource.
      * 
      * @param array $data
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function save(array $data)
     {
-        $this->repository->create($data);
+        return $this->repository->create($data);
     }
 
     /**
@@ -27,11 +28,13 @@ abstract class AbstractServiceModel
      * 
      * @param array $data
      * @param mixed $id
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function update(array $data, mixed $id)
     {
         $item = $this->repository->getById($id);
         $this->repository->update($item, $data);
+        return $item;
     }
 
     /**

@@ -101,9 +101,10 @@ class CountryController extends Controller
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
         try {
             DB::beginTransaction();
-            $this->countryService->save($request->only('name'));
+            $item = $this->countryService->save($request->only('name'));
             DB::commit();
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+            Log::info("@Web/Controllers/Admin/Localizations/CountryController:Store/Success, Item: {$item->name}");
         } catch (QueryException $qe) {
             Log::error("@Web/Controllers/Admin/Localizations/CountryController:Store/QueryException: {$qe->getMessage()}");
             DB::rollBack();
@@ -172,9 +173,10 @@ class CountryController extends Controller
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
         try {
             DB::beginTransaction();
-            $this->countryService->update($request->only('name'), $id);
+            $item = $this->countryService->update($request->all(), $id);
             DB::commit();
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+            Log::info("@Web/Controllers/Admin/Localizations/CountryController:Update/Success, Item: {$item->name}");
         } catch (ModelNotFoundException $me) {
             Log::error("@Web/Controllers/Admin/Localizations/CountryController:Update/ModelNotFoundException: {$me->getMessage()}");
         } catch (QueryException $qe) {

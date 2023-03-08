@@ -96,23 +96,6 @@ class IntellectualPropertyRightCategoryService extends AbstractServiceModel
     }
 
     /**
-     * @param array $data
-     * @param int $page
-     * @param array $with
-     * @param array $withCount
-     */
-    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
-    {
-        $params = $this->transformParams($data);
-        $query = $this->intellectualPropertyRightCategoryRepository->search($params, $with, $withCount);
-        $total = $query->count();
-        $items = $this->customPagination($query, $params, $page, $total);
-        $links = $items->links('pagination.customized');
-
-        return [$params, $total, $items, $links];
-    }
-
-    /**
      * @param mixed $productId
      */
     public function getIntellectualPropertyCategorySelect($productId = null): array
