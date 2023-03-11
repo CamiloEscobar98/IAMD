@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\Admin\Localization\StateController;
 
 use App\Http\Controllers\Api\Admin\IntellectualPropertyRightCategoryController;
 use App\Http\Controllers\Api\Admin\IntellectualPropertyRightSubcategoryController;
-
+use App\Http\Controllers\Api\Admin\Localization\CityController;
 use App\Http\Controllers\Api\Client\AdministrativeUnitController;
 
 use App\Http\Controllers\Api\Client\ResearchUnitController;
@@ -40,15 +40,9 @@ Route::prefix('intellectual_property_rights')->group(function () {
 
 /** Localizations */
 Route::prefix('localizaciones')->group(function () {
-    Route::prefix('paises')->group(function () {
-        Route::get('/', [CountryController::class,  'index']);
-        Route::get('{country}/departamentos', [CountryController::class, 'states']);
-    });
-
-    Route::prefix('departamentos')->group(function () {
-        Route::get('/', [StateController::class,  'index']);
-        Route::get('{state}/ciudades', [StateController::class, 'cities']);
-    });
+    Route::get('paises', [CountryController::class,  'index']);
+    Route::get('departamentos', [StateController::class,  'index']);
+    Route::get('ciudades', [CityController::class,  'index']);
 });
 /** ./Localizations */
 

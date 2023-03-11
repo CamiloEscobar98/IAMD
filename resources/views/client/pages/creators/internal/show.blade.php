@@ -97,14 +97,14 @@
                 <!-- Linkage Type -->
                 <div class="form-group">
                     <label>{{ __('inputs.linkage_type_id') }}:</label>
-                    <p>{{ $item->linkage_type->name }}</p>
+                    <p>{{ getParamObject($item->linkage_type, 'name', true) }}</p>
                 </div>
                 <!-- ./Linkage Type -->
 
                 <!-- Assignment Contract -->
                 <div class="form-group">
                     <label>{{ __('inputs.assignment_contract_id') }}:</label>
-                    <p>{{ $item->assignment_contract->name }}</p>
+                    <p>{{ getParamObject($item->assignment_contract, 'name', true) }}</p>
                 </div>
                 <!-- ./Assignment Contract -->
             </div>

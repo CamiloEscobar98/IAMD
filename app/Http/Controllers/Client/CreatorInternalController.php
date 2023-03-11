@@ -14,6 +14,12 @@ use App\Http\Requests\Client\Creators\Internal\UpdateRequest;
 use App\Services\Client\CreatorInternalService;
 
 use App\Repositories\Client\CreatorInternalRepository;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class CreatorInternalController extends Controller
 {
@@ -46,36 +52,44 @@ class CreatorInternalController extends Controller
      * @param Request $request
      * @param string $client
      *
-     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     * @return View|RedirectResponse
      */
-    public function index(Request $request, $client): \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+    public function index(Request $request, $client): View|RedirectResponse
     {
         try {
-            [$params, $total, $items, $links] = $this->creatorInternalService->searchWithPagination($request->all(), $request->get('page'), [
+            $params = $this->creatorInternalService->transformParams($request->all());
+            $query = $this->creatorInternalRepository->search($params, [
                 'creator', 'linkage_type', 'assignment_contract', 'creator.document',
                 'creator.document.document_type', 'creator.document.expedition_place'
             ]);
+            $total = $query->count();
+            $items = $this->creatorInternalService->customPagination($query, $params, $request->get('page'), $total);
+            $links = $items->links('pagination.customized');
             return view('client.pages.creators.internal.index', compact('links'))
                 ->nest('filters', 'client.pages.creators.internal.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.creators.internal.components.table', compact('items'));
-        } catch (\Exception $th) {
-            return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/CreatorInternalController:Index/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/CreatorInternalController:Index/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
      * Show the form for creating a new resource.
      * @param string $client
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @return View|RedirectResponse
      */
-    public function create($client): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function create($client): View|RedirectResponse
     {
         try {
             $item = $this->creatorInternalRepository->newInstance();
             return view('client.pages.creators.internal.create', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('client.creators.internal.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/CreatorInternalController:Create/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.creators.internal.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -83,11 +97,25 @@ class CreatorInternalController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param string $client
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @return RedirectResponse
      */
-    public function store(StoreRequest $request, $client): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function store(StoreRequest $request, $client): RedirectResponse
     {
-        return redirect()->route('client.creators.internal.create', $client)->with('alert', $this->creatorInternalService->save($request->all()));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
+        try {
+            DB::beginTransaction();
+            $item = $this->creatorInternalService->save($request->all());
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+            Log::info("@Web/Controllers/Client/CreatorInternalController:Store/Success, Item: {$item->name}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/CreatorInternalController:Store/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/CreatorInternalController:Store/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('client.creators.internal.create', $client)->with('alert', $response);
     }
 
     /**
@@ -96,9 +124,9 @@ class CreatorInternalController extends Controller
      * @param  int  $client
      * @param int $internal
      * 
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @return View|RedirectResponse
      */
-    public function show($client, $internal, Request $request) #: \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function show($client, $internal, Request $request) #: View|RedirectResponse
     {
         try {
             $item = $this->creatorInternalRepository->getByIdWithRelations($internal, [
@@ -106,9 +134,12 @@ class CreatorInternalController extends Controller
                 'linkage_type', 'assignment_contract'
             ], 'creator_id');
             return view('client.pages.creators.internal.show', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('client.creators.internal.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/CreatorInternalController:Show/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/CreatorInternalController:Show/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.creators.internal.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -117,9 +148,9 @@ class CreatorInternalController extends Controller
      * @param  int  $client
      * @param int $internal
      * 
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @return View|RedirectResponse
      */
-    public function edit($client, $internal, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function edit($client, $internal, Request $request): View|RedirectResponse
     {
         try {
             $item = $this->creatorInternalRepository->getByIdWithRelations($internal, [
@@ -128,9 +159,12 @@ class CreatorInternalController extends Controller
             ], 'creator_id');
 
             return view('client.pages.creators.internal.edit', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('client.creators.internal.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/CreatorInternalController:Edit/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/CreatorInternalController:Edit/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.creators.internal.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -140,12 +174,27 @@ class CreatorInternalController extends Controller
      * @param  int  $client
      * @param int $internal
      * 
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @return RedirectResponse
      */
-    public function update(UpdateRequest $request, $client, $internal): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function update(UpdateRequest $request, $client, $internal): RedirectResponse
     {
-        return redirect()->route('client.creators.internal.edit', ['internal' => $internal, 'client' => $client])
-            ->with('alert', $this->creatorInternalService->update($request->all(), $internal));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
+        try {
+            DB::beginTransaction();
+            $item = $this->creatorInternalService->update($request->all(), $internal);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+            Log::info("@Web/Controllers/Client/CreatorInternalController:Update/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/CreatorInternalController:Update/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/CreatorInternalController:Update/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/CreatorInternalController:Update/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('client.creators.internal.edit', compact('client', 'internal'))->with('alert', $response);
     }
 
     /**
@@ -153,10 +202,27 @@ class CreatorInternalController extends Controller
      *
      * @param  int  $client
      * @param int $internal
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function destroy($client, $internal)
+    public function destroy($client, $internal): RedirectResponse
     {
-        return redirect()->route('client.creators.internal.index', $client)->with('alert', $this->creatorInternalService->delete($internal));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
+        try {
+            $item = $this->creatorInternalRepository->getById($internal);
+            DB::beginTransaction();
+            $this->creatorInternalService->delete($internal);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
+            Log::info("@Web/Controllers/Client/CreatorInternalController:Delete/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/CreatorInternalController:Delete/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/CreatorInternalController:Delete/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/CreatorInternalController:Delete/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('client.creators.internal.index', $client)->with('alert', $response);
     }
 }

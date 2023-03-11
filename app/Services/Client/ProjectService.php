@@ -2,14 +2,13 @@
 
 namespace App\Services\Client;
 
-use App\Repositories\Client\ProjectFinancingRepository;
+
 use App\Services\AbstractServiceModel;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\QueryException;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
+use App\Repositories\Client\ProjectFinancingRepository;
 use App\Repositories\Client\ProjectRepository;
 
 class ProjectService extends AbstractServiceModel
@@ -96,30 +95,19 @@ class ProjectService extends AbstractServiceModel
      * Store a new resource.
      * 
      * @param array $data
-     * @return array
+     * @return \Illuminate\Database\Eloquent\Model
      */
-    public function save(array $data): array
+    public function save(array $data)
     {
         $data = collect($data);
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
-        try {
-            $dataProject = $data->only(['project_contract_type_id', 'director_id', 'name', 'description', 'contract', 'date'])->toArray();
+        $dataProject = $data->only(['project_contract_type_id', 'director_id', 'name', 'description', 'contract', 'date'])->toArray();
 
-            DB::beginTransaction();
+        /** @var \App\Models\Client\Project\Project $item */
+        $item = $this->projectRepository->create($dataProject);
 
-            /** @var \App\Models\Client\Project\Project $item */
-            $item = $this->projectRepository->create($dataProject);
-
-            $item->research_units()->sync($data->get('research_unit_id'));
-
-            $item->project_financings()->sync($data->get('financing_type_id'));
-
-            DB::commit();
-            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
-        } catch (QueryException $th) {
-            DB::rollBack();
-        }
-        return $response;
+        $item->research_units()->sync($data->get('research_unit_id'));
+        $item->project_financings()->sync($data->get('financing_type_id'));
+        return $item;
     }
 
     /**
@@ -127,50 +115,20 @@ class ProjectService extends AbstractServiceModel
      * 
      * @param array $data
      * @param mixed $id
-     * @return array
+     * @return \Illuminate\Database\Eloquent\Model
      */
-    public function update(array $data, mixed $id): array
+    public function update(array $data, mixed $id)
     {
         $data = collect($data);
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
-        try {
-            $dataProject = $data->only(['project_contract_type_id', 'director_id', 'name', 'description', 'contract', 'date'])->toArray();
+        $dataProject = $data->only(['project_contract_type_id', 'director_id', 'name', 'description', 'contract', 'date'])->toArray();
 
-            /** @var \App\Models\Client\Project\Project $item */
-            $item = $this->projectRepository->getById($id);
+        /** @var \App\Models\Client\Project\Project $item */
+        $item = $this->projectRepository->getById($id);
 
-            DB::beginTransaction();
+        $this->projectRepository->update($item, $dataProject);
 
-            $this->projectRepository->update($item, $dataProject);
-
-            $item->research_units()->sync($data->get('research_unit_id'));
-
-            $item->project_financings()->sync($data->get('financing_type_id'));
-
-            DB::commit();
-            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
-        } catch (QueryException $th) {
-            DB::rollBack();
-        }
-        return $response;
-    }
-
-    /**
-     * Search Administrative Units with a Pagination.
-     * @param array $data
-     * @param int $page
-     * @param array $with
-     * @param array $withCount
-     */
-    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
-    {
-        $params = $this->transformParams($data);
-        $query = $this->projectRepository->search($params, $with, $withCount);
-        $total = $query->count();
-        $items = $this->customPagination($query, $params, $page, $total);
-        $links = $items->links('pagination.customized');
-
-        // dd($total);
-        return [$params, $total, $items, $links];
+        $item->research_units()->sync($data->get('research_unit_id'));
+        $item->project_financings()->sync($data->get('financing_type_id'));
+        return $item;
     }
 }

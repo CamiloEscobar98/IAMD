@@ -6,8 +6,8 @@
         'type' => $item->creator->document->document_type->name,
         'expedition' => $item->creator->document->expedition_place->name,
     ]) !!}</td>
-    <td> {{ $item->linkage_type->name }} </td>
-    <td> {{ $item->assignment_contract->name }} </td>
+    <td> {{ getParamObject($item->linkage_type, 'name', true) }} </td>
+    <td> {{ getParamObject($item->assignment_contract, 'name', true) }} </td>
     @canany(['creators.internal.show', 'creators.internal.destroy'])
         <td class="text-right">
             <div class="btn-group">

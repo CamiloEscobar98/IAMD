@@ -6,8 +6,8 @@
         'type' => $item->creator->document->document_type->name,
         'expedition' => $item->creator->document->expedition_place->name,
     ]) !!}</td>
-    <td> {{ $item->external_organization->name }} </td>
-    <td> {{ $item->assignment_contract->name }} </td>
+    <td> {{ getParamObject($item->external_organization, 'name', true) }} </td>
+    <td> {{ getParamObject($item->assignment_contract, 'name', true) }} </td>
     @canany(['creators.external.show', 'creators.external.destroy'])
         <td class="text-right">
             <div class="btn-group">

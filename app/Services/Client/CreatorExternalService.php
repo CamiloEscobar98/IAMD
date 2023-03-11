@@ -38,34 +38,26 @@ class CreatorExternalService extends AbstractServiceModel
      * Store a new resource.
      * 
      * @param array $data
-     * @return array
+     * @return \Illuminate\Database\Eloquent\Model
      */
-    public function save(array $data): array
+    public function save(array $data)
     {
         $data = collect($data);
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
-        try {
-            DB::beginTransaction();
-            $creatorData = $data->only(['name', 'email', 'phone']);
+        $creatorData = $data->only(['name', 'email', 'phone']);
 
-            /** @var \App\Models\Client\Creator\Creator $creator */
-            $creator = $this->creatorRepository->create($creatorData->toArray());
+        /** @var \App\Models\Client\Creator\Creator $creator */
+        $creator = $this->creatorRepository->create($creatorData->toArray());
 
-            $creatorDocumentData = $data->only(['document', 'document_type_id', 'expedition_place_id']);
-            $creatorDocumentData['creator_id'] = $creator->id;
+        $creatorDocumentData = $data->only(['document', 'document_type_id', 'expedition_place_id']);
+        $creatorDocumentData['creator_id'] = $creator->id;
 
-            $this->creatorDocumentRepository->create($creatorDocumentData->toArray());
+        $this->creatorDocumentRepository->create($creatorDocumentData->toArray());
 
-            $creatorExternalData = $data->only(['external_organization_id', 'assignment_contract_id']);
-            $creatorExternalData['creator_id'] = $creator->id;
+        $creatorExternalData = $data->only(['external_organization_id', 'assignment_contract_id']);
+        $creatorExternalData['creator_id'] = $creator->id;
 
-            $this->creatorExternalRepository->create($creatorExternalData->toArray());
-            DB::commit();
-            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
-        } catch (QueryException $th) {
-            DB::rollBack();
-        }
-        return $response;
+        $this->creatorExternalRepository->create($creatorExternalData->toArray());
+        return $creator;
     }
 
     /**
@@ -73,42 +65,34 @@ class CreatorExternalService extends AbstractServiceModel
      * 
      * @param array $data
      * @param mixed $id
-     * @return array
+     * @return \Illuminate\Database\Eloquent\Model
      */
-    public function update(array $data, mixed $id): array
+    public function update(array $data, mixed $id)
     {
         $data = collect($data);
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
-        try {
-            DB::beginTransaction();
-            $creatorData = $data->only(['name', 'email', 'phone']);
+        $creatorData = $data->only(['name', 'email', 'phone']);
 
-            $creatorExternal = $this->creatorExternalRepository->getByIdWithRelations($id, [
-                'creator', 'creator.document', 'creator.document.document_type', 'creator.document.expedition_place',
-                'external_organization', 'assignment_contract'
-            ], 'creator_id');
+        $creatorExternal = $this->creatorExternalRepository->getByIdWithRelations($id, [
+            'creator', 'creator.document', 'creator.document.document_type', 'creator.document.expedition_place',
+            'external_organization', 'assignment_contract'
+        ], 'creator_id');
 
-            $creator = $creatorExternal->creator;
+        $creator = $creatorExternal->creator;
 
-            $this->creatorRepository->update($creator, $creatorData->toArray());
+        $this->creatorRepository->update($creator, $creatorData->toArray());
 
-            $creatorDocumentData = $data->only(['document', 'document_type_id', 'expedition_place_id']);
-            $creatorDocumentData['creator_id'] = $creator->id;
+        $creatorDocumentData = $data->only(['document', 'document_type_id', 'expedition_place_id']);
+        $creatorDocumentData['creator_id'] = $creator->id;
 
-            $creatorDocument = $creatorExternal->creator->document;
+        $creatorDocument = $creatorExternal->creator->document;
 
-            $this->creatorDocumentRepository->update($creatorDocument, $creatorDocumentData->toArray());
+        $this->creatorDocumentRepository->update($creatorDocument, $creatorDocumentData->toArray());
 
-            $creatorExternalData = $data->only(['external_organization_id', 'assignment_contract_id']);
-            $creatorExternalData['creator_id'] = $creator->id;
+        $creatorExternalData = $data->only(['external_organization_id', 'assignment_contract_id']);
+        $creatorExternalData['creator_id'] = $creator->id;
 
-            $creatorExternal = $this->creatorExternalRepository->update($creatorExternal, $creatorExternalData->toArray());
-            DB::commit();
-            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
-        } catch (QueryException $th) {
-            DB::rollBack();
-        }
-        return $response;
+        $creatorExternal = $this->creatorExternalRepository->update($creatorExternal, $creatorExternalData->toArray());
+        return $creator;
     }
 
     /**
@@ -171,23 +155,5 @@ class CreatorExternalService extends AbstractServiceModel
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
-    }
-
-    /**
-     * Search Administrative Units with a Pagination.
-     * @param array $data
-     * @param int $page
-     * @param array $with
-     * @param array $withCount
-     */
-    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
-    {
-        $params = $this->transformParams($data);
-        $query = $this->creatorExternalRepository->search($params, $with, $withCount);
-        $total = $query->count();
-        $items = $this->customPagination($query, $params, $page, $total);
-        $links = $items->links('pagination.customized');
-
-        return [$params, $total, $items, $links];
     }
 }

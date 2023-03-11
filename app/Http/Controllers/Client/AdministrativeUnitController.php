@@ -16,6 +16,10 @@ use App\Http\Requests\Client\AdministrativeUnits\UpdateRequest;
 use App\Services\Client\AdministrativeUnitService;
 
 use App\Repositories\Client\AdministrativeUnitRepository;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 class AdministrativeUnitController extends Controller
 {
@@ -51,13 +55,20 @@ class AdministrativeUnitController extends Controller
     public function index(Request $request, $client) #: View|RedirectResponse
     {
         try {
-            [$params, $total, $items, $links] = $this->administrativeUnitService->searchWithPagination($request->all(), $request->get('page'), [], ['research_units']);
+            $params = $this->administrativeUnitService->transformParams($request->all());
+            $query = $this->administrativeUnitRepository->search($params, [], ['research_units']);
+            $total = $query->count();
+            $items = $this->administrativeUnitService->customPagination($query, $params, $request->get('page'), $total);
+            $links = $items->links('pagination.customized');
             return view('client.pages.administrative_units.index', compact('links'))
                 ->nest('filters', 'client.pages.administrative_units.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.administrative_units.components.table', compact('items'));
-        } catch (\Exception $th) {
-            return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/AdministrativeUnitController:Index/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/AdministrativeUnitController:Index/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -71,9 +82,10 @@ class AdministrativeUnitController extends Controller
         try {
             $item = $this->administrativeUnitRepository->newInstance();
             return view('client.pages.administrative_units.create', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('client.administrative_units.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/AdministrativeUnitController:Create/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.administrative_units.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -85,14 +97,28 @@ class AdministrativeUnitController extends Controller
      */
     public function store(StoreRequest $request, $client): RedirectResponse
     {
-        return redirect()->route('client.administrative_units.create', $client)->with('alert', $this->administrativeUnitService->save($request->all()));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
+        try {
+            DB::beginTransaction();
+            $item = $this->administrativeUnitService->save($request->all());
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+            Log::info("@Web/Controllers/Client/AdministrativeUnitController:Store/Success, Item: {$item->name}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/AdministrativeUnitController:Store/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/AdministrativeUnitController:Store/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('client.administrative_units.create', $client)->with('alert', $response);
     }
 
     /**
      * Display the specified resource.
      *
      * @param string $client
-     * @param  int  $administrative_unit
+     * @param  int $administrative_unit
      * @param Request $request
      * 
      * @return View|RedirectResponse
@@ -102,16 +128,19 @@ class AdministrativeUnitController extends Controller
         try {
             $item = $this->administrativeUnitRepository->getById($administrative_unit);
             return view('client.pages.administrative_units.show', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('client.administrative_units.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/AdministrativeUnitController:Show/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/AdministrativeUnitController:Show/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.administrative_units.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param string $client
-     * @param  int  $administrative_unit
+     * @param  int $administrative_unit
      * @return View|RedirectResponse
      */
     public function edit($client, $administrative_unit, Request $request): View|RedirectResponse
@@ -119,9 +148,12 @@ class AdministrativeUnitController extends Controller
         try {
             $item = $this->administrativeUnitRepository->getById($administrative_unit);
             return view('client.pages.administrative_units.edit', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('client.administrative_units.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/AdministrativeUnitController:Edit/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/AdministrativeUnitController:Edit/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.administrative_units.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -129,11 +161,28 @@ class AdministrativeUnitController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $client
+     * @param int $administrative_unit
      * @return RedirectResponse
      */
     public function update(UpdateRequest $request, $client, $administrative_unit): RedirectResponse
     {
-        return redirect()->route('client.administrative_units.edit', ['administrative_unit' => $administrative_unit, 'client' => $client])->with('alert', $this->administrativeUnitService->update($request->all(), $administrative_unit));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
+        try {
+            DB::beginTransaction();
+            $item = $this->administrativeUnitService->update($request->all(), $administrative_unit);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+            Log::info("@Web/Controllers/Client/AdministrativeUnitController:Update/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/AdministrativeUnitController:Update/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/AdministrativeUnitController:Update/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/AdministrativeUnitController:Update/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('client.administrative_units.edit', compact('client', 'administrative_unit'))->with('alert', $response);
     }
 
     /**
@@ -145,6 +194,23 @@ class AdministrativeUnitController extends Controller
      */
     public function destroy($client, $administrative_unit): RedirectResponse
     {
-        return redirect()->route('client.administrative_units.index', $client)->with('alert', $this->administrativeUnitService->delete($administrative_unit));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
+        try {
+            $item = $this->administrativeUnitRepository->getById($administrative_unit);
+            DB::beginTransaction();
+            $this->administrativeUnitService->delete($administrative_unit);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
+            Log::info("@Web/Controllers/Client/AdministrativeUnitController:Delete/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/AdministrativeUnitController:Delete/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/AdministrativeUnitController:Delete/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/AdministrativeUnitController:Delete/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('client.administrative_units.index', $client)->with('alert', $response);
     }
 }

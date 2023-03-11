@@ -24,7 +24,7 @@ function getCountries() {
 function getStates(country_id) {
     $.ajax({
         type: "GET",
-        url: "/api/localizaciones/paises/" + country_id + "/departamentos",
+        url: `/api/localizaciones/departamentos/?country_id=${country_id}`,
     }).done(function (res) {
         let states = res;
         putStates(states);
@@ -34,7 +34,7 @@ function getStates(country_id) {
 function getCities(state_id) {
     $.ajax({
         type: "GET",
-        url: "/api/localizaciones/departamentos/" + state_id + "/cities",
+        url: `/api/localizaciones/ciudades/?state_id=${state_id}`,
     }).done(function (res) {
         let cities = res;
         putCities(cities);
@@ -45,16 +45,19 @@ function putCountries(items) {
     let selectCountries = $("#country_id");
     selectCountries.empty();
 
-    for(const key in items) {
+    let firstCountryId = null;
+    for (const key in items) {
         var id = key;
         var name = items[key];
 
-        selectCountries.append(`<option value="${id}">${name}</option>`);
-
-        if ($("#state_id").val()) {
-            let country_id = items[0]["id"];
-            getStates(country_id);
+        if (firstCountryId == null) {
+            firstCountryId = id;
         }
+
+        selectCountries.append(`<option value="${id}">${name}</option>`);
+    }
+    if ($("#state_id").val() && firstCountryId) {
+        getStates(firstCountryId);
     }
 }
 
@@ -62,16 +65,20 @@ function putStates(items) {
     let selectStates = $("#state_id");
     selectStates.empty();
 
-    for(const key in items) {
+    let firstStateId = null;
+    for (const key in items) {
         var id = key;
         var name = items[key];
+
+        if (firstStateId == null) {
+            firstStateId = id;
+        }
 
         selectStates.append(`<option value="${id}">${name}</option>`);
     }
 
-    if ($("#city_id").val()) {
-        let state_id = items[0]["id"];
-        getCities(state_id);
+    if ($("#city_id").val() && firstStateId) {
+        getCities(firstStateId);
     }
 }
 
@@ -79,7 +86,7 @@ function putCities(items) {
     let selectCities = $("#city_id");
     selectCities.empty();
 
-    for(const key in items) {
+    for (const key in items) {
         var id = key;
         var name = items[key];
 
