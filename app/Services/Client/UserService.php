@@ -25,25 +25,18 @@ class UserService extends AbstractServiceModel
      * Store a newly created resource in storage.
      *
      * @param array $arrayData
-     * @return array
+     * @return \Illuminate\Database\Eloquent\Model
      */
-    public function save($arrayData): array
+    public function save($arrayData)
     {
         $data = collect($arrayData);
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
-        try {
-            $userData = $data->only('name', 'email', 'password');
-            DB::beginTransaction();
-            /** @var \App\Models\Client\User $item */
-            $item = $this->userRepository->create($userData->toArray());
-            $role = $data->get('role_id');
-            $item->assignRole($role);
-            DB::commit();
-            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
-        } catch (QueryException $th) {
-            DB::rollBack();
-        }
-        return $response;
+        $userData = $data->only('name', 'email', 'password');
+        DB::beginTransaction();
+        /** @var \App\Models\Client\User $item */
+        $item = $this->userRepository->create($userData->toArray());
+        $role = $data->get('role_id');
+        $item->assignRole($role);
+        return $item;
     }
 
     /**
@@ -51,34 +44,26 @@ class UserService extends AbstractServiceModel
      *
      * @param array $arrayData
      * @param mixed  $id
-     * @return array
+     * @return \App\Models\Client\User
      */
-    public function update(array $arrayData, $id): array
+    public function update(array $arrayData, $id)
     {
         $data = collect($arrayData);
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
-        try {
-            $attributesRequest = is_null($data->get('password')) ? ['name', 'email', 'role_id'] : ['name', 'email', 'role_id', 'password'];
+        $attributesRequest = is_null($data->get('password')) ? ['name', 'email', 'role_id'] : ['name', 'email', 'role_id', 'password'];
 
-            $data = $data->only($attributesRequest);
+        $data = $data->only($attributesRequest);
 
-            $item = $this->userRepository->getById($id);
+        $item = $this->userRepository->getById($id);
 
-            DB::beginTransaction();
+        DB::beginTransaction();
 
-            $this->userRepository->update($item, $data->toArray());
+        $this->userRepository->update($item, $data->toArray());
 
-            $role = $data->get('role_id');
+        $role = $data->get('role_id');
 
-            /** @var \App\Models\Client\User $item */
-            $item->syncRoles($role);
-
-            DB::commit();
-            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
-        } catch (\Exception $th) {
-            DB::rollBack();
-        }
-        return $response;
+        /** @var \App\Models\Client\User $item */
+        $item->syncRoles($role);
+        return $item;
     }
 
     /**
@@ -141,23 +126,5 @@ class UserService extends AbstractServiceModel
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
-    }
-
-    /**
-     * Search Users with a Pagination.
-     * @param array $data
-     * @param int $page
-     * @param array $with
-     * @param array $withCount
-     */
-    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
-    {
-        $params = $this->transformParams($data);
-        $query = $this->userRepository->search($params, $with, $withCount);
-        $total = $query->count();
-        $items = $this->customPagination($query, $params, $page, $total);
-        $links = $items->links('pagination.customized');
-
-        return [$params, $total, $items, $links];
     }
 }

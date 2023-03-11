@@ -24,24 +24,17 @@ class RoleService extends AbstractServiceModel
      * Store a newly created resource in storage.
      *
      * @param array $data 
-     * @return RedirectResponse
+     * @return \App\Models\Client\Role
      */
-    public function save(array $data): array
+    public function save(array $data)
     {
         $dataCollection = collect($data);
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
-        try {
-            $dataInput = $dataCollection->all();
-            DB::beginTransaction();
-            /** @var \App\Models\Client\Role $item */
-            $item = $this->roleRepository->create($dataInput);
-            $permissions = $dataCollection->get('permissions');
-            $item->syncPermissions($permissions);
-            DB::commit();
-        } catch (\Exception $th) {
-            DB::rollBack();
-        }
-        return $response;
+        $dataInput = $dataCollection->all();
+        /** @var \App\Models\Client\Role $item */
+        $item = $this->roleRepository->create($dataInput);
+        $permissions = $dataCollection->get('permissions');
+        $item->syncPermissions($permissions);
+        return $item;
     }
 
     /**
@@ -49,25 +42,17 @@ class RoleService extends AbstractServiceModel
      *
      * @param  array $data
      * @param  int  $id
-     * @return View|RedirectResponse
+     * @return \App\Models\Client\Role
      */
-    public function update(array $data, $id): array
+    public function update(array $data, $id)
     {
         $dataCollection = collect($data);
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
-        try {
-            $data = $dataCollection->all();
-            DB::beginTransaction();
-            $item = $this->roleRepository->getById($id);
-            $this->roleRepository->update($item, $data);
-            $permissions = $dataCollection->get('permissions');
-            $item->syncPermissions($permissions);
-            DB::commit();
-            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
-        } catch (\Exception $th) {
-            DB::rollBack();
-        }
-        return $response;
+        $data = $dataCollection->all();
+        $item = $this->roleRepository->getById($id);
+        $this->roleRepository->update($item, $data);
+        $permissions = $dataCollection->get('permissions');
+        $item->syncPermissions($permissions);
+        return $item;
     }
 
     /**
@@ -130,23 +115,5 @@ class RoleService extends AbstractServiceModel
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
-    }
-
-    /**
-     * Search Roles with a Pagination.
-     * @param array $data
-     * @param int $page
-     * @param array $with
-     * @param array $withCount
-     */
-    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
-    {
-        $params = $this->transformParams($data);
-        $query = $this->roleRepository->search($params, $with, $withCount);
-        $total = $query->count();
-        $items = $this->customPagination($query, $params, $page, $total);
-        $links = $items->links('pagination.customized');
-
-        return [$params, $total, $items, $links];
     }
 }

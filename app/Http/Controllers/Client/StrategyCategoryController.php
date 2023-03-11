@@ -16,6 +16,10 @@ use App\Http\Requests\Client\StrategyCategories\UpdateRequest;
 use App\Services\Client\StrategyCategoryService;
 
 use App\Repositories\Client\StrategyCategoryRepository;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 class StrategyCategoryController extends Controller
 {
@@ -51,13 +55,20 @@ class StrategyCategoryController extends Controller
     public function index(Request $request, $client): View|RedirectResponse
     {
         try {
-            [$params, $total, $items, $links] = $this->strategyCategoryService->searchWithPagination($request->all(), $request->get('page'));
+            $params = $this->strategyCategoryService->transformParams($request->all());
+            $query = $this->strategyCategoryRepository->search($params);
+            $total = $query->count();
+            $items = $this->strategyCategoryService->customPagination($query, $params, $request->get('page'), $total);
+            $links = $items->links('pagination.customized');
             return view('client.pages.strategy_categories.index')
                 ->nest('filters', 'client.pages.strategy_categories.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.strategy_categories.components.table', compact('items', 'links'));
-        } catch (\Exception $e) {
-            return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/StrategyCategoryController:Index/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/StrategyCategoryController:Index/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -71,9 +82,10 @@ class StrategyCategoryController extends Controller
         try {
             $item = $this->strategyCategoryRepository->newInstance();
             return view('client.pages.strategy_categories.create', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('client.strategy_categories.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/StrategyCategoryController:Create/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.strategy_categories.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -85,7 +97,21 @@ class StrategyCategoryController extends Controller
      */
     public function store(StoreRequest $request, $client): RedirectResponse
     {
-        return redirect()->route('client.strategy_categories.create', $client)->with('alert', $this->strategyCategoryService->save($request->all()));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
+        try {
+            DB::beginTransaction();
+            $item = $this->strategyCategoryService->save($request->all());
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+            Log::info("@Web/Controllers/Client/StrategyCategoryController:Store/Success, Item: {$item->name}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/StrategyCategoryController:Store/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/StrategyCategoryController:Store/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('client.strategy_categories.create', $client)->with('alert', $response);
     }
 
     /**
@@ -101,9 +127,12 @@ class StrategyCategoryController extends Controller
         try {
             $item = $this->strategyCategoryRepository->getById($strategy);
             return view('client.pages.strategy_categories.show', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('client.strategy_categories.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/StrategyCategoryController:Show/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/StrategyCategoryController:Show/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.strategy_categories.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -119,9 +148,12 @@ class StrategyCategoryController extends Controller
         try {
             $item = $this->strategyCategoryRepository->getById($strategy_category);
             return view('client.pages.strategy_categories.edit', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('client.strategy_categories.show', ['strategy_category' => $strategy_category, 'client' => $client])->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/StrategyCategoryController:Edit/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/StrategyCategoryController:Edit/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.strategy_categories.show', ['strategy_category' => $strategy_category, 'client' => $client])->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -135,8 +167,23 @@ class StrategyCategoryController extends Controller
      */
     public function update(Request $request, $client, $strategy_category): RedirectResponse
     {
-        return redirect()->route('client.strategy_categories.edit', ['strategy_category' => $strategy_category, 'client' => $client])
-            ->with('alert', $this->strategyCategoryService->update($request->all(), $strategy_category));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
+        try {
+            DB::beginTransaction();
+            $item = $this->strategyCategoryService->update($request->all(), $strategy_category);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+            Log::info("@Web/Controllers/Client/StrategyCategoryController:Update/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/StrategyCategoryController:Update/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/StrategyCategoryController:Update/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/StrategyCategoryController:Update/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('client.strategy_categories.edit', compact('client', 'strategy_category'))->with('alert', $response);
     }
 
     /**
@@ -145,10 +192,27 @@ class StrategyCategoryController extends Controller
      * @param int  $client
      * @param int $strategy_category
      * 
-     * @return View|RedirectResponse
+     * @return RedirectResponse
      */
     public function destroy($client, $strategy_category): RedirectResponse
     {
-        return redirect()->route('client.strategy_categories.index', $client)->with('alert', $this->strategyCategoryService->delete($strategy_category));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
+        try {
+            $item = $this->strategyCategoryRepository->getById($strategy_category);
+            DB::beginTransaction();
+            $this->strategyCategoryService->delete($strategy_category);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
+            Log::info("@Web/Controllers/Client/StrategyCategoryController:Delete/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/StrategyCategoryController:Delete/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/StrategyCategoryController:Delete/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/StrategyCategoryController:Delete/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('client.strategy_categories.index', $client)->with('alert', $response);
     }
 }
