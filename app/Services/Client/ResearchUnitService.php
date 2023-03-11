@@ -80,22 +80,4 @@ class ResearchUnitService extends AbstractServiceModel
             throw new \Exception($exception->getMessage());
         }
     }
-
-      /**
-     * Search Administrative Units with a Pagination.
-     * @param array $data
-     * @param int $page
-     * @param array $with
-     * @param array $withCount
-     */
-    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
-    {
-        $params = $this->transformParams($data);
-        $query = $this->researchUnitRepository->search($params, $with, $withCount);
-        $total = $query->count();
-        $items = $this->customPagination($query, $params, $page, $total);
-        $links = $items->links('pagination.customized');
-
-        return [$params, $total, $items, $links];
-    }
 }

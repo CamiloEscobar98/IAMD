@@ -7,25 +7,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 
 use App\Repositories\Admin\CityRepository;
-use App\Repositories\Admin\StateRepository;
 
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class StateController extends Controller
+class CityController extends Controller
 {
-    /** @var StateRepository */
-    protected $stateRepository;
-
     /** @var CityRepository */
     protected $cityRepository;
 
     public function __construct(
-        StateRepository $stateRepository,
         CityRepository $cityRepository
     ) {
-        $this->stateRepository = $stateRepository;
         $this->cityRepository = $cityRepository;
     }
 
@@ -38,7 +32,7 @@ class StateController extends Controller
     public function index(Request $request): JsonResponse
     {
         try {
-            $states = $this->stateRepository->search($request->all())->pluck('name', 'id')->prepend('---Seleccionar departamento', -1);
+            $states = $this->cityRepository->search($request->all())->pluck('name', 'id')->prepend('---Seleccionar ciudad', -1);
             return response()->json($states);
         } catch (Exception $e) {
             Log::error("@Api/Controllers/StateController:Index/Exception: {$e->getMessage()}");

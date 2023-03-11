@@ -23,6 +23,7 @@ class ResearchUnit extends BaseModel
     protected $fillable = [
         'administrative_unit_id',
         'research_unit_category_id',
+        'academic_department_id',
         'director_id',
         'inventory_manager_id',
         'name',

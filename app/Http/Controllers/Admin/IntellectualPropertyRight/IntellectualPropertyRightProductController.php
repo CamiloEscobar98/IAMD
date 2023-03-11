@@ -50,10 +50,10 @@ class IntellectualPropertyRightProductController extends Controller
     public function index(Request $request) #: RedirectResponse|View
     {
         try {
-            $params = $this->transformParams($request->all());
+            $params = $this->intellectualPropertyRightProductService->transformParams($request->all());
             $query = $this->intellectualPropertyRightProductRepository->search($params, ['intellectual_property_right_subcategory.intellectual_property_right_category']);
             $total = $query->count();
-            $items = $this->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->intellectualPropertyRightProductService->customPagination($query, $params, $request->get('page'), $total);
             $links = $items->links('pagination.customized');
             return view('admin.pages.intellectual_property_rights.products.index', compact('links'))
                 ->nest('filters', 'admin.pages.intellectual_property_rights.products.components.filters', compact('params', 'total'))
