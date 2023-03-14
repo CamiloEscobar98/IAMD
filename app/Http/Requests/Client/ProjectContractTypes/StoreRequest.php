@@ -25,7 +25,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'unique:tenant.project_contract_types'],
-            'code' => ['required', 'unique:tenant.project_contract_types']
+            'code' => ['nullable', 'unique:tenant.project_contract_types']
         ];
     }
 }
