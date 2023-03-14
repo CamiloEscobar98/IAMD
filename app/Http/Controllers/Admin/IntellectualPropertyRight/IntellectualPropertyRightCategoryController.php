@@ -53,7 +53,7 @@ class IntellectualPropertyRightCategoryController extends Controller
             $params = $this->intellectualPropertyRightCategoryService->transformParams($request->all());
             $query = $this->intellectualPropertyRightCategoryRepository->search($params, [], ['intellectual_property_right_subcategories', 'intellectual_property_right_products']);
             $total = $query->count();
-            $items = $this->intellectualPropertyRightCategoryService->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->intellectualPropertyRightCategoryService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
             return view('admin.pages.intellectual_property_rights.categories.index', compact('links'))
                 ->nest('filters', 'admin.pages.intellectual_property_rights.categories.components.filters', compact('params', 'total'))

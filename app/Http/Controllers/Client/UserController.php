@@ -61,7 +61,7 @@ class UserController extends Controller
             $params = $this->userService->transformParams($request->all());
             $query = $this->userRepository->search($params, ['roles:id,info']);
             $total = $query->count();
-            $items = $this->userService->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->userService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
             return view('client.pages.users.index', compact('links'))
                 ->nest('filters', 'client.pages.users.components.filters', compact('params', 'total'))

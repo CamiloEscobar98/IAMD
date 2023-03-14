@@ -17,7 +17,9 @@ use App\Services\Admin\ExternalOrganizationService;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class ExternalOrganizationController extends Controller
 {
@@ -41,15 +43,15 @@ class ExternalOrganizationController extends Controller
      *
      * @param Request $request
      * 
-     * @return \Illuminate\Http\Response
+     * @return View|RedirectResponse
      */
-    public function index(Request $request)
+    public function index(Request $request): View|RedirectResponse
     {
         try {
             $params = $this->externalOrganizationService->transformParams($request->all());
             $query = $this->externalOrganizationRepository->search($params);
             $total = $query->count();
-            $items = $this->externalOrganizationService->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->externalOrganizationService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
             return view('admin.pages.creators.external_organizations.index', compact('links'))
                 ->nest('filters', 'admin.pages.creators.external_organizations.components.filters', compact('params', 'total'))
@@ -65,9 +67,9 @@ class ExternalOrganizationController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View|RedirectResponse
      */
-    public function create()
+    public function create(): View|RedirectResponse
     {
         try {
             $item = $this->externalOrganizationRepository->newInstance();
@@ -82,9 +84,9 @@ class ExternalOrganizationController extends Controller
      * Store a newly created resource in storage.
      *
      * @param StoreRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): RedirectResponse
     {
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
         try {
@@ -106,9 +108,9 @@ class ExternalOrganizationController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return View|RedirectResponse
      */
-    public function show($id)
+    public function show($id): View|RedirectResponse
     {
         try {
             $item = $this->externalOrganizationRepository->getById($id);
@@ -125,9 +127,9 @@ class ExternalOrganizationController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return View|RedirectResponse
      */
-    public function edit($id)
+    public function edit($id): View|RedirectResponse
     {
         try {
             $item = $this->externalOrganizationRepository->getById($id);
@@ -143,11 +145,11 @@ class ExternalOrganizationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  UpdateRequest  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function update(UpdateRequest $request, $id)
+    public function update(UpdateRequest $request, $id): RedirectResponse
     {
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
         try {
@@ -171,12 +173,13 @@ class ExternalOrganizationController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy($id): RedirectResponse
     {
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
         try {
+            /** @var \App\Models\Admin\ExternalOrganization $item */
             $item = $this->externalOrganizationRepository->getById($id);
             DB::beginTransaction();
             $this->externalOrganizationService->delete($id);

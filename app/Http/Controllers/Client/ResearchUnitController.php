@@ -61,7 +61,7 @@ class ResearchUnitController extends Controller
                 ['projects']
             );
             $total = $query->count();
-            $items = $this->researchUnitService->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->researchUnitService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
             return view('client.pages.research_units.index')
                 ->nest('filters', 'client.pages.research_units.components.filters', compact('params', 'total'))

@@ -58,7 +58,7 @@ class ProjectContractTypeController extends Controller
             $params = $this->projectContractTypeService->transformParams($request->all());
             $query = $this->projectContractTypeRepository->search($params);
             $total = $query->count();
-            $items = $this->projectContractTypeService->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->projectContractTypeService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
             return view('client.pages.project_contract_types.index')
                 ->nest('filters', 'client.pages.project_contract_types.components.filters', compact('params', 'total'))

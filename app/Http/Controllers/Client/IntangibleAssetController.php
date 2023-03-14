@@ -58,7 +58,7 @@ class IntangibleAssetController extends Controller
             $params = $this->intangibleAssetService->transformParams($request->all());
             $query = $this->intangibleAssetRepository->search($params, ['intangible_asset_state', 'project.research_units']);
             $total = $query->count();
-            $items = $this->intangibleAssetService->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->intangibleAssetService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
             return view('client.pages.intangible_assets.index', compact('links'))
                 ->nest('filters', 'client.pages.intangible_assets.components.filters', compact('params', 'total'))

@@ -58,7 +58,7 @@ class PriorityToolController extends Controller
             $params = $this->priorityToolService->transformParams($request->all());
             $query = $this->priorityToolRepository->search($params);
             $total = $query->count();
-            $items = $this->priorityToolService->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->priorityToolService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
             return view('client.pages.priority_tools.index')
                 ->nest('filters', 'client.pages.priority_tools.components.filters', compact('params', 'total'))

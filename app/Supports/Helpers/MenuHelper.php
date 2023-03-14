@@ -45,7 +45,7 @@ if (!function_exists('getClientRoute')) {
      * Get the route for Clients
      * 
      * @param string $route
-     * @param array $params
+     * @param array<string,string> $params
      * 
      * @return string
      */
@@ -65,7 +65,7 @@ if (!function_exists('getClientRoute')) {
 if (!function_exists('getMainClientPermissions')) {
 
     /**
-     * @return array
+     * @return array<int,string>
      */
     function getMainClientPermissions(): array
     {
@@ -80,7 +80,7 @@ if (!function_exists('getMainClientPermissions')) {
 if (!function_exists('getConfigClientPermissions')) {
 
     /**
-     * @return array
+     * @return array<int,string>
      */
     function getConfigClientPermissions(): array
     {

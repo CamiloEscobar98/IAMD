@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Config;
 
 use App\Repositories\Admin\TenantRepository;
+use Exception;
 
 class MigrateFreshTenant extends Command
 {
@@ -37,14 +38,14 @@ class MigrateFreshTenant extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
+     * 
+     * @return void
      */
     public function handle()
     {
         $this->info('Command TenantMigrateFresh.');
 
-        $tenant = $this->argument('tenant');
+        $tenant = strval($this->argument('tenant'));
 
         try {
             $this->warn('Searching Tenant...');
@@ -54,20 +55,15 @@ class MigrateFreshTenant extends Command
             $this->info('Tenant searched.');
 
             $this->warn('Creating configuration for Tenant Database...');
-            $tenantDatabaseOld = Config::get('database.connections.mysql');
-            $tenant ? Config::set('database.connections.tenant', $this->tenantRepository->getArrayConfigurationDatabase($tenant)) : $this->error('Tenant has not been searched.');
+            Config::set('database.connections.tenant', $this->tenantRepository->getArrayConfigurationDatabase($tenant));
             $tenantDatabase = Config::get('database.connections.tenant');
 
-            isset($tenantDatabase) && count($tenantDatabase) > 0 ? $this->info('Tenant Database Configurated!') : $this->error('Error!');
-
-            // print(json_encode($tenantDatabaseOld));
-            // print("\n");
-            // print(json_encode($tenantDatabase));
+            isset($tenantDatabase) && $tenantDatabase ? $this->info('Tenant Database Configurated!') : $this->error('Error!');
 
             /** @var string */
             $command = 'migrate';
 
-            /** @var array */
+            /** @var array<string,string> */
             $options = [
                 '--path' => 'database/migrations/tenant',
                 '--database' => 'tenant',
@@ -84,7 +80,7 @@ class MigrateFreshTenant extends Command
             while (Artisan::call($command, $options)) {
                 print(Artisan::output());
             }
-        } catch (\Exception $th) {
+        } catch (Exception $th) {
             $this->error($th->getMessage());
         }
     }

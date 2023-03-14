@@ -51,7 +51,7 @@ class CityController extends Controller
             $params = $this->cityService->transformParams($request->all());
             $query = $this->cityRepository->search($params, ['country', 'state']);
             $total = $query->count();
-            $items = $this->cityService->customPagination($query, $params, 10, $request->get('page'), $total);
+            $items = $this->cityService->customPagination($query, $params, 10, $request->get('page', 1), $total);
             $links = $items->links('pagination.customized');
             return view('admin.pages.localization.cities.index', compact('links'))
                 ->nest('filters', 'admin.pages.localization.cities.components.filters', compact('params', 'total'))

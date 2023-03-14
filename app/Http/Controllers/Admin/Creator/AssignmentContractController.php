@@ -50,7 +50,7 @@ class AssignmentContractController extends Controller
             $params = $this->assignmentContractService->transformParams($request->all());
             $query = $this->assignmentContractRepository->search($params);
             $total = $query->count();
-            $items = $this->assignmentContractService->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->assignmentContractService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
             return view('admin.pages.creators.assignment_contracts.index', compact('links'))
                 ->nest('filters', 'admin.pages.creators.assignment_contracts.components.filters', compact('params', 'total'))
@@ -179,6 +179,7 @@ class AssignmentContractController extends Controller
     {
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
         try {
+            /** @var \App\Models\Admin\AssignmentContract $item */
             $item = $this->assignmentContractRepository->getById($assignmentContract);
             DB::beginTransaction();
             $this->assignmentContractService->delete($assignmentContract);

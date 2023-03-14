@@ -22,7 +22,7 @@ class StrategyService extends AbstractServiceModel
     /**
      * @param array $params
      * 
-     * @return mixed
+     * @return array<string,string>
      */
     public function transformParams($params)
     {

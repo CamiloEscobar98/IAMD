@@ -2,25 +2,25 @@
 
 if (!function_exists('hasContent')) {
     /**
-     * @param array $items
+     * @param array<string,string> $items
      * @param string $value
      * 
      * @return bool
      */
-    function hasContent(array $items, string $value): bool
+    function hasContent($items, string $value): bool
     {
-        return isset($items[$value]) ? $items[$value] : false;
+        return isset($items[$value]) ;
     }
 }
 
 if (!function_exists('hasAnyContent')) {
     /**
-     * @param array $items
-     * @param array $values
+     * @param array<string,string> $items
+     * @param array<string,string> $values
      * 
      * @return bool
      */
-    function hasAnyContent(array $items, array $values): bool
+    function hasAnyContent($items,  $values): bool
     {
         foreach ($values as $value) {
             if (hasContent($items, $value)) {
@@ -33,7 +33,7 @@ if (!function_exists('hasAnyContent')) {
 
 if (!function_exists('hasGraphics')) {
     /**
-     * @param array $items
+     * @param array<string,string> $items
      * 
      * @return bool
      */
