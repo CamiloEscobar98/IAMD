@@ -15,7 +15,11 @@ use App\Http\Requests\Client\PriorityTools\UpdateRequest;
 use App\Services\Client\PriorityToolService;
 
 use App\Repositories\Client\PriorityToolRepository;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PriorityToolController extends Controller
 {
@@ -51,13 +55,20 @@ class PriorityToolController extends Controller
     public function index(Request $request, $client): View|RedirectResponse
     {
         try {
-            [$params, $total, $items, $links] = $this->priorityToolService->searchWithPagination($request->all(), $request->get('page'));
+            $params = $this->priorityToolService->transformParams($request->all());
+            $query = $this->priorityToolRepository->search($params);
+            $total = $query->count();
+            $items = $this->priorityToolService->customPagination($query, $params, $request->get('page'), $total);
+            $links = $items->links('pagination.customized');
             return view('client.pages.priority_tools.index')
                 ->nest('filters', 'client.pages.priority_tools.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.priority_tools.components.table', compact('items', 'links'));
-        } catch (\Exception $e) {
-            return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/PriorityToolController:Index/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/PriorityToolController:Index/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -71,9 +82,10 @@ class PriorityToolController extends Controller
         try {
             $item = $this->priorityToolRepository->newInstance();
             return view('client.pages.priority_tools.create', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('client.priority_tools.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/PriorityToolController:Create/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.priority_tools.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -85,7 +97,21 @@ class PriorityToolController extends Controller
      */
     public function store(StoreRequest $request, $client)
     {
-        return redirect()->route('client.priority_tools.create', $client)->with('alert', $this->priorityToolService->save($request->all()));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
+        try {
+            DB::beginTransaction();
+            $item = $this->priorityToolService->save($request->all());
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+            Log::info("@Web/Controllers/Client/PriorityToolController:Store/Success, Item: {$item->name}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/PriorityToolController:Store/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/PriorityToolController:Store/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('client.priority_tools.create', $client)->with('alert', $response);
     }
 
     /**
@@ -101,9 +127,12 @@ class PriorityToolController extends Controller
         try {
             $item = $this->priorityToolRepository->getById($priorityTool);
             return view('client.pages.priority_tools.show', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('client.priority_tools.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/PriorityToolController:Show/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/PriorityToolController:Show/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.priority_tools.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -119,9 +148,12 @@ class PriorityToolController extends Controller
         try {
             $item = $this->priorityToolRepository->getById($priority_tool);
             return view('client.pages.priority_tools.edit', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('client.priority_tools.show', ['priority_tool' => $priority_tool, 'client' => $client])->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/PriorityToolController:Show/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/PriorityToolController:Show/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.priority_tools.show', ['priority_tool' => $priority_tool, 'client' => $client])->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -135,8 +167,23 @@ class PriorityToolController extends Controller
      */
     public function update(Request $request, $client, $priority_tool): RedirectResponse
     {
-        return redirect()->route('client.priority_tools.edit', ['priority_tool' => $priority_tool, 'client' => $client])
-            ->with('alert', $this->priorityToolService->update($request->all(), $priority_tool));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
+        try {
+            DB::beginTransaction();
+            $item = $this->priorityToolService->update($request->all(), $priority_tool);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+            Log::info("@Web/Controllers/Client/PriorityToolController:Update/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/PriorityToolController:Update/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/PriorityToolController:Update/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/PriorityToolController:Update/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('client.priority_tools.edit', compact('client', 'priority_tool'))->with('alert', $response);
     }
 
     /**
@@ -149,6 +196,23 @@ class PriorityToolController extends Controller
      */
     public function destroy($client, $priority_tool): RedirectResponse
     {
-        return redirect()->route('client.priority_tools.index', $client)->with('alert', $this->priorityToolService->delete($priority_tool));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
+        try {
+            $item = $this->priorityToolRepository->getById($priority_tool);
+            DB::beginTransaction();
+            $this->priorityToolService->delete($priority_tool);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
+            Log::info("@Web/Controllers/Client/PriorityToolController:Delete/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/PriorityToolController:Delete/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/PriorityToolController:Delete/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/PriorityToolController:Delete/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('client.priority_tools.index', $client)->with('alert', $response);
     }
 }

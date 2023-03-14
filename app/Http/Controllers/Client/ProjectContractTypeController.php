@@ -16,6 +16,10 @@ use App\Http\Requests\Client\ProjectContractTypes\UpdateRequest;
 use App\Services\Client\ProjectContractTypeService;
 
 use App\Repositories\Client\ProjectContractTypeRepository;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 class ProjectContractTypeController extends Controller
 {
@@ -51,13 +55,20 @@ class ProjectContractTypeController extends Controller
     public function index(Request $request, $client): View|RedirectResponse
     {
         try {
-            [$params, $total, $items, $links] = $this->projectContractTypeService->searchWithPagination($request->all(), $request->get('page'));
+            $params = $this->projectContractTypeService->transformParams($request->all());
+            $query = $this->projectContractTypeRepository->search($params);
+            $total = $query->count();
+            $items = $this->projectContractTypeService->customPagination($query, $params, $request->get('page'), $total);
+            $links = $items->links('pagination.customized');
             return view('client.pages.project_contract_types.index')
                 ->nest('filters', 'client.pages.project_contract_types.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.project_contract_types.components.table', compact('items', 'links'));
-        } catch (\Exception $e) {
-            return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/ProjectContractTypeController:Index/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ProjectContractTypeController:Index/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -71,9 +82,10 @@ class ProjectContractTypeController extends Controller
         try {
             $item = $this->projectContractTypeRepository->newInstance();
             return view('client.pages.project_contract_types.create', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('client.project_contract_types.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ProjectContractTypeController:Create/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.project_contract_types.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -85,7 +97,21 @@ class ProjectContractTypeController extends Controller
      */
     public function store(StoreRequest $request, $client): RedirectResponse
     {
-        return redirect()->route('client.project_contract_types.create', $client)->with('alert', $this->projectContractTypeService->save($request->all()));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
+        try {
+            DB::beginTransaction();
+            $item = $this->projectContractTypeService->save($request->all());
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+            Log::info("@Web/Controllers/Client/ProjectContractTypeController:Store/Success, Item: {$item->name}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/ProjectContractTypeController:Store/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ProjectContractTypeController:Store/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('client.project_contract_types.create', $client)->with('alert', $response);
     }
 
     /**
@@ -101,9 +127,12 @@ class ProjectContractTypeController extends Controller
         try {
             $item = $this->projectContractTypeRepository->getById($project_contract_type);
             return view('client.pages.project_contract_types.show', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('client.project_contract_types.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/ProjectContractTypeController:Show/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ProjectContractTypeController:Show/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.project_contract_types.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -119,9 +148,12 @@ class ProjectContractTypeController extends Controller
         try {
             $item = $this->projectContractTypeRepository->getById($project_contract_type);
             return view('client.pages.project_contract_types.edit', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->route('client.project_contract_types.show', ['project_contract_type' => $project_contract_type, 'client' => $client])->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/ProjectContractTypeController:Show/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ProjectContractTypeController:Show/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.project_contract_types.show', compact('client', 'project_contract_type'))->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -133,10 +165,25 @@ class ProjectContractTypeController extends Controller
      * 
      * @return RedirectResponse
      */
-    public function update(Request $request, $client, $project_contract_type): RedirectResponse
+    public function update(UpdateRequest $request, $client, $project_contract_type): RedirectResponse
     {
-        return redirect()->route('client.project_contract_types.edit', ['project_contract_type' => $project_contract_type, 'client' => $client])
-            ->with('alert', $this->projectContractTypeService->update($request->all(), $project_contract_type));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
+        try {
+            DB::beginTransaction();
+            $item = $this->projectContractTypeService->update($request->all(), $project_contract_type);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+            Log::info("@Web/Controllers/Client/ProjectContractTypeController:Update/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/ProjectContractTypeController:Update/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/ProjectContractTypeController:Update/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ProjectContractTypeController:Update/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('client.project_contract_types.edit', compact('client', 'project_contract_type'))->with('alert', $response);
     }
 
     /**
@@ -149,6 +196,23 @@ class ProjectContractTypeController extends Controller
      */
     public function destroy($client, $project_contract_type): RedirectResponse
     {
-        return redirect()->route('client.project_contract_types.index', $client)->with('alert', $this->projectContractTypeService->delete($project_contract_type));
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
+        try {
+            $item = $this->projectContractTypeRepository->getById($project_contract_type);
+            DB::beginTransaction();
+            $this->projectContractTypeService->delete($project_contract_type);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
+            Log::info("@Web/Controllers/Client/ProjectContractTypeController:Delete/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/ProjectContractTypeController:Delete/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/ProjectContractTypeController:Delete/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ProjectContractTypeController:Delete/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->route('client.project_contract_types.index', $client)->with('alert', $response);
     }
 }

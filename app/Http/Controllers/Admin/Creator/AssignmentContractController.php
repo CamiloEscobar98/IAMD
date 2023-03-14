@@ -17,7 +17,9 @@ use App\Services\Admin\AssignmentContractService;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class AssignmentContractController extends Controller
 {
@@ -40,9 +42,9 @@ class AssignmentContractController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View|RedirectResponse
      */
-    public function index(Request $request)
+    public function index(Request $request): View|RedirectResponse
     {
         try {
             $params = $this->assignmentContractService->transformParams($request->all());
@@ -64,9 +66,9 @@ class AssignmentContractController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View|RedirectResponse
      */
-    public function create()
+    public function create(): View|RedirectResponse
     {
         try {
             $item = $this->assignmentContractRepository->newInstance();
@@ -81,9 +83,9 @@ class AssignmentContractController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  StoreRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): RedirectResponse
     {
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
         try {
@@ -104,13 +106,13 @@ class AssignmentContractController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int  $assignmentContract
+     * @return View|RedirectResponse 
      */
-    public function show($id)
+    public function show($assignmentContract): View|RedirectResponse
     {
         try {
-            $item = $this->assignmentContractRepository->getById($id);
+            $item = $this->assignmentContractRepository->getById($assignmentContract);
             return view('admin.pages.creators.assignment_contracts.show', compact('item'));
         } catch (ModelNotFoundException $me) {
             Log::error("@Web/Controllers/Admin/Creators/AssignmentContractController:Show/ModelNotFoundException: {$me->getMessage()}");
@@ -123,13 +125,13 @@ class AssignmentContractController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int  $assignmentContract
+     * @return View|RedirectResponse
      */
-    public function edit($id)
+    public function edit($assignmentContract): View|RedirectResponse
     {
         try {
-            $item = $this->assignmentContractRepository->getById($id);
+            $item = $this->assignmentContractRepository->getById($assignmentContract);
             return view('admin.pages.creators.assignment_contracts.edit', compact('item'))
                 ->nest('form', 'admin.pages.creators.assignment_contracts.components.form', compact('item'));
         } catch (ModelNotFoundException $me) {
@@ -144,15 +146,15 @@ class AssignmentContractController extends Controller
      * Update the specified resource in storage.
      *
      * @param  UpdateRequest  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int  $assignmentContract
+     * @return RedirectResponse
      */
-    public function update(UpdateRequest $request, $id)
+    public function update(UpdateRequest $request, $assignmentContract): RedirectResponse
     {
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
         try {
             DB::beginTransaction();
-            $this->assignmentContractService->update($request->all(), $id);
+            $this->assignmentContractService->update($request->all(), $assignmentContract);
             DB::commit();
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
         } catch (ModelNotFoundException $me) {
@@ -164,22 +166,22 @@ class AssignmentContractController extends Controller
             Log::error("@Web/Controllers/Admin/Creators/AssignmentContractController:Update/Exception: {$e->getMessage()}");
             DB::rollBack();
         }
-        return redirect()->route('admin.creators.assignment_contracts.edit', $id)->with('alert', $response);
+        return redirect()->route('admin.creators.assignment_contracts.edit', $assignmentContract)->with('alert', $response);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int  $assignmentContract
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy($assignmentContract): RedirectResponse
     {
         $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
         try {
-            $item = $this->assignmentContractRepository->getById($id);
+            $item = $this->assignmentContractRepository->getById($assignmentContract);
             DB::beginTransaction();
-            $this->assignmentContractService->delete($id);
+            $this->assignmentContractService->delete($assignmentContract);
             DB::commit();
             $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
             Log::info("@Web/Controllers/Admin/Creators/AssignmentContractController:Delete/Success, Item: {$item->name}");
