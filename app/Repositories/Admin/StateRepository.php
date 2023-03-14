@@ -15,12 +15,12 @@ class StateRepository extends AbstractRepository
         $this->model = $model;
     }
 
-    /**
+     /**
      * @param array $params
      * @param array $with
      * @param array $withCount
      * 
-     * @return mixed
+     * @return \Illuminate\Database\Query\Builder
      */
     public function search(array $params = [], array $with = [], array $withCount = [])
     {

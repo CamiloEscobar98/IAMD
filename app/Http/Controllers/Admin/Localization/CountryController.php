@@ -61,7 +61,7 @@ class CountryController extends Controller
             $params = $this->countryService->transformParams($request->all());
             $query = $this->countryRepository->search($params, [], ['states', 'cities']);
             $total = $query->count();
-            $items = $this->countryService->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->countryService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
             return view('admin.pages.localization.countries.index', compact('links'))
                 ->nest('filters', 'admin.pages.localization.countries.components.filters', compact('params', 'total'))
@@ -131,7 +131,7 @@ class CountryController extends Controller
             $params['id'] = $id;
             $query = $this->stateRepository->search($params, ['cities'], ['cities']);
             $total = $query->count();
-            $items = $this->stateService->customPagination($query, $params, 10, $request->get('page'), $total);
+            $items = $this->stateService->customPagination($query, $params, 10, $request->get('page', 1), $total);
             $links = $items->links('pagination.customized');
             return view('admin.pages.localization.countries.show', compact('item', 'total', 'items', 'links'));
         } catch (ModelNotFoundException $me) {

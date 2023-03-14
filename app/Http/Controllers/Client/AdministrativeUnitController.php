@@ -58,7 +58,7 @@ class AdministrativeUnitController extends Controller
             $params = $this->administrativeUnitService->transformParams($request->all());
             $query = $this->administrativeUnitRepository->search($params, [], ['research_units']);
             $total = $query->count();
-            $items = $this->administrativeUnitService->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->administrativeUnitService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
             return view('client.pages.administrative_units.index', compact('links'))
                 ->nest('filters', 'client.pages.administrative_units.components.filters', compact('params', 'total'))

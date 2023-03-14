@@ -57,9 +57,9 @@ class SecretProtectionMeasureController extends Controller
             $params = $this->secretProtectionMeasureService->transformParams($request->all());
             $query = $this->secretProtectionMeasureRepository->search($params);
             $total = $query->count();
-            $items = $this->secretProtectionMeasureService->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->secretProtectionMeasureService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
-            [$params, $total, $items, $links] = $this->secretProtectionMeasureService->searchWithPagination($request->all(), $request->get('page'));
+            [$params, $total, $items, $links] = $this->secretProtectionMeasureService->searchWithPagination($request->all(), $request->get('page', 1));
             return view('client.pages.secret_protection_measures.index')
                 ->nest('filters', 'client.pages.secret_protection_measures.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.secret_protection_measures.components.table', compact('items', 'links'));

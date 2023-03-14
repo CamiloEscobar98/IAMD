@@ -61,7 +61,7 @@ class CreatorExternalController extends Controller
                 'creator.document.document_type', 'creator.document.expedition_place'
             ]);
             $total = $query->count();
-            $items = $this->creatorExternalService->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->creatorExternalService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
             return view('client.pages.creators.external.index', compact('links'))
                 ->nest('filters', 'client.pages.creators.external.components.filters', compact('params', 'total'))

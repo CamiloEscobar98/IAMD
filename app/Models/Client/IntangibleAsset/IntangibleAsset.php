@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use Illuminate\Support\Str;
 
-use App\Traits\Client\IntangibleAsset\HasPhases;
 
 use App\Observers\IntangibleAssetObserver;
 
@@ -27,7 +26,7 @@ use App\Models\Client\IntangibleAsset\IntangibleAssetDPI;
 
 class IntangibleAsset extends BaseModel
 {
-    use HasFactory, HasPhases;
+    use HasFactory;
 
     /**
      * The "booting" method of the model.
@@ -342,7 +341,7 @@ class IntangibleAsset extends BaseModel
             $phasesQuery = (array) getPhasesByNumber($phase, true);
             return $query->where($phasesQuery);
         }
-        
+
         return $query->where("{$this->getTable()}.phase_id", $phase);
     }
 
@@ -526,4 +525,118 @@ class IntangibleAsset extends BaseModel
     }
 
     /** ./Intangible Asset Session Right File Methods */
+
+  
+    /** Phases for Intangible Asset */
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseOneCompleted(): bool
+    {
+        return $this->intangible_asset_phases->phase_one_completed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseTwoCompleted(): bool
+    {
+        return $this->intangible_asset_phases->phase_two_completed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseThreeCompleted(): bool
+    {
+        return $this->intangible_asset_phases->phase_three_completed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseFourCompleted(): bool
+    {
+        return $this->intangible_asset_phases->phase_four_completed;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function hasPhaseFiveCompleted(): bool|null
+    {
+        return $this->intangible_asset_phases->phase_five_completed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseSixCompleted(): bool
+    {
+        return $this->intangible_asset_phases->phase_six_completed;
+    }
+
+    /** 
+     * @return bool|null
+     */
+    public function hasPhaseSevenCompleted(): bool|null
+    {
+        return $this->intangible_asset_phases->phase_seven_completed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseEightCompleted(): bool
+    {
+        return $this->intangible_asset_phases->phase_eight_completed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseNineCompleted(): bool
+    {
+        return $this->intangible_asset_phases->phase_nine_completed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAllPhasesCompleted()
+    {
+        return $this->hasPhaseOneCompleted() &&
+            $this->hasPhaseTwoCompleted() &&
+            $this->hasPhaseThreeCompleted() &&
+            $this->hasPhaseFourCompleted() &&
+            $this->hasPhaseFiveCompleted() &&
+            $this->hasPhaseSixCompleted() &&
+            $this->hasPhaseSevenCompleted() &&
+            $this->hasPhaseEightCompleted() &&
+            $this->hasPhaseNineCompleted();
+    }
+
+    public function progressPhases()
+    {
+        $phases = [
+            'hasPhaseOneCompleted', 'hasPhaseTwoCompleted', 'hasPhaseThreeCompleted', 'hasPhaseFourCompleted',
+            'hasPhaseFiveCompleted', 'hasPhaseSixCompleted', 'hasPhaseSevenCompleted', 'hasPhaseEightCompleted', 'hasPhaseNineCompleted'
+        ];
+
+        $cont = 0;
+
+        foreach ($phases as $value) {
+            if ($this->$value()) {
+                $cont++;
+            }
+        }
+
+        if (($percent = $cont / count($phases) * 100) == 0) {
+            return 1;
+        } else {
+            return $percent;
+        }
+    }
+    /** ./Phases for Intangible Asset */
 }

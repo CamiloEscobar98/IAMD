@@ -70,7 +70,7 @@ class ProjectController extends Controller
                 ['intangible_assets']
             );
             $total = $query->count();
-            $items = $this->projectService->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->projectService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
             return view('client.pages.projects.index', compact('links'))
                 ->nest('filters', 'client.pages.projects.components.filters', compact('params', 'total'))

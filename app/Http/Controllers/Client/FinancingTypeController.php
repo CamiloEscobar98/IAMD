@@ -52,7 +52,7 @@ class FinancingTypeController extends Controller
             $params = $this->financingTypeService->transformParams($request->all());
             $query = $this->financingTypeRepository->search($params);
             $total = $query->count();
-            $items = $this->financingTypeService->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->financingTypeService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
             return view('client.pages.financing_types.index')
                 ->nest('filters', 'client.pages.financing_types.components.filters', compact('params', 'total'))

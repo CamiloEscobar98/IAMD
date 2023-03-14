@@ -50,7 +50,7 @@ class StateController extends Controller
             $params = $this->stateService->transformParams($request->all());
             $query = $this->stateRepository->search($params, ['cities'], ['cities']);
             $total = $query->count();
-            $items = $this->stateService->customPagination($query, $params, 10, $request->get('page'), $total);
+            $items = $this->stateService->customPagination($query, $params, 10, $request->get('page', 1), $total);
             $links = $items->links('pagination.customized');
             return view('admin.pages.localization.states.index', compact('links'))
                 ->nest('filters', 'admin.pages.localization.states.components.filters', compact('params', 'total'))

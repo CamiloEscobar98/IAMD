@@ -58,7 +58,7 @@ class StrategyCategoryController extends Controller
             $params = $this->strategyCategoryService->transformParams($request->all());
             $query = $this->strategyCategoryRepository->search($params);
             $total = $query->count();
-            $items = $this->strategyCategoryService->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->strategyCategoryService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
             return view('client.pages.strategy_categories.index')
                 ->nest('filters', 'client.pages.strategy_categories.components.filters', compact('params', 'total'))

@@ -16,7 +16,7 @@ class IntangibleAssetStateRepository extends  AbstractRepository
     /**
      * @param array $params
      * 
-     * @return mixed
+     * @return \Illuminate\Database\Query\Builder
      */
     public function search($params)
     {

@@ -56,7 +56,7 @@ class AcademicDepartmentController extends Controller
             $params = $this->academicDepartmentService->transformParams($request->all());
             $query = $this->academicDepartmentRepository->search($params, [], ['research_units']);
             $total = $query->count();
-            $items = $this->academicDepartmentService->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->academicDepartmentService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
             return view('client.pages.academic_departments.index', compact('links'))
                 ->nest('filters', 'client.pages.academic_departments.components.filters', compact('params', 'total'))

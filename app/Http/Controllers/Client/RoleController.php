@@ -58,7 +58,7 @@ class RoleController extends Controller
             $params = $this->roleService->transformParams($request->all());
             $query = $this->roleRepository->search($params, [], ['users', 'permissions']);
             $total = $query->count();
-            $items = $this->roleService->customPagination($query, $params, $request->get('page'), $total);
+            $items = $this->roleService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
             return view('client.pages.roles.index')
                 ->nest('filters', 'client.pages.roles.components.filters', compact('params', 'total'))
