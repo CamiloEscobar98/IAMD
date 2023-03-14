@@ -128,34 +128,26 @@ class IntangibleAssetService extends AbstractServiceModel
      * Store a new IntangibleAsset.
      * 
      * @param array $data
-     * @return array
+     * @return \App\Models\Client\IntangibleAsset\IntangibleAsset
      */
-    public function save(array $data): array
+    public function save(array $data)
     {
         $dataCollection = collect($data);
         $data = $dataCollection->only(['project_id', 'name', 'date'])->toArray();
         $localizationData = $dataCollection->only(['localization', 'localization_code'])->toArray();
         $researchUnitIds = $dataCollection->get('research_unit_id');
 
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
-        try {
-            DB::beginTransaction();
-            /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $item */
-            $item = $this->intangibleAssetRepository->create($data);
-            $item->research_units()->sync($researchUnitIds);
-            $arrayDataLocaliztion = [
-                'intangible_asset_id' => $item->id,
-                'localization' => $localizationData['localization'],
-                'code' => $localizationData['localization_code'],
-            ];
-            $this->intangibleAssetLocalizationRepository->create($arrayDataLocaliztion);
-            DB::commit();
-            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
-        } catch (QueryException $th) {
-            dd($th->getMessage());
-            DB::rollBack();
-        }
-        return $response;
+        /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $item */
+        $item = $this->intangibleAssetRepository->create($data);
+        $item->research_units()->sync($researchUnitIds);
+        $arrayDataLocaliztion = [
+            'intangible_asset_id' => $item->id,
+            'localization' => $localizationData['localization'],
+            'code' => $localizationData['localization_code'],
+        ];
+        $this->intangibleAssetLocalizationRepository->create($arrayDataLocaliztion);
+
+        return $item;
     }
 
     /**
@@ -163,55 +155,43 @@ class IntangibleAssetService extends AbstractServiceModel
      * 
      * @param array $data
      * @param mixed $id
-     * @return array
+     * @return \App\Models\Client\IntangibleAsset\IntangibleAsset
      */
-    public function update(array $data, $id): array
+    public function update(array $data, $id)
     {
         $dataCollection = collect($data);
         $data = $dataCollection->only(['project_id', 'name', 'date'])->toArray();
         $localizationData = $dataCollection->only(['localization', 'localization_code'])->toArray();
         $researchUnitIds = $dataCollection->get('research_unit_id');
 
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
-        try {
-            DB::beginTransaction();
-            /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $item */
-            $item = $this->intangibleAssetRepository->getById($id);
-            $this->intangibleAssetRepository->update($item, $data);
-            $item->research_units()->sync($researchUnitIds);
-            $arrayDataLocaliztion = [
-                'intangible_asset_id' => $item->id,
-                'localization' => $localizationData['localization'],
-                'code' => $localizationData['localization_code'],
-            ];
-            $intangibleAssetLocaliation = $item->intangible_asset_localization;
-            $this->intangibleAssetLocalizationRepository->update($intangibleAssetLocaliation, $arrayDataLocaliztion);
-            DB::commit();
-            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
-        } catch (QueryException $th) {
-            dd($th->getMessage());
-            DB::rollBack();
-        }
-        return $response;
+        /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $item */
+        $item = $this->intangibleAssetRepository->getById($id);
+        $this->intangibleAssetRepository->update($item, $data);
+        $item->research_units()->sync($researchUnitIds);
+        $arrayDataLocaliztion = [
+            'intangible_asset_id' => $item->id,
+            'localization' => $localizationData['localization'],
+            'code' => $localizationData['localization_code'],
+        ];
+        $intangibleAssetLocaliation = $item->intangible_asset_localization;
+        $this->intangibleAssetLocalizationRepository->update($intangibleAssetLocaliation, $arrayDataLocaliztion);
+
+        return $item;
     }
 
     /**
+     * Update Code to Intangible Asset
+     * 
      * @param int $id
-     * @return array
+     * @return \App\Models\Client\IntangibleAsset\IntangibleAsset
      */
-    public function updateCode(int $id): array
+    public function updateCode(int $id)
     {
-        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.messages.update_error')];
-        try {
-            $item = $this->intangibleAssetRepository->getById($id);
+        $item = $this->intangibleAssetRepository->getById($id);
 
-            $this->generateCodeOfIntangibleAsset($item);
-
-            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.update_success', ['intangible_asset' => $item->name])];
-        } catch (\Exception $th) {
-            DB::rollBack();
-        }
-        return $response;
+        $this->generateCodeOfIntangibleAsset($item);
+        
+        return $item;
     }
 
     /**
@@ -223,7 +203,7 @@ class IntangibleAssetService extends AbstractServiceModel
     {
         /** @var \App\Models\Client\FinancingType $financingType */
         $financingType = $this->financingTypeRepository->search(['project_id' => $intangibleAsset->project_id])->first();
-        
+
         /** @var \App\Models\Client\ResearchUnit $researchUnit */
         $researchUnit = $this->researchUnitRepository->search(['project_id' => $intangibleAsset->project_id])->first();
 
@@ -247,23 +227,5 @@ class IntangibleAssetService extends AbstractServiceModel
         $code = "{$financingTypeCode}{$researchUnitCode}{$year}{$projectContractTypeCode}{$intellectualPropertyRightProductCode}";
 
         $this->intangibleAssetRepository->update($intangibleAsset, ['code' => $code]);
-    }
-
-    /**
-     * Search Intangible Asset with a Pagination.
-     * @param array $data
-     * @param int $page
-     * @param array $with
-     * @param array $withCount
-     */
-    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
-    {
-        $params = $this->transformParams($data);
-        $query = $this->intangibleAssetRepository->search($params, $with, $withCount);
-        $total = $query->count();
-        $items = $this->customPagination($query, $params, $page, $total);
-        $links = $items->links('pagination.customized');
-
-        return [$params, $total, $items, $links];
     }
 }
