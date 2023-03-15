@@ -15,6 +15,10 @@ class IntellectualPropertyRightCategory extends BaseModel
 {
     use HasFactory;
 
+    public const PROPERTY_RIGHTS = 'derechos de autor';
+    public const INDUSTRIAL_PROPERTY = 'propiedad industrial';
+
+
     /**
      * The attributes that are mass assignable.
      *

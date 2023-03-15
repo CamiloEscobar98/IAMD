@@ -16,6 +16,12 @@ class IntellectualPropertyRightSubcategory extends BaseModel
 {
     use HasFactory;
 
+    public const LAYOUT_DIAGRAM = 'esquemas de trazado de circuito integrado';
+    public const NEW_CREATIONS = 'nuevas creaciones e innovaciones';
+    public const INDUSTRIAL_PROTOTYPES = 'prototipos industriales';
+    public const INDUSTRIAL_SECRETS = 'secretos industriales';
+    public const DISTINCTIVE_SIGNS = 'signos distintivos';
+
     /**
      * The attributes that are mass assignable.
      *
