@@ -168,20 +168,6 @@
         <div class="page-break"></div>
     @endif
 
-    @if (!empty($contentConfiguration))
-        <!-- Items -->
-        @foreach ($intangibleAssets as $intangibleAsset)
-            @include('reports.intangible_assets.components.asset', [
-                'intangibleAsset' => $intangibleAsset,
-                'contentConfiguration' => $contentConfiguration,
-            ])
-            <div class="page-break"></div>
-        @endforeach
-        <!-- ./Items -->
-
-        <div class="page-break"></div>
-    @endif
-
     @if (hasContent($graphicConfiguration, 'with_graphics_assets_per_year'))
         <!-- Graphics Assets per Year -->
         @include('charts.intangible_assets.assets_per_year', compact('graphicData'))
@@ -202,15 +188,15 @@
 
     @if (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_administrative_unit'))
         <!-- Graphics Assets per Year -->
-        @include('charts.intangible_assets.asset_classification_per_administrative_unit',
+        @include(
+            'charts.intangible_assets.asset_classification_per_administrative_unit',
             compact('graphicData'))
         <div class="page-break"></div>
     @endif
 
     @if (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_research_unit'))
         <!-- Graphics Assets per Year -->
-        @include('charts.intangible_assets.asset_classification_per_research_unit',
-            compact('graphicData'))
+        @include('charts.intangible_assets.asset_classification_per_research_unit', compact('graphicData'))
     @endif
 
 @endsection

@@ -49,8 +49,6 @@
 
 @section('custom_js')
     @include('messages.delete_item', ['title' => __('pages.client.intangible_assets.messages.confirm')])
-    <script src="{{ asset('adminlte/dist/js/iamd/projects.js') }}"></script>
-
     <script>
         //Initialize Select2 Elements
         $('.select2bs4').select2({

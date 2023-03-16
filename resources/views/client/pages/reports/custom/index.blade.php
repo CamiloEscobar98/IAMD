@@ -46,7 +46,7 @@
                         </div>
                         <select name="administrative_unit_id" id="administrative_unit_id"
                             class="form-control select2bs4 administrative_units @error('administrative_unit_id') is-invalid @enderror"
-                            onchange="changeAdministrativeUnit()">
+                            onchange="changeResearchUnits()">
                             @foreach ($administrativeUnits as $administrativeUnit => $value)
                                 <option value="{{ $administrativeUnit }}"
                                     {{ optionIsSelected($params, 'administrative_unit_id', $administrativeUnit) }}>
@@ -56,6 +56,25 @@
                     </div>
                 </div>
                 <!-- ./Administrative Unit -->
+
+                <!-- Project -->
+                <div class="col-xl-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label class="input-group-text">{{ __('filters.projects') }}</label>
+                        </div>
+                        <select name="project_id" id="project_id"
+                            class="form-control select2bs4 projects @error('project_id') is-invalid @enderror"
+                            onchange="changeResearchUnits()">
+                            @foreach ($projects as $project => $value)
+                                <option value="{{ $project }}"
+                                    {{ optionIsSelected($params, 'project_id', $project) }}>
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <!-- ./Project -->
 
                 <!-- Research Unit -->
                 <div class="col-xl-4">
@@ -75,24 +94,6 @@
                     </div>
                 </div>
                 <!-- ./Research Unit -->
-
-                <!-- Project -->
-                <div class="col-xl-4">
-                    <div class="input-group mb-3">
-                        <div class="input-group-append">
-                            <label class="input-group-text">{{ __('filters.projects') }}</label>
-                        </div>
-                        <select name="project_id" id="project_id"
-                            class="form-control select2bs4 projects @error('project_id') is-invalid @enderror">
-                            @foreach ($projects as $project => $value)
-                                <option value="{{ $project }}"
-                                    {{ optionIsSelected($params, 'project_id', $project) }}>
-                                    {{ $value }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <!-- ./Project -->
             </div>
 
             <div class="row justify-content-start">
@@ -209,41 +210,6 @@
             <!-- Contents -->
             <h5 class="font-weight-bold">{{ __('pages.client.reports.custom.sections.contents.title') }}</h5>
 
-            {{-- <!-- General Information -->
-            <h6 class="font-weight-bold">{{ __('pages.client.reports.custom.sections.contents.general') }} </h6>
-
-            <div class="row mx-2 mt-2">
-                @foreach ($intangibleAssetCustomGeneral as $index => $item)
-                    <div class="col-md-3 mt-3">
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" name="{{ $item['name'] }}" class="custom-control-input"
-                                id="switch-general-{{ $index }}">
-                            <label class="custom-control-label"
-                                for="switch-general-{{ $index }}">{{ $item['value'] }}</label>
-                        </div>
-                    </div>
-                @endforeach
-
-            </div>
-            <!-- ./General Information -->
-
-            <!-- Intangible Asset Information -->
-            <h6 class="font-weight-bold">{{ __('pages.client.reports.custom.sections.contents.intangible_asset') }} </h6>
-            <div class="row mx-2 mt-2">
-                @foreach ($intangibleAssetCustomContents as $index => $item)
-                    <div class="col-md-3 mt-3">
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" name="{{ $item['name'] }}" class="custom-control-input"
-                                id="switch-content-{{ $index }}">
-                            <label class="custom-control-label"
-                                for="switch-content-{{ $index }}">{{ $item['value'] }}</label>
-                        </div>
-                    </div>
-                @endforeach
-
-            </div>
-            <!-- ./Intangible Asset Information --> --}}
-
             <!-- Graphics -->
             <h6 class="font-weight-bold mt-4">{{ __('pages.client.reports.custom.sections.contents.graphics') }} </h6>
             <div class="row mx-2 mt-2">
@@ -260,9 +226,7 @@
 
             </div>
             <!-- ./Graphics -->
-
             <!-- ./Contents -->
-
 
             <button type="submit" class="mt-4 btn btn-danger btn-sm">{{ __('buttons.report') }}</button>
         </form>

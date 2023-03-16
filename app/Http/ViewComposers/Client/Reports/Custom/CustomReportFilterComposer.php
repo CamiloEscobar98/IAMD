@@ -5,6 +5,9 @@ namespace App\Http\ViewComposers\Client\Reports\Custom;
 use Illuminate\View\View;
 
 use App\Repositories\Admin\IntangibleAssetStateRepository;
+use App\Repositories\Client\AdministrativeUnitRepository;
+use App\Repositories\Client\ProjectRepository;
+use App\Repositories\Client\ResearchUnitRepository;
 use App\Services\Admin\IntellectualPropertyRightCategoryService;
 use App\Services\Client\AdministrativeUnitService;
 
@@ -19,15 +22,30 @@ class CustomReportFilterComposer
     /** @var IntangibleAssetStateRepository */
     protected $intangibleAssetStateRepository;
 
+    /** @var AdministrativeUnitRepository */
+    protected $administrativeUnitRepository;
+
+    /** @var ResearchUnitRepository */
+    protected $researchUnitRepository;
+
+    /** @var ProjectRepository */
+    protected $projectRepository;
+
     public function __construct(
         IntellectualPropertyRightCategoryService $intellectualPropertyRightCategoryService,
-
         AdministrativeUnitService $administrativeUnitService,
+
+        AdministrativeUnitRepository $administrativeUnitRepository,
+        ResearchUnitRepository $researchUnitRepository,
+        ProjectRepository $projectRepository,
         IntangibleAssetStateRepository $intangibleAssetStateRepository,
     ) {
         $this->intellectualPropertyRightCategoryService = $intellectualPropertyRightCategoryService;
-
         $this->administrativeUnitService = $administrativeUnitService;
+
+        $this->administrativeUnitRepository = $administrativeUnitRepository;
+        $this->researchUnitRepository = $researchUnitRepository;
+        $this->projectRepository = $projectRepository;
         $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
     }
 
@@ -35,7 +53,26 @@ class CustomReportFilterComposer
     {
         $params = request()->all();
 
-        [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project] = $this->administrativeUnitService->getAdministrativeUnitsSelectByParams($params);
+        $administrativeUnitId = old('administrative_unit_id');
+
+        $projectId =  old('project_id');
+
+        $projectItems = $this->projectRepository->all();
+
+        $administrativeUnitItems = $this->administrativeUnitRepository->all();
+
+        if (!$projectId && !$administrativeUnitId) {
+            $researchUnitsItems = collect();
+        } else {
+            $researchUnitsItems = $this->researchUnitRepository->search(['project_id' => $projectId, 'administrative_unit_id' => $administrativeUnitId])->get(['id', 'name']);
+        }
+
+        /** @var \Illuminate\Database\Eloquent\Collection $researchUnitsItems */
+        $researchUnits = $researchUnitsItems->pluck('name', 'id')->prepend('---Seleccionar Unidades Investigativas', null);
+
+        $projects = $projectItems->pluck('name', 'id')->prepend('---Seleccionar Proyecto');
+
+        $administrativeUnits = $administrativeUnitItems->pluck('name', 'id')->prepend('---Seleccionar Facultad');
 
         [$categories, $subCategories, $products, $category, $subCategory, $product] = $this->intellectualPropertyRightCategoryService->getIntellectualPropertyCategorySelect();
 
@@ -70,53 +107,6 @@ class CustomReportFilterComposer
                 'value' => 'Mostrar/Ocultar Proceso de las Fases de los Activos Intangibles.'
             ],
         ]);
-
-        // $intangibleAssetCustomContents = collect([
-        //     [
-        //         'name' =>  'with_basic_information',
-        //         'value' =>  'Mostrar/Ocultar Informaciíon Básica.'
-        //     ],
-        //     [
-        //         'name' => 'with_dpis',
-        //         'value' => 'Mostrar/Ocultar Derechos de Propiedad Intelectual Asociados.'
-        //     ],
-        //     [
-        //         'name' =>  'with_published',
-        //         'value' =>  'Mostrar/Ocultar si ha sido Publicado o Divulgado.'
-        //     ],
-        //     [
-        //         'name' =>  'with_confidenciality_contract',
-        //         'value' =>  'Mostrar/Ocultar si tiene Contrato de Confidencialidad.'
-        //     ],
-        //     [
-        //         'name' =>  'with_creators',
-        //         'value' =>  'Mostrar/Ocultar si tiene Creadores asociados.'
-        //     ],
-        //     [
-        //         'name' =>  'with_right_session',
-        //         'value' =>  'Mostrar/Ocultar si tiene Contrato de Sesión de Derechos Patrimoniales.'
-        //     ],
-        //     [
-        //         'name' =>  'with_contability',
-        //         'value' =>  'Mostrar/Ocultar si está incorporado a la Contabilidad.'
-        //     ],
-        //     [
-        //         'name' =>  'with_comments',
-        //         'value' =>  'Mostrar/Ocultar historial de comentarios.'
-        //     ],
-        //     [
-        //         'name' =>  'with_protection_action',
-        //         'value' =>  'Mostrar/Ocultar si tiene un Plan de Acción y Protección.'
-        //     ],
-        //     [
-        //         'name' =>  'with_priority_tools',
-        //         'value' =>  'Mostrar/Ocultar si cuenta con Herramientas de Priorización para el Derecho de Propiedad Intelectual.'
-        //     ],
-        //     [
-        //         'name' =>  'with_commercial',
-        //         'value' =>  'Mostrar/Ocultar si los Derechos de Propiedad Intelectual tiene un Uso Comercial.'
-        //     ],
-        // ]);
 
         $graphics = collect([
             [
@@ -154,13 +144,12 @@ class CustomReportFilterComposer
         ]);
 
         $view->with(compact(
-            'administrativeUnits',
             'researchUnits',
             'projects',
+            'administrativeUnits',
             'phases',
             'ordersBy',
             'intangibleAssetCustomGeneral',
-            // 'intangibleAssetCustomContents',
             'graphics',
             'categories',
             'subCategories',
