@@ -136,6 +136,7 @@ Route::name('intangible_assets.')->prefix('activos-intangibles')->group(function
 Route::prefix('activos-intangibles/{intangible_asset}/descargas')->name('intangible_assets.downloads.')->group(function () {
     Route::get('contrato-de-confidencialidad', [IntangibleAssetFileController::class, 'downloadConfidencialityContract'])->name('confidenciality_contract');
     Route::get('contrato-de-sesion-de-derechos', [IntangibleAssetFileController::class, 'downloadSessionRightContract'])->name('session_right_contract');
+    Route::get('acto-administrativo', [IntangibleAssetFileController::class, 'downloadSessionRightContract'])->name('academic_record');
 });
 
 Route::prefix('intangible_assets/reports')->name('intangible_assets.reports.')->group(function () {

@@ -4,8 +4,8 @@
     <td>
         <b>{{ getParamObject($item, 'contract') }}</b>
         <p>{{ getParamObject($item, 'date') }} <br>
-            {{ getParamObject($item->contract_type, 'name') }}-
-            {{ getParamObject($item->contract_type, 'code', true) }}</p>
+            {{ getParamObject($item->contract_type, 'name') }}
+        </p>
     </td>
     <td>
         @forelse ($item->project_financings as $projectFinancing)

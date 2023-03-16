@@ -118,25 +118,27 @@ class IntangibleAssetController extends Controller
      * Display the specified resource.
      *
      * @param  int  $client
-     * @param int $intangibleAsset
+     * @param int $intangible_asset
      * 
      * @return RedirectResponse|View
      */
-    public function show($client, $intangibleAsset) #: RedirectResponse|View
+    public function show($client, $intangible_asset) #: RedirectResponse|View
     {
         try {
-            $item = $this->intangibleAssetRepository->getByIdWithRelations($intangibleAsset, [
+            /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $item */
+            $item = $this->intangibleAssetRepository->getByIdWithRelations($intangible_asset, [
                 'intangible_asset_phases', 'dpis.dpi', 'intangible_asset_published', 'intangible_asset_localization',
                 'intangible_asset_confidenciality_contract', 'creators', 'intangible_asset_session_right_contract', 'user_messages',
                 'secret_protection_measures:id,name', 'priority_tools', 'research_units:id,name'
             ]);
+
             return view('client.pages.intangible_assets.show', compact('item'));
         } catch (ModelNotFoundException $me) {
             Log::error("@Web/Controllers/Client/IntangibleAssetController:Show/ModelNotFoundException: {$me->getMessage()}");
         } catch (Exception $e) {
             Log::error("@Web/Controllers/Client/IntangibleAssetController:Show/Exception: {$e->getMessage()}");
         }
-        return redirect()->route('client.intangible_assets.index')->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        return redirect()->route('client.intangible_assets.index', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**

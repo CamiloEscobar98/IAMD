@@ -4,13 +4,14 @@
             class="btn btn-sm btn-outline-secondary">{{ getParamObject($item->project, 'name') }}</a>
     </td>
     <td>
-        @forelse ($item->project->research_units as $research_unit)
+        @forelse ($item->research_units as $research_unit)
             <a href="{{ getClientRoute('client.research_units.show', [$research_unit->id]) }}"
                 class="btn btn-sm btn-outline-secondary">{{ getParamObject($research_unit, 'name') }}</a>
         @empty
         @endforelse
     </td>
     <td>{{ $item->name }}</td>
+    <td>{{ getParamObject($item->classification, 'name', true) }}</td>
     <td>{{ getParamObject($item->intangible_asset_state, 'name', true) }}</td>
     <td>
         <div class="progress">

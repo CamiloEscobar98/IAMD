@@ -19,13 +19,15 @@ class FinancingTypeRepository  extends AbstractRepository
      * @param array $with
      * @param array $withCount
      * 
-     * @return $query
+     * 
+     * @return \Illuminate\Database\Query\Builder
      */
     public function search(array $params = [], array $with = [], array $withCount = [])
     {
         $joins = collect();
         $joinProjectFinancing = 'project_financing';
 
+        /** @var \Illuminate\Database\Query\Builder $query */
         $query = $this->model
             ->select("{$this->model->getTable()}.*");
 
