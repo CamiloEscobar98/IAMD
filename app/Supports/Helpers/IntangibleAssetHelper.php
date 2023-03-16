@@ -174,6 +174,24 @@ if (!function_exists('intangibleAssetHasSessionRightContract')) {
     }
 }
 
+if (!function_exists('intangibleAssetHasAcademicRecord')) {
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param bool $not
+     * 
+     * @return string|null
+     */
+    function intangibleAssetHasAcademicRecord($intangibleAsset, bool $not = false): string | null
+    {
+        if ($not) {
+            return !$intangibleAsset->hasAcademicRecord() && !old('has_academic_record') == '1' ? 'selected' : null;
+        } else {
+            return $intangibleAsset->hasAcademicRecord() || old('has_academic_record') == '1' ? 'selected' : null;
+        }
+    }
+}
+
 if (!function_exists('intangibleAssetHasContability')) {
 
     /**
@@ -435,7 +453,6 @@ if (!function_exists('showContabilityInForm')) {
 
         $stateName = Str::lower($intangibleAsset->intangible_asset_state->name);
         $categoryName = Str::lower($intangibleAsset->classification->intellectual_property_right_subcategory->intellectual_property_right_category->name);
-        $subCategoryName = Str::lower($intangibleAsset->classification->intellectual_property_right_subcategory->name);
 
         if (
             $categoryName == IntellectualPropertyRightCategory::PROPERTY_RIGHTS
@@ -480,5 +497,34 @@ if (!function_exists('showIsPublishedInForm')) {
         }
 
         return true;
+    }
+}
+
+if (!function_exists('showAcademicRecordInForm')) {
+    /**
+     * Show Confidenciality Contract by State and Classification.
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset 
+     * @return bool
+     */
+    function showAcademicRecordInForm($intangibleAsset): bool
+    {
+        if (!$intangibleAsset->hasPhaseOneCompleted() || !$intangibleAsset->hasPhaseThreeCompleted()) {
+            return false;
+        }
+
+        $stateName = Str::lower($intangibleAsset->intangible_asset_state->name);
+        $categoryName = Str::lower($intangibleAsset->classification->intellectual_property_right_subcategory->intellectual_property_right_category->name);
+
+        if (
+            $categoryName == IntellectualPropertyRightCategory::PROPERTY_RIGHTS
+            || $categoryName == IntellectualPropertyRightCategory::INDUSTRIAL_PROPERTY
+            || $categoryName == IntellectualPropertyRightCategory::OTHER_FORMS
+        ) {
+            if ($stateName == IntangibleAssetState::STATE_IDENTIFIED_PROTECTED) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -140,6 +140,14 @@ class IntangibleAsset extends BaseModel
     {
         return $this->hasOne(IntangibleAssetSessionRightContract::class);
     }
+    
+    /**
+     * @return HasOne
+     */
+    public function intangible_asset_academic_record() : HasOne
+    {
+        return $this->hasOne(IntangibleAssetAcademicRecord::class);
+    }
 
     /**
      * @return  HasOne
@@ -425,6 +433,11 @@ class IntangibleAsset extends BaseModel
         return !is_null($this->intangible_asset_session_right_contract);
     }
 
+    public function hasAcademicRecord(): bool
+    {
+        return !is_null($this->intangible_asset_academic_record);
+    }
+
     /**
      * @return bool
      */
@@ -524,9 +537,30 @@ class IntangibleAsset extends BaseModel
         return $this->hasSessionRightContract() && $sessionRightContract->file == 'example.txt';
     }
 
-    /** ./Intangible Asset Session Right File Methods */
 
-  
+
+    /** Intangible Asset Confidenciality Contract File Methods */
+
+    /**
+     * @return bool
+     */
+    public function hasFileOfAcademicRecord(): bool
+    {
+        /** @var \App\Models\Client\IntangibleAsset\IntangibleAssetAcademicRecord $confidencialityContract */
+        $confidencialityContract = $this->intangible_asset_academic_record;
+        return $this->hasAcademicRecord() && !is_null($confidencialityContract->file_path && $confidencialityContract->file);
+    }
+
+    public function hasDummyFileOfAcademicRecord(): bool
+    {
+        /** @var \App\Models\Client\IntangibleAsset\IntangibleAssetAcademicRecord $confidencialityContract */
+        $confidencialityContract = $this->intangible_asset_academic_record;
+        return $this->hasAcademicRecord() && $confidencialityContract->file == 'example.txt';
+    }
+
+    /** ./Intangible Asset Confidenciality Contract File Methods */    /** ./Intangible Asset Session Right File Methods */
+
+
     /** Phases for Intangible Asset */
 
     /**

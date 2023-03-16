@@ -500,6 +500,89 @@
                     @endif
                     <!-- Subphase: Intangible Asset has Contability -->
 
+                    <!-- Subphase: Intangible Asset has Academic Record -->
+                    @if (showAcademicRecordInForm($item))
+                        <form
+                            action="{{ route('client.intangible_assets.phases.five', [$client->name, $item->id]) }}"
+                            method="post" enctype="multipart/form-data">
+                            @csrf
+                            @method('PATCH')
+
+                            <input type="hidden" name="sub_phase" value="6" readonly>
+
+                            <div class="form-group">
+                                <label>@lang('pages.client.intangible_assets.phases.five.sub_phases.academic_record.title')</label>
+                                <select id="hasAcademicRecord" name="has_academic_record"
+                                    class="form-control form-control-sm" onchange="changeHasAcademicRecord()">
+                                    <option value="1" {{ intangibleAssetHasAcademicRecord($item) }}>
+                                        {{ __('inputs.yes') }}</option>
+                                    <option value="-1" {{ intangibleAssetHasAcademicRecord($item, true) }}>
+                                        {{ __('inputs.no') }}</option>
+                                </select>
+                            </div>
+
+                            <div id="academicRecordContainer">
+                                <div class="row justify-content-center">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.academic_record.form.entity') }}</label>
+                                            <input type="text" name="entity"
+                                                class="form-control form-control-sm {{ isInvalidByError($errors, 'entity') }}"
+                                                value="{{ getParamObject($item->intangible_asset_academic_record, 'entity') }}">
+                                        </div>
+
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.academic_record.form.administrative_record_num') }}</label>
+                                            <input type="text" name="administrative_record_num"
+                                                class="form-control form-control-sm {{ isInvalidByError($errors, 'administrative_record_num') }}"
+                                                value="{{ getParamObject($item->intangible_asset_academic_record, 'administrative_record_num') }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.academic_record.form.date') }}</label>
+                                            <input type="text" name="date"
+                                                class="form-control form-control-sm {{ isInvalidByError($errors, 'date') }}"
+                                                value="{{ getParamObject($item->intangible_asset_academic_record, 'date') }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.academic_record.form.file') }}</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">{{ __('inputs.upload') }}</span>
+                                                </div>
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input"
+                                                        name="academic_record_file">
+                                                    <label class="custom-file-label"
+                                                        for="inputGroupFile01">Seleccionar</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @if ($item->hasFileOfSessionRightContract())
+                                    <div class="form-group">
+                                        <a href="{{ route('client.intangible_assets.downloads.academic_record', [$client->name, $item->id]) }}"
+                                            class="btn btn-xs btn-danger btn-outline text-white">{{ __('pages.client.intangible_assets.phases.five.sub_phases.academic_record.buttons.download') }}</a>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <!-- Button Save -->
+                            <div class="form-group">
+                                <button
+                                    class="btn {{ phaseIsCompletedButton($item->hasPhaseFiveCompleted()) }} btn-sm">{{ __('buttons.save') }}</button>
+                            </div>
+                            <!-- ./Button Save -->
+                        </form>
+                    @endif
+                    <!-- ./Subphase: Intangible Asset has Academic Record -->
                 </div>
             </div>
         </div>

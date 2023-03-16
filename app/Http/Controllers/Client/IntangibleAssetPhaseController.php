@@ -159,6 +159,8 @@ class IntangibleAssetPhaseController extends Controller
 
         $data = [];
 
+        $icon = 'error';
+
         switch ($subPhase) {
             case '1':
                 $rules = [
@@ -199,20 +201,29 @@ class IntangibleAssetPhaseController extends Controller
                 ];
                 $data = $request->only(['has_contability', 'price', 'comments']);
                 break;
+
+            case '6':
+                $rules = [
+                    'entity' => [Rule::requiredIf($request->has_academic_record == 1), 'nullable', 'string'],
+                    'administrative_record_num' => [Rule::requiredIf($request->has_academic_record == 1), 'nullable', 'string'],
+                    'date' => [Rule::requiredIf($request->has_academic_record == 1), 'nullable', 'date'],
+                    'academic_record_file' => [Rule::requiredIf($request->has_academic_record == 1), 'nullable', 'file', 'mimes:pdf,docx'],
+                ];
+                $data = $request->only(['has_academic_record', 'administrative_record_num', 'date', 'entity']);
+                $data['file'] = $request->file('academic_record_file');
+                break;
         }
         $request->validate($rules);
 
         try {
             $intangibleAsset = $this->intangibleAssetRepository->getById($intangible_asset);
-
             $message = $this->intangibleAssetPhaseService->updatePhaseFive($intangibleAsset, $data, $subPhase);
-            return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
-        } catch (QueryException $qe) {
-            Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseFive/QueryException: {$qe->getMessage()}");
+            $icon = 'success';
         } catch (Exception $e) {
+            $icon = 'error';
             Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseFive/Exception: {$e->getMessage()}");
         }
-        return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
+        return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.error'), 'icon' => $icon, 'text' => $message]);
     }
 
     /**

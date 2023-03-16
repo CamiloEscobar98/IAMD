@@ -31,6 +31,17 @@ function changeHasSessionRightContract() {
     }
 }
 
+function changeHasAcademicRecord() {
+    let select = $("#hasAcademicRecord").val();
+    var container = $("#academicRecordContainer");
+
+    if (select == 1) {
+        container.show();
+    } else {
+        container.hide();
+    }
+}
+
 function changeHasContability() {
     let select = $("#hasContability").val();
     var container = $("#commercialContainer");
@@ -75,7 +86,6 @@ function changeHasPriorityTools() {
         container.hide();
     }
 }
-
 
 function changeIsCommercial() {
     let select = $("#isCommercial").val();

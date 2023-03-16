@@ -1337,6 +1337,23 @@ return [
                             ]
                         ],
 
+                        'academic_record' => [
+                            'title' => '¿El Activo Intangible tiene acto administrativo que concede su protección?',
+                            'form' => [
+                                'entity' => 'Entidad competente que otorga la protección:',
+                                'administrative_record_num' => 'N° del acto administrativo',
+                                'date' => 'Fecha de concesión',
+                                'file' => 'Acto administrativo:',
+                            ],
+                            'messages' => [
+                                'save_success' => 'Se ha registrado el acto administrativo del Activo Intangible.',
+                                'save_error' => 'No se pudo registrar el acto administrativo.',
+                            ],
+                            'buttons' => [
+                                'download' => 'Descargar Acto Administrativo'
+                            ]
+                        ],
+
                         'contability' => [
                             'title' => '¿Se encuentra incorporado a la contabilidad como Activo Intangible?',
                             'form' => [
