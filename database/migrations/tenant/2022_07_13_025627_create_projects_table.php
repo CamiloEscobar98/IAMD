@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('project_contract_type_id');
 
             $table->string('name')->unique();
-            $table->tinyText('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('contract');
             $table->date('date');
 

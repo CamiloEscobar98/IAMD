@@ -36,6 +36,18 @@
 @section('content')
     <div class="container-fluid">
 
+        <!-- Intangible Asset Form Errors -->
+        @if ($errors->any())
+            <div class="bg-danger text-white p-1 mb-4">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{!! $error !!}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        <!-- ./Intangible Asset Form Errors -->
+
         <h3 class="font-italic font-weight-bold">
             <u>{{ __('pages.default.title-information') }}</u>
         </h3>

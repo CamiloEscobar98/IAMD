@@ -17,6 +17,7 @@ class IntellectualPropertyRightCategory extends BaseModel
 
     public const PROPERTY_RIGHTS = 'derechos de autor';
     public const INDUSTRIAL_PROPERTY = 'propiedad industrial';
+    public const OTHER_FORMS = 'otras formas de propiedad';
 
 
     /**

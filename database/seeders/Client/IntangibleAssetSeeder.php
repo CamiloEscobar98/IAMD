@@ -322,15 +322,15 @@ class IntangibleAssetSeeder extends Seeder
         /** ./Phase Four */
 
         /** Phase Five */
-        if ($isPublished)  $this->updateHasBeenPublished($intangibleAsset, $states);
+        if ($isPublished && showIsPublishedInForm($intangibleAsset))   $this->updateHasBeenPublished($intangibleAsset, $states);
 
-        if ($hasConfidencialityContract)  $this->hasConfidencialityContract($intangibleAsset);
+        if ($hasConfidencialityContract && showConfidencialityContractInForm($intangibleAsset))  $this->hasConfidencialityContract($intangibleAsset);
 
         if ($hasCreators)  $this->updateHasCreators($intangibleAsset, $creators);
 
         if ($hasSessionRightContract)  $this->hasSessionRightContract($intangibleAsset);
 
-        if ($hasContability)  $this->hasContability($intangibleAsset);
+        if ($hasContability && showContabilityInForm($intangibleAsset))  $this->hasContability($intangibleAsset);
 
         if ($isPublished && $hasConfidencialityContract && $hasCreators && $hasSessionRightContract && $hasContability) {
             $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'five', true);

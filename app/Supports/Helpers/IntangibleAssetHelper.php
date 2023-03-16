@@ -437,7 +437,11 @@ if (!function_exists('showContabilityInForm')) {
         $categoryName = Str::lower($intangibleAsset->classification->intellectual_property_right_subcategory->intellectual_property_right_category->name);
         $subCategoryName = Str::lower($intangibleAsset->classification->intellectual_property_right_subcategory->name);
 
-        if ($categoryName == IntellectualPropertyRightCategory::PROPERTY_RIGHTS || $categoryName == IntellectualPropertyRightCategory::INDUSTRIAL_PROPERTY) {
+        if (
+            $categoryName == IntellectualPropertyRightCategory::PROPERTY_RIGHTS
+            || $categoryName == IntellectualPropertyRightCategory::INDUSTRIAL_PROPERTY
+            || $categoryName == IntellectualPropertyRightCategory::OTHER_FORMS
+        ) {
             if ($stateName == IntangibleAssetState::STATE_IDENTIFIED_PROTECTED) {
                 return true;
             }
@@ -464,6 +468,14 @@ if (!function_exists('showIsPublishedInForm')) {
         $subCategoryName = Str::lower($intangibleAsset->classification->intellectual_property_right_subcategory->name);
 
         if ($categoryName == IntellectualPropertyRightCategory::PROPERTY_RIGHTS) {
+            return false;
+        }
+
+        if (
+            $categoryName == IntellectualPropertyRightCategory::INDUSTRIAL_PROPERTY
+            && $subCategoryName == IntellectualPropertyRightSubcategory::DISTINCTIVE_SIGNS
+            && $stateName == IntangibleAssetState::STATE_IDENTIFIED_PROTECTED
+        ) {
             return false;
         }
 

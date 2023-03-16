@@ -1206,7 +1206,8 @@ return [
                 'head' => [
                     'project' => 'Proyecto',
                     'research_units' => 'Unidades Investigativas',
-                    'state' => 'Estado del Activo',
+                    'classification' => 'Clasificación',
+                    'state' => 'Estado del AI',
 
                     'name' => 'Nombre',
                     'status' => 'Estado de las Fases',

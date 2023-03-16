@@ -590,6 +590,9 @@ class IntangibleAsset extends BaseModel
      */
     public function hasPhaseEightCompleted(): bool
     {
+        if ($this->dpis->isEmpty()) {
+            return true;
+        }
         return $this->intangible_asset_phases->phase_eight_completed;
     }
 

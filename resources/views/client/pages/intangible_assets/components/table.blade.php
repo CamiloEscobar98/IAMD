@@ -5,6 +5,7 @@
                 <th>{{ __('pages.client.intangible_assets.table.head.project') }}</th>
                 <th style="width: 25em">{{ __('pages.client.intangible_assets.table.head.research_units') }}</th>
                 <th>{{ __('pages.client.intangible_assets.table.head.name') }}</th>
+                <th>{{ __('pages.client.intangible_assets.table.head.classification') }}</th>
                 <th>{{ __('pages.client.intangible_assets.table.head.state') }}</th>
                 <th>{{ __('pages.client.intangible_assets.table.head.status') }}</th>
                 <th>{{ __('pages.client.intangible_assets.table.head.created_at') }}</th>

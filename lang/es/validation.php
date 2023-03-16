@@ -210,5 +210,12 @@ return [
         'published_in' => 'medio de publicación',
         'published_at' => 'fecha de publicación',
 
+        'comments' => 'comentarios',
+        'reference' => 'número de referencia',
+        'reason' => 'uso comercial del activo intangible',
+
+        'session_right_contract_file' => 'contrato de titularidad de los derechos de propiedad intelectual',
+        'confidenciality_contract_file' => 'contrato de confidencialidad',
+
     ],
 ];
