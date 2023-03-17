@@ -101,7 +101,7 @@
                                             <div class="float-left">
                                                 <span
                                                     class="font-weight-bold">{{ __('pages.client.intangible_assets.strategies.list.strategy') }}
-                                                </span>{{ "{$strategy->strategy->id} {$strategy->strategy->name}" }}
+                                                </span>{{ $strategy->strategy->name }}
                                             </div>
                                             <div class="float-center">
                                                 <span
