@@ -51,7 +51,6 @@
 @section('custom_js')
     @include('messages.delete_item', ['title' => __('pages.client.projects.messages.confirm')])
 
-    <script src="{{ asset('adminlte/dist/js/iamd/projects.js') }}"></script>
 
     <script>
         // Administrative Units

@@ -3,7 +3,7 @@
     <label>Proyecto:</label>
     <div class="input-group">
         <select name="project_id" id="project_id" class="form-control select2bs4 @error('project_id') is-invalid @enderror"
-            onchange="changeProjectSelect()">
+            onchange="changeResearchUnits()">
             @foreach ($projects as $projectId => $value)
                 <option value="{{ $projectId }}"
                     {{ twoOptionsIsEqual(old('project_id', $item->project_id), $projectId) }}>

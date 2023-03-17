@@ -69,8 +69,6 @@
 @endsection
 
 @section('custom_js')
-    <script src="{{ asset('adminlte/dist/js/iamd/projects.js') }}"></script>
-
     <script>
         //Initialize Select2 Elements
         $('.select2bs4').select2({

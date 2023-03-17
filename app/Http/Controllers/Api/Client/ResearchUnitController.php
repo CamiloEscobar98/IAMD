@@ -37,7 +37,6 @@ class ResearchUnitController extends Controller
     {
         try {
             $items = $this->researchUnitRepository->search($request->all())->get();
-
             return response()->json($items);
         } catch (\Exception $th) {
             
