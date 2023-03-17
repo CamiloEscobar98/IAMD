@@ -23,6 +23,7 @@ use App\Repositories\Client\IntangibleAssetDPIRepository;
 
 use App\Repositories\Client\ProjectRepository;
 use App\Repositories\Client\CreatorRepository;
+use App\Repositories\Client\IntangibleAssetAcademicRecordRepository;
 use App\Repositories\Client\IntangibleAssetConfidentialityContractRepository;
 use App\Repositories\Client\IntangibleAssetContabilityRepository;
 use App\Repositories\Client\IntangibleAssetDpiPriorityToolRepository;
@@ -87,6 +88,9 @@ class IntangibleAssetSeeder extends Seeder
     /** @var IntangibleAssetSessionRightContractRepository */
     protected $intangibleAssetSessionRightContractRepository;
 
+    /** @var IntangibleAssetAcademicRecordRepository */
+    protected $intangibleAssetAcademicRecordRepository;
+
     /** @var IntangibleAssetContabilityRepository */
     protected $intangibleAssetContabilityRepository;
 
@@ -138,6 +142,7 @@ class IntangibleAssetSeeder extends Seeder
 
         IntangibleAssetConfidentialityContractRepository $intangibleAssetConfidentialityContractRepository,
         IntangibleAssetSessionRightContractRepository $intangibleAssetSessionRightContractRepository,
+        IntangibleAssetAcademicRecordRepository $intangibleAssetAcademicRecordRepository,
         IntangibleAssetContabilityRepository $intangibleAssetContabilityRepository,
 
         IntellectualPropertyRightSubcategoryRepository $intellectualPropertyRightSubcategoryRepository,
@@ -170,6 +175,7 @@ class IntangibleAssetSeeder extends Seeder
 
         $this->intangibleAssetConfidentialityContractRepository = $intangibleAssetConfidentialityContractRepository;
         $this->intangibleAssetSessionRightContractRepository = $intangibleAssetSessionRightContractRepository;
+        $this->intangibleAssetAcademicRecordRepository = $intangibleAssetAcademicRecordRepository;
         $this->intangibleAssetContabilityRepository = $intangibleAssetContabilityRepository;
 
         $this->intellectualPropertyRightSubcategoryRepository =  $intellectualPropertyRightSubcategoryRepository;
@@ -227,6 +233,7 @@ class IntangibleAssetSeeder extends Seeder
 
         $cont = 0;
         do {
+            /** @var \App\Models\Client\Project\Project $randomProject */
             $randomProject = $projects->random(1)->first();
 
             print("PROJECT: " . $randomProject->name .  "\n \n");
@@ -235,9 +242,16 @@ class IntangibleAssetSeeder extends Seeder
 
             print("Creating Intangible Asset: $current. \n");
 
+            /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset */
             $intangibleAsset = $this->intangibleAssetRepository->createOneFactory([
                 'project_id' => $randomProject->id,
             ]);
+
+            /** @var \Illuminate\Database\Eloquent\Collection $researchUnits */
+            $researchUnits = $randomProject->research_units;
+            $randomResarchUnits = $researchUnits->random(rand(1, $researchUnits->count() - 1));
+
+            $intangibleAsset->research_units()->sync($randomResarchUnits);
 
             $this->intangibleAssetLocalizationRepository->createOneFactory(['intangible_asset_id' => $intangibleAsset->id]);
 
@@ -270,6 +284,7 @@ class IntangibleAssetSeeder extends Seeder
         $hasConfidencialityContract = true;
         $hasCreators = true;
         $hasSessionRightContract = true;
+        $hasAcademicRecord = true;
         $hasContability = true;
         $hasComments = true;
         $hasProtectionAction = true;
@@ -287,6 +302,7 @@ class IntangibleAssetSeeder extends Seeder
             $hasCreators = (bool) rand(0, 1);
             $hasConfidencialityContract = (bool) rand(0, 1);
             $hasSessionRightContract = (bool) rand(0, 1);
+            $hasAcademicRecord = (bool) rand(0, 1);
             $hasContability = (bool) rand(0, 1);
             $hasComments = (bool) rand(0, 1);
             $hasProtectionAction = (bool) rand(0, 1);
@@ -314,15 +330,17 @@ class IntangibleAssetSeeder extends Seeder
         /** ./Phase Four */
 
         /** Phase Five */
-        if ($isPublished)  $this->updateHasBeenPublished($intangibleAsset, $states);
+        if ($isPublished && showIsPublishedInForm($intangibleAsset))   $this->updateHasBeenPublished($intangibleAsset, $states);
 
-        if ($hasConfidencialityContract)  $this->hasConfidencialityContract($intangibleAsset);
+        if ($hasConfidencialityContract && showConfidencialityContractInForm($intangibleAsset))  $this->hasConfidencialityContract($intangibleAsset);
 
         if ($hasCreators)  $this->updateHasCreators($intangibleAsset, $creators);
 
         if ($hasSessionRightContract)  $this->hasSessionRightContract($intangibleAsset);
 
-        if ($hasContability)  $this->hasContability($intangibleAsset);
+        if ($hasAcademicRecord && showAcademicRecordInForm($intangibleAsset)) $this->hasAcademicRecord($intangibleAsset);
+
+        if ($hasContability && showContabilityInForm($intangibleAsset))  $this->hasContability($intangibleAsset);
 
         if ($isPublished && $hasConfidencialityContract && $hasCreators && $hasSessionRightContract && $hasContability) {
             $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'five', true);
@@ -547,6 +565,21 @@ class IntangibleAssetSeeder extends Seeder
 
         print("This Intangible Asset has Session Right Contract \n");
     }
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * 
+     * @return void
+     */
+    private function hasAcademicRecord($intangibleAsset): void
+    {
+        $this->intangibleAssetAcademicRecordRepository->createOneFactory([
+            'intangible_asset_id' => $intangibleAsset->id
+        ]);
+
+        print("This Intangible Asset has Academic Record \n");
+    }
+
 
     /**
      * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset

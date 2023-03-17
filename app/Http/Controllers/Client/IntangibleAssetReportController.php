@@ -16,6 +16,9 @@ use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
 use App\Repositories\Admin\IntellectualPropertyRightSubcategoryRepository;
 use App\Repositories\Client\IntangibleAssetRepository;
 use App\Repositories\Client\ResearchUnitRepository;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Exception;
+use Illuminate\Database\QueryException;
 
 class IntangibleAssetReportController extends Controller
 {
@@ -52,37 +55,51 @@ class IntangibleAssetReportController extends Controller
     }
 
     /**
-     * @param int $id
-     * @param int $intangibleAsset
+     * @param int $client
+     * @param int $intangible_asset
      * @param Request $request
      * 
      * @return RedirectResponse
      */
-    public function generateDefaultReport($id, $intangibleAsset, Request $request)
+    public function generateDefaultReport($client, $intangible_asset, Request $request)
     {
         try {
-
-            $intangibleAsset = $this->intangibleAssetRepository->getByIdWithRelations($intangibleAsset, [
-                'project.research_unit.administrative_unit', 'intangible_asset_state', 'classification', 'dpis.dpi',
+            $intangibleAsset = $this->intangibleAssetRepository->getByIdWithRelations($intangible_asset, [
+                'research_units.administrative_unit', 'intangible_asset_state', 'classification', 'dpis.dpi',
                 'intangible_asset_published', 'intangible_asset_confidenciality_contract', 'intangible_asset_session_right_contract', 'intangible_asset_contability',
                 'user_messages', 'intangible_asset_protection_action', 'secret_protection_measures', 'priority_tools.priority_tool', 'priority_tools.dpi', 'intangible_asset_commercial'
             ]);
 
-            CreateFileReportJob::dispatch([
+            $data = [
                 'intangibleAsset' => $intangibleAsset,
                 'dpis' => $this->intellectualPropertyRightSubcategoryRepository->all(),
                 'client' => $request->client
-            ], [
-                'userId' => auth('web')->user()->id,
-                'client' => $request->client,
-                'report_type' => 'intangible_assets.reports.single'
-            ]);
+            ];
 
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.reports.single.messages.generate_success')]);
-        } catch (\Exception $th) {
-            return $th->getMessage();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.reports.single.messages.generate_success')]);
+            
+            // return view('reports.intangible_assets.single', $data);
+            
+            $pdf = Pdf::loadView('reports.intangible_assets.single', $data);
+
+            return $pdf->download();
+
+            // CreateFileReportJob::dispatch([
+            //     'intangibleAsset' => $intangibleAsset,
+            //     'dpis' => $this->intellectualPropertyRightSubcategoryRepository->all(),
+            //     'client' => $request->client
+            // ], [
+            //     'userId' => auth('web')->user()->id,
+            //     'client' => $request->client,
+            //     'report_type' => 'intangible_assets.reports.single'
+            // ]);
+
+            return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.reports.single.messages.generate_success')]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetReportController:GenerateDefaultReport/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetReportController:GenerateDefaultReport/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.reports.single.messages.generate_error')]);
     }
 
     /**
@@ -94,35 +111,27 @@ class IntangibleAssetReportController extends Controller
     {
         $rules = [];
 
-        $generalConfiguration = $request->only([
-            'with_general_total', 'with_general_phase_status'
-        ]);
-
-        $contentConfiguration = $request->only([
-            'with_basic_information', 'with_dpis', 'with_published',
-            'with_confidenciality_contract', 'with_creators', 'with_right_session',
-            'with_contability', 'with_comments', 'with_protection_action', 'with_priority_tools', 'with_commercial'
-        ]);
-
         $graphicConfiguration = $request->only([
             'with_graphics_assets_per_year', 'with_graphics_assets_classification_per_year', 'with_graphics_assets_state_per_year',
-            'with_graphics_assets_classification_per_administrative_unit', 'with_graphics_assets_state_research_unit_per_administrative_unit', 'with_graphics_assets_research_unit_per_administrative_unit',
-            'with_graphics_assets_research_unit_per_administrative_unit', 'with_graphics_assets_classification_per_research_unit'
+            'with_graphics_assets_classification_per_administrative_unit', 'with_graphics_assets_state_research_unit_per_administrative_unit',
+            'with_graphics_assets_research_unit_per_administrative_unit', 'with_graphics_assets_classification_per_research_unit', 'with_graphics_assets_state_classification_per_research_unit'
         ]);
 
         $rules = $this->getRulesPerGraphicConfiguration($rules, $graphicConfiguration);
 
-        $request->validate($rules);
+        $messages = [
+            'empty_graphics.required' => 'Es necesario al menos escoger una gráfica para poder realizar el reporte.'
+        ];
+
+        $request->validate($rules, $messages);
 
         $params = $request->all();
 
-        // return $params;
-
+        $userId = auth('web')->user()->id;
+        $client = $request->client;
+        $reportType = 'intangible_assets.reports.custom';
 
         try {
-            Log::alert('GENERATING CUSTOM REPORT');
-
-            Log::info('Searching Intangible Assets..');
 
             # Default Array
             $withRelations =  [];
@@ -131,28 +140,21 @@ class IntangibleAssetReportController extends Controller
                 "intangible_assets.id",
             ];
 
-            /** Relations per Content Configuration */
-            [$withRelations, $selectData] = $this->getRelationsArrayPerContentConfiguration($withRelations, $selectData, $contentConfiguration);
-            /** ./Relations per Content Configuration */
-
             /** Relations per Graphic Configuration */
             [$withRelations, $selectData] = $this->getRelationsArrayPerGraphicConfiguration($withRelations, $selectData, $graphicConfiguration);
             /** ./Relations per Graphic Configuration */
 
-            /** @var Collection $intangibleAssets */
-            $intangibleAssets = $this->intangibleAssetRepository->searchForReport($params, $withRelations, [], $selectData)->get();
+            /** @var \Illuminate\Database\Query\Builder $query */
+            $query = $this->intangibleAssetRepository->searchForReport($params, $withRelations, [], $selectData);
 
-            // return $intangibleAssets;
+            /** @var Collection $intangibleAssets */
+            $intangibleAssets = $query->get();
 
             Log::notice('Intangible Assets searched!');
 
-            $count = $intangibleAssets->count();
+            $count = $query->count();
 
             Log::info("Total Intangible Assets {$count}");
-
-            $userId = auth('web')->user()->id;
-            $client = $request->client;
-            $reportType = 'intangible_assets.reports.custom';
 
             $config = [
                 'userId' => $userId,
@@ -161,8 +163,6 @@ class IntangibleAssetReportController extends Controller
             ];
 
             $data = [
-                'generalConfiguration' => $generalConfiguration,
-                'contentConfiguration' => $contentConfiguration,
                 'graphicConfiguration' => $graphicConfiguration,
                 'count' => $count,
                 'client' => $client,
@@ -170,25 +170,17 @@ class IntangibleAssetReportController extends Controller
 
             /** Testing the View Custom PDF */
 
-            // $dataCompact = compact('generalConfiguration', 'contentConfiguration', 'graphicConfiguration', 'count', 'client');
+            // $dataCompact = compact('graphicConfiguration', 'count', 'client');
 
             if (isset($dataCompact) && $dataCompact) {
 
-                if (!empty($contentConfiguration) || !empty($generalConfiguration)) {
-                    $dataCompact['intangibleAssets'] = $intangibleAssets;
-                }
-
-                if (hasContent($generalConfiguration, 'with_general_phase_status')) $dataCompact['phasesCompleted'] = $this->getPhasesCompletedArray($intangibleAssets);
-
-                if (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_year')) {
-                    $response = $this->getDataGraphicIntangibleAssetClassificationPerYear($intangibleAssets, $dataCompact);
-
+                if (hasContent($graphicConfiguration, 'with_graphics_assets_per_year')) {
+                    $response = $this->getDataGraphicIntangibleAssetPerYear($intangibleAssets, $dataCompact);
                     $dataCompact = $response;
                 }
 
-                if (hasContent($graphicConfiguration, 'with_graphics_assets_per_year')) {
-                    $response = $this->getDataGraphicIntangibleAssetPerYear($intangibleAssets, $dataCompact);
-
+                if (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_year')) {
+                    $response = $this->getDataGraphicIntangibleAssetClassificationPerYear($intangibleAssets, $dataCompact);
 
                     $dataCompact = $response;
                 }
@@ -203,22 +195,10 @@ class IntangibleAssetReportController extends Controller
                     $dataCompact = $response;
                 }
 
-                if (hasContent($graphicConfiguration, 'with_graphics_assets_state_research_unit_per_administrative_unit')) {
-                    $response = $this->getDataGraphicIntangibleAssetStateResearchUnitPerAdministrativeUnit($intangibleAssets, $dataCompact);
-                    $dataCompact = $response;
-                }
-
-                if (hasContent($graphicConfiguration, 'with_graphics_assets_research_unit_per_administrative_unit')) {
-                    $response = $this->getDataGraphicIntangibleStateResearchUnitPerAdministrativeUnit($intangibleAssets, $request, $dataCompact);
-                    $dataCompact = $response;
-                }
-
                 if (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_research_unit')) {
                     $response = $this->getDataGraphicIntangibleAssetClassificationPerResearchUnit($intangibleAssets, $dataCompact);
                     $dataCompact = $response;
                 }
-
-                return $dataCompact;
 
                 return view('reports.intangible_assets.custom', $dataCompact);
             }
@@ -251,74 +231,23 @@ class IntangibleAssetReportController extends Controller
                     $data = $response;
                 }
 
-                if (hasContent($graphicConfiguration, 'with_graphics_assets_state_research_unit_per_administrative_unit')) {
-                    $response = $this->getDataGraphicIntangibleAssetStateResearchUnitPerAdministrativeUnit($intangibleAssets, $data);
-                    $data = $response;
-                }
-
-                if (hasContent($graphicConfiguration, 'with_graphics_assets_research_unit_per_administrative_unit')) {
-                    $response = $this->getDataGraphicIntangibleStateResearchUnitPerAdministrativeUnit($intangibleAssets, $request, $data);
-                    $data = $response;
-                }
-
                 if (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_research_unit')) {
                     $response = $this->getDataGraphicIntangibleAssetClassificationPerResearchUnit($intangibleAssets, $data);
                     $data = $response;
                 }
             }
 
-            if (!empty($graphicConfiguration) && !empty($generalConfiguration)) {
-                Log::notice('One report file will be created!');
-                if (!empty($contentConfiguration) || !empty($generalConfiguration)) $data['intangibleAssets'] = $intangibleAssets;
-                if (hasContent($generalConfiguration, 'with_general_phase_status')) $data['phasesCompleted'] = $this->getPhasesCompletedArray($intangibleAssets);
-
-                $this->callJobReportCustom($data, $config);
-            } else {
-                if ($count < 50) {
-                    Log::notice('One report file will be created!');
-
-
-                    $data['intangibleAssets'] = $intangibleAssets;
-                    if (hasContent($generalConfiguration, 'with_general_phase_status')) $data['phasesCompleted'] = $this->getPhasesCompletedArray($intangibleAssets);
-
-                    $this->callJobReportCustom($data, $config);
-                } else {
-                    $splitIntangibleAssets = [];
-
-                    if ($count > 1000) {
-                        $fileCount = 8;
-                        $splitIntangibleAssets = $intangibleAssets->split($fileCount);
-                    } elseif ($count > 500 && $count < 1000) {
-                        $fileCount = 6;
-                        $splitIntangibleAssets = $intangibleAssets->split($fileCount);
-                    } elseif ($count > 100 && $count < 500) {
-                        $fileCount = 4;
-                        $splitIntangibleAssets = $intangibleAssets->split($fileCount);
-                    } elseif ($count > 50 && $count < 100) {
-                        $fileCount = 2;
-                        $splitIntangibleAssets = $intangibleAssets->split($fileCount);
-                    }
-
-                    Log::notice("Total Report Files will be created: {$fileCount}");
-
-                    foreach ($splitIntangibleAssets as $split) {
-                        $phasesCompleted = $this->getPhasesCompletedArray($split);
-
-                        $data['intangibleAssets'] = $split;
-                        $data['phasesCompleted'] = $phasesCompleted;
-
-                        $this->callJobReportCustom($data, $config);
-                    }
-                }
-            }
+            $this->callJobReportCustom($data, $config);
 
             Log::alert('CUSTOM REPORT ALERT FINISHED');
 
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.reports.single.messages.generate_success')]);
-        } catch (\Exception $th) {
-            return $th->getMessage();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.reports.single.messages.generate_success')]);
+            return redirect()->route('client.reports.custom.index', $client)->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.reports.single.messages.generate_success')]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetReportController:GenerateCustomReport/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetReportController:GenerateCustomReport/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.reports.custom.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.intangible_assets.reports.single.messages.generate_success')]);
     }
 
     /**
@@ -328,79 +257,6 @@ class IntangibleAssetReportController extends Controller
     protected function callJobReportCustom($data, $config)
     {
         CreateFileReportJob::dispatch($data, $config)->onQueue('intangible_assets-reports-custom');
-    }
-
-    ### RELATIONS ARRAY PER CONTENT CONFIGURATION
-
-    /**
-     * @param array $withRelations
-     * @param array $selectData
-     * @param array $contentConfiguration
-     * 
-     * @return array
-     */
-    protected function getRelationsArrayPerContentConfiguration(array $withRelations, array $selectData, array $contentConfiguration): array
-    {
-        if (hasContent($contentConfiguration, 'with_basic_information')) {
-            array_push($withRelations, 'project:id,research_unit_id,name');
-            array_push($withRelations, 'project.research_unit:id,administrative_unit_id,name');
-            array_push($withRelations, 'project.research_unit.administrative_unit:id,name');
-            array_push($withRelations, 'intangible_asset_state');
-            array_push($withRelations, 'classification');
-
-            array_push($selectData, 'intangible_assets.id');
-            array_push($selectData, 'intangible_assets.project_id');
-            array_push($selectData, 'intangible_assets.classification_id');
-            array_push($selectData, 'intangible_assets.intangible_asset_state_id');
-            array_push($selectData, 'intangible_assets.name');
-            array_push($selectData, 'intangible_assets.description');
-            array_push($selectData, 'intangible_assets.code');
-            array_push($selectData, 'intangible_assets.date');
-        }
-
-        if (hasContent($contentConfiguration, 'with_published')) {
-            array_push($withRelations, 'intangible_asset_published:intangible_asset_id,published_in,information_scope,published_at');
-        }
-
-        if (hasContent($contentConfiguration, 'with_confidenciality_contract')) {
-            array_push($withRelations, 'intangible_asset_confidenciality_contract:intangible_asset_id,organization_confidenciality');
-        }
-
-        if (hasContent($contentConfiguration, 'with_creators')) {
-            array_push($withRelations, 'creators:name');
-        }
-
-        if (hasContent($contentConfiguration, 'with_right_session')) {
-            array_push($withRelations, 'intangible_asset_session_right_contract:intangible_asset_id,owner');
-        }
-
-        if (hasContent($contentConfiguration, 'with_contability')) {
-            array_push($withRelations, 'intangible_asset_contability:intangible_asset_id,price,comments');
-        }
-
-        if (hasContent($contentConfiguration, 'with_comments')) {
-            array_push($withRelations, 'user_messages:id,name');
-        }
-
-        if (hasContent($contentConfiguration, 'with_protection_action')) {
-            array_push($withRelations, 'intangible_asset_protection_action:id,intangible_asset_id,reference');
-            array_push($withRelations, 'secret_protection_measures:name');
-        }
-
-        if (hasContent($contentConfiguration, 'with_priority_tools')) {
-            array_push($withRelations, 'priority_tools.priority_tool');
-            array_push($withRelations, 'priority_tools.dpi');
-        }
-
-        if (hasContent($contentConfiguration, 'with_commercial')) {
-            array_push($withRelations, 'intangible_asset_commercial');
-        }
-
-        if (hasContent($contentConfiguration, 'with_dpis')) {
-            array_push($withRelations, 'dpis.dpi:id,name');
-        }
-
-        return [$withRelations, $selectData];
     }
 
     ### RELATIONS ARRAY PER GRAPHIC CONFIGURATION
@@ -446,7 +302,7 @@ class IntangibleAssetReportController extends Controller
         }
 
         if (!in_array('project', $withRelations) && hasContent($graphicConfiguration, 'with_graphics_assets_research_unit_per_administrative_unit')) {
-            array_push($withRelations, 'project:id,research_unit_id,name');
+            array_push($withRelations, 'project:id,name');
         }
 
         if (!in_array('intangible_assets.project_id', $selectData) && hasContent($graphicConfiguration, 'with_graphics_assets_research_unit_per_administrative_unit')) {
@@ -455,7 +311,7 @@ class IntangibleAssetReportController extends Controller
 
         if (!in_array('project.research_unit:id,administrative_unit_id,name', $withRelations) && hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_research_unit')) {
             array_push($selectData, 'intangible_assets.project_id');
-            array_push($withRelations, 'project.research_unit:id,administrative_unit_id,name');
+            array_push($withRelations, 'project.research_units:id,administrative_unit_id,name');
         }
 
 
@@ -468,17 +324,8 @@ class IntangibleAssetReportController extends Controller
      */
     protected function getRulesPerGraphicConfiguration(array $rules, array $graphicConfiguration): array
     {
-        if (
-            !in_array('administrative_unit_id', $rules)
-            && (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_administrative_unit')
-                || hasContent($graphicConfiguration, 'with_graphics_assets_state_research_unit_per_administrative_unit')
-                || hasContent($graphicConfiguration, 'with_graphics_assets_research_unit_per_administrative_unit'))
-        ) {
-            $rules['administrative_unit_id'] = ['required', 'exists:tenant.administrative_units,id'];
-        }
-
-        if (!in_array('research_unit_id', $rules) && hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_research_unit')) {
-            $rules['research_unit_id'] = ['required', 'exists:tenant.research_units,id'];
+        if (empty($graphicConfiguration)) {
+            $rules['empty_graphics'] = ['required'];
         }
 
         return $rules;
@@ -643,6 +490,7 @@ class IntangibleAssetReportController extends Controller
         $dataArray['graphicData']['with_graphics_assets_state_per_year'] = [];
 
         $datasets = [];
+        /** @var \App\Models\Admin\IntangibleAssetState $state */
         foreach ($states as $state) {
             $dataArrayState = [];
 
@@ -692,58 +540,6 @@ class IntangibleAssetReportController extends Controller
         }
 
         $dataArray['graphicData']['with_graphics_assets_classification_per_administrative_unit'] = $bodyArray;
-
-        return $dataArray;
-    }
-
-    /**
-     * @param Collection $intangibleAssets
-     * @param array $dataArray
-     */
-    protected function getDataGraphicIntangibleAssetStateResearchUnitPerAdministrativeUnit(Collection $intangibleAssets, array $dataArray): array
-    {
-        return $dataArray;
-    }
-
-    /**
-     * @param Collection $intangibleAssets
-     * @param Request $request
-     * @param array $dataArray
-     */
-    protected function getDataGraphicIntangibleStateResearchUnitPerAdministrativeUnit(Collection $intangibleAssets, $request, array $dataArray)
-    {
-        $researchUnits = $this->researchUnitRepository->all(['id', 'administrative_unit_id', 'name'])->where('administrative_unit_id', $request->administrative_unit_id);
-
-        $labels = [];
-
-        $data = [];
-
-        foreach ($researchUnits as $researchUnit) {
-            array_push($labels, $researchUnit->name);
-
-            $count = $intangibleAssets->where(function ($asset) use ($researchUnit) {
-                return $asset->project->research_unit_id === $researchUnit->id;
-            })->count();
-
-            array_push($data, $count);
-        }
-
-        $datasets = [
-            [
-                'label' => 'Activos Intangibles',
-                'data' => $data,
-            ],
-        ];
-
-        $data = [
-            'labels' => $labels,
-            'datasets' => $datasets,
-        ];
-
-        $dataArray['graphicData']['with_graphics_assets_research_unit_per_administrative_unit'] = [
-            'type' => 'pie',
-            'data' => $data,
-        ];
 
         return $dataArray;
     }

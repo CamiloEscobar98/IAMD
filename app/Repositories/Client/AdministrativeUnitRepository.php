@@ -18,10 +18,11 @@ class AdministrativeUnitRepository extends AbstractRepository
      * @param array $params
      * @param array $with
      * @param array $withCount
+     * @param array $has
      * 
      * @return $query
      */
-    public function search(array $params = [], array $with = [], array $withCount = [])
+    public function search(array $params = [], array $with = [], array $withCount = [], array $has = [])
     {
         $query = $this->model
             ->select();
@@ -40,6 +41,12 @@ class AdministrativeUnitRepository extends AbstractRepository
 
         if (isset($with) && $with) {
             $query->with($with);
+        }
+
+        if (isset($has) && $has) {
+            foreach ($has as $hasItem) {
+                $query->has($hasItem);
+            }
         }
 
         if (isset($withCount) && $withCount) {

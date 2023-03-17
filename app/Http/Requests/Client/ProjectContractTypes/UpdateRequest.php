@@ -25,7 +25,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'unique:tenant.project_contract_types,name,' . $this->project_contract_type],
-            'code' => ['required', 'string', 'unique:tenant.project_contract_types,code,' . $this->project_contract_type]
+            'code' => ['nullable', 'string', 'unique:tenant.project_contract_types,code,' . $this->project_contract_type]
         ];
     }
 }

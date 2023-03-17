@@ -2,25 +2,27 @@
 
 namespace App\Services\Client;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Client\ResearchUnitRepository;
 
-class ResearchUnitService
+class ResearchUnitService extends AbstractServiceModel
 {
     /** @var ResearchUnitRepository */
     protected $researchUnitRepository;
 
     public function __construct(ResearchUnitRepository $researchUnitRepository)
     {
-        $this->researchUnitRepository = $researchUnitRepository;
+        $this->repository = $this->researchUnitRepository = $researchUnitRepository;
     }
 
     /**
      * @param array $params
      * 
-     * @return mixed
+     * @return array<string,string>
      */
     public function transformParams($params)
     {

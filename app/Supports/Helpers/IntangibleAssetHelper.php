@@ -2,6 +2,14 @@
 
 use Illuminate\Database\Eloquent\Collection;
 
+use Illuminate\Support\Str;
+
+use App\Models\Admin\IntangibleAssetState;
+
+use App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightCategory;
+use App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightSubcategory;
+use App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightProduct;
+
 if (!function_exists('phaseIsCompletedColor')) {
 
     /**
@@ -44,7 +52,6 @@ if (!function_exists('phaseIsCompletedTextColor')) {
         return $phaseState ? "text-success" : "text-danger";
     }
 }
-
 
 if (!function_exists('phaseIsCompletedButton')) {
 
@@ -167,6 +174,23 @@ if (!function_exists('intangibleAssetHasSessionRightContract')) {
     }
 }
 
+if (!function_exists('intangibleAssetHasAcademicRecord')) {
+
+    /**
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param bool $not
+     * 
+     * @return string|null
+     */
+    function intangibleAssetHasAcademicRecord($intangibleAsset, bool $not = false): string | null
+    {
+        if ($not) {
+            return !$intangibleAsset->hasAcademicRecord() && !old('has_academic_record') == '1' ? 'selected' : null;
+        } else {
+            return $intangibleAsset->hasAcademicRecord() || old('has_academic_record') == '1' ? 'selected' : null;
+        }
+    }
+}
 
 if (!function_exists('intangibleAssetHasContability')) {
 
@@ -379,7 +403,7 @@ if (!function_exists('getPhasesByNumber')) {
             $arrayAux = [];
             foreach ($phases as $key => $phase) {
                 if ($asQuery) {
-                    $arrayAux["intangible_asset_phases.phase_{$phasesString[$phase - 1]}_completed"] = $phase;
+                    $arrayAux["intangible_asset_phases.phase_{$phasesString[$phase - 1]}_completed"] = 1;
                 } else {
                     array_push($arrayAux, "phase_{$phasesString[$phase - 1]}_completed");
                 }
@@ -388,5 +412,119 @@ if (!function_exists('getPhasesByNumber')) {
         } else {
             return "phase_{$phasesString[$phases - 1]}_completed";
         }
+    }
+}
+
+/** Intasngible Asset Form Show Inputs */
+
+if (!function_exists('showConfidencialityContractInForm')) {
+    /**
+     * Show Confidenciality Contract by State and Classification.
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset 
+     * @return bool
+     */
+    function showConfidencialityContractInForm($intangibleAsset): bool
+    {
+        if (!$intangibleAsset->hasPhaseOneCompleted() || !$intangibleAsset->hasPhaseThreeCompleted()) {
+            return false;
+        }
+
+        $subCategoryName = Str::lower($intangibleAsset->classification->intellectual_property_right_subcategory->name);
+
+        if ($subCategoryName == IntellectualPropertyRightSubcategory::DISTINCTIVE_SIGNS) {
+            return false;
+        }
+
+        return true;
+    }
+}
+
+if (!function_exists('showContabilityInForm')) {
+    /**
+     * Show Confidenciality Contract by State and Classification.
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset 
+     * @return bool
+     */
+    function showContabilityInForm($intangibleAsset): bool
+    {
+        if (!$intangibleAsset->hasPhaseOneCompleted() || !$intangibleAsset->hasPhaseThreeCompleted()) {
+            return false;
+        }
+
+        $stateName = Str::lower($intangibleAsset->intangible_asset_state->name);
+        $categoryName = Str::lower($intangibleAsset->classification->intellectual_property_right_subcategory->intellectual_property_right_category->name);
+
+        if (
+            $categoryName == IntellectualPropertyRightCategory::PROPERTY_RIGHTS
+            || $categoryName == IntellectualPropertyRightCategory::INDUSTRIAL_PROPERTY
+            || $categoryName == IntellectualPropertyRightCategory::OTHER_FORMS
+        ) {
+            if ($stateName == IntangibleAssetState::STATE_IDENTIFIED_PROTECTED) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}
+
+if (!function_exists('showIsPublishedInForm')) {
+    /**
+     * Show Confidenciality Contract by State and Classification.
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset 
+     * @return bool
+     */
+    function showIsPublishedInForm($intangibleAsset): bool
+    {
+        if (!$intangibleAsset->hasPhaseOneCompleted() || !$intangibleAsset->hasPhaseThreeCompleted()) {
+            return false;
+        }
+
+        $stateName = Str::lower($intangibleAsset->intangible_asset_state->name);
+        $categoryName = Str::lower($intangibleAsset->classification->intellectual_property_right_subcategory->intellectual_property_right_category->name);
+        $subCategoryName = Str::lower($intangibleAsset->classification->intellectual_property_right_subcategory->name);
+
+        if ($categoryName == IntellectualPropertyRightCategory::PROPERTY_RIGHTS) {
+            return false;
+        }
+
+        if (
+            $categoryName == IntellectualPropertyRightCategory::INDUSTRIAL_PROPERTY
+            && $subCategoryName == IntellectualPropertyRightSubcategory::DISTINCTIVE_SIGNS
+            && $stateName == IntangibleAssetState::STATE_IDENTIFIED_PROTECTED
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+}
+
+if (!function_exists('showAcademicRecordInForm')) {
+    /**
+     * Show Confidenciality Contract by State and Classification.
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset 
+     * @return bool
+     */
+    function showAcademicRecordInForm($intangibleAsset): bool
+    {
+        if (!$intangibleAsset->hasPhaseOneCompleted() || !$intangibleAsset->hasPhaseThreeCompleted()) {
+            return false;
+        }
+
+        $stateName = Str::lower($intangibleAsset->intangible_asset_state->name);
+        $categoryName = Str::lower($intangibleAsset->classification->intellectual_property_right_subcategory->intellectual_property_right_category->name);
+
+        if (
+            $categoryName == IntellectualPropertyRightCategory::PROPERTY_RIGHTS
+            || $categoryName == IntellectualPropertyRightCategory::INDUSTRIAL_PROPERTY
+            || $categoryName == IntellectualPropertyRightCategory::OTHER_FORMS
+        ) {
+            if ($stateName == IntangibleAssetState::STATE_IDENTIFIED_PROTECTED) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

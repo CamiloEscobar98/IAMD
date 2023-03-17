@@ -5,8 +5,7 @@
            <select class="form-control select2bs4" name="intellectual_property_right_category_id"
                id="intellectual_property_right_category_id" onchange="changeIntellectualPropertyRightCategory()">
                @foreach ($categories as $categoryItem => $value)
-                   <option value="{{ $categoryItem }}" 
-                   {{ twoOptionsIsEqual($category->id, $categoryItem) }}>
+                   <option value="{{ $categoryItem }}" {{ twoOptionsIsEqual($category->id, $categoryItem) }}>
                        {{ $value }}
                    </option>
                @endforeach
@@ -19,7 +18,7 @@
        </div>
 
        @error('intellectual_property_right_category_id')
-           <small class="text-danger">{{ $message }}</small>
+           <small class="text-danger">{!! $message !!}</small>
        @enderror
    </div>
    <!-- ./Intellectual Property Rights Categories  -->
@@ -44,7 +43,7 @@
        </div>
 
        @error('intellectual_property_right_subcategory_id')
-           <small class="text-danger">{{ $message }}</small>
+           <small class="text-danger">{!! $message !!}</small>
        @enderror
    </div>
    <!-- ./Intellectual Property Rights Subcategories  -->
@@ -63,7 +62,26 @@
        </div>
 
        @error('name')
-           <small class="text-danger">{{ $message }}</small>
+           <small class="text-danger">{!! $message !!}</small>
        @enderror
    </div>
    <!-- ./Name -->
+
+   <!-- Code -->
+   <div class="form-group mt-3">
+       <label>{{ __('inputs.code') }}:</label>
+       <div class="input-group">
+           <input type="text" name="code" class="form-control {{ isInvalidByError($errors, 'code') }}"
+               placeholder="{{ __('inputs.code') }}" value="{{ old('code', $item->code) }}">
+           <div class="input-group-append">
+               <div class="input-group-text">
+                   <span class="fas fa-circle"></span>
+               </div>
+           </div>
+       </div>
+
+       @error('code')
+           <small class="text-danger">{!! $message !!}</small>
+       @enderror
+   </div>
+   <!-- ./Code -->

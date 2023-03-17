@@ -2,25 +2,74 @@
 
 namespace App\Services\Client;
 
+use App\Services\AbstractServiceModel;
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Client\UserRepository;
 
-class UserService
+class UserService extends AbstractServiceModel
 {
     /** @var UserRepository */
     protected $userRepository;
 
     public function __construct(UserRepository $userRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->repository = $this->userRepository = $userRepository;
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param array $arrayData
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function save($arrayData)
+    {
+        $data = collect($arrayData);
+        $userData = $data->only('name', 'email', 'password');
+        DB::beginTransaction();
+        /** @var \App\Models\Client\User $item */
+        $item = $this->userRepository->create($userData->toArray());
+        $role = $data->get('role_id');
+        $item->assignRole($role);
+        return $item;
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param array $arrayData
+     * @param mixed  $id
+     * @return \App\Models\Client\User
+     */
+    public function update(array $arrayData, $id)
+    {
+        $data = collect($arrayData);
+        $attributesRequest = is_null($data->get('password')) ? ['name', 'email', 'role_id'] : ['name', 'email', 'role_id', 'password'];
+
+        $data = $data->only($attributesRequest);
+
+        $item = $this->userRepository->getById($id);
+
+        DB::beginTransaction();
+
+        $this->userRepository->update($item, $data->toArray());
+
+        $role = $data->get('role_id');
+
+        /** @var \App\Models\Client\User $item */
+        $item->syncRoles($role);
+        return $item;
     }
 
     /**
      * @param array $params
      * 
-     * @return mixed
+     * @return array<string,string>
      */
     public function transformParams($params)
     {

@@ -24,6 +24,9 @@ class ProjectFactory extends Factory
         return [
             'name' => 'Proyecto ' . $this->faker->unique()->words(3, true),
             'description' => $this->faker->realText(200),
+
+            'contract' => 'Contract ' . $this->faker->realText(50),
+            'date' => $this->faker->dateTimeBetween('-5 years', '-2 months')
         ];
     }
 }

@@ -49,6 +49,7 @@ trait ClientRoutes
             $views,
             $this->getMainRoutes(),
             $this->getAdministrativeUnitRoutes(),
+            $this->getAcademicDepartmentRoutes(),
             $this->getResearchUnitRoutes(),
             $this->getProjectRoutes(),
             $this->getCreatorRoutes(),
@@ -79,7 +80,7 @@ trait ClientRoutes
 
         /** Projects */
         View::composer('client.pages.projects.components.filters', ProjectFilterComposer::class);
-        View::composer('client.pages.projects.components.form', CreateProjectComposer::class);
+        View::composer(['client.pages.projects.components.form', 'client.pages.projects.edit'], CreateProjectComposer::class);
 
         /** Creators */
 
@@ -115,7 +116,7 @@ trait ClientRoutes
     /**
      * get AdministrativeUnitsRoutes
      * 
-     * @return array
+     * @return array<int,string>
      */
     protected function getMainRoutes(): array
     {
@@ -129,7 +130,7 @@ trait ClientRoutes
     /**
      * get Administrative Unit Routes
      * 
-     * @return array
+     * @return array<int,string>
      */
     protected function getAdministrativeUnitRoutes(): array
     {
@@ -145,9 +146,27 @@ trait ClientRoutes
     }
 
     /**
+     * get Administrative Unit Routes
+     * 
+     * @return array<int,string>
+     */
+    protected function getAcademicDepartmentRoutes(): array
+    {
+        return [
+            'client.pages.academic_departments.index',
+            'client.pages.academic_departments.create',
+            'client.pages.academic_departments.show',
+            'client.pages.academic_departments.edit',
+
+            'client.pages.academic_departments.components.filters',
+            'client.pages.academic_departments.components.table',
+        ];
+    }
+
+    /**
      * get Research Unit Routes
      * 
-     * @return array
+     * @return array<int,string>
      */
     protected function getResearchUnitRoutes(): array
     {
@@ -165,7 +184,7 @@ trait ClientRoutes
     /**
      * get Project Routes
      * 
-     * @return array
+     * @return array<int,string>
      */
     protected function getProjectRoutes(): array
     {
@@ -177,13 +196,14 @@ trait ClientRoutes
 
             'client.pages.projects.components.filters',
             'client.pages.projects.components.table',
+            'client.pages.projects.components.form'
         ];
     }
 
     /**
      * get Creator Routes
      * 
-     * @return array
+     * @return array<int,string>
      */
     protected function getCreatorRoutes(): array
     {
@@ -209,7 +229,7 @@ trait ClientRoutes
     /**
      * get Intangible Assets Routes
      * 
-     * @return array
+     * @return array<int,string>
      */
     protected function getIntangibleAssetRoutes(): array
     {
@@ -229,7 +249,7 @@ trait ClientRoutes
     /**
      * get Users Routes
      * 
-     * @return array
+     * @return array<int,string>
      */
     protected function getUserRoutes(): array
     {
@@ -247,7 +267,7 @@ trait ClientRoutes
     /**
      * get Roles Routes
      * 
-     * @return array
+     * @return array<int,string>
      */
     protected function getRoleRoutes(): array
     {
@@ -266,7 +286,7 @@ trait ClientRoutes
     /**
      * get Roles Routes
      * 
-     * @return array
+     * @return array<int,string>
      */
     protected function getPermissionRoutes(): array
     {
@@ -284,7 +304,7 @@ trait ClientRoutes
     /**
      * get Priority Tools Routes
      * 
-     * @return array
+     * @return array<int,string>
      */
     protected function getPriorityToolRoutes(): array
     {
@@ -302,7 +322,7 @@ trait ClientRoutes
     /**
      * get Strategies Routes
      * 
-     * @return array
+     * @return array<int,string>
      */
     protected function getStrategiesRoute(): array
     {
@@ -320,7 +340,7 @@ trait ClientRoutes
     /**
      * get Strategy Categories Routes
      * 
-     * @return array
+     * @return array<int,string>
      */
     protected function getStrategyCategoriesRoute(): array
     {
@@ -338,7 +358,7 @@ trait ClientRoutes
     /**
      * get Financing Types Routes
      * 
-     * @return array
+     * @return array<int,string>
      */
     protected function getFinancingTypeRoutes(): array
     {
@@ -356,7 +376,7 @@ trait ClientRoutes
     /**
      * get Financing Types Routes
      * 
-     * @return array
+     * @return array<int,string>
      */
     protected function getSecretProtectionMeasureRoutes(): array
     {
@@ -374,7 +394,7 @@ trait ClientRoutes
     /**
      * get Financing Types Routes
      * 
-     * @return array
+     * @return array<int,string>
      */
     protected function getProjectContractTypeRoutes(): array
     {
@@ -392,7 +412,7 @@ trait ClientRoutes
     /**
      * get Financing Types Routes
      * 
-     * @return array
+     * @return array<int,string>
      */
     protected function getUserReportRoutes(): array
     {

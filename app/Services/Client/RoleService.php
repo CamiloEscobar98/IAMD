@@ -2,25 +2,63 @@
 
 namespace App\Services\Client;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Client\RoleRepository;
+use Illuminate\Support\Facades\DB;
 
-class RoleService
+class RoleService extends AbstractServiceModel
 {
     /** @var RoleRepository */
     protected $roleRepository;
 
     public function __construct(RoleRepository $roleRepository)
     {
-        $this->roleRepository = $roleRepository;
+        $this->repository = $this->roleRepository = $roleRepository;
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param array $data 
+     * @return \App\Models\Client\Role
+     */
+    public function save(array $data)
+    {
+        $dataCollection = collect($data);
+        $dataInput = $dataCollection->all();
+        /** @var \App\Models\Client\Role $item */
+        $item = $this->roleRepository->create($dataInput);
+        $permissions = $dataCollection->get('permissions');
+        $item->syncPermissions($permissions);
+        return $item;
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  array $data
+     * @param  int  $id
+     * @return \App\Models\Client\Role
+     */
+    public function update(array $data, $id)
+    {
+        $dataCollection = collect($data);
+        $data = $dataCollection->all();
+        $item = $this->roleRepository->getById($id);
+        $this->roleRepository->update($item, $data);
+        $permissions = $dataCollection->get('permissions');
+        $item->syncPermissions($permissions);
+        return $item;
     }
 
     /**
      * @param array $params
      * 
-     * @return mixed
+     * @return array<string,string>
      */
     public function transformParams($params)
     {

@@ -11,6 +11,9 @@ use Illuminate\Validation\Rule;
 use App\Repositories\Client\IntangibleAssetRepository;
 
 use App\Services\Client\IntangibleAssetPhaseService;
+use Exception;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 class IntangibleAssetPhaseController extends Controller
 {
@@ -34,105 +37,119 @@ class IntangibleAssetPhaseController extends Controller
     /**
      * Intangible Asset Phase One: Intangible Asset Classification
      * 
-     * @param int $id
-     * @param int $intangibleAsset,
+     * @param int $client
+     * @param int $intangible_asset
      * @param Request $request
      * 
      * @return RedirectResponse
      */
-    public function updatePhaseOne($id, $intangibleAsset, Request $request) #: RedirectResponse
+    public function updatePhaseOne($client, $intangible_asset, Request $request) #: RedirectResponse
     {
         try {
-            $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAsset);
+            $intangibleAsset = $this->intangibleAssetRepository->getById($intangible_asset);
 
             $data = $request->only(['intellectual_property_right_product_id']);
 
             $message = $this->intangibleAssetPhaseService->updatePhaseOne($intangibleAsset, $data);
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
+            return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseOne/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseOne/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
     }
 
     /**
      * Intangible Asset Phase Two: Intangible Asset Description
      * 
-     * @param int $id
-     * @param int $intangibleAsset,
+     * @param int $client
+     * @param int $intangible_asset,
      * @param Request $request
      * 
      * @return RedirectResponse
      */
-    public function updatePhaseTwo($id, $intangibleAsset, Request $request): RedirectResponse
+    public function updatePhaseTwo($client, $intangible_asset, Request $request): RedirectResponse
     {
         try {
-            $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAsset);
+            $intangibleAsset = $this->intangibleAssetRepository->getById($intangible_asset);
 
             $data = $request->only(['description']);
 
             $message = $this->intangibleAssetPhaseService->updatePhaseTwo($intangibleAsset, $data);
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
+
+
+            return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseTwo/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseTwo/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
     }
 
     /**
      * Intangible Asset Phase Three: Intangible Asset State
      * 
-     * @param int $id
-     * @param int $intangibleAsset,
+     * @param int $client
+     * @param int $intangible_asset,
      * @param Request $request
      * 
      * @return RedirectResponse
      */
-    public function updatePhaseThree($id, $intangibleAsset, Request $request): RedirectResponse
+    public function updatePhaseThree($client, $intangible_asset, Request $request): RedirectResponse
     {
         try {
-            $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAsset);
+            $intangibleAsset = $this->intangibleAssetRepository->getById($intangible_asset);
 
             $data = $request->only(['intangible_asset_state_id']);
 
             $message = $this->intangibleAssetPhaseService->updatePhaseThree($intangibleAsset, $data);
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
+            return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseThree/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseThree/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
     }
 
     /**
      * Intangible Asset Phase Four: Intangible Asset DPIS
      * 
-     * @param int $id
-     * @param int $intangibleAsset,
+     * @param int $client
+     * @param int $intangible_asset,
      * @param Request $request
      * 
      * @return RedirectResponse
      */
-    public function updatePhaseFour($id, $intangibleAsset, Request $request): RedirectResponse
+    public function updatePhaseFour($client, $intangible_asset, Request $request): RedirectResponse
     {
         try {
-            $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAsset);
+            $intangibleAsset = $this->intangibleAssetRepository->getById($intangible_asset);
 
             $data = $request->get('dpi_id', []);
 
             $message = $this->intangibleAssetPhaseService->updatePhaseFour($intangibleAsset, $data);
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
+            return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseFour/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseFour/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
     }
 
     /**
      * Intangible Asset Phase Five: Intangible Asset current State
      * 
-     * @param int $id
-     * @param int $intangibleAsset,
+     * @param int $client
+     * @param int $intangible_asset,
      * @param Request $request
      * 
      * @return RedirectResponse
      */
-    public function updatePhaseFive($id, $intangibleAsset, Request $request) #: RedirectResponse
+    public function updatePhaseFive($client, $intangible_asset, Request $request) #: RedirectResponse
     {
         $request->validate(['sub_phase' => ['required']]);
 
@@ -141,6 +158,8 @@ class IntangibleAssetPhaseController extends Controller
         $rules = [];
 
         $data = [];
+
+        $icon = 'error';
 
         switch ($subPhase) {
             case '1':
@@ -182,27 +201,39 @@ class IntangibleAssetPhaseController extends Controller
                 ];
                 $data = $request->only(['has_contability', 'price', 'comments']);
                 break;
+
+            case '6':
+                $rules = [
+                    'entity' => [Rule::requiredIf($request->has_academic_record == 1), 'nullable', 'string'],
+                    'administrative_record_num' => [Rule::requiredIf($request->has_academic_record == 1), 'nullable', 'string'],
+                    'date' => [Rule::requiredIf($request->has_academic_record == 1), 'nullable', 'date'],
+                    'academic_record_file' => [Rule::requiredIf($request->has_academic_record == 1), 'nullable', 'file', 'mimes:pdf,docx'],
+                ];
+                $data = $request->only(['has_academic_record', 'administrative_record_num', 'date', 'entity']);
+                $data['file'] = $request->file('academic_record_file');
+                break;
         }
         $request->validate($rules);
 
         try {
-            $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAsset);
-
+            $intangibleAsset = $this->intangibleAssetRepository->getById($intangible_asset);
             $message = $this->intangibleAssetPhaseService->updatePhaseFive($intangibleAsset, $data, $subPhase);
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
+            $icon = 'success';
+        } catch (Exception $e) {
+            $icon = 'error';
+            Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseFive/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.error'), 'icon' => $icon, 'text' => $message]);
     }
 
     /**
-     * @param int $id
-     * @param int $intangibleAsset
+     * @param int $client
+     * @param int $intangible_asset
      * @param Request $request
      * 
      * @return RedirectResponse
      */
-    public function updatePhaseSix($id, $intangibleAsset, Request $request) #: RedirectResponse
+    public function updatePhaseSix($client, $intangible_asset, Request $request) #: RedirectResponse
     {
         $request->validate(['type' => ['required']]);
 
@@ -219,7 +250,7 @@ class IntangibleAssetPhaseController extends Controller
                 ];
                 $data = $request->only(['message']);
                 $data['user_id'] = current_user()->id;
-                $data['intangible_asset_id'] = $intangibleAsset;
+                $data['intangible_asset_id'] = $intangible_asset;
                 break;
 
             case '2':
@@ -229,24 +260,27 @@ class IntangibleAssetPhaseController extends Controller
         $request->validate($rules);
 
         try {
-            $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAsset);
+            $intangibleAsset = $this->intangibleAssetRepository->getById($intangible_asset);
 
 
             $message = $this->intangibleAssetPhaseService->updatePhaseSix($intangibleAsset, $data, $type);
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
+            return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseSix/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseSix/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
     }
 
     /**
-     * @param int $id
-     * @param int $intangibleAsset
+     * @param int $client
+     * @param int $intangible_asset
      * @param Request $request
      * 
      * @return RedirectResponse
      */
-    public function updatePhaseSeven($id, $intangibleAsset, Request $request)
+    public function updatePhaseSeven($client, $intangible_asset, Request $request)
     {
         $request->validate(['sub_phase' => ['required']]);
 
@@ -275,58 +309,68 @@ class IntangibleAssetPhaseController extends Controller
         $request->validate($rules);
 
         try {
-            $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAsset);
+            $intangibleAsset = $this->intangibleAssetRepository->getById($intangible_asset);
 
             $message = $this->intangibleAssetPhaseService->updatePhaseSeven($intangibleAsset, $data, $subPhase);
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
+            return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseSeven/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseSeven/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
     }
 
     /**
-     * @param int $id
-     * @param int $intangibleAsset
+     * @param int $client
+     * @param int $intangible_asset
      * @param Request $request
      * 
      * @return RedirectResponse
      */
-    public function updatePhaseEight($id, $intangibleAsset, Request $request)
+    public function updatePhaseEight($client, $intangible_asset, Request $request)
     {
         try {
-            $message = $this->intangibleAssetPhaseService->updatePhaseEight($intangibleAsset, $request);
+            $message = $this->intangibleAssetPhaseService->updatePhaseEight($intangible_asset, $request);
 
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
+            return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseEight/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseEight/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
     }
 
     /**
-     * @param int $id
-     * @param int $intangibleAsset
+     * @param int $client
+     * @param int $intangible_asset
      * @param Request $request
      * 
      * @return RedirectResponse
      */
-    public function updatePhaseNine($id, $intangibleAsset, Request $request)
+    public function updatePhaseNine($client, $intangible_asset, Request $request)
     {
+        $rules = [
+            'reason' => [Rule::requiredIf($request->is_commercial == 1)]
+        ];
+
+        $request->validate($rules);
+
         try {
-            $rules = [
-                'reason' => [Rule::requiredIf($request->is_commercial == 1)]
-            ];
 
-            $request->validate($rules);
-
-            $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAsset);
+            $intangibleAsset = $this->intangibleAssetRepository->getById($intangible_asset);
 
             $data = $request->only(['is_commercial', 'reason']);
 
             $message = $this->intangibleAssetPhaseService->updatePhaseNine($intangibleAsset, $data);
 
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
+            return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => $message]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseNine/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseNine/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 }

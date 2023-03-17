@@ -2,25 +2,27 @@
 
 namespace App\Services\Client;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Client\StrategyCategoryRepository;
 
-class StrategyCategoryService
+class StrategyCategoryService extends AbstractServiceModel
 {
     /** @var StrategyCategoryRepository */
     protected $strategyCategoryRepository;
 
     public function __construct(StrategyCategoryRepository $strategyCategoryRepository)
     {
-        $this->strategyCategoryRepository = $strategyCategoryRepository;
+        $this->repository = $this->strategyCategoryRepository = $strategyCategoryRepository;
     }
 
     /**
      * @param array $params
      * 
-     * @return mixed
+     * @return array<string,string>
      */
     public function transformParams($params)
     {

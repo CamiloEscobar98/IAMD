@@ -13,29 +13,28 @@ class CountryRepository extends AbstractRepository
         $this->model = $model;
     }
 
-    /**
+     /**
      * @param array $params
      * @param array $with
      * @param array $withCount
      * 
-     * @return mixed
+     * @return \Illuminate\Database\Query\Builder
      */
     public function search(array $params = [], array $with = [], array $withCount = [])
     {
         $query = $this->model
             ->select();
 
-
         if (isset($params['name']) && $params['name']) {
-            $query->where('name', 'like', '%' . $params['name'] . '%');
+            $query->byName($params['name']);
         }
 
         if (isset($params['date_from']) && $params['date_from']) {
-            $query->where('updated_at', '>=', $params['date_from']);
+            $query->sinceDate($params['date_from']);
         }
 
         if (isset($params['date_to']) && $params['date_to']) {
-            $query->where('updated_at', '<=', $params['date_to']);
+            $query->toDate($params['date_to']);
         }
 
         if (isset($with) && $with) {

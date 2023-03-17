@@ -45,11 +45,12 @@ class IntangibleAssetFilterComposer
     {
         $params = request()->all();
 
-        [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project] = $this->administrativeUnitService->getAdministrativeUnitsSelectByParams($params);
+        /** Projects */
+        $projects = $this->projectRepository->all()->pluck('name', 'id')->prepend('---Seleccionar Proyecto');
 
         /** Intangible Asset States */
-        $states = $this->intangibleAssetStateRepository->all();
+        $states = $this->intangibleAssetStateRepository->all()->pluck('name', 'id')->prepend('---Seleccionar Estado del Activo');
 
-        $view->with(compact('administrativeUnits', 'administrativeUnit', 'researchUnits', 'researchUnit', 'projects', 'project', 'states'));
+        $view->with(compact('projects', 'states'));
     }
 }

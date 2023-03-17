@@ -2,6 +2,7 @@
 
 namespace App\Services\Client;
 
+use App\Repositories\Client\IntangibleAssetAcademicRecordRepository;
 use Illuminate\Support\Facades\DB;
 
 use App\Repositories\Client\IntangibleAssetRepository;
@@ -18,10 +19,13 @@ use App\Repositories\Client\IntangibleAssetDpiPriorityToolRepository;
 use App\Repositories\Client\IntangibleAssetPhaseRepository;
 use App\Repositories\Client\IntangibleAssetSecretProtectionMeasureRepository;
 use App\Repositories\Client\IntangibleAssetSessionRightContractRepository;
-
-use App\Services\FileSystem\IntangibleAsset\FileConfidencialityContractService;
-use App\Services\FileSystem\IntangibleAsset\FileSessionRightContractService;
+use App\Services\FileSystem\IntangibleAssets\FileAcademicRecordService;
+use App\Services\FileSystem\IntangibleAssets\FileConfidencialityContractService;
+use App\Services\FileSystem\IntangibleAssets\FileSessionRightContractService;
+use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class IntangibleAssetPhaseService
 {
@@ -47,6 +51,9 @@ class IntangibleAssetPhaseService
 
     /** @var IntangibleAssetSessionRightContractRepository */
     protected $intangibleAssetSessionRightContractRepository;
+
+    /** @var IntangibleAssetAcademicRecordRepository */
+    protected $intangibleAssetAcademicRecordRepository;
 
     /** @var IntangibleAssetPhaseRepository */
     protected $intangibleAssetPhaseRepository;
@@ -76,12 +83,16 @@ class IntangibleAssetPhaseService
     /** @var FileSessionRightContractService */
     protected $fileSessionRightContractService;
 
+    /** @var FileAcademicRecordService */
+    protected $fileAcademicRecordService;
+
     public function __construct(
         IntangibleAssetRepository $intangibleAssetRepository,
         IntangibleAssetCommercialRepository $intangibleAssetCommercialRepository,
         IntangibleAssetPublishedRepository $intangibleAssetPublishedRepository,
         IntangibleAssetConfidentialityContractRepository $intangibleAssetConfidentialityContractRepository,
         IntangibleAssetSessionRightContractRepository $intangibleAssetSessionRightContractRepository,
+        IntangibleAssetAcademicRecordRepository $intangibleAssetAcademicRecordRepository,
         IntangibleAssetContabilityRepository $intangibleAssetContabilityRepository,
         IntangibleAssetProtectionActionRepository $intangibleAssetProtectionActionRepository,
         IntangibleAssetPhaseRepository $intangibleAssetPhaseRepository,
@@ -94,12 +105,14 @@ class IntangibleAssetPhaseService
 
         FileConfidencialityContractService $fileConfidencialityContractService,
         FileSessionRightContractService $fileSessionRightContractService,
+        FileAcademicRecordService $fileAcademicRecordService
     ) {
         $this->intangibleAssetRepository = $intangibleAssetRepository;
         $this->intangibleAssetCommercialRepository = $intangibleAssetCommercialRepository;
         $this->intangibleAssetPublishedRepository = $intangibleAssetPublishedRepository;
         $this->intangibleAssetConfidentialityContractRepository = $intangibleAssetConfidentialityContractRepository;
         $this->intangibleAssetSessionRightContractRepository = $intangibleAssetSessionRightContractRepository;
+        $this->intangibleAssetAcademicRecordRepository = $intangibleAssetAcademicRecordRepository;
         $this->intangibleAssetContabilityRepository = $intangibleAssetContabilityRepository;
         $this->intangibleAssetProtectionActionRepository = $intangibleAssetProtectionActionRepository;
         $this->intangibleAssetDpiPriorityToolRepository = $intangibleAssetDpiPriorityToolRepository;
@@ -112,6 +125,7 @@ class IntangibleAssetPhaseService
 
         $this->fileConfidencialityContractService = $fileConfidencialityContractService;
         $this->fileSessionRightContractService = $fileSessionRightContractService;
+        $this->fileAcademicRecordService = $fileAcademicRecordService;
     }
 
     /**
@@ -123,6 +137,7 @@ class IntangibleAssetPhaseService
      */
     public function updatePhaseOne($intangibleAsset, $data): string
     {
+        $message = __('pages.client.intangible_assets.phases.one.messages.save_error');
         try {
             DB::beginTransaction();
 
@@ -131,11 +146,15 @@ class IntangibleAssetPhaseService
 
             DB::commit();
 
-            return __('pages.client.intangible_assets.phases.one.messages.save_success');
-        } catch (\Exception $th) {
+            $message = __('pages.client.intangible_assets.phases.one.messages.save_success');
+        } catch (QueryException $qe) {
             DB::rollBack();
-            return __('pages.client.intangible_assets.phases.one.messages.save_error');
+            Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseOne/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseOne/Exception: {$e->getMessage()}");
         }
+        return $message;
     }
 
     /**
@@ -148,6 +167,7 @@ class IntangibleAssetPhaseService
      */
     public function updatePhaseTwo($intangibleAsset, $data): string
     {
+        $message = __('pages.client.intangible_assets.phases.two.messages.save_error');
         try {
             DB::beginTransaction();
 
@@ -156,11 +176,15 @@ class IntangibleAssetPhaseService
 
             DB::commit();
 
-            return __('pages.client.intangible_assets.phases.two.messages.save_success');
-        } catch (\Exception $th) {
+            $message = __('pages.client.intangible_assets.phases.two.messages.save_success');
+        } catch (QueryException $qe) {
             DB::rollBack();
-            return __('pages.client.intangible_assets.phases.two.messages.save_error');
+            Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseTwo/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseTwo/Exception: {$e->getMessage()}");
         }
+        return $message;
     }
 
     /**
@@ -173,6 +197,7 @@ class IntangibleAssetPhaseService
      */
     public function updatePhaseThree($intangibleAsset, $data): string
     {
+        $message = __('pages.client.intangible_assets.phases.three.messages.save_error');
         try {
             DB::beginTransaction();
 
@@ -180,11 +205,15 @@ class IntangibleAssetPhaseService
             $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'three');
             DB::commit();
 
-            return __('pages.client.intangible_assets.phases.three.messages.save_success');
-        } catch (\Exception $th) {
+            $message = __('pages.client.intangible_assets.phases.three.messages.save_success');
+        } catch (QueryException $qe) {
             DB::rollBack();
-            return __('pages.client.intangible_assets.phases.three.messages.save_error');
+            Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseThree/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseThree/Exception: {$e->getMessage()}");
         }
+        return $message;
     }
 
     /**
@@ -197,6 +226,7 @@ class IntangibleAssetPhaseService
      */
     public function updatePhaseFour($intangibleAsset, $dpis): string
     {
+        $message = __('pages.client.intangible_assets.phases.four.messages.save_error');
         try {
             DB::beginTransaction();
 
@@ -210,11 +240,16 @@ class IntangibleAssetPhaseService
             }
             $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'four');
             DB::commit();
-            return __('pages.client.intangible_assets.phases.four.messages.save_success');
-        } catch (\Exception $th) {
+
+            $message = __('pages.client.intangible_assets.phases.four.messages.save_success');
+        } catch (QueryException $qe) {
             DB::rollBack();
-            return __('pages.client.intangible_assets.phases.four.messages.save_error');
+            Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFour/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFour/Exception: {$e->getMessage()}");
         }
+        return $message;
     }
 
     /**
@@ -228,42 +263,36 @@ class IntangibleAssetPhaseService
      */
     public function updatePhaseFive($intangibleAsset, array $data, string $subPhase): string
     {
-        try {
-            $message = null;
 
-            DB::beginTransaction();
+        switch ($subPhase) {
+            case '1': # Intangible Asset has been published.
+                $message = $this->updateIntangibleAssetPublished($intangibleAsset, $data);
+                break;
 
-            switch ($subPhase) {
-                case '1': # Intangible Asset has been published.
-                    $message = $this->updateIntangibleAssetPublished($intangibleAsset, $data);
-                    break;
+            case '2':
+                $message = $this->updateIntangibleAssetConfidencialityContract($intangibleAsset, $data);
+                break;
 
-                case '2':
-                    $message = $this->updateIntangibleAssetConfidencialityContract($intangibleAsset, $data);
-                    break;
+            case '3':
+                $message = $this->updateIntangibleAssetCreators($intangibleAsset, $data);
+                break;
 
-                case '3':
-                    $message = $this->updateIntangibleAssetCreators($intangibleAsset, $data);
-                    break;
+            case '4':
+                $message = $this->updateIntangibleAssetSessionRightContract($intangibleAsset, $data);
+                break;
 
-                case '4':
-                    $message = $this->updateIntangibleAssetSessionRightContract($intangibleAsset, $data);
-                    break;
+            case '5':
+                $message = $this->updateIntangibleAssetContability($intangibleAsset, $data);
+                break;
 
-                case '5':
-                    $message = $this->updateIntangibleAssetContability($intangibleAsset, $data);
-                    break;
-            }
-
-            $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'five');
-            DB::commit();
-
-            return $message;
-        } catch (\Exception $th) {
-
-            DB::rollBack();
-            return __('pages.client.intangible_assets.phases.five.messages.save_error');
+            case '6':
+                $message = $this->updateIntangibleAssetAcademicRecord($intangibleAsset, $data);
+                break;
         }
+
+        $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'five');
+
+        return $message;
     }
 
     /**
@@ -351,7 +380,7 @@ class IntangibleAssetPhaseService
         $intangibleAsset = $this->intangibleAssetRepository->getByIdWithRelations($intangibleAsset, ['dpis', 'priority_tools']);
 
         $hasPriorityTool = $request->get('has_priority_tools');
-        
+
 
         if ($hasPriorityTool == -1) {
             try {
@@ -461,16 +490,20 @@ class IntangibleAssetPhaseService
      */
     private function updateIntangibleAssetPublished($intangibleAsset, $data): string
     {
-        $message = __('pages.client.intangible_assets.phases.five.sub_phases.is_published.messages.save_success');
+        $message = __('pages.client.intangible_assets.phases.five.sub_phases.is_published.messages.save_error');
 
         if ($data['is_published'] == -1) {
             try {
                 DB::beginTransaction();
                 $intangibleAsset->intangible_asset_published()->delete();
                 DB::commit();
-            } catch (\Exception $th) {
+                $message = __('pages.client.intangible_assets.phases.five.sub_phases.is_published.messages.save_success');
+            } catch (QueryException $qe) {
                 DB::rollBack();
-                $message = __('pages.client.intangible_assets.phases.five.sub_phases.is_published.messages.save_error');
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetPublished/Unselected/QueryException: {$qe->getMessage()}");
+            } catch (Exception $e) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetPublished/Unselected/Exception: {$e->getMessage()}");
             }
         } else {
             try {
@@ -479,11 +512,14 @@ class IntangibleAssetPhaseService
                 $this->intangibleAssetPublishedRepository->updateOrCreate([
                     'intangible_asset_id' => $intangibleAsset->id
                 ], $data);
-
                 DB::commit();
-            } catch (\Exception $th) {
+                $message = __('pages.client.intangible_assets.phases.five.sub_phases.is_published.messages.save_success');
+            } catch (QueryException $qe) {
                 DB::rollBack();
-                $message = __('pages.client.intangible_assets.phases.five.sub_phases.is_published.messages.save_error');
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetPublished/Selected/QueryException: {$qe->getMessage()}");
+            } catch (Exception $e) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetPublished/Selected/Exception: {$e->getMessage()}");
             }
         }
 
@@ -504,17 +540,25 @@ class IntangibleAssetPhaseService
      */
     private function updateIntangibleAssetConfidencialityContract($intangibleAsset, $data): string
     {
-        $message = __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.messages.save_success');
+        $message = __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.messages.save_error');
 
         if ($data['has_confidenciality_contract'] == -1) {
-            $this->fileConfidencialityContractService->deleteConfidencialityContractFile($intangibleAsset);
-            $intangibleAsset->intangible_asset_confidenciality_contract()->delete();
-        } else {
-            $newData = [];
-
             try {
                 DB::beginTransaction();
-
+                $this->fileConfidencialityContractService->deleteConfidencialityContractFile($intangibleAsset);
+                $intangibleAsset->intangible_asset_confidenciality_contract()->delete();
+                DB::commit();
+                $message = __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.messages.save_success');
+            } catch (QueryException $qe) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetConfidencialityContract/Unselected/QueryException: {$qe->getMessage()}");
+            } catch (Exception $e) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetConfidencialityContract/Unselected/Exception: {$e->getMessage()}");
+            }
+        } else {
+            $newData = [];
+            try {
                 /** Store the File */
                 $this->fileConfidencialityContractService->deleteConfidencialityContractFile($intangibleAsset);
 
@@ -534,15 +578,19 @@ class IntangibleAssetPhaseService
 
                 /** ./Store the File */
 
+                DB::beginTransaction();
                 $this->intangibleAssetConfidentialityContractRepository->updateOrCreate([
                     'intangible_asset_id' => $intangibleAsset->id
                 ], $newData);
                 DB::commit();
-            } catch (\Exception $th) {
+                $message = __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.messages.save_success');
+            } catch (QueryException $qe) {
                 DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetConfidencialityContract/Selected/QueryException: {$qe->getMessage()}");
+            } catch (Exception $e) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetConfidencialityContract/Selected/Exception: {$e->getMessage()}");
                 $this->fileConfidencialityContractService->deleteConfidencialityContractFile($intangibleAsset);
-
-                $message = __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.messages.save_error');
             }
         }
 
@@ -557,17 +605,18 @@ class IntangibleAssetPhaseService
      */
     private function updateIntangibleAssetCreators($intangibleAsset, $creators)
     {
-        $message = __('pages.client.intangible_assets.phases.five.sub_phases.creators.messages.save_success');
+        $message = __('pages.client.intangible_assets.phases.five.sub_phases.creators.messages.save_error');
         try {
             DB::beginTransaction();
-
             $intangibleAsset->creators()->sync($creators);
-
             DB::commit();
-        } catch (\Exception $th) {
+            $message = __('pages.client.intangible_assets.phases.five.sub_phases.creators.messages.save_success');
+        } catch (QueryException $qe) {
             DB::rollBack();
-            dd($th->getMessage());
-            // $message = __('pages.client.intangible_assets.phases.five.sub_phases.creators.messages.save_error');
+            Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetCreators/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetCreators/Exception: {$e->getMessage()}");
         }
 
         return $message;
@@ -582,17 +631,25 @@ class IntangibleAssetPhaseService
      */
     private function updateIntangibleAssetSessionRightContract($intangibleAsset, $data)
     {
-        $message = __('pages.client.intangible_assets.phases.five.sub_phases.session_right_contract.messages.save_success');
+        $message = __('pages.client.intangible_assets.phases.five.sub_phases.session_right_contract.messages.save_error');
 
         if ($data['has_session_right'] == -1) {
-            $this->fileSessionRightContractService->deleteSessionRightContractFile($intangibleAsset);
-            $intangibleAsset->intangible_asset_session_right_contract()->delete();
-        } else {
-            $newData = [];
-
             try {
                 DB::beginTransaction();
-
+                $this->fileSessionRightContractService->deleteSessionRightContractFile($intangibleAsset);
+                $intangibleAsset->intangible_asset_session_right_contract()->delete();
+                DB::commit();
+                $message = __('pages.client.intangible_assets.phases.five.sub_phases.session_right_contract.messages.save_success');
+            } catch (QueryException $qe) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetSessionRightContract/Unselected/QueryException: {$qe->getMessage()}");
+            } catch (Exception $e) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetSessionRightContract/Unselected/Exception: {$e->getMessage()}");
+            }
+        } else {
+            $newData = [];
+            try {
                 /** Store the File */
                 $this->fileSessionRightContractService->deleteSessionRightContractFile($intangibleAsset);
 
@@ -609,22 +666,23 @@ class IntangibleAssetPhaseService
                 $newData['file'] = $fileName;
                 $newData['file_path'] = $filePath;
                 $newData['owner'] = $data['owner'];
-
                 /** ./Store the File */
 
+                DB::beginTransaction();
                 $this->intangibleAssetSessionRightContractRepository->updateOrCreate([
                     'intangible_asset_id' => $intangibleAsset->id
                 ], $newData);
                 DB::commit();
-            } catch (\Exception $th) {
+                $message = __('pages.client.intangible_assets.phases.five.sub_phases.session_right_contract.messages.save_success');
+            } catch (QueryException $qe) {
                 DB::rollBack();
-                $message = $th->getMessage();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetSessionRightContract/Selected/QueryException: {$qe->getMessage()}");
+            } catch (Exception $e) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetSessionRightContract/Selected/Exception: {$e->getMessage()}");
                 $this->fileSessionRightContractService->deleteSessionRightContractFile($intangibleAsset);
-
-                // $message = __('pages.client.intangible_assets.phases.five.sub_phases.session_right_contract.messages.save_error');
             }
         }
-
         return $message;
     }
 
@@ -636,16 +694,20 @@ class IntangibleAssetPhaseService
      */
     private function updateIntangibleAssetContability($intangibleAsset, $data)
     {
-        $message = __('pages.client.intangible_assets.phases.five.sub_phases.contability.messages.save_success');
+        $message = __('pages.client.intangible_assets.phases.five.sub_phases.contability.messages.save_error');
 
         if ($data['has_contability'] == -1) {
             try {
                 DB::beginTransaction();
                 $intangibleAsset->intangible_asset_contability()->delete();
                 DB::commit();
-            } catch (\Exception $th) {
+                $message = __('pages.client.intangible_assets.phases.five.sub_phases.contability.messages.save_success');
+            } catch (QueryException $qe) {
                 DB::rollBack();
-                $message = __('pages.client.intangible_assets.phases.five.sub_phases.contability.messages.save_error');
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetContability/Unselected/QueryException: {$qe->getMessage()}");
+            } catch (Exception $e) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetContability/Unselected/Exception: {$e->getMessage()}");
             }
         } else {
             try {
@@ -654,11 +716,14 @@ class IntangibleAssetPhaseService
                 $this->intangibleAssetContabilityRepository->updateOrCreate([
                     'intangible_asset_id' => $intangibleAsset->id
                 ], $data);
-
                 DB::commit();
-            } catch (\Exception $th) {
+                $message = __('pages.client.intangible_assets.phases.five.sub_phases.contability.messages.save_success');
+            } catch (QueryException $qe) {
                 DB::rollBack();
-                $message = __('pages.client.intangible_assets.phases.five.sub_phases.contability.messages.save_error');
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetContability/Selected/QueryException: {$qe->getMessage()}");
+            } catch (Exception $e) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetContability/Selected/Exception: {$e->getMessage()}");
             }
         }
 
@@ -666,6 +731,8 @@ class IntangibleAssetPhaseService
     }
 
     /**
+     * Intangible Asset Protection Action Deposite
+     * 
      * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
      * @param array $data
      * 
@@ -673,16 +740,20 @@ class IntangibleAssetPhaseService
      */
     private function updateIntangibleAssetProtectionAction($intangibleAsset, $data)
     {
-        $message = __('pages.client.intangible_assets.phases.seven.sub_phases.has_deposite.messages.save_success');
+        $message = __('pages.client.intangible_assets.phases.seven.sub_phases.has_deposite.messages.save_error');
 
         if ($data['has_protection_action'] == -1) {
             try {
                 DB::beginTransaction();
                 $intangibleAsset->intangible_asset_protection_action()->delete();
                 DB::commit();
-            } catch (\Exception $th) {
+                $message = __('pages.client.intangible_assets.phases.seven.sub_phases.has_deposite.messages.save_success');
+            } catch (QueryException $qe) {
                 DB::rollBack();
-                $message = __('pages.client.intangible_assets.phases.seven.sub_phases.has_deposite.messages.save_error');
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetProtectionAction/Unselected/QueryException: {$qe->getMessage()}");
+            } catch (Exception $e) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetProtectionAction/Unselected/Exception: {$e->getMessage()}");
             }
         } else {
             try {
@@ -691,11 +762,14 @@ class IntangibleAssetPhaseService
                 $this->intangibleAssetProtectionActionRepository->updateOrCreate([
                     'intangible_asset_id' => $intangibleAsset->id
                 ], $data);
-
                 DB::commit();
-            } catch (\Exception $th) {
+                $message = __('pages.client.intangible_assets.phases.seven.sub_phases.has_deposite.messages.save_success');
+            } catch (QueryException $qe) {
                 DB::rollBack();
-                $message = __('pages.client.intangible_assets.phases.seven.sub_phases.has_deposite.messages.save_error');
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetProtectionAction/Unselected/QueryException: {$qe->getMessage()}");
+            } catch (Exception $e) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetProtectionAction/Unselected/Exception: {$e->getMessage()}");
             }
         }
 
@@ -711,18 +785,104 @@ class IntangibleAssetPhaseService
      */
     public function updateIntangibleAssetSecretProtectionMeasures($intangibleAsset, $data)
     {
-        try {
-            $secretProtectionMeasures = $data['secret_protection_measure_id'];
+        $message = __('pages.client.intangible_assets.phases.seven.sub_phases.has_secret_protection.messages.save_error');
 
-            if ($data['has_secret_protection'] == -1) {
-                $secretProtectionMeasures = [];
+        if ($data['has_secret_protection'] == -1) {
+            try {
+                DB::beginTransaction();
+                $intangibleAsset->secret_protection_measures()->delete();
+                DB::commit();
+                $message = __('pages.client.intangible_assets.phases.seven.sub_phases.has_secret_protection.messages.save_success');
+            } catch (QueryException $qe) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetSecretProtectionMeasures/Unselected/QueryException: {$qe->getMessage()}");
+            } catch (Exception $e) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetSecretProtectionMeasures/Unselected/Exception: {$e->getMessage()}");
             }
+        } else {
+            $secretProtectionMeasures = $data['secret_protection_measure_id'];
+            try {
+                DB::beginTransaction();
+                $intangibleAsset->secret_protection_measures()->sync($secretProtectionMeasures);
+                DB::commit();
+                $message = __('pages.client.intangible_assets.phases.seven.sub_phases.has_secret_protection.messages.save_success');
+            } catch (QueryException $qe) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetSecretProtectionMeasures/Unselected/QueryException: {$qe->getMessage()}");
+            } catch (Exception $e) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetSecretProtectionMeasures/Unselected/Exception: {$e->getMessage()}");
+            }
+        }
 
-            $intangibleAsset->secret_protection_measures()->sync($secretProtectionMeasures);
+        return $message;
+    }
 
-            return __('pages.client.intangible_assets.phases.seven.sub_phases.has_secret_protection.messages.save_success');
-        } catch (\Exception $th) {
-            return __('pages.client.intangible_assets.phases.seven.sub_phases.has_secret_protection.messages.save_error');
+    /**
+     * 
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * @param array $data
+     * 
+     * @return string
+     */
+    function updateIntangibleAssetAcademicRecord($intangibleAsset, $data)
+    {
+        $message = __('pages.client.intangible_assets.phases.five.sub_phases.academic_record.messages.save_error');
+
+        if ($data['has_academic_record'] == -1) {
+            try {
+                DB::beginTransaction();
+                $this->fileAcademicRecordService->deleteAcademicRecordFile($intangibleAsset);
+                $intangibleAsset->intangible_asset_academic_record()->delete();
+                DB::commit();
+                $message = __('pages.client.intangible_assets.phases.five.sub_phases.academic_record.messages.save_success');
+            } catch (QueryException $qe) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetAcademicRecord/Selected/QueryException: {$qe->getMessage()}");
+            } catch (Exception $e) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetAcademicRecord/Selected/Exception: {$e->getMessage()}");
+            }
+            return $message;
+        } else {
+            $newData = [];
+            try {
+                /** Store the File */
+                $this->fileAcademicRecordService->deleteAcademicRecordFile($intangibleAsset);
+
+                /** @var \Illuminate\Http\UploadedFile $file */
+                $file = $data['file'];
+                $filePath = '';
+                $fileName = time() . ".{$file->getClientOriginalExtension()}";
+
+                $fullPath = $filePath . $fileName;
+
+                $this->fileAcademicRecordService->storeAcademicRecordFile($fullPath, $file);
+
+                $newData['intangible_asset_id'] = $intangibleAsset->id;
+                $newData['entity'] = $data['entity'];
+                $newData['administrative_record_num'] = $data['administrative_record_num'];
+                $newData['date'] = $data['date'];
+                $newData['file'] = $fileName;
+                $newData['file_path'] = $filePath;
+                /** ./Store the File */
+
+                DB::beginTransaction();
+                $this->intangibleAssetAcademicRecordRepository->updateOrCreate([
+                    'intangible_asset_id' => $intangibleAsset->id
+                ], $newData);
+                DB::commit();
+                $message = __('pages.client.intangible_assets.phases.five.sub_phases.academic_record.messages.save_success');
+            } catch (QueryException $qe) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetAcademicRecord/Selected/QueryException: {$qe->getMessage()}");
+            } catch (Exception $e) {
+                DB::rollBack();
+                Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetAcademicRecord/Selected/Exception: {$e->getMessage()}");
+                $this->fileAcademicRecordService->deleteAcademicRecordFile($intangibleAsset);
+            }
+            return $message;
         }
     }
 }

@@ -36,7 +36,7 @@
    </div>
 
    @error('state_id')
-       <small class="text-danger">{{ $message }}</small>
+       <small class="text-danger">{!! $message !!}</small>
    @enderror
    <!-- ./State -->
 
@@ -54,7 +54,7 @@
        </div>
 
        @error('name')
-           <small class="text-danger">{{ $message }}</small>
+           <small class="text-danger">{!! $message !!}</small>
        @enderror
    </div>
    <!-- ./Name -->

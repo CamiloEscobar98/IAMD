@@ -25,6 +25,8 @@ class TenantSeeder extends Seeder
         /** Creating UFPS database */
         $this->tenantRepository->create([
             'name' => 'ufps',
+            'info' => 'Universidad Francisco de Paula Santander',
+
             'url' => null,
             'host' => 'mysql',
 
@@ -36,6 +38,8 @@ class TenantSeeder extends Seeder
         /** Creating UFPSO database */
         $this->tenantRepository->create([
             'name' => 'ufpso',
+            'info' => 'Universidad Francisco de Paula Santander Ocaña',
+
             'url' => null,
             'host' => 'mysql',
 

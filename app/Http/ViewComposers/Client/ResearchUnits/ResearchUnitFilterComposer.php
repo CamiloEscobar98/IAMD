@@ -31,13 +31,14 @@ class ResearchUnitFilterComposer
 
     public function compose(View $view)
     {
-        $researchUnitCategories = $this->researchUnitCategoryRepository->all();
+        $researchUnitCategories = $this->researchUnitCategoryRepository->all(['id', 'name'])->pluck('name', 'id');
+        $administrativeUnits = $this->administrativeUnitRepository->all(['id', 'name'])->pluck('name', 'id');
 
-        $administrativeUnits = $this->administrativeUnitRepository->all();
+        $creators = $this->creatorRepository->all(['id', 'name']);
 
-        $directors = $this->creatorRepository->getDirectors();
+        $directors = $creators->pluck('name', 'id');
 
-        $inventoryManagers = $this->creatorRepository->getInventoryManagers();
+        $inventoryManagers = $creators->pluck('name', 'id');
 
         $view->with(compact('researchUnitCategories', 'administrativeUnits',  'directors', 'inventoryManagers'));
     }

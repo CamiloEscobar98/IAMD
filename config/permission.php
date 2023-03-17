@@ -207,6 +207,39 @@ return [
                 ]
             ],
 
+            /** Academic Departments */
+            [
+                'name' => 'Departamento',
+                'can_deleted' => false,
+                'permissions' => [
+                    [
+                        'name' => 'acaedmic_departments.index',
+                        'info' => 'Visualizar los Departamentos.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'acaedmic_departments.store',
+                        'info' => 'Visualizar el formulario y registrar los Departamentos.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'acaedmic_departments.show',
+                        'info' => 'Visualizar la información detallada de los Departamentos.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'acaedmic_departments.update',
+                        'info' => 'Actualizar la información de los Departamentos.',
+                        'can_deleted' => false,
+                    ],
+                    [
+                        'name' => 'acaedmic_departments.destroy',
+                        'info' => 'Eliminar los Departamentos.',
+                        'can_deleted' => false,
+                    ],
+                ]
+            ],
+
             /** Research Units */
             [
                 'name' => 'Unidades de Investigación',

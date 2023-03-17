@@ -2,21 +2,26 @@
 
 namespace App\Services\Client;
 
-use App\Models\Client\IntangibleAsset\IntangibleAsset;
-use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
-use App\Repositories\Client\FinancingTypeRepository;
-use App\Repositories\Client\IntangibleAssetLocalizationRepository;
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Carbon;
 
-use App\Repositories\Client\IntangibleAssetRepository;
+
+use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
 use App\Repositories\Client\ProjectContractTypeRepository;
 use App\Repositories\Client\ProjectFinancingRepository;
 use App\Repositories\Client\ResearchUnitRepository;
-use Illuminate\Support\Carbon;
+use App\Repositories\Client\FinancingTypeRepository;
+use App\Repositories\Client\IntangibleAssetLocalizationRepository;
+use App\Repositories\Client\IntangibleAssetRepository;
 
-class IntangibleAssetService
+use App\Models\Client\IntangibleAsset\IntangibleAsset;
+
+class IntangibleAssetService extends AbstractServiceModel
 {
     /** @var IntangibleAssetRepository */
     protected $intangibleAssetRepository;
@@ -120,35 +125,73 @@ class IntangibleAssetService
     }
 
     /**
-     * @param array $data
-     * @param array $localizationData
+     * Store a new IntangibleAsset.
      * 
-     * @return array
+     * @param array $data
+     * @return \App\Models\Client\IntangibleAsset\IntangibleAsset
      */
-    public function createIntangibleAsset(array $data, array $localizationData)
+    public function save(array $data)
     {
-        try {
+        $dataCollection = collect($data);
+        $data = $dataCollection->only(['project_id', 'name', 'date'])->toArray();
+        $localizationData = $dataCollection->only(['localization', 'localization_code'])->toArray();
+        $researchUnitIds = $dataCollection->get('research_unit_id');
 
-            DB::beginTransaction();
+        /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $item */
+        $item = $this->intangibleAssetRepository->create($data);
+        $item->research_units()->sync($researchUnitIds);
+        $arrayDataLocaliztion = [
+            'intangible_asset_id' => $item->id,
+            'localization' => $localizationData['localization'],
+            'code' => $localizationData['localization_code'],
+        ];
+        $this->intangibleAssetLocalizationRepository->create($arrayDataLocaliztion);
 
-            $item = $this->intangibleAssetRepository->create($data);
-            
-            $arrayDataLocaliztion = [
-                'intangible_asset_id' => $item->id,
-                'localization' => $localizationData['localization'],
-                'code' => $localizationData['localization_code'],
-            ];
+        return $item;
+    }
 
-            $this->intangibleAssetLocalizationRepository->create($arrayDataLocaliztion);
+    /**
+     * Update an Intangible Asset.
+     * 
+     * @param array $data
+     * @param mixed $id
+     * @return \App\Models\Client\IntangibleAsset\IntangibleAsset
+     */
+    public function update(array $data, $id)
+    {
+        $dataCollection = collect($data);
+        $data = $dataCollection->only(['project_id', 'name', 'date'])->toArray();
+        $localizationData = $dataCollection->only(['localization', 'localization_code'])->toArray();
+        $researchUnitIds = $dataCollection->get('research_unit_id');
 
-            DB::commit();
-            return [
-                'title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.messages.save_success', ['intangible_asset' => $item->name])
-            ];
-        } catch (\Exception $th) {
-            DB::rollBack();
-            return ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()];
-        }
+        /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $item */
+        $item = $this->intangibleAssetRepository->getById($id);
+        $this->intangibleAssetRepository->update($item, $data);
+        $item->research_units()->sync($researchUnitIds);
+        $arrayDataLocaliztion = [
+            'intangible_asset_id' => $item->id,
+            'localization' => $localizationData['localization'],
+            'code' => $localizationData['localization_code'],
+        ];
+        $intangibleAssetLocaliation = $item->intangible_asset_localization;
+        $this->intangibleAssetLocalizationRepository->update($intangibleAssetLocaliation, $arrayDataLocaliztion);
+
+        return $item;
+    }
+
+    /**
+     * Update Code to Intangible Asset
+     * 
+     * @param int $id
+     * @return \App\Models\Client\IntangibleAsset\IntangibleAsset
+     */
+    public function updateCode(int $id)
+    {
+        $item = $this->intangibleAssetRepository->getById($id);
+
+        $this->generateCodeOfIntangibleAsset($item);
+        
+        return $item;
     }
 
     /**
@@ -159,13 +202,10 @@ class IntangibleAssetService
     public function generateCodeOfIntangibleAsset($intangibleAsset)
     {
         /** @var \App\Models\Client\FinancingType $financingType */
-        $financingType = $this->financingTypeRepository->getByProject($intangibleAsset->project_id)->first();
-
-        /** @var \App\Models\Client\Project\ProjectFinancing $projectFinancing */
-        $projectFinancing = $this->projectFinancingRepository->getByProject($intangibleAsset->project_id)->first();
+        $financingType = $this->financingTypeRepository->search(['project_id' => $intangibleAsset->project_id])->first();
 
         /** @var \App\Models\Client\ResearchUnit $researchUnit */
-        $researchUnit = $this->researchUnitRepository->getByProject($intangibleAsset->project_id)->first();
+        $researchUnit = $this->researchUnitRepository->search(['project_id' => $intangibleAsset->project_id])->first();
 
         /** CodePart I */
         $financingTypeCode = $financingType->code;
@@ -174,10 +214,10 @@ class IntangibleAssetService
         $researchUnitCode = $researchUnit->code;
 
         /** CodePart III */
-        $year = (new Carbon($projectFinancing->date))->year;
+        $year = (new Carbon($intangibleAsset->project->date))->year;
 
         /** CodePart IV */
-        $projectContractType = $this->projectContractTypeRepository->getById($projectFinancing->project_contract_type_id);
+        $projectContractType = $this->projectContractTypeRepository->getById($intangibleAsset->project->project_contract_type_id);
         $projectContractTypeCode = $projectContractType->code ?? '';
 
         /** CodePart V */

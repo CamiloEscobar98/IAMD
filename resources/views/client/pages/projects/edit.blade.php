@@ -24,7 +24,9 @@
                             <a href="{{ route('client.projects.index', $client->name) }}">
                                 {{ __('pages.client.projects.title') }} </a>
                         </li>
-                        <li class="breadcrumb-item"><a href="{{ getClientRoute('client.projects.show', [$item->id]) }}">{{ $item->name }}</a></li>
+                        <li class="breadcrumb-item"><a
+                                href="{{ getClientRoute('client.projects.show', [$item->id]) }}">{{ $item->name }}</a>
+                        </li>
                         <li class="breadcrumb-item">{{ __('pages.default.edit') }}</li>
                     </ol>
                 </div>
@@ -67,12 +69,22 @@
 @endsection
 
 @section('custom_js')
-    <script src="{{ asset('adminlte/dist/js/iamd/projects.js') }}"></script>
-
     <script>
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'
+        })
+
+        $('#research_unit_id').select2({
+            theme: 'bootstrap4',
+            placeholder: '--Seleccionar las unidades de investigación',
+            allowClear: true
+        })
+
+        $('#financing_type_id').select2({
+            theme: 'bootstrap4',
+            placeholder: '--Seleccionar las unidades de investigación',
+            allowClear: true
         })
     </script>
 @endsection

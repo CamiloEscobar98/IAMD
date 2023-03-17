@@ -2,25 +2,27 @@
 
 namespace App\Services\Client;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Client\PermissionRepository;
 
-class PermissionService
+class PermissionService extends AbstractServiceModel
 {
     /** @var PermissionRepository */
     protected $permissionRepository;
 
     public function __construct(PermissionRepository $permissionRepository)
     {
-        $this->permissionRepository = $permissionRepository;
+        $this->repository = $this->permissionRepository = $permissionRepository;
     }
 
     /**
      * @param array $params
      * 
-     * @return mixed
+     * @return array<string,string>
      */
     public function transformParams($params)
     {
@@ -57,13 +59,13 @@ class PermissionService
 
             if (isset($params['order_by'])) {
                 if ($params['order_by'] == 1) {
-                    $query->orderBy('name', 'ASC');
+                    $query->orderBy("{$this->permissionRepository->getModel()->getTable()}.name", 'ASC');
                 } else {
-                    $query->orderBy('name', 'DESC');
+                    $query->orderBy("{$this->permissionRepository->getModel()->getTable()}.name", 'DESC');
                 }
             } else {
-                $query->orderBy('permission_module_id', 'asc');
-                $query->orderBy('name', 'asc');
+                $query->orderBy("{$this->permissionRepository->getModel()->getTable()}.permission_module_id", 'asc');
+                $query->orderBy("{$this->permissionRepository->getModel()->getTable()}.name", 'asc');
             }
             $items = $query->get();
 
@@ -78,5 +80,23 @@ class PermissionService
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
+    }
+
+    /**
+     * Search Permissions with a Pagination.
+     * @param array $data
+     * @param int $page
+     * @param array $with
+     * @param array $withCount
+     */
+    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
+    {
+        $params = $this->transformParams($data);
+        $query = $this->permissionRepository->search($params, $with, $withCount);
+        $total = $query->count();
+        $items = $this->customPagination($query, $params, $page, $total);
+        $links = $items->links('pagination.customized');
+
+        return [$params, $total, $items, $links];
     }
 }

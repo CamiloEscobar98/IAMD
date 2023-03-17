@@ -2,25 +2,27 @@
 
 namespace App\Services\Client;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Client\SecretProtectionMeasureRepository;
 
-class SecretProtectionMeasureService
+class SecretProtectionMeasureService extends AbstractServiceModel
 {
     /** @var SecretProtectionMeasureRepository */
     protected $secretProtectionMeasureRepository;
 
     public function __construct(SecretProtectionMeasureRepository $secretProtectionMeasureRepository)
     {
-        $this->secretProtectionMeasureRepository = $secretProtectionMeasureRepository;
+        $this->repository = $this->secretProtectionMeasureRepository = $secretProtectionMeasureRepository;
     }
 
     /**
      * @param array $params
      * 
-     * @return mixed
+     * @return array<string,string>
      */
     public function transformParams($params)
     {
@@ -77,5 +79,23 @@ class SecretProtectionMeasureService
         } catch (\Exception $exception) {
             throw new \Exception($exception->getMessage());
         }
+    }
+
+    /**
+     * Search Strategy with a Pagination.
+     * @param array $data
+     * @param int $page
+     * @param array $with
+     * @param array $withCount
+     */
+    public function searchWithPagination(array $data, int $page = null, array $with = [], $withCount = []): array
+    {
+        $params = $this->transformParams($data);
+        $query = $this->secretProtectionMeasureRepository->search($params, $with, $withCount);
+        $total = $query->count();
+        $items = $this->customPagination($query, $params, $page, $total);
+        $links = $items->links('pagination.customized');
+
+        return [$params, $total, $items, $links];
     }
 }

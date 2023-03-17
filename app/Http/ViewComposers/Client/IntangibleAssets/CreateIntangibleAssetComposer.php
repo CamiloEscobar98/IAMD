@@ -9,11 +9,19 @@ use App\Repositories\Admin\IntangibleAssetStateRepository;
 use App\Services\Client\AdministrativeUnitService;
 
 use App\Repositories\Client\IntangibleAssetRepository;
+use App\Repositories\Client\ProjectRepository;
+use App\Repositories\Client\ResearchUnitRepository;
 
 class CreateIntangibleAssetComposer
 {
     /** @var AdministrativeUnitService */
     protected $administrativeUnitService;
+
+    /** @var ProjectRepository */
+    protected $projectRepository;
+
+    /** @var ResearchUnitRepository */
+    protected $researchUnitRepository;
 
     /** @var IntangibleAssetStateRepository */
     protected $intangibleAssetStateRepository;
@@ -23,12 +31,16 @@ class CreateIntangibleAssetComposer
 
     public function __construct(
         AdministrativeUnitService $administrativeUnitService,
-        
+
+        ProjectRepository $projectRepository,
+        ResearchUnitRepository $researchUnitRepository,
         IntangibleAssetStateRepository $intangibleAssetStateRepository,
         IntangibleAssetRepository $intangibleAssetRepository
     ) {
         $this->administrativeUnitService = $administrativeUnitService;
-        
+
+        $this->projectRepository = $projectRepository;
+        $this->researchUnitRepository = $researchUnitRepository;
         $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
         $this->intangibleAssetRepository = $intangibleAssetRepository;
     }
@@ -36,13 +48,30 @@ class CreateIntangibleAssetComposer
 
     public function compose(View $view)
     {
-        $intangibleAssetId = request()->intangible_asset;
+        $projectId =  old('project_id');
+        $intangibleAssetId = (int)request('intangible_asset');
 
-        [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project] = $this->administrativeUnitService->getAdministrativeUnitsSelectByIntangibleAssetForm($intangibleAssetId);
+        $projectItems = $this->projectRepository->all();
+
+        if ($intangibleAssetId) {
+            $intangibleAsset = $this->intangibleAssetRepository->getById($intangibleAssetId);
+            $researchUnitsItems = $this->researchUnitRepository->search(['project_id' => $intangibleAsset->project_id])->get();
+        } else {
+            if (!$projectId) {
+                $researchUnitsItems = collect();
+            } else {
+                $researchUnitsItems = $this->researchUnitRepository->search(['project_id' => $projectId])->get(['id', 'name']);
+            }
+        }
+        
+        /** @var \Illuminate\Database\Eloquent\Collection $researchUnitsItems */
+        $researchUnits = $researchUnitsItems->pluck('name', 'id')->prepend('---Seleccionar Unidades Investigativas', null);
+        
+        $projects = $projectItems->pluck('name', 'id')->prepend('---Seleccionar Proyecto');
 
         /** Intangible Asset States */
         $states = $this->intangibleAssetStateRepository->all();
 
-        $view->with(compact('administrativeUnits', 'researchUnits', 'projects', 'administrativeUnit', 'researchUnit', 'project', 'states'));
+        $view->with(compact('projects', 'states', 'researchUnits'));
     }
 }

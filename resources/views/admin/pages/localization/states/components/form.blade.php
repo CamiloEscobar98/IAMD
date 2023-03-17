@@ -18,7 +18,7 @@
     </div>
 
     @error('country_id')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Country -->
@@ -37,7 +37,7 @@
     </div>
 
     @error('name')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Name -->

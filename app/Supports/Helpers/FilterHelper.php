@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 
 if (!function_exists('set_sub_month_date_filter')) {
@@ -37,15 +38,21 @@ if (!function_exists('optionIsSelected')) {
 
 if (!function_exists('optionInArray')) {
     /**
-     * @param array $options
+     * @param array|Collection $options
      * @param string $option
-     * @param mixed $value
+     * @param string $value
      * 
      * @return string
      * 
      */
-    function optionInArray($options, $option, $value)
+    function optionInArray($options, $option, string $value)
     {
-        return isset($options[$option]) && in_array($value, $options[$option]) ? 'selected' : '';
+        if ($options instanceof Collection ) {
+            return $options->contains($value) ? 'selected' : '';
+        } else {
+            // dd($options);
+            return isset($options[$option]) && in_array($value, $options[$option]) ? 'selected' : '';
+        }
+        
     }
 }

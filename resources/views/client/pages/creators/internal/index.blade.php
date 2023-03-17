@@ -34,6 +34,10 @@
         {!! $filters !!}
 
         {!! $table !!}
+
+        <div class="mt-4">
+            {!! $links !!}
+        </div>
     </div>
 @endsection
 
@@ -46,8 +50,6 @@
     @include('messages.delete_item', ['title' => __('pages.client.creators.internal.messages.confirm')])
 
     <script>
-      
-
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'

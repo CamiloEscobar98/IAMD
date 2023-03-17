@@ -2,6 +2,7 @@
 
 namespace Database\Seeders\Client\ResearchUnit;
 
+use App\Repositories\Client\AcademicDepartmentRepository;
 use Illuminate\Database\Seeder;
 
 use App\Repositories\Client\AdministrativeUnitRepository;
@@ -17,6 +18,9 @@ class ResearchUnitSeeder extends Seeder
     /** @var ResearchUnitCategoryRepository */
     protected $researchUnitCategoryRepository;
 
+    /** @var AcademicDepartmentRepository */
+    protected $academicDepartmentRepository;
+
     /** @var CreatorRepository */
     protected $creatorRepository;
 
@@ -26,11 +30,13 @@ class ResearchUnitSeeder extends Seeder
     public function __construct(
         AdministrativeUnitRepository $administrativeUnitRepository,
         ResearchUnitCategoryRepository $researchUnitCategoryRepository,
+        AcademicDepartmentRepository $academicDepartmentRepository,
         CreatorRepository $creatorRepository,
         ResearchUnitRepository $researchUnitRepository
     ) {
         $this->administrativeUnitRepository = $administrativeUnitRepository;
         $this->researchUnitCategoryRepository = $researchUnitCategoryRepository;
+        $this->academicDepartmentRepository = $academicDepartmentRepository;
         $this->creatorRepository = $creatorRepository;
         $this->researchUnitRepository = $researchUnitRepository;
     }
@@ -45,8 +51,9 @@ class ResearchUnitSeeder extends Seeder
 
         print("¡¡ CREATING RESEARCH UNITS !! \n \n");
 
-        $administrativeUnits = $this->administrativeUnitRepository->all();
-        $researchUnitCategories = $this->researchUnitCategoryRepository->all();
+        $administrativeUnits = $this->administrativeUnitRepository->all(['id', 'name']);
+        $researchUnitCategories = $this->researchUnitCategoryRepository->all(['id', 'name']);
+        $academicDepartments = $this->academicDepartmentRepository->all(['id', 'name']);
         $creators = $this->creatorRepository->all();
 
         $randomNumberResearchUnits = rand(15, 30);
@@ -63,13 +70,16 @@ class ResearchUnitSeeder extends Seeder
             $researchUnitCategory = $researchUnitCategories->random(1)->first();
             $director = $creators->random(1)->first();
             $inventoryManager = $creators->random(1)->first();
+            $academicDepartmentId = (bool)rand(0, 1) ? $academicDepartments->random(1)->first()->id : null;
 
             $researchUnit = $this->researchUnitRepository->createOneFactory([
                 'administrative_unit_id' => $randomAdministrativeUnit->id,
                 'research_unit_category_id' => $researchUnitCategory->id,
+                'academic_department_id' => $academicDepartmentId,
                 'director_id' => $director->id,
                 'inventory_manager_id' => $inventoryManager->id
             ]);
+
             print("Research Unit Created. Name: " . $researchUnit->name .  "\n");
             print("Research Unit Category Name: " . $researchUnitCategory->name .  "\n");
             print("Director Name: " . $director->name .  "\n");

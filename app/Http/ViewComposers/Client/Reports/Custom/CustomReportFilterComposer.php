@@ -5,6 +5,9 @@ namespace App\Http\ViewComposers\Client\Reports\Custom;
 use Illuminate\View\View;
 
 use App\Repositories\Admin\IntangibleAssetStateRepository;
+use App\Repositories\Client\AdministrativeUnitRepository;
+use App\Repositories\Client\ProjectRepository;
+use App\Repositories\Client\ResearchUnitRepository;
 use App\Services\Admin\IntellectualPropertyRightCategoryService;
 use App\Services\Client\AdministrativeUnitService;
 
@@ -19,15 +22,30 @@ class CustomReportFilterComposer
     /** @var IntangibleAssetStateRepository */
     protected $intangibleAssetStateRepository;
 
+    /** @var AdministrativeUnitRepository */
+    protected $administrativeUnitRepository;
+
+    /** @var ResearchUnitRepository */
+    protected $researchUnitRepository;
+
+    /** @var ProjectRepository */
+    protected $projectRepository;
+
     public function __construct(
         IntellectualPropertyRightCategoryService $intellectualPropertyRightCategoryService,
-
         AdministrativeUnitService $administrativeUnitService,
+
+        AdministrativeUnitRepository $administrativeUnitRepository,
+        ResearchUnitRepository $researchUnitRepository,
+        ProjectRepository $projectRepository,
         IntangibleAssetStateRepository $intangibleAssetStateRepository,
     ) {
         $this->intellectualPropertyRightCategoryService = $intellectualPropertyRightCategoryService;
-
         $this->administrativeUnitService = $administrativeUnitService;
+
+        $this->administrativeUnitRepository = $administrativeUnitRepository;
+        $this->researchUnitRepository = $researchUnitRepository;
+        $this->projectRepository = $projectRepository;
         $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
     }
 
@@ -35,9 +53,13 @@ class CustomReportFilterComposer
     {
         $params = request()->all();
 
-        [$administrativeUnits, $researchUnits, $projects, $administrativeUnit, $researchUnit, $project] = $this->administrativeUnitService->getAdministrativeUnitsSelectByParams($params);
+        $administrativeUnitId = old('administrative_unit_id');
 
-        [$categories, $subCategories, $products, $category, $subCategory, $product] = $this->intellectualPropertyRightCategoryService->getIntellectualPropertyCategorySelect();
+        $projectId =  old('project_id');
+
+        $projectItems = $this->projectRepository->all();
+
+        $projects = $projectItems->pluck('name', 'id')->prepend('---Seleccionar Proyecto');
 
         /** Intangible Asset States */
         $states = $this->intangibleAssetStateRepository->all();
@@ -71,53 +93,6 @@ class CustomReportFilterComposer
             ],
         ]);
 
-        $intangibleAssetCustomContents = collect([
-            [
-                'name' =>  'with_basic_information',
-                'value' =>  'Mostrar/Ocultar Informaciíon Básica.'
-            ],
-            [
-                'name' => 'with_dpis',
-                'value' => 'Mostrar/Ocultar Derechos de Propiedad Intelectual Asociados.'
-            ],
-            [
-                'name' =>  'with_published',
-                'value' =>  'Mostrar/Ocultar si ha sido Publicado o Divulgado.'
-            ],
-            [
-                'name' =>  'with_confidenciality_contract',
-                'value' =>  'Mostrar/Ocultar si tiene Contrato de Confidencialidad.'
-            ],
-            [
-                'name' =>  'with_creators',
-                'value' =>  'Mostrar/Ocultar si tiene Creadores asociados.'
-            ],
-            [
-                'name' =>  'with_right_session',
-                'value' =>  'Mostrar/Ocultar si tiene Contrato de Sesión de Derechos Patrimoniales.'
-            ],
-            [
-                'name' =>  'with_contability',
-                'value' =>  'Mostrar/Ocultar si está incorporado a la Contabilidad.'
-            ],
-            [
-                'name' =>  'with_comments',
-                'value' =>  'Mostrar/Ocultar historial de comentarios.'
-            ],
-            [
-                'name' =>  'with_protection_action',
-                'value' =>  'Mostrar/Ocultar si tiene un Plan de Acción y Protección.'
-            ],
-            [
-                'name' =>  'with_priority_tools',
-                'value' =>  'Mostrar/Ocultar si cuenta con Herramientas de Priorización para el Derecho de Propiedad Intelectual.'
-            ],
-            [
-                'name' =>  'with_commercial',
-                'value' =>  'Mostrar/Ocultar si los Derechos de Propiedad Intelectual tiene un Uso Comercial.'
-            ],
-        ]);
-
         $graphics = collect([
             [
                 'name' =>  'with_graphics_assets_per_year',
@@ -136,38 +111,21 @@ class CustomReportFilterComposer
                 'value' =>  'Mostrar/Ocultar Gráfica Tipos de Activos Intangibles asociados a una Facultad.'
             ],
             [
-                'name' =>  'with_graphics_assets_state_research_unit_per_administrative_unit',
-                'value' =>  'Mostrar/Ocultar Gráfica Tipos de Activos Intangibles por Estados, asociados a una Facultad.'
-            ],
-            [
-                'name' =>  'with_graphics_assets_research_unit_per_administrative_unit',
-                'value' =>  'Mostrar/Ocultar Gráfica Activos Intangibles por Grupos de Investigación asociados a una Facultad.'
-            ],
-            [
                 'name' =>  'with_graphics_assets_classification_per_research_unit',
                 'value' =>  'Mostrar/Ocultar Gráfica Tipos de Activos Intangibles asociados a un Grupo de Investigación.'
             ],
-            [
-                'name' => 'with_graphics_default',
-                'value' => 'Mostrar/Ocultar Gráfica Estados de los Tipos de Activos Intangibles asociados a un Grupo de Investigación.'
-            ]
+            // [
+            //     'name' => 'with_graphics_assets_state_classification_per_research_unit',
+            //     'value' => 'Mostrar/Ocultar Gráfica Estados de los Tipos de Activos Intangibles asociados a un Grupo de Investigación.'
+            // ]
         ]);
 
         $view->with(compact(
-            'administrativeUnits',
-            'researchUnits',
             'projects',
             'phases',
             'ordersBy',
             'intangibleAssetCustomGeneral',
-            'intangibleAssetCustomContents',
             'graphics',
-            'categories',
-            'subCategories',
-            'products',
-            'category',
-            'subCategory',
-            'product'
         ));
     }
 }

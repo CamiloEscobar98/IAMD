@@ -6,6 +6,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use App\Models\Client\BaseModel;
 
+/**
+ *  
+ *  
+ *  
+ *  
+ *  
+ *  
+ *  
+ *  
+ *  
+ */
 class IntangibleAssetPhase extends BaseModel
 {
     /**

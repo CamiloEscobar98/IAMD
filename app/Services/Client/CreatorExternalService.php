@@ -2,25 +2,103 @@
 
 namespace App\Services\Client;
 
+use App\Services\AbstractServiceModel;
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Client\CreatorExternalRepository;
+use App\Repositories\Client\CreatorDocumentRepository;
+use App\Repositories\Client\CreatorRepository;
 
-class CreatorExternalService
+class CreatorExternalService extends AbstractServiceModel
 {
     /** @var CreatorExternalRepository */
     protected $creatorExternalRepository;
 
-    public function __construct(CreatorExternalRepository $creatorExternalRepository)
+    /** @var CreatorRepository */
+    protected $creatorRepository;
+
+    /** @var CreatorDocumentRepository */
+    protected $creatorDocumentRepository;
+
+    public function __construct(
+        CreatorExternalRepository $creatorExternalRepository,
+        CreatorRepository $creatorRepository,
+        CreatorDocumentRepository $creatorDocumentRepository,
+    ) {
+        $this->repository = $this->creatorExternalRepository = $creatorExternalRepository;
+        $this->creatorRepository = $creatorRepository;
+        $this->creatorDocumentRepository = $creatorDocumentRepository;
+    }
+
+    /**
+     * Store a new resource.
+     * 
+     * @param array $data
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function save(array $data)
     {
-        $this->creatorExternalRepository = $creatorExternalRepository;
+        $data = collect($data);
+        $creatorData = $data->only(['name', 'email', 'phone']);
+
+        /** @var \App\Models\Client\Creator\Creator $creator */
+        $creator = $this->creatorRepository->create($creatorData->toArray());
+
+        $creatorDocumentData = $data->only(['document', 'document_type_id', 'expedition_place_id']);
+        $creatorDocumentData['creator_id'] = $creator->id;
+
+        $this->creatorDocumentRepository->create($creatorDocumentData->toArray());
+
+        $creatorExternalData = $data->only(['external_organization_id', 'assignment_contract_id']);
+        $creatorExternalData['creator_id'] = $creator->id;
+
+        $this->creatorExternalRepository->create($creatorExternalData->toArray());
+        return $creator;
+    }
+
+    /**
+     * Update a resource.
+     * 
+     * @param array $data
+     * @param mixed $id
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function update(array $data, mixed $id)
+    {
+        $data = collect($data);
+        $creatorData = $data->only(['name', 'email', 'phone']);
+
+        $creatorExternal = $this->creatorExternalRepository->getByIdWithRelations($id, [
+            'creator', 'creator.document', 'creator.document.document_type', 'creator.document.expedition_place',
+            'external_organization', 'assignment_contract'
+        ], 'creator_id');
+
+        $creator = $creatorExternal->creator;
+
+        $this->creatorRepository->update($creator, $creatorData->toArray());
+
+        $creatorDocumentData = $data->only(['document', 'document_type_id', 'expedition_place_id']);
+        $creatorDocumentData['creator_id'] = $creator->id;
+
+        $creatorDocument = $creatorExternal->creator->document;
+
+        $this->creatorDocumentRepository->update($creatorDocument, $creatorDocumentData->toArray());
+
+        $creatorExternalData = $data->only(['external_organization_id', 'assignment_contract_id']);
+        $creatorExternalData['creator_id'] = $creator->id;
+
+        $creatorExternal = $this->creatorExternalRepository->update($creatorExternal, $creatorExternalData->toArray());
+        return $creator;
     }
 
     /**
      * @param array $params
      * 
-     * @return mixed
+     * @return array<string,string>
      */
     public function transformParams($params)
     {

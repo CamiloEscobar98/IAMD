@@ -1,9 +1,9 @@
 <tr>
     <td><a href="{{ route('admin.localizations.countries.show', $item->country->id) }}"
-            class="btn btn-sm btn-danger">{{ $item->country->name }}</a>
+            class="btn btn-sm btn-outline-secondary">{{ $item->country->name }}</a>
     </td>
     <td><a href="{{ route('admin.localizations.states.show', $item->state->id) }}"
-            class="btn btn-sm btn-danger">{{ $item->state->name }}</a>
+            class="btn btn-sm btn-outline-secondary">{{ $item->state->name }}</a>
     </td>
     <td>{{ $item->name }}</td>
     <td class="text-right">

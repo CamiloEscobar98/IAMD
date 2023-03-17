@@ -2,25 +2,27 @@
 
 namespace App\Services\Client;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Client\ProjectContractTypeRepository;
 
-class ProjectContractTypeService
+class ProjectContractTypeService extends AbstractServiceModel
 {
     /** @var ProjectContractTypeRepository */
     protected $projectContractTypeRepository;
 
     public function __construct(ProjectContractTypeRepository $projectContractTypeRepository)
     {
-        $this->projectContractTypeRepository = $projectContractTypeRepository;
+        $this->repository = $this->projectContractTypeRepository = $projectContractTypeRepository;
     }
 
     /**
      * @param array $params
      * 
-     * @return mixed
+     * @return array<string,string>
      */
     public function transformParams($params)
     {

@@ -75,5 +75,10 @@
         $('.select2bs4').select2({
             theme: 'bootstrap4'
         })
+
+        $('#research_unit_id').select2({
+            theme: 'bootstrap4',
+            placeholder: '---Seleccionar Unidades Investigativas'
+        })
     </script>
 @endsection

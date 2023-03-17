@@ -7,7 +7,7 @@ use Illuminate\Http\RedirectResponse;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\Client\UserFileReportRepository;
-use App\Services\FileSystem\IntangibleAsset\ReportFileSingleReportService;
+use App\Services\FileSystem\IntangibleAssets\ReportFileSingleReportService;
 
 class UserFileReportController extends  Controller
 {

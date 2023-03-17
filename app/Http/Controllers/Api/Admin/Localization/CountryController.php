@@ -9,7 +9,9 @@ use Illuminate\Http\JsonResponse;
 use App\Repositories\Admin\CountryRepository;
 use App\Repositories\Admin\StateRepository;
 
-use App\Models\Admin\Localization\Country;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CountryController extends Controller
 {
@@ -30,34 +32,17 @@ class CountryController extends Controller
     /**
      * Get all Countries with States and Cities.
      * 
+     * @param Request $request
      * @return string|JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         try {
-            $items = $this->countryRepository->all();
-
-            return response()->json($items);
-        } catch (\Exception $th) {
-            return response()->json($th->getMessage(), 500);
-        }
-    }
-
-    /**
-     * Get Item
-     * 
-     * @param Country $country 
-     * 
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function states(Country $country): JsonResponse|String
-    {
-        try {
-            $item = $this->stateRepository->getByCountry($country);
-
-            return response()->json($item);
-        } catch (\Exception $th) {
-            return response()->json($th->getMessage(), 500);
+            $countries = $this->countryRepository->search($request->all())->pluck('name', 'id')->prepend('---Seleccionar país', -1);
+            return response()->json($countries);
+        } catch (Exception $e) {
+            Log::error("@Api/Controllers/CountryController:Index/Exception: {$e->getMessage()}");
+            return response()->json($e->getMessage(), $e->getCode());
         }
     }
 }

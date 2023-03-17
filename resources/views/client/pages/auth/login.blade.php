@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <title>{{ $client->name_upper }}/Login</title>
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/logo.ico') }}">
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -29,7 +32,7 @@
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <h2 class="text-right font-weight-bold">{{ $client->name_upper }}</h2>
+                <h5 class="text-right font-weight-bold">{{ $client->info }}</h5>
                 <p class="login-box-msg">{{ __('messages.login-title') }}</p>
 
                 <form action="{{ route('client.loggin', $client->name) }}" method="post">
@@ -50,7 +53,7 @@
                         </div>
 
                         @error('email')
-                            <small class="text-danger">{{ $message }}</small>
+                            <small class="text-danger">{!! $message !!}</small>
                         @enderror
                     </div>
                     <!-- Email -->
@@ -70,7 +73,7 @@
                         </div>
 
                         @error('password')
-                            <small class="text-danger">{{ $message }}</small>
+                            <small class="text-danger">{!! $message !!}</small>
                         @enderror
                     </div>
                     <!-- ./Password -->
@@ -95,7 +98,7 @@
                         </div>
 
                         @error('role_id')
-                            <small class="text-danger">{{ $message }}</small>
+                            <small class="text-danger">{!! $message !!}</small>
                         @enderror
                     </div>
                     <!-- ./Role -->

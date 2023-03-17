@@ -13,7 +13,12 @@ use App\Http\Requests\Client\ResearchUnits\UpdateRequest;
 use App\Services\Client\ResearchUnitService;
 
 use App\Repositories\Client\ResearchUnitRepository;
-
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class ResearchUnitController extends Controller
 {
@@ -42,152 +47,167 @@ class ResearchUnitController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     * @param Request $request
+     * @param string $client     
+     * @return View|RedirectResponse
      */
-    public function index(Request $request): \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+    public function index(Request $request, $client): View|RedirectResponse
     {
         try {
             $params = $this->researchUnitService->transformParams($request->all());
-
-            $query = $this->researchUnitRepository->search($params, ['administrative_unit', 'research_unit_category', 'director', 'inventory_manager'], ['projects']);
-
+            $query = $this->researchUnitRepository->search(
+                $params,
+                ['administrative_unit', 'research_unit_category', 'director', 'inventory_manager'],
+                ['projects']
+            );
             $total = $query->count();
-
-            $items = $this->researchUnitService->customPagination($query, $params, $request->get('page'), $total);
-
+            $items = $this->researchUnitService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
-
             return view('client.pages.research_units.index')
                 ->nest('filters', 'client.pages.research_units.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.research_units.components.table', compact('items', 'links'));
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/ResearchUnitController:Index/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ResearchUnitController:Index/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View|RedirectResponse
      */
-    public function create(): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function create(): View|RedirectResponse
     {
         try {
             $item = $this->researchUnitRepository->newInstance();
             return view('client.pages.research_units.create', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ResearchUnitController:Create/Exception: {$e->getMessage()}");
         }
+        return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param string $client
+     * @return RedirectResponse
      */
-    public function store(StoreRequest $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function store(StoreRequest $request, $client): RedirectResponse
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
         try {
-            $data = $request->all();
-
             DB::beginTransaction();
-
-            $item = $this->researchUnitRepository->create($data);
-
+            $item = $this->researchUnitService->save($request->all());
             DB::commit();
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.research_units.messages.save_success', ['research_unit' => $item->name])]);
-        } catch (\Exception $th) {
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+            Log::info("@Web/Controllers/Client/ResearchUnitController:Store/Success, Item: {$item->name}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/ResearchUnitController:Store/QueryException: {$qe->getMessage()}");
             DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ResearchUnitController:Store/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('client.research_units.create', $client)->with('alert', $response);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @param  int  $client
+     * @return View|RedirectResponse
      */
-    public function show($id, $research_unit, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function show($client, $research_unit, Request $request): View|RedirectResponse
     {
         try {
             $item = $this->researchUnitRepository->getByIdWithRelations($research_unit, ['administrative_unit', 'research_unit_category', 'director', 'inventory_manager']);
-
             return view('client.pages.research_units.show', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/ResearchUnitController:Show/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ResearchUnitController:Show/Exception: {$e->getMessage()}");
         }
+        return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int  $client
+     * @return View|RedirectResponse
      */
-    public function edit($id, $research_unit, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function edit($client, $research_unit, Request $request): View|RedirectResponse
     {
         try {
             $item = $this->researchUnitRepository->getById($research_unit);
-
-
             return view('client.pages.research_units.edit', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/ResearchUnitController:Edit/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ResearchUnitController:Edit/Exception: {$e->getMessage()}");
         }
+        return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int  $client
+     * @return View|RedirectResponse
      */
-    public function update(UpdateRequest $request, $id, $research_unit): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function update(UpdateRequest $request, $client, $research_unit): View|RedirectResponse
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
         try {
-            $data = $request->all();
-
-            $item = $this->researchUnitRepository->getById($research_unit);
-
             DB::beginTransaction();
-
-            $this->researchUnitRepository->update($item, $data);
-
+            $item = $this->researchUnitService->update($request->all(), $research_unit);
             DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.research_units.messages.update_success', ['research_unit' => $item->name])]);
-        } catch (\Exception $th) {
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+            Log::info("@Web/Controllers/Client/ResearchUnitController:Update/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/ResearchUnitController:Update/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/ResearchUnitController:Update/QueryException: {$qe->getMessage()}");
             DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.research_units.messages.update_error')]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ResearchUnitController:Update/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('client.research_units.edit', compact('research_unit', 'client'))->with('alert', $response);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $client
      * @param int $research_unit
-     * @return \Illuminate\Http\Response
+     * @return View|RedirectResponse
      */
-    public function destroy($id, $research_unit)
+    public function destroy($client, $research_unit)
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
         try {
             $item = $this->researchUnitRepository->getById($research_unit);
-
             DB::beginTransaction();
-
-            $this->researchUnitRepository->delete($item);
-
+            $this->researchUnitService->delete($research_unit);
             DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.research_units.messages.delete_success', ['research_unit' => $item->name])]);
-        } catch (\Exception $th) {
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
+            Log::info("@Web/Controllers/Client/ResearchUnitController:Delete/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/ResearchUnitController:Delete/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/ResearchUnitController:Delete/QueryException: {$qe->getMessage()}");
             DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.research_units.messages.delete_error')]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ResearchUnitController:Delete/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('client.research_units.index', $client)->with('alert', $response);
     }
 }

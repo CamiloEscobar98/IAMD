@@ -36,6 +36,18 @@
 @section('content')
     <div class="container-fluid">
 
+        <!-- Intangible Asset Form Errors -->
+        @if ($errors->any())
+            <div class="bg-danger text-white p-1 mb-4">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{!! $error !!}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        <!-- ./Intangible Asset Form Errors -->
+
         <h3 class="font-italic font-weight-bold">
             <u>{{ __('pages.default.title-information') }}</u>
         </h3>
@@ -86,6 +98,18 @@
                             class="btn btn-sm btn-outline-secondary">{{ $item->project->name }}</a></p>
                 </div>
                 <!-- ./Project -->
+
+                <!-- Research Units -->
+                <div class="form-group mt-3">
+                    <label>Unidades Investigantivas:</label>
+                    <p>
+                        @foreach ($item->research_units as $researchUnit)
+                            <a href="{{ getClientRoute('client.projects.show', [$researchUnit->id]) }}"
+                                class="btn btn-sm btn-outline-secondary">{{ $researchUnit->name }}</a>
+                        @endforeach
+                    </p>
+                </div>
+                <!-- ./Research Units -->
 
                 <!-- Contract Date -->
                 <div class="form-group mt-3">

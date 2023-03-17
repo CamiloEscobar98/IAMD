@@ -2,25 +2,27 @@
 
 namespace App\Services\Client;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Client\PriorityToolRepository;
 
-class PriorityToolService
+class PriorityToolService extends AbstractServiceModel
 {
     /** @var PriorityToolRepository */
     protected $priorityToolRepository;
 
     public function __construct(PriorityToolRepository $priorityToolRepository)
     {
-        $this->priorityToolRepository = $priorityToolRepository;
+        $this->repository = $this->priorityToolRepository = $priorityToolRepository;
     }
 
     /**
      * @param array $params
      * 
-     * @return mixed
+     * @return array<string,string>
      */
     public function transformParams($params)
     {

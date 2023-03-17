@@ -24,8 +24,12 @@ class ResearchUnitRepository extends  AbstractRepository
      */
     public function search(array $params = [], array $with = [], array $withCount = [])
     {
+        $joins = collect();
+        $table = $this->model->getTable();
+        $joinResearchUnitProject = 'project_research_unit';
+
         $query = $this->model
-            ->select();
+            ->select("{$table}.*");
 
         if (isset($params['id']) && $params['id']) {
             $query->byId($params['id']);
@@ -41,6 +45,11 @@ class ResearchUnitRepository extends  AbstractRepository
 
         if (isset($params['administrative_unit_id']) && $params['administrative_unit_id']) {
             $query->byAdministrativeUnit($params['administrative_unit_id']);
+        }
+
+        if (isset($params['project_id']) && $params['project_id']) {
+            $this->addJoin($joins, $joinResearchUnitProject, "{$table}.id", "{$joinResearchUnitProject}.research_unit_id");
+            $query->byProject($params['project_id']);
         }
 
         if (isset($params['research_unit_category_id']) && $params['research_unit_category_id']) {
@@ -71,24 +80,12 @@ class ResearchUnitRepository extends  AbstractRepository
             $query->withCount($withCount);
         }
 
+        
+        $joins->each(function ($item, $key) use ($query) {
+            $item = json_decode($item, false);
+            $query->join($key, $item->first, '=', $item->second, $item->join_type);
+        });
+        
         return $query;
-    }
-
-    /**
-     * @param \App\Models\Client\AdministrativeUnit $administrativeUnit
-     * 
-     * @return Collection
-     */
-    public function getByAdministrativeUnit($administrativeUnit): Collection
-    {
-        return $this->model->byAdministrativeUnit($administrativeUnit->id)->get();
-    }
-
-    /** 
-     * @param int $projectId
-     */
-    public function getByProject($projectId)
-    {
-        return $this->model->byProject($projectId)->get();
     }
 }

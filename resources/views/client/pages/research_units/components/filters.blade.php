@@ -75,10 +75,10 @@
                         </div>
                         <select name="administrative_unit_id[]" class="form-control select2bs4 administrative_units"
                             multiple>
-                            @foreach ($administrativeUnits as $administrativeUnit)
-                                <option value="{{ $administrativeUnit->id }}"
-                                    {{ optionInArray($params, 'administrative_unit_id', $administrativeUnit->id) }}>
-                                    {{ $administrativeUnit->name }}</option>
+                            @foreach ($administrativeUnits as $administrativeUnitId => $value)
+                                <option value="{{ $administrativeUnitId }}"
+                                    {{ optionInArray($params, 'administrative_unit_id', $administrativeUnitId) }}>
+                                    {{ $value }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -93,10 +93,10 @@
                         </div>
                         <select name="research_unit_category_id[]"
                             class="form-control select2bs4 research_unit_categories" multiple>
-                            @foreach ($researchUnitCategories as $researchUnitCategory)
-                                <option value="{{ $researchUnitCategory->id }}"
-                                    {{ optionInArray($params, 'research_unit_category_id', $researchUnitCategory->id) }}>
-                                    {{ $researchUnitCategory->name }}
+                            @foreach ($researchUnitCategories as $researchUnitCategoryId => $value)
+                                <option value="{{ $researchUnitCategoryId }}"
+                                    {{ optionInArray($params, 'research_unit_category_id', $researchUnitCategoryId) }}>
+                                    {{ $value }}
                                 </option>
                             @endforeach
                         </select>
@@ -105,20 +105,25 @@
                 <!-- ./Research Unit Categories Filter -->
             </div>
             <div class="row justify-content-center">
+
+                <!-- Directors Creator -->
                 <div class="col-lg-6">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.directors') }}</label>
                         </div>
                         <select name="director_id[]" class="form-control select2bs4 directors" multiple>
-                            @foreach ($directors as $director)
-                                <option value="{{ $director->id }}"
-                                    {{ optionInArray($params, 'director_id', $director->id) }}>
-                                    {{ $director->name }}</option>
+                            @foreach ($directors as $directorId => $value)
+                                <option value="{{ $directorId }}"
+                                    {{ optionInArray($params, 'director_id', $directorId) }}>
+                                    {{ $value }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
+                <!-- ./Directors Creator -->
+
+                <!-- Inventory Manager Creator -->
                 <div class="col-lg-6">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
@@ -126,15 +131,16 @@
                         </div>
                         <select name="inventory_manager_id[]" class="form-control select2bs4 inventory_managers"
                             multiple>
-                            @foreach ($inventoryManagers as $inventoryManager)
-                                <option value="{{ $inventoryManager->id }}"
-                                    {{ optionInArray($params, 'inventory_manager_id', $inventoryManager->id) }}>
-                                    {{ $inventoryManager->name }}
+                            @foreach ($inventoryManagers as $inventoryManagerId => $value)
+                                <option value="{{ $inventoryManagerId }}"
+                                    {{ optionInArray($params, 'inventory_manager_id', $inventoryManagerId) }}>
+                                    {{ $value }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
                 </div>
+                <!-- ./Inventory Manager Creator -->
             </div>
 
             <div class="btn-group">

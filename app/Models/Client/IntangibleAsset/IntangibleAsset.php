@@ -12,20 +12,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use Illuminate\Support\Str;
 
-use App\Traits\Client\IntangibleAsset\HasPhases;
+
+use App\Observers\IntangibleAssetObserver;
 
 use App\Models\Admin\IntangibleAssetState;
 use App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightProduct;
+
+use App\Models\Client\User;
 use App\Models\Client\Creator\Creator;
 use App\Models\Client\Project\Project;
-use App\Models\Client\User;
 use App\Models\Client\SecretProtectionMeasure;
 use App\Models\Client\IntangibleAsset\IntangibleAssetDPI;
-use App\Observers\IntangibleAssetObserver;
 
 class IntangibleAsset extends BaseModel
 {
-    use HasFactory, HasPhases;
+    use HasFactory;
 
     /**
      * The "booting" method of the model.
@@ -35,7 +36,6 @@ class IntangibleAsset extends BaseModel
     protected static function boot()
     {
         parent::boot();
-
         IntangibleAsset::observe(IntangibleAssetObserver::class);
     }
 
@@ -67,6 +67,16 @@ class IntangibleAsset extends BaseModel
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    /**
+     * Get the research units.
+     * 
+     * @return BelongsToMany
+     */
+    public function research_units(): BelongsToMany
+    {
+        return $this->belongsToMany(\App\Models\Client\ResearchUnit::class, 'intangible_asset_research_unit');
     }
 
     /**
@@ -129,6 +139,14 @@ class IntangibleAsset extends BaseModel
     public function intangible_asset_session_right_contract(): HasOne
     {
         return $this->hasOne(IntangibleAssetSessionRightContract::class);
+    }
+    
+    /**
+     * @return HasOne
+     */
+    public function intangible_asset_academic_record() : HasOne
+    {
+        return $this->hasOne(IntangibleAssetAcademicRecord::class);
     }
 
     /**
@@ -262,66 +280,34 @@ class IntangibleAsset extends BaseModel
      * Scope a query to only include Project
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @param array|string $administrativeUnit
-     * 
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-
-    public function scopeByAdministrativeUnit($query, $administrativeUnit)
-    {
-        $table = $this->getTable();
-        $joinResearchUnit = 'research_units';
-        $joinProject = 'projects';
-
-        $query->join($joinProject, "{$table}.project_id", "{$joinProject}.id");
-        $query->join($joinResearchUnit, "{$joinProject}.research_unit_id", "{$joinResearchUnit}.id");
-
-        if (is_array($administrativeUnit) && !empty($administrativeUnit)) {
-            return $query->whereIn("{$joinResearchUnit}.administrative_unit_id", $administrativeUnit);
-        }
-
-        return $query->where("{$joinResearchUnit}.administrative_unit_id", $administrativeUnit);
-    }
-
-    /**
-     * Scope a query to only include Project
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @param array|string $researchUnit
-     * 
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-
-    public function scopeByResearchUnit($query, $researchUnit)
-    {
-        $table = $this->getTable();
-        $joinProject = 'projects';
-
-        $query->join($joinProject, "{$table}.project_id", "{$joinProject}.id");
-
-        if (is_array($researchUnit) && !empty($researchUnit)) {
-            return $query->whereIn("{$joinProject}.research_unit_id", $researchUnit);
-        }
-
-        return $query->where("{$joinProject}.research_unit_id", $researchUnit);
-    }
-
-    /**
-     * Scope a query to only include Project
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder $query
      * @param array|string $project
      * 
      * @return \Illuminate\Database\Eloquent\Builder
      */
 
-    public function scopeByProject($query, $project)
+    public function scopeByProject($query, $projectId)
     {
-        if (is_array($project) && !empty($project)) {
-            return $query->whereIn("{$this->getTable()}.project_id", $project);
+        if (is_array($projectId) && !empty($projectId)) {
+            return $query->whereIn("{$this->getTable()}.project_id", $projectId);
         }
 
-        return $query->where("{$this->getTable()}.project_id", $project);
+        return $query->where("{$this->getTable()}.project_id", $projectId);
+    }
+
+    /**
+     * Scope a query to only include Intangible Asset State
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param array|string $stateId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByState($query, $stateId)
+    {
+        if (is_array($stateId) && !empty($projectId)) {
+            return $query->wherenIn("{$this->getTable()}.intangible_asset_state_id", $stateId);
+        } else {
+            return $query->where("{$this->getTable()}.intangible_asset_state_id", $stateId);
+        }
     }
 
     /**
@@ -359,12 +345,6 @@ class IntangibleAsset extends BaseModel
      */
     public function scopeByPhases($query, $phase)
     {
-        $table = $this->getTable();
-        $joinPhases = 'intangible_asset_phases';
-
-        $query->join($joinPhases, "{$table}.id", "{$joinPhases}.intangible_asset_id");
-
-
         if (is_array($phase) && !empty($phase)) {
             $phasesQuery = (array) getPhasesByNumber($phase, true);
             return $query->where($phasesQuery);
@@ -451,6 +431,11 @@ class IntangibleAsset extends BaseModel
     public function hasSessionRightContract(): bool
     {
         return !is_null($this->intangible_asset_session_right_contract);
+    }
+
+    public function hasAcademicRecord(): bool
+    {
+        return !is_null($this->intangible_asset_academic_record);
     }
 
     /**
@@ -552,5 +537,143 @@ class IntangibleAsset extends BaseModel
         return $this->hasSessionRightContract() && $sessionRightContract->file == 'example.txt';
     }
 
-    /** ./Intangible Asset Session Right File Methods */
+
+
+    /** Intangible Asset Confidenciality Contract File Methods */
+
+    /**
+     * @return bool
+     */
+    public function hasFileOfAcademicRecord(): bool
+    {
+        /** @var \App\Models\Client\IntangibleAsset\IntangibleAssetAcademicRecord $confidencialityContract */
+        $confidencialityContract = $this->intangible_asset_academic_record;
+        return $this->hasAcademicRecord() && !is_null($confidencialityContract->file_path && $confidencialityContract->file);
+    }
+
+    public function hasDummyFileOfAcademicRecord(): bool
+    {
+        /** @var \App\Models\Client\IntangibleAsset\IntangibleAssetAcademicRecord $confidencialityContract */
+        $confidencialityContract = $this->intangible_asset_academic_record;
+        return $this->hasAcademicRecord() && $confidencialityContract->file == 'example.txt';
+    }
+
+    /** ./Intangible Asset Confidenciality Contract File Methods */    /** ./Intangible Asset Session Right File Methods */
+
+
+    /** Phases for Intangible Asset */
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseOneCompleted(): bool
+    {
+        return $this->intangible_asset_phases->phase_one_completed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseTwoCompleted(): bool
+    {
+        return $this->intangible_asset_phases->phase_two_completed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseThreeCompleted(): bool
+    {
+        return $this->intangible_asset_phases->phase_three_completed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseFourCompleted(): bool
+    {
+        return $this->intangible_asset_phases->phase_four_completed;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function hasPhaseFiveCompleted(): bool|null
+    {
+        return $this->intangible_asset_phases->phase_five_completed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseSixCompleted(): bool
+    {
+        return $this->intangible_asset_phases->phase_six_completed;
+    }
+
+    /** 
+     * @return bool|null
+     */
+    public function hasPhaseSevenCompleted(): bool|null
+    {
+        return $this->intangible_asset_phases->phase_seven_completed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseEightCompleted(): bool
+    {
+        if ($this->dpis->isEmpty()) {
+            return true;
+        }
+        return $this->intangible_asset_phases->phase_eight_completed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPhaseNineCompleted(): bool
+    {
+        return $this->intangible_asset_phases->phase_nine_completed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAllPhasesCompleted()
+    {
+        return $this->hasPhaseOneCompleted() &&
+            $this->hasPhaseTwoCompleted() &&
+            $this->hasPhaseThreeCompleted() &&
+            $this->hasPhaseFourCompleted() &&
+            $this->hasPhaseFiveCompleted() &&
+            $this->hasPhaseSixCompleted() &&
+            $this->hasPhaseSevenCompleted() &&
+            $this->hasPhaseEightCompleted() &&
+            $this->hasPhaseNineCompleted();
+    }
+
+    public function progressPhases()
+    {
+        $phases = [
+            'hasPhaseOneCompleted', 'hasPhaseTwoCompleted', 'hasPhaseThreeCompleted', 'hasPhaseFourCompleted',
+            'hasPhaseFiveCompleted', 'hasPhaseSixCompleted', 'hasPhaseSevenCompleted', 'hasPhaseEightCompleted', 'hasPhaseNineCompleted'
+        ];
+
+        $cont = 0;
+
+        foreach ($phases as $value) {
+            if ($this->$value()) {
+                $cont++;
+            }
+        }
+
+        if (($percent = $cont / count($phases) * 100) == 0) {
+            return 1;
+        } else {
+            return $percent;
+        }
+    }
+    /** ./Phases for Intangible Asset */
 }

@@ -26,12 +26,14 @@ return [
 
     'intellectual_property_rights_products' => 'Productos de la Derechos de Propiedad Intelectual:',
 
-    'administrative_units' => 'Subdirecciones Técnicas:',
+    'administrative_units' => 'Facultades:',
 
     'research_unit_categories' => 'Categorías de Unidades Investigativas:',
     'research_units' => 'Unidades Investigativas:',
 
     'projects' => 'Proyectos:',
+    
+    'intangible_assets_state' => 'Estados del Activo:',
 
     'external_organizations' => 'Organizaciones Externas:',
 

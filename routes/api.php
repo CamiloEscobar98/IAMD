@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\Admin\Localization\StateController;
 
 use App\Http\Controllers\Api\Admin\IntellectualPropertyRightCategoryController;
 use App\Http\Controllers\Api\Admin\IntellectualPropertyRightSubcategoryController;
-
+use App\Http\Controllers\Api\Admin\Localization\CityController;
 use App\Http\Controllers\Api\Client\AdministrativeUnitController;
 
 use App\Http\Controllers\Api\Client\ResearchUnitController;
@@ -39,16 +39,10 @@ Route::prefix('intellectual_property_rights')->group(function () {
 /** ./Intellectual Property Rights */
 
 /** Localizations */
-Route::prefix('localizations')->group(function () {
-    Route::prefix('countries')->group(function () {
-        Route::get('/', [CountryController::class,  'index']);
-        Route::get('{country}/states', [CountryController::class, 'states']);
-    });
-
-    Route::prefix('states')->group(function () {
-        Route::get('/', [StateController::class,  'index']);
-        Route::get('{state}/cities', [StateController::class, 'cities']);
-    });
+Route::prefix('localizaciones')->group(function () {
+    Route::get('paises', [CountryController::class,  'index']);
+    Route::get('departamentos', [StateController::class,  'index']);
+    Route::get('ciudades', [CityController::class,  'index']);
 });
 /** ./Localizations */
 
@@ -61,7 +55,7 @@ Route::middleware(['check-client'])
             Route::get('{administrative_unit}/research_units', [AdministrativeUnitController::class, 'research_units']);
         });
 
-        Route::prefix('research_units')->group(function () {
+        Route::prefix('unidades-investigativas')->group(function () {
             Route::get('/', [ResearchUnitController::class, 'index']);
             Route::get('{research_unit}/projects', [ResearchUnitController::class, 'projects']);
         });

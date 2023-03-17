@@ -10,6 +10,7 @@ use App\Repositories\Client\ResearchUnitRepository;
 
 use App\Models\Client\ResearchUnit;
 use App\Repositories\Client\ProjectRepository;
+use Illuminate\Http\Request;
 
 class ResearchUnitController extends Controller
 {
@@ -32,14 +33,13 @@ class ResearchUnitController extends Controller
      * 
      * @return JsonResponse
      */
-    public function index(): JsonResponse|String
+    public function index(Request $request): JsonResponse|String
     {
         try {
-            $items = $this->researchUnitRepository->all();
-
-            return response()->json('hola');
+            $items = $this->researchUnitRepository->search($request->all())->get();
+            return response()->json($items);
         } catch (\Exception $th) {
-            return $th->getMessage();
+            
         }
     }
 
@@ -59,7 +59,7 @@ class ResearchUnitController extends Controller
 
             return response()->json($items);
         } catch (\Exception $th) {
-            return $th->getMessage();
+            
         }
     }
 }

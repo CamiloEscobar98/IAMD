@@ -12,7 +12,7 @@
     </div>
 
     @error('nit')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Nit -->
@@ -31,7 +31,7 @@
     </div>
 
     @error('name')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Name -->
@@ -50,7 +50,7 @@
     </div>
 
     @error('email')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Email -->
@@ -69,7 +69,7 @@
     </div>
 
     @error('telephone')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Telephone -->
@@ -88,7 +88,7 @@
     </div>
 
     @error('address')
-        <small class="text-danger">{{ $message }}</small>
+        <small class="text-danger">{!! $message !!}</small>
     @enderror
 </div>
 <!-- ./Address -->

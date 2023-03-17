@@ -32,7 +32,7 @@
         <div class="row">
 
             <!-- Users Card -->
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <div class="card">
                     <div class="card-header bg-danger py-2">
                         <div class="row justify-content-between">
@@ -50,7 +50,7 @@
             <!-- Users Card -->
 
             <!-- Internal Creators Card -->
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <div class="card">
                     <div class="card-header bg-danger py-2">
                         <div class="row justify-content-between">
@@ -67,9 +67,8 @@
             </div>
             <!-- Internal Creators Card -->
 
-
             <!-- External Creators Card -->
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <div class="card">
                     <div class="card-header bg-danger py-2">
                         <div class="row justify-content-between">
@@ -85,6 +84,24 @@
                 </div>
             </div>
             <!-- External Creators Card -->
+
+            <!-- Academic Departments Card -->
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-header bg-danger py-2">
+                        <div class="row justify-content-between">
+                            <i class="fas fa-globe"></i>
+                            <h5 class="font-weight-bold">{{ __('pages.client.academic_departments.title') }}</h5>
+                            <a class="text-white fas fa-angle-double-right"
+                                href="{{ getClientRoute('client.academic_departments.index') }}"></a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {!! __('pages.client.academic_departments.info.callout', ['count' => $academicDepartmentCount]) !!}
+                    </div>
+                </div>
+            </div>
+            <!-- Academic Departments Card -->
         </div>
 
         <div class="row">

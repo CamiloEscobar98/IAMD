@@ -14,7 +14,11 @@ use App\Http\Requests\Client\Users\UpdateRequest;
 use App\Services\Client\UserService;
 
 use App\Repositories\Client\UserRepository;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -48,30 +52,26 @@ class UserController extends Controller
      * Display a listing of the resource.
      * 
      * @param Request $request
-     *
+     * @param string $client
      * @return View|RedirectResponse
      */
-    public function index(Request $request): View|RedirectResponse
+    public function index(Request $request, $client): View|RedirectResponse
     {
         try {
-
             $params = $this->userService->transformParams($request->all());
-            $params['except_auth_user'] = true;
-
-            $query = $this->userRepository->search($params, ['roles:id,info'], []);
-
+            $query = $this->userRepository->search($params, ['roles:id,info']);
             $total = $query->count();
-
-            $items = $this->userService->customPagination($query, $params, $request->get('page'), $total);
-
+            $items = $this->userService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
-
-            return view('client.pages.users.index')
+            return view('client.pages.users.index', compact('links'))
                 ->nest('filters', 'client.pages.users.components.filters', compact('params', 'total'))
-                ->nest('table', 'client.pages.users.components.table', compact('items', 'links'));
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+                ->nest('table', 'client.pages.users.components.table', compact('items'));
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/UserController:Index/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/UserController:Index/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -79,152 +79,141 @@ class UserController extends Controller
      *
      * @return View|RedirectResponse
      */
-    public function create()
+    public function create(): View|RedirectResponse
     {
         try {
             $item = $this->userRepository->newInstance();
             return view('client.pages.users.create', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/UserController:Create/Exception: {$e->getMessage()}");
         }
+        return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  StoreRequest
-     * 
+     * @param string $client
      * @return RedirectResponse
      */
-    public function store(StoreRequest $request): RedirectResponse
+    public function store(StoreRequest $request, $client): RedirectResponse
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
         try {
-            $data = $request->only('name', 'email', 'password');
-
             DB::beginTransaction();
-
-            /** @var \App\Models\Client\User $item */
-            $item = $this->userRepository->create($data);
-
-            $role = $request->get('role_id');
-
-            $item->assignRole($role);
-
+            $item = $this->userService->save($request->all());
             DB::commit();
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.users.messages.save_success', ['user' => $item->name])]);
-        } catch (\Exception $th) {
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+            Log::info("@Web/Controllers/Client/UserController:Store/Success, Item: {$item->name}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/UserController:Store/QueryException: {$qe->getMessage()}");
             DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.users.messages.save_error')]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/UserController:Store/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('client.users.create', $client)->with('alert', $response);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $client
      * @param int $user
      * 
      * @return View|RedirectResponse
      */
-    public function show($id, $user)
+    public function show($client, $user): View|RedirectResponse
     {
         try {
             $item = $this->userRepository->getById($user);
-
             return view('client.pages.users.show', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/UserController:Show/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/UserController:Show/Exception: {$e->getMessage()}");
         }
+        return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $client
      * @param int $user
      * 
      * @return View|RedirectResponse
      */
-    public function edit($id, $user)
+    public function edit($client, $user): View|RedirectResponse
     {
         try {
             $item = $this->userRepository->getById($user);
-
             return view('client.pages.users.edit', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/UserController:Edit/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/UserController:Edit/Exception: {$e->getMessage()}");
         }
+        return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  UpdateRequest $request
-     * @param  int  $id
-     * 
-     * @return View|RedirectResponse
+     * @param string $client
+     * @param int $user
+     * @return RedirectResponse
      */
-    public function update(UpdateRequest $request, $id, $user)
+    public function update(UpdateRequest $request, $client, $user): RedirectResponse
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
         try {
-            $data = [];
-
-            $attributesRequest = is_null($request->get('password')) ? ['name', 'email', 'role_id'] : ['name', 'email', 'role_id', 'password'];
-
-            $data = $request->only($attributesRequest);
-
-            $item = $this->userRepository->getById($user);
-
             DB::beginTransaction();
-
-            $this->userRepository->update($item, $data);
-
-            $role = $request->get('role_id');
-
-            /** @var \App\Models\Client\User $item */
-            $item->syncRoles($role);
-
+            $item = $this->userService->update($request->all(), $user);
             DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.users.messages.update_success', ['user' => $item->name])]);
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.users.messages.update_error')]);
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+            Log::info("@Web/Controllers/Client/UserController:Update/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/UserController:Update/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/UserController:Update/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/UserController:Update/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('client.users.edit', compact('client', 'user'))->with('alert', $response);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  string  $client
      * @param int $user
      * 
      * @return RedirectResponse
      */
-    public function destroy($id, $user) #: RedirectResponse
+    public function destroy($client, $user): RedirectResponse
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
         try {
             $item = $this->userRepository->getById($user);
-
             DB::beginTransaction();
-
-            $this->userRepository->delete($item);
-
+            $this->userService->delete($user);
             DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.users.messages.delete_success')]);
-        } catch (\Exception $th) {
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
+            Log::info("@Web/Controllers/Client/UserController:Delete/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/UserController:Delete/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/UserController:Delete/QueryException: {$qe->getMessage()}");
             DB::rollBack();
-            $message = '';
-            switch ($th->getCode()) {
-                case 23000:
-                    $message = __('messages.status_code.23000');
-                    break;
-
-                default:
-                    $message = __('messages.delete_error');
-                    break;
-            }
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $message]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/UserController:Delete/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('client.users.index', $client)->with('alert', $response);
     }
 }

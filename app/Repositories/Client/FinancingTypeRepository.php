@@ -19,23 +19,33 @@ class FinancingTypeRepository  extends AbstractRepository
      * @param array $with
      * @param array $withCount
      * 
-     * @return $query
+     * 
+     * @return \Illuminate\Database\Query\Builder
      */
     public function search(array $params = [], array $with = [], array $withCount = [])
     {
+        $joins = collect();
+        $joinProjectFinancing = 'project_financing';
+
+        /** @var \Illuminate\Database\Query\Builder $query */
         $query = $this->model
-            ->select();
+            ->select("{$this->model->getTable()}.*");
 
         if (isset($params['name']) && $params['name']) {
-            $query->where('name', 'like', '%' . $params['name'] . '%');
+            $query->byName($params['name']);
+        }
+
+        if (isset($params['project_id']) && $params['project_id']) {
+            $this->addJoin($joins, $joinProjectFinancing, "{$this->model->getTable()}.id", "{$joinProjectFinancing}.financing_type_id");
+            $query->byProject($params['project_id']);
         }
 
         if (isset($params['date_from']) && $params['date_from']) {
-            $query->where('updated_at', '>=', $params['date_from']);
+            $query->sinceDate($params['date_from']);
         }
 
         if (isset($params['date_to']) && $params['date_to']) {
-            $query->where('updated_at', '<=', $params['date_to']);
+            $query->toDate($params['date_to']);
         }
 
         if (isset($with) && $with) {
@@ -46,16 +56,11 @@ class FinancingTypeRepository  extends AbstractRepository
             $query->withCount($withCount);
         }
 
-        return $query;
-    }
+        $joins->each(function ($item, $key) use ($query) {
+            $item = json_decode($item, false);
+            $query->join($key, $item->first, '=', $item->second, $item->join_type);
+        });
 
-    /**
-     * @param int $projectId
-     * 
-     * @return Collection
-     */
-    public function getByProject($projectId): Collection
-    {
-        return $this->model->byProject($projectId)->get();
+        return $query;
     }
 }

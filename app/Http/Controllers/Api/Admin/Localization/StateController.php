@@ -9,7 +9,9 @@ use Illuminate\Http\JsonResponse;
 use App\Repositories\Admin\CityRepository;
 use App\Repositories\Admin\StateRepository;
 
-use App\Models\Admin\Localization\State;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class StateController extends Controller
 {
@@ -30,34 +32,17 @@ class StateController extends Controller
     /**
      * Get all States.
      * 
+     * @param Request $request
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         try {
-            $items = $this->stateRepository->all();
-
-            return response()->json($items);
-        } catch (\Exception $th) {
-            return response()->json($th->getMessage(), 500);
-        }
-    }
-
-    /**
-     * Get Item
-     * 
-     * @param State $state 
-     * 
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function cities(State $state): JsonResponse|String
-    {
-        try {
-            $items = $this->cityRepository->getByState($state);
-
-            return response()->json($items);
-        } catch (\Exception $th) {
-            return response()->json($th->getMessage(), 500);
+            $states = $this->stateRepository->search($request->all())->pluck('name', 'id')->prepend('---Seleccionar departamento', -1);
+            return response()->json($states);
+        } catch (Exception $e) {
+            Log::error("@Api/Controllers/StateController:Index/Exception: {$e->getMessage()}");
+            return response()->json([], $e->getCode());
         }
     }
 }

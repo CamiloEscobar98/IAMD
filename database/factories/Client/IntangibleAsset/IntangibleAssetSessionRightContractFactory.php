@@ -21,7 +21,7 @@ class IntangibleAssetSessionRightContractFactory extends Factory
     public function definition()
     {
         return [
-            'owner' => $this->faker->name,
+            'owner' => $this->faker->name(),
             'file' => 'example.txt',
         ];
     }

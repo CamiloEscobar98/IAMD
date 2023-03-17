@@ -25,7 +25,7 @@ class IntellectualPropertyRightProduct extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['intellectual_property_right_subcategory_id', 'name'];
+    protected $fillable = ['intellectual_property_right_subcategory_id', 'name', 'code'];
 
     /**
      * Get the Intellectual Property Right Subcategory.
@@ -59,15 +59,9 @@ class IntellectualPropertyRightProduct extends BaseModel
     public function scopeOfCategory($query, $categoryId)
     {
         $joinIntellectualPropertyRightCategory = 'intellectual_property_right_categories';
-        $joinIntellectualPropertyRightSubcategory = 'intellectual_property_right_subcategories';
-
-        $query->join($joinIntellectualPropertyRightSubcategory, "{$joinIntellectualPropertyRightSubcategory}.id", "{$this->getTable()}.intellectual_property_right_subcategory_id");
-        $query->join($joinIntellectualPropertyRightCategory, "{$joinIntellectualPropertyRightCategory}.id", "{$joinIntellectualPropertyRightSubcategory}.intellectual_property_right_category_id");
-
         if (is_array($categoryId) && !empty($categoryId)) {
             return $query->whereIn("{$joinIntellectualPropertyRightCategory}.id", $categoryId);
         }
-
         return !$categoryId ? $query : $query->where("{$joinIntellectualPropertyRightCategory}.id", $categoryId);
     }
 
@@ -84,7 +78,6 @@ class IntellectualPropertyRightProduct extends BaseModel
         if (is_array($subCategoryId) && !empty($subCategoryId)) {
             return $query->whereIn("{$this->getTable()}.intellectual_property_right_subcategory_id", $subCategoryId);
         }
-
         return !$subCategoryId ? $query : $query->where("{$this->getTable()}.intellectual_property_right_subcategory_id", $subCategoryId);
     }
 

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Database\Factories\Client\ProjectFactory;
 
 use App\Models\Client\BaseModel;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Project extends BaseModel
 {
@@ -39,20 +40,20 @@ class Project extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'research_unit_id',
         'director_id',
         'name',
         'description',
+        'project_contract_type_id', 'contract', 'date'
     ];
 
     /**
-     * Get the research unit.
+     * Get the research units.
      * 
-     * @return BelongsTo
+     * @return BelongsToMany
      */
-    public function research_unit(): BelongsTo
+    public function research_units(): BelongsToMany
     {
-        return $this->belongsTo(\App\Models\Client\ResearchUnit::class, 'research_unit_id');
+        return $this->belongsToMany(\App\Models\Client\ResearchUnit::class, 'project_research_unit');
     }
 
     /**
@@ -76,11 +77,19 @@ class Project extends BaseModel
     }
 
     /**
-     * @return HasOne
+     * @return BelongsTo
      */
-    public function project_financing(): HasOne
+    public function contract_type(): BelongsTo
     {
-        return $this->hasOne(\App\Models\Client\Project\ProjectFinancing::class);
+        return $this->belongsTo(\App\Models\Client\Project\ProjectContractType::class, 'project_contract_type_id');
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function project_financings(): BelongsToMany
+    {
+        return $this->belongsToMany(\App\Models\Client\FinancingType::class, 'project_financing', null, 'financing_type_id');
     }
 
     /**
@@ -93,7 +102,7 @@ class Project extends BaseModel
      */
     public function scopeById($query, int $id)
     {
-        return $query->where('id', $id);
+        return $query->where("{$this->getTable()}.id", $id);
     }
 
     /**
@@ -106,7 +115,7 @@ class Project extends BaseModel
      */
     public function scopeByName($query, string $name)
     {
-        $query->where('name', 'like', "%{$name}%");
+        $query->where("{$this->getTable()}.name", 'like', "%{$name}%");
     }
 
     /**
@@ -119,32 +128,25 @@ class Project extends BaseModel
      */
     public function scopeByResearchUnit($query, $researchUnit)
     {
+        $joinResearchUnitProject = 'project_research_unit';
         if (is_array($researchUnit) && !empty($researchUnit)) {
-            return $query->whereIn('research_unit_id', $researchUnit);
+            return $query->whereIn("{$joinResearchUnitProject}.research_unit_id", $researchUnit);
         }
-
-        return $query->where('research_unit_id', $researchUnit);
+        return $query->where("{$joinResearchUnitProject}.research_unit_id", $researchUnit);
     }
 
     /**
-     * Scope a query to only include Research Unit
+     * Scope a query to only include Administrative Unit
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
-     * @param array|string $administrativeUnit
-     * 
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeByAdministrativeUnit($query, $administrativeUnit)
     {
-        $table = $this->getTable();
         $joinResearchUnit = 'research_units';
-
-        $query->join($joinResearchUnit, "{$table}.research_unit_id", "{$joinResearchUnit}.id");
-
         if (is_array($administrativeUnit) && !empty($administrativeUnit)) {
             return $query->whereIn("{$joinResearchUnit}.administrative_unit_id", $administrativeUnit);
         }
-
         return $query->where("{$joinResearchUnit}.administrative_unit_id", $administrativeUnit);
     }
 
@@ -159,10 +161,10 @@ class Project extends BaseModel
     public function scopeByDirector($query, $director)
     {
         if (is_array($director) && !empty($director)) {
-            return $query->whereIn('director_id', $director);
+            return $query->whereIn("{$this->getTable()}.director_id", $director);
         }
 
-        return $query->where('director_id', $director);
+        return $query->where("{$this->getTable()}.director_id", $director);
     }
 
     /**
@@ -175,7 +177,7 @@ class Project extends BaseModel
      */
     public function scopeSinceDate($query, string $dateFrom)
     {
-        $query->where('updated_at', '>=', $dateFrom);
+        $query->where("{$this->getTable()}.updated_at", '>=', $dateFrom);
     }
 
     /**
@@ -188,6 +190,6 @@ class Project extends BaseModel
      */
     public function scopeToDate($query, string $dateTo)
     {
-        $query->where('updated_at', '<=', $dateTo);
+        $query->where("{$this->getTable()}.updated_at", '<=', $dateTo);
     }
 }

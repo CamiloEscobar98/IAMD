@@ -21,22 +21,6 @@ return [
 
     /**
      * Administrator Pages
-     * 
-     * Home Page
-     * 
-     * Resources:
-     * 1. Localizations
-     *  1.1. Countries
-     *  1.2. States
-     *  1.3. Cities
-     * 
-     * 2. Creators Information
-     *  2.1. Document Types
-     *  2.2. External Organizations
-     *  2.3. Assignment Contract Types
-     * 
-     * 3. Intangible Assets
-     *  3.1. States for Intangible Assets
      */
     'admin' => [
 
@@ -76,7 +60,7 @@ return [
                 'form-titles' => [
                     'show' => 'Perfil de Visualización de la información del País',
                     'create' => 'Formulario de registro de la información de un País',
-                    'update' => 'Actualización de la información del País',
+                    'update' => 'Formulario Actualización de la información del País',
                 ],
 
                 'filters' => [
@@ -93,21 +77,22 @@ return [
                         'updated_at' => 'Fecha de Actualización'
                     ],
                     'body' => [
-                        'states_count' => "Tiene :count departamentos registrados.",
-                        "cities_count" => "Tiene :count ciudades registradas."
+                        'states_count' => ":count departamentos registrados.",
+                        "cities_count" => ":count ciudades registradas."
                     ]
                 ],
 
                 'messages' => [
                     'confirm' => '¿Estás seguro de que quieres eliminar el país?',
+                    'not_found' => 'No se ha podido encontrar ningún país con este identificador.',
 
-                    'save_success' => "Se ha registrado correctamente el país: <b>:country</b>",
+                    'save_success' => "Se ha registrado correctamente el país de <b>:country</b>",
                     'save_error' => 'No se ha registrado el país.',
 
-                    'update_success' => "Se ha actualizado correctamente el país: <b>:country</b>.",
+                    'update_success' => "Se ha actualizado correctamente el país de <b>:country</b>.",
                     'update_error' => 'No se ha actualizado el país.',
 
-                    'delete_success' => 'Se ha eliminado el país: <b>:country</b>.',
+                    'delete_success' => 'Se ha eliminado correctamente el país de <b>:country</b>.',
                     'delete_error' => 'No se ha eliminado el país.'
                 ],
 
@@ -146,7 +131,7 @@ return [
                 'form-titles' => [
                     'show' => 'Perfil de Visualización del Departamento',
                     'create' => 'Formulario de Registro de Departamento',
-                    'update' => 'Actualización del Departamento',
+                    'update' => 'Formulario de Actualización del Departamento',
                 ],
 
                 'filters' => [
@@ -166,21 +151,22 @@ return [
                         'updated_at' => 'Fecha de Actualización'
                     ],
                     'body' => [
-                        'cities_count' => "Tiene :count ciudades registradas."
+                        'cities_count' => ":count ciudades registradas."
                     ]
 
                 ],
 
                 'messages' => [
                     'confirm' => '¿Estás seguro de que quieres eliminar el departamento?',
+                    'not_found' => 'No se ha podido encontrar ningún departamento con este identificador.',
 
-                    'save_success' => "Se ha registrado correctamente el departamento: <b>:state</b>.",
+                    'save_success' => "Se ha registrado correctamente el departamento de <b>:state</b>.",
                     'save_error' => 'No se ha registrado el departamento.',
 
-                    'update_success' => "Se ha actualizado correctamente el departamento: <b>:state</b>.",
+                    'update_success' => "Se ha actualizado correctamente el departamento de <b>:state</b>.",
                     'update_error' => 'No se ha actualizado el departamento.',
 
-                    'delete_success' => "Se ha eliminado el departamento: <b>:state</b>.",
+                    'delete_success' => "Se ha eliminado correctamente el departamento de <b>:state</b>.",
                     'delete_error' => 'No se ha eliminado el departamento.'
                 ],
 
@@ -222,6 +208,9 @@ return [
                     'name' => 'Buscar Ciudad',
                     'total' => 'Total de Ciudades: ',
 
+                    'country' => 'País',
+                    'country_option' => 'Buscar por País',
+
                     'state' => 'Departamento',
                     'state_option' => 'Buscar por Departamento',
                 ],
@@ -239,14 +228,15 @@ return [
 
                 'messages' => [
                     'confirm' => '¿Estás seguro de que quieres eliminar la ciudad?',
+                    'not_found' => 'No se ha podido encontrar ninguna ciudad o municipio con este identificador.',
 
-                    'save_success' => "Se ha registrado correctamente la ciudad: <b>:city</b>.",
+                    'save_success' => "Se ha registrado correctamente la ciudad de <b>:city</b>.",
                     'save_error' => 'No se ha registrado la ciudad.',
 
-                    'update_success' => "Se ha actualizado correctamente la ciudad: <b>:city</b>.",
+                    'update_success' => "Se ha actualizado correctamente la ciudad de <b>:city</b>.",
                     'update_error' => 'No se ha actualizado la ciudad.',
 
-                    'delete_success' => "Se ha eliminado la ciudad: <b>:city</b>.",
+                    'delete_success' => "Se ha eliminado correctamente la ciudad de <b>:city</b>.",
                     'delete_error' => 'No se ha eliminado la ciudad.'
                 ],
 
@@ -301,14 +291,15 @@ return [
 
                 'messages' => [
                     'confirm' => '¿Estás seguro de que quieres eliminar el Tipo de Documento?',
+                    'not_found' => 'No se ha podido encontrar ningún tipo de documento con este identificador.',
 
-                    'save_success' => 'Se ha registrado correctamente el Tipo de Documento: :document_type.',
+                    'save_success' => 'Se ha registrado correctamente el Tipo de Documento de <b>:document_type</b>.',
                     'save_error' => 'No se ha registrado el Tipo de Documento.',
 
-                    'update_success' => 'Se ha actualizado correctamente el Tipo de Documento: :document_type.',
+                    'update_success' => 'Se ha actualizado correctamente el Tipo de Documento de <b>:document_type</b>.',
                     'update_error' => 'No se ha actualizado el Tipo de Documento.',
 
-                    'delete_success' => 'Se ha eliminado el Tipo de Documento: :document_type.',
+                    'delete_success' => 'Se ha eliminado el Tipo de Documento de <b>:document_type</b>.',
                     'delete_error' => 'No se ha eliminado el Tipo de Documento.'
                 ],
 
@@ -600,6 +591,7 @@ return [
 
                 'filters' => [
                     'name' => 'Buscar Subcategoría de Derecho de Propiedad Intelectual',
+                    'category' => 'Categoría: ',
                     'total' => 'Total de Subcategorías: ',
                 ],
 
@@ -670,6 +662,7 @@ return [
                         'name' => 'Nombre',
                         'category' => 'Categoria',
                         'subcategory'  => 'Subcategoria',
+                        'code' => 'Código',
                         'products' => 'Productos',
                         'created_at' => 'Fecha de Creación',
                         'updated_at' => 'Fecha de Actualización'
@@ -771,7 +764,6 @@ return [
                     'name' => 'Nombre',
                     'description' => 'Descripción',
                     'research_units' => 'Unidades de Investigación',
-                    'cities' => 'Ciudades',
                     'created_at' => 'Fecha de Creación',
                     'updated_at' => 'Fecha de Actualización'
                 ],
@@ -801,6 +793,65 @@ return [
                 'show' => "En esta sección de la aplicación podrás visualizar la facultad <b>:administrative_unit</b> ",
 
                 'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Facultades registradas.'
+            ],
+        ],
+
+        /** Administrative Units */
+        'academic_departments' => [
+            'title' => 'Departamentos Académicos',
+            'subtitle' => 'Departamentos Académicos',
+
+            'route-titles' => [
+                'create' => 'Registrar Departamento Académico',
+                'show' => 'Visualizar Departamento Académico',
+                'edit' => 'Editar Departamento Académico',
+            ],
+
+            'form-titles' => [
+                'show' => 'Perfil de Visualización del Departamento Académico',
+                'create' => 'Formulario de Registro de un Departamento Académico',
+                'edit' => 'Actualización del Departamento Académico',
+            ],
+
+            'filters' => [
+                'name' => 'Buscar Departamento Académico',
+                'total' => 'Total de Departamentos Académicos: ',
+            ],
+
+            'table' => [
+                'head' => [
+                    'name' => 'Nombre',
+                    'description' => 'Descripción',
+                    'research_units' => 'Unidades de Investigación',
+                    'created_at' => 'Fecha de Creación',
+                    'updated_at' => 'Fecha de Actualización'
+                ],
+                'body' => [
+                    'research_units_count' => ':research_units_count Unidades de Investigación registradas.'
+                ]
+
+            ],
+
+            'messages' => [
+                'confirm' => '¿Estás seguro de que quieres eliminar el Departamento Académico?',
+
+                'save_success' => 'Se ha registrado correctamente el Departamento Académico: <b>:academic_department</b>',
+                'save_error' => 'No se ha registrado el Departamento Académico.',
+
+                'update_success' => 'Se ha actualizado correctamente el Departamento Académico: <b>:academic_department</b>',
+                'update_error' => 'No se ha actualizado el Departamento Académico.',
+
+                'delete_success' => 'Se ha eliminado el Departamento Académico: <b>:academic_department</b>',
+                'delete_error' => 'No se ha eliminado el Departamento Académico.'
+            ],
+
+            'info' => [
+                'create' => "En esta sección de la aplicación podrás realizar el registro del recurso <b>DEPARTAMENTO ACADÉMICO</b>. 
+                Dicho recurso actualmente está destinado para enriquecer la información de los departamentos academicos dentro de la aplicación.",
+
+                'show' => "En esta sección de la aplicación podrás visualizar el Departamento Académico <b>:academic_department</b> ",
+
+                'callout' => 'En la aplicación existe actualmente un total de <b>:count</b> Departamentos Académicos registrados.'
             ],
         ],
 
@@ -903,18 +954,18 @@ return [
 
                 'administrative_units' => 'Buscar por Facultad',
                 'research_units' => 'Buscar por Unidad Investigativa',
+                'directors' => 'Buscar por Director',
 
                 'total' => 'Total de Proyectos: ',
             ],
 
             'table' => [
                 'head' => [
-                    'administrative_unit' => 'Facultad',
-                    'research_unit' => 'Unidad Investigativa',
                     'director' => 'Director',
-                    'project_financing' => 'Financiación',
                     'name' => 'Nombre',
                     'description' => 'Descripción',
+                    'project_contract' => 'Contratación',
+                    'project_financing' => 'Financiación',
 
                     'intangible_assets' => 'Activos',
 
@@ -1153,9 +1204,10 @@ return [
 
             'table' => [
                 'head' => [
-                    'administrative_unit' => 'Facultad',
-                    'research_unit' => 'Unidad Investigativa',
                     'project' => 'Proyecto',
+                    'research_units' => 'Unidades Investigativas',
+                    'classification' => 'Clasificación',
+                    'state' => 'Estado del AI',
 
                     'name' => 'Nombre',
                     'status' => 'Estado de las Fases',
@@ -1282,6 +1334,23 @@ return [
                             ],
                             'buttons' => [
                                 'download' => 'Descargar Contrato de Sesión de Derechos Patrimoniales'
+                            ]
+                        ],
+
+                        'academic_record' => [
+                            'title' => '¿El Activo Intangible tiene acto administrativo que concede su protección?',
+                            'form' => [
+                                'entity' => 'Entidad competente que otorga la protección:',
+                                'administrative_record_num' => 'N° del acto administrativo',
+                                'date' => 'Fecha de concesión',
+                                'file' => 'Acto administrativo:',
+                            ],
+                            'messages' => [
+                                'save_success' => 'Se ha registrado el acto administrativo del Activo Intangible.',
+                                'save_error' => 'No se pudo registrar el acto administrativo.',
+                            ],
+                            'buttons' => [
+                                'download' => 'Descargar Acto Administrativo'
                             ]
                         ],
 

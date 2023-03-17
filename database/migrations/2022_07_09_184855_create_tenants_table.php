@@ -17,6 +17,7 @@ return new class extends Migration
             $table->tinyIncrements('id');
 
             $table->string('name');
+            $table->string('info');
 
             $table->string('driver', 20)->default('mysql');
             $table->string('url')->nullable();

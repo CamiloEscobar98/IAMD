@@ -2,19 +2,22 @@
 
 namespace App\Services\Admin;
 
+use App\Services\AbstractServiceModel;
+
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use App\Repositories\Admin\StateRepository;
 
-class StateService
+class StateService extends AbstractServiceModel
 {
+
     /** @var StateRepository */
     protected $stateRepository;
 
     public function __construct(StateRepository $stateRepository)
     {
-        $this->stateRepository = $stateRepository;
+        $this->repository = $this->stateRepository = $stateRepository;
     }
 
     /**
@@ -25,12 +28,6 @@ class StateService
     public function transformParams($params)
     {
         if (empty($params)) {
-            // // $params = set_sub_month_date_filter($params, 'date_from', 1);
-        }
-        if (isset($params['country']) && $params['country']) {
-            $params['country_id'] = $params['country'];
-
-            $params['country'] = null;
         }
 
         # Clean empty keys

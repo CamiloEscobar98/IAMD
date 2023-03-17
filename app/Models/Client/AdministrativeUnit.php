@@ -53,7 +53,7 @@ class AdministrativeUnit extends BaseModel
      */
     public function scopeByName($query, string $name)
     {
-        $query->where('name', 'like', "%{$name}%");
+        $query->where("{$this->getTable()}.name", 'like', "%{$name}%");
     }
 
     /**
@@ -66,7 +66,7 @@ class AdministrativeUnit extends BaseModel
      */
     public function scopeSinceDate($query, string $dateFrom)
     {
-        $query->where('updated_at', '>=', $dateFrom);
+        $query->where("{$this->getTable()}.updated_at", '>=', $dateFrom);
     }
 
     /**
@@ -79,7 +79,7 @@ class AdministrativeUnit extends BaseModel
      */
     public function scopeToDate($query, string $dateTo)
     {
-        $query->where('updated_at', '<=', $dateTo);
+        $query->where("{$this->getTable()}.updated_at", '<=', $dateTo);
     }
 
     /**

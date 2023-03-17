@@ -12,10 +12,11 @@
       </div>
 
       @error('name')
-          <small class="text-danger">{{ $message }}</small>
+          <small class="text-danger">{!! $message !!}</small>
       @enderror
   </div>
   <!-- ./Name -->
+
   <!-- Email -->
   <div class="form-group">
       <label>{{ __('inputs.email') }}:</label>
@@ -31,7 +32,7 @@
       </div>
 
       @error('email')
-          <small class="text-danger">{{ $message }}</small>
+          <small class="text-danger">{!! $message !!}</small>
       @enderror
   </div>
   <!-- ./Email -->
@@ -53,7 +54,7 @@
               </div>
 
               @error('phone')
-                  <small class="text-danger">{{ $message }}</small>
+                  <small class="text-danger">{!! $message !!}</small>
               @enderror
           </div>
           <!-- ./Phone -->
@@ -79,7 +80,7 @@
               </div>
 
               @error('document_type_id')
-                  <small class="text-danger">{{ $message }}</small>
+                  <small class="text-danger">{!! $message !!}</small>
               @enderror
           </div>
           <!-- ./Document Type -->
@@ -100,13 +101,12 @@
               </div>
 
               @error('document')
-                  <small class="text-danger">{{ $message }}</small>
+                  <small class="text-danger">{!! $message !!}</small>
               @enderror
           </div>
           <!-- ./Document -->
       </div>
   </div>
-
 
   <!--Expedition Place -->
   <div class="row">
@@ -171,7 +171,7 @@
               </div>
 
               @error('expedition_place_id')
-                  <small class="text-danger">{{ $message }}</small>
+                  <small class="text-danger">{!! $message !!}</small>
               @enderror
           </div>
           <!-- ./Cities -->
@@ -189,7 +189,7 @@
                       class="form-control select2bs4 @error('external_organization_id') is-invalid @enderror">
                       @foreach ($externalOrganizations as $externalOrganization => $value)
                           <option value="{{ $externalOrganization }}"
-                              {{ twoOptionsIsEqual(old('external_organization_id'), $externalOrganization) }}>
+                              {{ twoOptionsIsEqual(old('external_organization_id', $item->external_organization_id), $externalOrganization) }}>
                               {{ $value }}</option>
                       @endforeach
                   </select>
@@ -201,7 +201,7 @@
               </div>
 
               @error('external_organization_id')
-                  <small class="text-danger">{{ $message }}</small>
+                  <small class="text-danger">{!! $message !!}</small>
               @enderror
           </div>
           <!-- ./External Organization -->
@@ -227,7 +227,7 @@
               </div>
 
               @error('assignment_contract_id')
-                  <small class="text-danger">{{ $message }}</small>
+                  <small class="text-danger">{!! $message !!}</small>
               @enderror
           </div>
           <!-- ./Assignment Contract -->

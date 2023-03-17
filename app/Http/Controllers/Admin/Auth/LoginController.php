@@ -17,5 +17,5 @@ class LoginController extends  Controller
         $this->middleware('guest:admin')->except('logout');
     }
 
-    protected $redirectTo = RouteServiceProvider::ADMIN_HOME;
+    protected string $redirectTo = RouteServiceProvider::ADMIN_HOME;
 }

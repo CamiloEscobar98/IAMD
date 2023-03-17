@@ -15,10 +15,15 @@ use App\Services\Client\ProjectService;
 
 use App\Repositories\Client\ProjectRepository;
 use App\Repositories\Client\ProjectFinancingRepository;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class ProjectController extends Controller
 {
-
     /** @var ProjectService */
     protected $projectService;
 
@@ -41,7 +46,7 @@ class ProjectController extends Controller
         $this->middleware('permission:projects.store')->only(['create', 'store']);
         $this->middleware('permission:projects.update')->only(['edit', 'update']);
         $this->middleware('permission:projects.destroy')->only('destroy');
-        
+
         $this->projectService = $projectService;
 
         $this->projectRepository = $projectRepository;
@@ -51,27 +56,31 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     * @param Request $request
+     * @param string $client
+     * @return View|RedirectResponse
      */
-    public function index(Request $request) #: \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+    public function index(Request $request, $client): View|RedirectResponse
     {
         try {
             $params = $this->projectService->transformParams($request->all());
-
-            $query = $this->projectRepository->search($params, ['director','research_unit.administrative_unit', 'project_financing.financing_type'], ['intangible_assets']);
-
+            $query = $this->projectRepository->search(
+                $params,
+                ['project_financings:id,name,code', 'director:id,name', 'contract_type:id,name,code'],
+                ['intangible_assets']
+            );
             $total = $query->count();
-
-            $items = $this->projectService->customPagination($query, $params, $request->get('page'), $total);
-
+            $items = $this->projectService->customPagination($query, $params, intval($request->get('page', 1)), $total);
             $links = $items->links('pagination.customized');
-
             return view('client.pages.projects.index', compact('links'))
                 ->nest('filters', 'client.pages.projects.components.filters', compact('params', 'total'))
                 ->nest('table', 'client.pages.projects.components.table', compact('items'));
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/ProjectController:Index/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ProjectController:Index/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.home', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -84,38 +93,36 @@ class ProjectController extends Controller
         try {
             $item = $this->projectRepository->newInstance();
             return view('client.pages.projects.create', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ProjectController:Create/Exception: {$e->getMessage()}");
         }
+        return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param string $client
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function store(StoreRequest $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function store(StoreRequest $request, $client): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.save-error')];
         try {
-
-            $dataProject = $request->only(['research_unit_id', 'director_id', 'name', 'description']);
-
             DB::beginTransaction();
-
-            $item = $this->projectRepository->create($dataProject);
-
-            $dataProjectFinancing = $request->only(['financing_type_id', 'project_contract_type_id', 'contract', 'date']);
-            $dataProjectFinancing['project_id'] = $item->id;
-
-            $this->projectFinancingRepository->create($dataProjectFinancing);
-
+            $item = $this->projectService->save($request->all());
             DB::commit();
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.projects.messages.save_success', ['project' => $item->name])]);
-        } catch (\Exception $th) {
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.save-success')];
+            Log::info("@Web/Controllers/Client/ProjectController:Store/Success, Item: {$item->name}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/ProjectController:Store/QueryException: {$qe->getMessage()}");
             DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ProjectController:Store/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('client.projects.create', $client)->with('alert', $response);
     }
 
     /**
@@ -129,12 +136,14 @@ class ProjectController extends Controller
     public function show($id, $project, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
-            $item = $this->projectRepository->getByIdWithRelations($project, ['research_unit', 'director', 'intangible_assets', 'project_financing.financing_type', 'project_financing.project_contract_type']);
-
+            $item = $this->projectRepository->getByIdWithRelations($project, ['director', 'research_units', 'intangible_assets', 'project_financings', 'contract_type']);
             return view('client.pages.projects.show', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/ProjectController:Show/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ProjectController:Show/Exception: {$e->getMessage()}");
         }
+        return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -148,11 +157,12 @@ class ProjectController extends Controller
     public function edit($id, $project, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
-            $item = $this->projectRepository->getByIdWithRelations($project, ['project_financing']);
-
+            $item = $this->projectRepository->getByIdWithRelations($project, ['director', 'research_units', 'intangible_assets', 'project_financings', 'contract_type']);
             return view('client.pages.projects.edit', compact('item'));
-        } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => $th->getMessage()]);
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/ProjectController:Edit/ModelNotFoundException: {$me->getMessage()}");
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ProjectController:Edit/Exception: {$e->getMessage()}");
         }
     }
 
@@ -160,60 +170,58 @@ class ProjectController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $client
      * @param int $project
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, $id, $project): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function update(UpdateRequest $request, $client, $project): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
         try {
-
-            $dataProject = $request->only(['research_unit_id', 'director_id', 'name', 'description']);
-
-            $item = $this->projectRepository->getById($project);
-
             DB::beginTransaction();
-
-            $this->projectRepository->update($item, $dataProject);
-
-            $dataProjectFinancing = $request->only(['financing_type_id', 'project_contract_type_id', 'contract', 'date']);
-
-            $projectFinancing = $this->projectFinancingRepository->getById($project);
-
-            $this->projectFinancingRepository->update($projectFinancing, $dataProjectFinancing);
-
+            $item = $this->projectService->update($request->all(), $project);
             DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.projects.messages.update_success', ['project' => $item->name])]);
-        } catch (\Exception $th) {
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+            Log::info("@Web/Controllers/Client/ProjectController:Update/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/ProjectController:Update/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/ProjectController:Update/QueryException: {$qe->getMessage()}");
             DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.projects.messages.update_error')]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ProjectController:Update/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('client.projects.edit', compact('client', 'project'))->with('alert', $response);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $client
      * @param int $project
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, $project)
+    public function destroy($client, $project)
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.delete-error')];
         try {
             $item = $this->projectRepository->getById($project);
-
             DB::beginTransaction();
-
-            $this->projectRepository->delete($item);
-
+            $this->projectService->delete($project);
             DB::commit();
-
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.projects.messages.delete_success', ['project' => $item->name])]);
-        } catch (\Exception $th) {
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.delete-success')];
+            Log::info("@Web/Controllers/Client/ProjectController:Delete/Success, Item: {$item->name}");
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/ProjectController:Delete/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/ProjectController:Delete/QueryException: {$qe->getMessage()}");
             DB::rollBack();
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.projects.messages.delete_error')]);
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/ProjectController:Delete/Exception: {$e->getMessage()}");
+            DB::rollBack();
         }
+        return redirect()->route('client.projects.index', $client)->with('alert', $response);
     }
 }

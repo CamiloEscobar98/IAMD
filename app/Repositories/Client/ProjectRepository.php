@@ -23,29 +23,35 @@ class ProjectRepository extends  AbstractRepository
      */
     public function search(array $params = [], array $with = [], array $withCount = [])
     {
+        $joins = collect();
         $table = $this->model->getTable();
-
+        $joinResearchUnitProject = 'project_research_unit';
+        $joinResearchUnit = 'research_units';
+        
         $query = $this->model
-            ->select("{$table}.*");
-
+        ->select("{$table}.*");
+        
         if (isset($params['id']) && $params['id']) {
             $query->byId($params['id']);
         }
-
+        
         if (isset($params['name']) && $params['name']) {
             $query->byName($params['name']);
         }
-
+        
         if (isset($params['administrative_unit_id']) && $params['administrative_unit_id']) {
+            $this->addJoin($joins, $joinResearchUnitProject, "{$table}.id", "{$joinResearchUnitProject}.project_id");
+            $this->addJoin($joins, $joinResearchUnit, "{$joinResearchUnitProject}.research_unit_id", "{$joinResearchUnit}.id");
             $query->byAdministrativeUnit($params['administrative_unit_id']);
         }
 
-        if (isset($params['research_unit_id']) && $params['research_unit_id']) {
+        if (isset($params['research_unit_id']) && !is_null($params['research_unit_id'])) {
+            $this->addJoin($joins, $joinResearchUnitProject, "{$table}.id", "{$joinResearchUnitProject}.project_id");
             $query->byResearchUnit($params['research_unit_id']);
         }
 
         if (isset($params['director_id']) && $params['director_id']) {
-            $query->byDirector($params['research_unit_id']);
+            $query->byDirector($params['director_id']);
         }
 
         if (isset($params['date_from']) && $params['date_from']) {
@@ -63,6 +69,11 @@ class ProjectRepository extends  AbstractRepository
         if (isset($withCount) && $withCount) {
             $query->withCount($withCount);
         }
+        
+        $joins->each(function ($item, $key) use ($query) {
+            $item = json_decode($item, false);
+            $query->join($key, $item->first, '=', $item->second, $item->join_type);
+        });
 
         return $query;
     }

@@ -97,14 +97,14 @@
                 <!-- External Organization -->
                 <div class="form-group">
                     <label>{{ __('inputs.external_organization_id') }}:</label>
-                    <p>{{ $item->external_organization->name }}</p>
+                    <p>{{ getParamObject($item->external_organization, 'name', true) }}</p>
                 </div>
                 <!-- ./External Organization -->
 
                 <!-- Assignment Contract -->
                 <div class="form-group">
                     <label>{{ __('inputs.assignment_contract_id') }}:</label>
-                    <p>{{ $item->assignment_contract->name }}</p>
+                    <p>{{ getParamObject($item->assignment_contract, 'name', true) }}</p>
                 </div>
                 <!-- ./Assignment Contract -->
             </div>

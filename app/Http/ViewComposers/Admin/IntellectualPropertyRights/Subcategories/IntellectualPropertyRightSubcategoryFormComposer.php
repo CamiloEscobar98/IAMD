@@ -20,7 +20,7 @@ class IntellectualPropertyRightSubcategoryFormComposer
     {
         $categories = $this->intellectualPropertyRightCategoryRepository->all();
 
-        $categories = $categories->pluck('name', 'id')->prepend('Seleccionar Categoría', -1);
+        $categories = $categories->pluck('name', 'id')->prepend('---Seleccionar Categoría', -1);
 
         $view->with(compact('categories'));
     }
