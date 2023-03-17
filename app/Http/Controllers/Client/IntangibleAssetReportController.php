@@ -77,7 +77,7 @@ class IntangibleAssetReportController extends Controller
             ];
 
             
-            // return view('reports.intangible_assets.single', $data);
+            return view('reports.intangible_assets.single', $data);
             
             $pdf = Pdf::loadView('reports.intangible_assets.single', $data);
 
