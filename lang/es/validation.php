@@ -129,6 +129,7 @@ return [
         'password' => [
             'min' => 'La :attribute debe contener más de :min caracteres',
         ],
+        // 'necessary' => 'Es necesario al menos escoger una gráfica para poder realizar el reporte.',
     ],
     'attributes'           => [
         'address'               => 'dirección',

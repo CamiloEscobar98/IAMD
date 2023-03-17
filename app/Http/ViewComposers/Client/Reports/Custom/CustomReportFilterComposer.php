@@ -59,22 +59,7 @@ class CustomReportFilterComposer
 
         $projectItems = $this->projectRepository->all();
 
-        $administrativeUnitItems = $this->administrativeUnitRepository->all();
-
-        if (!$projectId && !$administrativeUnitId) {
-            $researchUnitsItems = collect();
-        } else {
-            $researchUnitsItems = $this->researchUnitRepository->search(['project_id' => $projectId, 'administrative_unit_id' => $administrativeUnitId])->get(['id', 'name']);
-        }
-
-        /** @var \Illuminate\Database\Eloquent\Collection $researchUnitsItems */
-        $researchUnits = $researchUnitsItems->pluck('name', 'id')->prepend('---Seleccionar Unidades Investigativas', null);
-
         $projects = $projectItems->pluck('name', 'id')->prepend('---Seleccionar Proyecto');
-
-        $administrativeUnits = $administrativeUnitItems->pluck('name', 'id')->prepend('---Seleccionar Facultad');
-
-        [$categories, $subCategories, $products, $category, $subCategory, $product] = $this->intellectualPropertyRightCategoryService->getIntellectualPropertyCategorySelect();
 
         /** Intangible Asset States */
         $states = $this->intangibleAssetStateRepository->all();
@@ -126,37 +111,21 @@ class CustomReportFilterComposer
                 'value' =>  'Mostrar/Ocultar Gráfica Tipos de Activos Intangibles asociados a una Facultad.'
             ],
             [
-                'name' =>  'with_graphics_assets_state_research_unit_per_administrative_unit',
-                'value' =>  'Mostrar/Ocultar Gráfica Tipos de Activos Intangibles por Estados, asociados a una Facultad.'
-            ],
-            [
-                'name' =>  'with_graphics_assets_research_unit_per_administrative_unit',
-                'value' =>  'Mostrar/Ocultar Gráfica Activos Intangibles por Grupos de Investigación asociados a una Facultad.'
-            ],
-            [
                 'name' =>  'with_graphics_assets_classification_per_research_unit',
                 'value' =>  'Mostrar/Ocultar Gráfica Tipos de Activos Intangibles asociados a un Grupo de Investigación.'
             ],
-            [
-                'name' => 'with_graphics_default',
-                'value' => 'Mostrar/Ocultar Gráfica Estados de los Tipos de Activos Intangibles asociados a un Grupo de Investigación.'
-            ]
+            // [
+            //     'name' => 'with_graphics_assets_state_classification_per_research_unit',
+            //     'value' => 'Mostrar/Ocultar Gráfica Estados de los Tipos de Activos Intangibles asociados a un Grupo de Investigación.'
+            // ]
         ]);
 
         $view->with(compact(
-            'researchUnits',
             'projects',
-            'administrativeUnits',
             'phases',
             'ordersBy',
             'intangibleAssetCustomGeneral',
             'graphics',
-            'categories',
-            'subCategories',
-            'products',
-            'category',
-            'subCategory',
-            'product'
         ));
     }
 }

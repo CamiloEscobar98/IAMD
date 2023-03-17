@@ -33,39 +33,24 @@
         <form action="{{ getClientRoute('client.intangible_assets.reports.custom') }}" method="get" id="form"
             data-client="{{ $client->name }}">
 
+            @error('empty_graphics')
+                <p class="text-danger font-weight-bold">{!! $message !!}</p>
+            @enderror
+
             <!-- Filters -->
             <h5 class="font-weight-bold">{{ __('pages.client.reports.custom.sections.filters.title') }}</h5>
 
+            <!-- Phases Completed -->
             <div class="row justify-content-center">
 
-                <!-- Administrative Unit -->
-                <div class="col-xl-4">
-                    <div class="input-group mb-3">
-                        <div class="input-group-append">
-                            <label class="input-group-text">{{ __('filters.administrative_units') }}</label>
-                        </div>
-                        <select name="administrative_unit_id" id="administrative_unit_id"
-                            class="form-control select2bs4 administrative_units @error('administrative_unit_id') is-invalid @enderror"
-                            onchange="changeResearchUnits()">
-                            @foreach ($administrativeUnits as $administrativeUnit => $value)
-                                <option value="{{ $administrativeUnit }}"
-                                    {{ optionIsSelected($params, 'administrative_unit_id', $administrativeUnit) }}>
-                                    {{ $value }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <!-- ./Administrative Unit -->
-
                 <!-- Project -->
-                <div class="col-xl-4">
+                <div class="col-xl-6">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.projects') }}</label>
                         </div>
                         <select name="project_id" id="project_id"
-                            class="form-control select2bs4 projects @error('project_id') is-invalid @enderror"
-                            onchange="changeResearchUnits()">
+                            class="form-control select2bs4 projects @error('project_id') is-invalid @enderror">
                             @foreach ($projects as $project => $value)
                                 <option value="{{ $project }}"
                                     {{ optionIsSelected($params, 'project_id', $project) }}>
@@ -76,84 +61,8 @@
                 </div>
                 <!-- ./Project -->
 
-                <!-- Research Unit -->
-                <div class="col-xl-4">
-                    <div class="input-group mb-3">
-                        <div class="input-group-append">
-                            <label class="input-group-text">{{ __('filters.research_units') }}</label>
-                        </div>
-                        <select name="research_unit_id" id="research_unit_id"
-                            class="form-control select2bs4 research_units @error('research_unit_id') is-invalid @enderror"
-                            onchange="changeResearchUnit()">
-                            @foreach ($researchUnits as $researchUnit => $value)
-                                <option value="{{ $researchUnit }}"
-                                    {{ optionIsSelected($params, 'research_unit_id', $researchUnit) }}>
-                                    {{ $value }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <!-- ./Research Unit -->
-            </div>
-
-            <div class="row justify-content-start">
-                <div class="col-md-4">
-                    <div class="input-group mb-3">
-                        <div class="input-group-append">
-                            <label
-                                class="input-group-text">{{ __('pages.client.intangible_assets.phases.one.form.level_1') }}</label>
-                        </div>
-                        <select name="intellectual_property_right_category_id" id="intellectual_property_right_category_id"
-                            class="form-control form-control-sm select2bs4 intellectual_property_right_categories"
-                            onchange="changeIntellectualPropertyRightCategory()">
-                            @foreach ($categories as $categoryItem => $value)
-                                <option value="{{ $categoryItem }}" {{ twoOptionsIsEqual($category->id, $categoryItem) }}>
-                                    {{ $value }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-
-                </div>
-                <div class="col-md-4">
-                    <div class="input-group mb-3">
-                        <div class="input-group-append">
-                            <label
-                                class="input-group-text">{{ __('pages.client.intangible_assets.phases.one.form.level_2') }}</label>
-                        </div>
-                        <select name="intellectual_property_right_subcategory_id"
-                            id="intellectual_property_right_subcategory_id"
-                            class="form-control form-control-sm select2bs4 intellectual_property_right_subcategories"
-                            onchange="changeIntellectualPropertyRightSubcategory()">
-                            @foreach ($subCategories as $subCategoryItem => $value)
-                                <option value="{{ $subCategoryItem }}"
-                                    {{ twoOptionsIsEqual($subCategory->id, $subCategoryItem) }}>
-                                    {{ $value }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="input-group mb-3">
-                        <div class="input-group-append">
-                            <label
-                                class="input-group-text">{{ __('pages.client.intangible_assets.phases.one.form.level_3') }}</label>
-                        </div>
-                        <select name="intellectual_property_right_product_id" id="intellectual_property_right_product_id"
-                            class="form-control form-control-sm select2bs4 intellectual_property_right_products">
-                            @foreach ($products as $productItem => $value)
-                                <option value="{{ $productItem }}" {{ twoOptionsIsEqual($product->id, $productItem) }}>
-                                    {{ $value }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Phases Completed -->
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
+                <!-- Intangible Assets Completed Phases -->
+                <div class="col-lg-6">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.phases_completed') }}</label>
@@ -166,6 +75,7 @@
                         </select>
                     </div>
                 </div>
+                <!-- ./Intangible Assets Completed Phases -->
             </div>
             <!-- ./Phases Completed -->
 
@@ -207,14 +117,11 @@
 
             <!-- ./Filters -->
 
-            <!-- Contents -->
-            <h5 class="font-weight-bold">{{ __('pages.client.reports.custom.sections.contents.title') }}</h5>
-
             <!-- Graphics -->
-            <h6 class="font-weight-bold mt-4">{{ __('pages.client.reports.custom.sections.contents.graphics') }} </h6>
+            <h5 class="font-weight-bold">{{ __('pages.client.reports.custom.sections.contents.graphics') }} </h5>
             <div class="row mx-2 mt-2">
                 @foreach ($graphics as $index => $graphicItem)
-                    <div class="col-md-3 mt-3">
+                    <div class="col-md-6 mt-3">
                         <div class="custom-control custom-switch">
                             <input type="checkbox" name="{{ $graphicItem['name'] }}" class="custom-control-input"
                                 id="switch-graphic-{{ $index }}">
@@ -226,7 +133,6 @@
 
             </div>
             <!-- ./Graphics -->
-            <!-- ./Contents -->
 
             <button type="submit" class="mt-4 btn btn-danger btn-sm">{{ __('buttons.report') }}</button>
         </form>

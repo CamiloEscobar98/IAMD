@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
-        
+
 use Barryvdh\DomPDF\Facade\Pdf;
 
 use App\Services\FileSystem\IntangibleAssets\ReportFileCustomReportService;
@@ -18,6 +18,8 @@ use App\Repositories\Admin\NotificationTypeRepository;
 use App\Repositories\Admin\TenantRepository;
 use App\Repositories\Client\NotificationRepository;
 use App\Repositories\Client\UserFileReportRepository;
+use Exception;
+use Illuminate\Http\File;
 
 class CreateFileReportJob implements ShouldQueue
 {
@@ -65,12 +67,12 @@ class CreateFileReportJob implements ShouldQueue
         $config = $this->config;
 
         try {
+            // Log::info('Data', $data);
+            // Log::info('Configuration', $config);
             $client  = $tenantRepository->getByAttribute('name', $config['client']);
             Config::set('database.connections.tenant', $tenantRepository->getArrayConfigurationDatabase($client));
 
             Log::alert('CREATING CUSTOM REPORT');
-
-            Log::notice("COUNT: {$data['count']}");
 
             switch ($config['report_type']) {
                 case 'intangible_assets.reports.single':
@@ -78,11 +80,13 @@ class CreateFileReportJob implements ShouldQueue
 
                     $notificationType = $notificationTypeRepository->getByAttribute('name', 'Reporte');
 
-                    $pdf = Pdf::loadView('reports.intangible_assets.single', $data)->output();
+                    $pdf = Pdf::loadView('reports.intangible_assets.single', $data);
+
+                    dd($pdf->output());
 
                     $fileName = 'intangible_asset_report_single_' . time() . '.pdf';
 
-                    $reportFileSingleReportService->storeFileReport($fileName, $pdf, []);
+                    // $reportFileSingleReportService->storeFileReport($fileName, $pdf, []);
 
                     $notificationRepository->create([
                         'user_id' => $config['userId'],
@@ -105,11 +109,17 @@ class CreateFileReportJob implements ShouldQueue
 
                     $notificationType = $notificationTypeRepository->getByAttribute('name', 'Reporte');
 
+                    Log::info('Notification Type selected!');
+
                     $pdf = Pdf::loadView('reports.intangible_assets.custom', $data)->output();
+
+                    Log::info('PDF loaded!');
 
                     $fileName = 'intangible_asset_report_custom_multiple_' . time() . '.pdf';
 
-                    $reportFileCustomReportService->storeFileReport($fileName, $pdf, []);
+                    $reportFileCustomReportService->storeFileReport($fileName, new File($pdf), []);
+
+                    Log::info('Report File Stored!');
 
                     $notificationRepository->create([
                         'user_id' => $config['userId'],
@@ -128,8 +138,8 @@ class CreateFileReportJob implements ShouldQueue
             }
 
             Log::alert('---- CREATING NEW REPORT FINISHED ----');
-        } catch (\Exception $th) {
-            Log::error($th->getMessage());
+        } catch (Exception $e) {
+            Log::error("@Jobs/CreateFileReportJob/Exception: {$e->getMessage()}");
         }
     }
 }

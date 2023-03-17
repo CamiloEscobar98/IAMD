@@ -218,7 +218,7 @@ class IntangibleAssetController extends Controller
             Log::error("@Web/Controllers/Client/IntangibleAssetController:UpdateCode/Exception: {$e->getMessage()}");
             DB::rollBack();
         }
-        return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', $this->intangibleAssetService->updateCode($intangible_asset));
+        return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', $response);
     }
 
     /**

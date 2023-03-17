@@ -403,7 +403,7 @@ if (!function_exists('getPhasesByNumber')) {
             $arrayAux = [];
             foreach ($phases as $key => $phase) {
                 if ($asQuery) {
-                    $arrayAux["intangible_asset_phases.phase_{$phasesString[$phase - 1]}_completed"] = $phase;
+                    $arrayAux["intangible_asset_phases.phase_{$phasesString[$phase - 1]}_completed"] = 1;
                 } else {
                     array_push($arrayAux, "phase_{$phasesString[$phase - 1]}_completed");
                 }
