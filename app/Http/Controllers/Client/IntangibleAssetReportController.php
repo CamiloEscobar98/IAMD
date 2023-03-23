@@ -81,7 +81,7 @@ class IntangibleAssetReportController extends Controller
             
             $pdf = Pdf::loadView('reports.intangible_assets.single', $data);
 
-            return $pdf->download();
+            return $pdf->stream();
 
             // CreateFileReportJob::dispatch([
             //     'intangibleAsset' => $intangibleAsset,
@@ -170,7 +170,7 @@ class IntangibleAssetReportController extends Controller
 
             /** Testing the View Custom PDF */
 
-            // $dataCompact = compact('graphicConfiguration', 'count', 'client');
+            $dataCompact = compact('graphicConfiguration', 'count', 'client');
 
             if (isset($dataCompact) && $dataCompact) {
 

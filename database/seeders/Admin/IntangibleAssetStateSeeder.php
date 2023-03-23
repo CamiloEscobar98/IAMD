@@ -25,10 +25,6 @@ class IntangibleAssetStateSeeder extends Seeder
     {
 
         $array = [
-            [
-                'name' => 'No Identificado',
-                'description' => 'Si el activo intangible no se había detectado, caracterizado o identificado como activo intangible hasta la fecha.',
-            ],
 
             [
                 'name' => 'Identificado y No Protegido',

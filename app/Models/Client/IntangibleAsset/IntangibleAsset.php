@@ -140,11 +140,11 @@ class IntangibleAsset extends BaseModel
     {
         return $this->hasOne(IntangibleAssetSessionRightContract::class);
     }
-    
+
     /**
      * @return HasOne
      */
-    public function intangible_asset_academic_record() : HasOne
+    public function intangible_asset_academic_record(): HasOne
     {
         return $this->hasOne(IntangibleAssetAcademicRecord::class);
     }
@@ -303,7 +303,7 @@ class IntangibleAsset extends BaseModel
      */
     public function scopeByState($query, $stateId)
     {
-        if (is_array($stateId) && !empty($projectId)) {
+        if (is_array($stateId) && !empty($stateId)) {
             return $query->wherenIn("{$this->getTable()}.intangible_asset_state_id", $stateId);
         } else {
             return $query->where("{$this->getTable()}.intangible_asset_state_id", $stateId);
@@ -320,7 +320,7 @@ class IntangibleAsset extends BaseModel
      */
     public function scopeSinceDate($query, string $dateFrom)
     {
-        $query->where("{$this->getTable()}.date", '>=', $dateFrom);
+        return $query->where("{$this->getTable()}.date", '>=', $dateFrom);
     }
 
     /**
@@ -333,7 +333,7 @@ class IntangibleAsset extends BaseModel
      */
     public function scopeToDate($query, string $dateTo)
     {
-        $query->where("{$this->getTable()}.date", '<=', $dateTo);
+        return $query->where("{$this->getTable()}.date", '<=', $dateTo);
     }
 
     /**

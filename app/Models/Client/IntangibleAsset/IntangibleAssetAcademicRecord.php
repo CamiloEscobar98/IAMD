@@ -22,7 +22,7 @@ class IntangibleAssetAcademicRecord extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['entity', 'administrative_record_num', 'date', 'file_path', 'file'];
+    protected $fillable = ['intangible_asset_id', 'entity', 'administrative_record_num', 'date', 'file_path', 'file'];
 
     /**
      * Get the Full Path
