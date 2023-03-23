@@ -484,13 +484,8 @@ if (!function_exists('showIsPublishedInForm')) {
         $categoryName = Str::lower($intangibleAsset->classification->intellectual_property_right_subcategory->intellectual_property_right_category->name);
         $subCategoryName = Str::lower($intangibleAsset->classification->intellectual_property_right_subcategory->name);
 
-        if ($categoryName == IntellectualPropertyRightCategory::PROPERTY_RIGHTS) {
-            return false;
-        }
-
         if (
-            $categoryName == IntellectualPropertyRightCategory::INDUSTRIAL_PROPERTY
-            && $subCategoryName == IntellectualPropertyRightSubcategory::DISTINCTIVE_SIGNS
+            $subCategoryName == IntellectualPropertyRightSubcategory::DISTINCTIVE_SIGNS
             && $stateName == IntangibleAssetState::STATE_IDENTIFIED_PROTECTED
         ) {
             return false;

@@ -77,7 +77,7 @@ class ShowIntangibleAssetComposer
         $states = $this->intangibleAssetStateRepository->all();
 
         /** DPIS */
-        $dpis = $this->intellectualPropertyRightSubcategoryRepository->all();
+        $dpis = $this->intellectualPropertyRightSubcategoryRepository->search(['category_id' => $category->id])->get();
 
         $informationScopes = collect([1 => 'Premilinar', 2 => 'Parcial', 3 => 'Total']);
 

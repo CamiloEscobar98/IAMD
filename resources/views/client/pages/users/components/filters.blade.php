@@ -46,7 +46,7 @@
                 <div class="col-lg-6">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
-                            <label class="input-group-text">{{ __('filters.name') }}</label>
+                            <label class="input-group-text">{{ __('filters.email') }}</label>
                         </div>
                         <input type="email" name="email" class="form-control"
                             placeholder="{{ __('pages.client.users.filters.email') }}"
