@@ -82,11 +82,9 @@ class CreateFileReportJob implements ShouldQueue
 
                     $pdf = Pdf::loadView('reports.intangible_assets.single', $data);
 
-                    dd($pdf->output());
-
                     $fileName = 'intangible_asset_report_single_' . time() . '.pdf';
 
-                    // $reportFileSingleReportService->storeFileReport($fileName, $pdf, []);
+                    $reportFileSingleReportService->storeFileReport($fileName, $pdf, []);
 
                     $notificationRepository->create([
                         'user_id' => $config['userId'],
@@ -139,7 +137,7 @@ class CreateFileReportJob implements ShouldQueue
 
             Log::alert('---- CREATING NEW REPORT FINISHED ----');
         } catch (Exception $e) {
-            Log::error("@Jobs/CreateFileReportJob/Exception: {$e->getMessage()}");
+            Log::error("@Jobs/CreateFileReportJob/Exception: Error");
         }
     }
 }
