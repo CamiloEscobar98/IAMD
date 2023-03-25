@@ -49,7 +49,7 @@ class IntangibleAssetFilterComposer
         $projects = $this->projectRepository->all()->pluck('name', 'id')->prepend('---Seleccionar Proyecto');
 
         /** Intangible Asset States */
-        $states = $this->intangibleAssetStateRepository->all()->pluck('name', 'id')->prepend('---Seleccionar Estado del Activo');
+        $states = $this->intangibleAssetStateRepository->all()->pluck('name', 'id');
 
         $view->with(compact('projects', 'states'));
     }

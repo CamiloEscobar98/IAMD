@@ -40,11 +40,27 @@
             <!-- Filters -->
             <h5 class="font-weight-bold">{{ __('pages.client.reports.custom.sections.filters.title') }}</h5>
 
-            <!-- Phases Completed -->
-            <div class="row justify-content-center">
+            <div class="row justify-content-start">
+                <!-- Administrative Units  -->
+                <div class="col-lg-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label class="input-group-text">@lang('filters.administrative_units')</label>
+                        </div>
+                        <select name="administrative_unit_id" id="administrative_unit_id" class="form-control">
+                            @foreach ($administrativeUnits as $administrativeUnitItem => $value)
+                                <option value="{{ $administrativeUnitItem }}"
+                                    {{ twoOptionsIsEqual(old('administrative_unit_id'), $administrativeUnitItem) }}>
+                                    {{ $value }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <!-- ./Administrative Units -->
 
                 <!-- Project -->
-                <div class="col-xl-6">
+                <div class="col-lg-4">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.projects') }}</label>
@@ -60,9 +76,79 @@
                     </div>
                 </div>
                 <!-- ./Project -->
+                <div class="col-lg-4">
+                    <!-- Research Units -->
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label class="input-group-text">@lang('filters.research_units')</label>
+                        </div>
+                        <select name="research_unit_id[]" id="research_unit_id" class="form-control select2bs4" multiple>
+                            @foreach ($researchUnits as $researchUnitId => $value)
+                                <option value="{{ $researchUnitId }}">
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <!-- ./Research Units -->
+                </div>
+            </div>
 
+            <!-- Intellectual Property Right Filters -->
+            <div class="row justify-content-start">
+                <div class="col-md-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label
+                                class="input-group-text">{{ __('pages.client.intangible_assets.phases.one.form.level_1') }}</label>
+                        </div>
+                        <select name="intellectual_property_right_category_id" id="intellectual_property_right_category_id"
+                            class="form-control select2bs4" onchange="changeIntellectualPropertyRightCategory()">
+                            @foreach ($categories as $categoryItem => $value)
+                                <option value="{{ $categoryItem }}" {{ twoOptionsIsEqual($category->id, $categoryItem) }}>
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label
+                                class="input-group-text">{{ __('pages.client.intangible_assets.phases.one.form.level_2') }}</label>
+                        </div>
+                        <select name="intellectual_property_right_subcategory_id"
+                            id="intellectual_property_right_subcategory_id" class="form-control select2bs4"
+                            onchange="changeIntellectualPropertyRightSubcategory()">
+                            @foreach ($subCategories as $subCategoryItem => $value)
+                                <option value="{{ $subCategoryItem }}"
+                                    {{ twoOptionsIsEqual($subCategory->id, $subCategoryItem) }}>
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label
+                                class="input-group-text">{{ __('pages.client.intangible_assets.phases.one.form.level_3') }}</label>
+                        </div>
+                        <select name="intellectual_property_right_product_id" id="intellectual_property_right_product_id"
+                            class="form-control select2bs4">
+                            @foreach ($products as $productItem => $value)
+                                <option value="{{ $productItem }}" {{ twoOptionsIsEqual($product->id, $productItem) }}>
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- ./Intellectual Property Right Filters -->
+
+            <!-- Phases Completed -->
+            <div class="row justify-content-start">
                 <!-- Intangible Assets Completed Phases -->
-                <div class="col-lg-6">
+                <div class="col-lg-7">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.phases_completed') }}</label>
@@ -76,6 +162,24 @@
                     </div>
                 </div>
                 <!-- ./Intangible Assets Completed Phases -->
+
+                <!-- Intangible Asset States -->
+                <div class="col-lg-5">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label class="input-group-text">{{ __('filters.intangible_assets_state') }}</label>
+                        </div>
+                        <select name="intangible_asset_state_id[]" id="intangible_asset_state_id"
+                            class="form-control select2bs4" multiple>
+                            @foreach ($states as $stateId => $value)
+                                <option value="{{ $stateId }}"
+                                    {{ optionInArray($params, 'intangible_asset_state_id', $stateId) }}>
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <!-- ./Intangible Asset States -->
             </div>
             <!-- ./Phases Completed -->
 
@@ -151,19 +255,19 @@
     <script>
         //Initialize Select2 Elements
 
-        $('.intellectual_property_right_categories').select2({
+        $('#intellectual_property_right_category_id').select2({
             theme: 'bootstrap4',
         });
 
-        $('.intellectual_property_right_subcategories').select2({
+        $('#intellectual_property_right_subcategory_id').select2({
             theme: 'bootstrap4',
         });
 
-        $('.intellectual_property_right_products').select2({
+        $('#intellectual_property_right_product_id').select2({
             theme: 'bootstrap4',
         });
 
-        $('.administrative_units').select2({
+        $('#administrative_unit_id').select2({
             theme: 'bootstrap4',
         });
 
@@ -179,9 +283,21 @@
             theme: 'bootstrap4',
         });
 
+        $('#intangible_asset_state_id').select2({
+            theme: 'bootstrap4',
+            placeholder: '---Seleccionar Estado del Activo Intangible',
+            allowClear: true
+        });
+
+        $('#research_unit_id').select2({
+            theme: 'bootstrap4',
+            placeholder: '---Seleccionar Unidades Investigativas',
+            allowClear: true
+        });
+
         $('.phases').select2({
             theme: 'bootstrap4',
-            placeholder: 'Seleccionar las Fases',
+            placeholder: '---Seleccionar las Fases',
             allowClear: true
         });
     </script>

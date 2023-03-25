@@ -20,7 +20,7 @@ class ResearchUnitRepository extends  AbstractRepository
      * @param array $with
      * @param array $withCount
      * 
-     * @return $query
+     * @return \Illuminate\Database\Query\Builder
      */
     public function search(array $params = [], array $with = [], array $withCount = [])
     {

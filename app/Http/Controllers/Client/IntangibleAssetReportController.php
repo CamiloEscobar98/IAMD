@@ -143,6 +143,8 @@ class IntangibleAssetReportController extends Controller
             /** @var Collection $intangibleAssets */
             $intangibleAssets = $query->get();
 
+            dd($intangibleAssets);
+
             Log::notice('Intangible Assets searched!');
 
             $count = $query->count();

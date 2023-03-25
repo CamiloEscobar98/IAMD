@@ -102,6 +102,20 @@ class IntangibleAssetRepository extends AbstractRepository
             }
         }
 
+        if (isset($params['research_unit_id']) && $params['research_unit_id']) {
+            $joinResearchUnitIntangibleAsset = 'intangible_asset_research_unit';
+            $this->addJoin($joins, $joinResearchUnitIntangibleAsset, "{$this->model->getTable()}.id", "{$joinResearchUnitIntangibleAsset}.intangible_asset_id");
+            $query->byResearchUnit($params['research_unit_id']);
+        }
+
+        if (isset($params['administrative_unit_id']) && $params['administrative_unit_id']) {
+            $joinResearchUnitIntangibleAsset = 'intangible_asset_research_unit';
+            $this->addJoin($joins, $joinResearchUnitIntangibleAsset, "{$this->model->getTable()}.id", "{$joinResearchUnitIntangibleAsset}.intangible_asset_id");
+            $joinResearchUnit = 'research_units';
+            $this->addJoin($joins, $joinResearchUnit, "$joinResearchUnitIntangibleAsset.research_unit_id", "$joinResearchUnit.id");
+            $query->byAdministrativeUnit($params['administrative_unit_id']);
+        }
+
         if (isset($params['phases']) && $params['phases']) {
             $joinPhases = 'intangible_asset_phases';
             $this->addJoin($joins, $joinPhases, "{$this->model->getTable()}.id", "{$joinPhases}.intangible_asset_id");
@@ -125,6 +139,8 @@ class IntangibleAssetRepository extends AbstractRepository
         }
 
         $query->orderBy('date');
+
+        $joins = $joins->unique();
 
         $joins->each(function ($item, $key) use ($query) {
             $item = json_decode($item, false);
