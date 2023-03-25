@@ -21,7 +21,7 @@ use App\Http\Controllers\Client\IntangibleAssetFileController;
 use App\Http\Controllers\Client\IntangibleAssetPhaseController;
 use App\Http\Controllers\Client\IntangibleAssetReportController;
 use App\Http\Controllers\Client\IntangibleAssetStrategyController;
-
+use App\Http\Controllers\Client\NotificationController;
 use App\Http\Controllers\Client\UserController;
 use App\Http\Controllers\Client\RoleController;
 use App\Http\Controllers\Client\PermissionController;
@@ -261,4 +261,9 @@ Route::name('secret_protection_measures.')->prefix('medidas-secretas-de-protecci
     Route::get('{secret_protection_measure}/editar', [SecretProtectionMeasureController::class, 'edit'])->name('edit');
     Route::put('{secret_protection_measure}', [SecretProtectionMeasureController::class, 'update'])->name('update');
     Route::delete('{secret_protection_measure}', [SecretProtectionMeasureController::class, 'destroy'])->name('destroy');
+});
+
+Route::name('notifications.')->prefix('notificaciones')->group(function () {
+    Route::get('/', [NotificationController::class, 'index'])->name('index');
+    Route::put('marcar-todas-leidas', [NotificationController::class, 'seeAllNotifications'])->name('seeAllNotifications');
 });
