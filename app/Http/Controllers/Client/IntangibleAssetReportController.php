@@ -82,11 +82,17 @@ class IntangibleAssetReportController extends Controller
                 'client' => $request->client
             ];
 
-            $pdf = Pdf::loadView('reports.intangible_assets.single', $data);
-            $fileName = 'activo_intangible_reporte_individual_' . time() . '.pdf';
-            $pdf->render();
+            CreateFileReportJob::dispatch([
+                'intangibleAsset' => $intangibleAsset,
+                'dpis' => $this->intellectualPropertyRightSubcategoryRepository->all(),
+                'client' => $request->client
+            ], [
+                'userId' => auth('web')->user()->id,
+                'client' => $request->client,
+                'report_type' => 'intangible_assets.reports.single'
+            ]);
 
-            return $pdf->stream($fileName);
+            return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.reports.single.messages.generate_success')]);
         } catch (QueryException $qe) {
             Log::error("@Web/Controllers/Client/IntangibleAssetReportController:GenerateDefaultReport/QueryException: {$qe->getMessage()}");
         } catch (Exception $e) {
@@ -142,8 +148,6 @@ class IntangibleAssetReportController extends Controller
 
             /** @var Collection $intangibleAssets */
             $intangibleAssets = $query->get();
-
-            dd($intangibleAssets);
 
             Log::notice('Intangible Assets searched!');
 
@@ -231,18 +235,9 @@ class IntangibleAssetReportController extends Controller
                 }
             }
 
-            $notificationType = $this->notificationTypeRepository->getByAttribute('name', 'Reporte');
+            $this->callJobReportCustom($data, $config);
 
-
-            $fileName = 'reporte_personalizado_activo_intangible_' . time() . '.pdf';
-            $pdf = Pdf::loadView('reports.intangible_assets.custom', $data);
-            $pdf->render();
-
-            return $pdf->stream($fileName);
-
-            // $this->callJobReportCustom($data, $config);
-
-            // Log::alert('CUSTOM REPORT ALERT FINISHED');
+            Log::alert('CUSTOM REPORT ALERT FINISHED');
 
             return redirect()->route('client.reports.custom.index', $client)->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.reports.single.messages.generate_success')]);
         } catch (QueryException $qe) {
@@ -259,7 +254,7 @@ class IntangibleAssetReportController extends Controller
      */
     protected function callJobReportCustom($data, $config)
     {
-        CreateFileReportJob::dispatch($data, $config)->onQueue('intangible_assets-reports-custom');
+        CreateFileReportJob::dispatch($data, $config);
     }
 
     ### RELATIONS ARRAY PER GRAPHIC CONFIGURATION

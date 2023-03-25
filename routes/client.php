@@ -174,7 +174,7 @@ Route::prefix('reportes')
     ->name('reports.')
     ->group(function () {
         Route::get('reportes-generados', [UserFileReportController::class, 'index'])->name('generated');
-        Route::get('descargar-reportes/{reportId}', [UserFileReportController::class, 'downloadIntangibleAssetReportSingle'])->name('download.report');
+        Route::get('descargar-reportes/{reportId}', [UserFileReportController::class, 'downloadIntangibleAssetReport'])->name('download.report');
 
         Route::name('custom.')
             ->group(function () {
