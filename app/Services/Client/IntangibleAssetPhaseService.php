@@ -596,6 +596,7 @@ class IntangibleAssetPhaseService
             } catch (QueryException $qe) {
                 DB::rollBack();
                 Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetConfidencialityContract/Selected/QueryException: {$qe->getMessage()}");
+                $this->fileConfidencialityContractService->deleteConfidencialityContractFile($intangibleAsset);
             } catch (Exception $e) {
                 DB::rollBack();
                 Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseFive/UpdateIntangibleAssetConfidencialityContract/Selected/Exception: {$e->getMessage()}");

@@ -22,8 +22,48 @@
 @section('content')
 
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-8">
+        <div class="row justify-content-center">
+            <div class="col-lg-3 col-md-8">
+                <div class="card">
+                    <div class="card-header bg-danger">
+                        <h4 class="font-weight-bold">{{ __('pages.client.profile.form-titles.image') }}</h4>
+                    </div>
+                    <div class="card-body">
+
+                        <form action="{{ getClientRoute('client.users.updateProfileImage', [current_user()->id]) }}"
+                            method="post" enctype="multipart/form-data">
+
+                            @csrf
+                            @method('PATCH')
+
+                            <!-- Profile Image -->
+                            <div class="container mb-4 border">
+                                <img src="{{ current_user()->profile_image_url  }}" class="img-fluid mx-auto d-block"
+                                    alt="Imagen responsiva" style="max-height: 15em">
+                            </div>
+                            <!-- ./Profile Image -->
+
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">{{ __('inputs.upload') }}</span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input name="profile_image" type="file"
+                                            class="custom-file-input {{ isInvalidByError($errors, 'profile_image') }}">
+                                        <label class="custom-file-label">Seleccionar</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mt-3">
+                                <button class="btn btn-danger btn-sm">{{ __('buttons.update') }}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
                 <div class="card">
                     <div class="card-header bg-danger">
                         <h4 class="font-weight-bold">{{ __('pages.client.profile.form-titles.show') }}</h4>
@@ -75,7 +115,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3 col-md-6">
                 <div class="card">
                     <div class="card-header bg-danger">
                         <h4 class="font-weight-bold">{{ __('pages.client.profile.form-titles.password') }}</h4>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
-
+use App\Http\Requests\Client\Auth\UpdatePhotoRequest;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -12,6 +12,7 @@ use App\Http\Requests\Client\Users\StoreRequest;
 use App\Http\Requests\Client\Users\UpdateRequest;
 
 use App\Services\Client\UserService;
+use App\Services\FileSystem\UserProfileImageService;
 
 use App\Repositories\Client\UserRepository;
 use Exception;
@@ -28,12 +29,16 @@ class UserController extends Controller
     /** @var UserRepository */
     protected $userRepository;
 
+    /** @var UserProfileImageService */
+    protected $userProfileImageService;
+
     /**
      * @param UserService $userService
      * @param UserRepository $userRepository
      */
     public function __construct(
         UserService $userService,
+        UserProfileImageService $userProfileImageService,
         UserRepository $userRepository
     ) {
         $this->middleware('auth');
@@ -45,6 +50,7 @@ class UserController extends Controller
         $this->middleware('permission:users.destroy')->only('destroy');
 
         $this->userService = $userService;
+        $this->userProfileImageService = $userProfileImageService;
         $this->userRepository = $userRepository;
     }
 
@@ -215,5 +221,45 @@ class UserController extends Controller
             DB::rollBack();
         }
         return redirect()->route('client.users.index', $client)->with('alert', $response);
+    }
+
+    /**
+     * @param UpdatePhotoRequest $request
+     * @param string $client
+     * @param int $user
+     */
+    public function updateProfileImage(UpdatePhotoRequest $request, $client, $user)
+    {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
+        try {
+            /** @var \App\Models\Client\User $user */
+            $user = $this->userRepository->getById($user);
+
+            $imageProfile = $request->file('profile_image');
+
+            if (!is_null($imageProfile)) {
+                if ($user->hasProfileImage()) {
+                    $this->userProfileImageService->deleteUserProfileImage($user);
+                    $this->userRepository->update($user, ['profile_image' => null]);
+                }
+                $fileName = time() . "-profile_user.{$imageProfile->getClientOriginalExtension()}";
+                $this->userProfileImageService->storeUserProfileImage($fileName, $imageProfile);
+                $this->userRepository->update($user, ['profile_image' => $fileName]);
+                $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+            } else {
+                $this->userProfileImageService->deleteUserProfileImage($user);
+                $this->userRepository->update($user, ['profile_image' => null]);
+                $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+            }
+        } catch (ModelNotFoundException $me) {
+            Log::error("@Web/Controllers/Client/UserController:updateProfileImage/ModelNotFoundException: {$me->getMessage()}");
+        } catch (QueryException $qe) {
+            Log::error("@Web/Controllers/Client/UserController:updateProfileImage/QueryException: {$qe->getMessage()}");
+            DB::rollBack();
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/UserController:updateProfileImage/Exception: {$e->getMessage()}");
+            DB::rollBack();
+        }
+        return redirect()->back()->with('alert', $response);
     }
 }
