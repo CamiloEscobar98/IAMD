@@ -312,12 +312,12 @@ return [
 
         /** Category */
         [
-            'name' => 'Derechos de Autor',
+            'name' => 'Derecho de Autor',
 
             /** Subcategories */
             'subcategories' => [
                 [
-                    'name' => 'Derechos de Autor',
+                    'name' => 'Derecho de Autor',
 
                     /** Products */
                     'products' => [
@@ -434,7 +434,7 @@ return [
                             'code' => 'RNL'
                         ],
                         [
-                            'name' => 'Softwares',
+                            'name' => 'Software',
                             'code' => 'SF'
                         ],
                         [

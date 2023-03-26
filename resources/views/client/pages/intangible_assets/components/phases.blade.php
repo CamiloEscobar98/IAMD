@@ -103,7 +103,6 @@
                                 </select>
                             </div>
                         </div>
-
                     </div>
 
                     <!-- Button Save -->
@@ -543,7 +542,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label>{{ __('pages.client.intangible_assets.phases.five.sub_phases.academic_record.form.date') }}</label>
-                                            <input type="text" name="date"
+                                            <input type="date" name="date"
                                                 class="form-control form-control-sm {{ isInvalidByError($errors, 'date') }}"
                                                 value="{{ getParamObject($item->intangible_asset_academic_record, 'date') }}">
                                         </div>
@@ -566,7 +565,7 @@
                                     </div>
                                 </div>
 
-                                @if ($item->hasFileOfSessionRightContract())
+                                @if ($item->hasFileOfAcademicRecord())
                                     <div class="form-group">
                                         <a href="{{ route('client.intangible_assets.downloads.academic_record', [$client->name, $item->id]) }}"
                                             class="btn btn-xs btn-danger btn-outline text-white">{{ __('pages.client.intangible_assets.phases.five.sub_phases.academic_record.buttons.download') }}</a>

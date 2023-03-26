@@ -14,6 +14,7 @@ use App\Jobs\CreateFileReportJob;
 use App\Repositories\Admin\IntangibleAssetStateRepository;
 use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
 use App\Repositories\Admin\IntellectualPropertyRightSubcategoryRepository;
+use App\Repositories\Admin\NotificationTypeRepository;
 use App\Repositories\Client\IntangibleAssetRepository;
 use App\Repositories\Client\ResearchUnitRepository;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -22,6 +23,9 @@ use Illuminate\Database\QueryException;
 
 class IntangibleAssetReportController extends Controller
 {
+    /** @var NotificationTypeRepository */
+    protected $notificationTypeRepository;
+
     /** @var IntangibleAssetRepository */
     protected $intangibleAssetRepository;
 
@@ -38,6 +42,7 @@ class IntangibleAssetReportController extends Controller
     protected $researchUnitRepository;
 
     public function __construct(
+        NotificationTypeRepository $notificationTypeRepository,
         IntangibleAssetRepository $intangibleAssetRepository,
         IntellectualPropertyRightSubcategoryRepository $intellectualPropertyRightSubcategoryRepository,
         IntellectualPropertyRightProductRepository $intellectualPropertyRightProductRepository,
@@ -47,6 +52,7 @@ class IntangibleAssetReportController extends Controller
     ) {
         $this->middleware('auth');
 
+        $this->notificationTypeRepository = $notificationTypeRepository;
         $this->intangibleAssetRepository = $intangibleAssetRepository;
         $this->intellectualPropertyRightSubcategoryRepository = $intellectualPropertyRightSubcategoryRepository;
         $this->intellectualPropertyRightProductRepository = $intellectualPropertyRightProductRepository;
@@ -76,22 +82,15 @@ class IntangibleAssetReportController extends Controller
                 'client' => $request->client
             ];
 
-            
-            return view('reports.intangible_assets.single', $data);
-            
-            $pdf = Pdf::loadView('reports.intangible_assets.single', $data);
-
-            return $pdf->download();
-
-            // CreateFileReportJob::dispatch([
-            //     'intangibleAsset' => $intangibleAsset,
-            //     'dpis' => $this->intellectualPropertyRightSubcategoryRepository->all(),
-            //     'client' => $request->client
-            // ], [
-            //     'userId' => auth('web')->user()->id,
-            //     'client' => $request->client,
-            //     'report_type' => 'intangible_assets.reports.single'
-            // ]);
+            CreateFileReportJob::dispatch([
+                'intangibleAsset' => $intangibleAsset,
+                'dpis' => $this->intellectualPropertyRightSubcategoryRepository->all(),
+                'client' => $request->client
+            ], [
+                'userId' => auth('web')->user()->id,
+                'client' => $request->client,
+                'report_type' => 'intangible_assets.reports.single'
+            ]);
 
             return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.intangible_assets.reports.single.messages.generate_success')]);
         } catch (QueryException $qe) {
@@ -204,7 +203,6 @@ class IntangibleAssetReportController extends Controller
             }
             /** ./Testing the View Custom PDF */
 
-
             # Graphics Configuration
 
             if (!empty($graphicConfiguration)) {
@@ -256,7 +254,7 @@ class IntangibleAssetReportController extends Controller
      */
     protected function callJobReportCustom($data, $config)
     {
-        CreateFileReportJob::dispatch($data, $config)->onQueue('intangible_assets-reports-custom');
+        CreateFileReportJob::dispatch($data, $config);
     }
 
     ### RELATIONS ARRAY PER GRAPHIC CONFIGURATION

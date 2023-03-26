@@ -708,6 +708,16 @@ return [
 
     'client' => [
 
+        'notifications' => [
+            'title' => 'Notificaciones',
+            'subtitle' => 'Notificaciones',
+            'table' => [
+                'head' => [
+                    'message' => 'Notificación'
+                ]
+            ]
+        ],
+
         /** Home Page */
         'home' => [
             'title' => 'Inicio',

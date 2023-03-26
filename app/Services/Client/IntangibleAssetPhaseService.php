@@ -144,6 +144,12 @@ class IntangibleAssetPhaseService
             $this->intangibleAssetRepository->update($intangibleAsset, ['classification_id'  => $data['intellectual_property_right_product_id']]);
             $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'one');
 
+            /*  Se debe de restaurar todos los derechos de propiedad intelectual de la fase 4. */
+            $intangibleAsset->dpis()->delete();
+            $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'four', false);
+
+            $this->resetPhaseFive($intangibleAsset);
+
             DB::commit();
 
             $message = __('pages.client.intangible_assets.phases.one.messages.save_success');
@@ -203,6 +209,9 @@ class IntangibleAssetPhaseService
 
             $this->intangibleAssetRepository->update($intangibleAsset, $data);
             $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'three');
+
+            $this->resetPhaseFive($intangibleAsset);
+
             DB::commit();
 
             $message = __('pages.client.intangible_assets.phases.three.messages.save_success');
@@ -783,7 +792,7 @@ class IntangibleAssetPhaseService
      * 
      * @return string
      */
-    public function updateIntangibleAssetSecretProtectionMeasures($intangibleAsset, $data)
+    private function updateIntangibleAssetSecretProtectionMeasures($intangibleAsset, $data)
     {
         $message = __('pages.client.intangible_assets.phases.seven.sub_phases.has_secret_protection.messages.save_error');
 
@@ -826,7 +835,7 @@ class IntangibleAssetPhaseService
      * 
      * @return string
      */
-    function updateIntangibleAssetAcademicRecord($intangibleAsset, $data)
+    private function updateIntangibleAssetAcademicRecord($intangibleAsset, $data)
     {
         $message = __('pages.client.intangible_assets.phases.five.sub_phases.academic_record.messages.save_error');
 
@@ -884,5 +893,39 @@ class IntangibleAssetPhaseService
             }
             return $message;
         }
+    }
+
+    /**
+     * Reset Phase Five When that's required.
+     * 
+     * @param \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset
+     * 
+     * @return string
+     */
+    private function resetPhaseFive($intangibleAsset)
+    {
+
+        /* Se debe de restaurar toda la fase 5. */
+        $this->fileConfidencialityContractService->deleteConfidencialityContractFile($intangibleAsset);
+        $intangibleAsset->intangible_asset_confidenciality_contract()->delete();
+
+        $this->fileSessionRightContractService->deleteSessionRightContractFile($intangibleAsset);
+        $intangibleAsset->intangible_asset_session_right_contract()->delete();
+
+        $this->fileAcademicRecordService->deleteAcademicRecordFile($intangibleAsset);
+        $intangibleAsset->intangible_asset_academic_record()->delete();
+
+        $intangibleAsset->intangible_asset_published()->delete();
+        $intangibleAsset->intangible_asset_confidenciality_contract()->delete();
+
+
+        $intangibleAsset->creators()->detach();
+
+        $intangibleAsset->intangible_asset_contability()->delete();
+
+        $this->fileSessionRightContractService->deleteSessionRightContractFile($intangibleAsset);
+        $intangibleAsset->intangible_asset_session_right_contract()->delete();
+
+        $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'five', false);
     }
 }

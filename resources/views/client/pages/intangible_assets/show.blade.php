@@ -237,6 +237,7 @@
             changeHasConfidencialityContract();
             changeHasSessionRightContract();
             changeHasContability();
+            changeHasAcademicRecord();
             changeHasDeposite();
             changeHasSecretProtection();
             changeHasPriorityTools();

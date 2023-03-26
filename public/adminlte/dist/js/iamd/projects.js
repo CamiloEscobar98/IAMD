@@ -5,9 +5,16 @@ function changeResearchUnits() {
 function getResearchUnits() {
     let projectId = $("#project_id").val();
     let administrativeUnitId = $("#administrative_unit_id").val();
-    console.log(administrativeUnitId);
-    let client = $("#form").data("client");
 
+    if (projectId == null) {
+        projectId = '';
+    }
+    if (administrativeUnitId == null) {
+        administrativeUnitId = '';
+    }
+    
+    let client = $("#form").data("client");
+    console.log(`project_id=${projectId}&administrative_unit_id=${administrativeUnitId}`);
     $.ajax({
         type: "GET",
         url: "/api/" + client + "/unidades-investigativas/",

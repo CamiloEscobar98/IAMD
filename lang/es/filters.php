@@ -18,7 +18,7 @@ return [
 
     'order_by' => 'Ordenar por:',
 
-    'phases_completed' => 'Fases del Activo Intangible Completadas:',
+    'phases_completed' => 'Fases Completadas:',
 
     'intellectual_property_rights_categories' => 'Categorías de la Derechos de Propiedad Intelectual:',
 

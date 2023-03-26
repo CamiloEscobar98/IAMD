@@ -37,7 +37,7 @@ class IntangibleAssetPhaseController extends Controller
     /**
      * Intangible Asset Phase One: Intangible Asset Classification
      * 
-     * @param int $client
+     * @param string $client
      * @param int $intangible_asset
      * @param Request $request
      * 
@@ -63,7 +63,7 @@ class IntangibleAssetPhaseController extends Controller
     /**
      * Intangible Asset Phase Two: Intangible Asset Description
      * 
-     * @param int $client
+     * @param string $client
      * @param int $intangible_asset,
      * @param Request $request
      * 
@@ -91,7 +91,7 @@ class IntangibleAssetPhaseController extends Controller
     /**
      * Intangible Asset Phase Three: Intangible Asset State
      * 
-     * @param int $client
+     * @param string $client
      * @param int $intangible_asset,
      * @param Request $request
      * 
@@ -117,7 +117,7 @@ class IntangibleAssetPhaseController extends Controller
     /**
      * Intangible Asset Phase Four: Intangible Asset DPIS
      * 
-     * @param int $client
+     * @param string $client
      * @param int $intangible_asset,
      * @param Request $request
      * 
@@ -143,7 +143,7 @@ class IntangibleAssetPhaseController extends Controller
     /**
      * Intangible Asset Phase Five: Intangible Asset current State
      * 
-     * @param int $client
+     * @param string $client
      * @param int $intangible_asset,
      * @param Request $request
      * 
@@ -227,7 +227,7 @@ class IntangibleAssetPhaseController extends Controller
     }
 
     /**
-     * @param int $client
+     * @param string $client
      * @param int $intangible_asset
      * @param Request $request
      * 
@@ -274,7 +274,7 @@ class IntangibleAssetPhaseController extends Controller
     }
 
     /**
-     * @param int $client
+     * @param string $client
      * @param int $intangible_asset
      * @param Request $request
      * 
@@ -322,7 +322,7 @@ class IntangibleAssetPhaseController extends Controller
     }
 
     /**
-     * @param int $client
+     * @param string $client
      * @param int $intangible_asset
      * @param Request $request
      * 
@@ -343,7 +343,7 @@ class IntangibleAssetPhaseController extends Controller
     }
 
     /**
-     * @param int $client
+     * @param string $client
      * @param int $intangible_asset
      * @param Request $request
      * 

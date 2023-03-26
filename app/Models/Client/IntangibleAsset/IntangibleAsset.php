@@ -140,11 +140,11 @@ class IntangibleAsset extends BaseModel
     {
         return $this->hasOne(IntangibleAssetSessionRightContract::class);
     }
-    
+
     /**
      * @return HasOne
      */
-    public function intangible_asset_academic_record() : HasOne
+    public function intangible_asset_academic_record(): HasOne
     {
         return $this->hasOne(IntangibleAssetAcademicRecord::class);
     }
@@ -303,10 +303,42 @@ class IntangibleAsset extends BaseModel
      */
     public function scopeByState($query, $stateId)
     {
-        if (is_array($stateId) && !empty($projectId)) {
-            return $query->wherenIn("{$this->getTable()}.intangible_asset_state_id", $stateId);
+        if (is_array($stateId) && !empty($stateId)) {
+            return $query->whereIn("{$this->getTable()}.intangible_asset_state_id", $stateId);
         } else {
             return $query->where("{$this->getTable()}.intangible_asset_state_id", $stateId);
+        }
+    }
+
+    /**
+     * Scope a query to only include Admnistrative Unit
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param array|string $administrativeUnit
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByAdministrativeUnit($query, $administrativeUnit)
+    {
+        if (is_array($administrativeUnit) && !empty($administrativeUnit)) {
+            return $query->whereIn("research_units.administrative_unit_id", $administrativeUnit);
+        } else {
+            return $query->where("research_units.administrative_unit_id", $administrativeUnit);
+        }
+    }
+
+    /**
+     * Scope a query to only include Research Unit
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query+
+     * @param array|string $researchUnit
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByResearchUnit($query, $researchUnit)
+    {
+        if (is_array($researchUnit) && !empty($researchUnit)) {
+            return $query->whereIn("intangible_asset_research_unit.research_unit_id", $researchUnit);
+        } else {
+            return $query->where("intangible_asset_research_unit.research_unit_id", $researchUnit);
         }
     }
 
@@ -320,7 +352,7 @@ class IntangibleAsset extends BaseModel
      */
     public function scopeSinceDate($query, string $dateFrom)
     {
-        $query->where("{$this->getTable()}.date", '>=', $dateFrom);
+        return $query->where("{$this->getTable()}.date", '>=', $dateFrom);
     }
 
     /**
@@ -333,7 +365,7 @@ class IntangibleAsset extends BaseModel
      */
     public function scopeToDate($query, string $dateTo)
     {
-        $query->where("{$this->getTable()}.date", '<=', $dateTo);
+        return $query->where("{$this->getTable()}.date", '<=', $dateTo);
     }
 
     /**

@@ -86,9 +86,10 @@ class ProjectController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param string $client
      * @return \Illuminate\Http\Response
      */
-    public function create(): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function create($client): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
             $item = $this->projectRepository->newInstance();
@@ -96,7 +97,7 @@ class ProjectController extends Controller
         } catch (Exception $e) {
             Log::error("@Web/Controllers/Client/ProjectController:Create/Exception: {$e->getMessage()}");
         }
-        return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        return redirect()->route('client.projects.create', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
@@ -128,12 +129,12 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param string $client
      * @param int $project
      * 
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function show($id, $project, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function show($client, $project, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
             $item = $this->projectRepository->getByIdWithRelations($project, ['director', 'research_units', 'intangible_assets', 'project_financings', 'contract_type']);
@@ -143,18 +144,18 @@ class ProjectController extends Controller
         } catch (Exception $e) {
             Log::error("@Web/Controllers/Client/ProjectController:Show/Exception: {$e->getMessage()}");
         }
-        return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        return redirect()->route('client.projects.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param string $client
      * @param int $project
      * 
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function edit($id, $project, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+    public function edit($client, $project, Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\View\View
     {
         try {
             $item = $this->projectRepository->getByIdWithRelations($project, ['director', 'research_units', 'intangible_assets', 'project_financings', 'contract_type']);
@@ -164,6 +165,7 @@ class ProjectController extends Controller
         } catch (Exception $e) {
             Log::error("@Web/Controllers/Client/ProjectController:Edit/Exception: {$e->getMessage()}");
         }
+        return redirect()->route('client.projects.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
     }
 
     /**
