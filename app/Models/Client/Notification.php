@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 use App\Models\Admin\NotificationType;
+use Carbon\Carbon;
 
 class Notification extends BaseModel
 {
@@ -26,6 +27,17 @@ class Notification extends BaseModel
     protected $fillable = ['user_id', 'notification_type_id', 'message', 'checked_at'];
 
     /**
+     * Get the Difference in Minutes
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getMinutesAttribute($value)
+    {
+        return Carbon::now()->diffInMinutes($this->getAttribute('created_at'));
+    }
+
+    /**
      * @return BelongsTo
      */
     public function user(): BelongsTo
@@ -39,5 +51,20 @@ class Notification extends BaseModel
     public function notification_type(): BelongsTo
     {
         return $this->belongsTo(NotificationType::class);
+    }
+
+    /**
+     * Scope a query to only include User
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param array|string $user
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByUser($query, $user)
+    {
+        if (is_array($user) && !empty($user)) {
+            return $query->whereIn("{$this->getTable()}.user_id", $user);
+        }
+        return $query->where("{$this->getTable()}.user_id", $user);
     }
 }

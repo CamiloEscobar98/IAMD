@@ -51,29 +51,27 @@ class CustomReportFilterComposer
 
     public function compose(View $view)
     {
-        $params = request()->all();
+        $administrativeUnits = $this->administrativeUnitRepository->all()->pluck('name', 'id')->prepend('---Seleccionar Facultad');
 
-        $administrativeUnitId = old('administrative_unit_id');
+        $projects = $this->projectRepository->all()->pluck('name', 'id')->prepend('---Seleccionar Proyecto');
 
-        $projectId =  old('project_id');
+        $researchUnits = $this->researchUnitRepository->all()->pluck('name', 'id');
 
-        $projectItems = $this->projectRepository->all();
-
-        $projects = $projectItems->pluck('name', 'id')->prepend('---Seleccionar Proyecto');
+        [$categories, $subCategories, $products, $category, $subCategory, $product] = $this->intellectualPropertyRightCategoryService->getIntellectualPropertyCategorySelect();
 
         /** Intangible Asset States */
-        $states = $this->intangibleAssetStateRepository->all();
+        $states = $this->intangibleAssetStateRepository->all()->pluck('name', 'id');
 
         $phases = collect([
-            1 => 'Fase 1: Clasificación',
+            1 => 'Fase 1: Clasificación del Activo Intangible',
             2 => 'Fase 2: Descripción',
-            3 => 'Fase 3: Estado',
-            4 => 'Fase 4: Derechos de Propiedad Intelectual',
-            5 => 'Fase 5: Estado Actual',
-            6 => 'Fase 6: Comentarios',
-            7 => 'Fase 7: Plan de Acción y Protección',
-            8 => 'Fase 8: Priorización y Decisión',
-            9 => 'Fase 9: Uso Comercial',
+            3 => 'Fase 3: Estado del Activo Intangible',
+            4 => 'Fase 4: Derechos de Propiedad Intelectual vinculados',
+            5 => 'Fase 5: Estado Actual del Activo Intangible',
+            6 => 'Fase 6: Comentarios y/o Sugerencias',
+            7 => 'Fase 7: Plan de Acción y Protección del Activo Intangible',
+            8 => 'Fase 8: Priorización y Decisión del Activo Intangible',
+            9 => 'Fase 9: Activo Intangible de Uso Comercial',
         ]);
 
         $ordersBy = collect([
@@ -121,11 +119,23 @@ class CustomReportFilterComposer
         ]);
 
         $view->with(compact(
-            'projects',
             'phases',
             'ordersBy',
             'intangibleAssetCustomGeneral',
             'graphics',
+            
+            'categories',
+            'subCategories',
+            'products',
+            'category',
+            'subCategory',
+            'product',
+            
+            'states',
+            
+            'administrativeUnits',
+            'projects',
+            'researchUnits',
         ));
     }
 }

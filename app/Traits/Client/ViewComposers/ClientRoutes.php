@@ -64,6 +64,7 @@ trait ClientRoutes
             $this->getSecretProtectionMeasureRoutes(),
             $this->getProjectContractTypeRoutes(),
             $this->getUserReportRoutes(),
+            $this->getNotificationRoutes()
         );
 
         View::composer($views, ClientComposer::class);
@@ -419,6 +420,16 @@ trait ClientRoutes
         return [
             'client.pages.users.reports.index',
             'client.pages.reports.custom.index'
+        ];
+    }
+
+    public function getNotificationRoutes()
+    {
+        return [
+            'client.pages.notifications.index',
+
+            'client.pages.notifications.components.filters',
+            'client.pages.notifications.components.table',
         ];
     }
 }
