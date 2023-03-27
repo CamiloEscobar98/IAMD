@@ -1982,7 +1982,7 @@ return [
 
                 'sections' => [
                     'filters' => [
-                        'title' => 'Filtros de Personalización',
+                        'title' => 'Filtros',
                     ],
 
                     'contents' => [

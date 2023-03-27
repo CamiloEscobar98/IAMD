@@ -277,6 +277,32 @@ class IntangibleAsset extends BaseModel
     }
 
     /**
+     * Scope a query to only include Intellectual Property Right SubCategory
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param array|strin $subCategory
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeBySubcategory($query, $subCategory)
+    {
+        $joinIntellectualPropertyRightProduct = 'intellectual_property_right_products';
+        return $query->where("$joinIntellectualPropertyRightProduct.intellectual_property_right_subcategory_id", $subCategory);
+    }
+
+    /**
+     * Scope a query to only include Intellectual Property Right Category
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param array|string $category
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByCategory($query, $category)
+    {
+        $joinIntellectualPropertyRightSubcategory = 'intellectual_property_right_subcategories';
+        return $query->where("$joinIntellectualPropertyRightSubcategory.intellectual_property_right_category_id", $category);
+    }
+
+    /**
      * Scope a query to only include Project
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
@@ -290,7 +316,6 @@ class IntangibleAsset extends BaseModel
         if (is_array($projectId) && !empty($projectId)) {
             return $query->whereIn("{$this->getTable()}.project_id", $projectId);
         }
-
         return $query->where("{$this->getTable()}.project_id", $projectId);
     }
 
@@ -335,10 +360,28 @@ class IntangibleAsset extends BaseModel
      */
     public function scopeByResearchUnit($query, $researchUnit)
     {
+        $joinResearchUnitIntangibleAsset = 'intangible_asset_research_unit';
         if (is_array($researchUnit) && !empty($researchUnit)) {
-            return $query->whereIn("intangible_asset_research_unit.research_unit_id", $researchUnit);
+            return $query->whereIn("$joinResearchUnitIntangibleAsset.research_unit_id", $researchUnit);
         } else {
-            return $query->where("intangible_asset_research_unit.research_unit_id", $researchUnit);
+            return $query->where("$joinResearchUnitIntangibleAsset.research_unit_id", $researchUnit);
+        }
+    }
+
+    /**
+     * Scope a query to only include Creators
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param array|string $creator
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByCreator($query, $creator)
+    {
+        $joinCreatorsIntangibleAsset = 'intangible_asset_creators';
+        if (is_array($creator) && !empty($creator)) {
+            return $query->whereIn("$joinCreatorsIntangibleAsset.creator_id", $creator);
+        } else {
+            return $query->where("$joinCreatorsIntangibleAsset.creator_id", $creator);
         }
     }
 
