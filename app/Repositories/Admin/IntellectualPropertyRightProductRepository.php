@@ -19,7 +19,7 @@ class IntellectualPropertyRightProductRepository extends AbstractRepository
      * @param array $withCount
      * @param int $state_id
      * 
-     * @return mixed
+     * @return \Illuminate\Database\Query\Builder
      */
     public function search(array $params = [], array $with = [], array $withCount = [])
     {

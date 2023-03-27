@@ -169,7 +169,7 @@ class IntangibleAssetReportController extends Controller
 
             /** Testing the View Custom PDF */
 
-            // $dataCompact = compact('graphicConfiguration', 'count', 'client');
+            $dataCompact = compact('graphicConfiguration', 'count', 'client');
 
             if (isset($dataCompact) && $dataCompact) {
 
@@ -464,6 +464,8 @@ class IntangibleAssetReportController extends Controller
             }
             array_push($dataArray['graphicData']['with_graphics_assets_classification_per_year'], ['labels' => $labels, 'datasets' => $datasets]);
         }
+
+        dd($dataArray);
 
         return $dataArray;
     }
