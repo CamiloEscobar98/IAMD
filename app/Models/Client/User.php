@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Services\FileSystem\UserProfileImageService;
 
 class User extends Authenticatable
 {
@@ -31,6 +32,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profile_image',
     ];
 
     /**
@@ -71,6 +73,21 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the Profile Image
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getProfileImageUrlAttribute($value)
+    {
+        /** @var UserProfileImageService $userProfileImageService */
+        $userProfileImageService = app(UserProfileImageService::class);
+        $profileImagePath = $this->getAttribute('profile_image');
+        $profileImageUrl = $profileImagePath ? "/storage/users/profile/$profileImagePath" : 'adminlte/dist/img/user2-160x160.jpg';
+        return asset($profileImageUrl);
+    }
+
+    /**
      * @return bool
      */
     public function hasNotifications(): bool
@@ -92,5 +109,15 @@ class User extends Authenticatable
         $userFile = $this->user_file;
 
         return $this->hasUserFileReport() && !is_null($userFile->file_path && $userFile->file_name);
+    }
+
+    /**
+     * Validate if the User has a profile image.
+     * 
+     * @return bool
+     */
+    public function hasProfileImage(): bool
+    {
+        return !is_null($this->getAttribute('profile_image'));
     }
 }

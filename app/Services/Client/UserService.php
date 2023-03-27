@@ -4,8 +4,6 @@ namespace App\Services\Client;
 
 use App\Services\AbstractServiceModel;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\QueryException;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -31,7 +29,7 @@ class UserService extends AbstractServiceModel
     {
         $data = collect($arrayData);
         $userData = $data->only('name', 'email', 'password');
-        DB::beginTransaction();
+      
         /** @var \App\Models\Client\User $item */
         $item = $this->userRepository->create($userData->toArray());
         $role = $data->get('role_id');
@@ -54,8 +52,6 @@ class UserService extends AbstractServiceModel
         $data = $data->only($attributesRequest);
 
         $item = $this->userRepository->getById($id);
-
-        DB::beginTransaction();
 
         $this->userRepository->update($item, $data->toArray());
 
