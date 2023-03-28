@@ -190,6 +190,8 @@ Route::name('users.')->prefix('usuarios')->group(function () {
     Route::get('{user}/editar', [UserController::class, 'edit'])->name('edit');
     Route::put('{user}', [UserController::class, 'update'])->name('update');
     Route::delete('{user}', [UserController::class, 'destroy'])->name('destroy');
+
+    Route::patch('{user}/actualizar-foto-perfil', [UserController::class, 'updateProfileImage'])->name('updateProfileImage');
 });
 
 Route::name('roles.')->prefix('roles-del-sistema')->group(function () {

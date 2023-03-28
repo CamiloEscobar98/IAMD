@@ -66,6 +66,7 @@ return [
         'users' => [
             'driver' => 'local',
             'root' => storage_path('app/users'),
+            'url' => env('APP_URL') . '/storage/users',
             'visibility' => 'public',
         ]
     ],

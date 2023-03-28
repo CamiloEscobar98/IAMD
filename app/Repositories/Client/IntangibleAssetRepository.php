@@ -90,22 +90,44 @@ class IntangibleAssetRepository extends AbstractRepository
             $query->byCode($params['code']);
         }
 
+
+        if (isset($params['intellectual_property_right_product_id']) && $params['intellectual_property_right_product_id'] > 0) {
+            $query->byClassification($params['intellectual_property_right_product_id']);
+        }
+
+
+        if (isset($params['intellectual_property_right_subcategory_id']) && $params['intellectual_property_right_subcategory_id'] > 0) {
+            $joinIntellectualPropertyRightProduct = 'iamd.intellectual_property_right_products';
+            $this->addJoin($joins, $joinIntellectualPropertyRightProduct, "{$this->model->getTable()}.classification_id", "$joinIntellectualPropertyRightProduct.id");
+            $query->bySubcategory($params['intellectual_property_right_subcategory_id']);
+        }
+
+        if (isset($params['intellectual_property_right_category_id']) && $params['intellectual_property_right_category_id'] > 0) {
+            $joinIntellectualPropertyRightProduct = 'iamd.intellectual_property_right_products';
+            $this->addJoin($joins, $joinIntellectualPropertyRightProduct, "{$this->model->getTable()}.classification_id", "$joinIntellectualPropertyRightProduct.id");
+            $joinIntellectualPropertyRightSubcategory = 'iamd.intellectual_property_right_subcategories';
+            $this->addJoin($joins, $joinIntellectualPropertyRightSubcategory, "$joinIntellectualPropertyRightProduct.intellectual_property_right_subcategory_id", "$joinIntellectualPropertyRightSubcategory.id");
+            $query->byCategory($params['intellectual_property_right_category_id']);
+        }
+
         if (isset($params['project_id']) && $params['project_id'] > 0) {
             $query->byProject($params['project_id']);
         }
 
         if (isset($params['intangible_asset_state_id']) && $params['intangible_asset_state_id']) {
-            if (is_array($params['intangible_asset_state_id'])) {
-                $query->wherenIn('intangible_asset_state_id', $params['intangible_asset_state_id']);
-            } else {
-                $query->where('intangible_asset_state_id', $params['intangible_asset_state_id']);
-            }
+            $query->byState($params['intangible_asset_state_id']);
         }
 
         if (isset($params['research_unit_id']) && $params['research_unit_id']) {
             $joinResearchUnitIntangibleAsset = 'intangible_asset_research_unit';
             $this->addJoin($joins, $joinResearchUnitIntangibleAsset, "{$this->model->getTable()}.id", "{$joinResearchUnitIntangibleAsset}.intangible_asset_id");
             $query->byResearchUnit($params['research_unit_id']);
+        }
+
+        if (isset($params['creator_id']) && $params['creator_id']) {
+            $joinCreatorsIntangibleAsset = 'intangible_asset_creators';
+            $this->addJoin($joins, $joinCreatorsIntangibleAsset, "{$this->model->getTable()}.id", "{$joinCreatorsIntangibleAsset}.intangible_asset_id");
+            $query->byCreator($params['creator_id']);
         }
 
         if (isset($params['administrative_unit_id']) && $params['administrative_unit_id']) {

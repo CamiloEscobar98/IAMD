@@ -136,11 +136,11 @@ class IntellectualPropertyRightCategoryService extends AbstractServiceModel
             $product = $products->first();
         }
 
-        $categories = $categories->pluck('name', 'id')->prepend('Seleccionar Categoría', -1);
+        $categories = $categories->pluck('name', 'id')->prepend('---Seleccionar Categoría', -1);
 
-        $subCategories = $subCategories->pluck('name', 'id')->prepend('Seleccionar Subategoría', -1);
+        $subCategories = $subCategories->pluck('name', 'id')->prepend('---Seleccionar Subategoría', -1);
 
-        $products = $products->pluck('name', 'id')->prepend('Seleccionar Producto', -1);
+        $products = $products->pluck('name', 'id')->prepend('---Seleccionar Producto', -1);
 
         return [$categories, $subCategories, $products, $category, $subCategory, $product];
     }

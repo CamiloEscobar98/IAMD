@@ -143,6 +143,7 @@ class IntangibleAssetReportController extends Controller
             [$withRelations, $selectData] = $this->getRelationsArrayPerGraphicConfiguration($withRelations, $selectData, $graphicConfiguration);
             /** ./Relations per Graphic Configuration */
 
+            
             /** @var \Illuminate\Database\Query\Builder $query */
             $query = $this->intangibleAssetRepository->searchForReport($params, $withRelations, [], $selectData);
 
@@ -432,8 +433,11 @@ class IntangibleAssetReportController extends Controller
      */
     protected function getDataGraphicIntangibleAssetClassificationPerYear(Collection $intangibleAssets, array $dataArray): array
     {
+        $productQuery = $this->intellectualPropertyRightProductRepository->search([]);
+        $productQuery->join('intellectual_property_right_subcategories', 'intellectual_property_right_products.intellectual_property_right_subcategory_id', 'intellectual_property_right_subcategories.id');
+        $productQuery->orderBy('intellectual_property_right_subcategories.intellectual_property_right_category_id');
         /** @var Collection $products */
-        $products = $this->intellectualPropertyRightProductRepository->search([])->get();
+        $products = $productQuery->get();
 
         $productArray = $products->split(8);
 
@@ -464,6 +468,8 @@ class IntangibleAssetReportController extends Controller
             }
             array_push($dataArray['graphicData']['with_graphics_assets_classification_per_year'], ['labels' => $labels, 'datasets' => $datasets]);
         }
+
+        // dd($dataArray);
 
         return $dataArray;
     }

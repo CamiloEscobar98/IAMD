@@ -734,6 +734,7 @@ return [
             'subtitle' => 'Perfil',
 
             'form-titles' => [
+                'image' => 'Foto de Perfil',
                 'show' => 'Información del Usuario',
                 'password' => 'Contraseña de Acceso',
             ],
@@ -1981,7 +1982,7 @@ return [
 
                 'sections' => [
                     'filters' => [
-                        'title' => 'Filtros de Personalización',
+                        'title' => 'Filtros',
                     ],
 
                     'contents' => [

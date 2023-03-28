@@ -25,11 +25,13 @@ class AuthController extends Controller
     }
 
     /**
-     * Update Information
+     * Update User information.
      * 
+     * @param UpdateRequest $request
+     * @param string $client
      * @return RedirectResponse
      */
-    public function update(UpdateRequest $request, $id): RedirectResponse
+    public function update(UpdateRequest $request, $client): RedirectResponse
     {
         $data = $request->all();
 
@@ -42,13 +44,20 @@ class AuthController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.auth.messages.update_success')]);
+            return redirect()->route('client.profile', $client)->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.auth.messages.update_success')]);
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.auth.messages.update_error')]);
         }
     }
 
-    public function updatePassword(UpdatePasswordRequest $request, $id): RedirectResponse
+    /**
+     * Update User password.
+     * 
+     * @param UpdatePasswordRequest $request
+     * @param string $client
+     * @return RedirectResponse
+     */
+    public function updatePassword(UpdatePasswordRequest $request, $client): RedirectResponse
     {
         $data = $request->all();
 
@@ -61,9 +70,19 @@ class AuthController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.auth.messages.update_password_success')]);
+            return redirect()->route('client.profile', $client)->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.auth.messages.update_password_success')]);
         } catch (\Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.auth.messages.update_password_error')]);
         }
+    }
+
+    /**
+     * Update User photo image.
+     * 
+     * @param string $client
+     */
+    public function updatePhoto($client)
+    {
+        # code...
     }
 }
