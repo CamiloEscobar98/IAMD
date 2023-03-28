@@ -104,7 +104,8 @@
                         <select name="intellectual_property_right_category_id" id="intellectual_property_right_category_id"
                             class="form-control select2bs4" onchange="changeIntellectualPropertyRightCategory()">
                             @foreach ($categories as $categoryItem => $value)
-                                <option value="{{ $categoryItem }}" {{ twoOptionsIsEqual($category->id, $categoryItem) }}>
+                                <option value="{{ $categoryItem }}"
+                                    {{ twoOptionsIsEqual(old('intellectual_property_right_category_id'), $categoryItem) }}>
                                     {{ $value }}</option>
                             @endforeach
                         </select>
@@ -119,11 +120,6 @@
                         <select name="intellectual_property_right_subcategory_id"
                             id="intellectual_property_right_subcategory_id" class="form-control select2bs4"
                             onchange="changeIntellectualPropertyRightSubcategory()">
-                            @foreach ($subCategories as $subCategoryItem => $value)
-                                <option value="{{ $subCategoryItem }}"
-                                    {{ twoOptionsIsEqual($subCategory->id, $subCategoryItem) }}>
-                                    {{ $value }}</option>
-                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -135,10 +131,6 @@
                         </div>
                         <select name="intellectual_property_right_product_id" id="intellectual_property_right_product_id"
                             class="form-control select2bs4">
-                            @foreach ($products as $productItem => $value)
-                                <option value="{{ $productItem }}" {{ twoOptionsIsEqual($product->id, $productItem) }}>
-                                    {{ $value }}</option>
-                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -148,7 +140,7 @@
             <!-- Phases Completed -->
             <div class="row justify-content-start">
                 <!-- Intangible Assets Completed Phases -->
-                <div class="col-lg-7">
+                <div class="col-lg-4">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.phases_completed') }}</label>
@@ -163,8 +155,25 @@
                 </div>
                 <!-- ./Intangible Assets Completed Phases -->
 
-                <!-- Intangible Asset States -->
+                <!-- Creators -->
                 <div class="col-lg-5">
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label class="input-group-text">{{ __('filters.creators') }}</label>
+                        </div>
+                        <select name="creator_id[]" class="form-control select2bs4" id="creator_id" multiple>
+                            @foreach ($creators as $creator => $value)
+                                <option value="{{ $creator }}" {{ optionInArray($params, 'creator_id', $creator) }}>
+                                    {{ $value }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <!-- ./Creators -->
+
+
+                <!-- Intangible Asset States -->
+                <div class="col-lg-3">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <label class="input-group-text">{{ __('filters.intangible_assets_state') }}</label>
@@ -253,6 +262,12 @@
     <script src="{{ asset('adminlte/dist/js/iamd/intangible_asset_levels.js') }}"></script>
 
     <script>
+
+        $(document).ready(function(){
+            getIntellectualPropertyRightSubcategories(-1);
+        });
+
+
         //Initialize Select2 Elements
 
         $('#intellectual_property_right_category_id').select2({
@@ -292,6 +307,12 @@
         $('#research_unit_id').select2({
             theme: 'bootstrap4',
             placeholder: '---Seleccionar Unidades Investigativas',
+            allowClear: true
+        });
+
+        $('#creator_id').select2({
+            theme: 'bootstrap4',
+            placeholder: '---Seleccionar Creadores',
             allowClear: true
         });
 

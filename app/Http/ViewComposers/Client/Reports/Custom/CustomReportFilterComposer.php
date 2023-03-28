@@ -5,7 +5,9 @@ namespace App\Http\ViewComposers\Client\Reports\Custom;
 use Illuminate\View\View;
 
 use App\Repositories\Admin\IntangibleAssetStateRepository;
+use App\Repositories\Admin\IntellectualPropertyRightCategoryRepository;
 use App\Repositories\Client\AdministrativeUnitRepository;
+use App\Repositories\Client\CreatorRepository;
 use App\Repositories\Client\ProjectRepository;
 use App\Repositories\Client\ResearchUnitRepository;
 use App\Services\Admin\IntellectualPropertyRightCategoryService;
@@ -13,8 +15,8 @@ use App\Services\Client\AdministrativeUnitService;
 
 class CustomReportFilterComposer
 {
-    /** @var IntellectualPropertyRightCategoryService */
-    protected $intellectualPropertyRightCategoryService;
+    /** @var IntellectualPropertyRightCategoryRepository */
+    protected $intellectualPropertyRightCategoryRepository;
 
     /** @var AdministrativeUnitService */
     protected $administrativeUnitService;
@@ -31,22 +33,27 @@ class CustomReportFilterComposer
     /** @var ProjectRepository */
     protected $projectRepository;
 
+    /** @var CreatorRepository */
+    protected $creatorRepository;
+
     public function __construct(
-        IntellectualPropertyRightCategoryService $intellectualPropertyRightCategoryService,
         AdministrativeUnitService $administrativeUnitService,
 
+        IntellectualPropertyRightCategoryRepository $intellectualPropertyRightCategoryRepository,
         AdministrativeUnitRepository $administrativeUnitRepository,
+        IntangibleAssetStateRepository $intangibleAssetStateRepository,
         ResearchUnitRepository $researchUnitRepository,
         ProjectRepository $projectRepository,
-        IntangibleAssetStateRepository $intangibleAssetStateRepository,
+        CreatorRepository $creatorRepository
     ) {
-        $this->intellectualPropertyRightCategoryService = $intellectualPropertyRightCategoryService;
         $this->administrativeUnitService = $administrativeUnitService;
 
+        $this->intellectualPropertyRightCategoryRepository = $intellectualPropertyRightCategoryRepository;
         $this->administrativeUnitRepository = $administrativeUnitRepository;
         $this->researchUnitRepository = $researchUnitRepository;
         $this->projectRepository = $projectRepository;
         $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
+        $this->creatorRepository = $creatorRepository;
     }
 
     public function compose(View $view)
@@ -57,7 +64,9 @@ class CustomReportFilterComposer
 
         $researchUnits = $this->researchUnitRepository->all()->pluck('name', 'id');
 
-        [$categories, $subCategories, $products, $category, $subCategory, $product] = $this->intellectualPropertyRightCategoryService->getIntellectualPropertyCategorySelect();
+        $creators = $this->creatorRepository->all()->pluck('name', 'id');
+
+        $categories = $this->intellectualPropertyRightCategoryRepository->all()->pluck('name', 'id')->prepend('---Seleccionar Categoría', -1);
 
         /** Intangible Asset States */
         $states = $this->intangibleAssetStateRepository->all()->pluck('name', 'id');
@@ -112,10 +121,6 @@ class CustomReportFilterComposer
                 'name' =>  'with_graphics_assets_classification_per_research_unit',
                 'value' =>  'Mostrar/Ocultar Gráfica Tipos de Activos Intangibles asociados a un Grupo de Investigación.'
             ],
-            // [
-            //     'name' => 'with_graphics_assets_state_classification_per_research_unit',
-            //     'value' => 'Mostrar/Ocultar Gráfica Estados de los Tipos de Activos Intangibles asociados a un Grupo de Investigación.'
-            // ]
         ]);
 
         $view->with(compact(
@@ -123,16 +128,12 @@ class CustomReportFilterComposer
             'ordersBy',
             'intangibleAssetCustomGeneral',
             'graphics',
-            
+
             'categories',
-            'subCategories',
-            'products',
-            'category',
-            'subCategory',
-            'product',
-            
+
             'states',
-            
+            'creators',
+
             'administrativeUnits',
             'projects',
             'researchUnits',
