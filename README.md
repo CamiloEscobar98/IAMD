@@ -1,64 +1,18 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Manual Técnico para Desarrolladores de Software
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Aplicación para la Administración de los Activos Intangibles
 
-## About Laravel
+#### Proceso de instalación del aplicativo.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Teniendo en cuenta que para esta aplicación es necesario php en una versión superior a 7.4, un gestor de bases de datos ya ses MySQL o PostgresSQL podemos empezar la instalación:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   Si no estamos trabajando con Docker, y ya tenemos en el servidor Composer como manejador de dependencias, podemos ejecutar el siguiente comando `composer install`para así poder instalar todas las dependencias necesarias para el proyecto y para Laravel. Si estamos trabajando con contenedores Docker, debemos de configurar todo lo necesario para Docker y luego si ejecutar el comando.
+-   Para empezar, podemos copiar los archivos **.env-example** a un nuevo archivo **.env** utilizando el comando `cp .env-example .env` para administrar todas las variables de entorno necesarias para la aplicación, y en el caso que se desee utilizar Docker a nivel productivo puedes utilizar el **docker-compose-example.yml** a un nuevo archivo **docker-compose.yml** utilizando el comando `cp docker-compose-example.yml docker-compose.yml` y modificarlo a tu gusto.
+-   Después de hacerlo, debemos de ejecutar un comando que se utiliza para generar una clave única a tu aplicación. `php artisan key:generate`
+-   Es necesario dentro del archivo **.env** cambiar dos variables. **APP_ENV** y **APP_DEBUG** para que se comporte a nivel de producción, con los siguientes valores **APP_ENV=production** y **APP_DEBUG=false** para evitar mostrar los errores de desarrollo. También es necesario camvbiar la variable **APP_URL** asignando la URL de la aplicación.
+-   Después de esto, es necesario hacer otra modificación en el archivo **.env** cambiando los valores de las variables que están relacionadas con la base de datos, estas son: **DB_CONNECTION**, **DB_HOST**, **DB_PORT**, **DB_DATABASE**, **DB_USERNAME**, **DB_PASSWORD** por los valores correspondientes, en el caso de utilizar un motor de base de datos MySQL el valor de **DB_CONNECTION** debe de quedar así **DB_CONNECTION=mysql** y los demás valores dependerán de las credenciales para la conexión en la base de datos. Si se desea utilizar otro motor de base de datos, se debe de revisar la configuración dentro del archivo **/config/database.php**
+-   Después de realizar esta configuración, hay que ejecutar las migraciones de la base de datos principal, esto se puede realizar ejecutando el comando `php artisan migrate` y luego el comando `php artisan db:seed DatabaseSeeder` es importante haber configurado el entorno de la aplicación para que este sea en producción. Si tiene algún tipo de error en la base de datos y aún no se ha implementado en producción, puede resetear la abse de datos sin problemas. Para eso puede leer sobre las migraciones en Laravel [Migraciones en Laravel](https://laravel.com/docs/9.x/migrations)
+-   Después de esto, es necesario revisar la tabla de tenants dentro de la base de datos para poder configurar los dos clientes **ufps** y **ufpso** y la configuración de conexión a esas bases de datos.
+-   Ya después de la configuración de esas dos bases de datos procedemos a ejecutar el comando `php artisan tenant:migrate ufps` siendo ufps el cliente, y para el cliente ufpso pues sencillamente cambiamos ufps por ufpso. Se debe de seguir todos los pasos para que así se instale todo lo necesario para esto. Recordando que si el entorno está en local o production cada uno tendrá una información diferente y por eso la importancia de tenerlo en production.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Con esto concluímos el proceso de instalación de la aplicación web.
