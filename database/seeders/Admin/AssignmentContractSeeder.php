@@ -5,15 +5,20 @@ namespace Database\Seeders\Admin;
 use Illuminate\Database\Seeder;
 
 use App\Repositories\Admin\AssignmentContractRepository;
+use Illuminate\Console\Concerns\InteractsWithIO;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class AssignmentContractSeeder extends Seeder
 {
+    use InteractsWithIO;
+
     /** @var AssignmentContractRepository */
     protected $assignmentContractRepository;
 
     public function __construct(AssignmentContractRepository $assignmentContractRepository)
     {
         $this->assignmentContractRepository = $assignmentContractRepository;
+        $this->output = new ConsoleOutput();
     }
 
     /**
@@ -23,8 +28,6 @@ class AssignmentContractSeeder extends Seeder
      */
     public function run()
     {
-        print("¡¡ CREATING ASSIGNMENT CONTRACTS !! \n \n");
-
         $assignmentContracts = [
             [
                 'name' => 'Cátedra',
@@ -47,22 +50,15 @@ class AssignmentContractSeeder extends Seeder
                 'is_internal' => false
             ]
         ];
-
-        $cont = 0;
+        
+        $this->command->getOutput()->progressStart(count($assignmentContracts));
 
         foreach ($assignmentContracts as $assignmentContractItem) {
-            $current = $cont + 1;
-
-            print("Creating Assignment Contract: $current. \n");
-
-            $assignmentContract = $this->assignmentContractRepository->create(
-                $assignmentContractItem
-            );
-            print("Assignment Contract Created. Name: " . $assignmentContract->name .  "\n \n");
-
-            $cont++;
+            $this->info("\n-Creando Tipo de Contratación para Creadores: '{$assignmentContractItem['name']}'\n");
+            sleep(1);
+            $this->assignmentContractRepository->create($assignmentContractItem);
+            $this->command->getOutput()->progressAdvance();
         }
-
-        print("¡¡ ASSIGNMENT CONTRACTS CREATED !! \n \n");
+        $this->command->getOutput()->progressFinish();
     }
 }

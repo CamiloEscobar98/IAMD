@@ -5,15 +5,20 @@ namespace Database\Seeders\Admin;
 use Illuminate\Database\Seeder;
 
 use App\Repositories\Admin\IntangibleAssetStateRepository;
+use Illuminate\Console\Concerns\InteractsWithIO;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class IntangibleAssetStateSeeder extends Seeder
 {
+    use InteractsWithIO;
+
     /** @var IntangibleAssetStateRepository */
     protected $intangibleAssetStateRepository;
 
     public function __construct(IntangibleAssetStateRepository $intangibleAssetStateRepository)
     {
         $this->intangibleAssetStateRepository = $intangibleAssetStateRepository;
+        $this->output = new ConsoleOutput();
     }
 
     /**
@@ -24,7 +29,7 @@ class IntangibleAssetStateSeeder extends Seeder
     public function run()
     {
 
-        $array = [
+        $intangibleAssetStates = [
 
             [
                 'name' => 'Identificado y No Protegido',
@@ -49,20 +54,14 @@ class IntangibleAssetStateSeeder extends Seeder
             ],
         ];
 
-        print("¡¡ CREATING ASSIGNMENT CONTRACTS !! \n \n");
+        $this->command->getOutput()->progressStart(count($intangibleAssetStates));
 
-        $cont = 0;
-
-        foreach ($array as $item) {
-
-            $current = $cont + 1;
-            print("Creating Intangible Asset State: $current. \n");
-            $state = $this->intangibleAssetStateRepository->create($item);
-            print("Intangible Asset State Created. Name: " . $state->name .  "\n \n");
-
-            $cont++;
+        foreach ($intangibleAssetStates as $state) {
+            $this->info("\n-Creando Estado para los Activos Intangibles: '{$state['name']}'\n");
+            sleep(1);
+            $this->intangibleAssetStateRepository->create($state);
+            $this->command->getOutput()->progressAdvance();
         }
-
-        print("¡¡ INTANGIBLE ASSET STATE CREATED !! \n \n");
+        $this->command->getOutput()->progressFinish();
     }
 }
