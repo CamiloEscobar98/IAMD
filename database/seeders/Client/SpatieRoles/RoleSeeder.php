@@ -6,9 +6,13 @@ use App\Repositories\Client\PermissionRepository;
 use Illuminate\Database\Seeder;
 
 use App\Repositories\Client\RoleRepository;
+use Illuminate\Console\Concerns\InteractsWithIO;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class RoleSeeder extends Seeder
 {
+    use InteractsWithIO;
+
     /** @var RoleRepository */
     protected $roleRepository;
 
@@ -21,6 +25,7 @@ class RoleSeeder extends Seeder
     ) {
         $this->roleRepository = $roleRepository;
         $this->permissionRepository = $permissionRepository;
+        $this->output = new ConsoleOutput();
     }
 
     /**
@@ -32,15 +37,16 @@ class RoleSeeder extends Seeder
     {
         $roles = config('permission.seeders.roles');
 
-        print("¡¡ CREATING ROLES FOR USERS !! \n \n");
+        $this->info('Creando los roles del sistema');
 
-        foreach ($roles as $key => $role) {
-            print("Creating Role: {++$key}. \n");
+        $this->command->getOutput()->progressStart(count($roles));
+
+        foreach ($roles as $role) {
+            $this->info("\n-Creando el rol del sistema: '{$role['name']}'\n");
             $role = $this->roleRepository->create($role);
-            print("Role Created. Name: " . $role->name .  "\n \n");
+            $this->command->getOutput()->progressAdvance();
         }
-
-        print("¡¡ ROLES CREATED !! \n \n");
+        $this->command->getOutput()->progressFinish();
 
         $permissions = $this->permissionRepository->all();
 

@@ -37,9 +37,13 @@ use App\Repositories\Client\StrategyCategoryRepository;
 use App\Repositories\Client\StrategyRepository;
 use App\Repositories\Client\UserRepository;
 use App\Services\Client\IntangibleAssetService;
+use Illuminate\Console\Concerns\InteractsWithIO;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class IntangibleAssetSeeder extends Seeder
 {
+    use InteractsWithIO;
+
     /** @var IntangibleAssetService */
     protected $intangibleAssetService;
 
@@ -189,6 +193,8 @@ class IntangibleAssetSeeder extends Seeder
         $this->priorityToolRepository = $priorityToolRepository;
         $this->strategyCategoryRepository = $strategyCategoryRepository;
         $this->strategyRepository = $strategyRepository;
+
+        $this->output = new ConsoleOutput();
     }
 
     /**
@@ -198,76 +204,70 @@ class IntangibleAssetSeeder extends Seeder
      */
     public function run()
     {
-        /** Searching All Projects. */
-        $projects = $this->projectRepository->all();
+        if (!isProductionEnv()) {
+            /** Searching All Projects. */
+            $projects = $this->projectRepository->all();
 
-        /** Searching Intangible Asset States */
-        $states = $this->intangibleAssetStateRepository->all();
+            /** Searching Intangible Asset States */
+            $states = $this->intangibleAssetStateRepository->all();
 
-        /** Searching Creators */
-        $creators = $this->creatorRepository->all();
+            /** Searching Creators */
+            $creators = $this->creatorRepository->all();
 
-        /** Searching DPIS */
-        $dpis = $this->intellectualPropertyRightSubcategoryRepository->all();
+            /** Searching DPIS */
+            $dpis = $this->intellectualPropertyRightSubcategoryRepository->all();
 
-        /** Searching Users */
-        $users = $this->userRepository->all();
+            /** Searching Users */
+            $users = $this->userRepository->all();
 
-        /** Secret Protection Measures */
-        $secretProtectionMeasures = $this->secretProtectionMeasureRepository->all();
+            /** Secret Protection Measures */
+            $secretProtectionMeasures = $this->secretProtectionMeasureRepository->all();
 
-        /** Priority Tools */
-        $priorityTools = $this->priorityToolRepository->all();
+            /** Priority Tools */
+            $priorityTools = $this->priorityToolRepository->all();
 
-        /** Strategy Categories */
-        $strategyCategories = $this->strategyCategoryRepository->all();
+            /** Strategy Categories */
+            $strategyCategories = $this->strategyCategoryRepository->all();
 
-        /** Strategies */
-        $strategies = $this->strategyRepository->all();
+            /** Strategies */
+            $strategies = $this->strategyRepository->all();
 
-        print("¡¡ CREATING INTANGIBLE ASSETS !! \n \n");
+            $intangibleAssetNum = (int)$this->command->ask("¿Cuántas Activos Intangibles desea crear para el ambiente de desarrollo?", 1);
+            $intangibleAssetNum = !is_numeric($intangibleAssetNum) || $intangibleAssetNum <= 0 ? 10 : $intangibleAssetNum;
 
-        $randomNumberIntangibleAssets = rand(500, 1000);
+            $this->command->getOutput()->progressStart($intangibleAssetNum);
 
+            for ($i = 0; $i < $intangibleAssetNum; $i++) {
+                sleep(1);
 
+                /** @var \App\Models\Client\Project\Project $projectRandom */
+                $projectRandom = $projects->random(1)->first();
 
-        $cont = 0;
-        do {
-            /** @var \App\Models\Client\Project\Project $randomProject */
-            $randomProject = $projects->random(1)->first();
+                /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset */
+                $intangibleAsset = $this->intangibleAssetRepository->createOneFactory([
+                    'project_id' => $projectRandom->id,
+                ]);
 
-            print("PROJECT: " . $randomProject->name .  "\n \n");
+                $this->info("\n-Creando Activo Intangible: '{$intangibleAsset->name}'");
 
-            $current = $cont + 1;
+                /** @var \Illuminate\Database\Eloquent\Collection $researchUnits */
+                $researchUnits = $projectRandom->research_units;
+                $researchUnitsRandom = $researchUnits->random(rand(1, $researchUnits->count() - 1));
 
-            print("Creating Intangible Asset: $current. \n");
+                $intangibleAsset->research_units()->sync($researchUnitsRandom);
 
-            /** @var \App\Models\Client\IntangibleAsset\IntangibleAsset $intangibleAsset */
-            $intangibleAsset = $this->intangibleAssetRepository->createOneFactory([
-                'project_id' => $randomProject->id,
-            ]);
+                $this->intangibleAssetLocalizationRepository->createOneFactory(['intangible_asset_id' => $intangibleAsset->id]);
 
-            /** @var \Illuminate\Database\Eloquent\Collection $researchUnits */
-            $researchUnits = $randomProject->research_units;
-            $randomResarchUnits = $researchUnits->random(rand(1, $researchUnits->count() - 1));
+                $randomAllCompleted = (bool) rand(0, 1);
 
-            $intangibleAsset->research_units()->sync($randomResarchUnits);
+                $this->randomPhases($randomAllCompleted, $intangibleAsset, $states, $dpis, $creators, $users, $secretProtectionMeasures, $strategyCategories, $strategies, $priorityTools);
 
-            $this->intangibleAssetLocalizationRepository->createOneFactory(['intangible_asset_id' => $intangibleAsset->id]);
-
-            print("Intangible Asset Created. Name: " . $intangibleAsset->name . "\n");
-
-            $randomAllCompleted = (bool) rand(0, 1);
-
-            $this->randomPhases($randomAllCompleted, $intangibleAsset, $states, $dpis, $creators, $users, $secretProtectionMeasures, $strategyCategories, $strategies, $priorityTools);
-
-            print("\n \n");
-
-            $cont++;
-            $randomNumberIntangibleAssets--;
-        } while ($randomNumberIntangibleAssets > 0);
-
-        print("INTANGIBLE ASSET FINISHED. \n \n");
+                $this->command->getOutput()->progressAdvance();
+            }
+            $this->command->getOutput()->progressFinish();
+        } else {
+            $this->warn("Este Seeder no está desarrollado para implementarse en un ambiente productivo.");
+        }
     }
 
     /**
@@ -396,7 +396,7 @@ class IntangibleAssetSeeder extends Seeder
 
         $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'one');
 
-        print("This Intangible Asset has a State. State: " . $randomClassification->name . "\n");
+        $this->comment("Este Activo Intangible tiene una clasificación: '{$randomClassification->name}'");
     }
 
     /**
@@ -414,7 +414,7 @@ class IntangibleAssetSeeder extends Seeder
 
         $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'two');
 
-        print("This Intangible Asset has Description \n");
+        $this->comment("Este Activo Intangible tiene una descripción");
     }
 
     /**
@@ -431,7 +431,7 @@ class IntangibleAssetSeeder extends Seeder
 
         $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'three');
 
-        print("This Intangible Asset has a State. State: " . $randomState->name . "\n");
+        $this->comment("Este Activo Intangible tiene un Estado: '{$randomState->name}'");
     }
 
     /**
@@ -442,7 +442,7 @@ class IntangibleAssetSeeder extends Seeder
      */
     private function updateHasComments($intangibleAsset, $users): void
     {
-        $randomNumber = rand(2, 10);
+        $randomNumber = rand(1, $users->count() - 1);
         $randomUsers = $users->random($randomNumber);
 
         $randomUsers->each(function ($user) use ($intangibleAsset) {
@@ -454,7 +454,7 @@ class IntangibleAssetSeeder extends Seeder
 
         $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'six');
 
-        print("This Intangible Asset has comments! \n");
+        $this->comment("Este Activo Intangible tiene comentarios");
     }
 
     /**
@@ -468,7 +468,7 @@ class IntangibleAssetSeeder extends Seeder
             'intangible_asset_id' => $intangibleAsset->id
         ]);
 
-        print("This Intangible Asset has been published: At: " . $assetPublished->published_at_by_default . "\n");
+        $this->comment("Este Activo ha sido publicado o divulgado: '{$assetPublished->published_at_by_default}'");
     }
 
     /**
@@ -484,7 +484,7 @@ class IntangibleAssetSeeder extends Seeder
 
         $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'nine');
 
-        print("This Intangible Asset is Commercial: Reason: " . $assetCommercial->reason . "\n");
+        $this->comment("Este Activo Intangible tiene una razón comercial: '{$assetCommercial->reason}'");
     }
 
     /**
@@ -500,18 +500,13 @@ class IntangibleAssetSeeder extends Seeder
          * 
          * @return void
          */
-        $randomNumber = rand(1, 10);
+        $randomNumber = rand(1, $creators->count() - 1);
 
         $randomCreators = $creators->random($randomNumber);
 
-        foreach ($randomCreators as $creator) {
-            $this->intangibleAssetCreatorRepository->create([
-                'intangible_asset_id' => $intangibleAsset->id,
-                'creator_id' => $creator->id,
-            ]);
-        }
+        $intangibleAsset->creators()->sync($randomCreators);
 
-        print("This Intangible Asset has Creators: Count: " . $randomCreators->count() . "\n");
+        $this->comment("Este Activo Intangible está relacionado con '{$randomCreators->count()} Creadores'");
     }
 
     /**
@@ -535,7 +530,7 @@ class IntangibleAssetSeeder extends Seeder
 
         $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'four');
 
-        print("This Intangible Asset has DPIS: Count: " . $randomDPIS->count() . "\n");
+        $this->comment("Este Activo Intangible tiene Derechos de Propiedad Intelectual relacionados: '{$randomDPIS->count()} DPI'");
     }
 
     /**
@@ -549,7 +544,7 @@ class IntangibleAssetSeeder extends Seeder
             'intangible_asset_id' => $intangibleAsset->id
         ]);
 
-        print("This Intangible Asset has Confidenciality Contract \n");
+        $this->comment("Este Activo Intangible tiene Contrato de Confidencialidad ");
     }
 
     /**
@@ -563,7 +558,7 @@ class IntangibleAssetSeeder extends Seeder
             'intangible_asset_id' => $intangibleAsset->id
         ]);
 
-        print("This Intangible Asset has Session Right Contract \n");
+        $this->comment("Este Activo Intangible tiene Contrato de Sesión de Derechos Patrimoniales");
     }
 
     /**
@@ -577,7 +572,7 @@ class IntangibleAssetSeeder extends Seeder
             'intangible_asset_id' => $intangibleAsset->id
         ]);
 
-        print("This Intangible Asset has Academic Record \n");
+        $this->comment("Este Activo Intangible tiene un Acto Administrativo");
     }
 
 
@@ -592,7 +587,7 @@ class IntangibleAssetSeeder extends Seeder
             'intangible_asset_id' => $intangibleAsset->id
         ]);
 
-        print("This Intangible Asset has Contability \n");
+        $this->comment("Este Activo Intangible tiene Contabilidad ");
     }
 
     /**
@@ -606,7 +601,7 @@ class IntangibleAssetSeeder extends Seeder
             'intangible_asset_id' => $intangibleAsset->id
         ]);
 
-        print("This Intangible Asset has Protection Action \n");
+        $this->comment("Este Activo Intangible toma medidas razonables para la protección de los secretos empresariales ");
     }
 
     /**
@@ -627,7 +622,7 @@ class IntangibleAssetSeeder extends Seeder
                 'secret_protection_measure_id' => $secretProtectionMeasure->id
             ]);
         }
-        print("This Intangible Asset has Secret Protection Measures: Count: " . $randomSecretProtectionMeasures->count() . "\n");
+        $this->comment("Este Activo Intangible tiene '{$randomSecretProtectionMeasures->count()}' Medidas Secretas de Protección");
     }
 
 
@@ -643,7 +638,7 @@ class IntangibleAssetSeeder extends Seeder
         $dpis = $intangibleAsset->dpis;
 
         $dpis->each(function ($dpi) use ($intangibleAsset, $priorityTools) {
-            $randomNumber = rand(1, $priorityTools->count() - 10);
+            $randomNumber = rand(1, $priorityTools->count() - 1);
             $randomTools = $priorityTools->random($randomNumber);
 
             foreach ($randomTools as $tool) {
@@ -657,7 +652,7 @@ class IntangibleAssetSeeder extends Seeder
 
         $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'eight');
 
-        print("This Intangible Asset has Priority Tools \n");
+        $this->comment("Este Activo Intangible tiene Herramientas de Priorización");
     }
 
     /**
@@ -692,6 +687,6 @@ class IntangibleAssetSeeder extends Seeder
 
         $this->intangibleAssetPhaseRepository->updateOrCreate(['intangible_asset_id' => $intangibleAsset->id], ['has_strategies' => true]);
 
-        print("This Intangible Asset has Strategies \n");
+        $this->comment("Este Activo Intangible tiene Estrategias de Gestión");
     }
 }

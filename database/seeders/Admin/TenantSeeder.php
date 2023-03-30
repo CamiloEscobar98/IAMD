@@ -5,15 +5,20 @@ namespace Database\Seeders\Admin;
 use Illuminate\Database\Seeder;
 
 use App\Repositories\Admin\TenantRepository;
+use Illuminate\Console\Concerns\InteractsWithIO;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class TenantSeeder extends Seeder
 {
+    use InteractsWithIO;
+
     /** @var TenantRepository */
     protected $tenantRepository;
 
     public function __construct(TenantRepository $tenantRepository)
     {
         $this->tenantRepository = $tenantRepository;
+        $this->output = new ConsoleOutput();
     }
     /**
      * Run the database seeds.
@@ -22,30 +27,38 @@ class TenantSeeder extends Seeder
      */
     public function run()
     {
-        /** Creating UFPS database */
-        $this->tenantRepository->create([
-            'name' => 'ufps',
-            'info' => 'Universidad Francisco de Paula Santander',
+        $tenantsArray = [
+            [
+                'name' => 'ufps',
+                'info' => 'Universidad Francisco de Paula Santander',
 
-            'url' => null,
-            'host' => 'mysql',
+                'url' => null,
+                'host' => 'mysql',
 
-            'database' => 'ufps',
-            'username' => 'root',
-            'password' => '',
-        ]);
+                'database' => 'ufps',
+                'username' => 'root',
+                'password' => '',
+            ],
+            [
+                'name' => 'ufpso',
+                'info' => 'Universidad Francisco de Paula Santander Ocaña',
 
-        /** Creating UFPSO database */
-        $this->tenantRepository->create([
-            'name' => 'ufpso',
-            'info' => 'Universidad Francisco de Paula Santander Ocaña',
+                'url' => null,
+                'host' => 'mysql',
 
-            'url' => null,
-            'host' => 'mysql',
+                'database' => 'ufpso',
+                'username' => 'root',
+                'password' => '',
+            ]
+        ];
 
-            'database' => 'ufpso',
-            'username' => 'root',
-            'password' => '',
-        ]);
+        $this->command->getOutput()->progressStart(count($tenantsArray));
+        foreach ($tenantsArray as $tenantItem) {
+            $this->info("\n-Creando configuración para el cliente: '{$tenantItem['info']}'\n");
+            sleep(1);
+            $this->tenantRepository->create($tenantItem);
+            $this->command->getOutput()->progressAdvance();
+        }
+        $this->command->getOutput()->progressFinish();
     }
 }

@@ -5,15 +5,20 @@ namespace Database\Seeders\Client;
 use Illuminate\Database\Seeder;
 
 use App\Repositories\Client\AcademicDepartmentRepository;
+use Illuminate\Console\Concerns\InteractsWithIO;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class AcademicDepartmentSeeder extends Seeder
 {
+    use InteractsWithIO;
+
     /** @var AcademicDepartmentRepository */
     protected $academicDepartmentRepository;
 
     public function __construct(AcademicDepartmentRepository $academicDepartmentRepository)
     {
         $this->academicDepartmentRepository = $academicDepartmentRepository;
+        $this->output = new ConsoleOutput();
     }
 
     /**
@@ -23,21 +28,22 @@ class AcademicDepartmentSeeder extends Seeder
      */
     public function run()
     {
-        print("¡¡ CREATING ACADEMIC DEPARTMENTS !! \n \n");
+        if (!isProductionEnv()) {
+            $academicDepartmentNum = (int)$this->command->ask("¿Cuántas Departamentos Académicos desea crear para el ambiente de desarrollo? \nPor defecto se crearán 10 Departamentos Académicos.", 10);
+            $academicDepartmentNum = !is_numeric($academicDepartmentNum) || $academicDepartmentNum <= 0 ? 10 : $academicDepartmentNum;
+            $academicDepartments = \App\Models\Client\AcademicDepartment::factory()->count($academicDepartmentNum)->make();
 
-        $randomAcademicDepartments = rand(4, 10);
+            $this->command->getOutput()->progressStart(count($academicDepartments));
 
-        $cont = 0;
-
-        do {
-            $current = $cont + 1;
-
-            print("Creating Academic Department: $current. \n");
-            $academicDepartment = $this->academicDepartmentRepository->createOneFactory();
-            print("Academic Department Created. Name: " . $academicDepartment->name .  "\n \n");
-
-            $cont++;
-            $randomAcademicDepartments--;
-        } while ($randomAcademicDepartments > 0);
+            foreach ($academicDepartments as $academicDepartment) {
+                sleep(1);
+                $this->info("\n-Creando Departamento Académico: '{$academicDepartment->name}'\n");
+                $academicDepartment->save();
+                $this->command->getOutput()->progressAdvance();
+            }
+            $this->command->getOutput()->progressFinish();
+        } else {
+            $this->warn("Este Seeder no está desarrollado para implementarse en un ambiente productivo.");
+        }
     }
 }

@@ -48,13 +48,9 @@ class MigrateFreshTenant extends Command
         $tenant = strval($this->argument('tenant'));
 
         try {
-            $this->warn('Searching Tenant...');
-
             /** @var \App\Models\Admin\Tenant */
             $tenant = $this->tenantRepository->getByAttribute('name', $tenant);
-            $this->info('Tenant searched.');
 
-            $this->warn('Creating configuration for Tenant Database...');
             Config::set('database.connections.tenant', $this->tenantRepository->getArrayConfigurationDatabase($tenant));
             $tenantDatabase = Config::get('database.connections.tenant');
 
@@ -69,17 +65,15 @@ class MigrateFreshTenant extends Command
                 '--database' => 'tenant',
             ];
 
-            if ($this->confirm('Would you like to refresh the tenants database?', false)) {
+            if ($this->confirm('¿Te gustaría resetear la base de datos del cliente?', false)) {
                 $command = 'migrate:fresh';
-                if ($this->confirm('Would you like seeding the tenants database?', false)) {
+                if ($this->confirm('¿Te gustaría ejecutar las semillas de instalación de información para la base de datos del cliente?', false)) {
                     $options['--seeder'] = 'TenantDatabaseSeeder';
                 }
             } else {
                 $command = 'migrate';
             }
-            while (Artisan::call($command, $options)) {
-                print(Artisan::output());
-            }
+            Artisan::call($command, $options, $this->output);
         } catch (Exception $th) {
             $this->error($th->getMessage());
         }

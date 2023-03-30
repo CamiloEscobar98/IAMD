@@ -5,15 +5,20 @@ namespace Database\Seeders\Admin;
 use Illuminate\Database\Seeder;
 
 use App\Repositories\Admin\LinkageTypeRepository;
+use Illuminate\Console\Concerns\InteractsWithIO;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class LinkageTypeSeeder extends Seeder
 {
+    use InteractsWithIO;
+
     /** @var LinkageTypeRepository */
     protected $linkageTypeRepository;
 
     public function __construct(LinkageTypeRepository $linkageTypeRepository)
     {
         $this->linkageTypeRepository = $linkageTypeRepository;
+        $this->output = new ConsoleOutput();
     }
 
     /**
@@ -23,24 +28,16 @@ class LinkageTypeSeeder extends Seeder
      */
     public function run()
     {
-        print("¡¡ CREATING LINKAGE TYPE !! \n \n");
+        $linkageTypes = ['Administrativo', 'Docente', 'Estudiante'];
 
-        $names = ['Administrativo', 'Docente', 'Estudiante'];
+        $this->command->getOutput()->progressStart(count($linkageTypes));
 
-        $cont = 0;
-
-        foreach ($names as $value) {
-            $current = $cont + 1;
-
-            print("Creating Linkage Type: $current. \n");
-
-            $linkageType = $this->linkageTypeRepository->create(['name' => $value]);
-
-            print("Linkage Type Created. Name: " . $linkageType->name .  "\n \n");
-
-            $cont++;
+        foreach ($linkageTypes as $name) {
+            $this->info("\n-Creando Tipo de Vinculación para Creadores: '{$name}'\n");
+            sleep(1);
+            $this->linkageTypeRepository->create(compact('name'));
+            $this->command->getOutput()->progressAdvance();
         }
-
-        print("¡¡ ASSIGNMENT CONTRACTS CREATED !! \n \n");
+        $this->command->getOutput()->progressFinish();
     }
 }

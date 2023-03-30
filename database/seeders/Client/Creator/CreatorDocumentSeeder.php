@@ -8,9 +8,13 @@ use App\Repositories\Admin\CityRepository;
 use App\Repositories\Admin\DocumentTypeRepository;
 use App\Repositories\Client\CreatorDocumentRepository;
 use App\Repositories\Client\CreatorRepository;
+use Illuminate\Console\Concerns\InteractsWithIO;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class CreatorDocumentSeeder extends Seeder
 {
+    use InteractsWithIO;
+
     /** @var CreatorRepository */
     protected $creatorRepository;
 
@@ -33,6 +37,7 @@ class CreatorDocumentSeeder extends Seeder
         $this->creatorDocumentRepository = $creatorDocumentRepository;
         $this->documentTypeRepository = $documentTypeRepository;
         $this->cityRepository = $cityRepository;
+        $this->output = new ConsoleOutput();
     }
     /**
      * Run the database seeds.
@@ -41,25 +46,32 @@ class CreatorDocumentSeeder extends Seeder
      */
     public function run()
     {
-        $cities = $this->cityRepository->all();
-        $documentTypes = $this->documentTypeRepository->all()->whereNotIn('slug', ['T.I']);
+        if (!isProductionEnv()) {
+            $cities = $this->cityRepository->all();
+            $documentTypes = $this->documentTypeRepository->all()->whereNotIn('slug', ['T.I']);
+            $creators = $this->creatorRepository->all();
+            $this->command->getOutput()->progressStart($creators->count());
 
-        print("¡¡ CREATING DOCUMENT FOR CREATORS !! \n \n");
+            foreach ($creators as $creator) {
+                sleep(1);
+                /** @var \App\Models\Client\Creator\Creator $creator */
+                $this->info("\n-Creando documento para el Creador: '{$creator->name}'\n");
 
-        $this->creatorRepository->all()->each(function ($creator) use ($cities, $documentTypes) {
-            $city = $cities->random(1)->first();
-            $documentType = $documentTypes->random(1)->first();
+                /** @var \App\Models\Admin\Localization\City $cityRandom */
+                $cityRandom = $cities->random(1)->first();
+                /** @var \App\Models\Admin\DocumentType $documentTypeRandom */
+                $documentTypeRandom = $documentTypes->random(1)->first();
 
-            print("Creating Document for Creator: " . $creator->name . "\n");
-
-            $document = $this->creatorDocumentRepository->createOneFactory([
-                'creator_id' => $creator->id,
-                'document_type_id' => $documentType->id,
-                'expedition_place_id' => $city->id
-            ]);
-            print("Document Created. Number: " . $document->document . "\n \n");
-        });
-
-        print("¡¡ DOCUMENTS FOR CREATORS CREATED !! \n \n");
+                $this->creatorDocumentRepository->createOneFactory([
+                    'creator_id' => $creator->id,
+                    'document_type_id' => $documentTypeRandom->id,
+                    'expedition_place_id' => $cityRandom->id
+                ]);
+                $this->command->getOutput()->progressAdvance();
+            }
+            $this->command->getOutput()->progressFinish();
+        } else {
+            $this->warn("Este Seeder no está desarrollado para implementarse en un ambiente productivo.");
+        }
     }
 }

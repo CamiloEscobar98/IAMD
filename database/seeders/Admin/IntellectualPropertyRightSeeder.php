@@ -8,9 +8,13 @@ use Illuminate\Support\Facades\Config;
 use App\Repositories\Admin\IntellectualPropertyRightCategoryRepository;
 use App\Repositories\Admin\IntellectualPropertyRightProductRepository;
 use App\Repositories\Admin\IntellectualPropertyRightSubcategoryRepository;
+use Illuminate\Console\Concerns\InteractsWithIO;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class IntellectualPropertyRightSeeder extends Seeder
 {
+    use InteractsWithIO;
+
     /** @var IntellectualPropertyRightCategoryRepository */
     protected $intellectualPropertyRightCategoryRepository;
 
@@ -28,6 +32,7 @@ class IntellectualPropertyRightSeeder extends Seeder
         $this->intellectualPropertyRightCategoryRepository = $intellectualPropertyRightCategoryRepository;
         $this->intangibleAssetTypeLevel2Repository = $intangibleAssetTypeLevel2Repository;
         $this->intellectualPropertyRightProductRepository = $intellectualPropertyRightProductRepository;
+        $this->output = new ConsoleOutput();
     }
 
     /**
@@ -37,49 +42,46 @@ class IntellectualPropertyRightSeeder extends Seeder
      */
     public function run()
     {
-        print("¡¡ CREATING INTELLECTUAL PROPERTY RIGHT  !! \n \n");
-
         $intellectualPropertyRightCategories = Config::get('app.intellectual_property_right_categories');
 
-        $array = collect($intellectualPropertyRightCategories);
+        $categories = collect($intellectualPropertyRightCategories);
 
-        foreach ($array as $category) {
-            print("Creating Intellectual Property Right Category... \n");
-
+        foreach ($categories as $category) {
+            $this->info("\n-Creando Categoría de los Derechos de Propiedad Intelectual: '{$category['name']}'\n");
+            
+            /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightCategory $categoryCreated */
             $categoryCreated = $this->intellectualPropertyRightCategoryRepository->create([
                 'name' => $category['name']
             ]);
 
-            print("Intellectual Property Right Category created! Name: " . $categoryCreated->name . "\n \n");
-
             $subcategories = collect($category['subcategories']);
 
             foreach ($subcategories as $subcategory) {
-                print("Creating Intellectual Property Right Subcategory... \n");
+                sleep(1);
+                $this->info("\n-Creando Subcategoría de los Derechos de Propiedad Intelectual: '{$subcategory['name']}'\n");
 
+                /** @var \App\Models\Admin\IntellectualPropertyRight\IntellectualPropertyRightSubcategory $subcategoryCreated  */
                 $subcategoryCreated = $this->intangibleAssetTypeLevel2Repository->create([
                     'intellectual_property_right_category_id' => $categoryCreated->id,
                     'name' => $subcategory['name']
                 ]);
 
-                print("Intellectual Property Right Subcategory created! Name " . $subcategoryCreated->name . "\n");
-
                 $products = collect($subcategory['products']);
+                $this->command->getOutput()->progressStart($products->count());
 
                 foreach ($products as $product) {
-                    print("Creating Intellectual Property Right Product... \n");
+                    sleep(1);
+                    $this->info("\n-Creando Producto de los Derechos de Propiedad Intelectual: '{$subcategory['name']}'\n");
 
-                    $productCreated = $this->intellectualPropertyRightProductRepository->create([
+                    $this->intellectualPropertyRightProductRepository->create([
                         'intellectual_property_right_subcategory_id' => $subcategoryCreated->id,
                         'name' => $product['name'],
                         'code' => $product['code']
                     ]);
-
-                    print("Intellectual Property Right Product created! Name " . $productCreated->name . "\n \n");
+                    $this->command->getOutput()->progressAdvance();
                 }
+                $this->command->getOutput()->progressFinish();
             }
-
-            print("INTELLECTUAL PROPERTY RIGHT FINISHED. \n \n");
         }
     }
 }

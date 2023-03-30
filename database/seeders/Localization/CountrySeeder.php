@@ -5,15 +5,20 @@ namespace Database\Seeders\Localization;
 use Illuminate\Database\Seeder;
 
 use App\Repositories\Admin\CountryRepository;
+use Illuminate\Console\Concerns\InteractsWithIO;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class CountrySeeder extends Seeder
 {
+    use InteractsWithIO;
+
     /** @var CountryRepository */
     protected $countryRepository;
 
     public function __construct(CountryRepository $countryRepository)
     {
         $this->countryRepository = $countryRepository;
+        $this->output = new ConsoleOutput();
     }
 
     /**
@@ -23,10 +28,10 @@ class CountrySeeder extends Seeder
      */
     public function run()
     {
-        $this->countryRepository->createFactory(10);
-
-        if (!$hasColombia = $this->countryRepository->getByAttribute('name', 'Colombia')) {
-            $this->countryRepository->create(['name' => 'Colombia']);
-        }
+        $this->command->getOutput()->progressStart(1);
+        $this->countryRepository->create(['name' => 'Colombia']);
+        $this->info("\n-Creando Pais: 'Colombia'\n");
+        $this->command->getOutput()->progressAdvance();
+        $this->command->getOutput()->progressFinish();
     }
 }

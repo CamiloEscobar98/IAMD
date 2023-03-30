@@ -5,15 +5,20 @@ namespace Database\Seeders\Client;
 use Illuminate\Database\Seeder;
 
 use App\Repositories\Client\AdministrativeUnitRepository;
+use Illuminate\Console\Concerns\InteractsWithIO;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class AdministrativeUnitSeeder extends Seeder
 {
+    use InteractsWithIO;
+
     /** @var AdministrativeUnitRepository */
     protected $administrativeUnitRepository;
 
     public function __construct(AdministrativeUnitRepository $administrativeUnitRepository)
     {
         $this->administrativeUnitRepository = $administrativeUnitRepository;
+        $this->output = new ConsoleOutput();
     }
 
     /**
@@ -23,22 +28,22 @@ class AdministrativeUnitSeeder extends Seeder
      */
     public function run()
     {
-        print("¡¡ CREATING ADMINISTRATIVE UNITS !! \n \n");
+        if (!isProductionEnv()) {
+            $administrativeUnitNum = (int)$this->command->ask("¿Cuántas Facultades desea crear para el ambiente de desarrollo? \nPor defecto se crearán 10 facultades.", 10);
+            $administrativeUnitNum = !is_numeric($administrativeUnitNum) || $administrativeUnitNum <= 0 ? 10 : $administrativeUnitNum;
+            $administrativeUnits = \App\Models\Client\AdministrativeUnit::factory()->count($administrativeUnitNum)->make();
 
-        $randomNumber = rand(10, 20);
-        $cont = 0;
+            $this->command->getOutput()->progressStart(count($administrativeUnits));
 
-        do {
-            $current = $cont + 1;
-
-            print("Creating Administrative Unit: $current. \n");
-            $administrativeUnit = $this->administrativeUnitRepository->createOneFactory();
-            print("Administrative Unit Created. Name: " . $administrativeUnit->name .  "\n \n");
-
-            $cont++;
-            $randomNumber--;
-        } while ($randomNumber > 0);
-
-        print("¡¡ ADMINISTRATIVE UNITS CREATED !! \n \n");
+            foreach ($administrativeUnits as $administrativeUnit) {
+                sleep(1);
+                $this->info("\n-Creando Facultad: '{$administrativeUnit->name}'\n");
+                $administrativeUnit->save();
+                $this->command->getOutput()->progressAdvance();
+            }
+            $this->command->getOutput()->progressFinish();
+        } else {
+            $this->warn("Este Seeder no está desarrollado para implementarse en un ambiente productivo.");
+        }
     }
 }

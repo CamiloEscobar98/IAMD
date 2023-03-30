@@ -6,9 +6,13 @@ use Illuminate\Database\Seeder;
 
 use App\Repositories\Client\PermissionModuleRepository;
 use App\Repositories\Client\PermissionRepository;
+use Illuminate\Console\Concerns\InteractsWithIO;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class PermissionModuleSeeder extends Seeder
 {
+    use InteractsWithIO;
+
     /** @var PermissionModuleRepository */
     protected $permissionModuleRepository;
 
@@ -21,6 +25,7 @@ class PermissionModuleSeeder extends Seeder
     ) {
         $this->permissionModuleRepository = $permissionModuleRepository;
         $this->permissionRepository = $permissionRepository;
+        $this->output = new ConsoleOutput();
     }
 
     /**
@@ -32,27 +37,28 @@ class PermissionModuleSeeder extends Seeder
     {
         $permissionModules = config('permission.seeders.permission_modules');
 
-        print("¡¡ CREATING PERMISSION MODULES !! \n \n");
+        $this->info('Creando los módulos y permisos de la aplicación cliente');
 
-        foreach ($permissionModules as $key => $permissionModuleItem) {
-            $cont = $key++;
-            print("Creating Permission Module: {$cont}. \n");
+        foreach ($permissionModules as $permissionModuleItem) {
+            sleep(1);
+            $this->info("\n-Creando el módulo: '{$permissionModuleItem['name']}'\n");
+
+            /** @var \App\Models\Client\PermissionModule $permissionModule */
             $permissionModule = $this->permissionModuleRepository->create(['name' => $permissionModuleItem['name']]);
-            print("Permission Module Created. Name: " . $permissionModule->name .  "\n \n");
 
             /** Permissions */
             $permissions = $permissionModuleItem['permissions'];
+            $this->command->getOutput()->progressStart(count($permissions));
 
-            foreach ($permissions as $key2 => $permissionItem) {
-                $cont2 = $key2++;
+            foreach ($permissions as $permissionItem) {
+                sleep(1);
+                $this->info("\n-Creando el permiso: '{$permissionItem['info']}'\n");
                 $permissionItem['permission_module_id'] = $permissionModule->id;
 
-                print("Creating Permission: {$cont2}. \n");
-                $permission = $this->permissionRepository->create($permissionItem);
-                print("Permission Created. Name: " . $permission->name .  "\n \n");
+                $this->permissionRepository->create($permissionItem);
+                $this->command->getOutput()->progressAdvance();
             }
+            $this->command->getOutput()->progressFinish();
         }
-
-        print("¡¡ PERMISSION MODULES CREATED !! \n \n");
     }
 }
