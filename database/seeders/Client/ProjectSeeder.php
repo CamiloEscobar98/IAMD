@@ -10,9 +10,13 @@ use App\Repositories\Client\ProjectContractTypeRepository;
 use App\Repositories\Client\ProjectRepository;
 use App\Repositories\Client\ResearchUnitRepository;
 use App\Repositories\Client\ProjectFinancingRepository;
+use Illuminate\Console\Concerns\InteractsWithIO;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class ProjectSeeder extends Seeder
 {
+    use InteractsWithIO;
+
     /** @var ResearchUnitRepository */
     protected $researchUnitRepository;
 
@@ -47,6 +51,7 @@ class ProjectSeeder extends Seeder
 
         $this->financingTypeRepository = $financingTypeRepository;
         $this->projectContractTypeRepository = $projectContractTypeRepository;
+        $this->output = new ConsoleOutput();
     }
 
     /**
@@ -56,58 +61,50 @@ class ProjectSeeder extends Seeder
      */
     public function run()
     {
-        /** Searching all Creators */
-        $creators = $this->creatorRepository->all();
+        if (!isProductionEnv()) {
+            /** Searching all Creators */
+            $creators = $this->creatorRepository->all();
 
-        /** Searching all Research Units */
-        $researchUnits = $this->researchUnitRepository->all();
+            /** Searching all Research Units */
+            $researchUnits = $this->researchUnitRepository->all();
 
-        /** Searching Financing Types */
-        $financingTypes = $this->financingTypeRepository->all();
+            /** Searching Financing Types */
+            $financingTypes = $this->financingTypeRepository->all();
 
-        /** Searching Project Contract Types */
-        $projectContractTypes = $this->projectContractTypeRepository->all();
+            /** Searching Project Contract Types */
+            $projectContractTypes = $this->projectContractTypeRepository->all();
 
-        print("¡¡ CREATING PROJECTS !! \n \n");
+            $projectNum = (int)$this->command->ask("¿Cuántas Proyectos desea crear para el ambiente de desarrollo? \nPor defecto se crearán 25 Proyectos.", 25);
+            $projectNum = !is_numeric($projectNum) || $projectNum <= 0 ? 25 : $projectNum;
 
-        $randomNumberProjects = rand(1, 50);
+            $this->command->getOutput()->progressStart($projectNum);
 
-        $cont = 0;
+            for ($i = 0; $i < $projectNum; $i++) {
+                sleep(1);
+                $researchUnitsRandom = $researchUnits->random(rand(1, $researchUnits->count() - 1));
+                /** @var \App\Models\Client\Creator\Creator $director */
+                $director = $creators->random(1)->first();
+                /** @var \App\Models\Client\Project\ProjectContractType $projectContractType */
+                $projectContractType = $projectContractTypes->random(1)->first();
 
-        do {
-            $randomResearchUnits = $researchUnits->random(rand(1, 6));
+                /** @var \App\Models\Client\Project\Project $project */
+                $project = $this->projectRepository->createOneFactory([
+                    'director_id' => $director->id,
+                    'project_contract_type_id' => $projectContractType->id,
+                ]);
 
-            $current = $cont + 1;
+                $project->research_units()->sync($researchUnitsRandom);
 
-            /** Searching random Creator for Director role */
-            $director = $creators->random(1)->first();
+                $financingTypesRandom = $financingTypes->random(rand(1, $financingTypes->count() - 1));
 
-            print("Creating Project: $current. \n");
+                $project->project_financings()->sync($financingTypesRandom);
 
-            $projectContractType = $projectContractTypes->random(1)->first();
-
-            $project = $this->projectRepository->createOneFactory([
-                'director_id' => $director->id,
-                'project_contract_type_id' => $projectContractType->id,
-            ]);
-
-            /** @var \App\Models\Client\Project\Project $project */
-
-            $project->research_units()->sync($randomResearchUnits);
-
-            print("Project Created. Name: " . $project->name . "\n");
-
-            /** Creating Project Financing Information */
-            print("Creating Project Financing Information. \n");
-
-            $randomfinancingType = $financingTypes->random(rand(1, $financingTypes->count()));
-
-            $project->project_financings()->sync($randomfinancingType);
-
-            print("Project Financing Information created! \n");
-
-            $cont++;
-            $randomNumberProjects--;
-        } while ($randomNumberProjects > 0);
+                $this->info("\n-Creando Proyecto: '{$project->name}'\n");
+                $this->command->getOutput()->progressAdvance();
+            }
+            $this->command->getOutput()->progressFinish();
+        } else {
+            $this->warn("Este Seeder no está desarrollado para implementarse en un ambiente productivo.");
+        }
     }
 }

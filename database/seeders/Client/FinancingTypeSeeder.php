@@ -5,15 +5,20 @@ namespace Database\Seeders\Client;
 use Illuminate\Database\Seeder;
 
 use App\Repositories\Client\FinancingTypeRepository;
+use Illuminate\Console\Concerns\InteractsWithIO;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class FinancingTypeSeeder extends Seeder
 {
+    use InteractsWithIO;
+
     /** @var FinancingTypeRepository */
     protected $financingTypeRepository;
 
     public function __construct(FinancingTypeRepository $financingTypeRepository)
     {
         $this->financingTypeRepository = $financingTypeRepository;
+        $this->output = new ConsoleOutput();
     }
     /**
      * Run the database seeds.
@@ -22,21 +27,33 @@ class FinancingTypeSeeder extends Seeder
      */
     public function run()
     {
-        $this->financingTypeRepository->create([
-            'name' => 'Fondo de Investigaciones Universitarias',
-            'code' => 'FN',
-        ]);
-        $this->financingTypeRepository->create([
-            'name' => 'Proyecto Institucional',
-            'code' => 'PI',
-        ]);
-        $this->financingTypeRepository->create([
-            'name' => 'Cofinanciación Externa',
-            'code' => 'CE',
-        ]);
-        $this->financingTypeRepository->create([
-            'name' => 'Contratación de Servicios',
-            'code' => 'CS',
-        ]);
+        $financingTypes = [
+            [
+                'name' => 'Fondo de Investigaciones Universitarias',
+                'code' => 'FN',
+            ],
+            [
+                'name' => 'Proyecto Institucional',
+                'code' => 'PI',
+            ],
+            [
+                'name' => 'Cofinanciación Externa',
+                'code' => 'CE',
+            ],
+            [
+                'name' => 'Contratación de Servicios',
+                'code' => 'CS',
+            ]
+        ];
+
+        $this->command->getOutput()->progressStart(count($financingTypes));
+
+        foreach ($financingTypes as $financingType) {
+            sleep(1);
+            $this->financingTypeRepository->create($financingType);
+            $this->info("\n-Creando Tipo de Financiación para Proyectos: '{$financingType['name']}'\n");
+            $this->command->getOutput()->progressAdvance();
+        }
+        $this->command->getOutput()->progressFinish();
     }
 }

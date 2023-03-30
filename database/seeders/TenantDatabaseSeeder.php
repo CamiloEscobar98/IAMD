@@ -8,6 +8,8 @@ use Illuminate\Database\Seeder;
 use Database\Seeders\Client\UserSeeder;
 
 use Database\Seeders\Client\AdministrativeUnitSeeder;
+use Database\Seeders\Client\Creator\CreatorDocumentSeeder;
+use Database\Seeders\Client\Creator\CreatorInternalOrExternalSeeder;
 use Database\Seeders\Client\ResearchUnit\ResearchUnitSeeder;
 
 use Database\Seeders\Client\Creator\CreatorSeeder;
@@ -23,6 +25,7 @@ use Database\Seeders\Client\ProjectContractTypeSeeder;
 use Database\Seeders\Client\ProjectSeeder;
 
 use Database\Seeders\Client\IntangibleAssetSeeder;
+use Database\Seeders\Client\ResearchUnit\ResearchUnitCategorySeeder;
 use Database\Seeders\Client\SpatieRoles\PermissionModuleSeeder;
 use Database\Seeders\Client\SpatieRoles\RoleSeeder;
 
@@ -43,9 +46,13 @@ class TenantDatabaseSeeder extends Seeder
             UserSeeder::class,
 
             CreatorSeeder::class,
+            CreatorDocumentSeeder::class,
+            CreatorInternalOrExternalSeeder::class,
+
             AdministrativeUnitSeeder::class,
             AcademicDepartmentSeeder::class,
 
+            ResearchUnitCategorySeeder::class,
             ResearchUnitSeeder::class,
 
             SecretProtectionMeasureSeeder::class,

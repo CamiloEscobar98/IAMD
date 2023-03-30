@@ -30,7 +30,6 @@ if (!function_exists('current_admin')) {
 
 if (!function_exists('current_role')) {
 
-
     function current_role(): \App\Models\Client\Role|Null
     {
         if ($role = session('current_role')) {
@@ -38,5 +37,12 @@ if (!function_exists('current_role')) {
         } else {
             null;
         }
+    }
+}
+
+if (!function_exists('isProductionEnv')) {
+    function isProductionEnv(): bool
+    {
+        return config('app.env') == 'production';
     }
 }

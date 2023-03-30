@@ -9,9 +9,12 @@ use App\Services\Localization\ApiMarcoVegaColombiaStates;
 
 use App\Repositories\Admin\CountryRepository;
 use App\Repositories\Admin\StateRepository;
+use Illuminate\Console\Concerns\InteractsWithIO;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class StateAndCitySeeder extends Seeder
 {
+    use InteractsWithIO;
 
     /** @var StateRepository */
     protected $stateRepository;
@@ -35,6 +38,7 @@ class StateAndCitySeeder extends Seeder
         $this->countryRepository = $countryRepository;
         $this->cityRepository = $cityRepository;
         $this->apiMarcoVegaColombiaStates = $apiMarcoVegaColombiaStates;
+        $this->output = new ConsoleOutput();
     }
 
     /**
@@ -44,34 +48,47 @@ class StateAndCitySeeder extends Seeder
      */
     public function run()
     {
-        try {
-            /** Searching Colombia */
-            print("Searching Colombia... \n");
-            if ($colombia = $this->countryRepository->getByAttribute('name', 'Colombia')) {
-                print("Searching Departments... \n");
-                /** Searching Departments */
-                $states = $this->apiMarcoVegaColombiaStates->getDepartments();
-                print("States searched! Count: " . $states->count() . "\n");
+        /** Searching Colombia */
 
-                $states->each(function ($stateItem) use ($colombia) {
-                    $state = $this->stateRepository->create([
-                        'country_id' => $colombia->id,
-                        'name' => $stateItem->departamento,
-                    ]);
-                    print("State created! Name: " . $state->name . "\n");
+        $this->info('Buscando el País de Colombia dentro de la base de datos.');
 
-                    $cities = collect($stateItem->ciudades);
-                    $cities->each(function ($cityItem) use ($state) {
-                        $city = $this->cityRepository->create([
-                            'state_id' => $state->id,
-                            'name' => $cityItem
-                        ]);
-                        print("City created! Name: " . $city->name . "\n");
-                    });
-                });
+        if ($colombia = $this->countryRepository->getByAttribute('name', 'Colombia')) {
+            $this->info('Buscando Departamentos utilizando la API de MarcoVega.');
+            /** Searching Departments */
+            $states = $this->apiMarcoVegaColombiaStates->getDepartments();
+            $this->info("Departamentos encontrados: {$states->count()}");
+            $this->command->getOutput()->progressStart($states->count());
+
+            $statesCollection = collect();
+
+            foreach ($states as $stateItem) {
+                $this->info("\n-Creando Departamento: '{$stateItem->departamento}'\n");
+                sleep(1);
+                /** @var \App\Models\Admin\Localization\State $state */
+                $state = $this->stateRepository->create([
+                    'country_id' => $colombia->id,
+                    'name' => $stateItem->departamento,
+                ]);
+                $this->command->getOutput()->progressAdvance();
+
+                $statesCollection->push(['name' => $state->name, 'cities' => $stateItem->ciudades]);
             }
-        } catch (\Exception $th) {
-            print($th->getMessage() . "\n");
+            $this->command->getOutput()->progressFinish();
+
+            foreach ($statesCollection as $stateCollectionItem) {
+                sleep(1);
+                $this->info("\nRegistrando los Municipios/Ciudades de: '{$stateCollectionItem['name']}'\n");
+                $this->command->getOutput()->progressStart(count($stateCollectionItem['cities']));
+                foreach ($stateCollectionItem['cities'] as $cityItem) {
+                    /** @var \App\Models\Admin\Localization\City $city */
+                    $city = $this->cityRepository->create([
+                        'state_id' => $state->id,
+                        'name' => $cityItem
+                    ]);
+                    $this->command->getOutput()->progressAdvance();
+                }
+                $this->command->getOutput()->progressFinish();
+            }
         }
     }
 }

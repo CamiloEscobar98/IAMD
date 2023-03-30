@@ -5,15 +5,20 @@ namespace Database\Seeders\Client\Creator;
 use Illuminate\Database\Seeder;
 
 use App\Repositories\Client\CreatorRepository;
+use Illuminate\Console\Concerns\InteractsWithIO;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class CreatorSeeder extends Seeder
 {
+    use InteractsWithIO;
+
     /** @var CreatorRepository */
     protected $creatorRepository;
 
     public function __construct(CreatorRepository $creatorRepository)
     {
         $this->creatorRepository = $creatorRepository;
+        $this->output = new ConsoleOutput();
     }
 
     /**
@@ -23,28 +28,21 @@ class CreatorSeeder extends Seeder
      */
     public function run()
     {
-        $randomNumber = rand(100, 500);
-        $cont = 0;
+        if (!isProductionEnv()) {
+            $creatorsNum = (int)$this->command->ask("¿Cuántas Creadores desea crear para el ambiente de desarrollo? \nPor defecto se crearán 50 creadores.", 50);
+            $creatorsNum = !is_numeric($creatorsNum) || $creatorsNum <= 0 ? 50 : $creatorsNum;
+            $creators = \App\Models\Client\Creator\Creator::factory()->count($creatorsNum)->make();
+            $this->command->getOutput()->progressStart(count($creators));
 
-        print("¡¡ CREATING CREATORS !! \n \n");
-
-        print("Random Number Creators for Create: $randomNumber. \n");
-
-        do {
-            $current = $cont + 1;
-            print("Creating Creator: $current. \n");
-            $creator = $this->creatorRepository->createOneFactory();
-            print("Creator Created. Name: " . $creator->name .  "\n \n");
-
-            $cont++;
-            $randomNumber--;
-        } while ($randomNumber > 0);
-
-        print("¡¡ CREATORS CREATED !! \n \n");
-
-        $this->call([
-            CreatorDocumentSeeder::class,
-            CreatorInternalOrExternalSeeder::class
-        ]);
+            foreach ($creators as $creator) {
+                sleep(1);
+                $this->info("\n-Creando Creador: '{$creator->name}'\n");
+                $creator->save();
+                $this->command->getOutput()->progressAdvance();
+            }
+            $this->command->getOutput()->progressFinish();
+        } else {
+            $this->warn("Este Seeder no está desarrollado para implementarse en un ambiente productivo.");
+        }
     }
 }
