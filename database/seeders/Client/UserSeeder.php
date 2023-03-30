@@ -30,8 +30,8 @@ class UserSeeder extends Seeder
     {
         $this->createUserAdmin();
         if (!isProductionEnv()) {
-            $usersNum = (int)$this->command->ask("¿Cuántos Usuarios desea crear para el ambiente de desarrollo? \nPor defecto se crearán 50 usuarios.", 50);
-            $usersNum = !is_numeric($usersNum) || $usersNum <= 0 ? 50 : $usersNum;
+            $usersNum = (int)$this->command->ask("¿Cuántos Usuarios desea crear para el ambiente de desarrollo? \nPor defecto se crearán 5 usuarios.", 5);
+            $usersNum = !is_numeric($usersNum) || $usersNum <= 0 ? 5 : $usersNum;
             $users = \App\Models\Client\User::factory()->count($usersNum)->make();
 
             $this->command->getOutput()->progressStart(count($users));
