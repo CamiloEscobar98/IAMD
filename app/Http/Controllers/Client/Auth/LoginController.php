@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Client\Auth;
 
 use App\Http\Controllers\Controller;
 
-use App\Providers\RouteServiceProvider;
-
 use App\Traits\Client\Auth\AuthenticatesUsers;
 
 class LoginController extends  Controller
