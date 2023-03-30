@@ -5,15 +5,20 @@ namespace Database\Seeders\Client;
 use Illuminate\Database\Seeder;
 
 use App\Repositories\Client\UserRepository;
+use Illuminate\Console\Concerns\InteractsWithIO;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class UserSeeder extends Seeder
 {
+    use InteractsWithIO;
+
     /** @var UserRepository */
     protected $userRepository;
 
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
+        $this->output = new ConsoleOutput();
     }
 
     /**
@@ -23,33 +28,33 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $this->createUserAdmin();
+        if (!isProductionEnv()) {
+            $usersNum = (int)$this->command->ask("¿Cuántos Usuarios desea crear para el ambiente de desarrollo? \nPor defecto se crearán 50 usuarios.", 50);
+            $usersNum = !is_numeric($usersNum) || $usersNum <= 0 ? 50 : $usersNum;
+            $users = \App\Models\Client\User::factory()->count($usersNum)->make();
+
+            $this->command->getOutput()->progressStart(count($users));
+            foreach ($users as $user) {
+                sleep(1);
+                $this->info("\n-Creando Usuario: '{$user->name}'\n");
+                $user->save();
+                $user->assignRole('employee');
+                $this->command->getOutput()->progressAdvance();
+            }
+            $this->command->getOutput()->progressFinish();
+        }
+    }
+
+    /**
+     * Create a new user admin
+     */
+    protected function createUserAdmin()
+    {
+        $this->info('Creando usuario administrador con todos los permisos registrados de la aplicación. Correo Electrónico: cliente@gmail.com Contraseña: password1234');
         $user = $this->userRepository->createOneFactory([
-            'email' => 'client@gmail.com',
+            'email' => 'cliente@gmail.com',
         ]);
-
         $user->assignRole('admin');
-
-        print("¡¡ CREATING USERS !! \n \n");
-
-        $randomNumber = 10;
-
-        $cont = 0;
-        
-        do {
-            $current = $cont + 1;
-
-            print("Creating User: $current. \n");
-
-            /** @var \App\Models\Client\User $user */
-            $user = $this->userRepository->createOneFactory();
-            print("User Created. Name: " . $user->name . "\n \n");
-
-            $user->assignRole('employee');
-
-            $cont++;
-            $randomNumber--;
-        } while ($randomNumber > 0);
-
-        print("USERS FINISHED. \n \n");
     }
 }

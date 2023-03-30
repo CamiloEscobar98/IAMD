@@ -3,16 +3,21 @@
 namespace Database\Seeders\Client;
 
 use App\Repositories\Client\StrategyCategoryRepository;
+use Illuminate\Console\Concerns\InteractsWithIO;
 use Illuminate\Database\Seeder;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class StrategyCategorySeeder extends Seeder
 {
+    use InteractsWithIO;
+
     /** @var StrategyCategoryRepository */
     protected $strategyCategoryRepository;
 
     public function __construct(StrategyCategoryRepository $strategyCategoryRepository)
     {
         $this->strategyCategoryRepository = $strategyCategoryRepository;
+        $this->output = new ConsoleOutput();
     }
 
     /**
@@ -29,25 +34,20 @@ class StrategyCategorySeeder extends Seeder
             'Estrategias de Gestión del Presupuesto Generales',
         ];
 
-        print("¡¡ CREATING PRIORITY STRATEGIES CATEGORY !! \n \n");
+        if (!isProductionEnv()) {
+            $this->command->getOutput()->progressStart(count($strategyCategories));
 
-        $cont = 0;
-
-        foreach ($strategyCategories as $value) {
-
-            $current = $cont + 1;
-
-            print("Creating Strategy Category: $current. \n");
-
-            $strategyCategory = $this->strategyCategoryRepository->createOneFactory([
-                'name' => $value
-            ]);
-
-            print("Strategy Category Created. Name: " . $strategyCategory->name . "\n \n");
-
-            $cont++;
+            foreach ($strategyCategories as $strategyCategoryName) {
+                sleep(1);
+                $this->info("\n-Creando Categoría de las Estrategias de Gestión: $strategyCategoryName\n");
+                $this->strategyCategoryRepository->createOneFactory([
+                    'name' => $strategyCategoryName
+                ]);
+                $this->command->getOutput()->progressAdvance();
+            }
+            $this->command->getOutput()->progressFinish();
+        } else {
+            $this->warn("Este Seeder no está desarrollado para implementarse en un ambiente productivo.");
         }
-
-        print("PRIORITY STRATEGIES CATEGORY FINISHED. \n \n");
     }
 }

@@ -36,8 +36,8 @@ class ExternalOrganizationSeeder extends Seeder
             $this->command->getOutput()->progressStart(count($externalOrganizations));
 
             foreach ($externalOrganizations as $externalOrganizationItem) {
-                $this->info("\n-Creando Organización Externa: '{$externalOrganizationItem->name}'\n");
                 sleep(1);
+                $this->info("\n-Creando Organización Externa: '{$externalOrganizationItem->name}'\n");
                 $externalOrganizationItem->save();
                 $this->command->getOutput()->progressAdvance();
             }

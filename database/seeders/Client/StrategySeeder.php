@@ -5,15 +5,20 @@ namespace Database\Seeders\Client;
 use Illuminate\Database\Seeder;
 
 use App\Repositories\Client\StrategyRepository;
+use Illuminate\Console\Concerns\InteractsWithIO;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class StrategySeeder extends Seeder
 {
+    use InteractsWithIO;
+
     /** @var StrategyRepository */
     protected $strategyRepository;
 
     public function __construct(StrategyRepository $strategyRepository)
     {
         $this->strategyRepository = $strategyRepository;
+        $this->output = new ConsoleOutput();
     }
 
     /**
@@ -22,26 +27,24 @@ class StrategySeeder extends Seeder
      * @return void
      */
     public function run()
+
     {
-        print("¡¡ CREATING STRATEGIES !! \n \n");
+        if (!isProductionEnv()) {
+            $strategyNum = (int)$this->command->ask("¿Cuántas Estrategias de Gestión desea crear para el ambiente de desarrollo? \nPor defecto se crearán 15 Estrategias de Gestión.", 15);
+            $strategyNum = !is_numeric($strategyNum) || $strategyNum <= 0 ? 15 : $strategyNum;
+            $strategies = \App\Models\Client\Strategy::factory()->count($strategyNum)->make();
 
-        $randomNumber = rand(10, 50);
+            $this->command->getOutput()->progressStart(count($strategies));
 
-        $cont = 0;
-
-        do {
-            $current = $cont + 1;
-
-            print("Creating Strategy: $current. \n");
-
-            $priorityTool = $this->strategyRepository->createOneFactory();
-
-            print("Strategy Created. Name: " . $priorityTool->name . "\n \n");
-
-            $cont++;
-            $randomNumber--;
-        } while ($randomNumber > 0);
-
-        print("STRATEGIES FINISHED. \n \n");
+            foreach ($strategies as $strategy) {
+                sleep(1);
+                $this->info("\n-Creando Estrategia de Gestión: '{$strategy->name}'\n");
+                $strategy->save();
+                $this->command->getOutput()->progressAdvance();
+            }
+            $this->command->getOutput()->progressFinish();
+        } else {
+            $this->warn("Este Seeder no está desarrollado para implementarse en un ambiente productivo.");
+        }
     }
 }
