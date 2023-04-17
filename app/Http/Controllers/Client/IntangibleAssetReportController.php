@@ -143,7 +143,7 @@ class IntangibleAssetReportController extends Controller
             [$withRelations, $selectData] = $this->getRelationsArrayPerGraphicConfiguration($withRelations, $selectData, $graphicConfiguration);
             /** ./Relations per Graphic Configuration */
 
-            
+
             /** @var \Illuminate\Database\Query\Builder $query */
             $query = $this->intangibleAssetRepository->searchForReport($params, $withRelations, [], $selectData);
 
@@ -283,11 +283,13 @@ class IntangibleAssetReportController extends Controller
         }
 
         if (!in_array('classification', $withRelations) && hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_year')) {
-            array_push($withRelations, 'classification');
+            array_push($withRelations, 'classification.intellectual_property_right_subcategory.intellectual_property_right_category');
         }
 
         if (!in_array('classification_id', $selectData) && hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_year')) {
             array_push($selectData, 'intangible_assets.classification_id');
+            array_push($selectData, 'intangible_assets.date');
+            // array_push()
         }
 
         if (!in_array('classification', $withRelations) && (hasContent($graphicConfiguration, 'with_graphics_assets_classification_per_administrative_unit') ||
@@ -433,17 +435,32 @@ class IntangibleAssetReportController extends Controller
      */
     protected function getDataGraphicIntangibleAssetClassificationPerYear(Collection $intangibleAssets, array $dataArray): array
     {
-        $productQuery = $this->intellectualPropertyRightProductRepository->search([]);
+        $productQuery = $this->intellectualPropertyRightProductRepository->searchForReport([]);
         $productQuery->join('intellectual_property_right_subcategories', 'intellectual_property_right_products.intellectual_property_right_subcategory_id', 'intellectual_property_right_subcategories.id');
-        $productQuery->orderBy('intellectual_property_right_subcategories.intellectual_property_right_category_id');
         /** @var Collection $products */
         $products = $productQuery->get();
+        $productArray = $products->groupBy('intellectual_property_right_category_id');
 
-        $productArray = $products->split(8);
+        $productArrayAux = array();
+
+        /** Recorrer todos lor Productos de Propiedad Intelectual */
+        foreach ($productArray as $productArrayItem) {
+            if (count($productArrayItem) > 10) {
+                foreach ($productArrayItem->split(count($productArrayItem) / 8) as $item) {
+                    array_push($productArrayAux, $item);
+                }
+            } else {
+                array_push($productArrayAux, $productArrayItem);
+            }
+        }
+
+        $productArray = $productArrayAux;
 
         $intangibleAssetsPerYear = $intangibleAssets->groupBy(function ($val) {
             return \Carbon\Carbon::parse($val->date)->format('Y');
         });
+
+        // dd($intangibleAssetsPerYear);
 
         $labels = [];
         foreach ($intangibleAssetsPerYear as $key => $items) {

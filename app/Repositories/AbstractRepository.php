@@ -117,11 +117,11 @@ class AbstractRepository
 
     /**
      * @param string $attribute
-     * @param string $value
+     * @param mixed $value
      * 
      * @return Model
      */
-    public function getByAttribute(string $attribute, string $value)
+    public function getByAttribute(string $attribute, $value)
     {
         return $this->model->all()->where($attribute, $value)->first();
     }

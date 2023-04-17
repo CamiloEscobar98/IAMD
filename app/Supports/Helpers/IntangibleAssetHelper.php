@@ -16,9 +16,9 @@ if (!function_exists('phaseIsCompletedColor')) {
      * @param bool|null $phaseState
      * @param bool $gradient
      * 
-     * @return string|null
+     * @return string
      */
-    function phaseIsCompletedColor($phaseState, $gradient = false): string|null
+    function phaseIsCompletedColor($phaseState, $gradient = false): string
     {
         $gradientText = $gradient ? 'gradient-' : '';
         if (is_null($phaseState)) return "bg-{$gradientText}warning";
@@ -32,9 +32,9 @@ if (!function_exists('phaseIsCompletedBorder')) {
     /**
      * @param bool|null $phaseState
      * 
-     * @return string|null
+     * @return string
      */
-    function phaseIsCompletedBorder($phaseState): string|null
+    function phaseIsCompletedBorder($phaseState): string
     {
         return $phaseState ? "border-success" : "border-danger";
     }
@@ -43,11 +43,12 @@ if (!function_exists('phaseIsCompletedBorder')) {
 if (!function_exists('phaseIsCompletedTextColor')) {
 
     /**
-     * @param bool|null $phaseState
+     * @param bool $phaseState
+     * @param bool $gradient
 
-     * @return string|null
+     * @return string
      */
-    function phaseIsCompletedTextColor($phaseState, $gradient = false): string|null
+    function phaseIsCompletedTextColor($phaseState, $gradient = false): string
     {
         return $phaseState ? "text-success" : "text-danger";
     }
@@ -57,9 +58,9 @@ if (!function_exists('phaseIsCompletedButton')) {
 
     /**
      * @param bool $phaseState
-     * @return string|null
+     * @return string
      */
-    function phaseIsCompletedButton($phaseState): string|null
+    function phaseIsCompletedButton($phaseState): string
     {
         return $phaseState ? 'btn-outline-success' : 'btn-outline-danger';
     }
@@ -69,6 +70,7 @@ if (!function_exists('phaseIsCompletedOpen')) {
 
     /**
      * @param bool $phaseState
+     * @param string|null $not
      * @return string|null
      */
     function phaseIsCompletedOpen($phaseState, $not = null): string|null
@@ -83,7 +85,7 @@ if (!function_exists('phaseIsCompletedIcon')) {
     /**
      * @param bool $phaseState
      * 
-     * @return string|null
+     * @return string
      */
     function phaseIsCompletedIcon($phaseState)
     {

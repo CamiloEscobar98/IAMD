@@ -423,6 +423,11 @@ trait ClientRoutes
         ];
     }
 
+    /**
+     * get Notification Routes
+     * 
+     * @return array<int,string>
+     */
     public function getNotificationRoutes()
     {
         return [

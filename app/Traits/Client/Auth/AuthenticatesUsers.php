@@ -56,7 +56,7 @@ trait AuthenticatesUsers
         $roleRepository = app(RoleRepository::class);
 
         /** @var \App\Models\Client\User $userTemp */
-        $userTemp = $userRepository->getByAttribute('email', $request->get('email'));
+        $userTemp = $userRepository->getByAttribute('email', $request->email);
         $roleTemp = $roleRepository->getById($request->get('role_id'));
 
         if ($userTemp->hasRole($roleTemp) && $this->attemptLogin($request)) {
@@ -115,7 +115,7 @@ trait AuthenticatesUsers
      * Get the needed authorization credentials from the request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @return array<int,string>
      */
     protected function credentials(Request $request)
     {
@@ -128,13 +128,13 @@ trait AuthenticatesUsers
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    protected function sendLoginResponse(Request $request)
+    protected function sendLoginResponse(Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
     {
         $this->clearLoginAttempts($request);
 
-        if ($response = $this->authenticated($request, $this->guard()->user())) {
-            return $response;
-        }
+        // if ($response = $this->authenticated($request, $this->guard()->user())) {
+        //     return $response;
+        // }
 
         return $request->wantsJson()
             ? new JsonResponse([], 204)
@@ -184,7 +184,7 @@ trait AuthenticatesUsers
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    public function logout(Request $request)
+    public function logout(Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
     {
         $this->guard()->logout();
 
@@ -192,9 +192,9 @@ trait AuthenticatesUsers
 
         $request->session()->forget(['current_client']);
 
-        if ($response = $this->loggedOut($request)) {
-            return $response;
-        }
+        // if ($response = $this->loggedOut($request)) {
+        //     return $response;
+        // }
 
         return $request->wantsJson()
             ? new JsonResponse([], 204)
