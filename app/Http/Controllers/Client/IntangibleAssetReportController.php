@@ -550,17 +550,18 @@ class IntangibleAssetReportController extends Controller
 
         $productArrayAux = array();
 
+        
         /** Recorrer todos lor Productos de Propiedad Intelectual */
         foreach ($productArray as $productArrayItem) {
-            if (count($productArrayItem) > 10) {
-                foreach ($productArrayItem->split(count($productArrayItem) / 8) as $item) {
+            if (count($productArrayItem) > 5) {
+                foreach ($productArrayItem->split(count($productArrayItem) / 5) as $item) {
                     array_push($productArrayAux, $item);
                 }
             } else {
                 array_push($productArrayAux, $productArrayItem);
             }
         }
-
+        
         $productArray = $productArrayAux;
 
         $bodyArray = [];
