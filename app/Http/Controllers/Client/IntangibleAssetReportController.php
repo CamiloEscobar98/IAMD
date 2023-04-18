@@ -177,7 +177,7 @@ class IntangibleAssetReportController extends Controller
 
             /** Testing the View Custom PDF */
 
-            // $dataCompact = compact('graphicConfiguration', 'count', 'client');
+            $dataCompact = compact('graphicConfiguration', 'count', 'client');
 
             if (isset($dataCompact) && $dataCompact) {
 
@@ -452,8 +452,8 @@ class IntangibleAssetReportController extends Controller
 
         /** Recorrer todos lor Productos de Propiedad Intelectual */
         foreach ($productArray as $productArrayItem) {
-            if (count($productArrayItem) > 10) {
-                foreach ($productArrayItem->split(count($productArrayItem) / 8) as $item) {
+            if (count($productArrayItem) > 5) {
+                foreach ($productArrayItem->split(count($productArrayItem) / 6) as $item) {
                     array_push($productArrayAux, $item);
                 }
             } else {
@@ -468,31 +468,47 @@ class IntangibleAssetReportController extends Controller
         });
 
         $labels = [];
+        // dd($intangibleAssetsPerYear);
         foreach ($intangibleAssetsPerYear as $key => $items) {
             array_push($labels, $key);
         }
-
 
         $dataArray['graphicData']['with_graphics_assets_classification_per_year'] = [];
 
         foreach ($productArray as $productArrayItem) {
             $datasets = [];
-            foreach ($productArrayItem as $productItem) {
+            foreach ($productArrayItem as $index => $productItem) {
                 $dataArrayClassification = [];
 
+                $hasLabel = false;
+                $labelCount = 0;
+
                 foreach ($labels as $label) {
-                    array_push($dataArrayClassification, $intangibleAssets->where('classification_id', $productItem->id)->where(function ($val) use ($label) {
+                    $intangibleAssetCount = $intangibleAssets->where('classification_id', $productItem->id)->where(function ($val) use ($label) {
                         $year = (int)\Carbon\Carbon::parse($val->date)->format('Y');
                         return $year == $label;
-                    })->count());
+                    })->count();
+
+                    $labelCount += $intangibleAssetCount;
+
+                    if ($intangibleAssetCount > 0) {
+                        array_push($dataArrayClassification, $intangibleAssetCount);
+                        $hasLabel = true;
+                    }
                 }
-                array_push($datasets, ['label' => $productItem->name, 'data' => $dataArrayClassification]);
+                if ($hasLabel) {
+                    array_push($datasets, [
+                        'label' => "{$productItem->name} [$labelCount]",
+                        'data' => $dataArrayClassification
+                    ]);
+                }
             }
-            array_push($dataArray['graphicData']['with_graphics_assets_classification_per_year'], ['labels' => $labels, 'datasets' => $datasets]);
+            array_push($dataArray['graphicData']['with_graphics_assets_classification_per_year'], [
+                'title' => $productItem->intellectual_property_right_subcategory->intellectual_property_right_category->name,
+                'labels' => $labels, 'datasets' => $datasets
+            ]);
         }
-
         // dd($dataArray);
-
         return $dataArray;
     }
 
@@ -520,13 +536,24 @@ class IntangibleAssetReportController extends Controller
         foreach ($states as $state) {
             $dataArrayState = [];
 
+            $hasLabel = false;
+            $labelCount = 0;
+
             foreach ($labels as $label) {
-                array_push($dataArrayState, $intangibleAssets->where('intangible_asset_state_id', $state->id)->where(function ($val) use ($label) {
+                $intangibleAssetCount = $intangibleAssets->where('intangible_asset_state_id', $state->id)->where(function ($val) use ($label) {
                     $year = (int)\Carbon\Carbon::parse($val->date)->format('Y');
                     return $year == $label;
-                })->count());
+                })->count();
+                if ($intangibleAssetCount > 0) {
+                    array_push($dataArrayState, $intangibleAssetCount);
+                    $hasLabel = true;
+                }
+
+                $labelCount += $intangibleAssetCount;
             }
-            array_push($datasets, ['label' => $state->name, 'data' => $dataArrayState]);
+            if ($hasLabel) {
+                array_push($datasets, ['label' => "{$state->name}[$labelCount]", 'data' => $dataArrayState]);
+            }
         }
 
         $dataArray['graphicData']['with_graphics_assets_state_per_year'] = ['labels' => $labels, 'datasets' => $datasets];
@@ -550,7 +577,7 @@ class IntangibleAssetReportController extends Controller
 
         $productArrayAux = array();
 
-        
+
         /** Recorrer todos lor Productos de Propiedad Intelectual */
         foreach ($productArray as $productArrayItem) {
             if (count($productArrayItem) > 5) {
@@ -561,7 +588,7 @@ class IntangibleAssetReportController extends Controller
                 array_push($productArrayAux, $productArrayItem);
             }
         }
-        
+
         $productArray = $productArrayAux;
 
         $bodyArray = [];
@@ -582,11 +609,14 @@ class IntangibleAssetReportController extends Controller
                 array_push($data, $count);
             }
             array_push($datasets, ['data' => $data]);
-            array_push($bodyArray, ['type' => 'doughnut', 'data' => ['labels' => $labels, 'datasets' => $datasets]]);
+            array_push($bodyArray, ['type' => 'doughnut', 'data' => [
+                'title' => $productItem->intellectual_property_right_subcategory->intellectual_property_right_category->name,
+                'labels' => $labels, 'datasets' => $datasets
+            ]]);
         }
 
         $dataArray['graphicData']['with_graphics_assets_classification_per_administrative_unit'] = $bodyArray;
-
+        // dd($dataArray);
         return $dataArray;
     }
 

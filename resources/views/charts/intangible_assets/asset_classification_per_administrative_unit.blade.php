@@ -6,10 +6,10 @@
 
     @foreach ($collection as $item)
         @php
-            $item = collect($item);
-            $dataConfig = $item->only(['type', 'data'])->toJson();
+            $itemCollection = collect($item);
+            $dataConfig = $itemCollection->only(['type', 'data'])->toJson();
         @endphp
-        <h4 class="mb-4">Gráfica Activos Intangibles por Clasificación</h4>
+        <h4 class="mb-4">Gráfica Activos Intangibles por Clasificación - {!! $item['data']['title'] !!}</h4>
         <img src="https://quickchart.io/chart?c={{ $dataConfig }}"style="width: 100%">
 
         @if (!$loop->last)
