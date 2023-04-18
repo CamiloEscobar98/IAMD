@@ -313,11 +313,9 @@ class IntangibleAssetPhaseService
      */
     public function updatePhaseSix($intangibleAsset, $data, $type): string
     {
+        $message = __('pages.client.intangible_assets.phases.six.messages.save_error');
         try {
-
             DB::beginTransaction();
-
-            $message = __('pages.client.intangible_assets.phases.six.messages.save_error');
 
             switch ($type) {
                 case '1':
@@ -335,9 +333,14 @@ class IntangibleAssetPhaseService
             DB::commit();
 
             return $message;
-        } catch (\Exception $th) {
-            return __('pages.client.intangible_assets.phases.six.messages.save_error');
+        } catch (QueryException $qe) {
+            DB::rollBack();
+            Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseSix/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseSix/Exception: {$e->getMessage()}");
         }
+        return $message;
     }
 
     /**
@@ -350,10 +353,7 @@ class IntangibleAssetPhaseService
     public function updatePhaseSeven($intangibleAsset, $data, $subPhase): string
     {
         try {
-
             DB::beginTransaction();
-
-            $message = __('pages.client.intangible_assets.phases.seven.messages.save_error');
 
             switch ($subPhase) {
                 case '1':
@@ -368,11 +368,14 @@ class IntangibleAssetPhaseService
             $this->intangibleAssetPhaseRepository->updatePhase($intangibleAsset->id, 'seven');
             DB::commit();
 
-            return $message;
-        } catch (\Exception $th) {
+        } catch (QueryException $qe) {
             DB::rollBack();
-            return __('pages.client.intangible_assets.phases.seven.messages.save_error');
+            Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseSeven/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error("@Web/Services/IntangibleAssetPhaseService:UpdatePhaseSeven/Exception: {$e->getMessage()}");
         }
+        return $message;
     }
 
     /**
@@ -438,9 +441,6 @@ class IntangibleAssetPhaseService
                 return $message;
             } catch (\Exception $th) {
                 DB::rollBack();
-
-                dd($th->getMessage());
-
                 return __('pages.client.intangible_assets.phases.eight.sub_phases.has_tool.messages.save_error');
             }
         }

@@ -19,7 +19,7 @@
             
         @endphp
 
-        <h4 class="mb-4">Gráfica Activos Intangibles por Año y por Clasificación</h4>
+        <h4 class="mb-4">Gráfica Activos Intangibles por Año y por Clasificación - {!! $configData['title'] !!}</h4>
         <img src="https://quickchart.io/chart?c={{ $config }}" style="width: 100%">
         @if (!$loop->last)
             <div class="page-break"></div>

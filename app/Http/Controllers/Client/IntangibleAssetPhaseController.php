@@ -159,6 +159,7 @@ class IntangibleAssetPhaseController extends Controller
 
         $data = [];
 
+        $messageAlert = 'messages.error';
         $icon = 'error';
 
         switch ($subPhase) {
@@ -219,11 +220,11 @@ class IntangibleAssetPhaseController extends Controller
             $intangibleAsset = $this->intangibleAssetRepository->getById($intangible_asset);
             $message = $this->intangibleAssetPhaseService->updatePhaseFive($intangibleAsset, $data, $subPhase);
             $icon = 'success';
+            $messageAlert = 'messages.success';
         } catch (Exception $e) {
-            $icon = 'error';
             Log::error("@Web/Controllers/Client/IntangibleAssetPhaseController:UpdatePhaseFive/Exception: {$e->getMessage()}");
         }
-        return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __('messages.error'), 'icon' => $icon, 'text' => $message]);
+        return redirect()->route('client.intangible_assets.show', compact('client', 'intangible_asset'))->with('alert', ['title' => __($messageAlert), 'icon' => $icon, 'text' => $message]);
     }
 
     /**
