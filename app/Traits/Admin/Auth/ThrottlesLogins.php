@@ -89,6 +89,7 @@ trait ThrottlesLogins
      */
     protected function throttleKey(Request $request)
     {
+        /* @phpstan-ignore-next-line */
         return Str::transliterate(Str::lower($request->input($this->username())).'|'.$request->ip());
     }
 

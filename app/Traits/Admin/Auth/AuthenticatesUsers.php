@@ -25,11 +25,11 @@ trait AuthenticatesUsers
      * Handle a login request to the application.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse|\Symfony\Component\HttpFoundation\Response
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function login(Request $request)
+    public function login(Request $request): \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse|\Symfony\Component\HttpFoundation\Response
     {
         $this->validateLogin($request);
 
@@ -95,7 +95,7 @@ trait AuthenticatesUsers
      * Get the needed authorization credentials from the request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
+     * @return array<int,string>
      */
     protected function credentials(Request $request)
     {
@@ -112,9 +112,9 @@ trait AuthenticatesUsers
     {
         $this->clearLoginAttempts($request);
 
-        if ($response = $this->authenticated($request, $this->guard()->user())) {
-            return $response;
-        }
+        // if ($response = $this->authenticated($request, $this->guard()->user())) {
+        //     return $response;
+        // }
 
         return $request->wantsJson()
             ? new JsonResponse([], 204)
@@ -168,9 +168,9 @@ trait AuthenticatesUsers
     {
         $this->guard()->logout();
 
-        if ($response = $this->loggedOut($request)) {
-            return $response;
-        }
+        // if ($response = $this->loggedOut($request)) {
+        //     return $response;
+        // }
 
         return $request->wantsJson()
             ? new JsonResponse([], 204)
