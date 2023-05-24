@@ -65,19 +65,21 @@ class SeedTenant extends Command
             ];
 
             if ($this->confirm('¿Te gustaría ejecutar las semillas de instalación de información para la base de datos del cliente?', false)) {
-                $options['--class'] = 'TenantDatabaseSeeder';
+                $seeder = 'TenantDatabaseSeeder';
             } else {
                 $seeder = $this->askModelSeeder();
             }
+            $options['--class'] = $seeder;
             Artisan::call($command, $options, $this->output);
         } catch (Exception $th) {
             $this->error($th->getMessage());
         }
     }
 
-    private function askModelSeeder()
+    private function askModelSeeder(): string
     {
         while (True) {
+            $seederPath = 'Database\Seeders\Client';
             $askModel = $this->ask("¿A qué modelo deseas ejecutar las semillas? \n 
             [1] Faculad.
             [2] Departamento Académico.
@@ -88,9 +90,8 @@ class SeedTenant extends Command
             [7] Usuarios.
             [8] Estrategias de Gestión.
             [9] Financión de Proyectos.
-            [10] Contratación para Proyectos.
-            [11] Herramientas de Priorización.
-            [12] Medidas Secretas de Protección.            
+            [10] Herramientas de Priorización.
+            [11] Medidas Secretas de Protección.            
             ", 0);
 
             if ($askModel < 1 || $askModel > 12) {
@@ -99,13 +100,52 @@ class SeedTenant extends Command
 
             switch ($askModel) {
                 case '1':
-                    $this->info('HOla');
+                    $seeder = $this->ask('Escribe el seeder para las facultades.');
+                    $seederPath = $seederPath . "\AdministrativeUnit\\{$seeder}";
                     break;
-
-                default:
-                    # code...
+                case '2':
+                    $seeder = $this->ask('Escribe el seeder para los departamentos académicos.');
+                    $seederPath = $seederPath . "\AcademicDepartment\\{$seeder}";
+                    break;
+                case '3':
+                    $seeder = $this->ask('Escribe el seeder para las Unidades de Investigación.');
+                    $seederPath = $seederPath . "\ResearchUnit\\{$seeder}";
+                    break;
+                case '4':
+                    $seeder = $this->ask('Escribe el seeder para los Proyectos.');
+                    $seederPath = $seederPath . "\Project\\{$seeder}";
+                    break;
+                case '5':
+                    $seeder = $this->ask('Escribe el seeder para los Activos Intangibles.');
+                    $seederPath = $seederPath . "\IntangibleAsset\\{$seeder}";
+                    break;
+                case '6':
+                    $seeder = $this->ask('Escribe el seeder para los Creadores.');
+                    $seederPath = $seederPath . "\Creator\\{$seeder}";
+                    break;
+                case '7':
+                    $seeder = $this->ask('Escribe el seeder para los Usuarios.');
+                    $seederPath = $seederPath . "\User\\{$seeder}";
+                    break;
+                case '8':
+                    $seeder = $this->ask('Escribe el seeder para las Estrategias de Gestión.');
+                    $seederPath = $seederPath . "\Strategy\\{$seeder}";
+                    break;
+                case '9':
+                    $seeder = $this->ask('Escribe el seeder para las Financiaciones de Proyectos.');
+                    $seederPath = $seederPath . "\FinancingType\\{$seeder}";
+                    break;
+                case '10':
+                    $seeder = $this->ask('Escribe el seeder para las Herramientas de Priorización.');
+                    $seederPath = $seederPath . "\PriorityTool\\{$seeder}";
+                    break;
+                case '11':
+                    $seeder = $this->ask('Escribe el seeder para las Medidas Secretas de Protección.');
+                    $seederPath = $seederPath . "\SecretProtectionMeasure\\{$seeder}";
                     break;
             }
+
+            return $seederPath;
         }
     }
 }
