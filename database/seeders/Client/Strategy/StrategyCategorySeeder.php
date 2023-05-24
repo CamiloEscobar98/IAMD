@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Client;
+namespace Database\Seeders\Client\Strategy;
 
 use App\Repositories\Client\StrategyCategoryRepository;
 use Illuminate\Console\Concerns\InteractsWithIO;

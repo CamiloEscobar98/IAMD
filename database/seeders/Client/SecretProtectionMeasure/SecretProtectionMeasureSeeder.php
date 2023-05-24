@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Client;
+namespace Database\Seeders\Client\SecretProtectionMeasure;
 
 use App\Repositories\Client\SecretProtectionMeasureRepository;
 use Illuminate\Console\Concerns\InteractsWithIO;

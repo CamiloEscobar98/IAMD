@@ -2,32 +2,36 @@
 
 namespace Database\Seeders;
 
-use Database\Seeders\Client\AcademicDepartmentSeeder;
+use Database\Seeders\Client\AcademicDepartment\AcademicDepartmentSeeder;
 use Illuminate\Database\Seeder;
 
-use Database\Seeders\Client\UserSeeder;
+use Database\Seeders\Client\AdministrativeUnit\AdministrativeUnitSeeder;
 
-use Database\Seeders\Client\AdministrativeUnitSeeder;
-use Database\Seeders\Client\Creator\CreatorDocumentSeeder;
-use Database\Seeders\Client\Creator\CreatorInternalOrExternalSeeder;
+use Database\Seeders\Client\ResearchUnit\ResearchUnitCategorySeeder;
 use Database\Seeders\Client\ResearchUnit\ResearchUnitSeeder;
 
+use Database\Seeders\Client\Project\ProjectSeeder;
+use Database\Seeders\Client\Project\ProjectContractTypeSeeder;
+
+use Database\Seeders\Client\IntangibleAsset\IntangibleAssetSeeder;
+
 use Database\Seeders\Client\Creator\CreatorSeeder;
+use Database\Seeders\Client\Creator\CreatorDocumentSeeder;
+use Database\Seeders\Client\Creator\CreatorInternalOrExternalSeeder;
 
-use Database\Seeders\Client\SecretProtectionMeasureSeeder;
-use Database\Seeders\Client\PriorityToolSeeder;
 
-use Database\Seeders\Client\StrategyCategorySeeder;
-use Database\Seeders\Client\StrategySeeder;
+use Database\Seeders\Client\SecretProtectionMeasure\SecretProtectionMeasureSeeder;
+use Database\Seeders\Client\PriorityTool\PriorityToolSeeder;
 
-use Database\Seeders\Client\FinancingTypeSeeder;
-use Database\Seeders\Client\ProjectContractTypeSeeder;
-use Database\Seeders\Client\ProjectSeeder;
+use Database\Seeders\Client\Strategy\StrategyCategorySeeder;
+use Database\Seeders\Client\Strategy\StrategySeeder;
 
-use Database\Seeders\Client\IntangibleAssetSeeder;
-use Database\Seeders\Client\ResearchUnit\ResearchUnitCategorySeeder;
+use Database\Seeders\Client\FinancingType\FinancingTypeSeeder;
+
 use Database\Seeders\Client\SpatieRoles\PermissionModuleSeeder;
 use Database\Seeders\Client\SpatieRoles\RoleSeeder;
+
+use Database\Seeders\Client\User\UserSeeder;
 
 class TenantDatabaseSeeder extends Seeder
 {

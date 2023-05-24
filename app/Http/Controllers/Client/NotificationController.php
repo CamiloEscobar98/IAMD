@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
@@ -127,11 +128,19 @@ class NotificationController extends Controller
      */
     public function seeAllNotifications($client): RedirectResponse
     {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
         try {
-            // $this->notificationService->
+            DB::beginTransaction();
+            $this->notificationService->seeAllNotifications(current_user()->id);
+            DB::commit();
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
         } catch (QueryException $qe) {
+            dd($qe->getMessage());
             Log::error("@Web/Controllers/Client/NotificationController:SeeAllNotifications/QueryException: {$qe->getMessage()}");
+        } catch (Exception $e) {
+            dd($e->getMessage());
+            Log::error("@Web/Controllers/Client/NotificationController:SeeAllNotifications/Exception: {$e->getMessage()}");
         }
-        return redirect()->route('client.projects.index', $client)->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.syntax_error')]);
+        return redirect()->route('client.notifications.index', $client)->with('alert', $response);
     }
 }

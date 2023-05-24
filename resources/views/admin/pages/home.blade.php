@@ -158,7 +158,7 @@
 
         <div class="row">
             <!-- Intangible Assets Card -->
-            <div class="col-lg-4">
+            <div class="col-12">
                 <div class="card">
                     <div class="card-header bg-danger py-2">
                         <div class="row justify-content-between">

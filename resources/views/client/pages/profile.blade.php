@@ -22,7 +22,7 @@
 @section('content')
 
     <div class="container-fluid">
-        <div class="row justify-content-center">
+        <div class="row justify-content-around">
             <div class="col-lg-3 col-md-8">
                 <div class="card">
                     <div class="card-header bg-danger">
@@ -37,8 +37,8 @@
                             @method('PATCH')
 
                             <!-- Profile Image -->
-                            <div class="container mb-4 border">
-                                <img src="{{ current_user()->profile_image_url  }}" class="img-fluid mx-auto d-block"
+                            <div class="container mb-4">
+                                <img src="{{ current_user()->profile_image_url }}" class="img-fluid mx-auto d-block"
                                     alt="Imagen responsiva" style="max-height: 15em">
                             </div>
                             <!-- ./Profile Image -->
@@ -63,55 +63,61 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6">
+            <div class="col-lg-4 col-md-5">
                 <div class="card">
                     <div class="card-header bg-danger">
                         <h4 class="font-weight-bold">{{ __('pages.client.profile.form-titles.show') }}</h4>
                     </div>
                     <div class="card-body">
-                        <!-- Name -->
-                        <div class="form-group mt-3">
-                            <label>{{ __('inputs.name') }}:</label>
-                            <div class="input-group">
-                                <input type="text" name="name"
-                                    class="form-control {{ isInvalidByError($errors, 'name') }}"
-                                    placeholder="{{ __('inputs.name') }}" value="{{ $item->name }}">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-user"></span>
+                        <form action="{{ getClientRoute('client.auth.update_information') }}" method="post">
+
+                            @csrf
+                            @method('PATCH')
+
+                            <!-- Name -->
+                            <div class="form-group mt-3">
+                                <label>{{ __('inputs.name') }}:</label>
+                                <div class="input-group">
+                                    <input type="text" name="name"
+                                        class="form-control {{ isInvalidByError($errors, 'name') }}"
+                                        placeholder="{{ __('inputs.name') }}" value="{{ $item->name }}">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-user"></span>
+                                        </div>
                                     </div>
                                 </div>
+
+                                @error('name')
+                                    <small class="text-danger">{!! $message !!}</small>
+                                @enderror
                             </div>
+                            <!-- ./Name -->
 
-                            @error('name')
-                                <small class="text-danger">{!! $message !!}</small>
-                            @enderror
-                        </div>
-                        <!-- ./Name -->
-
-                        <!-- Email -->
-                        <div class="form-group mt-3">
-                            <label>{{ __('inputs.email') }}:</label>
-                            <div class="input-group">
-                                <input type="email" name="email"
-                                    class="form-control {{ isInvalidByError($errors, 'email') }}"
-                                    placeholder="{{ __('inputs.email') }}" value="{{ $item->email }}">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-at"></span>
+                            <!-- Email -->
+                            <div class="form-group mt-3">
+                                <label>{{ __('inputs.email') }}:</label>
+                                <div class="input-group">
+                                    <input type="email" name="email"
+                                        class="form-control {{ isInvalidByError($errors, 'email') }}"
+                                        placeholder="{{ __('inputs.email') }}" value="{{ $item->email }}">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-at"></span>
+                                        </div>
                                     </div>
                                 </div>
+
+                                @error('email')
+                                    <small class="text-danger">{!! $message !!}</small>
+                                @enderror
                             </div>
+                            <!-- ./Email -->
 
-                            @error('email')
-                                <small class="text-danger">{!! $message !!}</small>
-                            @enderror
-                        </div>
-                        <!-- ./Email -->
-
-                        <div class="form-group mt-3">
-                            <button class="btn btn-danger btn-sm">{{ __('buttons.update') }}</button>
-                        </div>
+                            <div class="form-group mt-3">
+                                <button class="btn btn-danger btn-sm">{{ __('buttons.update') }}</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -121,49 +127,55 @@
                         <h4 class="font-weight-bold">{{ __('pages.client.profile.form-titles.password') }}</h4>
                     </div>
                     <div class="card-body">
-                        <!-- Password -->
-                        <div class="form-group mt-3">
-                            <label>{{ __('inputs.password') }}:</label>
-                            <div class="input-group">
-                                <input type="password" name="password"
-                                    class="form-control {{ isInvalidByError($errors, 'password') }}"
-                                    placeholder="{{ __('inputs.password') }}" value="{{ old('password') }}">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-key"></span>
+                        <form action="{{ getClientRoute('client.auth.update_password') }}" method="post">
+                            @csrf
+                            @method('PATCH')
+
+                            <!-- Password -->
+                            <div class="form-group mt-3">
+                                <label>{{ __('inputs.password') }}:</label>
+                                <div class="input-group">
+                                    <input type="password" name="password"
+                                        class="form-control {{ isInvalidByError($errors, 'password') }}"
+                                        placeholder="{{ __('inputs.password') }}" value="{{ old('password') }}">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-key"></span>
+                                        </div>
                                     </div>
                                 </div>
+
+                                @error('password')
+                                    <small class="text-danger">{!! $message !!}</small>
+                                @enderror
                             </div>
+                            <!-- ./Password -->
 
-                            @error('password')
-                                <small class="text-danger">{!! $message !!}</small>
-                            @enderror
-                        </div>
-                        <!-- ./Password -->
-
-                        <!-- Repeat Password -->
-                        <div class="form-group mt-3">
-                            <label>{{ __('inputs.repeat_password') }}:</label>
-                            <div class="input-group">
-                                <input type="password" name="repeat_password"
-                                    class="form-control {{ isInvalidByError($errors, 'repeat_password') }}"
-                                    placeholder="{{ __('inputs.repeat_password') }}" value="{{ $item->repeat_password }}">
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <span class="fas fa-key"></span>
+                            <!-- Repeat Password -->
+                            <div class="form-group mt-3">
+                                <label>{{ __('inputs.repeat_password') }}:</label>
+                                <div class="input-group">
+                                    <input type="password" name="repeat_password"
+                                        class="form-control {{ isInvalidByError($errors, 'repeat_password') }}"
+                                        placeholder="{{ __('inputs.repeat_password') }}"
+                                        value="{{ $item->repeat_password }}">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-key"></span>
+                                        </div>
                                     </div>
                                 </div>
+
+                                @error('repeat_password')
+                                    <small class="text-danger">{!! $message !!}</small>
+                                @enderror
                             </div>
+                            <!-- ./Repeat Password -->
 
-                            @error('repeat_password')
-                                <small class="text-danger">{!! $message !!}</small>
-                            @enderror
-                        </div>
-                        <!-- ./Repeat Password -->
-
-                        <div class="form-group mt-3">
-                            <button class="btn btn-danger btn-sm">{{ __('buttons.update') }}</button>
-                        </div>
+                            <div class="form-group mt-3">
+                                <button class="btn btn-danger btn-sm">{{ __('buttons.update') }}</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

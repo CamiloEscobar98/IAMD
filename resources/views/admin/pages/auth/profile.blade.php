@@ -23,15 +23,11 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
+        <div class="row justify-content-around">
+            <div class="col-md-6">
                 <!-- Profile Information -->
-                <div class="card card-secondary card-outline">
+                <div class="card card-danger card-outline">
                     <div class="card-body box-profile">
-                        <div class="text-center">
-                            <img class="profile-user-img img-fluid img-circle"
-                                src="{{ asset('adminlte/dist/img/user4-128x128.jpg') }}" alt="User profile picture">
-                        </div>
 
                         <h3 class="profile-username text-center">{{ current_admin()->name }}</h3>
 
@@ -76,7 +72,7 @@
                             <!-- ./Email -->
 
                             <button type="submit"
-                                class="btn btn-secondary btn-block mt-3"><b>{{ __('buttons.update') }}</b></button>
+                                class="btn btn-danger btn-block mt-3"><b>{{ __('buttons.update') }}</b></button>
                         </form>
                     </div>
                     <!-- ./Profile Information -->
@@ -85,7 +81,7 @@
             </div>
             <div class="col-md-4">
                 <!-- Profile Password -->
-                <div class="card card-secondary card-outline">
+                <div class="card card-danger card-outline">
                     <div class="card-body box-profile">
 
                         <p class="text-muted text-center">Actualizar Contraseña</p>
@@ -129,7 +125,7 @@
                             <!-- ./Repeat Password -->
 
                             <button type="submit"
-                                class="btn btn-secondary btn-block mt-3"><b>{{ __('buttons.update_password') }}</b></button>
+                                class="btn btn-danger btn-block mt-3"><b>{{ __('buttons.update_password') }}</b></button>
                         </form>
                     </div>
                     <!-- ./Profile Password -->

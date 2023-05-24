@@ -79,8 +79,10 @@ class NotificationService extends AbstractServiceModel
      */
     public function seeAllNotifications($userId)
     {
-        $notifications = $this->notificationRepository->search(['user_id' => $userId]);
-
-        $notifications->update(['checked_at' => now()]);
+        $notifications = $this->notificationRepository->search(['user_id' => $userId])->get();
+        $notifications->each(function ($notification) {
+            /** @var \App\Models\Client\Notification $notification */
+            $this->notificationRepository->update($notification, ['checked_at' => now()]);
+        });
     }
 }

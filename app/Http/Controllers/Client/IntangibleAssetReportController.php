@@ -21,6 +21,8 @@ use App\Repositories\Client\ResearchUnitRepository;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Artisan;
+use Symfony\Component\Process\Process;
 
 class IntangibleAssetReportController extends Controller
 {
@@ -177,7 +179,7 @@ class IntangibleAssetReportController extends Controller
 
             /** Testing the View Custom PDF */
 
-            $dataCompact = compact('graphicConfiguration', 'count', 'client');
+            // $dataCompact = compact('graphicConfiguration', 'count', 'client');
 
             if (isset($dataCompact) && $dataCompact) {
 

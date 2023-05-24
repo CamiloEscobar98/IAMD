@@ -41,10 +41,6 @@ class NotificationRepository extends  AbstractRepository
             $query->where('updated_at', '<=', $params['date_to']);
         }
 
-        if (isset($params['except_auth_user']) && $params['except_auth_user']) {
-            $query->where('id', '!=', current_user()->id);
-        }
-
         if (isset($with) && $with) {
             $query->with($with);
         }
@@ -61,10 +57,13 @@ class NotificationRepository extends  AbstractRepository
      */
     public function getByUserId(int $userId)
     {
+        /** @var \Illuminate\Database\Eloquent\Builder $query */
         $query = $this->model
             ->select();
 
         $query->where('user_id', $userId);
+
+        $query->whereNull('checked_at');
 
         $query->with(['notification_type']);
 

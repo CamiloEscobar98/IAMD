@@ -24,7 +24,7 @@ class MigrateFreshTenant extends Command
      *
      * @var string
      */
-    protected $description = 'Migrate a Tenant database.';
+    protected $description = 'Migrar/resetear migraciones en la base de datos del cliente: ufps-ufpso';
 
     /** @var TenantRepository */
     protected $tenantRepository;
@@ -65,11 +65,8 @@ class MigrateFreshTenant extends Command
                 '--database' => 'tenant',
             ];
 
-            if ($this->confirm('¿Te gustaría resetear la base de datos del cliente?', false)) {
+            if ($this->confirm('¿Necesitas resetear la base de datos del cliente?', false)) {
                 $command = 'migrate:fresh';
-                if ($this->confirm('¿Te gustaría ejecutar las semillas de instalación de información para la base de datos del cliente?', false)) {
-                    $options['--seeder'] = 'TenantDatabaseSeeder';
-                }
             } else {
                 $command = 'migrate';
             }

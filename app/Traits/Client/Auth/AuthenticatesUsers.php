@@ -59,7 +59,7 @@ trait AuthenticatesUsers
         $userTemp = $userRepository->getByAttribute('email', $request->email);
         $roleTemp = $roleRepository->getById($request->get('role_id'));
 
-        if ($userTemp->hasRole($roleTemp) && $this->attemptLogin($request)) {
+        if ($userTemp && $userTemp->hasRole($roleTemp) && $this->attemptLogin($request)) {
             if ($request->hasSession()) {
                 $request->session()->put('auth.password_confirmed_at', time());
             }
