@@ -59,7 +59,7 @@ class CreateCreatorExternalComposer
 
         if (is_null($creatorExternalId)) {
 
-            $country = $countries->where('id', old('country_id', 11))->first();
+            $country = $countries->where('name', 'Colombia')->first();
 
             $states = $this->stateRepository->getByCountry($country);
 
