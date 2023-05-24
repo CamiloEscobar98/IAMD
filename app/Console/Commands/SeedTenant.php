@@ -10,21 +10,21 @@ use Illuminate\Support\Facades\Config;
 use App\Repositories\Admin\TenantRepository;
 use Exception;
 
-class MigrateFreshTenant extends Command
+class SeedTenant extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'tenant:migrate {tenant}';
+    protected $signature = 'tenant:seed {tenant}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Migrar/resetear migraciones en la base de datos del cliente: ufps-ufpso';
+    protected $description = 'Ejecutar un Seeder en la base de datos del cliente';
 
     /** @var TenantRepository */
     protected $tenantRepository;
@@ -43,7 +43,7 @@ class MigrateFreshTenant extends Command
      */
     public function handle()
     {
-        $this->info('Command TenantMigrateFresh.');
+        $this->info('Ejecuando comando: SeedTenant.');
 
         $tenant = strval($this->argument('tenant'));
 
@@ -57,22 +57,55 @@ class MigrateFreshTenant extends Command
             isset($tenantDatabase) && $tenantDatabase ? $this->info('Tenant Database Configurated!') : $this->error('Error!');
 
             /** @var string */
-            $command = 'migrate';
+            $command = 'db:seed';
 
             /** @var array<string,string> */
             $options = [
-                '--path' => 'database/migrations/tenant',
                 '--database' => 'tenant',
             ];
 
-            if ($this->confirm('¿Necesitas resetear la base de datos del cliente?', false)) {
-                $command = 'migrate:fresh';
+            if ($this->confirm('¿Te gustaría ejecutar las semillas de instalación de información para la base de datos del cliente?', false)) {
+                $options['--class'] = 'TenantDatabaseSeeder';
             } else {
-                $command = 'migrate';
+                $seeder = $this->askModelSeeder();
             }
             Artisan::call($command, $options, $this->output);
         } catch (Exception $th) {
             $this->error($th->getMessage());
+        }
+    }
+
+    private function askModelSeeder()
+    {
+        while (True) {
+            $askModel = $this->ask("¿A qué modelo deseas ejecutar las semillas? \n 
+            [1] Faculad.
+            [2] Departamento Académico.
+            [3] Unidad de Investigación.
+            [4] Proyectos.
+            [5] Activos Intangibles.
+            [6] Creadores.
+            [7] Usuarios.
+            [8] Estrategias de Gestión.
+            [9] Financión de Proyectos.
+            [10] Contratación para Proyectos.
+            [11] Herramientas de Priorización.
+            [12] Medidas Secretas de Protección.            
+            ", 0);
+
+            if ($askModel < 1 || $askModel > 12) {
+                $this->error('Error, debes de elegir una de las opciones disponibles.');
+            }
+
+            switch ($askModel) {
+                case '1':
+                    $this->info('HOla');
+                    break;
+
+                default:
+                    # code...
+                    break;
+            }
         }
     }
 }

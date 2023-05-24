@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Client;
+namespace Database\Seeders\Client\FinancingType;
 
 use Illuminate\Database\Seeder;
 

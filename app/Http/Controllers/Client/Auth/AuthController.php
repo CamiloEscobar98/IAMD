@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\RedirectResponse;
 
-use App\Http\Requests\Admin\Auth\UpdateRequest;
+use App\Http\Requests\Client\Auth\UpdateRequest;
 use App\Http\Requests\Client\Auth\UpdatePasswordRequest;
 
 use App\Repositories\Client\UserRepository;
@@ -44,9 +44,9 @@ class AuthController extends Controller
 
             DB::commit();
 
-            return redirect()->route('client.profile', $client)->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.auth.messages.update_success')]);
+            return redirect()->route('client.profile', $client)->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.profile.messages.update_success')]);
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.auth.messages.update_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.profile.messages.update_error')]);
         }
     }
 
@@ -70,9 +70,9 @@ class AuthController extends Controller
 
             DB::commit();
 
-            return redirect()->route('client.profile', $client)->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.auth.messages.update_password_success')]);
+            return redirect()->route('client.profile', $client)->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.profile.messages.update_password_success')]);
         } catch (\Exception $th) {
-            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.auth.messages.update_password_error')]);
+            return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.profile.messages.update_password_error')]);
         }
     }
 

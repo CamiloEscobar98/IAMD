@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Client;
+namespace Database\Seeders\Client\PriorityTool;
 
 use App\Repositories\Client\PriorityToolRepository;
 use Illuminate\Console\Concerns\InteractsWithIO;
