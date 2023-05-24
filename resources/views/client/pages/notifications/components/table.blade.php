@@ -3,6 +3,8 @@
         <thead>
             <tr>
                 <th>{{ __('pages.client.notifications.table.head.message') }}</th>
+                <th>Estado</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>

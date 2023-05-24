@@ -43,11 +43,7 @@ class IntangibleAssetRepository extends AbstractRepository
         }
 
         if (isset($params['intangible_asset_state_id']) && $params['intangible_asset_state_id']) {
-            if (is_array($params['intangible_asset_state_id'])) {
-                $query->wherenIn('intangible_asset_state_id', $params['intangible_asset_state_id']);
-            } else {
-                $query->where('intangible_asset_state_id', $params['intangible_asset_state_id']);
-            }
+            $query->byState($params['intangible_asset_state_id']);
         }
 
         if (isset($params['date_from']) && $params['date_from']) {

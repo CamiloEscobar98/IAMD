@@ -34,8 +34,13 @@
 
         {!! $filters !!}
 
-        <a href="{{ getClientRoute('client.notifications.seeAllNotifications') }}" class="btn btn-sm btn-outline-danger">Marcar todos
-            como leídos</a>
+        <form action="{{ getClientRoute('client.notifications.seeAllNotifications') }}" method="post">
+            @csrf
+            @method('PUT')
+
+            <button type="submit" class="btn btn-sm btn-outline-danger">Marcar todos como leídos</button>
+        </form>
+
 
         {!! $table !!}
     </div>

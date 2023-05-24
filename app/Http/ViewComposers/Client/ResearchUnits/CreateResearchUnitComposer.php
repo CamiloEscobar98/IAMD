@@ -37,11 +37,11 @@ class CreateResearchUnitComposer
 
     public function compose(View $view)
     {
-        $creators = $this->creatorRepository->all(['id', 'name']);
+        $creators = $this->creatorRepository->all();
 
-        $researchUnitCategories = $this->researchUnitCategoryRepository->all(['id', 'name'])->pluck('name', 'id')->prepend('---Selecciona una Categoría para la Unidad Investigativa');
-        $administrativeUnits = $this->administrativeUnitRepository->all(['id', 'name'])->pluck('name', 'id')->prepend('---Selecciona una facultad', -1);
-        $academicDepartments = $this->academicDepartmentRepository->all(['id', 'name'])->pluck('name', 'id')->prepend('---Selecciona un Departamento Académico', -1);
+        $researchUnitCategories = $this->researchUnitCategoryRepository->all()->pluck('name', 'id')->prepend('---Selecciona una Categoría para la Unidad Investigativa');
+        $administrativeUnits = $this->administrativeUnitRepository->all()->pluck('name', 'id')->prepend('---Selecciona una facultad', -1);
+        $academicDepartments = $this->academicDepartmentRepository->all()->pluck('name', 'id')->prepend('---Selecciona un Departamento Académico', -1);
         $directors = $creators->pluck('name', 'id')->prepend('---Selecciona un Director', -1);
         $inventoryManagers = $creators->pluck('name', 'id')->prepend('---Selecciona un Director de Inventario', -1);
 

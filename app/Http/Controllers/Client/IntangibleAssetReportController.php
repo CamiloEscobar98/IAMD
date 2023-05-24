@@ -265,7 +265,6 @@ class IntangibleAssetReportController extends Controller
     protected function callJobReportCustom($data, $config)
     {
         CreateFileReportJob::dispatch($data, $config);
-        Artisan::call('queue:work --stop-when-empty', []);
     }
 
     ### RELATIONS ARRAY PER GRAPHIC CONFIGURATION
