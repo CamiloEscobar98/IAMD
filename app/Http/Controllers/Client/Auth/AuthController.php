@@ -5,23 +5,26 @@ namespace App\Http\Controllers\Client\Auth;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
+
+use App\Mail\SendPasswordReset;
 
 use App\Http\Requests\Client\Auth\UpdateRequest;
 use App\Http\Requests\Client\Auth\UpdatePasswordRequest;
+use App\Http\Requests\Client\Auth\SendResetPasswordMailRequest;
+
+use Exception;
 
 use App\Repositories\Client\UserRepository;
 
 class AuthController extends Controller
 {
-    /** @var UserRepository */
-    protected $userRepository;
 
     public function __construct(
-        UserRepository $userRepository
+        protected UserRepository $userRepository
     ) {
-        $this->userRepository = $userRepository;
     }
 
     /**
@@ -45,7 +48,7 @@ class AuthController extends Controller
             DB::commit();
 
             return redirect()->route('client.profile', $client)->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.profile.messages.update_success')]);
-        } catch (\Exception $th) {
+        } catch (Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.profile.messages.update_error')]);
         }
     }
@@ -71,18 +74,22 @@ class AuthController extends Controller
             DB::commit();
 
             return redirect()->route('client.profile', $client)->with('alert', ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('pages.client.profile.messages.update_password_success')]);
-        } catch (\Exception $th) {
+        } catch (Exception $th) {
             return redirect()->back()->with('alert', ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('pages.client.profile.messages.update_password_error')]);
         }
     }
 
-    /**
-     * Update User photo image.
-     * 
-     * @param string $client
-     */
-    public function updatePhoto($client)
+    public function sendResetPasswordMail(SendResetPasswordMailRequest $request, $client)
     {
-        # code...
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.send_email-error')];
+        try {
+            $user = $this->userRepository->getByAttribute('email', $request->get('email'));
+            $newPassword = $this->userRepository->resetPassword($user);
+            Mail::to($user->email)->send(new SendPasswordReset($user, $newPassword));
+            $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.send_email-success')];
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/Auth/LoginController:sendResetPasswordMail/Exception: {$e->getMessage()}");
+        }
+        return redirect()->route('client.reset_password', $client)->with('alert', $response);
     }
 }

@@ -4,6 +4,8 @@ namespace App\Repositories\Client;
 
 use App\Repositories\AbstractRepository;
 
+use Illuminate\Support\Str;
+
 use App\Models\Client\User;
 
 class UserRepository extends  AbstractRepository
@@ -54,5 +56,14 @@ class UserRepository extends  AbstractRepository
         }
 
         return $query;
+    }
+
+    public function resetPassword(User $user)
+    {
+        $randomPassword = Str::random(10);
+
+        $this->update($user, ['password' => $randomPassword]);
+
+        return $randomPassword;
     }
 }

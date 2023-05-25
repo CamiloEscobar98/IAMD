@@ -36,6 +36,7 @@ function getCities(state_id) {
         type: "GET",
         url: `/api/localizaciones/ciudades/?state_id=${state_id}`,
     }).done(function (res) {
+        console.log(res);
         let cities = res;
         putCities(cities);
     });

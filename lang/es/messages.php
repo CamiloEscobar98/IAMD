@@ -4,6 +4,8 @@ return [
     /** Login */
     'login-title' => 'Llena las credenciales para iniciar sesión.',
 
+    'reset_password-title' => 'Introduce tu correo electrónico para buscar tu cuenta.',
+
     'success' => '¡Éxito!',
 
     'error' => '¡Error!',
@@ -20,6 +22,9 @@ return [
 
     'delete-success' => 'Se ha eliminado correctamente.',
     'delete-error' => 'Ha ocurrido algún error al intentar eliminar.',
+
+    'send_email-success' => 'Se ha enviado el correo correctamente.',
+    'send_email-error' => 'Ha ocurrido un error, no se ha podido enviar el correo.',
 
     'status_code' => [
         '23000' => 'El recurso se encuentra relacionado con otra entidad en el aplicativo y por esto no es posible su eliminación.'

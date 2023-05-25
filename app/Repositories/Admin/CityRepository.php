@@ -32,7 +32,7 @@ class CityRepository extends AbstractRepository
         $table = $this->model->getTable();
         $joinState = 'states';
         $query = $this->model
-            ->select();
+            ->select("$table.*");
 
         if (isset($stateId) && $stateId) {
             $query->ofState($stateId);

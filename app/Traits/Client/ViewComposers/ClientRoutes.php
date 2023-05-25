@@ -124,6 +124,7 @@ trait ClientRoutes
         return [
             'client.layout.app',
             'client.pages.auth.login',
+            'client.pages.auth.reset_password',
             'client.pages.home',
         ];
     }

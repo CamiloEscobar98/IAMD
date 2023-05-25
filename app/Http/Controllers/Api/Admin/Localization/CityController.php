@@ -32,7 +32,7 @@ class CityController extends Controller
     public function index(Request $request): JsonResponse
     {
         try {
-            $states = $this->cityRepository->search($request->all())->pluck('name', 'id')->prepend('---Seleccionar ciudad', -1);
+            $states = $this->cityRepository->search([], [], [], $request->get('state_id'))->pluck('name', 'id')->prepend('---Seleccionar ciudad', -1);
             return response()->json($states);
         } catch (Exception $e) {
             Log::error("@Api/Controllers/StateController:Index/Exception: {$e->getMessage()}");

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>{{ $client->name_upper }}/Login</title>
+    <title>{{ $client->name_upper }}/Inicio de Sesión</title>
 
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/logo.ico') }}">
 
@@ -26,7 +26,8 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="#"> <img src="{{ asset('assets/images/logo-login.png') }}" height="50%" class="img-fluid"
+            <a href="#">
+                <img src="{{ asset('assets/images/logo-login.png') }}" height="50%" class="img-fluid"
                     style="opacity: .8"></a>
         </div>
         <!-- /.login-logo -->
@@ -114,16 +115,16 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-5">
-                            <button type="submit"
-                                class="btn btn-primary btn-block">{{ __('buttons.loggin') }}</button>
+                            <button type="submit" class="btn btn-danger btn-block">{{ __('buttons.loggin') }}</button>
                         </div>
                         <!-- /.col -->
                     </div>
                 </form>
 
-                @if (Route::has('admin.reset_password'))
+                @if (Route::has('client.reset_password'))
                     <p class="mb-1">
-                        <a href="forgot-password.html">I forgot my password</a>
+                        <a href="{{ getClientRoute('client.reset_password') }}" class="btn btn-sm btn-primary">Olvidé
+                            mi contraseña</a>
                     </p>
                 @endif
 

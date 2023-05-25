@@ -51,6 +51,9 @@ Route::get('iniciar-sesion', [LoginController::class, 'showLoginForm'])->name('l
 Route::post('iniciar-sesion', [LoginController::class, 'login'])->name('loggin');
 Route::post('cerrar-sesion', [LoginController::class, 'logout'])->name('loggout');
 
+Route::view('restaurar-clave', 'client.pages.auth.reset_password')->name('reset_password');
+Route::post('restaurar-clave', [AuthController::class, 'sendResetPasswordMail'])->name('send_mail');
+
 Route::get('perfil', [HomeController::class, 'profile'])->name('profile');
 
 Route::patch('actualizar-perfil', [AuthController::class, 'update'])->name('auth.update_information');
