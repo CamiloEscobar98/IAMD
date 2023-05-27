@@ -90,7 +90,7 @@ class Country extends BaseModel
      */
     public function scopeSinceDate($query, string $dateFrom)
     {
-        $query->where("{$this->getTable()}.updated_at", '>=', $dateFrom);
+        $query->where("{$this->getTable()}.created_at", '>=', $dateFrom);
     }
 
     /**
@@ -103,6 +103,6 @@ class Country extends BaseModel
      */
     public function scopeToDate($query, string $dateTo)
     {
-        $query->where("{$this->getTable()}.updated_at", '<=', $dateTo);
+        $query->where("{$this->getTable()}.created_at", '<=', $dateTo);
     }
 }
