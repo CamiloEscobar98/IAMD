@@ -47,7 +47,6 @@ class TenantRepository extends  AbstractRepository
                 \PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
                 \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
                 \PDO::ATTR_PERSISTENT         => false,
-                \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET time_zone = "UTC"',
                 \PDO::ATTR_EMULATE_PREPARES   => true,
             ]) : [],
         ];
