@@ -194,13 +194,15 @@
         </p>
     </a>
     <ul class="nav nav-treeview">
-        <li class="nav-item">
-            <a href="{{ route('client.reports.custom.index', [$client->name]) }}"
-                class="nav-link {{ routeIsActived('personalizado') }}">
-                <i class="fas fa-clipboard-check nav-icon"></i>
-                <p>{{ __('menu.client.GenerateReport') }}</p>
-            </a>
-        </li>
+        @can('reports.generate_report')
+            <li class="nav-item">
+                <a href="{{ route('client.reports.custom.index', [$client->name]) }}"
+                    class="nav-link {{ routeIsActived('personalizado') }}">
+                    <i class="fas fa-clipboard-check nav-icon"></i>
+                    <p>{{ __('menu.client.GenerateReport') }}</p>
+                </a>
+            </li>
+        @endcan
         <li class="nav-item">
             <a href="{{ route('client.reports.generated', [$client->name]) }}"
                 class="nav-link {{ routeIsActived('reportes-generados') }}">
