@@ -43,6 +43,8 @@ class SeedTenant extends Command
      */
     public function handle()
     {
+        ini_set('memory_limit', '512M');
+
         $this->info('Ejecuando comando: SeedTenant.');
 
         $tenant = strval($this->argument('tenant'));
