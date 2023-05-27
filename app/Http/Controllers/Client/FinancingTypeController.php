@@ -35,6 +35,12 @@ class FinancingTypeController extends Controller
     ) {
         $this->middleware('auth');
 
+        $this->middleware('permission:financing_types.index')->only('index');
+        $this->middleware('permission:financing_types.show')->only('show');
+        $this->middleware('permission:financing_types.store')->only(['create', 'store']);
+        $this->middleware('permission:financing_types.update')->only(['edit', 'update']);
+        $this->middleware('permission:financing_types.destroy')->only('destroy');
+
         $this->financingTypeService = $financingTypeService;
         $this->financingTypeRepository = $financingTypeRepository;
     }
