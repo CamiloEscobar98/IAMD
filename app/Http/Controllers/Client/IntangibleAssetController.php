@@ -41,8 +41,6 @@ class IntangibleAssetController extends Controller
         $this->middleware('permission:intangible_assets.destroy')->only('destroy');
 
         $this->intangibleAssetService = $intangibleAssetService;
-
-        $this->intangibleAssetRepository = $intangibleAssetRepository;
     }
 
     /**

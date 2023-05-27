@@ -53,7 +53,7 @@ class IntangibleAssetService extends AbstractServiceModel
         ResearchUnitRepository $researchUnitRepository,
         IntellectualPropertyRightProductRepository $intellectualPropertyRightProductRepository
     ) {
-        $this->intangibleAssetRepository = $intangibleAssetRepository;
+        $this->repository = $this->intangibleAssetRepository = $intangibleAssetRepository;
         $this->intangibleAssetLocalizationRepository = $intangibleAssetLocalizationRepository;
         $this->projectFinancingRepository = $projectFinancingRepository;
         $this->projectContractTypeRepository = $projectContractTypeRepository;
@@ -190,7 +190,7 @@ class IntangibleAssetService extends AbstractServiceModel
         $item = $this->intangibleAssetRepository->getById($id);
 
         $this->generateCodeOfIntangibleAsset($item);
-        
+
         return $item;
     }
 
