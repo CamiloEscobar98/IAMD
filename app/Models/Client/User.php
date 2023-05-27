@@ -120,4 +120,56 @@ class User extends Authenticatable
     {
         return !is_null($this->getAttribute('profile_image'));
     }
+
+    /**
+     * Scope a query to only include Name
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $value
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByName($query, string $value)
+    {
+        $query->where("{$this->getTable()}.name", 'like', "%{$value}%");
+    }
+
+     /**
+     * Scope a query to only include Email
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $value
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByEmail($query, string $value)
+    {
+        $query->where("{$this->getTable()}.email", 'like', "%{$value}%");
+    }
+
+    /**
+     * Scope a query to only include Date From
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $dateFrom
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeSinceDate($query, string $dateFrom)
+    {
+        $query->where("{$this->getTable()}.created_at", '>=', $dateFrom);
+    }
+
+    /**
+     * Scope a query to only include Date To
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @param string $dateTo
+     * 
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeToDate($query, string $dateTo)
+    {
+        $query->where("{$this->getTable()}.created_at", '<=', $dateTo);
+    }
 }
