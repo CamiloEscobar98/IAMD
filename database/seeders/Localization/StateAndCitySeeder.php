@@ -71,7 +71,7 @@ class StateAndCitySeeder extends Seeder
                 ]);
                 $this->command->getOutput()->progressAdvance();
 
-                $statesCollection->push(['name' => $state->name, 'cities' => $stateItem->ciudades]);
+                $statesCollection->push(['id' => $state->id, 'name' => $state->name, 'cities' => $stateItem->ciudades]);
             }
             $this->command->getOutput()->progressFinish();
 
@@ -82,7 +82,7 @@ class StateAndCitySeeder extends Seeder
                 foreach ($stateCollectionItem['cities'] as $cityItem) {
                     /** @var \App\Models\Admin\Localization\City $city */
                     $city = $this->cityRepository->create([
-                        'state_id' => $state->id,
+                        'state_id' => $stateCollectionItem['id'],
                         'name' => $cityItem
                     ]);
                     $this->command->getOutput()->progressAdvance();
