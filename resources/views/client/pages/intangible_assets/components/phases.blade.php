@@ -339,7 +339,7 @@
                                 @if ($item->hasFileOfConfidencialityContract())
                                     <div class="form-group">
                                         <a href="{{ route('client.intangible_assets.downloads.confidenciality_contract', [$client->name, $item->id]) }}"
-                                            class="btn btn-xs btn-danger btn-outline text-white">{{ __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.buttons.download') }}</a>
+                                            class="btn btn-xs btn-danger btn-outline text-white @disabled($item->hasDummyFileOfConfidencialityContract())">{{ __('pages.client.intangible_assets.phases.five.sub_phases.confidenciality_contract.buttons.download') }}</a>
                                     </div>
                                 @endif
                             </div>
@@ -438,7 +438,7 @@
                             @if ($item->hasFileOfSessionRightContract())
                                 <div class="form-group">
                                     <a href="{{ route('client.intangible_assets.downloads.session_right_contract', [$client->name, $item->id]) }}"
-                                        class="btn btn-xs btn-danger btn-outline text-white">{{ __('pages.client.intangible_assets.phases.five.sub_phases.session_right_contract.buttons.download') }}</a>
+                                        class="btn btn-xs btn-danger btn-outline text-white @disabled($item->hasDummyFileOfSessionRightContract())">{{ __('pages.client.intangible_assets.phases.five.sub_phases.session_right_contract.buttons.download') }}</a>
                                 </div>
                             @endif
                         </div>
@@ -568,7 +568,7 @@
                                 @if ($item->hasFileOfAcademicRecord())
                                     <div class="form-group">
                                         <a href="{{ route('client.intangible_assets.downloads.academic_record', [$client->name, $item->id]) }}"
-                                            class="btn btn-xs btn-danger btn-outline text-white">{{ __('pages.client.intangible_assets.phases.five.sub_phases.academic_record.buttons.download') }}</a>
+                                            class="btn btn-xs btn-danger btn-outline text-white @disabled($item->hasDummyFileOfAcademicRecord())">{{ __('pages.client.intangible_assets.phases.five.sub_phases.academic_record.buttons.download') }}</a>
                                     </div>
                                 @endif
                             </div>
