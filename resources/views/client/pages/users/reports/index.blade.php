@@ -43,7 +43,7 @@
                 @foreach ($reports as $report)
                     <tr class="text-center">
                         <td>{{ $report->file_name }}</td>
-                        <td>{{ $report->created_at }}</td>
+                        <td>{{ transformDatetoString($report->created_at) }}</td>
                         <td> <a href="{{ route('client.reports.download.report', [$client->name, $report->id]) }}"
                                 class="fa-lg fas fa-save"></a></td>
                     </tr>
