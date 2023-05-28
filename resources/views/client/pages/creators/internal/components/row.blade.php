@@ -8,6 +8,7 @@
     ]) !!}</td>
     <td> {{ getParamObject($item->linkage_type, 'name', true) }} </td>
     <td> {{ getParamObject($item->assignment_contract, 'name', true) }} </td>
+    <td>{{ transformDatetoString($item->created_at) }}</td>
     @canany(['creators.internal.show', 'creators.internal.destroy'])
         <td class="text-right">
             <div class="btn-group">

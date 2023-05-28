@@ -1,6 +1,7 @@
 <tr>
     <td>{{ $item->name }}</td>
     <td>{{ $item->description_table }}</td>
+    <td>{{ transformDatetoString($item->created_at) }}</td>
     @canany(['priority_tools.show', 'priority_tools.destroy'])
         <td class="text-right">
             <div class="btn-group">

@@ -1,6 +1,7 @@
 <tr>
     <td>{{ $item->name }}</td>
     <td>{{ $item->code_table }}</td>
+    <td>{{ transformDatetoString($item->created_at) }}</td>
     @canany(['project_contract_types.show', 'project_contract_types.destroy'])
         <td class="text-right">
             <div class="btn-group">

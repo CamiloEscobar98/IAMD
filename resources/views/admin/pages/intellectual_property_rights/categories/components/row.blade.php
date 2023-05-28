@@ -10,6 +10,7 @@
         ['count' => $item->intellectual_property_right_products_count],
     ) !!}
     </td>
+    <td>{{ transformDatetoString($item->created_at) }}</td>
     <td class="text-right">
         <div class="btn-group">
             <button type="button" class="dropdown-toggle btn btn-sm btn-danger btn-block" data-toggle="dropdown">

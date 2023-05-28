@@ -17,6 +17,7 @@
     <td>
         {{ __('pages.client.projects.table.body.intangible_assets_count', ['intangible_assets' => $item->intangible_assets_count]) }}
     </td>
+    <td>{{ transformDatetoString($item->date) }}</td>
     @canany(['projects.show', 'projects.destroy'])
         <td class="text-right">
             <div class="btn-group">

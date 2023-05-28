@@ -47,6 +47,15 @@ class Project extends BaseModel
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'date' => 'date',
+    ];
+
+    /**
      * Get the research units.
      * 
      * @return BelongsToMany

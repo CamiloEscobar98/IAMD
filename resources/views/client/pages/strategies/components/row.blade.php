@@ -1,6 +1,7 @@
 <tr>
     <td>{{ $item->name }}</td>
     <td>{{ $item->description }}</td>
+    <td>{{ transformDatetoString($item->created_at) }}</td>
     @canany(['strategies.show', 'strategies.destroy'])
         <td class="text-right">
             <div class="btn-group">

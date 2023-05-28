@@ -8,6 +8,7 @@
     ]) !!}</td>
     <td> {{ getParamObject($item->external_organization, 'name', true) }} </td>
     <td> {{ getParamObject($item->assignment_contract, 'name', true) }} </td>
+    <td>{{ transformDatetoString($item->created_at) }}</td>
     @canany(['creators.external.show', 'creators.external.destroy'])
         <td class="text-right">
             <div class="btn-group">

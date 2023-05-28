@@ -1,5 +1,6 @@
 <tr>
     <td>{{ $item->name }}</td>
+    <td>{{ transformDatetoString($item->created_at) }}</td>
     @canany(['secret_protection_measures.show', 'secret_protection_measures.destroy'])
         <td class="text-right">
             <div class="btn-group">

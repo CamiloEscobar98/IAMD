@@ -9,6 +9,7 @@
     <td>
         {{ __('pages.client.research_units.table.body.projects_count', ['projects' => $item->projects_count]) }}
     </td>
+    <td>{{ transformDatetoString($item->created_at) }}</td>
     @canany(['research_units.show', 'research_units.destroy'])
         <td class="text-right">
             <div class="btn-group">

@@ -7,6 +7,7 @@
                 <th>{{ __('pages.admin.creators.external_organizations.table.head.email') }}</th>
                 <th>{{ __('pages.admin.creators.external_organizations.table.head.telephone') }}</th>
                 <th>{{ __('pages.admin.creators.external_organizations.table.head.address') }}</th>
+                <th style="width: 15em">{{ __('pages.admin.creators.external_organizations.table.head.created_at') }}</th>
                 <th class="text-right" style="width: 5em">#</th>
             </tr>
         </thead>

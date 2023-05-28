@@ -5,6 +5,7 @@
                 <th>{{ __('pages.admin.intellectual_property_rights.subcategories.table.head.category') }}</th>
                 <th>{{ __('pages.admin.intellectual_property_rights.subcategories.table.head.name') }}</th>
                 <th>{{ __('pages.admin.intellectual_property_rights.subcategories.table.head.products') }}</th>
+                <th style="width: 15em">{{ __('pages.admin.intellectual_property_rights.subcategories.table.head.created_at') }}</th>
                 <th class="text-right" style="width: 5em">#</th>
             </tr>
         </thead>

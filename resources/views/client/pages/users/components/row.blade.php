@@ -2,6 +2,7 @@
     <td>{{ $item->name }}</td>
     <td>{{ $item->email }}</td>
     <td>{{ getParamObject($item->roles->first(), 'info') }}</td>
+    <td>{{ transformDatetoString($item->created_at) }}</td>
     @canany(['users.show', 'users.destroy'])
         <td class="text-right">
             <div class="btn-group">

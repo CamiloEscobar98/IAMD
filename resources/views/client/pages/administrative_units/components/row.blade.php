@@ -4,6 +4,7 @@
     <td>
         {{ __('pages.client.administrative_units.table.body.research_units_count', ['research_units_count' => $item->research_units_count]) }}
     </td>
+    <td>{{ transformDatetoString($item->created_at) }}</td>
     @canany(['administrative_units.show', 'administrative_units.destroy'])
         <td class="text-right">
             <div class="btn-group">

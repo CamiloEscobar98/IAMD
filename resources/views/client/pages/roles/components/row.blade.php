@@ -6,6 +6,7 @@
     <td>
         {{ __('pages.client.roles.table.body.permissions_count', ['count' => $item->permissions_count]) }}
     </td>
+    <td>{{ transformDatetoString($item->created_at) }}</td>
     @canany(['roles.show', 'roles.destroy'])
         <td class="text-right">
             <div class="btn-group">

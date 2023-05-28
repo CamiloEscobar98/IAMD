@@ -23,7 +23,7 @@
 
     <div class="container-fluid">
         <div class="row justify-content-around">
-            <div class="col-lg-3 col-md-8">
+            <div class="col-lg-4 col-md-12">
                 <div class="card">
                     <div class="card-header bg-danger">
                         <h4 class="font-weight-bold">{{ __('pages.client.profile.form-titles.image') }}</h4>
@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-5">
+            <div class="col-lg-4 col-md-6">
                 <div class="card">
                     <div class="card-header bg-danger">
                         <h4 class="font-weight-bold">{{ __('pages.client.profile.form-titles.show') }}</h4>
@@ -121,7 +121,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6">
+            <div class="col-lg-4 col-md-6">
                 <div class="card">
                     <div class="card-header bg-danger">
                         <h4 class="font-weight-bold">{{ __('pages.client.profile.form-titles.password') }}</h4>

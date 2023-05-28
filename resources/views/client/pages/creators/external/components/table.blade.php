@@ -7,6 +7,7 @@
                 <th>{{ __('pages.client.creators.external.table.head.document') }}</th>
                 <th>{{ __('pages.client.creators.external.table.head.external_organization') }}</th>
                 <th>{{ __('pages.client.creators.external.table.head.assignment_contract') }}</th>
+                <th style="width: 15em">{{ __('pages.client.creators.external.table.head.created_at') }}</th>
                 @canany(['creators.external.show', 'creators.external.destroy'])
                     <th class="text-right">#</th>
                 @endcanany

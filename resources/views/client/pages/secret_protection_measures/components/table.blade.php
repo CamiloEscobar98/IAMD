@@ -3,6 +3,7 @@
         <thead>
             <tr>
                 <th>{{ __('pages.client.secret_protection_measures.table.head.name') }}</th>
+                <th style="width: 15em">{{ __('pages.client.secret_protection_measures.table.head.created_at') }}</th>
                 @canany(['secret_protection_measures.show', 'secret_protection_measures.destroy'])
                     <th class="text-right" style="width: 5em">#</th>
                 @endcanany

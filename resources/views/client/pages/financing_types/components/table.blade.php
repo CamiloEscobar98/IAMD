@@ -4,6 +4,7 @@
             <tr>
                 <th>{{ __('pages.client.financing_types.table.head.name') }}</th>
                 <th>{{ __('pages.client.financing_types.table.head.code') }}</th>
+                <th style="width: 15em">{{ __('pages.client.financing_types.table.head.created_at') }}</th>
                 @canany(['financing_types.show', 'financing_types.destroy'])
                     <th class="text-right" style="width: 5em">#</th>
                 @endcanany

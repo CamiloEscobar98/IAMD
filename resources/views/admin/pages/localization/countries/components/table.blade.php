@@ -5,6 +5,7 @@
                 <th>{{ __('pages.admin.localizations.countries.table.head.name') }}</th>
                 <th>{{ __('pages.admin.localizations.countries.table.head.states') }}</th>
                 <th>{{ __('pages.admin.localizations.countries.table.head.cities') }}</th>
+                <th style="width: 15em">{{ __('pages.admin.localizations.countries.table.head.created_at') }}</th>
                 <th class="text-right">#</th>
             </tr>
         </thead>

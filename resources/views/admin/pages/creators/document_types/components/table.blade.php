@@ -4,6 +4,7 @@
             <tr>
                 <th>{{ __('pages.admin.creators.document_types.table.head.name') }}</th>
                 <th>{{ __('pages.admin.creators.document_types.table.head.slug') }}</th>
+                <th style="width: 15em">{{ __('pages.admin.creators.document_types.table.head.created_at') }}</th>
                 <th class="text-right" style="width: 5em">#</th>
             </tr>
         </thead>

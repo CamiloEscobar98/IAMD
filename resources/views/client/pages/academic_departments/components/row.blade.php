@@ -3,6 +3,7 @@
     <td>
         {{ __('pages.client.academic_departments.table.body.research_units_count', ['research_units_count' => $item->research_units_count]) }}
     </td>
+    <td>{{ transformDatetoString($item->created_at) }}</td>
     @canany(['academic_departments.show', 'academic_departments.destroy'])
         <td class="text-right">
             <div class="btn-group">
