@@ -356,6 +356,11 @@ return [
                         'info' => 'Visualizar las Estrategias de Gestión asociadas a un Activo Intangible',
                         'can_deleted' => false,
                     ],
+                    [
+                        'name' => 'intangible_assets.strategies.store',
+                        'info' => 'Actualizar las Estrategias de Gestión asociadas a un Activo Intangible',
+                        'can_deleted' => false,
+                    ],
                 ]
             ],
 
