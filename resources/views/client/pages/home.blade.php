@@ -38,8 +38,10 @@
                         <div class="row justify-content-between">
                             <i class="fas fa-users"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.users.title') }}</h5>
-                            <a class="text-white fas fa-angle-double-right"
-                                href="{{ getClientRoute('client.users.index') }}"></a>
+                            @can('users.index')
+                                <a class="text-white fas fa-angle-double-right"
+                                    href="{{ getClientRoute('client.users.index') }}"></a>
+                            @endcan
                         </div>
                     </div>
                     <div class="card-body">
@@ -56,8 +58,10 @@
                         <div class="row justify-content-between">
                             <i class="fas fa-user-friends"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.creators.internal.title') }}</h5>
-                            <a class="text-white fas fa-angle-double-right"
-                                href="{{ getClientRoute('client.creators.internal.index') }}"></a>
+                            @can('creators.internal.index')
+                                <a class="text-white fas fa-angle-double-right"
+                                    href="{{ getClientRoute('client.creators.internal.index') }}"></a>
+                            @endcan
                         </div>
                     </div>
                     <div class="card-body">
@@ -74,8 +78,10 @@
                         <div class="row justify-content-between">
                             <i class="fas fa-user-tie"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.creators.external.title') }}</h5>
-                            <a class="text-white fas fa-angle-double-right"
-                                href="{{ getClientRoute('client.creators.external.index') }}"></a>
+                            @can('creators.external.index')
+                                <a class="text-white fas fa-angle-double-right"
+                                    href="{{ getClientRoute('client.creators.external.index') }}"></a>
+                            @endcan
                         </div>
                     </div>
                     <div class="card-body">
@@ -92,8 +98,10 @@
                         <div class="row justify-content-between">
                             <i class="fas fa-globe"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.academic_departments.title') }}</h5>
-                            <a class="text-white fas fa-angle-double-right"
-                                href="{{ getClientRoute('client.academic_departments.index') }}"></a>
+                            @can('academic_departments.index')
+                                <a class="text-white fas fa-angle-double-right"
+                                    href="{{ getClientRoute('client.academic_departments.index') }}"></a>
+                            @endcan
                         </div>
                     </div>
                     <div class="card-body">
@@ -113,8 +121,10 @@
                         <div class="row justify-content-between">
                             <i class="fas fa-university"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.administrative_units.title') }}</h5>
-                            <a class="text-white fas fa-angle-double-right"
-                                href="{{ getClientRoute('client.administrative_units.index') }}"></a>
+                            @can('administrative_units.index')
+                                <a class="text-white fas fa-angle-double-right"
+                                    href="{{ getClientRoute('client.administrative_units.index') }}"></a>
+                            @endcan
                         </div>
                     </div>
                     <div class="card-body">
@@ -131,8 +141,10 @@
                         <div class="row justify-content-between">
                             <i class="fas fa-microscope"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.research_units.title') }}</h5>
-                            <a class="text-white fas fa-angle-double-right"
-                                href="{{ getClientRoute('client.research_units.index') }}"></a>
+                            @can('research_units.index')
+                                <a class="text-white fas fa-angle-double-right"
+                                    href="{{ getClientRoute('client.research_units.index') }}"></a>
+                            @endcan
                         </div>
                     </div>
                     <div class="card-body">
@@ -149,8 +161,10 @@
                         <div class="row justify-content-between">
                             <i class="fas fa-chalkboard-teacher"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.projects.title') }}</h5>
-                            <a class="text-white fas fa-angle-double-right"
-                                href="{{ getClientRoute('client.projects.index') }}"></a>
+                            @can('projects.index')
+                                <a class="text-white fas fa-angle-double-right"
+                                    href="{{ getClientRoute('client.projects.index') }}"></a>
+                            @endcan
                         </div>
                     </div>
                     <div class="card-body">
@@ -167,8 +181,10 @@
                         <div class="row justify-content-between">
                             <i class="fas fa-archive"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.intangible_assets.title') }}</h5>
-                            <a class="text-white fas fa-angle-double-right"
-                                href="{{ getClientRoute('client.intangible_assets.index') }}"></a>
+                            @can('intangible_assets.index')
+                                <a class="text-white fas fa-angle-double-right"
+                                    href="{{ getClientRoute('client.intangible_assets.index') }}"></a>
+                            @endcan
                         </div>
                     </div>
                     <div class="card-body">
@@ -195,8 +211,10 @@
                         <div class="row justify-content-between">
                             <i class="fas fa-star"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.strategy_categories.title') }}</h5>
-                            <a class="text-white fas fa-angle-double-right"
-                                href="{{ getClientRoute('client.strategy_categories.index') }}"></a>
+                            @can('strategy_categories.index')
+                                <a class="text-white fas fa-angle-double-right"
+                                    href="{{ getClientRoute('client.strategy_categories.index') }}"></a>
+                            @endcan
                         </div>
                     </div>
                     <div class="card-body">
@@ -213,8 +231,10 @@
                         <div class="row justify-content-between">
                             <i class="fas fa-toolbox"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.strategies.title') }}</h5>
-                            <a class="text-white fas fa-angle-double-right"
-                                href="{{ getClientRoute('client.strategies.index') }}"></a>
+                            @can('strategies.index')
+                                <a class="text-white fas fa-angle-double-right"
+                                    href="{{ getClientRoute('client.strategies.index') }}"></a>
+                            @endcan
                         </div>
                     </div>
                     <div class="card-body">
@@ -231,8 +251,10 @@
                         <div class="row justify-content-between">
                             <i class="fas fa-balance-scale"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.financing_types.title') }}</h5>
-                            <a class="text-white fas fa-angle-double-right"
-                                href="{{ getClientRoute('client.financing_types.index') }}"></a>
+                            @can('financing_types.index')
+                                <a class="text-white fas fa-angle-double-right"
+                                    href="{{ getClientRoute('client.financing_types.index') }}"></a>
+                            @endcan
                         </div>
                     </div>
                     <div class="card-body">
@@ -253,8 +275,10 @@
                         <div class="row justify-content-between">
                             <i class="fas fa-tools"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.priority_tools.title') }}</h5>
-                            <a class="text-white fas fa-angle-double-right"
-                                href="{{ getClientRoute('client.priority_tools.index') }}"></a>
+                            @can('priority_tools.index')
+                                <a class="text-white fas fa-angle-double-right"
+                                    href="{{ getClientRoute('client.priority_tools.index') }}"></a>
+                            @endcan
                         </div>
                     </div>
                     <div class="card-body">
@@ -271,8 +295,10 @@
                         <div class="row justify-content-between">
                             <i class="fas fa-user-secret"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.secret_protection_measures.title') }}</h5>
-                            <a class="text-white fas fa-angle-double-right"
-                                href="{{ getClientRoute('client.secret_protection_measures.index') }}"></a>
+                            @can('secret_protection_measures.index')
+                                <a class="text-white fas fa-angle-double-right"
+                                    href="{{ getClientRoute('client.secret_protection_measures.index') }}"></a>
+                            @endcan
                         </div>
                     </div>
                     <div class="card-body">
@@ -289,8 +315,10 @@
                         <div class="row justify-content-between">
                             <i class="fas fa-hands-helping"></i>
                             <h5 class="font-weight-bold">{{ __('pages.client.project_contract_types.title') }}</h5>
-                            <a class="text-white fas fa-angle-double-right"
-                                href="{{ getClientRoute('client.project_contract_types.index') }}"></a>
+                            @can('project_contract_types.index')
+                                <a class="text-white fas fa-angle-double-right"
+                                    href="{{ getClientRoute('client.project_contract_types.index') }}"></a>
+                            @endcan
                         </div>
                     </div>
                     <div class="card-body">
