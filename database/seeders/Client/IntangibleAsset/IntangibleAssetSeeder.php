@@ -238,8 +238,6 @@ class IntangibleAssetSeeder extends Seeder
             $this->command->getOutput()->progressStart($intangibleAssetNum);
 
             for ($i = 0; $i < $intangibleAssetNum; $i++) {
-                sleep(1);
-
                 /** @var \App\Models\Client\Project\Project $projectRandom */
                 $projectRandom = $projects->random(1)->first();
 
@@ -248,7 +246,7 @@ class IntangibleAssetSeeder extends Seeder
                     'project_id' => $projectRandom->id,
                 ]);
 
-                $this->info("\n-Creando Activo Intangible: '{$intangibleAsset->name}'");
+                $this->info("\n-Creando Activo Intangible: '{$intangibleAsset->name}'\n");
 
                 /** @var \Illuminate\Database\Eloquent\Collection $researchUnits */
                 $researchUnits = $projectRandom->research_units;

@@ -9,9 +9,9 @@
                 <th class="text-center">No.</th>
                 <th>{{ __('pages.client.intangible_assets.table.head.name') }}</th>
                 <th style="width: 20em">{{ __('pages.client.intangible_assets.table.head.status') }}</th>
-                @canany(['intangible_assets.show', 'intangible_assets.destroy'])
+                @if (role_can_permission(['intangible_assets.show', 'intangible_assets.destroy']))
                     <th class="text-right" style="width: 5em">#</th>
-                @endcanany
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -28,7 +28,7 @@
                             </div>
                         </div>
                     </td>
-                    @canany(['intangible_assets.show', 'intangible_assets.destroy'])
+                    @if (role_can_permission(['intangible_assets.show', 'intangible_assets.destroy']))
                         <td class="text-right">
                             <div class="btn-group">
                                 <button type="button" class="dropdown-toggle btn btn-sm btn-danger btn-block"
@@ -36,14 +36,15 @@
                                     <span class="fas fa-cog"></span>
                                 </button>
                                 <div class="dropdown-menu">
-                                    @can('intangible_assets.show')
+                                    @if (role_can_permission('intangible_assets.show'))
                                         <a href="{{ getClientRoute('client.intangible_assets.show', [$item->id]) }}"
                                             class="dropdown-item">
                                             <i class="fas fa-sm fa-eye"></i> Ver
                                         </a>
-                                    @endcan
-                                    @can('intangible_assets.destroy')
-                                        <form action="{{ getClientRoute('client.intangible_assets.destroy', [$item->id]) }}"
+                                    @endif
+                                    @if (role_can_permission('intangible_assets.destroy'))
+                                        <form
+                                            action="{{ getClientRoute('client.intangible_assets.destroy', [$item->id]) }}"
                                             id="form-delete-{{ $item->id }}" method="post">
                                             @csrf
                                             @method('DELETE')
@@ -53,11 +54,11 @@
                                                 <i class="fas fa-sm fa-trash"></i> Borrar
                                             </button>
                                         </form>
-                                    @endcan
+                                    @endif
                                 </div>
                             </div>
                         </td>
-                    @endcanany
+                    @endif
                 </tr>
             @empty
                 <tr class="text-center">

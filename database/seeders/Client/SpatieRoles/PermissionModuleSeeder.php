@@ -51,8 +51,6 @@ class PermissionModuleSeeder extends Seeder
             $this->command->getOutput()->progressStart(count($permissions));
 
             foreach ($permissions as $permissionItem) {
-                sleep(1);
-                $this->info("\n-Creando el permiso: '{$permissionItem['info']}'\n");
                 $permissionItem['permission_module_id'] = $permissionModule->id;
 
                 $this->permissionRepository->create($permissionItem);

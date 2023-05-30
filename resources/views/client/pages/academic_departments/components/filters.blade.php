@@ -44,10 +44,10 @@
             </div>
             <div class="btn-group">
                 <button class="btn btn-secondary btn-sm">{{ __('buttons.filter') }}</button>
-                @can('academic_departments.store')
+                @if (role_can_permission('academic_departments.store'))
                     <a href="{{ route('client.academic_departments.create', $client->name) }}"
                         class="btn btn-danger btn-sm ml-2">{{ __('buttons.register') }}</a>
-                @endcan
+                @endif 
             </div>
             <hr>
             <h6 class="font-weight-bold">{{ __('pages.client.academic_departments.filters.total') }}<a

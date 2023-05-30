@@ -63,7 +63,6 @@ class ResearchUnitSeeder extends Seeder
 
             $this->command->getOutput()->progressStart($researchUnitNum);
             for ($i = 0; $i < $researchUnitNum; $i++) {
-                sleep(1);
                 /** @var \App\Models\Client\AdministrativeUnit $administrativeUnitRandom */
                 $administrativeUnitRandom = $administrativeUnits->random(1)->first();
                 /** @var \App\Models\Client\ResearchUnitCategory $researchUnitCategoryRandom */

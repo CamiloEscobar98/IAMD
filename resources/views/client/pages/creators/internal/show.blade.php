@@ -110,13 +110,13 @@
             </div>
         </div>
 
-        @can('creators.internal.update')
+        @if (role_can_permission('creators.internal.update'))
             <!-- Edit Button -->
             <div class="form-group">
                 <a href="{{ getClientRoute('client.creators.internal.edit', [$item->creator_id]) }}"
                     class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
             </div>
             <!-- Edit Button -->
-        @endcan
+        @endif
     </div>
 @endsection

@@ -9,20 +9,20 @@
     <td> {{ getParamObject($item->linkage_type, 'name', true) }} </td>
     <td> {{ getParamObject($item->assignment_contract, 'name', true) }} </td>
     <td>{{ transformDatetoString($item->created_at) }}</td>
-    @canany(['creators.internal.show', 'creators.internal.destroy'])
+    @if (role_can_permission(['creators.internal.show', 'creators.internal.destroy']))
         <td class="text-right">
             <div class="btn-group">
                 <button type="button" class="dropdown-toggle btn btn-sm btn-danger btn-block" data-toggle="dropdown">
                     <span class="fas fa-cog"></span>
                 </button>
                 <div class="dropdown-menu">
-                    @can('creators.internal.show')
+                    @if (role_can_permission('creators.internal.show'))
                         <a href="{{ getClientRoute('client.creators.internal.show', [$item->creator_id]) }}"
                             class="dropdown-item">
                             <i class="fas fa-sm fa-eye"></i> Ver
                         </a>
-                    @endcan
-                    @can('creators.internal.destroy')
+                    @endif
+                    @if (role_can_permission('creators.internal.destroy'))
                         <form action="{{ getClientRoute('client.creators.internal.destroy', [$item->creator_id]) }}"
                             id="form-delete-{{ $item->creator_id }}" method="post">
                             @csrf
@@ -32,9 +32,9 @@
                                 <i class="fas fa-sm fa-trash"></i> Borrar
                             </button>
                         </form>
-                    @endcan
+                    @endif
                 </div>
             </div>
         </td>
-    @endcanany
+    @endif
 </tr>

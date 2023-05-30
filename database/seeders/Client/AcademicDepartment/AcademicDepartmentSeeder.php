@@ -36,7 +36,6 @@ class AcademicDepartmentSeeder extends Seeder
             $this->command->getOutput()->progressStart(count($academicDepartments));
 
             foreach ($academicDepartments as $academicDepartment) {
-                sleep(1);
                 $this->info("\n-Creando Departamento Académico: '{$academicDepartment->name}'\n");
                 $academicDepartment->save();
                 $this->command->getOutput()->progressAdvance();

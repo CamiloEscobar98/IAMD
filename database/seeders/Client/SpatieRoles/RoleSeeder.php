@@ -57,7 +57,5 @@ class RoleSeeder extends Seeder
         $adminRole = $this->roleRepository->getByAttribute('name', 'admin');
 
         $adminRole->syncPermissions($permissions);
-
-        $employeeRole->syncPermissions($permissions);
     }
 }

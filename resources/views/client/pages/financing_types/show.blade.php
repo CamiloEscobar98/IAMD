@@ -67,13 +67,13 @@
         </div>
         <!-- ./Updated At -->
 
-        @can('financing_types.update')
+        @if (role_can_permission('financing_types.update'))
             <!-- Edit Button -->
             <div class="form-group mt-3">
                 <a href="{{ getClientRoute('client.financing_types.edit', [$item->id]) }}"
                     class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
             </div>
             <!-- Edit Button -->
-        @endcan
+        @endif
     </div>
 @endsection

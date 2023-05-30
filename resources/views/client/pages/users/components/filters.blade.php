@@ -56,10 +56,10 @@
             </div>
             <div class="btn-group">
                 <button class="btn btn-secondary btn-sm">{{ __('buttons.filter') }}</button>
-                @can('users.store')
+                @if (role_can_permission('users.store'))
                     <a href="{{ route('client.users.create', $client->name) }}"
                         class="btn btn-danger btn-sm ml-2">{{ __('buttons.register') }}</a>
-                @endcan
+                @endif
             </div>
             <hr>
             <h6 class="font-weight-bold">{{ __('pages.client.users.filters.total') }}<a

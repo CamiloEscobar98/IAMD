@@ -79,31 +79,6 @@
                     </div>
                     <!-- ./Password -->
 
-                    <!-- Role -->
-                    <div class="form-group mt-3">
-                        <label>{{ __('inputs.role_id') }}:</label>
-                        <div class="input-group">
-                            <select name="role_id"
-                                class="form-control select2bs4 @error('role_id') is-invalid @enderror">
-                                @foreach ($roles as $role => $value)
-                                    <option value="{{ $role }}"
-                                        {{ twoOptionsIsEqual(old('role_id'), $role) }}>
-                                        {{ $value }}</option>
-                                @endforeach
-                            </select>
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-box"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        @error('role_id')
-                            <small class="text-danger">{!! $message !!}</small>
-                        @enderror
-                    </div>
-                    <!-- ./Role -->
-
                     <div class="row mt-3">
                         <div class="col-7">
                             <div class="icheck-primary">

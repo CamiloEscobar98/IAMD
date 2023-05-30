@@ -6,9 +6,9 @@
                 <th>{{ __('pages.client.administrative_units.table.head.description') }}</th>
                 <th>{{ __('pages.client.administrative_units.table.head.research_units') }}</th>
                 <th style="width: 15em">{{ __('pages.client.administrative_units.table.head.created_at') }}</th>
-                @canany(['administrative_units.show', 'administrative_units.destroy'])
+                @if (role_can_permission(['administrative_units.show', 'administrative_units.destroy']))
                     <th class="text-right" style="width: 5em">#</th>
-                @endcanany
+                @endif
             </tr>
         </thead>
         <tbody>

@@ -35,7 +35,6 @@ class SecretProtectionMeasureSeeder extends Seeder
             $this->command->getOutput()->progressStart(count($secretProtectionMeasures));
 
             foreach ($secretProtectionMeasures as $secretProtectionMeasure) {
-                sleep(1);
                 $this->info("\n-Creando Medida Secreta de Protección: '{$secretProtectionMeasure->name}'\n");
                 $secretProtectionMeasure->save();
                 $this->command->getOutput()->progressAdvance();

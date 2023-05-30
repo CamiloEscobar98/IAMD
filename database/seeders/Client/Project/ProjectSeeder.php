@@ -80,7 +80,6 @@ class ProjectSeeder extends Seeder
             $this->command->getOutput()->progressStart($projectNum);
 
             for ($i = 0; $i < $projectNum; $i++) {
-                sleep(1);
                 $researchUnitsRandom = $researchUnits->random(rand(1, $researchUnits->count() - 1));
                 /** @var \App\Models\Client\Creator\Creator $director */
                 $director = $creators->random(1)->first();
