@@ -44,10 +44,10 @@
             </div>
             <div class="btn-group">
                 <button class="btn btn-secondary btn-sm">{{ __('buttons.filter') }}</button>
-                @can('secret_protection_measures.update')
+                @if (role_can_permission('secret_protection_measures.update'))
                     <a href="{{ route('client.secret_protection_measures.create', $client->name) }}"
                         class="btn btn-danger btn-sm ml-2">{{ __('buttons.register') }}</a>
-                @endcan
+                @endif
             </div>
             <hr>
             <h6 class="font-weight-bold">{{ __('pages.client.secret_protection_measures.filters.total') }}<a

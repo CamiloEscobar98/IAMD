@@ -70,7 +70,6 @@ class CreatorInternalOrExternalSeeder extends Seeder
             $this->command->getOutput()->progressStart($creators->count());
 
             foreach ($creators as $creator) {
-                sleep(1);
                 /** @var \App\Models\Client\Creator\Creator $creator */
                 $this->info("\n-Asignando el Creador internamente o externamente: '{$creator->name}'\n");
                 $randomType = (bool) rand(0, 1);

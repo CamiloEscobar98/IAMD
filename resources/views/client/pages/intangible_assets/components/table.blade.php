@@ -9,9 +9,9 @@
                 <th>{{ __('pages.client.intangible_assets.table.head.state') }}</th>
                 <th>{{ __('pages.client.intangible_assets.table.head.status') }}</th>
                 <th style="width: 15em">{{ __('pages.client.intangible_assets.table.head.created_at') }}</th>
-                @canany(['intangible_assets.show', 'intangible_assets.destroy'])
+                @if (role_can_permission(['intangible_assets.show', 'intangible_assets.destroy']))
                     <th class="text-right" style="width: 5em">#</th>
-                @endcanany
+                @endif
             </tr>
         </thead>
         <tbody>

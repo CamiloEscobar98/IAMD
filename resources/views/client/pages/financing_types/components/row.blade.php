@@ -2,19 +2,19 @@
     <td>{{ $item->name }}</td>
     <td>{{ $item->code }}</td>
     <td>{{ transformDatetoString($item->created_at) }}</td>
-    @canany(['financing_types.show', 'financing_types.destroy'])
+    @if (role_can_permission(['financing_types.show', 'financing_types.destroy']))
         <td class="text-right">
             <div class="btn-group">
                 <button type="button" class="dropdown-toggle btn btn-sm btn-danger btn-block" data-toggle="dropdown">
                     <span class="fas fa-cog"></span>
                 </button>
                 <div class="dropdown-menu">
-                    @can('financing_types.show')
+                    @if (role_can_permission('financing_types.show'))
                         <a href="{{ getClientRoute('client.financing_types.show', [$item->id]) }}" class="dropdown-item">
                             <i class="fas fa-sm fa-eye"></i> Ver
                         </a>
-                    @endcan
-                    @can('financing_types.destroy')
+                    @endif
+                    @if (role_can_permission('financing_types.destroy'))
                         <form action="{{ getClientRoute('client.financing_types.destroy', [$item->id]) }}"
                             id="form-delete-{{ $item->id }}" method="post">
                             @csrf
@@ -24,9 +24,9 @@
                                 <i class="fas fa-sm fa-trash"></i> Borrar
                             </button>
                         </form>
-                    @endcan
+                    @endif
                 </div>
             </div>
         </td>
-    @endcanany
+    @endif
 </tr>

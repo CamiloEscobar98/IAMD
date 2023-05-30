@@ -81,10 +81,10 @@
 
             <div class="btn-group">
                 <button class="btn btn-secondary btn-sm">{{ __('buttons.filter') }}</button>
-                @can('intangible_assets.store')
+                @if (role_can_permission('intangible_assets.store'))
                     <a href="{{ route('client.intangible_assets.create', $client->name) }}"
                         class="btn btn-danger btn-sm ml-2">{{ __('buttons.register') }}</a>
-                @endcan
+                @endif
             </div>
             <hr>
             <h6 class="font-weight-bold">{{ __('pages.client.intangible_assets.filters.total') }}<a

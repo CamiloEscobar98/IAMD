@@ -10,19 +10,19 @@
         {{ __('pages.client.research_units.table.body.projects_count', ['projects' => $item->projects_count]) }}
     </td>
     <td>{{ transformDatetoString($item->created_at) }}</td>
-    @canany(['research_units.show', 'research_units.destroy'])
+    @if (role_can_permission(['research_units.show', 'research_units.destroy']))
         <td class="text-right">
             <div class="btn-group">
                 <button type="button" class="dropdown-toggle btn btn-sm btn-danger btn-block" data-toggle="dropdown">
                     <span class="fas fa-cog"></span>
                 </button>
                 <div class="dropdown-menu">
-                    @can('research_units.show')
+                    @if (role_can_permission('research_units.show'))
                         <a href="{{ getClientRoute('client.research_units.show', [$item->id]) }}" class="dropdown-item">
                             <i class="fas fa-sm fa-eye"></i> Ver
                         </a>
-                    @endcan
-                    @can('research_units.destroy')
+                    @endif
+                    @if (role_can_permission('research_units.destroy'))
                         <form action="{{ getClientRoute('client.research_units.destroy', [$item->id]) }}"
                             id="form-delete-{{ $item->id }}" method="post">
                             @csrf
@@ -32,9 +32,9 @@
                                 <i class="fas fa-sm fa-trash"></i> Borrar
                             </button>
                         </form>
-                    @endcan
+                    @endif
                 </div>
             </div>
         </td>
-    @endcanany
+    @endif
 </tr>

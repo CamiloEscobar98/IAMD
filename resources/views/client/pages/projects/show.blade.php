@@ -131,14 +131,14 @@
         <!-- ./Updated At -->
 
 
-        @can('projects.update')
+        @if (role_can_permission('projects.update'))
             <!-- Edit Button -->
             <div class="form-group mt-3">
                 <a href="{{ getClientRoute('client.projects.edit', [$item->id]) }}"
                     class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
             </div>
             <!-- Edit Button -->
-        @endcan
+        @endif
 
         @include('client.pages.projects.components.table_intangible_assets')
     </div>

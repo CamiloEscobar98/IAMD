@@ -100,10 +100,10 @@
             </div>
             <div class="btn-group">
                 <button class="btn btn-secondary btn-sm">{{ __('buttons.filter') }}</button>
-                @can('creators.external.store')
+                @if (role_can_permission('creators.external.store'))
                     <a href="{{ route('client.creators.external.create', $client->name) }}"
                         class="btn btn-danger btn-sm ml-2">{{ __('buttons.register') }}</a>
-                @endcan
+                @endif
             </div>
             <hr>
             <h6 class="font-weight-bold">{{ __('pages.client.creators.external.filters.total') }}<a

@@ -53,7 +53,6 @@ class CreatorDocumentSeeder extends Seeder
             $this->command->getOutput()->progressStart($creators->count());
 
             foreach ($creators as $creator) {
-                sleep(1);
                 /** @var \App\Models\Client\Creator\Creator $creator */
                 $this->info("\n-Creando documento para el Creador: '{$creator->name}'\n");
 

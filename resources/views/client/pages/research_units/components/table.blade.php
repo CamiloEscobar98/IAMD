@@ -10,9 +10,9 @@
                 <th>{{ __('pages.client.research_units.table.head.inventory_manager') }}</th>
                 <th>{{ __('pages.client.research_units.table.head.projects') }}</th>
                 <th style="width: 15em">{{ __('pages.client.research_units.table.head.created_at') }}</th>
-                @canany(['research_units.show', 'research_units.destroy'])
+                @if (role_can_permission(['research_units.show', 'research_units.destroy']))
                     <th class="text-right" style="width: 5em">#</th>
-                @endcanany
+                @endif
 
             </tr>
         </thead>

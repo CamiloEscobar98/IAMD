@@ -8,13 +8,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 use App\Mail\SendPasswordReset;
 
 use App\Http\Requests\Client\Auth\UpdateRequest;
 use App\Http\Requests\Client\Auth\UpdatePasswordRequest;
 use App\Http\Requests\Client\Auth\SendResetPasswordMailRequest;
-
+use App\Repositories\Client\RoleRepository;
 use Exception;
 
 use App\Repositories\Client\UserRepository;
@@ -23,8 +24,10 @@ class AuthController extends Controller
 {
 
     public function __construct(
-        protected UserRepository $userRepository
+        protected UserRepository $userRepository,
+        protected RoleRepository $roleRepository
     ) {
+        $this->middleware('guest:web')->only('sendResetPasswordMail');
     }
 
     /**
@@ -91,5 +94,26 @@ class AuthController extends Controller
             Log::error("@Web/Controllers/Client/Auth/LoginController:sendResetPasswordMail/Exception: {$e->getMessage()}");
         }
         return redirect()->route('client.reset_password', $client)->with('alert', $response);
+    }
+
+    /** 
+     * Change the role in session.
+     * 
+     * @param Request $request
+     * @param string $client
+     */
+    public function changeRoleInSession(Request $request, $client)
+    {
+        $response = ['title' => __('messages.error'), 'icon' => 'error', 'text' => __('messages.update-error')];
+        try {
+            $role = $this->roleRepository->getById($request->role_id);
+            if (current_user()->hasRole($role)) {
+                session(['current_role' => $role]);
+                $response = ['title' => __('messages.success'), 'icon' => 'success', 'text' => __('messages.update-success')];
+            }
+        } catch (Exception $e) {
+            Log::error("@Web/Controllers/Client/Auth/LoginController:sendResetPasswordMail/Exception: {$e->getMessage()}");
+        }
+        return redirect()->route('client.home', $client)->with('alert', $response);
     }
 }

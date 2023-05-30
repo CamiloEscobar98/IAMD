@@ -5,9 +5,9 @@
                 <th>{{ __('pages.client.priority_tools.table.head.name') }}</th>
                 <th>{{ __('pages.client.priority_tools.table.head.description') }}</th>
                 <th style="width: 15em">{{ __('pages.client.priority_tools.table.head.created_at') }}</th>
-                @canany(['priority_tools.show', 'priority_tools.destroy'])
+                @if (role_can_permission(['priority_tools.show', 'priority_tools.destroy']))
                     <th class="text-right" style="width: 5em">#</th>
-                @endcanany
+                @endif
             </tr>
         </thead>
         <tbody>

@@ -6,9 +6,9 @@
                 <th>{{ __('pages.client.roles.table.head.permissions') }}</th>
                 <th>{{ __('pages.client.roles.table.head.users') }}</th>
                 <th style="width: 15em">{{ __('pages.client.roles.table.head.created_at') }}</th>
-                @canany(['roles.show', 'roles.destroy'])
+                @if (role_can_permission(['roles.show', 'roles.destroy']))
                     <th class="text-right">#</th>
-                @endcanany
+                @endif
             </tr>
         </thead>
         <tbody>

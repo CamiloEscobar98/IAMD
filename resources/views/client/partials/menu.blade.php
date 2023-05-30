@@ -1,9 +1,9 @@
-@canany(getMainClientPermissions())
+@if (role_can_permission(getMainClientPermissions()))
     <li class="nav-header">{{ __('menu.client.title') }}</li>
-@endcanany
+@endif
 
 <!-- Administrative Units -->
-@can('administrative_units.index')
+@if (role_can_permission('administrative_units.index'))
     <li class="nav-item">
         <a href="{{ route('client.administrative_units.index', [$client->name]) }}"
             class="nav-link {{ routeIsActived('facultades') }}">
@@ -11,10 +11,10 @@
             <p>{{ __('menu.client.AdministrativeUnits') }}</p>
         </a>
     </li>
-@endcan
+@endif
 
 <!-- Academic Departments -->
-@can('academic_departments.index')
+@if (role_can_permission('academic_departments.index'))
     <li class="nav-item">
         <a href="{{ route('client.academic_departments.index', [$client->name]) }}"
             class="nav-link {{ routeIsActived('departamentos-academicos') }}">
@@ -22,10 +22,10 @@
             <p>{{ __('menu.client.AcademicDepartments') }}</p>
         </a>
     </li>
-@endcan
+@endif
 
 <!-- Research Units -->
-@can('research_units.index')
+@if (role_can_permission('research_units.index'))
     <li class="nav-item">
         <a href="{{ route('client.research_units.index', [$client->name]) }}"
             class="nav-link {{ routeIsActived('unidades-investigativas') }}">
@@ -33,11 +33,11 @@
             <p>{{ __('menu.client.ResearchUnits') }}</p>
         </a>
     </li>
-@endcan
+@endif
 
 
 <!-- Projects -->
-@can('projects.index')
+@if (role_can_permission('projects.index'))
     <li class="nav-item">
         <a href="{{ route('client.projects.index', [$client->name]) }}"
             class="nav-link {{ routeIsActived('proyectos') }}">
@@ -45,10 +45,10 @@
             <p>{{ __('menu.client.Projects') }}</p>
         </a>
     </li>
-@endcan
+@endif
 
 <!-- Intangible Assets -->
-@can('intangible_assets.index')
+@if (role_can_permission('intangible_assets.index'))
     <li class="nav-item">
         <a href="{{ route('client.intangible_assets.index', [$client->name]) }}"
             class="nav-link {{ routeIsActived('activos-intangibles') }}">
@@ -56,10 +56,10 @@
             <p>{{ __('menu.client.IntangibleAssets') }}</p>
         </a>
     </li>
-@endcan
+@endif
 
 <!-- Internal Creators -->
-@can('creators.internal.index')
+@if (role_can_permission('creators.internal.index'))
     <li class="nav-item">
         <a href="{{ route('client.creators.internal.index', [$client->name]) }}"
             class="nav-link {{ routeIsActived('internos') }}">
@@ -68,11 +68,11 @@
             <p>{{ __('menu.client.CreatorsInternal') }}</p>
         </a>
     </li>
-@endcan
+@endif
 <!-- ./Internal Creators -->
 
 <!-- External Creators -->
-@can('creators.external.index')
+@if (role_can_permission('creators.external.index'))
     <li class="nav-item">
         <a href="{{ route('client.creators.external.index', [$client->name]) }}"
             class="nav-link {{ routeIsActived('externos') }}">
@@ -80,26 +80,27 @@
             <p>{{ __('menu.client.CreatorsExternal') }}</p>
         </a>
     </li>
-@endcan
+@endif
 <!-- ./External Creators -->
 
 <!-- Users -->
-@can('users.index')
+@if (role_can_permission('users.index'))
     <li class="nav-item">
-        <a href="{{ route('client.users.index', [$client->name]) }}" class="nav-link {{ routeIsActived('usuarios') }}">
+        <a href="{{ route('client.users.index', [$client->name]) }}"
+            class="nav-link {{ routeIsActived('usuarios') }}">
             <i class="fas fa-users nav-icon"></i>
             <p>{{ __('menu.client.users') }}</p>
         </a>
     </li>
-@endcan
+@endif
 <!-- ./Users -->
 
-@canany(getConfigClientPermissions())
+@if (role_can_permission(getConfigClientPermissions()))
     <li class="nav-header">{{ __('menu.client.first_subtitle') }}</li>
-@endcanany
+@endif
 
 <!-- Roles -->
-@can('roles.index')
+@if (role_can_permission('roles.index'))
     <li class="nav-item">
         <a href="{{ route('client.roles.index', [$client->name]) }}"
             class="nav-link {{ routeIsActived('roles-del-sistema') }}">
@@ -107,11 +108,11 @@
             <p>{{ __('menu.client.roles') }}</p>
         </a>
     </li>
-@endcan
+@endif
 <!-- ./Roles -->
 
 <!-- Strategy Categories -->
-@can('strategy_categories.index')
+@if (role_can_permission('strategy_categories.index'))
     <li class="nav-item">
         <a href="{{ route('client.strategy_categories.index', [$client->name]) }}"
             class="nav-link {{ routeIsActived('categorias-de-las-estrategias-de-gestion') }}">
@@ -119,11 +120,11 @@
             <p>{{ __('menu.client.strategy_categories') }}</p>
         </a>
     </li>
-@endcan
+@endif
 <!-- ./Strategy Categories -->
 
 <!-- Strategies -->
-@can('strategies.index')
+@if (role_can_permission('strategies.index'))
     <li class="nav-item">
         <a href="{{ route('client.strategies.index', [$client->name]) }}"
             class="nav-link {{ routeIsActived('estrategias-de-gestion') }}">
@@ -131,11 +132,11 @@
             <p>{{ __('menu.client.strategies') }}</p>
         </a>
     </li>
-@endcan
+@endif
 <!-- ./Strategies -->
 
 <!-- Financing Types -->
-@can('financing_types.index')
+@if (role_can_permission('financing_types.index'))
     <li class="nav-item">
         <a href="{{ route('client.financing_types.index', [$client->name]) }}"
             class="nav-link {{ routeIsActived('financiacion-de-proyectos') }}">
@@ -143,11 +144,11 @@
             <p>{{ __('menu.client.financing_types') }}</p>
         </a>
     </li>
-@endcan
+@endif
 <!-- ./Financing Types -->
 
 <!-- Project Contract Types -->
-@can('project_contract_types.index')
+@if (role_can_permission('project_contract_types.index'))
     <li class="nav-item">
         <a href="{{ route('client.project_contract_types.index', [$client->name]) }}"
             class="nav-link {{ routeIsActived('contratos-para-proyectos') }}">
@@ -155,11 +156,11 @@
             <p>{{ __('menu.client.project_contract_types') }}</p>
         </a>
     </li>
-@endcan
+@endif
 <!-- ./Project Contract Types -->
 
 <!-- Priority Tools -->
-@can('priority_tools.index')
+@if (role_can_permission('priority_tools.index'))
     <li class="nav-item">
         <a href="{{ route('client.priority_tools.index', [$client->name]) }}"
             class="nav-link {{ routeIsActived('herramientas-de-priorizacion') }}">
@@ -167,11 +168,11 @@
             <p>{{ __('menu.client.priority_tools') }}</p>
         </a>
     </li>
-@endcan
+@endif
 <!-- ./Priority Tools -->
 
 <!-- Secret Protection Measures -->
-@can('secret_protection_measures.index')
+@if (role_can_permission('secret_protection_measures.index'))
     <li class="nav-item">
         <a href="{{ route('client.secret_protection_measures.index', [$client->name]) }}"
             class="nav-link {{ routeIsActived('medidas-secretas-de-proteccion') }}">
@@ -179,7 +180,7 @@
             <p>{{ __('menu.client.secret_protection_measures') }}</p>
         </a>
     </li>
-@endcan
+@endif
 <!-- ./Secret Protection Measures -->
 
 <li class="nav-header">{{ __('menu.client.second_subtitle') }}</li>
@@ -194,7 +195,7 @@
         </p>
     </a>
     <ul class="nav nav-treeview">
-        @can('reports.generate_report')
+        @if (role_can_permission('reports.generate_report'))
             <li class="nav-item">
                 <a href="{{ route('client.reports.custom.index', [$client->name]) }}"
                     class="nav-link {{ routeIsActived('personalizado') }}">
@@ -202,7 +203,7 @@
                     <p>{{ __('menu.client.GenerateReport') }}</p>
                 </a>
             </li>
-        @endcan
+        @endif
         <li class="nav-item">
             <a href="{{ route('client.reports.generated', [$client->name]) }}"
                 class="nav-link {{ routeIsActived('reportes-generados') }}">

@@ -20,9 +20,7 @@ trait AuthenticatesUsers
      */
     public function showLoginForm()
     {
-        $roleRepository = app(RoleRepository::class);
-        $roles = $roleRepository->all()->pluck('info', 'id')->prepend('---Selecciona un rol del sistema', -1);
-        return view('client.pages.auth.login', compact('roles'));
+        return view('client.pages.auth.login');
     }
 
     /**
@@ -52,19 +50,15 @@ trait AuthenticatesUsers
         /** @var UserRepository $userRepository */
         $userRepository = app(UserRepository::class);
 
-        /** @var RoleRepository $roleRepository */
-        $roleRepository = app(RoleRepository::class);
-
         /** @var \App\Models\Client\User $userTemp */
         $userTemp = $userRepository->getByAttribute('email', $request->email);
-        $roleTemp = $roleRepository->getById($request->get('role_id'));
 
-        if ($userTemp && $userTemp->hasRole($roleTemp) && $this->attemptLogin($request)) {
+        if ($userTemp && $userTemp->roles()->count() > 0 && $this->attemptLogin($request)) {
             if ($request->hasSession()) {
                 $request->session()->put('auth.password_confirmed_at', time());
             }
 
-            $this->setCurrentRoleSession($request);
+            $this->setCurrentRoleSession($userTemp);
 
             $this->setCurrentClientSession($request);
 
@@ -93,7 +87,6 @@ trait AuthenticatesUsers
         $request->validate([
             $this->username() => 'required|email',
             'password' => 'required|string',
-            'role_id' => 'required|exists:tenant.roles,id'
         ]);
     }
 
@@ -223,17 +216,13 @@ trait AuthenticatesUsers
     }
 
     /** 
-     * @param Request $request
+     * @param \App\Models\Client\User $user
      * 
      * @return void
      */
-    protected function setCurrentRoleSession($request)
+    protected function setCurrentRoleSession($user)
     {
-        $roleRepository = app(RoleRepository::class);
-
-        $role = $roleRepository->getById($request->get('role_id'));
-
-        session(['current_role' => $role]);
+        session(['current_role' => $user->roles()->first()]);
     }
 
     /**

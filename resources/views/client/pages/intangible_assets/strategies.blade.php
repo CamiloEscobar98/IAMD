@@ -46,7 +46,7 @@
                 <div class="card-body">
 
                     <!-- Create Intangible Asset Strategy -->
-                    @can('intangible_assets.strategies.store')
+                    @if (role_can_permission('intangible_assets.strategies.store'))
                         <form action="{{ route('client.intangible_assets.strategies.store', [$client->name, $item->id]) }}"
                             method="post">
                             @csrf
@@ -82,7 +82,7 @@
                             <!-- ./Button Save -->
 
                         </form>
-                    @endcan
+                    @endif
                     <!-- ./Create Intangible Asset Strategy -->
 
                     @if (intangibleAssetHasStrategyByStrategyCategory($item, $strategyCategory->id))

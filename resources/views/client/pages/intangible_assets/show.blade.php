@@ -53,24 +53,24 @@
         </h3>
         <p>{!! __('pages.client.intangible_assets.info.show', ['intangible_asset' => $item->name]) !!}</p>
 
-        @can('intangible_assets.generate_report')
+        @if (role_can_permission('intangible_assets.generate_report'))
             <a href="{{ route('client.intangible_assets.reports.default', [$client->name, $item->id]) }}"
                 class="btn btn-sm btn-danger">Descargar Reporte</a>
-        @endcan
+        @endif
 
-        @can('intangible_assets.generate_code')
+        @if (role_can_permission('intangible_assets.generate_code'))
             @if ($item->hasAllPhasesCompleted())
                 <a href="{{ getClientRoute('client.intangible_assets.generate_code', [$item->id]) }}"
                     class="btn btn-sm btn-outline-danger">Generar Codificación</a>
             @endif
-        @endcan
+        @endif
 
-        @can('intangible_assets.strategies.index')
+        @if (role_can_permission('intangible_assets.strategies.index'))
             @if ($item->hasStrategies())
                 <a href="{{ route('client.intangible_assets.strategies.index', [$client->name, $item->id]) }}"
                     class="btn btn-sm btn-danger">{{ __('pages.client.intangible_assets.strategies.button') }}</a>
             @endif
-        @endcan
+        @endif
 
         <div class="card mt-4">
             <div class="card-header bg-danger">
@@ -150,20 +150,20 @@
                 </div>
                 <!-- ./Updated At -->
 
-                @can('intangible_assets.update')
+                @if (role_can_permission('intangible_assets.update'))
                     <!-- Edit Button -->
                     <div class="form-group mt-4">
                         <a href="{{ getClientRoute('client.intangible_assets.edit', [$item->id]) }}"
                             class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
                     </div>
                     <!-- Edit Button -->
-                @endcan
+                @endif
             </div>
         </div>
 
         <hr>
 
-        @can('intangible_assets.phases.update')
+        @if (role_can_permission('intangible_assets.phases.update'))
             <!-- Intangible Asset Process -->
             <div class="card">
                 <div class="card-header {{ phaseIsCompletedColor($item->hasStrategies(), true) }}">
@@ -215,7 +215,7 @@
                 </div>
             </div>
             <!-- ./Intangible Asset Process -->
-        @endcan
+        @endif
 
 
     </div>

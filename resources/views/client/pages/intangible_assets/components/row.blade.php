@@ -22,19 +22,20 @@
         </div>
     </td>
     <td>{{ transformDatetoString($item->date) }}</td>
-    @canany(['intangible_assets.show', 'intangible_assets.destroy'])
+    @if (role_can_permission(['intangible_assets.show', 'intangible_assets.destroy']))
         <td class="text-right">
             <div class="btn-group">
                 <button type="button" class="dropdown-toggle btn btn-sm btn-danger btn-block" data-toggle="dropdown">
                     <span class="fas fa-cog"></span>
                 </button>
                 <div class="dropdown-menu">
-                    @can('intangible_assets.show')
-                        <a href="{{ getClientRoute('client.intangible_assets.show', [$item->id]) }}" class="dropdown-item">
+                    @if (role_can_permission('intangible_assets.show'))
+                        <a href="{{ getClientRoute('client.intangible_assets.show', [$item->id]) }}"
+                            class="dropdown-item">
                             <i class="fas fa-sm fa-eye"></i> Ver
                         </a>
-                    @endcan
-                    @can('intangible_assets.destroy')
+                    @endif
+                    @if (role_can_permission('intangible_assets.destroy'))
                         <form action="{{ getClientRoute('client.intangible_assets.destroy', [$item->id]) }}"
                             id="form-delete-{{ $item->id }}" method="post">
                             @csrf
@@ -44,10 +45,10 @@
                                 <i class="fas fa-sm fa-trash"></i> Borrar
                             </button>
                         </form>
-                    @endcan
+                    @endif
                 </div>
             </div>
         </td>
-    @endcanany
+    @endif
 
 </tr>

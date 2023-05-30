@@ -40,7 +40,6 @@ class ResearchUnitCategorySeeder extends Seeder
             $this->command->getOutput()->progressStart(count($researchUnitCategories));
 
             foreach ($researchUnitCategories as $researchUnitCategoryName) {
-                sleep(1);
                 $this->info("\n-Creando Categoria de la Unidad de Investigación: '{$researchUnitCategoryName}'\n");
                 $this->researchUnitCategoryRepository->create(['name' => $researchUnitCategoryName]);
                 $this->command->getOutput()->progressAdvance();

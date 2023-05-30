@@ -8,9 +8,9 @@
                 <th>{{ __('pages.client.creators.external.table.head.external_organization') }}</th>
                 <th>{{ __('pages.client.creators.external.table.head.assignment_contract') }}</th>
                 <th style="width: 15em">{{ __('pages.client.creators.external.table.head.created_at') }}</th>
-                @canany(['creators.external.show', 'creators.external.destroy'])
+                @if (role_can_permission(['creators.external.show', 'creators.external.destroy']))
                     <th class="text-right">#</th>
-                @endcanany
+                @endif
             </tr>
         </thead>
         <tbody>
