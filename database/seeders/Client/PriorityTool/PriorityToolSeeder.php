@@ -35,7 +35,6 @@ class PriorityToolSeeder extends Seeder
             $this->command->getOutput()->progressStart(count($priorityTools));
 
             foreach ($priorityTools as $priorityTool) {
-                sleep(1);
                 $this->info("\n-Creando Herramienta de Priorización: '{$priorityTool->name}'\n");
                 $priorityTool->save();
                 $this->command->getOutput()->progressAdvance();

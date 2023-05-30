@@ -5,19 +5,20 @@
         {{ __('pages.client.administrative_units.table.body.research_units_count', ['research_units_count' => $item->research_units_count]) }}
     </td>
     <td>{{ transformDatetoString($item->created_at) }}</td>
-    @canany(['administrative_units.show', 'administrative_units.destroy'])
+    @if (role_can_permission(['administrative_units.show', 'administrative_units.destroy']))
         <td class="text-right">
             <div class="btn-group">
                 <button type="button" class="dropdown-toggle btn btn-sm btn-danger btn-block" data-toggle="dropdown">
                     <span class="fas fa-cog"></span>
                 </button>
                 <div class="dropdown-menu">
-                    @can('administrative_units.show')
-                        <a href="{{ getClientRoute('client.administrative_units.show', [$item->id]) }}" class="dropdown-item">
+                    @if (role_can_permission('administrative_units.show'))
+                        <a href="{{ getClientRoute('client.administrative_units.show', [$item->id]) }}"
+                            class="dropdown-item">
                             <i class="fas fa-sm fa-eye"></i> Ver
                         </a>
-                    @endcan
-                    @can('administrative_units.destroy')
+                    @endif
+                    @if (role_can_permission('administrative_units.destroy'))
                         <form action="{{ getClientRoute('client.administrative_units.destroy', [$item->id]) }}"
                             id="form-delete-{{ $item->id }}" method="post">
                             @csrf
@@ -27,10 +28,10 @@
                                 <i class="fas fa-sm fa-trash"></i> Borrar
                             </button>
                         </form>
-                    @endcan
+                    @endif
                 </div>
             </div>
         </td>
-    @endcanany
+    @endif
 
 </tr>

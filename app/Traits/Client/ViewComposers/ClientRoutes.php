@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\View;
 use App\Http\ViewComposers\Client\DashboardComposer;
 
 use App\Http\ViewComposers\ClientComposer;
-use App\Http\ViewComposers\Client\NotificationComposer;
+use App\Http\ViewComposers\Client\NavbarComposer;
 
 use App\Http\ViewComposers\Client\ResearchUnits\ResearchUnitFilterComposer;
 use App\Http\ViewComposers\Client\ResearchUnits\CreateResearchUnitComposer;
@@ -70,7 +70,7 @@ trait ClientRoutes
         View::composer($views, ClientComposer::class);
 
         /** Notifications for Users */
-        View::composer('client.partials.navbar', NotificationComposer::class);
+        View::composer('client.partials.navbar', NavbarComposer::class);
 
         /** Dashboard */
         View::composer('client.pages.home', DashboardComposer::class);
@@ -126,6 +126,7 @@ trait ClientRoutes
             'client.pages.auth.login',
             'client.pages.auth.reset_password',
             'client.pages.home',
+            'client.partials.navbar',
         ];
     }
 

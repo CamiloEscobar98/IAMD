@@ -79,10 +79,10 @@
    <div class="form-group">
        <label>{{ __('inputs.role_id') }}:</label>
        <div class="input-group">
-           <select name="role_id" class="form-control select2bs4 @error('role_id') is-invalid @enderror">
+           <select name="role_id[]" id="role_id"
+               class="form-control select2bs4 @error('role_id') is-invalid @enderror" multiple>
                @foreach ($roles as $role => $value)
-                   <option value="{{ $role }}"
-                       {{ twoOptionsIsEqual(old('role_id', getParamObject($item->roles->first(), 'id')), $role) }}>
+                   <option value="{{ $role }}" {{ $item->hasRole($role) ? 'selected' : null }}>
                        {{ $value }}</option>
                @endforeach
            </select>

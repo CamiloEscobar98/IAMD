@@ -38,7 +38,6 @@ class StrategyCategorySeeder extends Seeder
             $this->command->getOutput()->progressStart(count($strategyCategories));
 
             foreach ($strategyCategories as $strategyCategoryName) {
-                sleep(1);
                 $this->info("\n-Creando Categoría de las Estrategias de Gestión: $strategyCategoryName\n");
                 $this->strategyCategoryRepository->createOneFactory([
                     'name' => $strategyCategoryName

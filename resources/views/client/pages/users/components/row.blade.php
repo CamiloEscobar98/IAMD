@@ -3,19 +3,19 @@
     <td>{{ $item->email }}</td>
     <td>{{ getParamObject($item->roles->first(), 'info') }}</td>
     <td>{{ transformDatetoString($item->created_at) }}</td>
-    @canany(['users.show', 'users.destroy'])
+    @if (role_can_permission(['users.show', 'users.destroy']))
         <td class="text-right">
             <div class="btn-group">
                 <button type="button" class="dropdown-toggle btn btn-sm btn-danger btn-block" data-toggle="dropdown">
                     <span class="fas fa-cog"></span>
                 </button>
                 <div class="dropdown-menu">
-                    @can('users.show')
+                    @if (role_can_permission('users.show'))
                         <a href="{{ getClientRoute('client.users.show', [$item->id]) }}" class="dropdown-item">
                             <i class="fas fa-sm fa-eye"></i> Ver
                         </a>
-                    @endcan
-                    @can('users.destroy')
+                    @endif
+                    @if (role_can_permission('users.destroy'))
                         <form action="{{ getClientRoute('client.users.destroy', [$item->id]) }}"
                             id="form-delete-{{ $item->id }}" method="post">
                             @csrf
@@ -25,9 +25,9 @@
                                 <i class="fas fa-sm fa-trash"></i> Borrar
                             </button>
                         </form>
-                    @endcan
+                    @endif
                 </div>
             </div>
         </td>
-    @endcanany
+    @endif
 </tr>

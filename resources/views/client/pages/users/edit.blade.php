@@ -2,6 +2,12 @@
 
 @section('title', __('pages.client.users.route-titles.edit'))
 
+@section('css')
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+@endsection
+
 @section('content-header')
     <section class="content-header">
         <div class="container-fluid">
@@ -52,4 +58,20 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <!-- Select2 -->
+    <script src="{{ asset('adminlte/plugins/select2/js/select2.full.min.js') }}"></script>
+@endsection
+
+@section('custom_js')
+    <script>
+        //Initialize Select2 Elements
+        $('#role_id').select2({
+            theme: 'bootstrap4',
+            placeholder: '--Seleccionar roles del usuario',
+            allowClear: true
+        })
+    </script>
 @endsection

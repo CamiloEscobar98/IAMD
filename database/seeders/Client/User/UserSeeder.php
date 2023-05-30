@@ -36,7 +36,6 @@ class UserSeeder extends Seeder
 
             $this->command->getOutput()->progressStart(count($users));
             foreach ($users as $user) {
-                sleep(1);
                 $this->info("\n-Creando Usuario: '{$user->name}'\n");
                 $user->save();
                 $user->assignRole('employee');

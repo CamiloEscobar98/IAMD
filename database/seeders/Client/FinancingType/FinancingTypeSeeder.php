@@ -49,7 +49,6 @@ class FinancingTypeSeeder extends Seeder
         $this->command->getOutput()->progressStart(count($financingTypes));
 
         foreach ($financingTypes as $financingType) {
-            sleep(1);
             $this->financingTypeRepository->create($financingType);
             $this->info("\n-Creando Tipo de Financiación para Proyectos: '{$financingType['name']}'\n");
             $this->command->getOutput()->progressAdvance();

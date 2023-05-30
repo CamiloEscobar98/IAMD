@@ -4,25 +4,19 @@ namespace App\Http\ViewComposers\Client;
 
 use Illuminate\View\View;
 
-use App\Repositories\Admin\TenantRepository;
 use App\Repositories\Client\NotificationRepository;
-use Illuminate\Http\Request;
+use App\Repositories\Client\RoleRepository;
 
-class NotificationComposer
+class NavbarComposer
 {
-    /** @var NotificationRepository */
-    protected $notificationRepository;
-
     public function __construct(
-        NotificationRepository $notificationRepository,
+        protected NotificationRepository $notificationRepository,
     ) {
-        $this->notificationRepository = $notificationRepository;
     }
 
     public function compose(View $view)
     {
         $notifications = $this->notificationRepository->getByUserId(current_user()->id);
-        
 
         $view->with(compact('notifications'));
     }

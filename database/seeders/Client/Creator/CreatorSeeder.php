@@ -35,7 +35,6 @@ class CreatorSeeder extends Seeder
             $this->command->getOutput()->progressStart(count($creators));
 
             foreach ($creators as $creator) {
-                sleep(1);
                 $this->info("\n-Creando Creador: '{$creator->name}'\n");
                 $creator->save();
                 $this->command->getOutput()->progressAdvance();

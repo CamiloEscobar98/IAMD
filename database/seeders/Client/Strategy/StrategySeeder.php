@@ -37,7 +37,6 @@ class StrategySeeder extends Seeder
             $this->command->getOutput()->progressStart(count($strategies));
 
             foreach ($strategies as $strategy) {
-                sleep(1);
                 $this->info("\n-Creando Estrategia de Gestión: '{$strategy->name}'\n");
                 $strategy->save();
                 $this->command->getOutput()->progressAdvance();

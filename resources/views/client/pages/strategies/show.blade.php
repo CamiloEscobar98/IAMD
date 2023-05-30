@@ -67,14 +67,14 @@
                 </div>
                 <!-- ./Updated At -->
 
-                @can('strategies.update')
+                @if (role_can_permission('strategies.update'))
                     <!-- Edit Button -->
                     <div class="form-group mt-3">
                         <a href="{{ getClientRoute('client.strategies.edit', [$item->id]) }}"
                             class="btn btn-danger btn-sm">{{ __('buttons.update_to') }}</a>
                     </div>
                     <!-- Edit Button -->
-                @endcan
+                @endif
             </div>
         </div>
     </div>

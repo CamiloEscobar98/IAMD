@@ -47,6 +47,8 @@ class UserService extends AbstractServiceModel
     public function update(array $arrayData, $id)
     {
         $data = collect($arrayData);
+        $role = $data->get('role_id');
+
         $attributesRequest = is_null($data->get('password')) ? ['name', 'email', 'role_id'] : ['name', 'email', 'role_id', 'password'];
 
         $data = $data->only($attributesRequest);
@@ -55,7 +57,6 @@ class UserService extends AbstractServiceModel
 
         $this->userRepository->update($item, $data->toArray());
 
-        $role = $data->get('role_id');
 
         /** @var \App\Models\Client\User $item */
         $item->syncRoles($role);

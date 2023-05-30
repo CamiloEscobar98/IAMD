@@ -36,7 +36,6 @@ class AdministrativeUnitSeeder extends Seeder
             $this->command->getOutput()->progressStart(count($administrativeUnits));
 
             foreach ($administrativeUnits as $administrativeUnit) {
-                sleep(1);
                 $this->info("\n-Creando Facultad: '{$administrativeUnit->name}'\n");
                 $administrativeUnit->save();
                 $this->command->getOutput()->progressAdvance();

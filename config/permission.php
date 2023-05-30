@@ -737,11 +737,6 @@ return [
                         'info' => 'Generar Reporte Personalizado',
                         'can_deleted' => false,
                     ],
-                    [
-                        'name' => 'reports.generate_graphic',
-                        'info' => 'Generar Gráfica',
-                        'can_deleted' => false,
-                    ],
                 ]
             ]
         ],

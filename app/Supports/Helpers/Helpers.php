@@ -46,3 +46,17 @@ if (!function_exists('isProductionEnv')) {
         return config('app.env') == 'production';
     }
 }
+
+if (!function_exists('role_can_permission')) {
+    /** @param array|string $permission */
+    function role_can_permission($permission): bool
+    {
+        /** @var \App\Models\Client\Role $currentRole */
+        $currentRole = session('current_role');
+        if (is_array($permission) && $permission) {
+            return $currentRole->hasAnyPermission($permission);
+        } else {
+            return $currentRole->hasPermissionTo($permission);
+        }
+    }
+}

@@ -47,7 +47,6 @@ class ProjectContractTypeSeeder extends Seeder
         $this->command->getOutput()->progressStart(count($projectContracts));
 
         foreach ($projectContracts as $projectContractType) {
-            sleep(1);
             $this->info("\n-Creando Tipo de Contratación para Proyectos: '{$projectContractType['name']}'\n");
             $this->projectContractTypeRepository->create($projectContractType);
             $this->command->getOutput()->progressAdvance();
