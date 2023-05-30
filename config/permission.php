@@ -496,39 +496,6 @@ return [
                 ]
             ],
 
-            /** Permissions */
-            [
-                'name' => 'Permisos del Sistema',
-                'can_deleted' => false,
-                'permissions' => [
-                    [
-                        'name' => 'permissions.index',
-                        'info' => 'Visualizar los Permisos.',
-                        'can_deleted' => false,
-                    ],
-                    [
-                        'name' => 'permissions.store',
-                        'info' => 'Visualizar el formulario y registrar los Permisos.',
-                        'can_deleted' => false,
-                    ],
-                    [
-                        'name' => 'permissions.show',
-                        'info' => 'Visualizar la información detallada de los Permisos.',
-                        'can_deleted' => false,
-                    ],
-                    [
-                        'name' => 'permissions.update',
-                        'info' => 'Actualizar la información de los Permisos.',
-                        'can_deleted' => false,
-                    ],
-                    [
-                        'name' => 'permissions.destroy',
-                        'info' => 'Eliminar los Permisos.',
-                        'can_deleted' => false,
-                    ],
-                ]
-            ],
-
             /** Strategy Categories */
             [
                 'name' => 'Categorias de las Estrategias de Gestión',
