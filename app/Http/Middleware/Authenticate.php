@@ -44,7 +44,9 @@ class Authenticate
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                $this->refreshRole();
+                if ($guard == 'web') {
+                    $this->refreshRole();
+                }
                 return Auth::shouldUse($guard);
             }
         }
