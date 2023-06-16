@@ -45,7 +45,7 @@ class Authenticate
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
                 if ($guard == 'web') {
-                    $this->refreshRole();
+                    refreshRole();
                 }
                 return Auth::shouldUse($guard);
             }
@@ -103,16 +103,6 @@ class Authenticate
     {
         if (!$request->expectsJson()) {
             return route('admin.login');
-        }
-    }
-
-    protected function refreshRole()
-    {
-        /** @var \App\Models\Client\Role $currentRole */
-        $currentRole = session('current_role');
-        if ($currentRole->isClean()) {
-            $currentRole->refresh();
-            session('current_role', $currentRole);
         }
     }
 }

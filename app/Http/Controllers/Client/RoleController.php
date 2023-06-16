@@ -181,6 +181,7 @@ class RoleController extends Controller
             Log::error("@Web/Controllers/Client/RoleController:Update/Exception: {$e->getMessage()}");
             DB::rollBack();
         }
+        refreshRole();
         return redirect()->route('client.roles.edit', compact('client', 'role'))->with('alert', $response);
     }
 

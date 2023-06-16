@@ -60,3 +60,15 @@ if (!function_exists('role_can_permission')) {
         }
     }
 }
+
+if (!function_exists('refreshRole')) {
+    function refreshRole()
+    {
+        /** @var \App\Models\Client\Role $currentRole */
+        $currentRole = session('current_role');
+        if ($currentRole->isClean()) {
+            $currentRole->refresh();
+            session('current_role', $currentRole);
+        }
+    }
+}
