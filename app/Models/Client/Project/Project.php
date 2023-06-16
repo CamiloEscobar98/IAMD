@@ -45,16 +45,7 @@ class Project extends BaseModel
         'description',
         'project_contract_type_id', 'contract', 'date'
     ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'date' => 'date',
-    ];
-
+    
     /**
      * Get the research units.
      * 
