@@ -25,8 +25,7 @@
                           @csrf
                           @method('PATCH')
 
-                          <select name="role_id" class="form-control custom-select-sm"
-                              onchange="this.form.submit()">
+                          <select name="role_id" class="form-control custom-select-sm" onchange="this.form.submit()">
                               @foreach (current_user()->roles()->pluck('info', 'id') as $roleId => $value)
                                   <option value="{{ $roleId }}"
                                       {{ twoOptionsIsEqual($roleId, current_role()->id) }}>{{ $value }}</option>
@@ -49,9 +48,10 @@
                   <div class="dropdown-divider"></div>
                   @foreach ($notifications as $notification)
                       <a href="#" class="dropdown-item">
-                          <i class="{{ $notification->notification_type->icon }}"></i> {{ $notification->message }}
-                          <span class="float-right text-muted text-small">Hace aproximadamente
-                              {{ $notification->minutes }} minutos</span>
+                          <i class="{{ $notification->notification_type->icon }}"></i>
+                          <small>{{ $notification->message }}</small>
+                          <small class="float-right text-muted">Hace
+                              {{ $notification->minutes }}</small>
                       </a>
                   @endforeach
 
