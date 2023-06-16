@@ -34,7 +34,29 @@ class Notification extends BaseModel
      */
     public function getMinutesAttribute($value)
     {
-        return Carbon::now()->diffInMinutes($this->getAttribute('created_at'));
+        $createdAt = $this->getAttribute('created_at');
+        $now = Carbon::now();
+        $diff = $now->diff($createdAt);
+    
+        $hours = $diff->h;
+        $minutes = $diff->i;
+        $seconds = $diff->s;
+    
+        $timeComponents = [];
+    
+        if ($hours > 0) {
+            $timeComponents[] = $hours . ' horas';
+        }
+    
+        if ($minutes > 0) {
+            $timeComponents[] = $minutes . ' minutos';
+        }
+    
+        if ($seconds > 0) {
+            $timeComponents[] = $seconds . ' segundos';
+        }
+    
+        return implode(', ', $timeComponents);
     }
 
     /**
